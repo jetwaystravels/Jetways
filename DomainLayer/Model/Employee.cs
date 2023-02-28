@@ -10,6 +10,7 @@ namespace DomainLayer.Model
     public class Employee
     {
         [Key]
+        //employee id
         public int EmployeeId { get; set; }
         public string EmployeeName { get; set; }
         public string EmployeeDept { get; set; }
