@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using DomainLayer.Model;
+using Microsoft.EntityFrameworkCore;
 using RepositoryLayer.DbContextLayer;
 using ServiceLayer.Service.Interface;
 
@@ -57,13 +58,15 @@ namespace ServiceLayer.Service.Implementation
 
         public List<User> GetAllUserRepo()
         {
-            return this._dbContext.TblUsers.ToList();
+            //return this._dbContext.TblUsers.ToList();
+            return this._dbContext.TblUsers.FromSqlRaw<User>("spGetAllUser").ToList();
         }
 
         public User GetSingleUser(int id)
         {
             //return this._dbContext.TblUsers.Where(x => x.UserId == id).FirstOrDefault();
             return this._dbContext.TblUsers.Find(id);// only when id is primary key
+            
         }
 
         public string UpdateUserRepo(User user)
