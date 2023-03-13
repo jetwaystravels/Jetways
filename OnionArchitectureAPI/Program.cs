@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(con => con.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IUser, UserService>();
+builder.Services.AddScoped<ICity, CityService>();
 builder.Services.AddScoped<IEmployee, EmployeeService>();
 builder.Services.AddScoped<Ilogin, LoginService>();
 builder.Services.AddControllers();

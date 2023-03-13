@@ -18,5 +18,7 @@ namespace RepositoryLayer.DbContextLayer
         public DbSet<Employee> TblEmployee { get;set; }
         public DbSet<Login> TblLogin { get; set; }
 
+        public DbSet<City> tblCityMaster { get; set; }
+
     }
 }
