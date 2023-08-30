@@ -15,11 +15,8 @@
     <Content Remove="wwwroot\css\bootstrap.min.css" />
     <Content Remove="wwwroot\css\datepicker.css" />
     <Content Remove="wwwroot\css\fontAwesome.css" />
-    <Content Remove="wwwroot\css\fonts\flexslider-icon.eot" />
-    <Content Remove="wwwroot\css\fonts\flexslider-icon.svg" />
-    <Content Remove="wwwroot\css\fonts\flexslider-icon.ttf" />
-    <Content Remove="wwwroot\css\fonts\flexslider-icon.woff" />
     <Content Remove="wwwroot\css\hero-slider.css" />
+    <Content Remove="wwwroot\css\main.css" />
     <Content Remove="wwwroot\css\owl-carousel.css" />
     <Content Remove="wwwroot\css\tooplate-style.css" />
     <Content Remove="wwwroot\fonts\fontawesome-webfont.eot" />
@@ -74,6 +71,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Views\AATripsell\LoadSeatMapList.cshtml~RF5d63b9e.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\css\bootstrap-theme.css" />
     <None Include="wwwroot\css\bootstrap-theme.css.map" />
     <None Include="wwwroot\css\bootstrap-theme.min.css" />
@@ -87,7 +88,9 @@
     <None Include="wwwroot\css\fonts\flexslider-icon.ttf" />
     <None Include="wwwroot\css\fonts\flexslider-icon.woff" />
     <None Include="wwwroot\css\hero-slider.css" />
+    <None Include="wwwroot\css\main.css" />
     <None Include="wwwroot\css\owl-carousel.css" />
+    <None Include="wwwroot\css\plugins\plugins.min.js" />
     <None Include="wwwroot\css\tooplate-style.css" />
     <None Include="wwwroot\fonts\fontawesome-webfont.eot" />
     <None Include="wwwroot\fonts\fontawesome-webfont.svg" />
@@ -106,6 +109,7 @@
     <None Include="wwwroot\img\contact-bg.jpg" />
     <None Include="wwwroot\img\evening-event.jpg" />
     <None Include="wwwroot\img\fitness-service.jpg" />
+    <None Include="wwwroot\img\flight-logo-icon\1.webp" />
     <None Include="wwwroot\img\heading-bg.jpg" />
     <None Include="wwwroot\img\loading.gif" />
     <None Include="wwwroot\img\logo.png" />
@@ -130,23 +134,50 @@
     <None Include="wwwroot\img\weather-icon-01.png" />
     <None Include="wwwroot\img\weather-icon-02.png" />
     <None Include="wwwroot\img\weather-icon-03.png" />
+    <None Include="wwwroot\js\bootstrap\bootstrap.min.js" />
+    <None Include="wwwroot\js\bootstrap\popper.min.js" />
     <None Include="wwwroot\js\datepicker.js" />
+    <None Include="wwwroot\js\jquery\jquery.js" />
+    <None Include="wwwroot\js\jquery\jquery.min.js" />
+    <None Include="wwwroot\js\jquery\jquery.min.map" />
+    <None Include="wwwroot\js\jquery\jquery.slim.js" />
+    <None Include="wwwroot\js\jquery\jquery.slim.min.js" />
+    <None Include="wwwroot\js\jquery\jquery.slim.min.map" />
     <None Include="wwwroot\js\main.js" />
     <None Include="wwwroot\js\plugins.js" />
+    <None Include="wwwroot\js\plugins\plugins.min.js" />
     <None Include="wwwroot\js\vendor\bootstrap.js" />
     <None Include="wwwroot\js\vendor\bootstrap.min.js" />
     <None Include="wwwroot\js\vendor\jquery-1.11.2.min.js" />
     <None Include="wwwroot\js\vendor\modernizr-2.8.3-respond-1.4.2.min.js" />
     <None Include="wwwroot\js\vendor\npm.js" />
+    <None Include="wwwroot\webfonts\fa-brands-400.woff2" />
+    <None Include="wwwroot\webfonts\fa-regular-400.woff2" />
+    <None Include="wwwroot\webfonts\fa-solid-900.woff2" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.12" />
+    <PackageReference Include="Bootstrap.Datepicker" Version="1.8.0.1" />
+    <PackageReference Include="Bootstrap.v3.Datetimepicker.CSS" Version="4.17.49" />
+    <PackageReference Include="jQuery.UI.Combined" Version="1.13.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.20" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0-preview.4.23259.5" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
+    <PackageReference Include="Nancy" Version="2.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DomainLayer\DomainLayer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\custom.js\" />
   </ItemGroup>
 
 </Project>

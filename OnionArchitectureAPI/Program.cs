@@ -11,6 +11,9 @@ builder.Services.AddScoped<IUser, UserService>();
 builder.Services.AddScoped<ICity, CityService>();
 builder.Services.AddScoped<IEmployee, EmployeeService>();
 builder.Services.AddScoped<Ilogin, LoginService>();
+builder.Services.AddScoped<ICredential, CredentialServices>();
+builder.Services.AddScoped<ITicketBooking, TicketBookingServices>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

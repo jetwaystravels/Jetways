@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepositoryLayer", "Reposito
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceLayer", "ServiceLayer\ServiceLayer.csproj", "{3FFBADD2-E883-4F25-8528-3950655D05A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnionConsumeWebAPI", "OnionConsumeWebAPI\OnionConsumeWebAPI.csproj", "{B6891B51-C756-4DA5-9E40-97182DE8FB55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnionConsumeWebAPI", "OnionConsumeWebAPI\OnionConsumeWebAPI.csproj", "{B6891B51-C756-4DA5-9E40-97182DE8FB55}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

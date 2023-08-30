@@ -20,7 +20,7 @@ namespace OnionConsumeWebAPI.Controllers
         {
            List<User> users = new List<User>();
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:24790/");
+            client.BaseAddress = new Uri("http://localhost:5225/");
             HttpResponseMessage response = await client.GetAsync("api/User/getall");
             if(response.IsSuccessStatusCode) 
             {

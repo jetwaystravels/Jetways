@@ -14,11 +14,19 @@ namespace RepositoryLayer.DbContextLayer
         {
 
         }
-        public DbSet<User> TblUsers { get; set; }  
+  //      public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+		//{
+
+		//}
+		public DbSet<User> TblUsers { get; set; }  
         public DbSet<Employee> TblEmployee { get;set; }
         public DbSet<Login> TblLogin { get; set; }
 
         public DbSet<City> tblCityMaster { get; set; }
 
-    }
+        public DbSet<_credentials> tblflightlogin { get; set; }
+        public DbSet<TicketBooking> TicketBooking { get; set; }
+
+
+	}
 }

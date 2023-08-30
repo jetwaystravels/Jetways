@@ -10,7 +10,7 @@ namespace OnionArchitectureAPI.Controllers
     {
         private readonly ICity _city;      
 
-        public CityController(ICity city) 
+       public CityController(ICity city) 
         {
             this._city = city;
         }

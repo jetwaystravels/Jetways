@@ -1,0 +1,95 @@
+﻿@model DomainLayer.Model.AirAsiaTripResponceModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Add Traveller</title>
+
+    <h3>Traveller Information</h3>
+    <h3></h3>
+
+   
+    
+
+</head>
+
+    <body>
+
+    
+        <form id="studenteForm">
+            <input type="text" id="txtpassengerkey" name="passengerkey" value="@Model.passkeytype.passengerkey" />
+            <input type="text" id="txttotalAmount" name="fristname" value="@Model.Journeytotals.totalAmount" />
+            <input type="text" id="txtdestination" name="fristname" value="@Model.designator.destination" />
+            <input type="text" id="txtarrival" name="fristname" value="@Model.designator.origin" />
+            <input type="text" id="txtpassengername" name="fristname" value="@Model.designator.arrival" />
+            <input type="text" id="txtpassengername" name="fristname" value="@Model.designator.departure" />
+        <input type="text" id="txtpassengername" name="fristname" value="@Model.Identifier.carrierCode" />
+        <input type="text" id="txtpassengername" name="fristname" value="@Model.Identifier.identifier" />
+            <input type="button" id="btnGet" value="Get Current Time" />
+
+        </form>
+        
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#btnGet").click(function () {
+                var data = $("#studenteForm").serialize();
+                alert(data);
+                $.ajax({
+                    url: "/jetways/FlightSearchIndex/Addtravller",
+                    type: "POST",
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // when we use .serialize() this generates the data in query string format. this needs the default contentType (default content type is: contentType: 'application/x-www-form-urlencoded; charset=UTF-8') so it is optional, you can remove it
+                    data: data,
+
+                    // data: { "name": $("#txtName").val() },
+                    success: function (data) {
+                        console.log(data);
+                    },
+
+                    error: function (err) {
+                        console.error(err);
+                    }
+                });
+            });
+        });
+    </script>
+        
+        
+        
+        @* <script type="text/javascript">
+            $(function () {
+                $("#btnGet").click(function () {
+                   
+                    $.ajax({
+                    url: "/jetways/FlightSearchIndex/Tripsell",
+                        type: "GET",
+                        
+                       // data: { "name": $("#txtName").val() },
+                        success: function (data) {
+                        console.log(data);
+                        },
+                       
+                        error: function (err) {
+                             console.error(err);
+                        }
+                    });
+                });
+            });
+        </script>*@
+    </body>
+
+
+
+
+
+
+</html>
+
+

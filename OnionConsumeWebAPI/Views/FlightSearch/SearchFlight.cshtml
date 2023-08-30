@@ -20,12 +20,17 @@
     <link rel="stylesheet" href="~/css/owl-carousel.css">
     <link rel="stylesheet" href="~/css/datepicker.css">
     <link rel="stylesheet" href="~/css/tooplate-style.css">
-        
+     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+     <script src="~/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+     <script src="~/js/jquery/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#deparure").click(function () {
+                alert("aa");
+            });
 
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
-
-        <script src="~/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
-      
+         
+    </script>
     </head>
 
 <body>
@@ -84,13 +89,13 @@
                                         <div class="col-md-6">
                                             <fieldset>
                                                 <label for="departure">Departure date:</label>
-                                                <input name="DepartureDate" type="text" class="form-control date" id="deparure" placeholder="Select date..." required="">
+                                                <input name="DepartureDate" type="date" class="form-control date" id="deparure" placeholder="Select date..." required="">
                                             </fieldset>
                                         </div>
                                         <div class="col-md-6">
                                             <fieldset>
                                                 <label for="return">Return date:</label>
-                                                <input name="ReturnDate" type="text" class="form-control date" id="return" placeholder="Select date..." required="">
+                                                <input name="ReturnDate" type="date" class="form-control date" id="return" placeholder="Select date..." required="">
                                             </fieldset>
                                         </div>
                                         <div class="col-md-6">
@@ -462,7 +467,7 @@
                         <section id="third-tab-group" class="recommendedgroup">
                             <div id="livingroom">
                                 <div class="text-content">
-                                    <iframe width="100%" height="400px" src="https://www.youtube.com/embed/rMxTreSFMgE">
+                                    <iframe width="400px" height="400px" src="https://www.youtube.com/embed/rMxTreSFMgE">
                                     </iframe>
                                 </div>
                             </div>

@@ -16,7 +16,7 @@ namespace OnionConsumeWebAPI.Controllers
         {
             List<Employee> employees = new List<Employee>();
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:24790/");
+            client.BaseAddress = new Uri("http://localhost:5225/");
             HttpResponseMessage response = await client.GetAsync("api/Employee/getallemp");
             if (response.IsSuccessStatusCode)
             {

@@ -9,10 +9,12 @@ namespace OnionArchitectureAPI.Controllers
     public class LoginController : ControllerBase
     {
         private readonly Ilogin _login;
+        private readonly ICredential _Credential;
 
-        public LoginController(Ilogin login)
+        public LoginController(Ilogin login,ICredential credential)
         {
             this._login = login;
+            this._Credential= credential;
         }
 
         [HttpGet]
@@ -20,6 +22,14 @@ namespace OnionArchitectureAPI.Controllers
         public IActionResult GetAllEmployeeRecords()
         {
             var response = this._login.GetAllLoginRepo();
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("getotacredairasia")]
+        public IActionResult Getcredential()
+        {
+            var response = this._Credential.GetAllCredentialRepo();
             return Ok(response);
         }
     }

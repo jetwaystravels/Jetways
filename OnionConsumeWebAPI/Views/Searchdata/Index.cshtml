@@ -1,0 +1,239 @@
+﻿<!DOCTYPE html>
+<html>
+    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<style>
+    table, th, td {
+        border: 1px solid black;
+    }
+</style>
+@section scripts{
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+   
+    <script type="text/javascript">
+        $(function () {
+            $('#dprdate').datepicker({
+                numberOfMonths: 2,
+                showButtonPanel: true
+
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('#rtndate').datepicker({
+                numberOfMonths: 2,
+                showButtonPanel: true
+
+            });
+        });
+    </script>
+    @*<script type="text/javascript">
+        $(function () {
+            $("#round").click(function () {
+                if ($(this).is(":checked")) {
+                    $("#rtndate").removeAttr("disabled");
+                   // $("#rtndate").focus();
+                    //$("#dvPassport").show();
+                    //$("#AddPassport").hide();
+                    
+                } 
+                else 
+                {
+                    alert("aab")
+                    $("#rtndate").attr("disabled", "disabled");
+                }
+            });
+        });
+    </script>*@
+
+
+    <script type="text/javascript">
+        $(function () {
+            $("input[name='oneways']").click(function () {
+                if ($("#round").is(":checked")) {
+                    $("#rtndate").removeAttr("disabled");
+                   // $("#rtndate").focus();
+                } else {
+                    $("#rtndate").attr("disabled", "disabled");
+                }
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            var availableTags = parseInt('@ViewBag.ListofCountry');
+            console.log(availableTags);
+            //var availableTags = [ "ActionScript","AppleScript","Asp", "BASIC",
+            //    "C",
+            //    "C++",
+            //    "Clojure",
+            //    "COBOL",
+            //    "ColdFusion",
+            //    "Erlang",
+            //    "Fortran",
+            //    "Groovy",
+            //    "Haskell",
+            //    "Java",
+            //    "JavaScript",
+            //    "Lisp",
+            //    "Perl",
+            //    "PHP",
+            //    "Python",
+            //    "Ruby",
+            //    "Scala",
+            //    "Scheme"
+            //];
+            $("#autofill").autocomplete({
+                source: availableTags
+            });
+        });
+    </script>
+
+}
+       
+
+<body>
+
+	<h3>Jetways</h3>
+    
+
+    <form method="post" class="form-inline" asp-action="Index"  asp-controller="Searchdata" >
+        <input type="hidden" id="pnrhdn" name="pnrhdn" value=@ViewBag.pnr />
+        <hr />
+        <p>Flight Search</p>
+        @if (@ViewBag.pnr != null)
+        {
+
+            <h2> PNR NUMBER IS :-@ViewBag.pnr</h2>
+        }
+       
+        <div class="form-check">
+            <input type="radio" name="oneways" id="oneways" value="oneways" checked="checked" >
+            <label for="oneways">
+                One Ways
+            </label>
+            <input type="radio" name="oneways" id="round" value="round">
+            <label for="round">
+                Round trip
+            </label>
+        </div>
+       
+       <div>
+           </br>
+            <label for="from"><b> FROM</b></label>&nbsp;
+           
+            <select id="frmCity" name="origin"
+                  @*  asp-items="@(new SelectList(@ViewBag.ListofCountry,"CityCode", "CityName"))">*@
+                  <option>Select</option>
+                  <option>DEL</option>
+                  <option>BOM</option>
+                  <option>CCU</option>
+                  <option>BLR</option>
+                
+            </select>
+
+            <label for="to"><b>TO</b></label>&nbsp;
+            <select id="toCity" name="destination"
+                    @*  asp-items="@(new SelectList(@ViewBag.ListofCountry,"CityCode", "CityName"))">*@
+                  <option>Select</option>
+                  <option>DEL</option>
+                  <option>BOM</option>
+                  <option>CCU</option>
+                  <option>BLR</option>
+            </select>&nbsp;
+            <label for="beginDate"><b>DEPARTURE</b></label>
+            <input type="text"
+                   id="dprdate"
+                   name="beginDate"
+                   placeholder="DEPARTURE"
+                    />&nbsp;
+            <label for="rtndate"><b>RETURN</b></label>
+            <input type="text" 
+                   id="rtndate"
+                   name="rtndate"
+                   disabled="disabled"
+                   placeholder="RETURN"
+                   required />&nbsp;
+            <label for="Adult"><b>Traveler</b></label>
+            <select id="travelerType" name="type"
+                <option>Select</option>
+                <option>Adult</option>
+               <option>Infant</option>
+               <option>Child</option>
+    ...
+            </select>&nbsp;
+            <select id="travelercount" name="count"
+               <option>Select</option>
+               <option>1</option>
+               <option>2</option>
+               <option>3</option>
+    ...
+            </select>&nbsp;
+            <button id="btnSearch" type="submit" >Search</button>
+           
+            
+        </div>
+             
+     
+        <table style="width:100%">
+            <tr>
+                FROM  : @ViewBag.destination
+            </tr>
+            </br>
+            <tr>
+                TO  :@ViewBag.origin
+            </tr>
+             </br>
+            <tr>
+                Departure Date  :@ViewBag.departure
+            </tr>
+            </br>
+            <tr>
+                Arrival Date  :@ViewBag.arrival
+            </tr>
+            </br>
+           
+            <tr>
+                Fligt Numer  :@ViewBag.identifier
+            </tr>
+            </br>
+            <tr>
+                Flight Nmae  :Air Asia-@ViewBag.carrierCode
+            </tr>
+
+            <DIV>
+                <table style="width:100%">
+                    <tr>
+                        <th>Departure</th>
+                        <th>Duration</th>
+                        <th>Arival</th>
+                        <th>Fare</th>
+                        <th>Book</th>
+                    </tr>
+                    <tr>
+                        <td>@ViewBag.destination</td>
+                        <td>@ViewBag.Duration Hr:mm</td>
+                        <td>@ViewBag.arrival</td>
+                        <td>@ViewBag.totalfare</td>
+                       @* <td><button id="btnbook" type="submit" >Book</button></td>*@
+                        <td><input id="btnBook" type="submit" value="Book" asp-action="Index" asp-controller="Booking" /></td>
+
+                        <td><input id="btnBook" type="submit" value="Cancel Booking" asp-action="cancelBooking" asp-controller="Searchdata" /></td>
+                    </tr>
+                    
+                </table>
+
+            </DIV>
+            
+        </table>
+ 
+</form>
+
+
+
+</body>
+</html>
