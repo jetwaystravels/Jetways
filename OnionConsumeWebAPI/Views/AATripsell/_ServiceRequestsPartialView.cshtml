@@ -65,9 +65,24 @@
              <div class="tabs__pane -tab-item-1 is-tab-el-active">
                 <div class="journey-box">
                     <ul class="nav nav-pills mb-3">
-                        <li class="nav-item">
-                            <button class="nav-link active">Departure :@Model.passeengerlist.journeys[0].segments[0].legs[0].designator.origin- @Model.passeengerlist.journeys[0].segments[0].legs[0].designator.destination</button>
-                        </li>
+                        @{
+                            foreach (var item in Model.passeengerlist.journeys[0].segments)
+                            {
+                              for (int i = 0; i < item.legs.Count; i++)
+                              {
+                                <li class="nav-item">
+                                <button class="nav-link active">@item.legs[i].designator.origin-@item.legs[i].designator.destination</button>
+                                </li>
+
+                              }
+                                             
+
+                            }
+            
+
+
+                         }
+                        
                         <li class="nav-item" role="presentation">
                             <button class="nav-link">Return:BOM-DEL</button>
                         </li>
