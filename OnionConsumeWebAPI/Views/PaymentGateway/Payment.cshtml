@@ -28,12 +28,14 @@
 	<title>Jetways Travels</title>
 	<!-- Favicon  -->
 	<link rel="icon" href="~/img/favicon.png">
-	<!-- Style css -->
-	
+    <!-- Style css -->
+    <script src="~/jqueryui/jquery-ui.min.js"></script>
+    <script src="~/jqueryui/jquery-ui.js"></script>
 	<link rel="stylesheet" href="~/css/vendors.css">
 	<link rel="stylesheet" href="~/css/main.css">
 	<link rel="stylesheet" href="~/css/style.css">
-	<link rel="stylesheet" href="~/css/daterangepicker.css">
+    <link rel="stylesheet" href="~/css/daterangepicker.css">
+    <link href="~/css/payment.css" rel="stylesheet" />
 
 </head>
 	<body>
@@ -129,17 +131,17 @@
 									<div class="list-group list-group-flush">
 										<a data-toggle="tab" href="#menu1" id="tab1" class="tabs list-group-item bg-light active1">
 											<div class="list-div my-2">
-												<div class="fa fa-credit-card"></div>Credit Card
+												<div class="fa fa-credit-card" style="margin-right:10px;"></div> Credit Card
 											</div>
 										</a>
 										<a data-toggle="tab" href="#menu2" id="tab2" class="tabs list-group-item bg-light">
 											<div class="list-div my-2">
-												<div class="fa fa-credit-card"></div> Debit Card
+												<div class="fa fa-credit-card" style="margin-right:10px;"></div> Debit Card
 											</div>
 										</a>
 										<a data-toggle="tab" href="#menu3" id="tab3" class="tabs list-group-item bg-light">
 											<div class="list-div my-2">
-												<div class="fa fa-university"></div> Net Banking
+												<div class="fa fa-university" style="margin-right:10px;"></div> Net Banking
 											</div>
 										</a>
 
@@ -848,93 +850,31 @@
 	</main>
 	<!-- ***** All jQuery Plugins ***** -->
 	<!-- Social media js -->
-	<script src="assets/js/jquery/jquery.min.js"></script>
+	<script src="~/js/jquery/jquery.min.js"></script>
+	<script src="~/js/jquery/jquery.js"></script>
 	<!-- Plugins js -->
-	<script src="assets/js/plugins/plugins.min.js"></script>
-
+	<script src="~/js/plugins.js"></script>
 	<!-- ***** Clander js ***** -->
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
-	<script src="assets/js/daterangepicker.js"></script>
-
+	<script src="~/js/daterangepicker.js"></script>
 	<!-- Bootstrap js -->
-	<script src="assets/js/bootstrap/popper.min.js"></script>
-	<script src="assets/js/bootstrap/bootstrap.min.js"></script>
+	<script src="~/js/bootstrap/bootstrap.min.js"></script>
+	<script src="~/js/bootstrap/popper.min.js"></script>
 	<!-- Travellers js -->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAz77U5XQuEME6TpftaMdX0bBelQxXRlM"></script>
-	<script src="assets/js/vendors.js"></script>
-	<script src="assets/js/main.js"></script>
 	<!-- Active js -->
-	<script src="assets/js/active.js"></script>
-
-	<script>
-
-		$(document).ready(function () {
-			//Menu Toggle Script
-			$("#menu-toggle").click(function (e) {
-				e.preventDefault();
-				$("#wrapper").toggleClass("toggled");
-			});
-
-			// For highlighting activated tabs
-			$("#tab1").click(function () {
-				$(".tabs").removeClass("active1");
-				$(".tabs").addClass("bg-light");
-				$("#tab1").addClass("active1");
-				$("#tab1").removeClass("bg-light");
-			});
-			$("#tab2").click(function () {
-				$(".tabs").removeClass("active1");
-				$(".tabs").addClass("bg-light");
-				$("#tab2").addClass("active1");
-				$("#tab2").removeClass("bg-light");
-			});
-			$("#tab3").click(function () {
-				$(".tabs").removeClass("active1");
-				$(".tabs").addClass("bg-light");
-				$("#tab3").addClass("active1");
-				$("#tab3").removeClass("bg-light");
-			});
-
-			$("#tab4").click(function () {
-				$(".tabs").removeClass("active1");
-				$(".tabs").addClass("bg-light");
-				$("#tab4").addClass("active1");
-				$("#tab4").removeClass("bg-light");
-			});
-
-			$("#tab5").click(function () {
-				$(".tabs").removeClass("active1");
-				$(".tabs").addClass("bg-light");
-				$("#tab5").addClass("active1");
-				$("#tab5").removeClass("bg-light");
-			});
-
-			$("#tab6").click(function () {
-				$(".tabs").removeClass("active1");
-				$(".tabs").addClass("bg-light");
-				$("#tab6").addClass("active1");
-				$("#tab6").removeClass("bg-light");
-			});
-
-			$("#tab7").click(function () {
-				$(".tabs").removeClass("active1");
-				$(".tabs").addClass("bg-light");
-				$("#tab7").addClass("active1");
-				$("#tab7").removeClass("bg-light");
-			});
-
-			$("#tab8").click(function () {
-				$(".tabs").removeClass("active1");
-				$(".tabs").addClass("bg-light");
-				$("#tab8").addClass("active1");
-				$("#tab8").removeClass("bg-light");
-			});
-		})
-	</script>
-
-
-
+    <script src="~/js/payment.js"></script>
+    <script src="~/js/active.js"></script>
+    <script src="~/js/datepicker.js"></script>
+    <script src="~/js/main.js"></script>
+    <script src="~/js/site.js"></script>
+    <script src="~/js/vendors.js"></script>
+    <script src="~/js/payment.js"></script>
+    <script src="~/js/plugins/plugins.min.js"></script>
+    <script src="~/js/vendor/bootstrap.min.js"></script>
+    <script src="~/js/vendor/bootstrap.js"></script>
+    <script src="~/js/vendor/jquery-1.11.2.min.js"></script>
+    <script src="~/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <script src="~/js/vendor/npm.js"></script>
 
 </body>
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,19 +23,23 @@ namespace DomainLayer.Model
             public string taxesAndFees { get; set; }
             public string ssrCollectionsMode { get; set; }
             public int numberOfFaresPerJourney { get; set; }
-            
-        }
+      
+        
+
+    }
 
         public class Passengerssimple
         {
-            public List<Typesimple> types { get; set; }
+        [NotMapped]
+            public List<Typesimple>? types { get; set; }
         }
 
         public class Typesimple
         {
             public string type { get; set; }
             public int count { get; set; }
-        }
+       
+    }
 
         public class Codessimple
         {

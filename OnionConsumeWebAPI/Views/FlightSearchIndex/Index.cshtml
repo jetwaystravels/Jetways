@@ -1,5 +1,49 @@
-﻿@model DomainLayer.Model.GetfligthModel
+﻿@* @model DomainLayer.Model.GetfligthModel *@
+@model DomainLayer.Model.SimpleAvailabilityRequestModel
 
+<style>
+    /*Vinay_New_CSS*/
+
+    .btn-increase, input {
+        border: none !important;
+        font-size: 15px;
+        color: #3554d1;
+        margin: 0px 0px 0px 5px;
+        font-weight: 700;
+    }
+
+        .btn-increase, input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .btn-increase, textarea:focus, input:focus {
+            outline: none;
+        }
+
+    .btn_sub {
+        width: 30px;
+        height: 30px;
+        border-radius: 20px;
+        margin: 5px;
+        border: 1px solid #3554d1;
+    }
+
+        .btn_sub:hover {
+            background: #0858bd;
+            color: #fff;
+            border: 1px solid #0858bd;
+        }
+
+    .btn-increase {
+        display: flex;
+        justify-items: center;
+    }
+
+    .btn_sub {
+        padding: 2px 0px 0px 9px;
+    }
+</style>
 <body >
   
     <!--====== Scroll To Top Area Start ======-->
@@ -166,7 +210,7 @@
                                             <label>Return</label>
                                             <span class="input-group-text" id="basic-addon1">
                                                 <img src="~/img/calender-icon.png" alt="icon">
-                                                    <input id="Return-date"  type="" placeholder="Fri Jun 2" class="form-control">
+                                                    <input id="Return-date"  type="text" placeholder="Fri Jun 2" class="form-control">
                                             </span>
                                         </div>
                                         <div class="col-12 col-md-10 col-lg-2 space travellers">
@@ -174,17 +218,73 @@
                                             <div class="searchMenu-guests js-form-dd js-form-counters">
                                                 <div data-x-dd-click="searchMenu-guests">
 
-                                                    <div class="text-15 text-light-1 ls-2 lh-16">
-                                                        <span class="js-count-adult">1</span> adults
-                                                        -
-                                                        <span class="js-count-child">0</span> childeren
-                                                        -
-                                                        <span class="js-count-infents">0</span> Infents
+                                                    <div class="text-15 text-light-1 ls-2 lh-16">                                                         
+                                                            <span class="js-count-adult" id="count_adult" >0</span> adults
+                                                            -
+                                                            <span class="js-count-child" id="count_child">0</span> childeren
+                                                            -
+                                                            <span class="js-count-infents" id="count_infant" >0</span> Infants
                                                     </div>
                                                 </div>
-                                                <div class="searchMenu-guests__field shadow-2" data-x-dd="searchMenu-guests" data-x-dd-toggle="-is-active">
-                                                    <div class="bg-white px-30 py-30 rounded-4">
-                                                        <div class="row y-gap-10 justify-between items-center">
+                                                
+                                                        
+                                                   
+                                                    <div class="searchMenu-guests__field shadow-2" data-x-dd="searchMenu-guests" data-x-dd-toggle="-is-active">
+                                                     
+                                                        <div class="bg-white px-30 py-30 rounded-4">
+
+                                                            @*  ------------------------ *@
+                                                            <div class="d-flex y-gap-10 justify-between items-center">
+                                                                <div class="btn-incr-adult">
+                                                                    <div class="text-15 fw-500">Adults</div>
+                                                                    <input type="hidden" value="ADT" asp-for="@Model.passengers.types[0].type" />
+                                                                    <div class="text-15 fw-500">Aged 12+ yrs</div>
+                                                                </div>
+                                                                <div class="btn-increase">
+                                                                    <div class="decrement sub btn_sub">-</div>
+                                                                    <input type="number" id="field_adult" class="input-field" value="0" asp-for="@Model.passengers.types[0].count" min="1" max="9">
+                                                                    <div class="increment add btn_sub">+</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="border-top-light mt-24 mb-24"></div>
+                                                            <div class="d-flex y-gap-10 justify-between items-center">
+                                                                <div class="btn-incr-chld">
+                                                                    <div class="text-15 fw-500">
+                                                                        Children
+                                                                    </div>
+                                                                    <input type="hidden" value="CHD" asp-for="@Model.passengers.types[0].type" />
+                                                                    <div class="text-15 fw-500">
+                                                                        Aged 2-12 yrs
+                                                                    </div>
+                                                                </div>
+                                                                <div class="btn-increase">
+                                                                    <div class="decrement1 sub btn_sub">-</div>
+                                                                    <input type="number" id="field_child" class="input-field" value="0" asp-for="@Model.passengers.types[0].count" min="0" max="6">
+                                                                    <div class="increment1 add btn_sub">+</div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="border-top-light mt-24 mb-24"></div>
+                                                            <div class="d-flex y-gap-10 justify-between items-center">
+                                                                <div class="infant-area">
+                                                                    <div class="text-15 fw-500">Infants</div>
+                                                                    <input type="hidden" value="INFT" asp-for="@Model.passengers.types[0].type" />
+                                                                    <div class="text-15 fw-500">
+                                                                        Below 2 yrs
+                                                                    </div>
+                                                                </div>
+                                                                <div class="btn-increase">
+                                                                    <div class="decrement2 sub btn_sub">-</div>
+                                                                    
+                                                                    <input type="number" id="field_infant" class="input-field" value="0" asp-for="@Model.passengers.types[0].count" min="0" max="6">
+                                                                    <div class="increment2 add btn_sub">+</div>
+
+                                                                </div>
+                                                            </div>
+                                                     
+                                                            <div class="border-top-light mt-24 mb-24"></div>
+
+                                                    @*     <div class="row y-gap-10 justify-between items-center">
                                                             <div class="col-auto">
                                                                 <div class="text-15 fw-500">Adults</div>
                                                             </div>
@@ -253,9 +353,11 @@
                                                                     </button>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </div> *@
 
                                                     </div>
+                                                    
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -711,9 +813,64 @@
 
                     });
 
-  } );
-                    
-          
+              } );
+
+                var maxField = 6;
+                var maxField_adult = 9;
+                var count = 0;
+                $('.increment').on('click', function () {
+                    if (count < maxField_adult) {
+                        count++;
+                        $('#count_adult').text(count);
+                        $('#field_adult').val(count);
+                    }
+                });
+
+                $('.decrement').on('click', function () {
+                    if (count > 0) {
+                        count--;
+                        $('#count_adult').text(count);
+                        $('#field_adult').val(count);
+                    }
+                });
+
+                var count_child = 0;
+                $('.increment1').on('click', function () {
+                    if (count_child < maxField) {
+                        count_child++;
+                        $('#count_child').text(count_child);
+                        $('#field_child').val(count_child);
+                    }
+                });
+
+                $('.decrement1').on('click', function () {
+                    if (count_child > 0) {
+                        count_child--;
+                        $('#count_child').text(count_child);
+                        $('#field_child').val(count_child);
+                    }
+                });
+
+                var count_infant = 0;
+                $('.increment2').on('click', function () {
+                    if (count_infant < maxField) {
+                        count_infant++;
+                        $('#count_infant').text(count_infant);
+                        $('#field_infant').val(count_infant);
+                    }
+                });
+
+                $('.decrement2').on('click', function () {
+                    if (count_infant > 0) {
+                        count_infant--;
+                        $('#count_infant').text(count_infant);
+                        $('#field_infant').val(count_infant);
+                    }
+                });
+
+                //---*******<<>>*********/////////
+
+
 
         });
 

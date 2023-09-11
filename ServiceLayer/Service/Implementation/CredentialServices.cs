@@ -10,7 +10,7 @@ using ServiceLayer.Service.Interface;
 
 namespace ServiceLayer.Service.Implementation
 {
-    public class CredentialServices : ICredential
+    public class CredentialServices :ICredential
     {
         private readonly AppDbContext _dbContext;
 
@@ -19,9 +19,9 @@ namespace ServiceLayer.Service.Implementation
             this._dbContext = dbContext;
         }
 
-        public _credentials GetAllCredentialRepo()
+        public List<_credentials> GetAllCredentialRepo()
         {
-            return this._dbContext.tblflightlogin.FirstOrDefault();
+            return this._dbContext.tblflightlogin.ToList();
         }
     }
 }
