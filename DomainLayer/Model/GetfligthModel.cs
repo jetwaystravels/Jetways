@@ -22,6 +22,14 @@ namespace DomainLayer.Model
         public Passengers passengers { get; set; }
 
         public string currencyCode { get; set; } = "INR";
+        //public string type { get; set; }
+        public string Adult { get; set; }
+        public string children { get; set; }
+        public string infant { get; set; }
+        public string count { get; set; }
+
+        //public List<_Types> _Types { get; set; }
+
 
     }
     public class Passengers
@@ -33,6 +41,10 @@ namespace DomainLayer.Model
         public string type { get; set; }
         public int count { get; set; }
     }
+    //public class countList
+    //{
+    //    public int count { get; set; }
+    //}
 
    
 }

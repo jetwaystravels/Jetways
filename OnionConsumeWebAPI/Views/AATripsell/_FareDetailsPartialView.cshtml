@@ -1,4 +1,8 @@
 ﻿@model DomainLayer.ViewModel.ViewModel
+
+<style>
+    .input-ammount {border:none;width:120px;}
+</style>
 <div class="ml-20 lg:ml-40 md:ml-0">
     <h2 class="text-20 fw-600 mt-14" style="padding:12px;">Fare Details</h2>
     <div class="px-30 py-30 border-light rounded-0 bg-white">
@@ -98,15 +102,9 @@
             </div>
         </div>
 
-        <div class="row y-gap-2 justify-between pt-2 border-top-light">
-            <div class="col-auto">
-
-
-
-                <div class="text-18">Total Fare</div>
-            </div>
-
-            <div class="col-auto">
+        <div class="d-flex y-gap-2 justify-start pt-2 border-top-light">
+                <div class="text-18">Total Fare &#8377</div>
+            <div class="total_ammount">
                 @{
                     foreach (var item in Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares)
                     {
@@ -120,7 +118,9 @@
                             Totalamount += amounttax;
                         }
 
-                        <input type="text" name="Totalamount" value="@Totalamount" id="Totalamount" onchange="myfun1()" />
+                         <input class="input-ammount" type="text" name="Totalamount" value="@Totalamount" id="Totalamount"/>
+                        // <div id="Totalamount" class="text-15">&#8377 @Totalamount</div>
+                        
 
 
                     }
@@ -128,17 +128,42 @@
 
             </div>
         </div>
-        <div class="col-auto">
-            <label>Other service </label>
-            <input value="0" name=" amount" type="text" id="total" />
-        </div>
-        <label>
-            <br>
-            <div>Total Amount<input value="0" type="text" name="Total22" id="Total22" /></div>
-        </label>
-        <script>
+        
+            <div class="flex-row y-gap-2 justify-between flex-wrap d-flex pt-2" >
+                <div class="damount">
+                  <ul class="list-inline mt-0">
+                    <li class="d-inline tmt-r"><span class="text-15">Other service</span></li>
+                    <li class="d-inline"><span>&#8377</span></li>
+                    <li class="d-inline"><span><input style="border:none" class="sum_item" value="0" name="amount" type="text" id="total" /></span></li>
+                  </ul>
+               </div>
+            </div>
 
-        </script>
+                <div class="flex-row y-gap-2 justify-between flex-wrap d-flex pt-2" >
+                    <div class="damount">
+                        <ul class="list-inline mt-0">
+                             <li class="d-inline tmt-r"><span class="text-15">Add Meal</span></li>
+                             <li class="d-inline"><span>&#8377</span></li>
+                             <li class="d-inline"> <span id="AddMeal"></span></li>
+                        </ul>
+                    </div>
+               </div>
+
+                    <div class="flex-row y-gap-2 justify-between flex-wrap d-flex pt-2" >
+                    <div class="damount fw-600">
+                        <ul class="list-inline mt-0">
+                          <li class="d-inline tmt-r"><span class="text-15">Total Amount</span></li>
+                            <li class="d-inline"><span>&#8377</span></li>
+                            <li class="d-inline">  <span id="amount"></span></li>
+                        <li class="d-inline">  <span id="totalservice"></span></li>
+                        <li class="d-inline">  <span id="totalMeal"></span></li>
+                        </ul>
+                    </div>
+               </div>
+
+
+        
+     
 
 
 

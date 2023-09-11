@@ -1,29 +1,7 @@
 ﻿@model DomainLayer.ViewModel.ViewModel
 
-<script>
-    function addMeal()
-    {
-        debugger;
-    var ssrkey = $("#ssrkey").val()
-        var passengerkey = $("#passengerkey").val();
-    $.ajax({
-        url: "/AATripsell/PostMeal",
-        type: "POST",
-        contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // when we use .serialize() this generates the data in query string format. this needs the default contentType (default content type is: contentType: 'application/x-www-form-urlencoded; charset=UTF-8') so it is optional, you can remove it
-            data: { ssrkey: ssrkey, passengerkey: passengerkey },
-
-        // data: { "name": $("#txtName").val() },
-        success: function (data) {
-            console.log(data);
-        },
-
-        error: function (err) {
-            console.error(err);
-        }
-    });
-    }
-</script>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="~/js/custom.js/customnew.js"></script>
 
 <div class="relative overflow-hidden js-section-slider pt-10 sm:pt-20" data-gap="30" data-scrollbar data-slider-cols="xl-5 lg-4 md-3 sm-2 base-1" data-nav-prev="js-tour-prev-one" data-pagination="js-tour-pag" data-nav-next="js-tour-next-one">
     <div class="swiper-wrapper">
@@ -36,26 +14,37 @@
                 for (int i = 0; i < item.legssrs.Count; i++)
                 {
                   
-                    <div class="swiper-slide active">
-                        <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
-                            <span class="nveg-food"></span>
-                            <img src="~/img/images/non-veg-img-1.png" title="image" alt="image">
-                            <h6 class="text-14 fw-600 mt-10"> @item.legssrs[i].name </h6>
-                            <p class="text-14 fw-600 mt-2 text-center">&#8377; @item.legssrs[i].legpassengers[0].price</p>
-                            <div class="d-flex justify-content-center">
-                                @*<button class="button -md -outline-blue-1 text-blue-1">Select</button>*@
+                        <div class="swiper-slide active">
+                            <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                <span class="nveg-food"></span>
+                                <img src="~/img/images/non-veg-img-1.png" title="image" alt="image">
+                                <h6 class="text-14 fw-600 mt-10"> @item.legssrs[i].name </h6>
+                                <p class="text-14 fw-600 mt-2 text-center">&#8377; 600</p>
+                                <div class="d-flex justify-content-center">
+                                    @*<button class="button -md -outline-blue-1 text-blue-1">Select</button>*@
 
-                                <input type="hidden" id="ssrkey" name="origin" value="@item.legssrs[0].legpassengers[0].ssrKey" />
-                                <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />                                
-                                <input type="button" id="selectid" value=" Select" onclick="addMeal()" />
+                                    <input type="hidden" id="ssrkey" name="origin" value="@item.legssrs[0].legpassengers[0].ssrKey" />
+                                    <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />                                
+                                   @* <input type="checkbox" id="selectid" value=" Select" onclick="addMeal()" />*@
+                                    <div>
+                                 <input type="text" id="inputField" value="">
+                                    <button id="showValueButton" onclick="AddMeal()">Show Value</button>
+                                     </div>
+                                   
+
+                                </div>
                             </div>
                         </div>
-                    </div>
+
 
                 }
 
+
             }
+           
+
         }
+       
         <div class="swiper-slide active">
             <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
                 <span class="nveg-food"></span>
@@ -137,15 +126,5 @@
 
 
 
-<script>
-    function add(val) {
-        alert(val);
-        debugger;
-        var item1 = document.getElementById("hello1").innerHTML = val;
-        var item2 = document.getElementById("hello2").innerHTML = val;
-        var item3 = document.getElementById("hello").innerHTML = val;
-        var total = +item1 + +item2 + +item3;
-        alert(total);
-        document.getElementById("hello").innerHTML = total;
-    }
-</script>
+
+

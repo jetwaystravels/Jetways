@@ -68,12 +68,12 @@ namespace OnionConsumeWebAPI.Controllers
 			return View();
 		}
 		[HttpPost]
-		public IActionResult PostBooking()
+		public async Task<IActionResult> PostBooking()
 		{
-			//TicketBooking ticketBooking1 = new TicketBooking();
-			//HttpClient client = new HttpClient();
-			//client.BaseAddress = new Uri("http://localhost:5225/");
-			//HttpResponseMessage response = await client.GetAsync("api/TicketBooking/GetTicketBooking");
+			TicketBooking ticketBooking1 = new TicketBooking();
+			HttpClient client = new HttpClient();
+			client.BaseAddress = new Uri("http://localhost:5225/");
+			//HttpResponseMessage response = await client.PostAsync("api/TicketBooking/GetTicketBooking");
 			//if (response.IsSuccessStatusCode)
 			//{
 			//	var results = response.Content.ReadAsStringAsync().Result;
