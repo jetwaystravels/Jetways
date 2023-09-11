@@ -23,9 +23,20 @@ namespace DomainLayer.Model
             public string taxesAndFees { get; set; }
             public string ssrCollectionsMode { get; set; }
             public int numberOfFaresPerJourney { get; set; }
-      
-        
+             public passengercount passengercount { get; set; }  
 
+
+
+
+    }
+    public class passengercount
+    {
+        public string adulttype { get; set; }
+        public int adultcount { get; set; }
+        public string childtype { get; set; }
+        public int childcount { get; set; }
+        public string infanttype { get; set; }
+        public int infantcount { get; set; }
     }
 
         public class Passengerssimple
@@ -38,7 +49,8 @@ namespace DomainLayer.Model
         {
             public string type { get; set; }
             public int count { get; set; }
-       
+        
+
     }
 
         public class Codessimple

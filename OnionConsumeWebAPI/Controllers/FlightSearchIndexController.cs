@@ -51,7 +51,7 @@ namespace OnionConsumeWebAPI.Controllers
 
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> SearchResultFlight(SimpleAvailabilityRequestModel _GetfligthModel)
+        public async Task<IActionResult> SearchResultFlight(SimpleAvailabilityRequestModel _GetfligthModel,string CHD,int count01)
         {
 
             string destination1 = string.Empty;
@@ -108,26 +108,40 @@ namespace OnionConsumeWebAPI.Controllers
                 _SimpleAvailabilityobj.beginDate = _GetfligthModel.beginDate;
                 _SimpleAvailabilityobj.endDate = "";
                 Codessimple _codes = new Codessimple();
-                Typesimple Types = new Typesimple();
+               
                 
                 List<Typesimple> _typeslist = new List<Typesimple>();
-                Types.type = _GetfligthModel.passengers.types[0].type;
-                Types.count = _GetfligthModel.passengers.types[0].count;
+                var AdtType = _GetfligthModel.passengercount.adulttype;
+                var AdtCount = _GetfligthModel.passengercount.adultcount;
+                var chdtype = _GetfligthModel.passengercount.childtype;
+                var chdcount = _GetfligthModel.passengercount.childcount;
+                var infanttype = _GetfligthModel.passengercount.infanttype;
+                var infantcount = _GetfligthModel.passengercount.infantcount;
 
-                _typeslist.Add(Types);
-                //foreach (var item in _typeslist)
-                //{
-                //    _SimpleAvailabilityobj.passengers.types = _typeslist;
-                  
+                if (AdtType == "ADT" && AdtCount != 0)
+                {
+                    Typesimple Types = new Typesimple();
+                    Types.type = AdtType;
+                    Types.count = AdtCount;
 
-                //}
-              
-                //Types.type = _GetfligthModel.passengers.types[0].type;
-                //Types.count = _GetfligthModel.passengers.types[0].count;
-                //Types.type1 = _GetfligthModel.passengers.types[0].type1;
-                //Types.count1 = _GetfligthModel.passengers.types[0].count1;
-                //Types.type2 = _GetfligthModel.passengers.types[0].type2;
-                //Types.count2 = _GetfligthModel.passengers.types[0].count2;
+                    _typeslist.Add(Types);
+                }
+                if (chdtype == "CHD" && chdcount != 0)
+                {
+                    Typesimple Types = new Typesimple();
+                    Types.type = chdtype;
+                    Types.count = chdcount;
+
+                    _typeslist.Add(Types);
+                }
+                if (infanttype == "INFT" && infantcount != 0)
+                {
+                    Typesimple Types = new Typesimple();
+                    Types.type = infanttype;
+                    Types.count = infantcount;
+
+                    _typeslist.Add(Types);
+                }
 
 
                 Passengerssimple _Passengerssimple = new Passengerssimple();
