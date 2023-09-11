@@ -41,6 +41,27 @@
 
         }
     </script>
+    <script>
+        $(document).ready(function () {
+            $('#show').click(function () {
+                $('.seathide').show(1000);
+            });
+            $('#show1').click(function () {
+                $('#seathide1').show(1000);
+            });
+            $('#show2').click(function () {
+                $('#seathide3').show(1000);
+            });
+
+        });
+    </script>
+
+    <style>
+        .whst_app i {
+            color: green;
+            font-size: 22px;
+        }
+    </style>
 
 </head>
 
@@ -174,17 +195,23 @@
                         <partial name="_TravellingBebefitPartialView.cshtml" />
                     </div>
                    @* <form asp-action="PostUnitkey" asp-controller="AATripsell" method="post">*@
-                        <div class="row x-gap-20 y-gap-20 mt-30 bg-white service-section" id="deepa">
+                    <div id="show" class="row x-gap-20 y-gap-20 mt-30 bg-white service-section" @* id="deepa" *@>
                             <h2 class="text-22 fw-600 md:mt-20 ">Service Requests <span class="text-18">(Optional)</span></h2>
+                            @* <partial name="_ServiceRequestsPartialView.cshtml" /> *@
+                        <div class="seathide" style="display: none;">
                             <partial name="_ServiceRequestsPartialView.cshtml" />
+                        </div>
                         </div>
                   @*  </form>*@
 
 
-                        <div class="row x-gap-20 y-gap-20 mt-30 tl-ince">
+                    <div id="show2" class="row x-gap-20 y-gap-20 mt-30 tl-ince">
                             <h2 class="text-22 fw-600 md:mt-20 ">Travel Insurance  <span class="text-18">(Recommended)</span></h2>
+                            @* <partial name="_TravelInsurancePatialView.cshtml" /> *@
+                        <div id="seathide3" class="col-lg-12 p-0" style="display: none;">
                             <partial name="_TravelInsurancePatialView.cshtml" />
                         </div>
+                      </div>
                         <div class="row x-gap-20 y-gap-20 mt-30 bg-white">
                             <h2 class="text-22 fw-600 md:mt-20 ">Add-ons <span class="text-18">(Recommended)</span></h2>
                             <div class="flight-box-content rounded-4" style="display:none;"></div>

@@ -9,6 +9,6 @@ namespace ServiceLayer.Service.Interface
 {
     public interface ICredential
     {
-        _credentials GetAllCredentialRepo();
+        List<_credentials> GetAllCredentialRepo();
     }
 }

@@ -12,6 +12,7 @@ namespace DomainLayer.Model
         public string Country { get; set; }
         public string CityCode { get; set; }
         public string CityName { get; set; }
+       
         public bool IsCity { get; set; }       
         
 

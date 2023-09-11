@@ -1,0 +1,230 @@
+﻿/* ******************************
+Payment section
+****************************** */
+.payment-section {
+    padding-bottom: 40px;
+}
+
+    .payment-section .card {
+        border-radius: 4px;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+
+    .payment-section .bg-light {
+        border-radius: 4px 0 0 4px;
+        background: #4E7993 !important;
+    }
+
+    .payment-section .list-group .tabs {
+        color: #fff;
+        border-left: 5px #4E7993 solid !important;
+    }
+
+    .payment-section .list-group svg {
+        margin-right: 10px;
+    }
+
+    .payment-section .list-group img {
+        margin-right: 10px;
+    }
+
+    .payment-section .list-group-item.active {
+        background-color: #29546E !important;
+        border-color: #7197AF !important;
+        color: #fff;
+        border-left: 5px #fff solid !important;
+    }
+
+    .payment-section .list-group-item.active1 {
+        background-color: #29546E !important;
+        color: #fff;
+        border-left: 5px #fff solid !important;
+    }
+
+    .payment-section #sidebar-wrapper a.bg-light:hover {
+        background-color: transparent !important;
+        border-left: 5px transparent solid !important;
+    }
+
+    .payment-section #sidebar-wrapper .list-group-item {
+        border-top: 1px solid #7197AF;
+    }
+
+    .payment-section #menu-toggle {
+        height: 50px
+    }
+
+    .payment-section #sidebar-wrapper {
+        min-height: 100vh;
+        margin-left: -15rem;
+        -webkit-transition: margin .25s ease-out;
+        -moz-transition: margin .25s ease-out;
+        -o-transition: margin .25s ease-out;
+        transition: margin .25s ease-out
+    }
+
+        .payment-section #sidebar-wrapper .sidebar-heading {
+            padding: 0.875rem 1.25rem;
+            font-size: 1.2rem;
+            color: #fff;
+        }
+
+        .payment-section #sidebar-wrapper .list-group {
+            width: 15rem;
+            height: 100vh;
+            padding-left: 1px;
+        }
+
+    .payment-section #page-content-wrapper {
+        min-width: 100vw;
+        padding: 10px 20px;
+    }
+
+    .payment-section #wrapper.toggled #sidebar-wrapper {
+        margin-left: 0
+    }
+
+@media (min-width: 768px) {
+    .payment-section #sidebar-wrapper {
+        margin-left: 0
+    }
+
+    .payment-section #page-content-wrapper {
+        min-width: 0;
+        width: 100%;
+        background: #fff;
+        border-radius: 20px;
+    }
+
+    .payment-section #wrapper.toggled #sidebar-wrapper {
+        margin-left: -15rem;
+        display: none
+    }
+}
+
+.payment-section .card0 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.payment-section .form-control {
+    height: 53px;
+    box-shadow: none;
+    border-radius: 4px;
+    padding-left: 9px;
+}
+
+.payment-section p.text {
+    font-size: 12px;
+    font-weight: 600;
+    padding-top: 13px;
+}
+
+.payment-section .bank-list {
+    border-radius: 4px;
+    box-shadow: 0 0 4px 0 rgba(0,0,0,.2);
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    margin: 8px 0;
+}
+
+    .payment-section .bank-list li {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        border-bottom: solid 1px #e1e1e1;
+        padding: 0 15px;
+        min-height: 50px;
+    }
+
+        .payment-section .bank-list li:last-child {
+            border: none;
+        }
+
+        .payment-section .bank-list li input[type=radio] {
+            position: relative;
+            width: 18px;
+            height: 18px;
+            margin: 0 8px 4px 0;
+        }
+
+        .payment-section .bank-list li label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+.payment-section .bank-logo-sprite {
+    background: url(../img/BanklogoSprite.png) no-repeat;
+    -webkit-background-size: 390px 650px;
+    -moz-background-size: 390px 650px;
+    background-size: 390px 650px;
+    display: block;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+}
+
+    .payment-section .bank-logo-sprite.bank-logo-axis {
+        width: 32px;
+        height: 32px;
+        background-position: -86px -47px;
+        margin-right: 5px;
+    }
+
+    .payment-section .bank-logo-sprite.bank-logo-hdfc {
+        width: 32px;
+        height: 32px;
+        background-position: -272px -167px;
+        margin-right: 5px;
+    }
+
+    .payment-section .bank-logo-sprite.bank-logo-icici {
+        width: 32px;
+        height: 32px;
+        background-position: -46px -206px;
+        margin-right: 5px;
+    }
+
+    .payment-section .bank-logo-sprite.bank-logo-sbi {
+        width: 32px;
+        height: 32px;
+        background-position: -271px -405px;
+        margin-right: 5px;
+    }
+
+.payment-section .resize-bank-icon {
+    transform: scale(.8);
+}
+
+.payment-section .sel-bank-bg {
+    border-radius: 4px;
+    border: #ddd 1px solid;
+    box-shadow: 0 0 10px 0 rgb(0 0 0 / 9%);
+    max-width: 10% !important;
+    flex: 10% !important;
+    padding: 10px;
+}
+
+.payment-section table.table th {
+    padding: 17px 10px;
+    line-height: 1;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.payment-section table.table td {
+    padding: 11px 10px;
+    font-size: 12px;
+    border-bottom: 1px solid var(--color-light-5);
+    font-weight: 600;
+}
+
+.payment-section ul.table-btm-note {
+    list-style: inherit !important;
+    margin-left: 11px;
+    line-height: 20px;
+}
+
