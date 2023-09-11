@@ -280,9 +280,10 @@ namespace OnionConsumeWebAPI.Controllers
 				{
 					var _responseSeatmap = responseSeatmap.Content.ReadAsStringAsync().Result;
 					var JsonObjSeatmap = JsonConvert.DeserializeObject<dynamic>(_responseSeatmap);
-					// var decks1 = "1";
-					//  x.data[0].seatMap.decks.1.compartments.Y.units[0].unitKey
-					var uniquekey1 = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[0].unitKey;
+					int datacount= JsonObjSeatmap.data.Count;
+                    // var decks1 = "1";
+                    //  x.data[0].seatMap.decks.1.compartments.Y.units[0].unitKey
+                    var uniquekey1 = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[0].unitKey;
 					//  uniquekey = ((Newtonsoft.Json.Linq.JValue)uniquekey1).Value.ToString();
 					SeatMapResponceModel SeatMapResponceModel = new SeatMapResponceModel();
 					List<SeatMapResponceModel> SeatMapResponceModellist = new List<SeatMapResponceModel>();

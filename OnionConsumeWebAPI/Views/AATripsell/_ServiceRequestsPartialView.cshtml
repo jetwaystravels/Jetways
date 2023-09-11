@@ -66,12 +66,12 @@
                 <div class="journey-box">
                     <ul class="nav nav-pills mb-3">
                         @{
-                            foreach (var item in Model.passeengerlist.journeys[0].segments)
+                            foreach (var item in Model.passeengerlist.journeys)
                             {
-                              for (int i = 0; i < item.legs.Count; i++)
+                              for (int i = 0; i < item.segments.Count; i++)
                               {
                                 <li class="nav-item">
-                                <button class="nav-link active">@item.legs[i].designator.origin-@item.legs[i].designator.destination</button>
+                                        <button class="nav-link active">@item.segments[i].designator.origin-@item.segments[i].designator.destination</button>
                                 </li>
 
                               }
@@ -4601,12 +4601,12 @@
                 <div class="journey-box">
                      <ul class="nav nav-pills mb-3">
                         @{
-                            foreach (var item in Model.passeengerlist.journeys[0].segments)
+                            foreach (var item in Model.passeengerlist.journeys)
                             {
-                              for (int i = 0; i < item.legs.Count; i++)
+                              for (int i = 0; i < item.segments.Count; i++)
                               {
                                 <li class="nav-item">
-                                <button class="nav-link active">@item.legs[i].designator.origin-@item.legs[i].designator.destination</button>
+                                        <button class="nav-link active">@item.segments[i].designator.origin-@item.segments[i].designator.destination</button>
                                 </li>
 
                               }

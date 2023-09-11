@@ -72,6 +72,7 @@
 
   <ItemGroup>
     <None Remove="Views\AATripsell\LoadSeatMapList.cshtml~RF5d63b9e.TMP" />
+    <None Remove="Views\AATripsell\_ServiceRequestsPartialView.cshtml~RF2323c924.TMP" />
   </ItemGroup>
 
   <ItemGroup>
