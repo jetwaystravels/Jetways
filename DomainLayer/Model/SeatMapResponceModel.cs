@@ -10,9 +10,15 @@ namespace DomainLayer.Model
     public class SeatMapResponceModel
     {
 
-        public Seatmap seatMap { get; set; }
-        public Fees seatMapfees { get; set; }
-        public object ssrLookup { get; set; }
+        public List<data> datalist { get; set; }
+        public class data
+        {
+            public Seatmap seatMap { get; set; }
+            public Fees seatMapfees { get; set; }
+            public object ssrLookup { get; set; }
+
+        }
+       
 
         public class Seatmap
         {
