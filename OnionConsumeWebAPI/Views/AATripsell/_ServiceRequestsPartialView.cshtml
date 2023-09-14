@@ -35,18 +35,34 @@
                         <button class="nav-link active">Departure:DEL-BOM</button>
                         </li> *@
                         @{
-                            foreach (var item in Model.passeengerlist.journeys)
+                            // foreach (var item in Model.passeengerlist.journeys)
+                            // {
+                            //     for (int i = 0; i < item.segments.Count; i++)
+                            //     {
+                            //         <li class="nav-item">
+                            //             <button class="nav-link active">@item.segments[i].designator.origin-@item.segments[i].designator.destination</button>
+                            //         </li>
+
+                            //     }
+
+
+                            // }
+
+                            var seatmaap2 = @Model.passeengerlist.journeys[0].segments.Count;
+                            if (seatmaap2 != 2)
                             {
-                                for (int i = 0; i < item.segments.Count; i++)
-                                {
-                                    <li class="nav-item">
-                                        <button class="nav-link active">@item.segments[i].designator.origin-@item.segments[i].designator.destination</button>
-                                    </li>
-
-                                }
-
-
+                                <li class="nav-item">
+                                    <button class="nav-link active">@Model.passeengerlist.journeys[0].segments[0].designator.origin-@Model.passeengerlist.journeys[0].segments[0].designator.destination</button>
+                                </li>
                             }
+                            else
+                            {
+                                <li class="nav-item d-flex">
+                                    <button id="seattab1" class="nav-link">@Model.passeengerlist.journeys[0].segments[0].designator.origin-@Model.passeengerlist.journeys[0].segments[0].designator.destination</button>
+                                    <button id="seattab2" class="nav-link">@Model.passeengerlist.journeys[0].segments[1].designator.origin-@Model.passeengerlist.journeys[0].segments[1].designator.destination</button>
+                                </li>
+                            }
+
 
 
 
@@ -56,9 +72,17 @@
                         </li>
                     </ul>
                 </div>
+                  @**********tab-section-seat-select ************@
+                <div class="tabcontent">
+                    <div class="row">
+                      <div id="tabshow2" class="col-auto" style="display:none;">Seat Map 2</div>
+                    </div>
+                </div>
+
                 <div class="flight-protip">Pro Tip Grab your favourite seat before it gets sold.</div>
                 <div class="wing-left">&nbsp;</div>
-                <div class="seat-section">
+                @*****SeatMap_Tab1-Content-call-by-((id="seattab1"))******@
+                <div id="tabshow1" class="seat-section">
 
                     <div class="inner-section">
                         <ul class="column">
@@ -5078,7 +5102,32 @@
 
 </div>
 
+<script src="~/js/custom.js/customnew.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
 
+<script>
+    /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
+    $(document).ready(function () {
+
+        $("#seattab1").addClass('active');
+
+        $("#seattab1").click(function () {
+            $("#tabshow1").show();
+            $("#tabshow2").hide();
+            $("#seattab1").addClass('active');
+            $("#seattab2").removeClass('active');
+           
+        });
+
+        $("#seattab2").click(function () {
+            $("#tabshow2").css("display", "block");
+            $("#seattab2").addClass('active');
+            $("#seattab1").removeClass('active');
+            $("#tabshow1").hide();
+        });
+    });
+</script>
 
 
 
