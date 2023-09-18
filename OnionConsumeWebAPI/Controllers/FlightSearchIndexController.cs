@@ -69,7 +69,7 @@ namespace OnionConsumeWebAPI.Controllers
             string uniquekey = string.Empty;
             decimal fareTotalsum = 0;
 
-            List<_credentials> credentialslist = new List<_credentials>();
+            _credentials credentialsobj = new _credentials();
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri("http://localhost:5225/");
@@ -78,13 +78,13 @@ namespace OnionConsumeWebAPI.Controllers
                 {
                     var results = response.Content.ReadAsStringAsync().Result;
 
-                    credentialslist = JsonConvert.DeserializeObject<List<_credentials>>(results);
+                    credentialsobj = JsonConvert.DeserializeObject<_credentials>(results);
 
 
                 }
 
                 AirAsiaLogin login = new AirAsiaLogin();
-                login.credentials = credentialslist;
+                login.credentials = credentialsobj;
 
                 AirasiaTokan AirasiaTokan = new AirasiaTokan();
                 var AirasialoginRequest = JsonConvert.SerializeObject(login, Formatting.Indented);

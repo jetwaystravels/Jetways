@@ -292,59 +292,59 @@ namespace OnionConsumeWebAPI.Controllers
 						List<SeatMapResponceModel> SeatMapResponceModellist = new List<SeatMapResponceModel>();
 						Fees Fees = new Fees();
 						Seatmap Seatmapobj = new Seatmap();
-						Seatmapobj.name = JsonObjSeatmap.data[0].seatMap.name;
-						Seatmapobj.arrivalStation = JsonObjSeatmap.data[0].seatMap.arrivalStation;
-						Seatmapobj.departureStation = JsonObjSeatmap.data[0].seatMap.departureStation;
-						Seatmapobj.marketingCode = JsonObjSeatmap.data[0].seatMap.marketingCode;
-						Seatmapobj.equipmentType = JsonObjSeatmap.data[0].seatMap.equipmentType;
-						Seatmapobj.equipmentTypeSuffix = JsonObjSeatmap.data[0].seatMap.equipmentTypeSuffix;
-						Seatmapobj.category = JsonObjSeatmap.data[0].seatMap.category;
-						Seatmapobj.seatmapReference = JsonObjSeatmap.data[0].seatMap.seatmapReference;
+						Seatmapobj.name = JsonObjSeatmap.data[x].seatMap.name;
+						Seatmapobj.arrivalStation = JsonObjSeatmap.data[x].seatMap.arrivalStation;
+						Seatmapobj.departureStation = JsonObjSeatmap.data[x].seatMap.departureStation;
+						Seatmapobj.marketingCode = JsonObjSeatmap.data[x].seatMap.marketingCode;
+						Seatmapobj.equipmentType = JsonObjSeatmap.data[x].seatMap.equipmentType;
+						Seatmapobj.equipmentTypeSuffix = JsonObjSeatmap.data[x].seatMap.equipmentTypeSuffix;
+						Seatmapobj.category = JsonObjSeatmap.data[x].seatMap.category;
+						Seatmapobj.seatmapReference = JsonObjSeatmap.data[x].seatMap.seatmapReference;
 						Decks Decksobj = new Decks();
-						Decksobj.availableUnits = JsonObjSeatmap.data[0].seatMap.availableUnits;
+						Decksobj.availableUnits = JsonObjSeatmap.data[x].seatMap.availableUnits;
 						// Seatmap Seatmapobj = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.availableUnits;
-						Decksobj.designator = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.designator;
-						Decksobj.length = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.length;
-						Decksobj.width = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.width;
-						Decksobj.sequence = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.sequence;
-						Decksobj.orientation = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.orientation;
+						Decksobj.designator = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.designator;
+						Decksobj.length = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.length;
+						Decksobj.width = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.width;
+						Decksobj.sequence = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.sequence;
+						Decksobj.orientation = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.orientation;
 						Seatmapobj.decks = Decksobj;
 
 
 						//  int feesgroup1 = JsonObjSeatmap.data[0].fees[passengerdetails.passengerkey].groups.Count;
 
-						int compartmentsunitCount = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units.Count;
+						int compartmentsunitCount = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units.Count;
 						List<Unit> compartmentsunitlist = new List<Unit>();
 						for (int i = 0; i < compartmentsunitCount; i++)
 						{
 							Unit compartmentsunitobj = new Unit();
-							compartmentsunitobj.unitKey = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[i].unitKey;
-							compartmentsunitobj.assignable = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[i].assignable;
-							compartmentsunitobj.availability = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[i].availability;
-							compartmentsunitobj.compartmentDesignator = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[i].compartmentDesignator;
-							compartmentsunitobj.designator = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[i].designator;
-							compartmentsunitobj.type = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[i].type;
-							compartmentsunitobj.travelClassCode = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[i].travelClassCode;
-							compartmentsunitobj.set = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[i].set;
-							compartmentsunitobj.group = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[i].group;
-							compartmentsunitobj.priority = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[i].priority;
-							compartmentsunitobj.text = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[i].text;
-							compartmentsunitobj.setVacancy = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[i].setVacancy;
-							compartmentsunitobj.angle = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[i].angle;
-							compartmentsunitobj.width = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[i].width;
-							compartmentsunitobj.height = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[i].height;
-							compartmentsunitobj.zone = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[i].zone;
-							compartmentsunitobj.x = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[i].x;
-							compartmentsunitobj.y = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[i].y;
+							compartmentsunitobj.unitKey = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].unitKey;
+							compartmentsunitobj.assignable = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].assignable;
+							compartmentsunitobj.availability = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].availability;
+							compartmentsunitobj.compartmentDesignator = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].compartmentDesignator;
+							compartmentsunitobj.designator = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].designator;
+							compartmentsunitobj.type = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].type;
+							compartmentsunitobj.travelClassCode = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].travelClassCode;
+							compartmentsunitobj.set = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].set;
+							compartmentsunitobj.group = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].group;
+							compartmentsunitobj.priority = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].priority;
+							compartmentsunitobj.text = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].text;
+							compartmentsunitobj.setVacancy = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].setVacancy;
+							compartmentsunitobj.angle = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].angle;
+							compartmentsunitobj.width = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].width;
+							compartmentsunitobj.height = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].height;
+							compartmentsunitobj.zone = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].zone;
+							compartmentsunitobj.x = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].x;
+							compartmentsunitobj.y = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].y;
 							compartmentsunitlist.Add(compartmentsunitobj);
 
-							int compartmentypropertiesCount = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[i].properties.Count;
+							int compartmentypropertiesCount = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].properties.Count;
 							List<Properties> Propertieslist = new List<Properties>();
 							for (int j = 0; j < compartmentypropertiesCount; j++)
 							{
 								Properties compartmentyproperties = new Properties();
-								compartmentyproperties.code = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[i].properties[j].code;
-								compartmentyproperties.value = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[i].properties[j].value;
+								compartmentyproperties.code = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].properties[j].code;
+								compartmentyproperties.value = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].properties[j].value;
 								Propertieslist.Add(compartmentyproperties);
 							}
 
@@ -353,7 +353,7 @@ namespace OnionConsumeWebAPI.Controllers
 							Decksobj.units = compartmentsunitlist;
 						}
 
-						var groupscount = JsonObjSeatmap.data[0].fees[passengerkey12].groups;
+						var groupscount = JsonObjSeatmap.data[x].fees[passengerkey12].groups;
 						int feesgroupcount = ((Newtonsoft.Json.Linq.JContainer)groupscount).Count;
 
 						List<Groups> GroupsFeelist = new List<Groups>();
@@ -363,7 +363,7 @@ namespace OnionConsumeWebAPI.Controllers
 							Groups Groupsobj = new Groups();
 							string myString = k.ToString();
 							// x.data[0].fees["MCFBRFQ-"].groups.1
-							var group = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString];
+							var group = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString];
 
 							//var fees = JsonObjSeatmap.data[0].fees["MCFBRFQ-"].groups[myString].fees;
 							//  Groups Groups = new Groups();
@@ -371,38 +371,38 @@ namespace OnionConsumeWebAPI.Controllers
 							GroupsFee GroupsFeeobj = new GroupsFee();
 
 
-							GroupsFeeobj.type = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString].fees[0].type;
-							GroupsFeeobj.ssrCode = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString].fees[0].ssrCode;
-							GroupsFeeobj.ssrNumber = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString].fees[0].ssrNumber;
-							GroupsFeeobj.paymentNumber = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString].fees[0].paymentNumber;
-							GroupsFeeobj.isConfirmed = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString].fees[0].isConfirmed;
-							GroupsFeeobj.isConfirming = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString].fees[0].isConfirming;
-							GroupsFeeobj.isConfirmingExternal = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString].fees[0].isConfirmingExternal;
-							GroupsFeeobj.code = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString].fees[0].code;
-							GroupsFeeobj.detail = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString].fees[0].detail;
-							GroupsFeeobj.passengerFeeKey = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString].fees[0].passengerFeeKey;
+							GroupsFeeobj.type = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].type;
+							GroupsFeeobj.ssrCode = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].ssrCode;
+							GroupsFeeobj.ssrNumber = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].ssrNumber;
+							GroupsFeeobj.paymentNumber = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].paymentNumber;
+							GroupsFeeobj.isConfirmed = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].isConfirmed;
+							GroupsFeeobj.isConfirming = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].isConfirming;
+							GroupsFeeobj.isConfirmingExternal = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].isConfirmingExternal;
+							GroupsFeeobj.code = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].code;
+							GroupsFeeobj.detail = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].detail;
+							GroupsFeeobj.passengerFeeKey = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].passengerFeeKey;
 							//     Feegroupsobj._override = JsonObjSeatmap.data[0].fees[passengerdetails.passengerkey].groups[myString].fees[0]._override;
-							GroupsFeeobj.flightReference = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString].fees[0].flightReference;
-							GroupsFeeobj.note = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString].fees[0].note;
-							GroupsFeeobj.createdDate = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString].fees[0].createdDate;
-							GroupsFeeobj.isProtected = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString].fees[0].isProtected;
+							GroupsFeeobj.flightReference = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].flightReference;
+							GroupsFeeobj.note = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].note;
+							GroupsFeeobj.createdDate = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].createdDate;
+							GroupsFeeobj.isProtected = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].isProtected;
 							//Groups.groupsFee = GroupsFeeobj;
-							var feesgroupserviceChargescount = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString].fees[0].serviceCharges.Count;
+							var feesgroupserviceChargescount = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges.Count;
 
 							List<Servicecharge> feesgroupserviceChargeslist = new List<Servicecharge>();
 							for (int l = 0; l < feesgroupserviceChargescount; l++)
 							{
 
 								Servicecharge feesgroupserviceChargesobj = new Servicecharge();
-								feesgroupserviceChargesobj.amount = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].amount;
-								feesgroupserviceChargesobj.code = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].code;
-								feesgroupserviceChargesobj.detail = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].detail;
-								feesgroupserviceChargesobj.type = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].type;
-								feesgroupserviceChargesobj.collectType = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].collectType;
-								feesgroupserviceChargesobj.currencyCode = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].currencyCode;
-								feesgroupserviceChargesobj.amount = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].amount;
-								feesgroupserviceChargesobj.foreignAmount = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].foreignAmount;
-								feesgroupserviceChargesobj.ticketCode = JsonObjSeatmap.data[0].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].ticketCode;
+								feesgroupserviceChargesobj.amount = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].amount;
+								feesgroupserviceChargesobj.code = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].code;
+								feesgroupserviceChargesobj.detail = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].detail;
+								feesgroupserviceChargesobj.type = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].type;
+								feesgroupserviceChargesobj.collectType = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].collectType;
+								feesgroupserviceChargesobj.currencyCode = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].currencyCode;
+								feesgroupserviceChargesobj.amount = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].amount;
+								feesgroupserviceChargesobj.foreignAmount = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].foreignAmount;
+								feesgroupserviceChargesobj.ticketCode = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].ticketCode;
 								feesgroupserviceChargeslist.Add(feesgroupserviceChargesobj);
 							}
 

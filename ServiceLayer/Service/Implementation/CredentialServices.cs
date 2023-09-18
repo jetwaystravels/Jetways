@@ -19,9 +19,9 @@ namespace ServiceLayer.Service.Implementation
             this._dbContext = dbContext;
         }
 
-        public List<_credentials> GetAllCredentialRepo()
+        public _credentials GetAllCredentialRepo()
         {
-            return this._dbContext.tblflightlogin.ToList();
+            return this._dbContext.tblflightlogin.FirstOrDefault();
         }
     }
 }

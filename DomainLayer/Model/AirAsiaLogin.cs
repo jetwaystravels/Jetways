@@ -10,7 +10,7 @@ namespace DomainLayer.Model
 {
     public class AirAsiaLogin
     {
-        public List<_credentials> credentials { get; set; }
+        public _credentials credentials { get; set; }
         public string applicationName { get; set; } = "";
     }
     public class _credentials

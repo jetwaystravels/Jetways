@@ -91,14 +91,14 @@ namespace OnionConsumeWebAPI.Controllers
                 Address.lineOne = "123 Main Street";
                 Address.countryCode = "IN";
                 Address.provinceState = "TN";
-                Address.city = "Chennai";
-                Address.postalCode = "600028";
+                Address.city = "New delhi";
+                Address.postalCode = "110011";
                 _ContactModel.address = Address;
 
                 _Name Name = new _Name();
-                Name.first = "Vadivel";
-                Name.middle = "raja";
-                Name.last = "VR";
+                Name.first = "Ashok";
+                Name.middle = "kuamr";
+                Name.last = "kushwaha";
                 Name.title = "MR";
                 _ContactModel.name = Name;
 
