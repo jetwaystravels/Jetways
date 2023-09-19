@@ -112,7 +112,9 @@ namespace OnionConsumeWebAPI.Controllers
 
 						AAJourneyobj.flightType = JsonObjTripsell.data.journeys[i].flightType;
 						AAJourneyobj.stops = JsonObjTripsell.data.journeys[i].stops;
-						AADesignator AADesignatorobj = new AADesignator();
+						AAJourneyobj.journeyKey = JsonObjTripsell.data.journeys[i].journeyKey;
+
+                        AADesignator AADesignatorobj = new AADesignator();
 						AADesignatorobj.origin = JsonObjTripsell.data.journeys[0].designator.origin;
 						AADesignatorobj.destination = JsonObjTripsell.data.journeys[0].designator.destination;
 						AADesignatorobj.departure = JsonObjTripsell.data.journeys[0].designator.departure;

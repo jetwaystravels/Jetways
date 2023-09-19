@@ -346,12 +346,11 @@ namespace OnionConsumeWebAPI.Controllers
                 return RedirectToAction("Index");
             }
 
-            string journeyKey = HttpContext.Session.GetString("journeyKey");
             string passenger = HttpContext.Session.GetString("keypassenger");
             AirAsiaTripResponceModel passeengerKeyList = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
-            int passengerscount = passeengerKeyList.passengerscount;          
-
-                using (HttpClient client = new HttpClient())
+            int passengerscount = passeengerKeyList.passengerscount;
+            string journeyKey = passeengerKeyList.journeys[0].journeyKey;
+            using (HttpClient client = new HttpClient())
                 {
                     var unitKey_1 = unitKey;
 
