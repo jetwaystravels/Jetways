@@ -13578,5 +13578,70 @@ check out section
 
 
 
+/* ******************************
+booking review popup section
+****************************** */
+
+.checkout .modal-content {
+    border: #F1F4F8 3px solid;
+}
+
+    .checkout .modal-content.review-box .table-4 td {
+        padding: 12px 30px;
+    }
+
+        .checkout .modal-content.review-box .table-4 td span {
+            font-weight: 600;
+        }
+
+    .checkout .modal-content.review-box .table-4 tbody > tr:last-child {
+        border-bottom: #DDDDDD 1px dashed;
+    }
+
+    .checkout .modal-content.review-box .modal-header {
+        display: inline-block;
+        text-align: center;
+        padding: 1rem 1rem 0 1rem;
+        border: none;
+    }
+
+        .checkout .modal-content.review-box .modal-header .close, .close:focus {
+            outline: none;
+            margin: -3.5rem -1rem -1rem auto;
+            font-size: 37px;
+            font-weight: 300;
+        }
+
+    .checkout .modal-content.review-box .btn {
+        padding: 12px 17px;
+        text-transform: uppercase;
+    }
+
+        .checkout .modal-content.review-box .btn.edit, .btn.edit:focus {
+            color: #085AC0;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-right: 5px;
+            text-transform: uppercase;
+            background: none;
+            box-shadow: none;
+        }
+
+            .checkout .modal-content.review-box .btn.edit:hover {
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            }
+
+    .checkout .modal-content.review-box .modal-footer {
+        border-top: none;
+        padding: 0 1rem 1rem;
+    }
+
+    .checkout .modal-content p.darkText {
+        font-size: 0.9rem;
+        color: #111111;
+    }
+
+
+
 
 
