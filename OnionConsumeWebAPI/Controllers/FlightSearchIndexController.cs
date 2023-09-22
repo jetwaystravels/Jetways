@@ -51,7 +51,7 @@ namespace OnionConsumeWebAPI.Controllers
 
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> SearchResultFlight(SimpleAvailabilityRequestModel _GetfligthModel,string CHD,int count01)
+        public async Task<IActionResult> SearchResultFlight(SimpleAvailabilityRequestModel _GetfligthModel)
         {
 
             string destination1 = string.Empty;
@@ -336,6 +336,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                 }
                 TempData["Mymodel"] = JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist);
+                TempData["PassengerModel"] = JsonConvert.SerializeObject(_SimpleAvailabilityobj);
                 //method/Controller
                 return RedirectToAction("FlightView", "ResultFlightView");
 

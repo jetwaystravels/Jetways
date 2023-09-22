@@ -53,43 +53,129 @@ namespace OnionConsumeWebAPI.Controllers
 				}
 
 
-				HttpContext.Session.SetString("journeyKey", JsonConvert.SerializeObject(journeyKey));
-				// string journeyKeydata = HttpContext.Session.GetString("AirasiaTokan");
-				// var inventoryControl = "HoldSpace";
+                HttpContext.Session.SetString("journeyKey", JsonConvert.SerializeObject(journeyKey));
 
-				AirAsiaTripSellRequest AirAsiaTripSellRequestobj = new AirAsiaTripSellRequest();
-				_Key key = new _Key();
-				List<_Key> _keylist = new List<_Key>();
-				key.journeyKey = journeyKey;
-				key.fareAvailabilityKey = fareKey;
-				//     key.inventoryControl = inventoryControl;
-				_keylist.Add(key);
-				AirAsiaTripSellRequestobj.keys = _keylist;
-				Passengers passengers = new Passengers();
-
-				List<_Types> _typeslist = new List<_Types>();
-				string AdtType = "ADT";
-				int AdtCount = 1;
+                SimpleAvailabilityRequestModel _SimpleAvailabilityobj = new SimpleAvailabilityRequestModel();
+                var jsonData = TempData["PassengerModel"];
+                _SimpleAvailabilityobj = JsonConvert.DeserializeObject<SimpleAvailabilityRequestModel>(jsonData.ToString());
 
 
-				if (AdtType == "ADT" && AdtCount != 0)
-				{
-					_Types _Types = new _Types();
-					_Types.type = AdtType;
-					_Types.count = AdtCount;
+                var AdtType = "";
+                var AdtCount = 0;
 
-					_typeslist.Add(_Types);
-				}
+                var chdtype = "";
+                var chdcount = 0;
+
+                var infanttype = "";
+                var infantcount = 0;
+
+                int countpassenger = _SimpleAvailabilityobj.passengers.types.Count;
+
+                if (countpassenger == 1)
+                {
+                    AdtType = _SimpleAvailabilityobj.passengers.types[0].type;
+                    AdtCount = _SimpleAvailabilityobj.passengers.types[0].count;
+
+                }
+                if (countpassenger == 2)
+                {
+                    AdtType = _SimpleAvailabilityobj.passengers.types[0].type;
+                    AdtCount = _SimpleAvailabilityobj.passengers.types[0].count;
+                    chdtype = _SimpleAvailabilityobj.passengers.types[1].type;
+                    chdcount = _SimpleAvailabilityobj.passengers.types[1].count;
+
+                }
+                if (countpassenger == 3)
+                {
+                    AdtType = _SimpleAvailabilityobj.passengers.types[0].type;
+                    AdtCount = _SimpleAvailabilityobj.passengers.types[0].count;
+                    chdtype = _SimpleAvailabilityobj.passengers.types[1].type;
+                    chdcount = _SimpleAvailabilityobj.passengers.types[1].count;
+                    infanttype = _SimpleAvailabilityobj.passengers.types[2].type;
+                    infantcount = _SimpleAvailabilityobj.passengers.types[2].count;
+
+                }
+
+                AirAsiaTripSellRequest AirAsiaTripSellRequestobj = new AirAsiaTripSellRequest();
+                _Key key = new _Key();
+                List<_Key> _keylist = new List<_Key>();
+                key.journeyKey = journeyKey;
+                key.fareAvailabilityKey = fareKey;
+                //key.inventoryControl = inventoryControl;
+                _keylist.Add(key);
+                AirAsiaTripSellRequestobj.keys = _keylist;
+                Passengers passengers = new Passengers();
+
+                List<_Types> _typeslist = new List<_Types>();
+                //string AdtType = "ADT";
+                //int AdtCount1 = 3;
+                if (AdtType == "ADT" && AdtCount != 0)
+                {
+                    _Types _Types = new _Types();
+                    _Types.type = AdtType;
+                    _Types.count = AdtCount;
+
+                    _typeslist.Add(_Types);
+                }
+                if (chdtype == "CHD" && chdcount != 0)
+                {
+                    _Types _Types = new _Types();
+                    _Types.type = chdtype;
+                    _Types.count = chdcount;
+
+                    _typeslist.Add(_Types);
+                }
+                if (infanttype == "INFT" && infantcount != 0)
+                {
+                    _Types _Types = new _Types();
+                    _Types.type = infanttype;
+                    _Types.count = infantcount;
+
+                    _typeslist.Add(_Types);
+                }
+                passengers.types = _typeslist;
+                AirAsiaTripSellRequestobj.passengers = passengers;
 
 
-				//  _typeslist.Add(_Types);
-				passengers.types = _typeslist;
-				AirAsiaTripSellRequestobj.passengers = passengers;
-				AirAsiaTripSellRequestobj.currencyCode = "INR";
-				AirAsiaTripSellRequestobj.preventOverlap = true;
-				AirAsiaTripSellRequestobj.suppressPassengerAgeValidation = true;
 
-				var AirasiaTripSellRequest = JsonConvert.SerializeObject(AirAsiaTripSellRequestobj, Formatting.Indented);
+
+
+                //List<Typesimple> _typeslist = new List<Typesimple>();
+                //            if (AdtType == "ADT" && AdtCount != 0)
+                //            {
+                //                Typesimple Types = new Typesimple();
+                //                Types.type = AdtType;
+                //                Types.count = AdtCount;
+
+                //                _typeslist.Add(Types);
+                //            }
+                //            if (chdtype == "CHD" && chdcount != 0)
+                //            {
+                //                Typesimple Types = new Typesimple();
+                //                Types.type = chdtype;
+                //                Types.count = chdcount;
+
+                //                _typeslist.Add(Types);
+                //            }
+                //            if (infanttype == "INFT" && infantcount != 0)
+                //            {
+                //                Typesimple Types = new Typesimple();
+                //                Types.type = infanttype;
+                //                Types.count = infantcount;
+
+                //                _typeslist.Add(Types);
+                //            }
+
+
+
+
+
+
+
+                AirAsiaTripSellRequestobj.currencyCode = "INR";
+                AirAsiaTripSellRequestobj.preventOverlap = true;
+                AirAsiaTripSellRequestobj.suppressPassengerAgeValidation = true;
+                var AirasiaTripSellRequest = JsonConvert.SerializeObject(AirAsiaTripSellRequestobj, Formatting.Indented);
 
 				client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 				client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);

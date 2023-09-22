@@ -1,3 +1,4 @@
+using DomainLayer.Model;
 using Microsoft.EntityFrameworkCore;
 using RepositoryLayer.DbContextLayer;
 using ServiceLayer.Service.Implementation;
@@ -13,6 +14,7 @@ builder.Services.AddScoped<IEmployee, EmployeeService>();
 builder.Services.AddScoped<Ilogin, LoginService>();
 builder.Services.AddScoped<ICredential, CredentialServices>();
 builder.Services.AddScoped<ITicketBooking, TicketBookingServices>();
+builder.Services.AddScoped<IGSTDetails, GSTDetailsServices>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -26,11 +28,20 @@ builder.Services.AddAWSLambdaHosting(LambdaEventSource.HttpApi);
 
 var app = builder.Build();
 
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+else
+{
+    // Configure error handling for production environment here
+    app.UseExceptionHandler("/Home/Error");
+    app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
 }
 
 app.UseAuthorization();

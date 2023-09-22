@@ -60,7 +60,6 @@ namespace OnionConsumeWebAPI.Controllers
             return View(vm);
            
         }
-        
         public async Task<IActionResult> ContectDetails(ContactModel obj)
         {
             string tokenview = HttpContext.Session.GetString("AirasiaTokan");
@@ -91,14 +90,14 @@ namespace OnionConsumeWebAPI.Controllers
                 Address.lineOne = "123 Main Street";
                 Address.countryCode = "IN";
                 Address.provinceState = "TN";
-                Address.city = "New delhi";
-                Address.postalCode = "110011";
+                Address.city = "Chennai";
+                Address.postalCode = "600028";
                 _ContactModel.address = Address;
 
                 _Name Name = new _Name();
-                Name.first = "Ashok";
-                Name.middle = "kuamr";
-                Name.last = "kushwaha";
+                Name.first = "Vadivel";
+                Name.middle = "raja";
+                Name.last = "VR";
                 Name.title = "MR";
                 _ContactModel.name = Name;
 
@@ -273,7 +272,7 @@ namespace OnionConsumeWebAPI.Controllers
         }
 
 
-        public async Task<IActionResult> GetGstDetails(AddGSTInformation addGSTInformation)
+        public async Task<IActionResult> GetGstDetails(AddGSTInformation addGSTInformation, string lineOne, string lineTwo, string city, string number, string postalCode)
         {
             string tokenview = HttpContext.Session.GetString("AirasiaTokan");
             token = tokenview.Replace(@"""", string.Empty);
@@ -282,14 +281,14 @@ namespace OnionConsumeWebAPI.Controllers
             {
                 AddGSTInformation addinformation = new AddGSTInformation();
 
-                
+
                 addinformation.contactTypeCode = "G";
 
                 GSTPhonenumber Phonenumber = new GSTPhonenumber();
                 List<GSTPhonenumber> Phonenumberlist = new List<GSTPhonenumber>();
                 Phonenumber.type = "Other";
-                Phonenumber.number ="9898989898";               
-                Phonenumberlist.Add(Phonenumber);               
+                Phonenumber.number = number;
+                Phonenumberlist.Add(Phonenumber);
 
                 foreach (var item in Phonenumberlist)
                 {
@@ -297,21 +296,21 @@ namespace OnionConsumeWebAPI.Controllers
                 }
                 addinformation.cultureCode = "";
                 GSTAddress Address = new GSTAddress();
-                Address.lineOne = "123 Main Street";
-                Address.lineTwo = "Noida";
+                Address.lineOne = lineOne;
+                Address.lineTwo = lineTwo;
                 Address.lineThree = "";
                 Address.countryCode = "IN";
                 Address.provinceState = "TN";
-                Address.city = "Chennai";
-                Address.postalCode = "600028";
+                Address.city = city;
+                Address.postalCode = postalCode;
                 addinformation.Address = Address;
 
-                addinformation.emailAddress = "vadivel@test.com";
-                addinformation.customerNumber = "18AABCT3518Q1ZV";
+                addinformation.emailAddress = addGSTInformation.emailAddress;
+                addinformation.customerNumber = addGSTInformation.customerNumber;
                 addinformation.sourceOrganization = "";
                 addinformation.distributionOption = "None";
                 addinformation.notificationPreference = "None";
-                addinformation.companyName = "test company";
+                addinformation.companyName = addGSTInformation.companyName;
 
                 GSTName Name = new GSTName();
                 Name.first = "Vadivel";

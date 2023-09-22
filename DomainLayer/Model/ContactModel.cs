@@ -10,7 +10,7 @@ using static DomainLayer.Model.ContactModel;
 namespace DomainLayer.Model
 {
     public class ContactModel
-    {        
+    {
         public string number { get; set; }
         public string contactTypeCode { get; set; }
         public List<_Phonenumber> phoneNumbers { get; set; }
@@ -18,14 +18,14 @@ namespace DomainLayer.Model
         public string emailAddress { get; set; }
         public string distributionOption { get; set; } = "Email";
         public _Name name { get; set; }
-     
+
 
 
     }
     public class _Phonenumber
     {
         public string type { get; set; }
-        [Required]       
+        [Required]
         public string number { get; set; }
     }
     public class _Address
@@ -37,8 +37,8 @@ namespace DomainLayer.Model
         public string postalCode { get; set; }
     }
 
-    public class _Name 
-    {       
+    public class _Name
+    {
         public string first { get; set; }
         public string middle { get; set; }
         public string last { get; set; }
@@ -64,9 +64,9 @@ namespace DomainLayer.Model
         //public string city { get; set; }
         //public int postalCode { get; set; }
         //public string provinceState { get; set; }        
-       
-       
-      
+
+
+
 
     }
 

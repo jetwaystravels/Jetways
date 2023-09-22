@@ -7,11 +7,8 @@ using DomainLayer.Model;
 
 namespace ServiceLayer.Service.Interface
 {
-	
-	public interface ITicketBooking
-	{
-        List<TicketBooking> GetAllBookingRepo();
-        String AddTicketRepo(TicketBooking ticketBooking);
+    public interface IGSTDetails
+    {
+        String PostGSTDetailsRepo(GSTDetails details);
     }
-	
 }
