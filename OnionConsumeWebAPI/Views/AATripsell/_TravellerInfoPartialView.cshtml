@@ -1,4 +1,8 @@
-﻿
+﻿@{
+    Layout = null;
+
+}
+
 <div class="py-15 px-20 rounded-4 text-15 bg-blue-1-05">
     <label class="text-18 fw-600">Traveller Information</label>
 
@@ -7,52 +11,7 @@
         <span>Please ensure that the names of the passengers on the travel documents is the same as on their government issued identity proof.</span>
     </div>
 
-    @*   <form onsubmit="event.preventDefault();onFormSubmit1();" autocomplete="off">
 
-    @{
-    <input type="hidden" id="txtorigin" name="origin" value="@Model.passeengerlist.journeys[0].designator.origin" />
-    <input type="hidden" id="txtodeparture" name="departure" value="@Model.passeengerlist.journeys[0].designator.departure" />
-    <input type="hidden" id="txtdestination" name="destination" value="@Model.passeengerlist.journeys[0].designator.destination" />
-    <input type="hidden" id="txtidentifier" name="identifier" value="@Model.passeengerlist.journeys[0].segments[0].identifier.identifier" />
-    <input type="hidden" id="txtcarrierCode" name="carrierCode" value="@Model.passeengerlist.journeys[0].segments[0].identifier.carrierCode" />
-
-    int passengercount = @Model.passeengerlist.passengers.Count;
-    // int passengercount = 2;
-
-
-    foreach (var item in @Model.passeengerlist.passengers)
-    {
-    <div><label class="text-16 fw-600">@item.@item.passengerTypeCode</label></div>
-    <div class="row">
-    <div class="col-md-2">
-    <select name="Title" class="form-control" id="Value" asp-items="@ViewBag.Title"></select>
-
-    </div>
-    <div class="col-md-6">
-    <div class="form-input ">
-    <input type="hidden" id="txtpassengerkey" name="passengerkey" value="@item.passengerKey" />
-    <input type="text" name="first" id="first" required />
-    <label class="lh-1 text-16 text-light-1" name="first">first & middle name </label>
-
-
-    </div>
-    </div>
-    <div class="col-md-4">
-    <div class="form-input ">
-    <input type="text" id="last" name="last" required />
-    <label class="lh-1 text-16 text-light-1" name="last" id="last">last name</label>
-    </div>
-    </div>
-    <div class="flex-center">
-    @*<input type="submit" class="btn btn-primary" name="save" value="save">
-    <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter1">
-    Save
-    </button>
-    </div>
-    </div>
-    }
-    }
-    </form>*@
     <form asp-action="TravllerDetails" asp-controller="AATripsell" method="post">
 
         @{
@@ -77,32 +36,103 @@
                     <div class="col-md-6">
                         <div class="form-input ">
                             <input type="hidden" id="txtpassengerkey" name="passengerkey" value="@item.passengerKey" />
-                            <input type="text" name="first" id="first" required/>
+                            <input type="text" name="first" id="first" required />
                             <label class="lh-1 text-16 text-light-1" name="first">first & middle name </label>
-
-
                         </div>
+                        <div id="firstnamevalidate" style="color:red;display:none;margin-top:8px"> First name is required</div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-input ">
-                            <input type="text" id="last" name="last" required/>
+                            <input type="text" id="last" name="last" required />
                             <label class="lh-1 text-16 text-light-1" name="last" id="last">last name</label>
                         </div>
                     </div>
-                   
+
+
+                </div>
+                <div class="d-flex justify-content-end">
+                    <input type="submit" class="btn btn-primary mt-15" value="Save" id="hide" data-toggle="modal" data-target="#exampleModalCenter" />
                 </div>
             }
-            <div class="d-flex justify-content-end">
-                <input type="submit" class="btn btn-primary mt-15"  value="Save" id="hide" onclick="abc()" />
-             </div>
+            //<div class="d-flex justify-content-end">
+            //   <input type="submit" class="btn btn-primary mt-15" value="Save" id="hide"  onclick="abc()"/>
+            // </div>
         }
-    </form>   
+    </form>
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#hide").click(function (e) {
+            event.preventDefault();
+            debugger;
+            alert("New Project")
+            var first_01 = document.getElementById("first").value;
+            if (first_01 == "") {
+                document.getElementById("first").focus();
+                $("#firstnamevalidate").css("display", "block");
 
-<!-----------------Popup-Box-For Edit -Detail------------------------->
-<!-- Start Booking review popup -->
-@* <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                return false;
+            }
+            document.getElementById("firstname").innerHTML = first_01;
+
+            var last_02 = document.getElementById("last").value;
+            document.getElementById("lastname").innerHTML = last_02;
+
+
+        });
+        return false;
+    });
+
+    //*********** TravellerInfoPartialview ************//
+    function SubmitTravellerInfoo() {
+        alert("post data");
+        debugger;
+        var first = $("#first").val();
+        var last = $("#last").val();
+        var origin = $("#txtorigin").val();
+        var departure = $("#txtodeparture").val();
+        var destination = $("#txtdestination").val();
+        var identifier = $("#txtidentifier").val();
+        var carrierCode = $("#txtcarrierCode").val();
+        var passengerkey = $("#txtpassengerkey").val();
+        var title = $("#Value").val();
+        data =
+        {
+            first: first,
+            last: last,
+            origin: origin,
+            departure: departure,
+            destination: destination,
+            identifier: identifier,
+            carrierCode: carrierCode,
+            passengerkey: passengerkey,
+            title: title
+        };
+        $.ajax({
+            url: "/AATripsell/TravllerDetails",
+            type: "POST",
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            data: data,
+            success: function (data) {
+                if (data) {
+                    $('#exampleModalCenter').html(data);
+                    $('#exampleModalCenter').modal();
+                }
+            },
+            error: function (err) {
+                console.error(err);
+            }
+        });
+
+
+    }
+
+</script>
+
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content review-box">
             <div class="modal-header">
@@ -114,18 +144,22 @@
             <div class="modal-body">
                 <p class="darkText">Please ensure that the spelling of your name and other details match with your travel document/govt. ID, as these cannot be changed later. Errors might lead to cancellation penalties.</p>
                 <table class="table-4 w-1/1 mt-10">
+
                     <tbody>
+
                         <tr>
                             <td><div class="text-17 fw-600">ADULT 1</div></td>
                         </tr>
                         <tr>
                             <td>First &amp; Middle Name</td>
-                            <td><span>Ankit</span></td>
+                            <td><span id="firstname"></span></td>
+
+
                         </tr>
 
                         <tr>
                             <td>Last Name</td>
-                            <td><span>Kumar</span></td>
+                            <td><span id="lastname"></span></td>
                         </tr>
 
                         <tr>
@@ -133,6 +167,7 @@
                             <td><span>Male</span></td>
                         </tr>
                     </tbody>
+
                 </table>
 
             </div>
@@ -142,151 +177,11 @@
                     <span class="glyphicon glyphicon-ok">Edit</span>
                 </button>
 
-                <button type="button" class="btn btn-primary">Confirm</button>
+                <button type="button" class="btn btn-primary" onclick="SubmitTravellerInfoo()">Confirm</button>
             </div>
         </div>
     </div>
-</div> *@
+</div>
 
 
 
-<script>
-    function abc()
-    {
-        debugger;
-        var first = $("#first").val();
-        var last = $("#last").val();
-        data ={
-            first: first,
-            last: last
-        }
-        $.ajax({
-            url: "/AATripsell/TravllerDetails1",
-            type: "POST",
-            contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // when we use .serialize() this generates the data in query string format. this needs the default contentType (default content type is: contentType: 'application/x-www-form-urlencoded; charset=UTF-8') so it is optional, you can remove it
-            data: data,
-            // data: { "name": $("#txtName").val() },
-            success: function (data) {
-                debugger;
-              if(data != null)
-              {
-                    $("#ServiceRequestsPartialView1").html(data._ServiceRequestsPartialView1);
-               
-              }
-              else{
-                    alert('Error getting data.');
-              }
-            },
-            error: function (err) {
-                console.error(err);
-            }
-        });
-
-
-
-    }
-</script>
-
-@*
-<script src="script.js"></script>
-<script>
-    var selectedRow = null
-
-    function onFormSubmit1() {
-        debugger;
-        if (validate()) {
-            var formData = readFormData();
-
-            if (selectedRow == null)
-                insertNewRecord(formData);
-
-            else
-                updateRecord(formData);
-            resetForm();
-        }
-    }
-
-    function readFormData() {
-        debugger;
-        var formData = {};
-        formData["first"] = document.getElementById("first").value;
-        formData["last"] = document.getElementById("last").value;
-        return formData;
-    }
-
-    function insertNewRecord(data) {
-        debugger;
-        var table = document.getElementById("employeeList1").getElementsByTagName('tbody')[0];
-        var newRow = table.insertRow(table.length);
-        cell1 = newRow.insertCell(0);
-        cell1.innerHTML = data.first;
-        cell2 = newRow.insertCell(1);
-        cell2.innerHTML = data.last;
-        cell2 = newRow.insertCell(2);
-        cell2.innerHTML = `<a class="btn btn-primary"  data-dismiss="modal" onClick="onEdit1(this)">Edit</a>
-                                          <a class="btn btn-primary" data-dismiss="modal" onClick="onDelete1(this)">Confirm</a>` ;
-    }
-
-    function resetForm() {
-        debugger;
-        document.getElementById("first").value = "";
-        document.getElementById("last").value = "";
-
-        selectedRow = null;
-    }
-    function onEdit(td) {
-        debugger;
-        selectedRow = td.parentElement.parentElement;
-        document.getElementById("first").value = selectedRow.cells[0].innerHTML;
-        document.getElementById("last").value = selectedRow.cells[1].innerHTML;
-
-    }
-    function updateRecord(formData) {
-        debugger;
-        selectedRow.cells[0].innerHTML = formData.first;
-        selectedRow.cells[1].innerHTML = formData.last;
-
-    }
-
-    function onDelete(td) {
-        debugger;
-        selectedRow = td.parentElement.parentElement;
-        var first = document.getElementById("first").value = selectedRow.cells[0].innerHTML;
-        var last = document.getElementById("last").value = selectedRow.cells[1].innerHTML;
-        debugger;
-        var data =
-        {
-            first: first,
-            last: last
-        };
-        $.ajax({
-            url: "/AATripsell/TravllerDetails",
-            type: "POST",
-            contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // when we use .serialize() this generates the data in query string format. this needs the default contentType (default content type is: contentType: 'application/x-www-form-urlencoded; charset=UTF-8') so it is optional, you can remove it
-            data: data,
-            // data: { "name": $("#txtName").val() },
-            success: function (data) {
-                console.log(data);
-            },
-            error: function (err) {
-                console.error(err);
-            }
-        });
-
-    }
-    function validate() {
-        debugger;
-        isValid = true;
-        if (document.getElementById("first").value == "") {
-            isValid = false;
-            document.getElementById("firstValidationError").classList.remove("hide");
-        }
-        else {
-            isValid = true;
-            //if (!document.getElementById("emailValidationError").classList.contains("hide"))
-            // document.getElementById("emailValidationError").classList.add("hide");
-        }
-        return isValid;
-    }
-</script>
-*@
