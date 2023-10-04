@@ -75,7 +75,11 @@ function AddMeal() {
     else if (Totalprice1 != null){
         document.getElementById("amount").innerHTML = Totalprice1;
         document.getElementById("totalservice").style.display = "none";
-        document.getElementById("totalMeal").style.display = "none";   
+        document.getElementById("totalMeal").style.display = "none";
+
+        var value = Totalprice1;
+        // Store the value in localStorage
+        localStorage.setItem('myValue', value);
     }
     
 }

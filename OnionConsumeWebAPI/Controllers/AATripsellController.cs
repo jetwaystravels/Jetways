@@ -349,6 +349,7 @@ namespace OnionConsumeWebAPI.Controllers
             AirAsiaTripResponceModel passeengerKeyList = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
             int passengerscount = passeengerKeyList.passengerscount;
             string journeyKey = passeengerKeyList.journeys[0].journeyKey;
+            string legkey = passeengerKeyList.journeys[0].segments[0].legs[0].legKey;
             using (HttpClient client = new HttpClient())
                 {
                     var unitKey_1 = unitKey;

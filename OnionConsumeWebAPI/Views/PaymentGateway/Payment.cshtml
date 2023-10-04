@@ -666,7 +666,7 @@
 									<div class="text-15">Total Flight Price</div>
 								</div>
 								<div class="col-auto">
-									<div class="text-15">&#8377; 3,909</div>
+									<div class="text-15">&#8377; <span id="value-output"></span></div>
 								</div>
 							</div>
 							<div class="row y-gap-3 justify-between pb-1">
@@ -875,7 +875,16 @@
     <script src="~/js/vendor/jquery-1.11.2.min.js"></script>
     <script src="~/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
     <script src="~/js/vendor/npm.js"></script>
-
+    <script src="~/js/custom.js/customnew.js"></script>
+	<script type="text/javascript">
+		window.onload= function () {
+			debugger;
+			// Get the value from localStorage
+			var value = localStorage.getItem('myValue');
+			// Display the value on the page
+			document.getElementById("value-output").innerHTML = value;
+		};
+	</script>
 </body>
 
 </html>
