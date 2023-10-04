@@ -45,7 +45,7 @@ namespace OnionConsumeWebAPI.Controllers
                 city.Insert(0, new City { CityCode = "Select", CityName = "Select" });
             }
             ViewBag.ListofCountry = city;
-            
+
             return View();
         }
 
@@ -86,6 +86,7 @@ namespace OnionConsumeWebAPI.Controllers
                 AirAsiaLogin login = new AirAsiaLogin();
                 login.credentials = credentialsobj;
 
+                TempData["AirAsiaLogin"] = login.credentials.Image;
                 AirasiaTokan AirasiaTokan = new AirasiaTokan();
                 var AirasialoginRequest = JsonConvert.SerializeObject(login, Formatting.Indented);
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
@@ -99,6 +100,7 @@ namespace OnionConsumeWebAPI.Controllers
                     //token = ((Newtonsoft.Json.Linq.JValue)value).Value.ToString();
                 }
 
+
                 HttpContext.Session.SetString("AirasiaTokan", JsonConvert.SerializeObject(AirasiaTokan.token));
 
 
@@ -108,8 +110,8 @@ namespace OnionConsumeWebAPI.Controllers
                 _SimpleAvailabilityobj.beginDate = _GetfligthModel.beginDate;
                 _SimpleAvailabilityobj.endDate = "";
                 Codessimple _codes = new Codessimple();
-               
-                
+
+
                 List<Typesimple> _typeslist = new List<Typesimple>();
                 var AdtType = _GetfligthModel.passengercount.adulttype;
                 var AdtCount = _GetfligthModel.passengercount.adultcount;
@@ -611,7 +613,7 @@ namespace OnionConsumeWebAPI.Controllers
         public IActionResult PassengeDetails(Passengers passengers)
         {
             Passengers passengers1 = new Passengers();
-           List<_Types> types = new List<_Types>();
+            List<_Types> types = new List<_Types>();
             passengers1.types = passengers.types;
             return View();
         }

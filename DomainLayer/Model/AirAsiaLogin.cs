@@ -23,5 +23,6 @@ namespace DomainLayer.Model
         public string location { get; set; }
         public string channelType { get; set; }
         public string loginRole { get; set; }
+        public string? Image { get; set; }
     }
 }
