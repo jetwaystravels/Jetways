@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 using DomainLayer.Model;
 using DomainLayer.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -441,22 +442,26 @@ namespace OnionConsumeWebAPI.Controllers
 							Decksobj.units = compartmentsunitlist;
 						}
 
-						var groupscount = JsonObjSeatmap.data[x].fees[passengerkey12].groups;
-						int feesgroupcount = ((Newtonsoft.Json.Linq.JContainer)groupscount).Count;
+                        var groupscount = JsonObjSeatmap.data[x].fees[passengerkey12].groups;
+                        var feesgroupcount = ((Newtonsoft.Json.Linq.JContainer)groupscount).Count;
+                        string strText = Regex.Match(_responseSeatmap, @"data""[\s\S]*?fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup",
+                            RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups["data"].Value;
 
-						List<Groups> GroupsFeelist = new List<Groups>();
 
-						for (int k = 1; k <= feesgroupcount; k++)
-						{
-							Groups Groupsobj = new Groups();
-							string myString = k.ToString();
-							// x.data[0].fees["MCFBRFQ-"].groups.1
-							var group = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString];
+                        List<Groups> GroupsFeelist = new List<Groups>();
+                        foreach (Match item in Regex.Matches(strText, @"group"":(?<key>[\s\S]*?),[\s\S]*?type[\s\S]*?}"))
+                        {
 
-							//var fees = JsonObjSeatmap.data[0].fees["MCFBRFQ-"].groups[myString].fees;
-							//  Groups Groups = new Groups();
+                            Groups Groupsobj = new Groups();
+                            int myString1 = Convert.ToInt32(item.Groups["key"].Value.Trim());
+                            string myString = myString1.ToString();
+                            // x.data[0].fees["MCFBRFQ-"].groups.1
+                            var group = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString.ToString()];
 
-							GroupsFee GroupsFeeobj = new GroupsFee();
+                            //var fees = JsonObjSeatmap.data[0].fees["MCFBRFQ-"].groups[myString].fees;
+                            //  Groups Groups = new Groups();
+
+                            GroupsFee GroupsFeeobj = new GroupsFee();
 
 
 							GroupsFeeobj.type = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].type;

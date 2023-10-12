@@ -12,21 +12,23 @@
     </div>
 
 
-    <form asp-action="TravllerDetails" asp-controller="AATripsell" method="post">
-
-        @{
-            <input type="hidden" id="txtorigin" name="origin" value="@Model.passeengerlist.journeys[0].designator.origin" />
-            <input type="hidden" id="txtodeparture" name="departure" value="@Model.passeengerlist.journeys[0].designator.departure" />
-            <input type="hidden" id="txtdestination" name="destination" value="@Model.passeengerlist.journeys[0].designator.destination" />
-            <input type="hidden" id="txtidentifier" name="identifier" value="@Model.passeengerlist.journeys[0].segments[0].identifier.identifier" />
-            <input type="hidden" id="txtcarrierCode" name="carrierCode" value="@Model.passeengerlist.journeys[0].segments[0].identifier.carrierCode" />
-
-            int passengercount = @Model.passeengerlist.passengers.Count;
-            // int passengercount = 2;
+    @* <form asp-action="TravllerDetails" asp-controller="AATripsell" method="post">
 
 
-            foreach (var item in @Model.passeengerlist.passengers)
-            {
+
+    int passengercount = @Model.passeengerlist.passengers.Count;
+    // int passengercount = 2; *@
+    @{
+
+        foreach (var item in @Model.passeengerlist.passengers)
+        {
+            <form asp-action="TravllerDetails" asp-controller="AATripsell" method="post">
+                <input type="hidden" id="txtorigin" name="origin" value="@Model.passeengerlist.journeys[0].designator.origin" />
+                <input type="hidden" id="txtodeparture" name="departure" value="@Model.passeengerlist.journeys[0].designator.departure" />
+                <input type="hidden" id="txtdestination" name="destination" value="@Model.passeengerlist.journeys[0].designator.destination" />
+                <input type="hidden" id="txtidentifier" name="identifier" value="@Model.passeengerlist.journeys[0].segments[0].identifier.identifier" />
+                <input type="hidden" id="txtcarrierCode" name="carrierCode" value="@Model.passeengerlist.journeys[0].segments[0].identifier.carrierCode" />
+
                 <div><label class="text-16 fw-600">@item.passengerTypeCode</label></div>
                 <div class="row">
                     <div class="col-md-2">
@@ -50,13 +52,17 @@
 
 
                 </div>
+                @*<div class="d-flex justify-content-end">
+        <input type="submit" class="btn btn-primary mt-15" value="Save" id="hide" data-toggle="modal" data-target="#exampleModalCenter" />
+        </div>*@
                 <div class="d-flex justify-content-end">
-                    <input type="submit" class="btn btn-primary mt-15" value="Save" id="hide" data-toggle="modal" data-target="#exampleModalCenter" />
+                    <input type="submit" class="btn btn-primary mt-15" value="Save" />
                 </div>
-            }
-            
+            </form>
         }
-    </form>
+
+    }
+
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>

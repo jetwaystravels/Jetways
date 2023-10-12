@@ -6,6 +6,53 @@
 }
 <script src="~/js/custom.js/customnew.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        debugger;
+        $('input[type="checkbox"]').on('change', function () {
+            var selectedIds = [];
+            debugger;
+            $('input[type="checkbox"]:checked').each(function () {
+
+                //selectedIds.push($(this).attr('id'));
+                selectedIds.push($(this).val());
+            });
+            var input = document.getElementsByName("unitKey");
+            var total = 0;
+            for (var i = 0; i < input.length; i++) {
+                if (input[i].checked) {
+                    total += parseInt(input[i].value);
+                }
+            }
+            document.getElementById("total").value = total.toFixed(2);
+            var one = document.getElementById("Totalamount").value;
+            var two = document.getElementById("total").value;
+            AddMeal();
+
+            $.ajax({
+                url: "/AATripsell/PostUnitkey",
+                type: "POST",
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                data: { selectedIds: selectedIds },
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (err) {
+                    console.error(err);
+                }
+            });
+
+
+        });
+
+    });
+
+
+
+
+
+
+</script>
 <div class="flight-box-content rounded-4">
     <div class="tabs -pills-3 js-tabs">
         <div class="tabs__controls row x-gap-10 y-gap-10 js-tabs-controls bdr-btm">

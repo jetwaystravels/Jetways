@@ -334,10 +334,8 @@ namespace OnionConsumeWebAPI.Controllers
 
             return RedirectToAction("Tripsell", "AATripsell");
         }
-        public async Task<IActionResult> PostUnitkey(string unitKey, string passengerkey)
+        public async Task<IActionResult> PostUnitkey(List<string> selectedIds)
         {
-
-            
             string tokenview = HttpContext.Session.GetString("AirasiaTokan");
             token = tokenview.Replace(@"""", string.Empty);
             if (token == "" || token == null)
@@ -348,36 +346,46 @@ namespace OnionConsumeWebAPI.Controllers
             string passenger = HttpContext.Session.GetString("keypassenger");
             AirAsiaTripResponceModel passeengerKeyList = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
             int passengerscount = passeengerKeyList.passengerscount;
-            string journeyKey = passeengerKeyList.journeys[0].journeyKey;
+            //string journeyKey = passeengerKeyList.journeys[0].journeyKey;
             string legkey = passeengerKeyList.journeys[0].segments[0].legs[0].legKey;
-            using (HttpClient client = new HttpClient())
-                {
-                    var unitKey_1 = unitKey;
 
-                    #region SeatAssignment
-                    string[] unitKey2 = unitKey_1.Split('_');
+            for (int i = 0; i < passengerscount; i++)
+            {
+                var passengerkey = passeengerKeyList.passengers[i].passengerKey;
+
+                using (HttpClient client = new HttpClient())
+                {
+                    string unitKey1 = selectedIds[i];
+                    string journeyKey = passeengerKeyList.journeys[0].journeyKey;
+                    //#region SeatAssignment
+                    string[] unitKey2 = unitKey1.Split('_');
                     string pas_unitKey = unitKey2[1];
                     SeatAssignmentModel _SeatAssignmentModel = new SeatAssignmentModel();
                     _SeatAssignmentModel.journeyKey = journeyKey;
+
                     var jsonSeatAssignmentRequest = JsonConvert.SerializeObject(_SeatAssignmentModel, Formatting.Indented);
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                    HttpResponseMessage responceSeatAssignment = await client.PostAsJsonAsync(BaseURL + "/api/nsk/v2/booking/passengers/" + passengerkey + "/seats/" + pas_unitKey, _SeatAssignmentModel);
+                    HttpResponseMessage responceSeatAssignment = await client.PostAsJsonAsync(BaseURL + "/api/nsk/v2/booking/passengers/" + passengerkey[i] + "/seats/" + pas_unitKey, _SeatAssignmentModel);
                     if (responceSeatAssignment.IsSuccessStatusCode)
                     {
                         var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
                         var JsonObjSeatAssignment = JsonConvert.DeserializeObject<dynamic>(_responseSeatAssignment);
                     }
-                    #endregion
+                    //  #endregion
 
-                }          
-           
-               
+                }
 
-            
+            }
+            //string journeyKey = passeengerKeyList.journeys[0].journeyKey;
+            //string legkey = passeengerKeyList.journeys[0].segments[0].legs[0].legKey;
+
+
+
             return RedirectToAction("Tripsell", "AATripsell");
+
         }
-       
+
         public async Task<IActionResult> PostMeal(legpassengers legpassengers)
         {
             using (HttpClient client = new HttpClient())

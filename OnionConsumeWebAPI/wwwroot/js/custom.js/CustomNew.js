@@ -1,14 +1,9 @@
 ﻿
 
 //var input = document.getElementsByName("unitKey");
-//var total = 0;
-//for (var i = 0; i < input.length; i++) {
-//    if (input[i].checked) {
-//        total += parseInt(input[i].value);
-//    }
-//}
 
-    window.myfun= function() {
+
+    window.myfun111= function() {
         debugger;
         var input = document.getElementsByName("unitKey");
         
@@ -24,12 +19,7 @@
     var one = document.getElementById("Totalamount").value;
     var two = document.getElementById("total").value;
       
-      //var Totalprice = parseInt(one) + parseInt(two);
-      //  alert(Totalprice);
-      //  document.getElementById("amount01").innerHTML = Totalprice;
-       
-    /*$("#amount").text(Totalprice);*/
-        //document.getElementById("Totalprice").value = Totalprice;    
+         
         AddMeal();
     var unitKey = $("#unitKey").val();
     var passengerkey = $("#passengerkey").val();
