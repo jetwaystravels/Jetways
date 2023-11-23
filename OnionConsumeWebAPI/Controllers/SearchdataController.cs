@@ -166,7 +166,7 @@ namespace OnionConsumeWebAPI.Controllers
                     AirAsiaTripSellRequest _AirAsiaTripSell = new AirAsiaTripSellRequest();
                     _AirAsiaTripSell.preventOverlap = true;
                     _AirAsiaTripSell.suppressPassengerAgeValidation = true;
-                    _AirAsiaTripSell.infantCount = 0;
+                   // _AirAsiaTripSell.infantCount = 0;
                     _AirAsiaTripSell.passengers = passengers;
                     _AirAsiaTripSell.currencyCode = "INR";
                     _Key _Key = new _Key();

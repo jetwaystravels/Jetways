@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//using static DomainLayer.Model.PassengersModel;
+using static DomainLayer.Model.PassengersModel;
 using static DomainLayer.Model.ContactModel;
 
 namespace DomainLayer.Model

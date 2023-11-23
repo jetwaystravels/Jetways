@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+//using static DomainLayer.Model.testseat;
 
 namespace DomainLayer.Model
 {
@@ -24,7 +25,6 @@ namespace DomainLayer.Model
         public object receivedBy { get; set; }
         public AAContacts contacts { get; set; }
         public string passengerKey { get; set; }
-       
 
         public List<AAPassengers> passengers { get; set; }
         public int passengerscount { get; set; }
@@ -35,28 +35,14 @@ namespace DomainLayer.Model
         public object[] payments { get; set; }
 
         public object[] orders { get; set; }
-
-
-
         public AAJourneytotals Journeytotals { get; set; }
-
         public passkeytype passkeytype { get; set; }
-
         public AADesignator designator { get; set; }
-
         public AAIdentifier Identifier { get; set; }
-
-
-
         public List<AADesignator> designatorlegs { get; set; }
-
         public List<AASsr> Ssr { get; set; }
 
-
-
-
     }
-
 
     public class AAJourney
     {
@@ -68,17 +54,13 @@ namespace DomainLayer.Model
         public string journeyKey { get; set; }
         public bool notForGeneralUser { get; set; }
     }
-
     public class AADesignator
     {
         public string destination { get; set; }
         public string origin { get; set; }
-        public DateTime arrival { get; set; }
-        public DateTime departure { get; set; }
-
-
+        public string arrival { get; set; }
+        public string departure { get; set; }
     }
-
     public class AASegment
     {
         public bool isStandby { get; set; }
@@ -315,12 +297,46 @@ namespace DomainLayer.Model
         public object discountCode { get; set; }
         public object[] bags { get; set; }
         public object program { get; set; }
-        public object infant { get; set; }
+        public Infant infant { get; set; }
         public AAInfo1 info { get; set; }
         public object[] travelDocuments { get; set; }
         public object[] addresses { get; set; }
         public int weightCategory { get; set; }
         public object[] emdCoupons { get; set; }
+    }
+    public class Infant
+    {
+        public List<Fee> fees { get; set; }
+        public object nationality { get; set; }
+        public string dateOfBirth { get; set; }
+        public object travelDocuments { get; set; }
+        public object residentCountry { get; set; }
+        public int gender { get; set; }
+        public object name { get; set; }
+        public object type { get; set; }
+        public int total { get; set; }
+        public int taxes { get; set; }
+        public object adjustments { get; set; }
+        //public List<Charge> charges { get; set; }
+    }
+    public class Fee
+    {
+        public int type { get; set; }
+        public object ssrCode { get; set; }
+        public int ssrNumber { get; set; }
+        public int paymentNumber { get; set; }
+        public bool isConfirmed { get; set; }
+        public bool isConfirming { get; set; }
+        public bool isConfirmingExternal { get; set; }
+        public string code { get; set; }
+        public object detail { get; set; }
+        public string passengerFeeKey { get; set; }
+        public bool _override { get; set; }
+        public string flightReference { get; set; }
+        public object note { get; set; }
+        public DateTime createdDate { get; set; }
+        public bool isProtected { get; set; }
+        //public Servicecharge[] serviceCharges { get; set; }
     }
 
     public class AAInfo1
@@ -331,27 +347,17 @@ namespace DomainLayer.Model
         public object dateOfBirth { get; set; }
         public object familyNumber { get; set; }
     }
-
-
-
-
-
-
     public class AADesignator1
     {
         public string destination { get; set; }
         public string origin { get; set; }
-        public DateTime arrival { get; set; }
-        public DateTime departure { get; set; }
+        public string arrival { get; set; }
+        public string departure { get; set; }
     }
-
-
-
     public class AAPassengersegment
     {
         public AAMCFBRFQ2 MCFBRFQ { get; set; }
     }
-
     public class AAMCFBRFQ2
     {
         public object[] seats { get; set; }
@@ -385,7 +391,6 @@ namespace DomainLayer.Model
         public int travelClass { get; set; }
         public object[] advancedPreferences { get; set; }
     }
-
     public class AAFare
     {
         public bool isGoverning { get; set; }
@@ -418,7 +423,6 @@ namespace DomainLayer.Model
         public object fareDiscountCode { get; set; }
         public string passengerType { get; set; }
     }
-
     public class AAServicecharge
     {
         public int amount { get; set; }
@@ -431,9 +435,6 @@ namespace DomainLayer.Model
         public int foreignAmount { get; set; }
         public string ticketCode { get; set; }
     }
-
-
-
     public class AADesignator2
     {
         public string destination { get; set; }

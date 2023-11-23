@@ -108,7 +108,7 @@ namespace OnionConsumeWebAPI.Controllers
                 _SimpleAvailabilityobj.origin = _GetfligthModel.origin;
                 _SimpleAvailabilityobj.destination = _GetfligthModel.destination;
                 _SimpleAvailabilityobj.beginDate = _GetfligthModel.beginDate;
-                _SimpleAvailabilityobj.endDate = "";
+                _SimpleAvailabilityobj.endDate = "2023-12-20";//_GetfligthModel.endDate;
                 Codessimple _codes = new Codessimple();
 
 
@@ -157,11 +157,14 @@ namespace OnionConsumeWebAPI.Controllers
                 _SimpleAvailabilityobj.promotionCode = "";
                 string[] sortOptions = new string[1];
                 sortOptions[0] = "ServiceType";
-                string[] fareTypes = new string[1];
+                string[] fareTypes = new string[2];
                 fareTypes[0] = "R";
-                string[] productClasses = new string[2];
+                fareTypes[1] = "M";
+
+                string[] productClasses = new string[3];
                 productClasses[0] = "EC";
                 productClasses[1] = "HF";
+                productClasses[2] = "EP";
                 Filters Filters = new Filters();
                 Filters.exclusionType = "Default";
                 Filters.loyalty = "MonetaryOnly";
@@ -196,11 +199,14 @@ namespace OnionConsumeWebAPI.Controllers
                     var JsonObj = JsonConvert.DeserializeObject<dynamic>(results);
                     // var value = JsonObj.data.token;
                     //var value = JsonObj.data.results[0].trips[0].date;
-                    //  var oriDes = _GetfligthModel.origin + "|" + _GetfligthModel.destination;
+                     var oriDes = _GetfligthModel.origin + "|" + _GetfligthModel.destination;
+                   
+                   
+
+                    
                     var finddate = JsonObj.data.results[0].trips[0].date;
                     var bookingdate = finddate.ToString("dddd, dd MMMM yyyy");
 
-                    string oriDes = _SimpleAvailabilityobj.origin + "|" + _SimpleAvailabilityobj.destination;
 
 
                     int count = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes].Count;
@@ -335,7 +341,7 @@ namespace OnionConsumeWebAPI.Controllers
                         }
                     }
 
-
+                    
                 }
                 TempData["Mymodel"] = JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist);
                 TempData["PassengerModel"] = JsonConvert.SerializeObject(_SimpleAvailabilityobj);

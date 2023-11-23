@@ -6,6 +6,11 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <!--<ItemGroup>
+    <Compile Remove="Model\AddInFantModel.cs" />
+    <Compile Remove="Model\GetItenaryModel.cs" />
+  </ItemGroup>-->
+
   <ItemGroup>
     <Folder Include="DTO\" />
   </ItemGroup>

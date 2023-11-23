@@ -67,51 +67,56 @@ namespace OnionConsumeWebAPI.Controllers
                     string BaseURL1 = "http://localhost:5225/";
                     var _responceGetBooking = responceGetBooking.Content.ReadAsStringAsync().Result;
                     var JsonObjGetBooking = JsonConvert.DeserializeObject<dynamic>(_responceGetBooking);
-                    TicketBooking ticketBooking01 = new TicketBooking();
+                    
+                        TicketBooking ticketBooking01 = new TicketBooking();                 
+                        ticketBooking01.guestBooking = "Travel Mode";
+                        ticketBooking01.Title = JsonObjGetBooking.data.contacts.P.name.title;
+                        ticketBooking01.phoneNumber = JsonObjGetBooking.data.contacts.P.phoneNumbers[0].number;
+                        ticketBooking01.bookingDateTime = JsonObjGetBooking.data.info.bookedDate;
+                        ticketBooking01.Class = "Economics";
+                        ticketBooking01.airLines = "Air Asia";
+                        ticketBooking01.passengerName = JsonObjGetBooking.data.contacts.P.name.first;
+                        ticketBooking01.emailId = JsonObjGetBooking.data.contacts.P.emailAddress;
+                        ticketBooking01.seatNumber = "1A";
+                        ticketBooking01.desination = JsonObjGetBooking.data.journeys[0].segments[0].designator.destination;
+                        ticketBooking01.arrival = JsonObjGetBooking.data.journeys[0].segments[0].designator.arrival;
+                        ticketBooking01.departure = JsonObjGetBooking.data.journeys[0].segments[0].designator.departure;
+                        ticketBooking01.identifier = JsonObjGetBooking.data.journeys[0].segments[0].identifier.identifier;
+                        ticketBooking01.carrierCode = JsonObjGetBooking.data.journeys[0].segments[0].identifier.carrierCode;
+                        ticketBooking01.origin = JsonObjGetBooking.data.journeys[0].segments[0].legs[0].designator.origin;
+                        ticketBooking01.taxex = JsonObjGetBooking.data.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[1].amount;
+                        ticketBooking01.price = JsonObjGetBooking.data.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[0].amount;
+                        ticketBooking01.desinationTerminal = JsonObjGetBooking.data.journeys[0].segments[0].legs[0].legInfo.departureTerminal;
+                        ticketBooking01.sourceTerminal = JsonObjGetBooking.data.journeys[0].segments[0].legs[0].legInfo.arrivalTerminal;
+                        ticketBooking01.airlinePNR = JsonObjGetBooking.data.recordLocator;
+                        ticketBooking01.bookingStatus = "Confirmed";
+                        ticketBooking01.bookingReferenceNumber = JsonObjGetBooking.data.bookingKey;
+                        ticketBooking01.response = _responceGetBooking;
 
-                    ticketBooking01.guestBooking = "Travel Mode";
-                    ticketBooking01.Title = JsonObjGetBooking.data.contacts.P.name.title;
-                    ticketBooking01.phoneNumber = JsonObjGetBooking.data.contacts.P.phoneNumbers[0].number;
-                    ticketBooking01.bookingDateTime = JsonObjGetBooking.data.info.bookedDate;
-                    ticketBooking01.Class = "Economics";
-                    ticketBooking01.airLines = "Air Asia";
-                    ticketBooking01.passengerName = JsonObjGetBooking.data.contacts.P.name.first;
-                    ticketBooking01.emailId = JsonObjGetBooking.data.contacts.P.emailAddress;
-                    ticketBooking01.seatNumber = "1A";
-                    ticketBooking01.desination = JsonObjGetBooking.data.journeys[0].segments[0].designator.destination;
-                    ticketBooking01.arrival = JsonObjGetBooking.data.journeys[0].segments[0].designator.arrival;
-                    ticketBooking01.departure = JsonObjGetBooking.data.journeys[0].segments[0].designator.departure;
-                    ticketBooking01.identifier = JsonObjGetBooking.data.journeys[0].segments[0].identifier.identifier;
-                    ticketBooking01.carrierCode = JsonObjGetBooking.data.journeys[0].segments[0].identifier.carrierCode;
-                    ticketBooking01.origin = JsonObjGetBooking.data.journeys[0].segments[0].legs[0].designator.origin;
-                    ticketBooking01.taxex = JsonObjGetBooking.data.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[1].amount;
-                    ticketBooking01.price = JsonObjGetBooking.data.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[0].amount;
-                    ticketBooking01.desinationTerminal = JsonObjGetBooking.data.journeys[0].segments[0].legs[0].legInfo.departureTerminal;
-                    ticketBooking01.sourceTerminal = JsonObjGetBooking.data.journeys[0].segments[0].legs[0].legInfo.arrivalTerminal;
-                    ticketBooking01.airlinePNR = JsonObjGetBooking.data.recordLocator;
-                    ticketBooking01.bookingStatus = "Confirmed";
-                    ticketBooking01.bookingReferenceNumber = JsonObjGetBooking.data.bookingKey;
-                    ticketBooking01.response = _responceGetBooking;
+                        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                        HttpResponseMessage responsePassengers = await client.PostAsJsonAsync(BaseURL1 + "api/TicketBooking/GetTicketBooking", ticketBooking01);
+                        if (responsePassengers.IsSuccessStatusCode)
+                        {
+                            var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
+                        }
 
-                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                    HttpResponseMessage responsePassengers = await client.PostAsJsonAsync(BaseURL1 + "api/TicketBooking/GetTicketBooking", ticketBooking01);
-                    if (responsePassengers.IsSuccessStatusCode)
-                    {
-                        var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
-                    }
-                    GSTDetails details = new GSTDetails();
-                    details.bookingReferenceNumber = JsonObjGetBooking.data.bookingKey;
-                    details.airLinePNR = JsonObjGetBooking.data.recordLocator;
-                    details.GSTNumber = JsonObjGetBooking.data.contacts.G.customerNumber;
-                    details.GSTName = JsonObjGetBooking.data.contacts.G.companyName;
-                    details.GSTEmail = JsonObjGetBooking.data.contacts.G.emailAddress;
-                    details.status = 1;
-                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                    HttpResponseMessage responsePassengers1 = await client.PostAsJsonAsync(BaseURL1 + "api/GSTDetails/GetGstDetails", details);
-                    if (responsePassengers1.IsSuccessStatusCode)
-                    {
-                        var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
-                    }
+                        GSTDetails details = new GSTDetails();
+                        if (details.Id != null)
+                        {
+                            details.bookingReferenceNumber = JsonObjGetBooking.data.bookingKey;
+                            details.airLinePNR = JsonObjGetBooking.data.recordLocator;
+                            details.GSTNumber = JsonObjGetBooking.data.contacts.G.customerNumber;
+                            details.GSTName = JsonObjGetBooking.data.contacts.G.companyName;
+                            details.GSTEmail = JsonObjGetBooking.data.contacts.G.emailAddress;
+                            details.status = 1;
+                            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                            HttpResponseMessage responsePassengers1 = await client.PostAsJsonAsync(BaseURL1 + "api/GSTDetails/GetGstDetails", details);
+                            if (responsePassengers1.IsSuccessStatusCode)
+                            {
+                                var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
+                            }
+                        }
+                    
 
                 }
 

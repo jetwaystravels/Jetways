@@ -10,9 +10,13 @@ namespace DomainLayer.ViewModel
 	public class ViewModel
 	{
 		public AirAsiaTripResponceModel passeengerlist { set; get; }
-		public SeatMapResponceModel Seatmaplist { set; get; }
+        public AirAsiaTripResponceModel passeengerlistItanary { set; get; }
+
+        public SeatMapResponceModel Seatmaplist { set; get; }
 
 		public SSRAvailabiltyResponceModel Meals { set; get; }
+
+
 
 
 	}

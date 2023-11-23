@@ -194,15 +194,14 @@
                         </div>
                         <partial name="_TravellingBebefitPartialView.cshtml" />
                     </div>
-                   @* <form asp-action="PostUnitkey" asp-controller="AATripsell" method="post">*@
-                    <div id="show" class="row x-gap-20 y-gap-20 mt-30 bg-white service-section" @* id="deepa" *@>
+                    <form asp-action="PostUnitkey" asp-controller="AATripsell" method="post">
+                    <div id="show" class="row x-gap-20 y-gap-20 mt-30 bg-white service-section">
                             <h2 class="text-22 fw-600 md:mt-20 ">Service Requests <span class="text-18">(Optional)</span></h2>
                             @* <partial name="_ServiceRequestsPartialView.cshtml" /> *@
                         <div class="seathide" style="display: none;">
                             <partial name="_ServiceRequestsPartialView.cshtml" />
                         </div>
-                        </div>
-                  @*  </form>*@
+                        </div>                
 
 
                     <div id="show2" class="row x-gap-20 y-gap-20 mt-30 tl-ince">
@@ -216,21 +215,20 @@
                             <h2 class="text-22 fw-600 md:mt-20 ">Add-ons <span class="text-18">(Recommended)</span></h2>
                             <div class="flight-box-content rounded-4" style="display:none;"></div>
                         </div>
-                        <form>
+                       @*  <form>
                              <div class="row x-gap-20 y-gap-20 mt-30 bg-white">
                              <input type="submit" asp-action="Payment" asp-controller="PaymentGateway" value="Proceed to payment" class="btn btn-primary btn-lg">
 
                         </div>
-                        </form>
+                        </form> *@
 
                        
-                        @*<div class="row x-gap-20 y-gap-20 mt-30 bg-white">
-                            <input type="submit" class="btn btn-btn-primary" value="Proceed to payment"  />
-                        </div>*@
-                   
+                        <div class="row x-gap-20 y-gap-20 mt-30 bg-white">
+                            <input type="submit" class="btn btn-btn-primary" value="Continue"  />
+                        </div>
+                    </form>                 
 
                 </div>
-
 
                 <div class="col-xl-4 col-lg-4">
                     <partial name="_FareDetailsPartialView.cshtml" />

@@ -1,35 +1,52 @@
-﻿@{
+﻿@model DomainLayer.ViewModel.ViewModel
+@{
     Layout = null;
 
 }
-
 <div class="py-15 px-20 rounded-4 text-15 bg-blue-1-05">
     <label class="text-18 fw-600">Traveller Information</label>
 
     <div class="mb-3">
         <span class="text-primary fw-600">Important Note:</span>
-        <span>Please ensure that the names of the passengers on the travel documents is the same as on their government issued identity proof.</span>
+        <span id="contactfocus">Please ensure that the names of the passengers on the travel documents is the same as on their government issued identity proof.</span>
     </div>
+    <form asp-action="TravllerDetails" asp-controller="AATripsell" method="post" id="passengerForm">
 
-
-    @* <form asp-action="TravllerDetails" asp-controller="AATripsell" method="post">
-
-
-
-    int passengercount = @Model.passeengerlist.passengers.Count;
-    // int passengercount = 2; *@
-    @{
-
-        foreach (var item in @Model.passeengerlist.passengers)
+        @for (var i = 0; i < Model.passeengerlist.passengers.Count; i++)
         {
-            <form asp-action="TravllerDetails" asp-controller="AATripsell" method="post">
-                <input type="hidden" id="txtorigin" name="origin" value="@Model.passeengerlist.journeys[0].designator.origin" />
-                <input type="hidden" id="txtodeparture" name="departure" value="@Model.passeengerlist.journeys[0].designator.departure" />
-                <input type="hidden" id="txtdestination" name="destination" value="@Model.passeengerlist.journeys[0].designator.destination" />
-                <input type="hidden" id="txtidentifier" name="identifier" value="@Model.passeengerlist.journeys[0].segments[0].identifier.identifier" />
-                <input type="hidden" id="txtcarrierCode" name="carrierCode" value="@Model.passeengerlist.journeys[0].segments[0].identifier.carrierCode" />
-
-                <div><label class="text-16 fw-600">@item.passengerTypeCode</label></div>
+            <input type="hidden" name="passengers[@i].origin" value="@Model.passeengerlist.journeys[0].designator.origin" />
+            <input type="hidden" name="passengers[@i].departure" value="@Model.passeengerlist.journeys[0].designator.departure" />
+            <input type="hidden" name="passengers[@i].destination" value="@Model.passeengerlist.journeys[0].designator.destination" />
+            <input type="hidden" name="passengers[@i].identifier" value="@Model.passeengerlist.journeys[0].segments[0].identifier.identifier" />
+            <input type="hidden" name="passengers[@i].carrierCode" value="@Model.passeengerlist.journeys[0].segments[0].identifier.carrierCode" />
+            @if (Model.passeengerlist.passengers[@i].passengerTypeCode != null)
+            {
+                <div><label class="text-16 fw-600">@Model.passeengerlist.passengers[i].passengerTypeCode</label></div>
+                <input type="hidden" id="passengerTypeCode" name="passengerdetails[@i].passengertypecode" value="@Model.passeengerlist.passengers[i].passengerTypeCode" />
+                <div class="row">
+                    <div class="col-md-2">
+                        <select name="passengerdetails[@i].Title" class="form-control" asp-items="@ViewBag.Title" id="title"></select>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-input">
+                            <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlist.passengers[i].passengerKey" required />
+                            <input type="text" name="passengerdetails[@i].First" id="first" required />
+                            <label class="lh-1 text-16 text-light-1">First & middle name</label>
+                        </div>
+                        <div style="color:red; display:none; margin-top:8px">First name is required</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-input">
+                            <input type="text" name="passengerdetails[@i].Last" id="last" required />
+                            <label class="lh-1 text-16 text-light-1">Last name</label>
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (Model.passeengerlistItanary.passengers[@i].infant != null)
+            {
+                <div><label class="text-16 fw-600">@Model.passeengerlistItanary.passengers[@i].infant.fees[0].code</label></div>
+                <input type="hidden" id="code" name="infanttype[@i].code" value="@Model.passeengerlistItanary.passengers[@i].infant.fees[0].code" />
                 <div class="row">
                     <div class="col-md-2">
                         <select name="Title" class="form-control" id="Value" asp-items="@ViewBag.Title"></select>
@@ -37,155 +54,179 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-input ">
-                            <input type="hidden" id="txtpassengerkey" name="passengerkey" value="@item.passengerKey" />
-                            <input type="text" name="first" id="first" required />
-                            <label class="lh-1 text-16 text-light-1" name="first">first & middle name </label>
+                            <input type="hidden" name="infanttype[@i].passengerkey" value="@Model.passeengerlistItanary.passengers[i].passengerKey" />
+                            <input type="text" name="infanttype[@i].First" id="FirstName" />
+                            <label class="lh-1 text-16 text-light-1">first & middle name </label>
                         </div>
                         <div id="firstnamevalidate" style="color:red;display:none;margin-top:8px"> First name is required</div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-input ">
-                            <input type="text" id="last" name="last" required />
-                            <label class="lh-1 text-16 text-light-1" name="last" id="last">last name</label>
+                            <input type="text" name="infanttype[@i].Last" id="Lastname" />
+                            <label class="lh-1 text-16 text-light-1">last name</label>
                         </div>
                     </div>
-
-
                 </div>
-                @*<div class="d-flex justify-content-end">
-        <input type="submit" class="btn btn-primary mt-15" value="Save" id="hide" data-toggle="modal" data-target="#exampleModalCenter" />
-        </div>*@
-                <div class="d-flex justify-content-end">
-                    <input type="submit" class="btn btn-primary mt-15" value="Save" />
-                </div>
-            </form>
+            }
+
         }
-
-    }
+        <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-primary mt-15" id="showReviewPopupAsia01">Save</button>
+        </div>
+    </form>
 
 </div>
 
+
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script type="text/javascript">
+<!-- Include Bootstrap JavaScript -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+    .modal-body p {
+        border-radius: 6px;
+        box-shadow: 0 0 10px 0 rgb(0 0 0 / 9%);
+        border: 1px solid #E4E3E1;
+        padding: 8px;
+        margin-bottom: 10px;
+    }
+</style>
+@* <script>
     $(document).ready(function () {
-        $("#hide").click(function (e) {
-            event.preventDefault();
+
+        $("#showReviewPopupAsia01").click(function () {
             debugger;
-            alert("New Project")
-            var first_01 = document.getElementById("first").value;
-            if (first_01 == "") {
-                document.getElementById("first").focus();
-                $("#firstnamevalidate").css("display", "block");
-
-                return false;
-            }
-            document.getElementById("firstname").innerHTML = first_01;
-
-            var last_02 = document.getElementById("last").value;
-            document.getElementById("lastname").innerHTML = last_02;
-
+            var formData = $('#multipleValuesForm').serialize();
+            $.ajax({
+                url: '/AATripsell/Travllerdetails',
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    // Handle success response
+                    console.log(response);
+                },
+                error: function (error) {
+                    // Handle error
+                    console.error(error);
+                }
+            });
 
         });
-        return false;
+
     });
 
-    //*********** TravellerInfoPartialview ************//
-    function SubmitTravellerInfoo() {
-        alert("post data");
-        debugger;
-        var first = $("#first").val();
-        var last = $("#last").val();
-        var origin = $("#txtorigin").val();
-        var departure = $("#txtodeparture").val();
-        var destination = $("#txtdestination").val();
-        var identifier = $("#txtidentifier").val();
-        var carrierCode = $("#txtcarrierCode").val();
-        var passengerkey = $("#txtpassengerkey").val();
-        var title = $("#Value").val();
-        data =
-        {
-            first: first,
-            last: last,
-            origin: origin,
-            departure: departure,
-            destination: destination,
-            identifier: identifier,
-            carrierCode: carrierCode,
-            passengerkey: passengerkey,
-            title: title
-        };
-        $.ajax({
-            url: "/AATripsell/TravllerDetails",
-            type: "POST",
-            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-            data: data,
-            success: function (data) {
-                if (data) {
-                    $('#exampleModalCenter').html(data);
-                    $('#exampleModalCenter').modal();
-                }
-            },
-            error: function (err) {
-                console.error(err);
-            }
+</script> *@
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        function showForm() {
+            // Show the form
+            $('#passengerForm').show();
+
+            // Hide the modal
+            //$('#dataPopup').modal('hide');
+        }
+
+        // $("#enteredData").on("click", "#editData", function () {
+        //     // Show the form and hide the modal
+        //     showForm();
+        // });
+        $("#editData").click(function () {
+            debugger;
+            $("#dataPopup").hide();
+            //$('#passengerForm').show();
+            //$("#contactfocus").focus();
+            //$("#dataPopup").fadeOut();
         });
 
+        $("#showReviewPopupAsia01").click(function (e) {
+            e.preventDefault(); // Prevent the form from submitting
+            var enteredData = "";
+            debugger;
+            for (var i = 0; i < @Model.passeengerlist.passengers.Count; i++) {
+                var firstName = $("input[name='passengerdetails[" + i + "].First']").val();
+                var lastName = $("input[name='passengerdetails[" + i + "].Last']").val();
+                var title = $("select[name='passengerdetails[" + i + "].Title']").val();
+                var Passengertypecode = $("input[name='passengerdetails[" + i + "].passengertypecode']").val();
 
-    }
+                if (Passengertypecode == "ADT") { Passengertypecode = "Adult"; }
+                if (Passengertypecode == "CHD") { Passengertypecode = "Child"; }
+                //if (Passengertypecode == "INFT") { Passengertypecode = "Infant"; }
+                enteredData += "<p><strong>Passenger " + (i + 1) + ": (" + Passengertypecode + ")</strong><br>";
+                enteredData += "Title: " + title + "<br>";
+                enteredData += "First Name: " + firstName + "<br>";
+                enteredData += "Last Name: " + lastName + "</p>";
+
+            }
+            for (var j = 0; j < @Model.passeengerlistItanary.passengers.Count; j++) {
+                var firstName = $("input[name='infanttype[" + j + "].First']").val();
+                var lastName = $("input[name='infanttype[" + j + "].Last']").val();
+                var title = $("select[name='infanttype[" + j + "].Title']").val();
+                var Code = $("input[name='infanttype[" + j + "].code']").val();
+
+                if (Code == "INFT") { Code = "Infant"; }
+
+                enteredData += "<p><strong>PassengerInfant " + (j + 1) + ": (" + Code + ")</strong><br>";
+                enteredData += "Title: " + title + "<br>";
+                enteredData += "First Name: " + firstName + "<br>";
+                enteredData += "Last Name: " + lastName + "</p>";
+            }
+
+            $("#enteredData").html(enteredData);
+            // Show the popup
+            $('#dataPopup').modal('show');
+
+            // Hide the form
+            //$('#passengerForm').hide();
+        });
+        $("#ContinueData").click(function () {
+            $('#passengers_id').hide(); //Contact Details Div Hide
+            var formData = new FormData($("#passengerForm")[0]);
+            $.ajax({
+                url: "/AATripsell/Travllerdetails",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    // Handle the response from the server if needed
+                },
+                error: function (error) {
+                    // Handle any errors here
+                }
+            });
+        });
+
+    });
 
 </script>
-
-
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content review-box">
+<div class="modal fade" id="dataPopup" tabindex="-1" role="dialog" aria-labelledby="dataPopupLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content pb-3">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">Review Details</h5>
+                <h5 class="modal-title" id="dataPopupLabel">Please review your details to ensure accuracy.</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <p class="darkText">Please ensure that the spelling of your name and other details match with your travel document/govt. ID, as these cannot be changed later. Errors might lead to cancellation penalties.</p>
-                <table class="table-4 w-1/1 mt-10">
-
-                    <tbody>
-
-                        <tr>
-                            <td><div class="text-17 fw-600">ADULT 1</div></td>
-                        </tr>
-                        <tr>
-                            <td>First &amp; Middle Name</td>
-                            <td><span id="firstname"></span></td>
-
-
-                        </tr>
-
-                        <tr>
-                            <td>Last Name</td>
-                            <td><span id="lastname"></span></td>
-                        </tr>
-
-                        <tr>
-                            <td>Gender</td>
-                            <td><span>Male</span></td>
-                        </tr>
-                    </tbody>
-
-                </table>
+            <div class="modal-body" id="enteredData">
+                <!-- Display the entered data here -->
 
             </div>
-            <div class="modal-footer">
-
-                <button class="btn btn-primary" data-dismiss="modal" type="button">
-                    <span class="glyphicon glyphicon-ok">Edit</span>
-                </button>
-
-                <button type="button" class="btn btn-primary" onclick="SubmitTravellerInfoo()">Confirm</button>
+            <div class="d-flex justify-content-end">
+                <div class="editbtn me-3">
+                    <button type="button" data-dismiss="modal" class="btn btn-primary w-20" id="editData">Edit</button>
+                </div>
+                <div class="countibtn me-3">
+                    <button type="button" data-dismiss="modal" class="btn btn-primary w-20" id="ContinueData">Continue</button>
+                </div>
             </div>
+
         </div>
     </div>
 </div>
-
-
 
