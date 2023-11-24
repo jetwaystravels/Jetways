@@ -161,15 +161,15 @@
                             <div class="search-box">
                                 <div class="S-option">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="Radios" value="option1" checked>
+                                        <input class="form-check-input" type="radio" name="Radio1" value="OneWay" id="one-wayid" checked>
                                         <label class="form-check-label">One way</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="Radio" value="option2">
+                                        <input class="form-check-input" type="radio" name="Radio2" value="RoundTrip" id="round-tripid">
                                         <label class="form-check-label">Round Trip</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="Radio" value="option2">
+                                        <input class="form-check-input" type="radio" name="Radio3" value="MultiCity" id="multi-cityid">
                                         <label class="form-check-label">Multi City</label>
                                     </div>
                                     <div class="custom-control-inline float-right"><h5 style="font-weight:500;">Book Flight Tickets</h5></div>
@@ -208,10 +208,15 @@
                                             </div>
                                             <div class="col-12 col-md-10 col-lg-2 space">
                                                 <label>Return</label>
-                                                <span class="input-group-text" id="basic-addon1">
+                                                <span class="input-group-text">
                                                     <img src="~/img/calender-icon.png" alt="icon">
-                                                    <input id="Return-date" type="text" placeholder="Fri Jun 2" class="form-control">
+                                                    <input id="end-date" asp-for="endDate" type="date" placeholder="Mon Dec 11" class="form-control" disabled>
+                                                    <span asp-validation-for="endDate"></span>
                                                 </span>
+                                                @* <span class="input-group-text" id="basic-addon1">
+                                                <img src="~/img/calender-icon.png" alt="icon">
+                                                <input id="Return-date" type="text" placeholder="Fri Jun 2" class="form-control">
+                                                </span> *@
                                             </div>
                                             <div class="col-12 col-md-10 col-lg-2 space travellers">
                                                 <label>Travellers </label>
@@ -285,77 +290,6 @@
                                                             </div>
 
                                                             <div class="border-top-light mt-24 mb-24"></div>
-
-                                                            @*     <div class="row y-gap-10 justify-between items-center">
-                                                            <div class="col-auto">
-                                                            <div class="text-15 fw-500">Adults</div>
-                                                            </div>
-
-                                                            <div class="col-auto">
-                                                            <div class="d-flex items-center js-counter" data-value-change=".js-count-adult">
-                                                            <button class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-down">
-                                                            <i class="fa fa-minus" aria-hidden="true"></i>
-                                                            </button>
-
-                                                            <div class="flex-center size-20 ml-15 mr-15">
-                                                            <div class="text-15 js-count">2</div>
-                                                            </div>
-
-                                                            <button class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-up">
-                                                            <i class="fa fa-plus" aria-hidden="true"></i>
-                                                            </button>
-                                                            </div>
-                                                            </div>
-                                                            </div>
-
-                                                            <div class="border-top-light mt-24 mb-24"></div>
-
-                                                            <div class="row y-gap-10 justify-between items-center">
-                                                            <div class="col-auto">
-                                                            <div class="text-15 lh-12 fw-500">Children</div>
-                                                            <div class="text-14 lh-12 text-light-1 mt-5">Ages 0 - 17</div>
-                                                            </div>
-
-                                                            <div class="col-auto">
-                                                            <div class="d-flex items-center js-counter" data-value-change=".js-count-child">
-                                                            <button class="button -outline-blue-1 text-blue-1 size-38 rounded-5 js-down">
-                                                            <i class="fa fa-minus" aria-hidden="true"></i>
-                                                            </button>
-
-                                                            <div class="flex-center size-20 ml-15 mr-15">
-                                                            <div class="text-15 js-count">1</div>
-                                                            </div>
-
-                                                            <button class="button -outline-blue-1 text-blue-1 size-38 rounded-5 js-up">
-                                                            <i class="fa fa-plus" aria-hidden="true"></i>
-                                                            </button>
-                                                            </div>
-                                                            </div>
-                                                            </div>
-
-                                                            <div class="border-top-light mt-24 mb-24"></div>
-
-                                                            <div class="row y-gap-10 justify-between items-center">
-                                                            <div class="col-auto">
-                                                            <div class="text-15 fw-500">Infents</div>
-                                                            </div>
-
-                                                            <div class="col-auto">
-                                                            <div class="d-flex items-center js-counter" data-value-change=".js-count-infents">
-                                                            <button class="button -outline-blue-1 text-blue-1 size-38 rounded-5 js-down">
-                                                            <i class="fa fa-minus" aria-hidden="true"></i>
-                                                            </button>
-
-                                                            <div class="flex-center size-20 ml-15 mr-15">
-                                                            <div class="text-15 js-count">1</div>
-                                                            </div>
-
-                                                            <button class="button -outline-blue-1 text-blue-1 size-38 rounded-5 js-up">
-                                                            <i class="fa fa-plus" aria-hidden="true"></i>
-                                                            </button>
-                                                            </div>
-                                                            </div>
-                                                            </div> *@
 
                                                         </div>
 
@@ -798,6 +732,22 @@
 
         <script type="text/javascript">
             $(document).ready(function () {
+                $('.S-option input[type="radio"]').on('change', function () {
+                    // Uncheck all radio buttons in the same group except the currently selected one
+                    $('.S-option input[type="radio"]').not(this).prop('checked', false);
+                });
+                $('#end-date').prop('disabled', true);
+
+                // Event handler for radio button change
+                $('input[type="radio"]').on('change', function () {
+                    if ($('#round-tripid').is(':checked')) {
+                        // Enable the end date input field when Round Trip is selected
+                        $('#end-date').prop('disabled', false);
+                    } else {
+                        // Disable the end date input field for other options
+                        $('#end-date').prop('disabled', true);
+                    }
+                });
 
                 $(function () {
                     $("#start-date").datepicker(

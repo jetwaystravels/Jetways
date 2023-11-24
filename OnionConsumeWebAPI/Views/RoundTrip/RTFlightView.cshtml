@@ -1,0 +1,2564 @@
+﻿@model IEnumerable<DomainLayer.Model.SimpleAvailibilityaAddResponce>
+@{
+    Layout = null;
+    var data = Model;
+
+
+}
+
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Title  -->
+    <title>Jetways Travels</title>
+    <!-- Favicon  -->
+    <link rel="icon" href="~/img/favicon.png">
+    <!-- Style css -->
+    <link rel="stylesheet" href="~/css/vendors.css">
+    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link href="~/css/roundviewpage.css" rel="stylesheet" />
+
+</head>
+<body>
+    <main>
+
+        <!-- ***** Header Start ***** -->
+        <header class="navbar navbar-sticky navbar-expand-lg inner-bg">
+            <div class="container position-relative">
+                <a class="navbar-brand" asp-controller="FlightSearchIndex" asp-action="Index">
+                    <img class="navbar-brand-regular" src="~/img/logo/logo.png" alt="brand-logo">
+                    <img class="navbar-brand-sticky" src="~/img/logo/logo.png" alt="sticky brand-logo">
+
+                </a>
+                <button class="navbar-toggler d-lg-none" type="button" data-toggle="navbarToggler" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-inner">
+                    <!--  Mobile Menu Toggler -->
+                    <button class="navbar-toggler d-lg-none" type="button" data-toggle="navbarToggler" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="nav-bar col-12 col-md-7 col-lg-12">
+                        <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-1.png">Flight</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill"><img class="mr-2" src="~/img/nav-icon-2.png">Hotel</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-3.png">Visa</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-4.png">Holidays</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-5.png">Trains</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-6.png">Buses</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill"><img class="mr-2" src="~/img/nav-icon-7.png">Cabs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-8.png">Flight Passes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link"><img class="mr-2" src="~/img/nav-icon-8.png">Login</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <nav id="mobile-nav">
+                        <ul class="navbar-nav" id="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#">
+                                    Home
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll" href="features">Features</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#">
+                                    Pages
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll" href="#">Screenshots</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll" href="#">Pricing</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll" href="#">Contact</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <!-- ***** Header End ***** -->
+        <!-- ***** Start inner search ***** -->
+        <div class="inner-search">
+        </div>
+        <!-- ***** End inner seaaaarch ***** -->
+
+        <section class="layout-pt-md layout-pb-md bg-light-2 search-result mb-5">
+            <div class="container">
+                <div class="row y-gap-30">
+                    <div class="col-xl-3 col-lg-4">
+                        <aside class="sidebar py-20 px-20 rounded-4 bg-white">
+                            <partial name="_RTFlightViewPartialView.cshtml" />  
+                        </aside>
+                    </div>
+                    <div class="col-xl-9 col-lg-8 ps-0">
+                     <div class="row">
+                    <div class="col-xl-6 col-lg-6">
+                        
+                                <div class="row y-gap-10 justify-between items-center">
+                                    <div class="col-auto">
+                                        <div class="text-18"><span class="fw-500">Showing - @ViewData["count"] results.</span> </div>
+                                  </div>
+                                    <div class="col-auto">
+                                        <button class="button -blue-1 h-40 px-30 rounded-100 bg-blue-1-05 text-15 text-blue-1">
+                                            <i class="fa fa-filter" aria-hidden="true"></i> Sort
+                                        </button>
+                                    </div> 
+                                </div>  
+                                
+                                <div class="row round1">
+                                    <div class="col-12">
+                                        <h6>@ViewData["origin"]<i class="fa fa-angle-double-right" aria-hidden="true"></i>@ViewData["destination"]</h6>
+                                    </div>
+                                </div>
+                                
+                                 
+                                <!----->
+                           <form asp-controller="FlightSearchIndex" method="post" id="reconnectingFlight">
+                            @foreach (var flightResult in Model)
+                            {
+                                <div class="py-10 px-20 bg-white mt-20">
+                                    <div class="d-flex y-gap-30 justify-between">
+                                        <div class="fare-round">
+                                                    <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
+                                                    <input type="hidden" id="carrierCode" value="@flightResult.segments[0].identifier.carrierCode" />
+                                                    <input type="hidden" id="identifier" value="@flightResult.segments[0].identifier.identifier" />
+                                            <div class="fliCode"><div class="fliCode"> @flightResult.segments[0].identifier.carrierCode - @flightResult.segments[0].identifier.identifier</div></div>
+                                        </div>
+                                         <div class="fare-round">
+                                                    @{
+                                                        var departuretime = @flightResult.designator.departure;
+                                                        string departuretimestr = departuretime.ToString();
+                                                        var departuretimefinal = departuretimestr.Substring(11, 5);
+                                                    }
+                                                    <div class="">@departuretimefinal</div>
+                                                    <div class="">@flightResult.designator.origin</div>
+
+                                                    <input type="hidden" id="departuretime" value="@departuretimefinal" />
+                                                    <input type="hidden" id="origin" value="@flightResult.designator.origin" />
+                                           
+                                        </div>
+                                        <div class="fare-round">
+                                                    @{
+                                                        var arrivalDate = flightResult.designator.arrival;
+                                                        var departureDate = flightResult.designator.departure;
+                                                        var diff = (arrivalDate - departureDate);
+                                                    }
+                                            <div class="col text-center">
+                                                        <div class="px-20 md:px-0">@diff</div>
+                                                        <div class="flightLine">
+                                                            <div></div>
+                                                            <div></div>
+                                                        </div>
+                                                        <div class="mt-1">@flightResult.stops</div>
+                                                        <input type="hidden" id="diff" value="@diff" />
+                                                        <input type="hidden" id="stops" value="@flightResult.stops" />
+                                            </div>
+                                        </div>
+                                         <div class="fare-round">
+                                                    @{
+                                                        var arrivaltime = @flightResult.designator.arrival;
+                                                        string arrivaltimestr = arrivaltime.ToString();
+                                                        var arrivalfinal = arrivaltimestr.Substring(11, 5);
+                                                    }
+                                                    <div class="lh-15 fw-500">@arrivalfinal</div>
+                                                    <div class="text-15 lh-15 text-light-1">@flightResult.designator.destination</div>
+
+                                                    <input type="hidden" id="arrival" value="@arrivalfinal" />
+                                                    <input type="hidden" id="destination" value="@flightResult.designator.destination" />
+                                        </div>
+                                         
+                                         <div class="fare-round mt-3">
+                                             <div class="rtprice">₹ @flightResult.fareTotalsum</div>
+                                                    <input type="hidden" id="fareTotalsum" value="@flightResult.fareTotalsum" />
+                                        </div>
+                                        <div class="fare-round mt-3">
+                                                    <input class="farebtn" type="radio" name="Radios">
+                                        </div>                                       
+                                   
+                                    </div>                          
+
+                                    <div class="rtflight-dtl showBtn"><a href="#">Flight Details <i class="fa fa-angle-down" data-unicode="f107"></i></a></div>
+                                    <div class="hideme" style="display:none;">
+                                        <div class="tabs -underline-2 pt-30 lg:pt-30 sm:pt-30 js-tabs">
+                                            <div class="tabs__controls row x-gap-2 y-gap-0 lg:x-gap-20 js-tabs-controls">
+
+                                                <div class="col-auto">
+                                                    <button type="button" class="tabs__button text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button is-tab-el-active" data-tab-target=".-tab-item-1">Itinerary</button>
+                                                </div>
+
+                                                <div class="col-auto">
+                                                    <button type="button" class="tabs__button text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button" data-tab-target=".-tab-item-2">Fare Details</button>
+                                                </div>
+
+                                                <div class="col-auto">
+                                                    <button type="button" class="tabs__button text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button" data-tab-target=".-tab-item-3">Baggage</button>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <button type="button" class="tabs__button text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button" data-tab-target=".-tab-item-4">Cancellation</button>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <button type="button" class="tabs__button text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button" data-tab-target=".-tab-item-5">Fare Rule</button>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="tabs__content pt-20 js-tabs-content">
+
+                                                <div class="tabs__pane -tab-item-1 is-tab-el-active">
+                                                    <div class="col">
+                                                        <div class="row y-gap-10 items-center">
+                                                                    <div class="dst-top">@flightResult.designator.origin<i class="fa fa-angle-double-right" aria-hidden="true"></i>@flightResult.designator.destination</div>
+                                                            <div class="d-flex mt-2 justify-content-between">
+                                                                 <div class="rtflight-hide">
+                                                                            <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
+                                                                            <div class="lh-15 fw-500">AirAsia</div>
+                                                                            <div class="fliCode">@flightResult.carriercode - @flightResult.Identifier</div>
+                                                                 </div>
+                                                                 <div class="rtflight-hide">
+                                                                            <div class="">@departuretimefinal</div>
+                                                                            <div class="">@flightResult.designator.origin</div>
+                                                                            <span>Terminal-@flightResult.departureTerminal </span>
+                                                                 </div>
+                                                                 <div class="rtflight-hide">
+                                                                            <div class="px-20 md:px-0">@diff</div>
+                                                                    <div class="flightLine">
+                                                                        <div></div>
+                                                                        <div></div>
+                                                                    </div>
+                                                                    <div class="mt-1">&nbsp;</div>
+                                                                 </div>
+                                                                <div class="rtflight-hide">
+                                                                            <div class="lh-15 fw-500">@arrivalfinal</div>
+                                                                            <div class="text-15 lh-15 text-light-1">@flightResult.designator.destination</div>
+                                                                    <span>Terminal-@flightResult.arrivalTerminal</span>
+                                                                </div>
+                                                             </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="tabs__pane -tab-item-2">
+                                                    <div class="row y-gap-30">
+                                                        <div class="dst-top">06:10 - 12:00 </div>
+                                                        <div class="col-lg-12">
+                                                            <div class="text-19 fw-600">Fare baeakup (Include all taxes)</div>
+                                                             @{
+                                                            foreach (var faresbasic in flightResult.faresIndividual)
+                                                            { 
+                                                            <div class="table-responsive">
+                                                            <table class="table mt-20">
+                                                                <thead class="bg-light-2">
+                                                                    <tr>
+                                                                        <th>Type</th>
+                                                                        <th>Pax</th>
+                                                                        <th>Basic</th>
+                                                                        <th>Taxes </th>
+                                                                        <th>OthChg </th>
+                                                                        <th>Total</th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>@faresbasic.passengertype</td>
+                                                                        <td>1</td>
+                                                                        <td>@faresbasic.discountamount</td>
+                                                                        <td>@faresbasic.taxamount</td>
+                                                                        <td>0</td>
+                                                                        <td>@faresbasic.faretotal</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                                </table>
+                                                            </div>
+                                                                 }
+                                                                } 
+                                                        </div>
+
+                                                        <div class="col-lg-12">
+                                                            <div class="text-19 fw-600">Fare Rule</div>
+                                                              @{
+                                                            foreach (var faresrule in flightResult.faresIndividual)
+                                                            { 
+                                                            <table class="table mt-20">
+                                                                <thead class="bg-light-2">
+                                                                    <tr>
+                                                                        <th>Fare</th>
+                                                                        <th>Refundable</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+
+                                                                    <tr>
+                                                                        <td>Basic(+)</td>
+                                                                        <td>@faresrule.discountamount</td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td>Taxes(+)</td>
+                                                                                        <td>@faresrule.taxamount</td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td>MFee(+)</td>
+                                                                        <td>0</td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td>GST(+)</td>
+                                                                        <td>0</td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td>Disc(-)</td>
+                                                                        <td>0</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Tds(+)</td>
+                                                                        <td>0</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Total</td>
+                                                                                        <td>@faresrule.faretotal</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                                 }
+                                                            } 
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="tabs__pane -tab-item-3">
+                                                    <table class="table mt-20">
+                                                        <thead class="bg-light-2">
+                                                            <tr>
+                                                                <th>Airline</th>
+                                                                <th>Pax Type</th>
+                                                                <th>Check-in Baggage</th>
+                                                                <th>Cabin Baggage</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                        <td><img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image"> AirAsia <span>@flightResult.carriercode - @flightResult.Identifier</span></td>
+                                                                <td>Adult</td>
+                                                                <td>15 Kg</td>
+                                                                <td>7 Kg</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <div class="text-19 fw-600 pb-2">Terms &amp; Conditon</div>
+                                                    <ul class="list-disc y-gap-10">
+                                                        <li>For infants there is no baggage allowance.</li>
+                                                        <li>Airline can change Baggage Allowance.</li>
+                                                        <li>For Low Cost Carriers, international Check-in Baggage is 20 kg and for Gulf Sectors Baggage is 25-30 kg.</li>
+                                                        <li>If you have any query, feel free to Contact Us. Email: support@jetwaystravels.com</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="tabs__pane -tab-item-4">
+                                                    <div class="dst-top">10-10-2023 - 10-10-2023  </div>
+                                                    <table class="table mt-20">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Cancellation Charges</td>
+                                                                <td>Airline Free </td>
+                                                                <td>Before Departure</td>
+                                                                <td>As per Airline Fare rule</td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>Reschedule Charges </td>
+                                                                <td>Airline Free </td>
+                                                                <td>Before Departure</td>
+                                                                <td>As per Airline Fare rule</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <div class="text-19 fw-600 pb-2">Terms &amp; Conditon</div>
+                                                    <ul class="list-disc y-gap-10">
+                                                        <li>Penalty is subject to 4 hour prior to departure and no changes are allowed after that.</li>
+                                                        <li>The charges will be on per passenger per sector.</li>
+                                                        <li>Rescheduling charges = Rescheduling/Change penalty+fare difference(if applicable)</li>
+                                                        <li>Partial cancellation is not allowed on the flilght tickets which are book under special discounted fares</li>
+                                                        <li>In case, the customer have not cancelled the ticket within the stipulated time or no show then only statutory taxes are refundable form the respective airlines</li>
+                                                        <li>For infants there is no baggage allowance</li>
+                                                        <li>In certain  situations of respricted cases, no amendments and cancellation is allowed.</li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="tabs__pane -tab-item-5">
+                                                    <div class="dst-top mb-3">Airline Fare Rule</div>
+                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris efficitur est id enim maximus aliquam sit amet nec mi. Sed vulputate lacus eros. Aliquam dictum ipsum leo, ut suscipit risus porttitor iaculis. Integer maximus dignissim mauris eget rhoncus. Sed scelerisque feugiat dui, et vehicula elit feugiat vel. Duis dignissim semper nibh, et pharetra tortor commodo ut. Ut eu efficitur elit. Nullam nec lacus et lacus interdum condimentum sit amet id velit. Aenean sagittis tortor nulla, ut dapibus augue scelerisque eu. Vivamus sit amet odio in mauris bibendum lobortis. Curabitur varius diam sit amet eleifend vehicula.</p>
+                                                    <p>Phasellus tortor augue, lobortis eu mauris aliquam, venenatis posuere lacus. Nam in justo eget ex vulputate posuere tincidunt ut nulla. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus luctus laoreet ex, sit amet imperdiet orci ultrices eu. Cras mattis at ex ac sodales. Vestibulum non nunc ut arcu volutpat convallis. Maecenas varius commodo ligula volutpat aliquam. Proin vehicula ultricies leo, eget imperdiet metus viverra non. Maecenas blandit, risus ut viverra blandit, neque risus porta mi, vel imperdiet lectus mauris vel elit. Ut vel fringilla tortor, a tempus ex. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed vitae eros diam. Sed tincidunt mauris quis erat malesuada efficitur non ac velit. Vivamus nec condimentum erat. Sed fringilla dui eget auctor interdum. Cras sed sem magna.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                              
+                                
+                                </div>
+                            }
+                              </form>                             
+                    </div>
+                     <div class="col-xl-6 col-lg-6">
+                       
+                                <div class="row y-gap-10 justify-between items-center">
+                                    <div class="col-auto">
+                                        <div class="text-18"><span class="fw-500">Showing - @ViewData["count"] results.</span> </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <button class="button -blue-1 h-40 px-30 rounded-100 bg-blue-1-05 text-15 text-blue-1">
+                                            <i class="fa fa-filter" aria-hidden="true"></i> Sort
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row round1">
+                                    <div class="col-12">
+                                        <h6>@ViewData["destination"] <i class="fa fa-angle-double-right" aria-hidden="true"></i>@ViewData["origin"]</h6>
+                                    </div>
+                                </div>
+                                <!----->
+                                <form asp-controller="FlightSearchIndex" method="post">
+                                    @foreach (var flightResult in Model)
+                                    {
+                                       
+                                            <div class="py-10 px-20 bg-white mt-20">
+                                                <div class="d-flex y-gap-30 justify-between">
+                                                    <div class="fare-round">
+                                                        <input type="hidden" id="carrierreturn" value="@flightResult.segments[0].identifier.carrierCode" />
+                                                        <input type="hidden" id="identifierreturn" value="@flightResult.segments[0].identifier.identifier" />
+                                                        <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">                                                 
+                                                        <div class="fliCode"><div class="fliCode"> @flightResult.segments[0].identifier.carrierCode - @flightResult.segments[0].identifier.identifier</div></div>
+                                                    </div>
+                                                    <div class="fare-round">
+                                                        @{
+                                                            var departuretime = @flightResult.designator.departure;
+                                                            string departuretimestr = departuretime.ToString();
+                                                            var departuretimefinal = departuretimestr.Substring(11, 5);
+                                                        }
+                                                        <div class="">@departuretimefinal</div>
+                                                        <div class="">@flightResult.designator.destination</div>
+
+                                                        <input type="hidden" id="departurereturn" value="@departuretimefinal" />
+                                                        <input type="hidden" id="destination return" value="@flightResult.designator.destination" />
+                                                    </div>
+                                                    <div class="fare-round">
+                                                        @{
+                                                            var arrivalDate = flightResult.designator.arrival;
+                                                            var departureDate = flightResult.designator.departure;
+                                                            var diff = (arrivalDate - departureDate);
+                                                        }
+                                                        <div class="col text-center">
+                                                            <div class="px-20 md:px-0">@diff</div>
+                                                            <div class="flightLine">
+                                                                <div></div>
+                                                                <div></div>
+                                                            </div>
+                                                            <div class="mt-1">@flightResult.stops</div>
+
+                                                            <input type="hidden" id="diffreturn" value="@diff" />
+                                                            <input type="hidden" id="stopreturn" value="@flightResult.stops" />
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="fare-round">
+                                                        @{
+                                                            var arrivaltime = @flightResult.designator.arrival;
+                                                            string arrivaltimestr = arrivaltime.ToString();
+                                                            var arrivalfinal = arrivaltimestr.Substring(11, 5);
+                                                        }
+                                                        <div class="lh-15 fw-500">@arrivalfinal</div>
+                                                        <div class="text-15 lh-15 text-light-1">@flightResult.designator.origin</div>
+
+                                                        <input type="hidden" id="arrivalreturn" value="@arrivalfinal" />
+                                                        <input type="hidden" id="originreturn" value="@flightResult.designator.origin" />
+                                                    </div>
+
+                                                    <div class="fare-round mt-3">
+                                                        <div class="rtprice">₹ @flightResult.fareTotalsum</div>
+                                                        <input type="hidden" id="faretotalsumreturn" value="@flightResult.fareTotalsum" />
+                                                    </div>
+                                                    <div class="fare-round mt-3">
+                                                        <input class="farebtn" type="radio" name="Radios">
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="rtflight-dtl showBtn"><a href="#">Flight Details <i class="fa fa-angle-down" data-unicode="f107"></i></a></div>
+                                                <div class="hideme" style="display:none;">
+                                                    <div class="tabs -underline-2 pt-30 lg:pt-30 sm:pt-30 js-tabs">
+                                                        <div class="tabs__controls row x-gap-2 y-gap-0 lg:x-gap-20 js-tabs-controls">
+
+                                                            <div class="col-auto">
+                                                                <button type="button" class="tabs__button text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button is-tab-el-active" data-tab-target=".-tab-item-1">Itinerary</button>
+                                                            </div>
+
+                                                            <div class="col-auto">
+                                                                <button type="button" class="tabs__button text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button" data-tab-target=".-tab-item-2">Fare Details</button>
+                                                            </div>
+
+                                                            <div class="col-auto">
+                                                                <button type="button" class="tabs__button text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button" data-tab-target=".-tab-item-3">Baggage</button>
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <button type="button" class="tabs__button text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button" data-tab-target=".-tab-item-4">Cancellation</button>
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <button type="button" class="tabs__button text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button" data-tab-target=".-tab-item-5">Fare Rule</button>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="tabs__content pt-20 js-tabs-content">
+
+                                                            <div class="tabs__pane -tab-item-1 is-tab-el-active">
+                                                                <div class="col">
+                                                                    <div class="row y-gap-10 items-center">
+                                                                        <div class="dst-top">@flightResult.designator.destination<i class="fa fa-angle-double-right" aria-hidden="true"></i>@flightResult.designator.origin</div>
+                                                                        <div class="d-flex mt-2 justify-content-between">
+                                                                            <div class="rtflight-hide">
+                                                                                <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
+                                                                                <div class="lh-15 fw-500">AirAsia</div>
+                                                                                <div class="fliCode">@flightResult.carriercode - @flightResult.Identifier</div>
+                                                                            </div>
+                                                                            <div class="rtflight-hide">
+                                                                                <div class="">@arrivalfinal</div>
+                                                                                <div class="">@flightResult.designator.destination</div>
+                                                                                <span>Terminal-@flightResult.arrivalTerminal</span>
+                                                                            </div>
+                                                                            <div class="rtflight-hide">
+                                                                                <div class="px-20 md:px-0">@diff</div>
+                                                                                <div class="flightLine">
+                                                                                    <div></div>
+                                                                                    <div></div>
+                                                                                </div>
+                                                                                <div class="mt-1">&nbsp;</div>
+                                                                            </div>
+                                                                            <div class="rtflight-hide">
+                                                                                <div class="lh-15 fw-500">@departuretimefinal</div>
+                                                                                <div class="text-15 lh-15 text-light-1">@flightResult.designator.origin</div>
+                                                                                <span>Terminal-@flightResult.departureTerminal</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="tabs__pane -tab-item-2">
+                                                                <div class="row y-gap-30">
+                                                                    <div class="dst-top">@flightResult.designator.destination (@flightResult.bookingdate) - @flightResult.designator.origin </div>
+                                                                    <div class="col-lg-12">
+                                                                        <div class="text-19 fw-600">Fare baeakup (Include all taxes)</div>
+                                                                        @{
+                                                                            foreach (var faresbasic in flightResult.faresIndividual)
+                                                                            {
+                                                                                <div class="table-responsive">
+                                                                                    <table class="table mt-20">
+                                                                                        <thead class="bg-light-2">
+                                                                                            <tr>
+                                                                                                <th>Type</th>
+                                                                                                <th>Pax</th>
+                                                                                                <th>Basic</th>
+                                                                                                <th>Taxes </th>
+                                                                                                <th>OthChg </th>
+                                                                                                <th>Total</th>
+
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td>@faresbasic.passengertype</td>
+                                                                                                <td>1</td>
+                                                                                                <td>@faresbasic.discountamount</td>
+                                                                                                <td>@faresbasic.taxamount</td>
+                                                                                                <td>0</td>
+                                                                                                <td>@faresbasic.faretotal</td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                            }
+                                                                        } 
+                                                                    </div>
+
+                                                                    <div class="col-lg-12">
+                                                                        <div class="text-19 fw-600">Fare Rule</div>
+                                                                        @{
+                                                                            foreach (var faresrule in flightResult.faresIndividual)
+                                                                            {
+                                                                                <table class="table mt-20">
+                                                                                    <thead class="bg-light-2">
+                                                                                        <tr>
+                                                                                            <th>Fare</th>
+                                                                                            <th>Refundable</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+
+                                                                                        <tr>
+                                                                                            <td>Basic(+)</td>
+                                                                                            <td>@faresrule.discountamount</td>
+                                                                                        </tr>
+
+                                                                                        <tr>
+                                                                                            <td>Taxes(+)</td>
+                                                                                            <td>100</td>
+                                                                                        </tr>
+
+                                                                                        <tr>
+                                                                                            <td>MFee(+)</td>
+                                                                                            <td>0</td>
+                                                                                        </tr>
+
+                                                                                        <tr>
+                                                                                            <td>GST(+)</td>
+                                                                                            <td>0</td>
+                                                                                        </tr>
+
+                                                                                        <tr>
+                                                                                            <td>Disc(-)</td>
+                                                                                            <td>0</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Tds(+)</td>
+                                                                                            <td>0</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Total</td>
+                                                                                            <td>@faresrule.faretotal</td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            }
+                                                                        } 
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="tabs__pane -tab-item-3">
+                                                                <table class="table mt-20">
+                                                                    <thead class="bg-light-2">
+                                                                        <tr>
+                                                                            <th>Airline</th>
+                                                                            <th>Pax Type</th>
+                                                                            <th>Check-in Baggage</th>
+                                                                            <th>Cabin Baggage</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td><img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image"> AirAsia <span>@flightResult.carriercode - @flightResult.Identifier</span></td>
+                                                                            <td>Adult</td>
+                                                                            <td>15 Kg</td>
+                                                                            <td>7 Kg</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <div class="text-19 fw-600 pb-2">Terms &amp; Conditon</div>
+                                                                <ul class="list-disc y-gap-10">
+                                                                    <li>For infants there is no baggage allowance.</li>
+                                                                    <li>Airline can change Baggage Allowance.</li>
+                                                                    <li>For Low Cost Carriers, international Check-in Baggage is 20 kg and for Gulf Sectors Baggage is 25-30 kg.</li>
+                                                                    <li>If you have any query, feel free to Contact Us. Email: support@jetwaystravels.com</li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="tabs__pane -tab-item-4">
+                                                                <div class="dst-top">10-10-2023 - 10-10-2023  </div>
+                                                                <table class="table mt-20">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>Cancellation Charges</td>
+                                                                            <td>Airline Free </td>
+                                                                            <td>Before Departure</td>
+                                                                            <td>As per Airline Fare rule</td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <td>Reschedule Charges </td>
+                                                                            <td>Airline Free </td>
+                                                                            <td>Before Departure</td>
+                                                                            <td>As per Airline Fare rule</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <div class="text-19 fw-600 pb-2">Terms &amp; Conditon</div>
+                                                                <ul class="list-disc y-gap-10">
+                                                                    <li>Penalty is subject to 4 hour prior to departure and no changes are allowed after that.</li>
+                                                                    <li>The charges will be on per passenger per sector.</li>
+                                                                    <li>Rescheduling charges = Rescheduling/Change penalty+fare difference(if applicable)</li>
+                                                                    <li>Partial cancellation is not allowed on the flilght tickets which are book under special discounted fares</li>
+                                                                    <li>In case, the customer have not cancelled the ticket within the stipulated time or no show then only statutory taxes are refundable form the respective airlines</li>
+                                                                    <li>For infants there is no baggage allowance</li>
+                                                                    <li>In certain  situations of respricted cases, no amendments and cancellation is allowed.</li>
+                                                                </ul>
+                                                            </div>
+
+                                                            <div class="tabs__pane -tab-item-5">
+                                                                <div class="dst-top mb-3">Airline Fare Rule</div>
+                                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris efficitur est id enim maximus aliquam sit amet nec mi. Sed vulputate lacus eros. Aliquam dictum ipsum leo, ut suscipit risus porttitor iaculis. Integer maximus dignissim mauris eget rhoncus. Sed scelerisque feugiat dui, et vehicula elit feugiat vel. Duis dignissim semper nibh, et pharetra tortor commodo ut. Ut eu efficitur elit. Nullam nec lacus et lacus interdum condimentum sit amet id velit. Aenean sagittis tortor nulla, ut dapibus augue scelerisque eu. Vivamus sit amet odio in mauris bibendum lobortis. Curabitur varius diam sit amet eleifend vehicula.</p>
+                                                                <p>Phasellus tortor augue, lobortis eu mauris aliquam, venenatis posuere lacus. Nam in justo eget ex vulputate posuere tincidunt ut nulla. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus luctus laoreet ex, sit amet imperdiet orci ultrices eu. Cras mattis at ex ac sodales. Vestibulum non nunc ut arcu volutpat convallis. Maecenas varius commodo ligula volutpat aliquam. Proin vehicula ultricies leo, eget imperdiet metus viverra non. Maecenas blandit, risus ut viverra blandit, neque risus porta mi, vel imperdiet lectus mauris vel elit. Ut vel fringilla tortor, a tempus ex. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed vitae eros diam. Sed tincidunt mauris quis erat malesuada efficitur non ac velit. Vivamus nec condimentum erat. Sed fringilla dui eget auctor interdum. Cras sed sem magna.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                        
+
+                                    }
+
+                                </form>                          
+                              </div> 
+                    </div>
+                    </div>
+                
+
+                </div>
+            </div>
+        </section>
+
+        <section class="rtfix-bottom ">  
+        <div class="container">
+            <div class="row">
+                <div class="col-auto">
+                        <div class="d-flex y-gap-30 justify-between align-items-center">
+                            <div class="fare-round d-flex align-items-center">
+                                <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
+                                <div class="text-12 ms-2"><span id="carierCodedata"></span>-<span id="IdentifierData"></span></div>
+                            </div>
+                            <div class="fare-round ms-2">
+                                <div class="text-12"><span id="departureData"></span></div>
+                                <div class="text-12"><span id="originData"></span></div>
+                            </div>
+                            <div class="fare-round">
+                                <div class="col text-center">
+                                    <div class="px-20 md:px-0 text-12"><span id="diffData"></span></div>
+                                    <div class="flightLine">
+                                        <div></div>
+                                        <div></div>
+                                    </div>
+                                    <div class="mt-1"><span id="stopData"></span></div>
+                                </div>
+                            </div>
+                            <div class="fare-round">
+                                <div class="lh-15 text-12"><span id="arrivalData"></span></div>
+                                <div class="text-12 lh-15"><span id="destinationData"></span></div>
+                            </div>
+                            <div class="fare-round ms-2">
+                                <div class="text-14 fw-600">₹<span id="fareTotalsumData"></span></div>
+                                <div class="text-12 rtline"><a data-toggle="modal" data-target="#rt1exampleModal">Details</a></div>
+                            </div>
+                        </div>
+                </div>
+                    <div class="col-auto border-right"></div>
+                <div class="col-auto">
+                        <div class="d-flex y-gap-30 justify-between align-items-center">
+                            <div class="fare-round d-flex align-items-center">
+                                <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
+                                <div class="text-12 ms-2"> AA - 8905</div>
+                            </div>
+                            <div class="fare-round ms-2">
+                                <div class="text-12">08:10</div>
+                                <div class="text-12">BOM</div>
+                            </div>
+                            <div class="fare-round">
+                                <div class="col text-center">
+                                    <div class="px-20 md:px-0 text-12">02:50hr</div>
+                                    <div class="flightLine">
+                                        <div></div>
+                                        <div></div>
+                                    </div>
+                                    <div class="mt-1">1</div>
+                                </div>
+                            </div>
+                            <div class="fare-round">
+                                <div class="lh-15 text-12">11:00</div>
+                                <div class="text-12 lh-15">DEL</div>
+                            </div>
+                            <div class="fare-round ms-2">
+                                <div class="text-14 fw-600">₹ 7000</div>
+                                <div class="text-12 rtline"><a data-toggle="modal" data-target="#rt2exampleModal">Details</a></div>
+
+                            </div>
+                        </div>
+                </div>
+                    <div class="col-auto border-right"></div>
+                    <div class="col-3">
+                      <div class="d-flex justify-content-between align-items-center">
+                          <div class="rttotal-fare">
+                                <div class="rtgrtotal text-14 fw-500">
+                                    Grand Total
+                             </div>
+                              <div class="rtgrtotal text-18 fw-700">
+                                    ₹ 1355
+                              </div>
+                          </div>
+                            <div class="rttotal-fare">
+                                <input type="submit" value="Book Now" class="button small-btn rtbtn" data-toggle="modal" data-target="#rtexampleModal">
+                            </div>
+                      </div>
+                   </div>
+            </div>
+        </div>
+        </section>
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Modal -->
+                    <div class="modal fade" id="rtexampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog rtwidth-modal" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">More Fare Options Available</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="row">
+                                        <div class="col-5">
+                                            <div class=""><span class="rtbg">DEPART</span></div>
+                                        <div class="d-flex justify-between align-items-center mt-4">
+                                            <div class="rtptotal">
+                                               <div class="dst-top">DEL - BOM</div>
+                                            </div>
+                                            <div class="rtptotal">
+                                            <div class="text-12 fw-600">
+                                                        Sun-17 Dec 2023
+                                             </div>
+                                            </div>
+                                        </div>
+                                            <div class="d-flex y-gap-30 justify-between">
+                                                <div class="fare-round d-flex align-items-center">
+                                                    <img class="size-40" src="/img/flight-logo-icon/SG.png" alt="image">
+                                                    <div class="fliCode"> SG - 8907</div>
+                                                </div>
+                                                <div class="fare-round">
+                                                    <div class="">06:10</div>
+                                                    <div class="">DEL</div>
+                                                </div>
+                                                <div class="fare-round">
+                                                    <div class="col text-center">
+                                                        <div class="px-20 md:px-0">03:00hr</div>
+                                                        <div class="flightLine">
+                                                            <div></div>
+                                                            <div></div>
+                                                        </div>
+                                                        <div class="mt-1">1</div>
+                                                    </div>
+                                                </div>
+                                                <div class="fare-round">
+                                                    <div class="lh-15 fw-500">12:00</div>
+                                                    <div class="text-15 lh-15 text-light-1">BOM</div>
+                                                </div>
+                                            </div>
+                                            <div class="multi-fare">
+                                                <div class="d-flex multi-bg justify-between">
+                                                   <div class="rtfare-1 d-flex">
+                                                        <input class="farebtn" type="radio" name="Radios" value="farevalue">
+                                                        <div class="ms-2">Saver</div>
+                                                   </div>
+                                                    <div class="rtfare-1">
+                                                       <span> ₹ 5000</span>
+                                                    </div>
+                                               </div>
+                                            </div>
+
+                                      </div>
+
+                                        <div class="col-auto rtborder-right me-3"></div>
+
+                                        <div class="col-5">
+                                            <div class=""><span class="rtbg">RETURN</span></div>
+                                            <div class="d-flex justify-between align-items-center mt-4">
+                                                <div class="rtptotal">
+                                                    <div class="dst-top">BOM - DEL</div>
+                                                </div>
+                                                <div class="rtptotal">
+                                                    <div class="text-12 fw-600">
+                                                        Sun-18 Dec 2023
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex y-gap-30 justify-between">
+                                                <div class="fare-round d-flex align-items-center">
+                                                    <img class="size-40" src="/img/flight-logo-icon/SG.png" alt="image">
+                                                    <div class="fliCode"> SG - 8907</div>
+                                                </div>
+                                                <div class="fare-round">
+                                                    <div class="">06:10</div>
+                                                    <div class="">DEL</div>
+                                                </div>
+                                                <div class="fare-round">
+                                                    <div class="col text-center">
+                                                        <div class="px-20 md:px-0">03:00hr</div>
+                                                        <div class="flightLine">
+                                                            <div></div>
+                                                            <div></div>
+                                                        </div>
+                                                        <div class="mt-1">1</div>
+                                                    </div>
+                                                </div>
+                                                <div class="fare-round">
+                                                    <div class="lh-15 fw-500">12:00</div>
+                                                    <div class="text-15 lh-15 text-light-1">BOM</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                  </div>
+                                </div>
+                                <div class="modal-footer">
+                                    @* <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> *@
+                                    <button type="button" class="btn btn-primary">Continue</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <!-- Modal -->
+                    <div class="modal fade" id="rt1exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Flight Detail</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                   Details-1
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <!-- Modal -->
+                    <div class="modal fade" id="rt2exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Flight Detail</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Details-2
+                                </div>
+                              
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+     
+
+    </main>
+
+    <div class="langMenu is-hidden js-langMenu" data-x="lang" data-x-toggle="is-hidden">
+        <div class="langMenu__bg" data-x-click="lang"></div>
+
+        <div class="langMenu__content bg-white rounded-4">
+            <div class="d-flex items-center justify-between px-30 py-20 sm:px-15 border-bottom-light">
+                <div class="text-20 fw-500 lh-15">Select your language</div>
+                <button class="pointer" data-x-click="lang">
+                    <i class="icon-close"></i>
+                </button>
+            </div>
+
+            <div class="modalGrid px-30 py-30 sm:px-15 sm:py-15">
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">English</div>
+                        <div class="text-14 lh-15 mt-5 js-title">United States</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Türkçe</div>
+                        <div class="text-14 lh-15 mt-5 js-title">Turkey</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Español</div>
+                        <div class="text-14 lh-15 mt-5 js-title">España</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Français</div>
+                        <div class="text-14 lh-15 mt-5 js-title">France</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Italiano</div>
+                        <div class="text-14 lh-15 mt-5 js-title">Italia</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">English</div>
+                        <div class="text-14 lh-15 mt-5 js-title">United States</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Türkçe</div>
+                        <div class="text-14 lh-15 mt-5 js-title">Turkey</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Español</div>
+                        <div class="text-14 lh-15 mt-5 js-title">España</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Français</div>
+                        <div class="text-14 lh-15 mt-5 js-title">France</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Italiano</div>
+                        <div class="text-14 lh-15 mt-5 js-title">Italia</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">English</div>
+                        <div class="text-14 lh-15 mt-5 js-title">United States</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Türkçe</div>
+                        <div class="text-14 lh-15 mt-5 js-title">Turkey</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Español</div>
+                        <div class="text-14 lh-15 mt-5 js-title">España</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Français</div>
+                        <div class="text-14 lh-15 mt-5 js-title">France</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Italiano</div>
+                        <div class="text-14 lh-15 mt-5 js-title">Italia</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">English</div>
+                        <div class="text-14 lh-15 mt-5 js-title">United States</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Türkçe</div>
+                        <div class="text-14 lh-15 mt-5 js-title">Turkey</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Español</div>
+                        <div class="text-14 lh-15 mt-5 js-title">España</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Français</div>
+                        <div class="text-14 lh-15 mt-5 js-title">France</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Italiano</div>
+                        <div class="text-14 lh-15 mt-5 js-title">Italia</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="currencyMenu is-hidden js-currencyMenu" data-x="currency" data-x-toggle="is-hidden">
+        <div class="currencyMenu__bg" data-x-click="currency"></div>
+
+        <div class="currencyMenu__content bg-white rounded-4">
+            <div class="d-flex items-center justify-between px-30 py-20 sm:px-15 border-bottom-light">
+                <div class="text-20 fw-500 lh-15">Select your currency</div>
+                <button class="pointer" data-x-click="currency">
+                    <i class="icon-close"></i>
+                </button>
+            </div>
+
+            <div class="modalGrid px-30 py-30 sm:px-15 sm:py-15">
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">United States dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">USD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Australian dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">AUD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Brazilian real</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">BRL</span>
+                            - R$
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Bulgarian lev</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">BGN</span>
+                            - лв.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Canadian dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">CAD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">United States dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">USD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Australian dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">AUD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Brazilian real</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">BRL</span>
+                            - R$
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Bulgarian lev</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">BGN</span>
+                            - лв.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Canadian dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">CAD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">United States dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">USD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Australian dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">AUD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Brazilian real</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">BRL</span>
+                            - R$
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Bulgarian lev</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">BGN</span>
+                            - лв.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Canadian dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">CAD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">United States dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">USD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Australian dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">AUD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Brazilian real</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">BRL</span>
+                            - R$
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Bulgarian lev</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">BGN</span>
+                            - лв.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Canadian dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">CAD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="mapFilter" data-x="mapFilter" data-x-toggle="-is-active">
+        <div class="mapFilter__overlay"></div>
+
+        <div class="mapFilter__close">
+            <button class="button -blue-1 size-40 bg-white shadow-2" data-x-click="mapFilter">
+                <i class="icon-close text-15"></i>
+            </button>
+        </div>
+
+        <div class="mapFilter__grid" data-x="mapFilter__grid" data-x-toggle="-filters-hidden">
+            <div class="mapFilter-filter scroll-bar-1">
+                <div class="px-20 py-20 md:px-15 md:py-15">
+                    <div class="d-flex items-center justify-between">
+                        <div class="text-18 fw-500">Filters</div>
+
+                        <button class="size-40 flex-center rounded-full bg-blue-1" data-x-click="mapFilter__grid">
+                            <i class="icon-chevron-left text-12 text-white"></i>
+                        </button>
+                    </div>
+
+                    <div class="mapFilter-filter__item">
+                        <h5 class="text-18 fw-500 mb-10">Popular Filters</h5>
+                        <div class="sidebar-checkbox">
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox">
+                                            <input type="checkbox">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+                                        <div class="text-15 ml-10">Breakfast Included</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">92</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox">
+                                            <input type="checkbox">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+                                        <div class="text-15 ml-10">Romantic</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">45</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox">
+                                            <input type="checkbox">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+                                        <div class="text-15 ml-10">Airport Transfer</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">21</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox">
+                                            <input type="checkbox">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+                                        <div class="text-15 ml-10">WiFi Included </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">78</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox">
+                                            <input type="checkbox">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+                                        <div class="text-15 ml-10">5 Star</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">679</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-filter__item">
+                        <h5 class="text-18 fw-500 mb-10">Nightly Price</h5>
+                        <div class="row x-gap-10 y-gap-30">
+                            <div class="col-12">
+                                <div class="js-price-rangeSlider">
+                                    <div class="text-14 fw-500"></div>
+
+                                    <div class="d-flex justify-between mb-20">
+                                        <div class="text-15 text-dark-1">
+                                            <span class="js-lower"></span>
+                                            -
+                                            <span class="js-upper"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="px-5">
+                                        <div class="js-slider"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-filter__item">
+                        <h5 class="text-18 fw-500 mb-10">Amenities</h5>
+                        <div class="sidebar-checkbox">
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Breakfast Included</div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">92</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">WiFi Included </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">45</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Pool</div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">21</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Restaurant </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">78</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Air conditioning </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">679</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-filter__item">
+                        <h5 class="text-18 fw-500 mb-10">Star Rating</h5>
+                        <div class="row x-gap-10 y-gap-10 pt-10">
+
+                            <div class="col-auto">
+                                <a href="#" class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">1</a>
+                            </div>
+
+                            <div class="col-auto">
+                                <a href="#" class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">2</a>
+                            </div>
+
+                            <div class="col-auto">
+                                <a href="#" class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">3</a>
+                            </div>
+
+                            <div class="col-auto">
+                                <a href="#" class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">4</a>
+                            </div>
+
+                            <div class="col-auto">
+                                <a href="#" class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">5</a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-filter__item">
+                        <h5 class="text-18 fw-500 mb-10">Guest Rating</h5>
+                        <div class="sidebar-checkbox">
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="form-radio d-flex items-center ">
+                                        <div class="radio">
+                                            <input type="radio" name="name">
+                                            <div class="radio__mark">
+                                                <div class="radio__icon"></div>
+                                            </div>
+                                        </div>
+                                        <div class="ml-10">Any</div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">92</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="form-radio d-flex items-center ">
+                                        <div class="radio">
+                                            <input type="radio" name="name">
+                                            <div class="radio__mark">
+                                                <div class="radio__icon"></div>
+                                            </div>
+                                        </div>
+                                        <div class="ml-10">Wonderful 4.5+</div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">45</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="form-radio d-flex items-center ">
+                                        <div class="radio">
+                                            <input type="radio" name="name">
+                                            <div class="radio__mark">
+                                                <div class="radio__icon"></div>
+                                            </div>
+                                        </div>
+                                        <div class="ml-10">Very good 4+</div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">21</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="form-radio d-flex items-center ">
+                                        <div class="radio">
+                                            <input type="radio" name="name">
+                                            <div class="radio__mark">
+                                                <div class="radio__icon"></div>
+                                            </div>
+                                        </div>
+                                        <div class="ml-10">Good 3.5+ </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">78</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-filter__item">
+                        <h5 class="text-18 fw-500 mb-10">Style</h5>
+                        <div class="sidebar-checkbox">
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Budget</div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">92</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Mid-range </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">45</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Luxury</div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">21</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Family-friendly </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">78</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Business </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">679</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-filter__item">
+                        <h5 class="text-18 fw-500 mb-10">Neighborhood</h5>
+                        <div class="sidebar-checkbox">
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Central London</div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">92</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Guests&#39; favourite area </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">45</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Westminster Borough</div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">21</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Kensington and Chelsea </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">78</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Oxford Street </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">679</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mapFilter-results scroll-bar-1">
+                <div class="px-20 py-20 md:px-15 md:py-15">
+                    <div class="row y-gap-10 justify-between">
+                        <div class="col-auto">
+                            <div class="text-14 text-light-1">
+                                <span class="text-dark-1 text-15 fw-500">3,269 properties</span>
+                                in Europe
+                            </div>
+                        </div>
+
+                        <div class="col-auto">
+                            <button class="button -blue-1 h-40 px-20 md:px-5 text-blue-1 bg-blue-1-05 rounded-100">
+                                <i class="icon-up-down mr-10"></i>
+                                Top picks for your search
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <div class="mapFilter-results__item">
+                        <div class="row x-gap-20 y-gap-20">
+                            <div class="col-md-auto">
+                                <div class="ratio ratio-1:1 size-120">
+                                    <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                </div>
+                            </div>
+
+                            <div class="col-md">
+                                <div class="row x-gap-20 y-gap-10 justify-between">
+                                    <div class="col-lg">
+                                        <h4 class="text-16 lh-17 fw-500">
+                                            Great Northern Hotel, a Tribute Portfolio Hotel, London
+                                            <span class="text-10 text-yellow-2">
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                            </span>
+                                        </h4>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                                            <i class="icon-heart text-12"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="size-38 rounded-4 flex-center bg-blue-1">
+                                                <span class="text-14 fw-600 text-white">4.8</span>
+                                            </div>
+
+                                            <div class="ml-10">
+                                                <div class="text-13 lh-14 fw-500">Exceptional</div>
+                                                <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="text-14 text-light-1 mr-10">8 nights</div>
+                                            <div class="fw-500">US$72</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-results__item">
+                        <div class="row x-gap-20 y-gap-20">
+                            <div class="col-md-auto">
+                                <div class="ratio ratio-1:1 size-120">
+                                    <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                </div>
+                            </div>
+
+                            <div class="col-md">
+                                <div class="row x-gap-20 y-gap-10 justify-between">
+                                    <div class="col-lg">
+                                        <h4 class="text-16 lh-17 fw-500">
+                                            Great Northern Hotel, a Tribute Portfolio Hotel, London
+                                            <span class="text-10 text-yellow-2">
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                            </span>
+                                        </h4>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                                            <i class="icon-heart text-12"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="size-38 rounded-4 flex-center bg-blue-1">
+                                                <span class="text-14 fw-600 text-white">4.8</span>
+                                            </div>
+
+                                            <div class="ml-10">
+                                                <div class="text-13 lh-14 fw-500">Exceptional</div>
+                                                <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="text-14 text-light-1 mr-10">8 nights</div>
+                                            <div class="fw-500">US$72</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-results__item">
+                        <div class="row x-gap-20 y-gap-20">
+                            <div class="col-md-auto">
+                                <div class="ratio ratio-1:1 size-120">
+                                    <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                </div>
+                            </div>
+
+                            <div class="col-md">
+                                <div class="row x-gap-20 y-gap-10 justify-between">
+                                    <div class="col-lg">
+                                        <h4 class="text-16 lh-17 fw-500">
+                                            Great Northern Hotel, a Tribute Portfolio Hotel, London
+                                            <span class="text-10 text-yellow-2">
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                            </span>
+                                        </h4>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                                            <i class="icon-heart text-12"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="size-38 rounded-4 flex-center bg-blue-1">
+                                                <span class="text-14 fw-600 text-white">4.8</span>
+                                            </div>
+
+                                            <div class="ml-10">
+                                                <div class="text-13 lh-14 fw-500">Exceptional</div>
+                                                <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="text-14 text-light-1 mr-10">8 nights</div>
+                                            <div class="fw-500">US$72</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-results__item">
+                        <div class="row x-gap-20 y-gap-20">
+                            <div class="col-md-auto">
+                                <div class="ratio ratio-1:1 size-120">
+                                    <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                </div>
+                            </div>
+
+                            <div class="col-md">
+                                <div class="row x-gap-20 y-gap-10 justify-between">
+                                    <div class="col-lg">
+                                        <h4 class="text-16 lh-17 fw-500">
+                                            Great Northern Hotel, a Tribute Portfolio Hotel, London
+                                            <span class="text-10 text-yellow-2">
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                            </span>
+                                        </h4>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                                            <i class="icon-heart text-12"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="size-38 rounded-4 flex-center bg-blue-1">
+                                                <span class="text-14 fw-600 text-white">4.8</span>
+                                            </div>
+
+                                            <div class="ml-10">
+                                                <div class="text-13 lh-14 fw-500">Exceptional</div>
+                                                <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="text-14 text-light-1 mr-10">8 nights</div>
+                                            <div class="fw-500">US$72</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-results__item">
+                        <div class="row x-gap-20 y-gap-20">
+                            <div class="col-md-auto">
+                                <div class="ratio ratio-1:1 size-120">
+                                    <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                </div>
+                            </div>
+
+                            <div class="col-md">
+                                <div class="row x-gap-20 y-gap-10 justify-between">
+                                    <div class="col-lg">
+                                        <h4 class="text-16 lh-17 fw-500">
+                                            Great Northern Hotel, a Tribute Portfolio Hotel, London
+                                            <span class="text-10 text-yellow-2">
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                            </span>
+                                        </h4>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                                            <i class="icon-heart text-12"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="size-38 rounded-4 flex-center bg-blue-1">
+                                                <span class="text-14 fw-600 text-white">4.8</span>
+                                            </div>
+
+                                            <div class="ml-10">
+                                                <div class="text-13 lh-14 fw-500">Exceptional</div>
+                                                <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="text-14 text-light-1 mr-10">8 nights</div>
+                                            <div class="fw-500">US$72</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-results__item">
+                        <div class="row x-gap-20 y-gap-20">
+                            <div class="col-md-auto">
+                                <div class="ratio ratio-1:1 size-120">
+                                    <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                </div>
+                            </div>
+
+                            <div class="col-md">
+                                <div class="row x-gap-20 y-gap-10 justify-between">
+                                    <div class="col-lg">
+                                        <h4 class="text-16 lh-17 fw-500">
+                                            Great Northern Hotel, a Tribute Portfolio Hotel, London
+                                            <span class="text-10 text-yellow-2">
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                            </span>
+                                        </h4>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                                            <i class="icon-heart text-12"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="size-38 rounded-4 flex-center bg-blue-1">
+                                                <span class="text-14 fw-600 text-white">4.8</span>
+                                            </div>
+
+                                            <div class="ml-10">
+                                                <div class="text-13 lh-14 fw-500">Exceptional</div>
+                                                <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="text-14 text-light-1 mr-10">8 nights</div>
+                                            <div class="fw-500">US$72</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-results__item">
+                        <div class="row x-gap-20 y-gap-20">
+                            <div class="col-md-auto">
+                                <div class="ratio ratio-1:1 size-120">
+                                    <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                </div>
+                            </div>
+
+                            <div class="col-md">
+                                <div class="row x-gap-20 y-gap-10 justify-between">
+                                    <div class="col-lg">
+                                        <h4 class="text-16 lh-17 fw-500">
+                                            Great Northern Hotel, a Tribute Portfolio Hotel, London
+                                            <span class="text-10 text-yellow-2">
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                            </span>
+                                        </h4>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                                            <i class="icon-heart text-12"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="size-38 rounded-4 flex-center bg-blue-1">
+                                                <span class="text-14 fw-600 text-white">4.8</span>
+                                            </div>
+
+                                            <div class="ml-10">
+                                                <div class="text-13 lh-14 fw-500">Exceptional</div>
+                                                <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="text-14 text-light-1 mr-10">8 nights</div>
+                                            <div class="fw-500">US$72</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="mapFilter-map">
+                <div class="map js-map"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ***** All jQuery Plugins ***** -->
+    <!-- Social media js -->
+    <script src="~/js/jquery/jquery.min.js"></script>
+    <!-- Plugins js -->
+    <script src="~/js/plugins/plugins.min.js"></script>
+
+    <!-- ***** Clander js ***** -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+    <script src="~/js/daterangepicker.js"></script>
+
+    <!-- Bootstrap js -->
+    <script src="~/js/bootstrap/popper.min.js"></script>
+    <script src="~/js/bootstrap/bootstrap.min.js"></script>
+    <!-- Travellers js -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAz77U5XQuEME6TpftaMdX0bBelQxXRlM"></script>
+    <script src="~/js/vendors.js"></script>
+    <script src="~/js/main.js"></script>
+    <!-- Active js -->
+    <script src="~/js/active.js"></script>
+     <script>
+    $(document).ready(function () {      
+         
+        $("#showReviewPopupAsia01").click(function () {
+              debugger;
+            var formData = $('#multipleValuesForm').serialize();
+    $.ajax({
+                url: '/AATripsell/Travllerdetails',
+        type: 'POST',
+        data: formData,
+        success: function(response) {
+            // Handle success response
+            console.log(response);
+        },
+        error: function(error) {
+            // Handle error
+            console.error(error);
+        }
+    });              
+                   
+ });
+        
+
+
+    });
+
+ </script> 
+
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {       
+            var radioButtons = document.querySelectorAll('input[name="Radios"]');            
+            radioButtons.forEach(function (radioButton) {
+                radioButton.addEventListener("click", function () {
+                    debugger;                
+                    //var selectedValue = this.value;                  
+                    var crcode = document.getElementById("carrierCode").value;                   
+                    document.getElementById("carierCodedata").innerText = crcode;
+                    var identifiercode = document.getElementById("identifier").value;                 
+                    document.getElementById("IdentifierData").innerText = identifiercode;
+
+                    var identifiercode = document.getElementById("departuretime").value;
+                    document.getElementById("departureData").innerText = identifiercode;
+
+                    var origincode = document.getElementById("origin").value;
+                    document.getElementById("originData").innerText = origincode;
+
+                    var diffcode = document.getElementById("diff").value;
+                    document.getElementById("diffData").innerText = diffcode;
+
+                    var stopcode = document.getElementById("stops").value;
+                    document.getElementById("stopData").innerText = stopcode;
+
+                    var arrivalcode = document.getElementById("arrival").value;
+                    document.getElementById("arrivalData").innerText = arrivalcode;
+
+                    var destinationcode = document.getElementById("destination").value;
+                    document.getElementById("destinationData").innerText = destinationcode;
+
+                    var fareTotalsumcode = document.getElementById("fareTotalsum").value;
+                    document.getElementById("fareTotalsumData").innerText = fareTotalsumcode;
+                    //console.log("Selected Value:", selectedValue);                  
+                    //updateUI(selectedValue);
+                });
+            });            
+            function updateUI(selectedValue) {               
+               // document.getElementById("dataresult").innerText = "Selected Value: " + crcode;
+            }
+        });
+        
+        
+        
+        
+        $(document).ready(function () {
+            $('#ab').click(function () {
+                alert("as");
+            });
+
+
+            // $("input[name='chknonstop']").click(function () {
+            //   var id= $('#chknonstop').val();
+            //  alert(id);
+            //var data=JSON.stringify(id);
+            //alert(data);
+            // $.ajax({
+
+            // async: true,
+            // type: "POST",
+            ////url: "/FlightSearchIndex/SearchResultFlightId",
+            //  url: "/SearchResultFlightId/FlightSearchIndex",
+
+            // data :{ id: id},
+            // datatype:"json",
+            // success: function (msg) {
+            ////alert(msg);
+            // alert(JSON.stringify(req));
+            // },
+            // error: function (req,status,error)
+            // {
+            //     alert(JSON.stringify(req));
+            //    // alert(req);
+            // }
+
+            //  });
+
+            //     //$.ajax({
+
+            //     //    type: "POST",
+            //     //    url: "/FlightSearchIndex/SearchResultFlightId",
+            //     //    data: { "id": "id" },
+
+            //     //    success: function (responce) {
+            //     //        $(responce.each(function () {
+            //     //            alert("yes" + this.id);
+
+            //     //        })
+
+            //     //    },
+            //     //    faliure: function (responce) {
+            //     //        alert(responce.responceText);
+            //     //    },
+            //     //    error: function () {
+            //     //        alert(responce.responceText);
+            //     //    }
+            //     //});
+
+
+
+            // });
+
+
+        });
+
+
+        $('.showBtn').click(function () {
+            //$('.hideme').hide();
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+                $('.hideme').slideUp(1);
+            } else {
+                $('.hideme').slideUp(1);
+                $('.showBtn').removeClass('active');
+                $(this).addClass('active');
+                $(this).next().filter('.hideme').slideDown(1);
+            }
+        });
+
+
+    </script>
+
+</body>
+
+
