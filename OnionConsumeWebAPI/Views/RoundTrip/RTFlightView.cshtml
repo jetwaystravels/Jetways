@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DomainLayer.Model.SimpleAvailibilityaAddResponce>
+﻿@model DomainLayer.ViewModel.ViewModel
 @{
     Layout = null;
     var data = Model;
@@ -116,15 +116,15 @@
             <div class="container">
                 <div class="row y-gap-30">
                     <div class="col-xl-3 col-lg-4">
-                        <aside class="sidebar py-20 px-20 rounded-4 bg-white">
-                            <partial name="_RTFlightViewPartialView.cshtml" />  
-                        </aside>
+                         <aside class="sidebar py-20 px-20 rounded-4 bg-white">
+                             <partial name="_RTFlightViewPartialView.cshtml" />   
+                        </aside> 
                     </div>
                     <div class="col-xl-9 col-lg-8 ps-0">
                      <div class="row">
                     <div class="col-xl-6 col-lg-6">
                         
-                                <div class="row y-gap-10 justify-between items-center">
+                                 <div class="row y-gap-10 justify-between items-center">
                                     <div class="col-auto">
                                         <div class="text-18"><span class="fw-500">Showing - @ViewData["count"] results.</span> </div>
                                   </div>
@@ -140,11 +140,11 @@
                                         <h6>@ViewData["origin"]<i class="fa fa-angle-double-right" aria-hidden="true"></i>@ViewData["destination"]</h6>
                                     </div>
                                 </div>
-                                
+                                 
                                  
                                 <!----->
-                           <form asp-controller="FlightSearchIndex" method="post" id="reconnectingFlight">
-                            @foreach (var flightResult in Model)
+                           <form asp-controller="" method="post" id="reconnectingFlight">
+                             @foreach (var flightResult in Model.SimpleAvailibilityaAddResponcelist)
                             {
                                 <div class="py-10 px-20 bg-white mt-20">
                                     <div class="d-flex y-gap-30 justify-between">
@@ -161,7 +161,7 @@
                                                         var departuretimefinal = departuretimestr.Substring(11, 5);
                                                     }
                                                     <div class="">@departuretimefinal</div>
-                                                    <div class="">@flightResult.designator.origin</div>
+                                                    <div class="">@flightResult.designator</div>
 
                                                     <input type="hidden" id="departuretime" value="@departuretimefinal" />
                                                     <input type="hidden" id="origin" value="@flightResult.designator.origin" />
@@ -426,10 +426,10 @@
                                     </div>                              
                                 
                                 </div>
-                            }
+                            } 
                               </form>                             
                     </div>
-                     <div class="col-xl-6 col-lg-6">
+                      <div class="col-xl-6 col-lg-6">
                        
                                 <div class="row y-gap-10 justify-between items-center">
                                     <div class="col-auto">
@@ -449,7 +449,7 @@
                                 </div>
                                 <!----->
                                 <form asp-controller="FlightSearchIndex" method="post">
-                                    @foreach (var flightResult in Model)
+                                    @foreach (var flightResult in Model.SimpleAvailibilityaAddResponcelistR)
                                     {
                                        
                                             <div class="py-10 px-20 bg-white mt-20">
@@ -942,7 +942,7 @@
                                   </div>
                                 </div>
                                 <div class="modal-footer">
-                                    @* <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> *@
+                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
                                     <button type="button" class="btn btn-primary">Continue</button>
                                 </div>
                             </div>
@@ -988,9 +988,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-     
+        </div>     
 
     </main>
 
@@ -2560,5 +2558,6 @@
     </script>
 
 </body>
+</html>
 
 

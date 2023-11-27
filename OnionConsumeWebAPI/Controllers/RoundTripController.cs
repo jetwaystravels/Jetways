@@ -28,10 +28,20 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
             ViewData["destination"] = destinationdata;
             List<SimpleAvailibilityaAddResponce> SimpleAvailibilityaAddResponcelist = new List<SimpleAvailibilityaAddResponce>();
             SimpleAvailibilityaAddResponce SimpleAvailibilityaAddResponceobj = new SimpleAvailibilityaAddResponce();
-            SimpleAvailibilityaAddResponcelist = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(TempData["Mymodel"].ToString());       
-            HttpContext.Session.SetString("FlightDetail", JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist));
 
-            return View(SimpleAvailibilityaAddResponcelist.AsEnumerable());
+            List<SimpleAvailibilityaAddResponce> SimpleAvailibilityaAddResponcelistR = new List<SimpleAvailibilityaAddResponce>();
+            SimpleAvailibilityaAddResponce _SimpleAvailibilityaAddResponceobjR = new SimpleAvailibilityaAddResponce();
+            ViewModel vmobj = new ViewModel();
+
+            SimpleAvailibilityaAddResponcelist = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(TempData["Mymodel"].ToString());
+            SimpleAvailibilityaAddResponcelistR = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(TempData["MymodelR"].ToString());
+            vmobj.SimpleAvailibilityaAddResponcelistR = SimpleAvailibilityaAddResponcelistR;
+            vmobj.SimpleAvailibilityaAddResponcelist = SimpleAvailibilityaAddResponcelist;
+
+
+            HttpContext.Session.SetString("FlightDetail", JsonConvert.SerializeObject(vmobj));
+
+            return View(vmobj);
         }
     }
 }

@@ -16,8 +16,11 @@ namespace DomainLayer.ViewModel
 
 		public SSRAvailabiltyResponceModel Meals { set; get; }
 
+        public List<SimpleAvailibilityaAddResponce> SimpleAvailibilityaAddResponcelist { get; set; }
+
+        public List<SimpleAvailibilityaAddResponce> SimpleAvailibilityaAddResponcelistR { get; set; }
 
 
 
-	}
+    }
 }
