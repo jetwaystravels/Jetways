@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Net;
@@ -188,15 +189,17 @@ namespace OnionConsumeWebAPI.Controllers
                     if (infanttype[i].code != null)
                     {
                         _PassengersModel1.nationality = "IN";
+                        _PassengersModel1.dateOfBirth = "2023-10-01";
                         _PassengersModel1.residentCountry = "IN";
                         _PassengersModel1.gender = "Male";
-                        _PassengersModel1.dateOfBirth = "2022-09-01";
-                        InfantName name = new InfantName();
-                        name.title = "Mr";
-                        name.first = infanttype[i].First;
-                        name.last = infanttype[i].Last;
-                        name.suffix = "";
-                        _PassengersModel1.namee = name;
+                       
+                        InfantName nameINF = new InfantName();
+                        nameINF.first = infanttype[i].First;
+                        nameINF.middle = "";
+                        nameINF.last = infanttype[i].Last;
+                        nameINF.title = "Mr";
+                        nameINF.suffix = "";
+                        _PassengersModel1.name = nameINF;
 
 
                         var jsonPassengers = JsonConvert.SerializeObject(_PassengersModel1, Formatting.Indented);
@@ -208,6 +211,21 @@ namespace OnionConsumeWebAPI.Controllers
                             var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
                             var JsonObjPassengers = JsonConvert.DeserializeObject<dynamic>(_responsePassengers);
                         }
+
+                        // STRAT Get INFO
+                        // var jsonPassengers = JsonConvert.SerializeObject(_PassengersModel1, Formatting.Indented);
+                        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                        HttpResponseMessage responceGetBooking = await client.GetAsync(BaseURL + "/api/nsk/v1/booking");
+                        if (responceGetBooking.IsSuccessStatusCode)
+                        {
+                            var _responceGetBooking = responceGetBooking.Content.ReadAsStringAsync().Result;
+                            var JsonObjGetBooking = JsonConvert.DeserializeObject<dynamic>(_responceGetBooking);
+                        }
+                        //END
+
+
+
                     }
                 }
 

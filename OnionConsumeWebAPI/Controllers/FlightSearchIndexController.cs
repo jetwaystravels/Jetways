@@ -443,8 +443,8 @@ namespace OnionConsumeWebAPI.Controllers
                         // var value = JsonObj.data.token;
                         //var value = JsonObj.data.results[0].trips[0].date;
                         var oriDes = _GetfligthModel.destination + "|" + _GetfligthModel.origin;
-                        TempData["origin"] = _SimpleAvailabilityobj.origin;
-                        TempData["destination"] = _SimpleAvailabilityobj.destination;
+                        TempData["originR"] = _SimpleAvailabilityobj.origin;
+                        TempData["destinationR"] = _SimpleAvailabilityobj.destination;
 
 
 
@@ -454,7 +454,7 @@ namespace OnionConsumeWebAPI.Controllers
 
 
                         int count = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes].Count;
-                        TempData["count"] = count;
+                        TempData["countr"] = count;
 
 
 

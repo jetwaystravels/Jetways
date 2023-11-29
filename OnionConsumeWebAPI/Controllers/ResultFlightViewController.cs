@@ -52,11 +52,11 @@ namespace OnionConsumeWebAPI.Controllers
 
                 string tokenview = HttpContext.Session.GetString("AirasiaTokan");
 
-                token = tokenview.Replace(@"""", string.Empty);
-                if (token == "" || token == null)
+                if (tokenview == "" || tokenview == null)
                 {
                     return RedirectToAction("Index");
                 }
+                token = tokenview.Replace(@"""", string.Empty);
 
 
                 HttpContext.Session.SetString("journeyKey", JsonConvert.SerializeObject(journeyKey));
@@ -156,7 +156,7 @@ namespace OnionConsumeWebAPI.Controllers
                             AASegmentobj.isHosted = JsonObjTripsell.data.journeys[i].segments[j].isHosted;
 
                             AADesignator AASegmentDesignatorobj = new AADesignator();
-
+                            var cityname=   Citydata.GetAllcity().Where(x => x.cityCode == "DEL");
                             AASegmentDesignatorobj.origin = JsonObjTripsell.data.journeys[i].segments[j].designator.origin;
                             AASegmentDesignatorobj.destination = JsonObjTripsell.data.journeys[i].segments[j].designator.destination;
                             AASegmentDesignatorobj.departure = JsonObjTripsell.data.journeys[i].segments[j].designator.departure;
@@ -273,7 +273,7 @@ namespace OnionConsumeWebAPI.Controllers
                     HttpContext.Session.SetString("keypassenger", JsonConvert.SerializeObject(AirAsiaTripResponceobj));
                 }
                 #region Itenary 
-                if (infanttype != null)
+                 if (infanttype != null )
                 {
 
                     string passengerdatainfant = HttpContext.Session.GetString("keypassenger");

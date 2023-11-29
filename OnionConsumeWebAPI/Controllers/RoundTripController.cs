@@ -26,6 +26,16 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
             ViewData["origin"] = origindata;
             var destinationdata = TempData["destination"];
             ViewData["destination"] = destinationdata;
+
+            var searchcountR = TempData["countR"];
+            ViewData["countR"] = searchcountR;
+
+            var origindataR = TempData["originR"];
+            ViewData["originR"] = origindataR;
+
+            var destinationdataR = TempData["destinationR"];
+            ViewData["destinationR"] = destinationdataR;
+
             List<SimpleAvailibilityaAddResponce> SimpleAvailibilityaAddResponcelist = new List<SimpleAvailibilityaAddResponce>();
             SimpleAvailibilityaAddResponce SimpleAvailibilityaAddResponceobj = new SimpleAvailibilityaAddResponce();
 

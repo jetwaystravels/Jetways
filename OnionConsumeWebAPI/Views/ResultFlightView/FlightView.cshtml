@@ -141,6 +141,8 @@
 
                             @foreach (var flightResult in Model)
                             {
+                                var collapseId = "ViewPriceCollapse" + @flightResult.segments[0].identifier.identifier;
+
                                 <div class="py-20 px-20 bg-white mt-20">
                                     <div class="row y-gap-30 justify-between">
                                         <div class="col">
@@ -184,7 +186,22 @@
                                                                 <div></div>
                                                                 <div></div>
                                                             </div>
-                                                            <div class="mt-1">@flightResult.stops</div>
+                                                            @{
+                                                                var stops = @flightResult.stops;
+                                                                if(stops==0)
+                                                                {
+                                                                    <div class="mt-1">NonStop</div>
+                                                                }
+                                                                if (stops == 1)
+                                                                {
+                                                                    <div class="mt-1">1Stop via @flightResult.segments[0].designator.destination </div>
+                                                                }
+                                                                if (stops == 2)
+                                                                {
+                                                                    <div class="mt-1">2Stop</div>
+                                                                }
+                                                            }
+                                                           @*  <div class="mt-1">@flightResult.stops</div> *@
                                                         </div>
 
                                                         <div class="col-auto">
@@ -216,7 +233,8 @@
                                                     </div>
 
                                                     <div>
-                                                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#ViewPriceCollapse1" aria-expanded="false" aria-controls="ViewPriceCollapse1">View Price<i class="fa fa-angle-double-down ml-2"></i></button>
+                                                      
+                                                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">View Price<i class="fa fa-angle-double-down ml-2"></i></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -224,12 +242,8 @@
 
 
 
-
-
-
-
                                     </div>
-                                    <div class="collapse multi-collapse" id="ViewPriceCollapse1">
+                                       <div class="collapse multi-collapse" id="@collapseId">
                                         <table class="table mt-20">
                                             <thead class="bg-light-2">
                                                 <tr>
