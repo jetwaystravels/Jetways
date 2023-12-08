@@ -1,0 +1,84 @@
+﻿
+/*Vinay_New_CSS*/
+.btn-increase, input {
+    border: none !important;
+    font-size: 15px;
+    color: #3554d1;
+    margin: 0px 0px 0px 5px;
+    font-weight: 700;
+}
+
+    .btn-increase, input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .btn-increase, textarea:focus, input:focus {
+        outline: none;
+    }
+
+.btn_sub {
+    width: 30px;
+    height: 30px;
+    border-radius: 20px;
+    margin: 5px;
+    border: 1px solid #3554d1;
+}
+
+    .btn_sub:hover {
+        background: #0858bd;
+        color: #fff;
+        border: 1px solid #0858bd;
+    }
+
+.btn-increase {
+    display: flex;
+    justify-items: center;
+}
+
+.btn_sub {
+    padding: 2px 0px 0px 9px;
+}
+
+.fisrt {
+    border: 1px solid #ccd3d8 !important;
+}
+
+.auto-suggest {
+    position: absolute;
+    z-index: 99;
+    background-color: #f6fbff;
+    padding-left: 10px;
+    border-radius: 6px;
+    max-height: 210px;
+    overflow-y: scroll;
+   
+    top: 80px;
+}
+
+#airportSuggestions {
+    width: 256px;
+}
+#airportname {
+    position: absolute;
+    bottom: 9px;
+    left: 40px;
+    font-size: 14px;
+}
+#airportInput {
+    font-size: 20px !important;
+    font-weight: 600;
+}
+.flightdepr img {
+    padding-left: 10px;
+}
+
+#airportInput::placeholder {
+    font-size:15px; 
+    font-weight:400;
+}
+.auto-suggest li::before {
+    content: url('../img/plane-icn.png'); /* Replace 'flight-icon.png' with the path to your flight icon */
+    margin-right: 5px;
+}
+   

@@ -18,7 +18,7 @@ namespace DomainLayer.Model
             Citydata cityDEL = new Citydata();
             {
                 cityDEL.cityCode = "DEL";
-                cityDEL.cityName = "New DELHI";
+                cityDEL.cityName = "New Delhi";
             };
             Citydatalist.Add(cityDEL);
 
@@ -28,7 +28,14 @@ namespace DomainLayer.Model
                 citycityBOM.cityName = "Mumbai";
             };
             Citydatalist.Add(citycityBOM);
-           
+
+            Citydata citycityBLR = new Citydata();
+            {
+                citycityBLR.cityCode = "BLR";
+                citycityBLR.cityName = "Bangalore";
+            };
+            Citydatalist.Add(citycityBLR);
+
 
             return Citydatalist;
         }

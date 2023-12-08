@@ -1,8 +1,7 @@
-﻿
-<form asp-action="ContectDetails" asp-controller="AATripsell" method="post">
+﻿<form asp-action="ContectDetails" asp-controller="AATripsell" method="post">
     @* @Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
-    <div class="row x-gap-20 y-gap-20 mt-30 mb-30 bg-white">
-        <h2 class="text-22 fw-600 md:mt-20 ">Enter Traveller Details |  <span class="text-18">Sign in  to book faster and use eCash</span></h2>
+    <div class="row  row mt-2 py-3 mb-3">
+
         <div class="col-12">
             <label class="text-18 fw-600">Contact Details</label>
         </div>
@@ -26,149 +25,20 @@
                 <label class="lh-1 text-16 text-light-1">Phone Number</label>
             </div>
         </div>
-        <div class="d-flex justify-content-end">
-            <input type="submit" class="btn btn-primary" value="Save" />
+        <div class="d-flex justify-content-end mt-3">
+            <input type="submit" class="btn btn-primary pagelaod" value="Save" />
         </div>
 
-
+    </div>
 </form>
-@*<form onsubmit="event.preventDefault();onFormSubmit();" autocomplete="off">
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="row x-gap-20 y-gap-20 mt-30 mb-30 bg-white">
-        <h2 class="text-22 fw-600 md:mt-20 ">Enter Traveller Details |  <span class="text-18">Sign in  to book faster and use eCash</span></h2>
-        <div class="col-12">
-            <label class="text-18 fw-600">Contact Details</label>
-        </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".pagelaod").click(function (e) {
+            e.preventDefault();
 
-        <div class="col-md-6">
-            <div class="form-input ">
-
-                <input type="text" name="email" id="email">
-                <label class="lh-1 text-16 text-light-1">Email ID</label>
-            </div>
-        </div>
-
-        <div class="col-md-2 phone-code">
-            <select class="form-control form-control-lg">
-                <option>+91</option>
-            </select>
-        </div>
-        <div class="col-md-4 phone-number">
-            <div class="form-input">
-                <input type="text" name="phone" id="phone">
-                <label class="lh-1 text-16 text-light-1">Phone Number</label>
-            </div>
-        </div>
-        <div class="form-action-buttons">
-
-            <input type="submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" />
-        </div>
-
-
-</form>*@
-
-
-
-@*<script src="script.js"></script>
-<script>
-    var selectedRow = null
-
-    function onFormSubmit() {
-        debugger;
-        if (validate()) {
-            var formData = readFormData();
-
-            if (selectedRow == null)
-                insertNewRecord(formData);
-
-            else
-                updateRecord(formData);
-                      resetForm();
-        }
-    }
-
-    function readFormData() {
-        debugger;
-        var formData = {};
-        formData["email"] = document.getElementById("email").value;
-        formData["phone"] = document.getElementById("phone").value;
-        return formData;
-    }
-
-    function insertNewRecord(data) {
-        debugger;
-        var table = document.getElementById("employeeList").getElementsByTagName('tbody')[0];
-        var newRow = table.insertRow(table.length);
-        cell1 = newRow.insertCell(0);
-        cell1.innerHTML = data.email;
-        cell2 = newRow.insertCell(1);
-        cell2.innerHTML = data.phone;
-          cell2 = newRow.insertCell(2);
-        cell2.innerHTML = `<a class="btn btn-primary"  data-dismiss="modal" onClick="onEdit(this)">Edit</a>
-                                      <a class="btn btn-primary" data-dismiss="modal" onClick="onDelete(this)">Confirm</a>` ;
-    }
-
-    function resetForm() {
-        debugger;
-        document.getElementById("email").value = "";
-        document.getElementById("phone").value = "";
-
-        selectedRow = null;
-    }
-    function onEdit(td) {
-        debugger;
-        selectedRow = td.parentElement.parentElement;
-        document.getElementById("email").value = selectedRow.cells[0].innerHTML;
-        document.getElementById("phone").value = selectedRow.cells[1].innerHTML;
-
-    }
-    function updateRecord(formData) {
-        debugger;
-        selectedRow.cells[0].innerHTML = formData.email;
-        selectedRow.cells[1].innerHTML = formData.phone;
-
-    }
-
-    function onDelete(td) {
-        debugger;
-        selectedRow = td.parentElement.parentElement;
-        var Email = document.getElementById("email").value = selectedRow.cells[0].innerHTML;
-        var mobile = document.getElementById("phone").value = selectedRow.cells[1].innerHTML;
-        debugger;
-        var data =
-        {
-            Email: Email,
-            mobile: mobile
-        };
-            $.ajax({
-            url: "/AATripsell/ContectDetails",
-                type: "POST",
-                contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // when we use .serialize() this generates the data in query string format. this needs the default contentType (default content type is: contentType: 'application/x-www-form-urlencoded; charset=UTF-8') so it is optional, you can remove it
-                data:data,
-                // data: { "name": $("#txtName").val() },
-                success: function (data) {
-                    console.log(data);
-                },
-                error: function (err) {
-                    console.error(err);
-                }
-            });
-
-    }
-
-    function validate() {
-        debugger;
-        isValid = true;
-        if (document.getElementById("email").value == "") {
-            isValid = false;
-            document.getElementById("emailValidationError").classList.remove("hide");
-        }
-        else {
-            isValid = true;
-            //if (!document.getElementById("emailValidationError").classList.contains("hide"))
-            // document.getElementById("emailValidationError").classList.add("hide");
-        }
-        return isValid;
-    }
+        });
 </script>
-*@
+
+
+
+

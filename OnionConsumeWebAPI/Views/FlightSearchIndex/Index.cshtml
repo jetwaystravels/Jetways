@@ -1,49 +1,7 @@
 ﻿@* @model DomainLayer.Model.GetfligthModel *@
 @model DomainLayer.Model.SimpleAvailabilityRequestModel
 
-<style>
-    /*Vinay_New_CSS*/
 
-    .btn-increase, input {
-        border: none !important;
-        font-size: 15px;
-        color: #3554d1;
-        margin: 0px 0px 0px 5px;
-        font-weight: 700;
-    }
-
-        .btn-increase, input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        .btn-increase, textarea:focus, input:focus {
-            outline: none;
-        }
-
-    .btn_sub {
-        width: 30px;
-        height: 30px;
-        border-radius: 20px;
-        margin: 5px;
-        border: 1px solid #3554d1;
-    }
-
-        .btn_sub:hover {
-            background: #0858bd;
-            color: #fff;
-            border: 1px solid #0858bd;
-        }
-
-    .btn-increase {
-        display: flex;
-        justify-items: center;
-    }
-
-    .btn_sub {
-        padding: 2px 0px 0px 9px;
-    }
-</style>
 <body>
 
     <!--====== Scroll To Top Area Start ======-->
@@ -179,13 +137,21 @@
                                         <div class="row">
                                             <div class="col-12 col-md-10 col-lg-3 space autocomplete">
                                                 <label>Flying From</label>
-                                                <span class="input-group-text">
+                                                <span class="input-group-text flightdepr">
                                                     <img src="~/img/location-icon.png" alt="icon">&nbsp;
                                                     @* <input id="myInput" type="" placeholder="Delhi DL" class="form-control fisrt">*@
-                                                    <select class="form-control fisrt" id="ToCity" asp-for="origin"
+                                                     <select class="form-control fisrt" id="ToCity" asp-for="origin"
                                                             asp-items="@(new SelectList(@ViewBag.ListofCountry,"CityCode", "CityName"))">
-                                                    </select>
+                                                    </select> 
+                                                    @*AutoSuggest Code For Airport
+
+                                                    <input type="text" id="airportInput" class="form-control text-15 first" placeholder="Type to search for airports">
+                                                    *@
                                                 </span>
+                                                @*<div id="airportname"></div>
+                                                <div class="auto-suggest">
+                                                    <ul id="airportSuggestions"></ul>
+                                                </div>  *@
                                             </div>
 
                                             <div class="col-12 col-md-10 col-lg-3 space autocomplete">
@@ -200,23 +166,20 @@
                                             </div>
                                             <div class="col-12 col-md-10 col-lg-2 space">
                                                 <label>Departure</label>
-                                                <span class="input-group-text">
+                                                 <span class="input-group-text">
                                                     <img src="~/img/calender-icon.png" alt="icon">
                                                     <input id="start-date" asp-for="beginDate" type="" placeholder="Mon May 16" class="form-control">
                                                     <span asp-validation-for="beginDate"></span>
-                                                </span>
+                                                </span> 
                                             </div>
                                             <div class="col-12 col-md-10 col-lg-2 space">
                                                 <label>Return</label>
                                                 <span class="input-group-text">
                                                     <img src="~/img/calender-icon.png" alt="icon">
-                                                    <input id="end-date" asp-for="endDate" type="date" placeholder="Mon Dec 11" class="form-control" disabled>
+                                                    <input id="end-date" asp-for="endDate" type="" placeholder="Mon Dec 11" class="form-control" disabled>
                                                     <span asp-validation-for="endDate"></span>
                                                 </span>
-                                                @* <span class="input-group-text" id="basic-addon1">
-                                                <img src="~/img/calender-icon.png" alt="icon">
-                                                <input id="Return-date" type="text" placeholder="Fri Jun 2" class="form-control">
-                                                </span> *@
+                                               
                                             </div>
                                             <div class="col-12 col-md-10 col-lg-2 space travellers">
                                                 <label>Travellers </label>
@@ -231,8 +194,6 @@
                                                             <span class="js-count-infents" id="count_infant">0</span> Infants
                                                         </div>
                                                     </div>
-
-
 
                                                     <div class="searchMenu-guests__field shadow-2" data-x-dd="searchMenu-guests" data-x-dd-toggle="-is-active">
 
@@ -290,6 +251,77 @@
                                                             </div>
 
                                                             <div class="border-top-light mt-24 mb-24"></div>
+
+                                                            @*     <div class="row y-gap-10 justify-between items-center">
+                                                            <div class="col-auto">
+                                                            <div class="text-15 fw-500">Adults</div>
+                                                            </div>
+
+                                                            <div class="col-auto">
+                                                            <div class="d-flex items-center js-counter" data-value-change=".js-count-adult">
+                                                            <button class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-down">
+                                                            <i class="fa fa-minus" aria-hidden="true"></i>
+                                                            </button>
+
+                                                            <div class="flex-center size-20 ml-15 mr-15">
+                                                            <div class="text-15 js-count">2</div>
+                                                            </div>
+
+                                                            <button class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-up">
+                                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                                            </button>
+                                                            </div>
+                                                            </div>
+                                                            </div>
+
+                                                            <div class="border-top-light mt-24 mb-24"></div>
+
+                                                            <div class="row y-gap-10 justify-between items-center">
+                                                            <div class="col-auto">
+                                                            <div class="text-15 lh-12 fw-500">Children</div>
+                                                            <div class="text-14 lh-12 text-light-1 mt-5">Ages 0 - 17</div>
+                                                            </div>
+
+                                                            <div class="col-auto">
+                                                            <div class="d-flex items-center js-counter" data-value-change=".js-count-child">
+                                                            <button class="button -outline-blue-1 text-blue-1 size-38 rounded-5 js-down">
+                                                            <i class="fa fa-minus" aria-hidden="true"></i>
+                                                            </button>
+
+                                                            <div class="flex-center size-20 ml-15 mr-15">
+                                                            <div class="text-15 js-count">1</div>
+                                                            </div>
+
+                                                            <button class="button -outline-blue-1 text-blue-1 size-38 rounded-5 js-up">
+                                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                                            </button>
+                                                            </div>
+                                                            </div>
+                                                            </div>
+
+                                                            <div class="border-top-light mt-24 mb-24"></div>
+
+                                                            <div class="row y-gap-10 justify-between items-center">
+                                                            <div class="col-auto">
+                                                            <div class="text-15 fw-500">Infents</div>
+                                                            </div>
+
+                                                            <div class="col-auto">
+                                                            <div class="d-flex items-center js-counter" data-value-change=".js-count-infents">
+                                                            <button class="button -outline-blue-1 text-blue-1 size-38 rounded-5 js-down">
+                                                            <i class="fa fa-minus" aria-hidden="true"></i>
+                                                            </button>
+
+                                                            <div class="flex-center size-20 ml-15 mr-15">
+                                                            <div class="text-15 js-count">1</div>
+                                                            </div>
+
+                                                            <button class="button -outline-blue-1 text-blue-1 size-38 rounded-5 js-up">
+                                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                                            </button>
+                                                            </div>
+                                                            </div>
+                                                            </div> *@
 
                                                         </div>
 
@@ -712,6 +744,7 @@
     <!-- Social media js -->
     <!-- Clander js -->
     @section scripts{
+        <link href="~/css/indexvny.css" rel="stylesheet" />
         <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
         <link rel="stylesheet" href="/resources/demos/style.css">
         <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -728,100 +761,13 @@
 
         <!-- Active js -->
         <script src="assets/js/active.js"></script>
+        <script src="~/js/custom.js/airportcode.js"></script>
+        <script src="~/js/custom.js/indexpage.js"></script>
+        
 
 
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('.S-option input[type="radio"]').on('change', function () {
-                    // Uncheck all radio buttons in the same group except the currently selected one
-                    $('.S-option input[type="radio"]').not(this).prop('checked', false);
-                });
-                $('#end-date').prop('disabled', true);
+      
 
-                // Event handler for radio button change
-                $('input[type="radio"]').on('change', function () {
-                    if ($('#round-tripid').is(':checked')) {
-                        // Enable the end date input field when Round Trip is selected
-                        $('#end-date').prop('disabled', false);
-                    } else {
-                        // Disable the end date input field for other options
-                        $('#end-date').prop('disabled', true);
-                    }
-                });
-
-                $(function () {
-                    $("#start-date").datepicker(
-                        {
-                            dateFormat: 'yy-mm-dd',
-                            numberOfMonths: 2,
-                            maxDate: '+2m',
-                            minDate: '0'
-
-
-                        });
-
-                });
-
-                var maxField = 6;
-                var maxField_adult = 9;
-                var count = 0;
-                $('.increment').on('click', function () {
-                    if (count < maxField_adult) {
-                        count++;
-                        $('#count_adult').text(count);
-                        $('#field_adult').val(count);
-                    }
-                });
-
-                $('.decrement').on('click', function () {
-                    if (count > 0) {
-                        count--;
-                        $('#count_adult').text(count);
-                        $('#field_adult').val(count);
-                    }
-                });
-
-                var count_child = 0;
-                $('.increment1').on('click', function () {
-                    if (count_child < maxField) {
-                        count_child++;
-                        $('#count_child').text(count_child);
-                        $('#field_child').val(count_child);
-                    }
-                });
-
-                $('.decrement1').on('click', function () {
-                    if (count_child > 0) {
-                        count_child--;
-                        $('#count_child').text(count_child);
-                        $('#field_child').val(count_child);
-                    }
-                });
-
-                var count_infant = 0;
-                $('.increment2').on('click', function () {
-                    if (count_infant < maxField) {
-                        count_infant++;
-                        $('#count_infant').text(count_infant);
-                        $('#field_infant').val(count_infant);
-                    }
-                });
-
-                $('.decrement2').on('click', function () {
-                    if (count_infant > 0) {
-                        count_infant--;
-                        $('#count_infant').text(count_infant);
-                        $('#field_infant').val(count_infant);
-                    }
-                });
-
-                //---*******<<>>*********/////////
-
-
-
-            });
-
-        </script>
 
     }
 </body>

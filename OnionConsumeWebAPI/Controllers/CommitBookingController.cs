@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json.Serialization;
 using System;
+using OnionConsumeWebAPI.Extensions;
 
 namespace OnionConsumeWebAPI.Controllers
 {
@@ -21,7 +22,7 @@ namespace OnionConsumeWebAPI.Controllers
     {
 
 
-        string BaseURL = "https://dotrezapi.test.I5.navitaire.com";
+       // string BaseURL = "https://dotrezapi.test.I5.navitaire.com";
 
 
         string token = string.Empty;
@@ -47,7 +48,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                HttpResponseMessage responceCommit_Booking = await client.PostAsJsonAsync(BaseURL + "/api/nsk/v3/booking", _Commit_BookingModel);
+                HttpResponseMessage responceCommit_Booking = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v3/booking", _Commit_BookingModel);
 
 
                 if (responceCommit_Booking.IsSuccessStatusCode)
@@ -60,11 +61,11 @@ namespace OnionConsumeWebAPI.Controllers
                 #region Booking GET
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                HttpResponseMessage responceGetBooking = await client.GetAsync(BaseURL + "/api/nsk/v1/booking");
+                HttpResponseMessage responceGetBooking = await client.GetAsync(AppUrlConstant.URLAirasia + "/api/nsk/v1/booking");
 
                 if (responceGetBooking.IsSuccessStatusCode)
                 {
-                    string BaseURL1 = "http://localhost:5225/";
+                   // string BaseURL1 = "http://localhost:5225/";
                     var _responceGetBooking = responceGetBooking.Content.ReadAsStringAsync().Result;
                     var JsonObjGetBooking = JsonConvert.DeserializeObject<dynamic>(_responceGetBooking);
                     
@@ -94,7 +95,7 @@ namespace OnionConsumeWebAPI.Controllers
                         ticketBooking01.response = _responceGetBooking;
 
                         client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                        HttpResponseMessage responsePassengers = await client.PostAsJsonAsync(BaseURL1 + "api/TicketBooking/GetTicketBooking", ticketBooking01);
+                        HttpResponseMessage responsePassengers = await client.PostAsJsonAsync(AppUrlConstant.BaseURL + "api/TicketBooking/GetTicketBooking", ticketBooking01);
                         if (responsePassengers.IsSuccessStatusCode)
                         {
                             var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
@@ -110,7 +111,7 @@ namespace OnionConsumeWebAPI.Controllers
                             details.GSTEmail = JsonObjGetBooking.data.contacts.G.emailAddress;
                             details.status = 1;
                             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                            HttpResponseMessage responsePassengers1 = await client.PostAsJsonAsync(BaseURL1 + "api/GSTDetails/GetGstDetails", details);
+                            HttpResponseMessage responsePassengers1 = await client.PostAsJsonAsync(AppUrlConstant.BaseURL + "api/GSTDetails/GetGstDetails", details);
                             if (responsePassengers1.IsSuccessStatusCode)
                             {
                                 var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;

@@ -16,13 +16,15 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using NuGet.Common;
+using OnionConsumeWebAPI.Extensions;
 
 namespace OnionConsumeWebAPI.Controllers
 {
     //[Route("jetways/[controller]/[action]")]
     public class FlightSearchIndexController : Controller
     {
-        string BaseURL = "https://dotrezapi.test.I5.navitaire.com";
+
+        //    string BaseURL = "https://dotrezapi.test.I5.navitaire.com";
 
         string token = string.Empty;
 
@@ -55,7 +57,7 @@ namespace OnionConsumeWebAPI.Controllers
         {
 
             string destination1 = string.Empty;
-            string origin1 = string.Empty;
+            string origin = string.Empty;
             string arrival1 = string.Empty;
             string departure1 = string.Empty;
             string identifier1 = string.Empty;
@@ -78,6 +80,7 @@ namespace OnionConsumeWebAPI.Controllers
                 {
                     var results = response.Content.ReadAsStringAsync().Result;
 
+
                     credentialsobj = JsonConvert.DeserializeObject<_credentials>(results);
 
 
@@ -90,7 +93,7 @@ namespace OnionConsumeWebAPI.Controllers
                 AirasiaTokan AirasiaTokan = new AirasiaTokan();
                 var AirasialoginRequest = JsonConvert.SerializeObject(login, Formatting.Indented);
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage responce = await client.PostAsJsonAsync(BaseURL + "/api/nsk/v1/token", login);
+                HttpResponseMessage responce = await client.PostAsJsonAsync(AppUrlConstant.AirasiaTokan, login);
                 if (responce.IsSuccessStatusCode)
                 {
                     var results = responce.Content.ReadAsStringAsync().Result;
@@ -194,14 +197,14 @@ namespace OnionConsumeWebAPI.Controllers
                 var json = JsonConvert.SerializeObject(_SimpleAvailabilityobj, Formatting.Indented);
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AirasiaTokan.token);
-                HttpResponseMessage responce1 = await client.PostAsJsonAsync(BaseURL + "/api/nsk/v4/availability/search/simple", _SimpleAvailabilityobj);
+                HttpResponseMessage responce1 = await client.PostAsJsonAsync(AppUrlConstant.Airasiasearchsimple, _SimpleAvailabilityobj);
                 if (responce1.IsSuccessStatusCode)
                 {
                     var results = responce1.Content.ReadAsStringAsync().Result;
                     var JsonObj = JsonConvert.DeserializeObject<dynamic>(results);
                     // var value = JsonObj.data.token;
                     //var value = JsonObj.data.results[0].trips[0].date;
-                     var oriDes = _GetfligthModel.origin + "|" + _GetfligthModel.destination;
+                    var oriDes = _GetfligthModel.origin + "|" + _GetfligthModel.destination;
                     TempData["origin"] = _SimpleAvailabilityobj.origin;
                     TempData["destination"] = _SimpleAvailabilityobj.destination;
 
@@ -209,7 +212,7 @@ namespace OnionConsumeWebAPI.Controllers
                     var bookingdate = finddate.ToString("dddd, dd MMMM yyyy");
 
 
-
+                    //var abc = JsonObj.data.results[0].trips[0].journeysAvailableByMarket["DEL|BOM"][3];
                     int count = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes].Count;
                     TempData["count"] = count;
 
@@ -218,14 +221,21 @@ namespace OnionConsumeWebAPI.Controllers
                     for (int i = 0; i < JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes].Count; i++)
                     {
 
+
                         string journeyKey = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].journeyKey;
                         //journeyKey1 = ((Newtonsoft.Json.Linq.JValue)journeyKey).Value.ToString();
-                        var destination = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i];
+                        var uniqueJourney = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i];
                         Designator Designatorobj = new Designator();
-                        Designatorobj.origin = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].designator.origin;
-                        Designatorobj.destination = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].designator.destination;
+                        string queryorigin = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].designator.origin;
+                        origin = Citydata.GetAllcity().Where(x => x.cityCode == queryorigin).SingleOrDefault().cityName;
+                        Designatorobj.origin = origin;
+                        string querydestination = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].designator.destination;
+                        destination1 = Citydata.GetAllcity().Where(x => x.cityCode == querydestination).SingleOrDefault().cityName;
+                        Designatorobj.destination = destination1;
                         Designatorobj.departure = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].designator.departure;
                         Designatorobj.arrival = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].designator.arrival;
+                        //Citydata citydata1 = new Citydata();
+
 
                         var segmentscount = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments.Count;
                         List<Segment> Segmentobjlist = new List<Segment>();
@@ -326,23 +336,24 @@ namespace OnionConsumeWebAPI.Controllers
                             }
 
                             var expandoconverter = new ExpandoObjectConverter();
-                            dynamic obj = JsonConvert.DeserializeObject<ExpandoObject>(destination.ToString(), expandoconverter);
+                            dynamic obj = JsonConvert.DeserializeObject<ExpandoObject>(uniqueJourney.ToString(), expandoconverter);
                             string jsonresult = JsonConvert.SerializeObject(obj);
                             _SimpleAvailibilityaAddResponceobj = JsonConvert.DeserializeObject<SimpleAvailibilityaAddResponce>(jsonresult);
                             _SimpleAvailibilityaAddResponceobj.designator = Designatorobj;
                             _SimpleAvailibilityaAddResponceobj.segments = Segmentobjlist;
-
                             _SimpleAvailibilityaAddResponceobj.arrivalTerminal = arrivalTerminal;
                             _SimpleAvailibilityaAddResponceobj.departureTerminal = departureTerminal;
                             _SimpleAvailibilityaAddResponceobj.bookingdate = bookingdate;
                             _SimpleAvailibilityaAddResponceobj.fareTotalsum = fareTotalsum;
                             _SimpleAvailibilityaAddResponceobj.journeyKey = journeyKey;
                             _SimpleAvailibilityaAddResponceobj.faresIndividual = fareIndividualsList;
+                            _SimpleAvailibilityaAddResponceobj.uniqueId = i;
+
                             SimpleAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
                         }
                     }
 
-                    
+
                 }
 
                 //  if (_SimpleAvailabilityobj.beginDate != null && _SimpleAvailabilityobj.endDate != null)
@@ -350,7 +361,7 @@ namespace OnionConsumeWebAPI.Controllers
                 {
                     //AirAsia
                     //start
-                   
+
                     SimpleAvailabilityRequestModel _SimpleAvailabilityobjR = new SimpleAvailabilityRequestModel();
                     _SimpleAvailabilityobjR.origin = _GetfligthModel.destination;
                     _SimpleAvailabilityobjR.destination = _GetfligthModel.origin;
@@ -430,12 +441,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AirasiaTokan.token);
-                    HttpResponseMessage responceR = await client.PostAsJsonAsync(BaseURL + "/api/nsk/v4/availability/search/simple", _SimpleAvailabilityobjR);
-
-                   
-
-
-
+                    HttpResponseMessage responceR = await client.PostAsJsonAsync(AppUrlConstant.AirasiasearchsimpleR, _SimpleAvailabilityobjR);
                     if (responceR.IsSuccessStatusCode)
                     {
                         var resultsR = responceR.Content.ReadAsStringAsync().Result;
@@ -590,7 +596,8 @@ namespace OnionConsumeWebAPI.Controllers
 
 
                     //end
-
+                    HttpContext.Session.SetString("ReturnViewFlightView", JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist));
+                    HttpContext.Session.SetString("LeftReturnFlightView", JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelistR));
                     TempData["Mymodel"] = JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist);
                     TempData["PassengerModel"] = JsonConvert.SerializeObject(_SimpleAvailabilityobj);
 
@@ -612,7 +619,7 @@ namespace OnionConsumeWebAPI.Controllers
 
             }
 
-        }       
+        }
         public IActionResult PassengeDetails(Passengers passengers)
         {
             Passengers passengers1 = new Passengers();

@@ -8,6 +8,7 @@ namespace DomainLayer.Model
 {
     public class SimpleAvailibilityaAddResponce
     {
+        public int uniqueId { get; set; }
         public int flightType { get; set; }
         public int stops { get; set; }
         public Designator designator { get; set; }

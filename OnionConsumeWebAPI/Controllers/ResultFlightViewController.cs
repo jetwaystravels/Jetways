@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NuGet.Common;
 using NuGet.Packaging.Signing;
+using OnionConsumeWebAPI.Extensions;
 using static DomainLayer.Model.GetItenaryModel;
 using static DomainLayer.Model.SeatMapResponceModel;
 //using static DomainLayer.Model.testseat;
@@ -20,7 +21,7 @@ namespace OnionConsumeWebAPI.Controllers
 {
     public class ResultFlightViewController : Controller
     {
-        string BaseURL = "https://dotrezapi.test.I5.navitaire.com";
+      //  string BaseURL = "https://dotrezapi.test.I5.navitaire.com";
         string passengerkey12 = string.Empty;
         public IActionResult FlightView()
         {
@@ -118,7 +119,7 @@ namespace OnionConsumeWebAPI.Controllers
                 var AirasiaTripSellRequest = JsonConvert.SerializeObject(AirAsiaTripSellRequestobj, Formatting.Indented);
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                HttpResponseMessage responseTripsell = await client.PostAsJsonAsync(BaseURL + "/api/nsk/v4/trip/sell", AirAsiaTripSellRequestobj);
+                HttpResponseMessage responseTripsell = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v4/trip/sell", AirAsiaTripSellRequestobj);
 
                 if (responseTripsell.IsSuccessStatusCode)
                 {
@@ -386,7 +387,7 @@ namespace OnionConsumeWebAPI.Controllers
                     var jsonPassengers = JsonConvert.SerializeObject(itenaryInfant, Formatting.Indented);
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                    HttpResponseMessage responsePassengers = await client.PostAsJsonAsync(BaseURL + "/api/nsk/v2/bookings/quote", itenaryInfant);
+                    HttpResponseMessage responsePassengers = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/bookings/quote", itenaryInfant);
                     if (responsePassengers.IsSuccessStatusCode)
                     {
                         AirAsiaTripResponceModel AirAsiaTripResponceobject = new AirAsiaTripResponceModel();
@@ -587,7 +588,7 @@ namespace OnionConsumeWebAPI.Controllers
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 //HttpResponseMessage responseSeatmap = await client.PostAsJsonAsync(BaseURL + "api/nsk/v3/booking/seatmaps/journey/ {{journeyKey}}", _SSRAvailabilty);
                 //  var REQUEST1= (BaseURL + "/api/nsk/v3/booking/seatmaps/journey/{{" +journeyKey1+ "}}?IncludePropertyLookup=true");
-                HttpResponseMessage responseSeatmap = await client.GetAsync(BaseURL + "/api/nsk/v3/booking/seatmaps/journey/" + journeyKey + "?IncludePropertyLookup=true");
+                HttpResponseMessage responseSeatmap = await client.GetAsync(AppUrlConstant.URLAirasia + "/api/nsk/v3/booking/seatmaps/journey/" + journeyKey + "?IncludePropertyLookup=true");
 
                 // data[0].seatMap.decks['1'].compartments.Y.units[0].unitKey
 
@@ -799,7 +800,7 @@ namespace OnionConsumeWebAPI.Controllers
                 SSRAvailabiltyResponceModel SSRAvailabiltyResponceobj = new SSRAvailabiltyResponceModel();
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                HttpResponseMessage responseSSRAvailabilty = await client.PostAsJsonAsync(BaseURL + "/api/nsk/v2/booking/ssrs/availability", _SSRAvailabilty);
+                HttpResponseMessage responseSSRAvailabilty = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/ssrs/availability", _SSRAvailabilty);
                 if (responseSSRAvailabilty.IsSuccessStatusCode)
                 {
 
