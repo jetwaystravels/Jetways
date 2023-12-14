@@ -65,7 +65,7 @@
 
 @media (min-width: 576px) {
     .rtwidth-modal {
-        max-width: 70%;
+        max-width: 70%!important;
         margin: 1.75rem auto;
     }
 }

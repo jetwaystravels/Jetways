@@ -1,0 +1,330 @@
+﻿@model DomainLayer.ViewModel.ViewModel
+@{
+    var data = Model;
+
+}
+<!----data Bind --------->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="row">
+
+            <div class="col-5">
+                <div class=""><span class="rtbg">DEPART</span></div>
+
+                <form id="reconnectingFlightOneway">
+
+                    @for (var j = 0; j < Model.SimpleAvailibilityaAddResponcelist.Count; j++)
+                    {
+
+                        <div class="d-flex justify-between align-items-center mt-4">
+                            <div class="rtptotal">
+                                <div class="dst-top">@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin - @Model.SimpleAvailibilityaAddResponcelist[j].designator.destination</div>
+                            </div>
+                            <div class="rtptotal">
+                                <div class="text-12 fw-600">
+                                    <span>@Model.SimpleAvailibilityaAddResponcelist[j].designator.departure</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex y-gap-30 justify-between">
+                            <div class="fare-round d-flex align-items-center">
+                                <img class="size-40" src="~/img/flight-logo-icon/1.webp">
+                            </div>
+                            <div class="fare-round">
+                                @{
+                                    var departuretime = Model.SimpleAvailibilityaAddResponcelistR[j].designator.departure;
+                                    string departuretimestr = departuretime.ToString();
+                                    var departuretimefinal = departuretimestr.Substring(11, 5);
+                                }
+                                <div class="">@departuretimefinal</div>
+                                <div class="">@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin</div>
+                            </div>
+                            <div class="fare-round">
+                                <div class="col text-center">
+                                    @{
+                                        var arrivalDate = Model.SimpleAvailibilityaAddResponcelist[j].designator.arrival;
+                                        var departureDate = Model.SimpleAvailibilityaAddResponcelist[j].designator.departure;
+                                        var diff = (arrivalDate - departureDate);
+                                    }
+                                    <div class="px-20 md:px-0">@diff</div>
+                                    <div class="flightLine">
+                                        <div></div>
+                                        <div></div>
+                                    </div>
+                                    @{
+                                        var stops = @Model.SimpleAvailibilityaAddResponcelist[j].stops;
+                                        if (stops == 0)
+                                        {
+                                            <div class="mt-1">NonStop</div>
+                                        }
+                                        if (stops == 1)
+                                        {
+                                            <div class="mt-1">1Stop via @Model.SimpleAvailibilityaAddResponcelist[j].designator.destination </div>
+                                        }
+                                        if (stops == 2)
+                                        {
+                                            <div class="mt-1">2Stop</div>
+                                        }
+                                    }
+                                    @* <div class="mt-1">1</div> *@
+                                </div>
+                            </div>
+                            <div class="fare-round">
+                                @{
+                                    var arrivaltime = Model.SimpleAvailibilityaAddResponcelist[j].designator.arrival;
+                                    string arrivaltimestr = arrivaltime.ToString();
+                                    var arrivalfinal = arrivaltimestr.Substring(11, 5);
+                                }
+                                <div class="lh-15 fw-500">@arrivalfinal</div>
+                                <div class="text-15 lh-15 text-light-1">@Model.SimpleAvailibilityaAddResponcelist[j].designator.destination</div>
+                            </div>
+                        </div>
+
+                        @for (var k = 0; k < Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual.Count; k++)
+                        {
+                            <div class="multi-fare multi-bg">
+                                <div class="d-flex  justify-between">
+                                    <div class="rtfare-1 d-flex">
+
+                                        <input type="hidden" class="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
+                                        <input type="hidden" class="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
+                                        <input type="radio" name="fareRadioGroup" class="fareRadio" onclick="collectData('fare', @k)">
+                                        <div class="ms-2">Saver Fare @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass</div>
+                                    </div>
+                                    <div class="rtfare-1">
+                                        <span> ₹@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal</span>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-between saver-fare">
+
+                                    <div class="d-flex">
+                                        <div class="custom-icon"><img src="~/img/images/pbaggage.png" alt="Cabin Bag"></div>
+                                        <div>
+                                            <p class="custom-ftn">Cabin Bag</p>
+                                            <p class="custom-sbdtl">7 Kgs</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex">
+                                        <div class="custom-icon"><img src="~/img/images/pbaggage.png" alt="Check-in"></div>
+                                        <div>
+                                            <p class="custom-ftn">Check-in</p>
+                                            <p class="custom-sbdtl">25 Kgs</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex">
+                                        <div class="custom-icon"><img src="~/img/refund-icon.png" alt="Cancellation"></div>
+                                        <div class="custom-widynm">
+                                            <p class="custom-ftn">Cancellation</p>
+                                            <p class="custom-sbdtl">Rs 3710 onwards</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex">
+                                        <div class="custom-icon"><img src="~/img/calender-icon.png" alt="Date Change"></div>
+                                        <div class="custom-widynm">
+                                            <p class="custom-ftn">Date Change</p>
+                                            <p class="custom-sbdtl">Rs 3180 onwards</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        }
+
+                    }
+                    
+                </form>
+            </div>
+
+            <div class="col-auto rtborder-right me-3"></div>
+
+            <div class="col-5">
+                <div class=""><span class="rtbg">RETURN</span></div>
+
+                <form id="reconnectingFlight">
+
+                    @for (var j = 0; j < Model.SimpleAvailibilityaAddResponcelistR.Count; j++)
+                    {
+                        <div class="d-flex justify-between align-items-center mt-4">
+                            <div class="rtptotal">
+                                <div class="dst-top">@Model.SimpleAvailibilityaAddResponcelistR[j].designator.origin - @Model.SimpleAvailibilityaAddResponcelistR[j].designator.destination</div>
+                            </div>
+                            <div class="rtptotal">
+                                <div class="text-12 fw-600">
+                                    <span>@Model.SimpleAvailibilityaAddResponcelistR[j].designator.arrival</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex y-gap-30 justify-between">
+                            <div class="fare-round d-flex align-items-center">
+                                <img class="size-40" src="~/img/flight-logo-icon/1.webp">
+                            </div>
+
+                            <div class="fare-round">
+                                @{
+                                    var departuretime = Model.SimpleAvailibilityaAddResponcelistR[j].designator.departure;
+                                    string departuretimestr = departuretime.ToString();
+                                    var departuretimefinal = departuretimestr.Substring(11, 5);
+                                }
+                                <div class="">@departuretimefinal</div>
+                                <div class="">@Model.SimpleAvailibilityaAddResponcelistR[j].designator.origin</div>
+                            </div>
+                            <div class="fare-round">
+                                <div class="col text-center">
+                                    @{
+                                        var arrivalDate = Model.SimpleAvailibilityaAddResponcelistR[j].designator.arrival;
+                                        var departureDate = Model.SimpleAvailibilityaAddResponcelistR[j].designator.departure;
+                                        var diff = (arrivalDate - departureDate);
+                                    }
+                                    <div class="px-20 md:px-0">@diff</div>
+                                    <div class="flightLine">
+                                        <div></div>
+                                        <div></div>
+                                    </div>
+                                    @{
+                                        var stops = @Model.SimpleAvailibilityaAddResponcelistR[j].stops;
+                                        if (stops == 0)
+                                        {
+                                            <div class="mt-1">NonStop</div>
+                                        }
+                                        if (stops == 1)
+                                        {
+                                            <div class="mt-1">1Stop via @Model.SimpleAvailibilityaAddResponcelistR[j].designator.destination </div>
+                                        }
+                                        if (stops == 2)
+                                        {
+                                            <div class="mt-1">2Stop</div>
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                            <div class="fare-round">
+                                @{
+                                    var arrivaltime = Model.SimpleAvailibilityaAddResponcelistR[j].designator.arrival;
+                                    string arrivaltimestr = arrivaltime.ToString();
+                                    var arrivalfinal = arrivaltimestr.Substring(11, 5);
+                                }
+                                <div class="lh-15 fw-500">@arrivalfinal</div>
+                                <div class="text-15 lh-15 text-light-1">@Model.SimpleAvailibilityaAddResponcelistR[j].designator.destination</div>
+                            </div>
+
+                        </div>
+                        @for (var k = 0; k < Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual.Count; k++)
+                        {
+                            <div class="multi-fare multi-bg">
+                                <div class="d-flex  justify-between">
+                                    <div class="rtfare-1 d-flex">
+
+                                        <input type="hidden" class="fareKeyReturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].fareKey" />
+                                        <input type="hidden" class="journeyKeyReturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].journeyKey" />
+                                        <input type="radio" name="renderRadioGroup" class="renderRadio" onclick="collectData('render', @k)">
+                                        <div class="ms-2">Saver Fare @Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass</div>
+                                    </div>
+                                    <div class="rtfare-1">
+                                        <span> ₹@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal</span>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-between saver-fare">
+
+                                    <div class="d-flex">
+                                        <div class="custom-icon"><img src="~/img/images/pbaggage.png" alt="Cabin Bag"></div>
+                                        <div>
+                                            <p class="custom-ftn">Cabin Bag</p>
+                                            <p class="custom-sbdtl">7 Kgs</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex">
+                                        <div class="custom-icon"><img src="~/img/images/pbaggage.png" alt="Check-in"></div>
+                                        <div>
+                                            <p class="custom-ftn">Check-in</p>
+                                            <p class="custom-sbdtl">25 Kgs</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex">
+                                        <div class="custom-icon"><img src="~/img/refund-icon.png" alt="Cancellation"></div>
+                                        <div class="custom-widynm">
+                                            <p class="custom-ftn">Cancellation</p>
+                                            <p class="custom-sbdtl">Rs 3710 onwards</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex">
+                                        <div class="custom-icon"><img src="~/img/calender-icon.png" alt="Date Change"></div>
+                                        <div class="custom-widynm">
+                                            <p class="custom-ftn">Date Change</p>
+                                            <p class="custom-sbdtl">Rs 3180 onwards</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        }
+                    }
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    let fareKey = [];
+    let journeyKey = [];
+
+    function collectData(type, index) {
+        debugger;
+        if (type === 'fare') {
+            fareKey.push(document.getElementsByClassName('fareKey')[index].value + "/0f");
+            journeyKey.push(document.getElementsByClassName('journeyKey')[index].value + "/0j");
+        } else if (type === 'render') {
+            fareKey.push(document.getElementsByClassName('fareKeyReturn')[index].value + "/1f");
+            journeyKey.push(document.getElementsByClassName('journeyKeyReturn')[index].value + "/1j");
+        }
+
+    }
+    function PostdataReturnTripsell() {
+        //  console.log('Fare Keys:', fareKey);
+        //  console.log('Journey Keys:', journeyKey);
+        const form = new FormData();
+        for (let i = 0; i < fareKey.length; i++) {
+            form.append('fareKey', fareKey[i]);
+            form.append('journeyKey', journeyKey[i]);
+        }
+        fetch('/ReturnTripsell/ReturnTripsellView', {
+            method: 'POST',
+            body: form
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Data sent successfully');
+                    fareKey = [];
+                    journeyKey = [];
+                    location.reload();
+                    window.location.href = '/RoundAATripsell/RoundAATripsellView';
+                } else {
+                    throw new Error('Data sending failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error occurred:', error);
+            });
+    }
+</script>
+
+
+

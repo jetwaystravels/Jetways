@@ -586,8 +586,9 @@ namespace OnionConsumeWebAPI.Controllers
                                 _SimpleAvailibilityaAddResponceobjR.bookingdate = bookingdate;
                                 _SimpleAvailibilityaAddResponceobjR.fareTotalsum = fareTotalsum;
                                 _SimpleAvailibilityaAddResponceobjR.journeyKey = journeyKey;
+                                _SimpleAvailibilityaAddResponceobjR.uniqueId = i;
                                 _SimpleAvailibilityaAddResponceobjR.faresIndividual = fareIndividualsList;
-                                SimpleAvailibilityaAddResponcelistR.Add(_SimpleAvailibilityaAddResponceobj);
+                                SimpleAvailibilityaAddResponcelistR.Add(_SimpleAvailibilityaAddResponceobjR);
                             }
                         }
 
@@ -596,15 +597,15 @@ namespace OnionConsumeWebAPI.Controllers
 
 
                     //end
-                    HttpContext.Session.SetString("ReturnViewFlightView", JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist));
-                    HttpContext.Session.SetString("LeftReturnFlightView", JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelistR));
-                    TempData["Mymodel"] = JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist);
-                    TempData["PassengerModel"] = JsonConvert.SerializeObject(_SimpleAvailabilityobj);
+                    HttpContext.Session.SetString("LeftReturnViewFlightView", JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist));
+                    HttpContext.Session.SetString("PassengerModel", JsonConvert.SerializeObject(_SimpleAvailabilityobj));
+                    //TempData["PassengerModel"] = JsonConvert.SerializeObject(_SimpleAvailabilityobj);
 
-                    TempData["MymodelR"] = JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelistR);
-                    TempData["PassengerModelR"] = JsonConvert.SerializeObject(_SimpleAvailabilityobjR);
+                    HttpContext.Session.SetString("RightReturnFlightView", JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelistR));
+                    HttpContext.Session.SetString("PassengerModelR", JsonConvert.SerializeObject(_SimpleAvailabilityobj));
 
-                    //return RedirectToAction("FlightView", "ResultFlightView");
+                    //TempData["PassengerModelR"] = JsonConvert.SerializeObject(_SimpleAvailabilityobjR);
+
                     return RedirectToAction("RTFlightView", "RoundTrip");
                 }
                 else

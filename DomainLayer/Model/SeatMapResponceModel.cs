@@ -65,8 +65,9 @@ namespace DomainLayer.Model
             public int zone { get; set; }
             public int x { get; set; }
             public int y { get; set; }
-          //  public object[] allowedSsrs { get; set; }
-            public List<Properties> properties { get; set; }
+            //  public object[] allowedSsrs { get; set; }
+             public List<Properties> properties { get; set; }
+            public decimal servicechargefeeAmount { get; set; }
         }
 
         public class Properties

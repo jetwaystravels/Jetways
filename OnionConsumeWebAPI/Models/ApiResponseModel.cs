@@ -7,5 +7,6 @@
         public bool status { get; set; }
         public object Details { get; set; }
 
+        
     }
 }

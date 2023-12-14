@@ -2,14 +2,15 @@
 using NuGet.Common;
 using OnionConsumeWebAPI.Extensions;
 using OnionConsumeWebAPI.Models;
-
 using System.Net.Http.Headers;
+
 
 namespace OnionConsumeWebAPI.ApiService
 {
     public static class AppHttpContext
     {
         static IServiceProvider services = null;
+       
 
         /// <summary>
         /// Provides static access to the framework's services provider
@@ -42,7 +43,12 @@ namespace OnionConsumeWebAPI.ApiService
     }
     public class ApiRequests
     {
-        private readonly string Token = AppHttpContext.Current.Session.GetString("token");
+       private readonly string Token = AppHttpContext.Current.Session.GetString("AirasiaTokan");
+       
+        // string tokenview = HttpContext.("AirasiaTokan");
+        //  string tokenview = HttpContext.Session.GetString("AirasiaTokan");
+        // private readonly string Token = AppHttpContext.Current.Session.GetString("AirasiaTokan");
+
         public async Task<ApiResponseModel> OnPostAsync<T>(string Uri, T RequestModel)
         {
             ApiResponseModel responseModel = new ApiResponseModel();
@@ -78,6 +84,11 @@ namespace OnionConsumeWebAPI.ApiService
                 responseModel.Message = ex.Message;
             }
             return responseModel;
+        }
+
+        internal Task OnGetBySearchParamAsync(object getLevelOfUser, object queryParam)
+        {
+            throw new NotImplementedException();
         }
 
         //public async Task<ApiResponseModel> OnGetAllAsync(string Uri)

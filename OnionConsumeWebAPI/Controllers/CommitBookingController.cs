@@ -14,6 +14,9 @@ using System.Net.Http;
 using System.Text.Json.Serialization;
 using System;
 using OnionConsumeWebAPI.Extensions;
+using OnionConsumeWebAPI.ApiService;
+using OnionConsumeWebAPI.Models;
+
 
 namespace OnionConsumeWebAPI.Controllers
 {
@@ -30,6 +33,7 @@ namespace OnionConsumeWebAPI.Controllers
         string journeyKey = string.Empty;
         string uniquekey = string.Empty;
 
+        ApiResponseModel responseModel;
         public async Task<IActionResult> booking()
         {
             string tokenview = HttpContext.Session.GetString("AirasiaTokan");
@@ -46,9 +50,12 @@ namespace OnionConsumeWebAPI.Controllers
                 _Commit_BookingModel.contactTypesToNotify = NotifyContacts;
                 var jsonCommitBookingRequest = JsonConvert.SerializeObject(_Commit_BookingModel, Formatting.Indented);
 
+                ApiRequests apiRequests = new ApiRequests();
+                responseModel = await apiRequests.OnPostAsync(AppUrlConstant.AirasiaCommitBooking, _Commit_BookingModel);
+
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                HttpResponseMessage responceCommit_Booking = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v3/booking", _Commit_BookingModel);
+                HttpResponseMessage responceCommit_Booking = await client.PostAsJsonAsync(AppUrlConstant.AirasiaCommitBooking, _Commit_BookingModel);
 
 
                 if (responceCommit_Booking.IsSuccessStatusCode)
@@ -61,7 +68,7 @@ namespace OnionConsumeWebAPI.Controllers
                 #region Booking GET
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                HttpResponseMessage responceGetBooking = await client.GetAsync(AppUrlConstant.URLAirasia + "/api/nsk/v1/booking");
+                HttpResponseMessage responceGetBooking = await client.GetAsync(AppUrlConstant.AirasiaGetBoking);
 
                 if (responceGetBooking.IsSuccessStatusCode)
                 {

@@ -38,33 +38,37 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
             var destinationdataR = TempData["destinationR"];
             ViewData["destinationR"] = destinationdataR;
-            string Leftshowpopupdata = HttpContext.Session.GetString("ReturnViewFlightView");
-            string Rightshowpopupdata = HttpContext.Session.GetString("LeftReturnFlightView");
+            string Leftshowpopupdata = HttpContext.Session.GetString("LeftReturnViewFlightView");
+            string Rightshowpopupdata = HttpContext.Session.GetString("RightReturnFlightView");
             List<SimpleAvailibilityaAddResponce> LeftdeserializedObjects = null;
             List<SimpleAvailibilityaAddResponce> RightdeserializedObjects = null;
             LeftdeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(Leftshowpopupdata);
             RightdeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(Rightshowpopupdata);
             ViewModel vmobj = new ViewModel();
 
-            vmobj.SimpleAvailibilityaAddResponcelistR = LeftdeserializedObjects;
-            vmobj.SimpleAvailibilityaAddResponcelist = RightdeserializedObjects;
+            vmobj.SimpleAvailibilityaAddResponcelist = LeftdeserializedObjects;
+            vmobj.SimpleAvailibilityaAddResponcelistR = RightdeserializedObjects;
             HttpContext.Session.SetString("FlightDetail", JsonConvert.SerializeObject(vmobj));
 
             return View(vmobj);
         }
 
-        public IActionResult TestingDataView(int i, int j)
+        public IActionResult PostReturnAATripsellView(int uniqueId, int uniqueIdR)
         {
-            string Leftshowpopupdata = HttpContext.Session.GetString("ReturnViewFlightView");
-            string Rightshowpopupdata = HttpContext.Session.GetString("LeftReturnFlightView");
+
+            string Leftshowpopupdata = HttpContext.Session.GetString("LeftReturnViewFlightView");
+            string Rightshowpopupdata = HttpContext.Session.GetString("RightReturnFlightView");
             List<SimpleAvailibilityaAddResponce> LeftdeserializedObjects = null;
             List<SimpleAvailibilityaAddResponce> RightdeserializedObjects = null;
             LeftdeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(Leftshowpopupdata);
             RightdeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(Rightshowpopupdata);
-            var filteredData = LeftdeserializedObjects.Where(x => x.uniqueId == j).ToList();
+            var filteredDataLeft = LeftdeserializedObjects.Where(x => x.uniqueId == uniqueId).ToList();
+            var filteredDataRight = RightdeserializedObjects.Where(m => m.uniqueId == uniqueIdR).ToList();
             ViewModel vmobject = new ViewModel();
-            vmobject.SimpleAvailibilityaAddResponcelist = filteredData;
+            vmobject.SimpleAvailibilityaAddResponcelist = filteredDataLeft;
+            vmobject.SimpleAvailibilityaAddResponcelistR = filteredDataRight;
             return View(vmobject);
+
         }
 
 
