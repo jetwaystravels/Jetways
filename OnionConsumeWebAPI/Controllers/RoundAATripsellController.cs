@@ -37,29 +37,48 @@ namespace OnionConsumeWebAPI.Controllers
             };
             ViewBag.Title = Title;
             string passenger = HttpContext.Session.GetString("keypassenger");
+            string passengerR = HttpContext.Session.GetString("keypassengerReturn");
+
             string passengerInfant = HttpContext.Session.GetString("keypassengerItanary");
-            //string Seatmap = HttpContext.Session.GetString("Seatmap");
+            string passengerInfantReturn = HttpContext.Session.GetString("keypassengerItanaryReturn");
+
+            string Seatmap = HttpContext.Session.GetString("Seatmap");
+            string SeatmapR = HttpContext.Session.GetString("SeatmapReturn");
+
+
             string Meals = HttpContext.Session.GetString("Meals");
+            string MealsR = HttpContext.Session.GetString("MealsReturn");
             ViewModel vm = new ViewModel();
             if (passengerInfant != null)
             {
                 AirAsiaTripResponceModel passeengerlist = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
                 AirAsiaTripResponceModel passeengerlistItanary = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passengerInfant, typeof(AirAsiaTripResponceModel));
-                //SeatMapResponceModel Seatmaplist = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
+                SeatMapResponceModel Seatmaplist = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
                 SSRAvailabiltyResponceModel Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
                 vm.passeengerlist = passeengerlist;
                 vm.passeengerlistItanary = passeengerlistItanary;
-                //vm.Seatmaplist = Seatmaplist;
+                vm.Seatmaplist = Seatmaplist;
                 vm.Meals = Mealslist;
             }
             else
             {
                 AirAsiaTripResponceModel passeengerlist = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
-               // SeatMapResponceModel Seatmaplist = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
+                AirAsiaTripResponceModel passeengerlistR = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passengerR, typeof(AirAsiaTripResponceModel));
+
+                SeatMapResponceModel Seatmaplist = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
+                SeatMapResponceModel SeatmaplistR = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
+
                 SSRAvailabiltyResponceModel Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
+                SSRAvailabiltyResponceModel MealslistR = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
+
                 vm.passeengerlist = passeengerlist;
-               // vm.Seatmaplist = Seatmaplist;
+                vm.passeengerlistR = passeengerlistR;
+
+                vm.Seatmaplist = Seatmaplist;
+                vm.SeatmaplistR = SeatmaplistR;
+
                 vm.Meals = Mealslist;
+                vm.MealsR = MealslistR;
 
             }
             return View(vm);

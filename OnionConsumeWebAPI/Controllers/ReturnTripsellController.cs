@@ -40,9 +40,6 @@ namespace OnionConsumeWebAPI.Controllers
                 string Leftshowpopupdata = HttpContext.Session.GetString("PassengerModel");
                 SimpleAvailabilityRequestModel _SimpleAvailabilityobj = null;
                 _SimpleAvailabilityobj = JsonConvert.DeserializeObject<SimpleAvailabilityRequestModel>(Leftshowpopupdata);
-                //SimpleAvailabilityRequestModel _SimpleAvailabilityobj = new SimpleAvailabilityRequestModel();
-                //var jsonData = TempData["PassengerModel"];
-                //_SimpleAvailabilityobj = JsonConvert.DeserializeObject<SimpleAvailabilityRequestModel>(jsonData.ToString());
                 var AdtType = "";
                 var AdtCount = 0;
 
@@ -63,13 +60,10 @@ namespace OnionConsumeWebAPI.Controllers
                 string[] Jparts = JourneyKeyOneway.Split('/');
                 string _JourneykeyData = Jparts[0];
                 key.journeyKey = _JourneykeyData;
-
-
                 string fareKeyKeyOneway = fareKey[0];
                 string[] Fparts = fareKeyKeyOneway.Split('/');
                 string _FareKeyData = Fparts[0];
                 key.fareAvailabilityKey = _FareKeyData;
-
                 _keylist.Add(key);
                 AirAsiaTripSellRequestobj.keys = _keylist;
 
@@ -114,10 +108,9 @@ namespace OnionConsumeWebAPI.Controllers
                     AirAsiaTripResponceModel AirAsiaTripResponceobj = new AirAsiaTripResponceModel();
                     var resultsTripsell = responseTripsell.Content.ReadAsStringAsync().Result;
                     var JsonObjTripsell = JsonConvert.DeserializeObject<dynamic>(resultsTripsell);
-                    //var totalAmount = JsonObjTripsell.data.breakdown.journeys[journeyKey].totalAmount;
-                    // var totalTax = JsonObjTripsell.data.breakdown.journeys[journeyKey].totalTax;
-
-
+                    //var totalAmount = JsonObjTripsell.data.breakdown.journeys[journeyKey[0]].totalAmount;
+                    //var totalTax = JsonObjTripsell.data.breakdown.journeys[journeyKey[0]].totalTax;
+                    #region Comment
                     int journeyscount = JsonObjTripsell.data.journeys.Count;
                     List<AAJourney> AAJourneyList = new List<AAJourney>();
                     for (int i = 0; i < journeyscount; i++)
@@ -237,13 +230,9 @@ namespace OnionConsumeWebAPI.Controllers
                         AAJourneyList.Add(AAJourneyobj);
 
                     }
-
-
                     var passanger = JsonObjTripsell.data.passengers;
                     int passengercount = ((Newtonsoft.Json.Linq.JContainer)passanger).Count;
-
                     List<AAPassengers> passkeylist = new List<AAPassengers>();
-
                     foreach (var items in JsonObjTripsell.data.passengers)
                     {
                         AAPassengers passkeytypeobj = new AAPassengers();
@@ -254,333 +243,311 @@ namespace OnionConsumeWebAPI.Controllers
                         passkeylist.Add(passkeytypeobj);
                         passengerkey12 = passkeytypeobj.passengerKey;
                     }
-
                     AirAsiaTripResponceobj.journeys = AAJourneyList;
                     AirAsiaTripResponceobj.passengers = passkeylist;
                     AirAsiaTripResponceobj.passengerscount = passengercount;
-
                     HttpContext.Session.SetString("keypassenger", JsonConvert.SerializeObject(AirAsiaTripResponceobj));
+                    #endregion
                 }
                 #region Itenary 
-                //if (infanttype != null)
-                //{
+                if (infanttype != null)
+                {
+                    string passengerdatainfant = HttpContext.Session.GetString("keypassenger");
+                    AirAsiaTripResponceModel passeengerKeyListinfant = null;
+                    passeengerKeyListinfant = JsonConvert.DeserializeObject<AirAsiaTripResponceModel>(passengerdatainfant);
+                    string LeftpassengerModal = HttpContext.Session.GetString("PassengerModel");
+                    SimpleAvailabilityRequestModel _SimpleAvailabilityobject = null;
+                    _SimpleAvailabilityobject = JsonConvert.DeserializeObject<SimpleAvailabilityRequestModel>(LeftpassengerModal);
 
-                //    string passengerdatainfant = HttpContext.Session.GetString("keypassenger");
-                //    AirAsiaTripResponceModel passeengerKeyListinfant = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passengerdatainfant, typeof(AirAsiaTripResponceModel));
+                    GetItenaryModel itenaryInfant = new GetItenaryModel();
+                    List<Ssr1> ssr1slist = new List<Ssr1>();
+                    Ssr1 ssr1 = new Ssr1();
+                    Market marketobj = new Market();
+                    Identifier1 identifier1 = new Identifier1();
+                    //Market
+                    identifier1.identifier = passeengerKeyListinfant.journeys[0].segments[0].identifier.identifier;
+                    identifier1.carrierCode = passeengerKeyListinfant.journeys[0].segments[0].identifier.carrierCode;
+                    marketobj.identifier = identifier1;
+                    marketobj.destination = passeengerKeyListinfant.journeys[0].segments[0].designator.destination;
+                    marketobj.origin = passeengerKeyListinfant.journeys[0].segments[0].designator.origin;
+                    //marketobj.departureDate = passeengerKeyListinfant.journeys[0].segments[0].designator.departure.ToString("yyyy-MM-dd");
+                    marketobj.departureDate = _SimpleAvailabilityobject.beginDate;
+                    ssr1.market = marketobj;
+                    ssr1slist.Add(ssr1);
+                    //item
+                    List<Item> itemList = new List<Item>();
+                    //int passtypedatacount = passeengerKeyListinfant.passengers.Count;	
+                    int typecount = _SimpleAvailabilityobject.passengers.types.Count;
 
-                //    SimpleAvailabilityRequestModel _SimpleAvailabilityobject = new SimpleAvailabilityRequestModel();
-                //    var jsonDataObject = TempData["PassengerModel"];
-                //    _SimpleAvailabilityobject = JsonConvert.DeserializeObject<SimpleAvailabilityRequestModel>(jsonDataObject.ToString());
+                    for (int i = 0; i < typecount; i++)
+                    {
+                        var infant = _SimpleAvailabilityobject.passengers.types[i].type;
+                        if (infant == "INFT")
+                        {
+                            int infantCount1 = _SimpleAvailabilityobject.passengers.types[i].count;
 
-                //    GetItenaryModel itenaryInfant = new GetItenaryModel();
-                //    List<Ssr1> ssr1slist = new List<Ssr1>();
-                //    Ssr1 ssr1 = new Ssr1();
-                //    Market marketobj = new Market();
-                //    Identifier1 identifier1 = new Identifier1();
-                //    //Market
-                //    identifier1.identifier = passeengerKeyListinfant.journeys[0].segments[0].identifier.identifier;
-                //    identifier1.carrierCode = passeengerKeyListinfant.journeys[0].segments[0].identifier.carrierCode;
-                //    marketobj.identifier = identifier1;
-                //    marketobj.destination = passeengerKeyListinfant.journeys[0].segments[0].designator.destination;
-                //    marketobj.origin = passeengerKeyListinfant.journeys[0].segments[0].designator.origin;
-                //    //marketobj.departureDate = passeengerKeyListinfant.journeys[0].segments[0].designator.departure.ToString("yyyy-MM-dd");
-                //    marketobj.departureDate = _SimpleAvailabilityobject.beginDate;
-                //    ssr1.market = marketobj;
-                //    ssr1slist.Add(ssr1);
-                //    //item
-                //    List<Item> itemList = new List<Item>();
-                //    //int passtypedatacount = passeengerKeyListinfant.passengers.Count;	
-                //    int typecount = _SimpleAvailabilityobject.passengers.types.Count;
+                            for (int j = 0; j < infantCount1; j++)
+                            {
 
-                //    for (int i = 0; i < typecount; i++)
-                //    {
-                //        var infant = _SimpleAvailabilityobject.passengers.types[i].type;
-                //        if (infant == "INFT")
-                //        {
-                //            int infantCount1 = _SimpleAvailabilityobject.passengers.types[i].count;
+                                Item itemobj = new Item();
+                                List<SsrItem> ssrItemslist = new List<SsrItem>();
+                                SsrItem ssrItemobj = new SsrItem();
 
-                //            for (int j = 0; j < infantCount1; j++)
-                //            {
+                                ssrItemobj.ssrCode = "INFT";
+                                ssrItemobj.count = 1;
+                                ssrItemslist.Add(ssrItemobj);
 
-                //                Item itemobj = new Item();
-                //                List<SsrItem> ssrItemslist = new List<SsrItem>();
-                //                SsrItem ssrItemobj = new SsrItem();
+                                Designatorr designatorr = new Designatorr();
+                                designatorr.destination = passeengerKeyListinfant.journeys[0].segments[0].designator.destination;
+                                designatorr.origin = passeengerKeyListinfant.journeys[0].segments[0].designator.origin;
+                                //designatorr.departureDate = passeengerKeyListinfant.journeys[0].segments[0].designator.departure;
+                                designatorr.departureDate = _SimpleAvailabilityobject.beginDate;
+                                ssrItemobj.designator = designatorr;
+                                //ssrItemslist.Add(ssrItemobj);
+                                itemobj.passengerType = passeengerKeyListinfant.passengers[0].passengerTypeCode;
+                                itemobj.ssrs = ssrItemslist;
+                                itemList.Add(itemobj);
+                            }
+                        }
+                    }
+                    //      int infantCount = _SimpleAvailabilityobject.passengers.types[1].count;			
 
-                //                ssrItemobj.ssrCode = "INFT";
-                //                ssrItemobj.count = 1;
-                //                ssrItemslist.Add(ssrItemobj);
+                    ssr1.items = itemList;
+                    itenaryInfant.ssrs = ssr1slist;
+                    List<Key> keylist = new List<Key>();
+                    Key Keyobj = new Key();
+                    Keyobj.journeyKey = journeyKey[0];
+                    Keyobj.fareAvailabilityKey = fareKey[0];
+                    Keyobj.standbyPriorityCode = "";
+                    Keyobj.inventoryControl = "HoldSpace";
+                    keylist.Add(Keyobj);
+                    itenaryInfant.keys = keylist;
+                    Passengers1 passengers1 = new Passengers1();
+                    passengers1.residentCountry = "IN";
+                    List<Type2> typelist = new List<Type2>();
+                    for (int i = 0; i < _SimpleAvailabilityobj.passengers.types.Count; i++)
+                    {
+                        Type2 _Types = new Type2();
 
-                //                Designatorr designatorr = new Designatorr();
-                //                designatorr.destination = passeengerKeyListinfant.journeys[0].segments[0].designator.destination;
-                //                designatorr.origin = passeengerKeyListinfant.journeys[0].segments[0].designator.origin;
-                //                //designatorr.departureDate = passeengerKeyListinfant.journeys[0].segments[0].designator.departure;
-                //                designatorr.departureDate = _SimpleAvailabilityobject.beginDate;
-                //                ssrItemobj.designator = designatorr;
-                //                //ssrItemslist.Add(ssrItemobj);
-                //                itemobj.passengerType = passeengerKeyListinfant.passengers[0].passengerTypeCode;
-                //                itemobj.ssrs = ssrItemslist;
-                //                itemList.Add(itemobj);
+                        if (_SimpleAvailabilityobj.passengers.types[i].type == "ADT")
+                        {
+                            AdtType = _SimpleAvailabilityobj.passengers.types[i].type;
+                            _Types.type = AdtType;
+                            _Types.count = _SimpleAvailabilityobj.passengers.types[i].count;
+                        }
+                        else if (_SimpleAvailabilityobj.passengers.types[i].type == "CHD")
+                        {
+                            chdtype = _SimpleAvailabilityobj.passengers.types[i].type;
+                            _Types.type = chdtype;
+                            _Types.count = _SimpleAvailabilityobj.passengers.types[i].count;
+                        }
+                        else if (_SimpleAvailabilityobj.passengers.types[i].type == "INFT")
+                        {
+                            infanttype = _SimpleAvailabilityobj.passengers.types[i].type;
+                            continue;
+                        }
+                        //	
+                        typelist.Add(_Types);
+                    }
+                    passengers1.types = typelist;
+                    itenaryInfant.passengers = passengers1;
+                    itenaryInfant.currencyCode = "INR";
 
-                //            }
+                    var jsonPassengers = JsonConvert.SerializeObject(itenaryInfant, Formatting.Indented);
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    HttpResponseMessage responsePassengers = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/bookings/quote", itenaryInfant);
+                    if (responsePassengers.IsSuccessStatusCode)
+                    {
+                        AirAsiaTripResponceModel AirAsiaTripResponceobject = new AirAsiaTripResponceModel();
+                        var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
+                        var JsonObjPassengers = JsonConvert.DeserializeObject<dynamic>(_responsePassengers);
+                        var TotalAmount = JsonObjPassengers.data.breakdown.journeys[journeyKey].totalAmount;
+                        var TotalTax = JsonObjPassengers.data.breakdown.journeys[journeyKey].totalTax;
+                        int Journeyscount = JsonObjPassengers.data.journeys.Count;
+                        List<AAJourney> AAJourneyList = new List<AAJourney>();
+                        for (int i = 0; i < Journeyscount; i++)
+                        {
+                            AAJourney AAJourneyobject = new AAJourney();
 
-                //        }
+                            AAJourneyobject.flightType = JsonObjPassengers.data.journeys[i].flightType;
+                            AAJourneyobject.stops = JsonObjPassengers.data.journeys[i].stops;
+                            AAJourneyobject.journeyKey = JsonObjPassengers.data.journeys[i].journeyKey;
 
-
-                //    }
-
-
-                //    //      int infantCount = _SimpleAvailabilityobject.passengers.types[1].count;			
-
-                //    ssr1.items = itemList;
-                //    itenaryInfant.ssrs = ssr1slist;
-                //    List<Key> keylist = new List<Key>();
-                //    Key Keyobj = new Key();
-                //    Keyobj.journeyKey = journeyKey[0];
-                //    Keyobj.fareAvailabilityKey = fareKey[0];
-                //    Keyobj.standbyPriorityCode = "";
-                //    Keyobj.inventoryControl = "HoldSpace";
-                //    keylist.Add(Keyobj);
-                //    itenaryInfant.keys = keylist;
-                //    Passengers1 passengers1 = new Passengers1();
-                //    passengers1.residentCountry = "IN";
-                //    List<Type2> typelist = new List<Type2>();
-                //    for (int i = 0; i < _SimpleAvailabilityobj.passengers.types.Count; i++)
-                //    {
-                //        Type2 _Types = new Type2();
-
-                //        if (_SimpleAvailabilityobj.passengers.types[i].type == "ADT")
-                //        {
-                //            AdtType = _SimpleAvailabilityobj.passengers.types[i].type;
-                //            _Types.type = AdtType;
-                //            _Types.count = _SimpleAvailabilityobj.passengers.types[i].count;
-                //        }
-                //        else if (_SimpleAvailabilityobj.passengers.types[i].type == "CHD")
-                //        {
-                //            chdtype = _SimpleAvailabilityobj.passengers.types[i].type;
-                //            _Types.type = chdtype;
-                //            _Types.count = _SimpleAvailabilityobj.passengers.types[i].count;
-                //        }
-                //        else if (_SimpleAvailabilityobj.passengers.types[i].type == "INFT")
-                //        {
-                //            infanttype = _SimpleAvailabilityobj.passengers.types[i].type;
-                //            continue;
-                //        }
-                //        //	
-                //        typelist.Add(_Types);
-                //    }
-                //    passengers1.types = typelist;
-                //    itenaryInfant.passengers = passengers1;
-                //    itenaryInfant.currencyCode = "INR";
-
-                //    var jsonPassengers = JsonConvert.SerializeObject(itenaryInfant, Formatting.Indented);
-                //    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                //    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                //    HttpResponseMessage responsePassengers = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/bookings/quote", itenaryInfant);
-                //    if (responsePassengers.IsSuccessStatusCode)
-                //    {
-                //        AirAsiaTripResponceModel AirAsiaTripResponceobject = new AirAsiaTripResponceModel();
-                //        var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
-                //        var JsonObjPassengers = JsonConvert.DeserializeObject<dynamic>(_responsePassengers);
-                //        var TotalAmount = JsonObjPassengers.data.breakdown.journeys[journeyKey].totalAmount;
-                //        var TotalTax = JsonObjPassengers.data.breakdown.journeys[journeyKey].totalTax;
-                //        int Journeyscount = JsonObjPassengers.data.journeys.Count;
-
-
-
-
-                //        //end
-
-
-                //        List<AAJourney> AAJourneyList = new List<AAJourney>();
-                //        for (int i = 0; i < Journeyscount; i++)
-                //        {
-                //            AAJourney AAJourneyobject = new AAJourney();
-
-                //            AAJourneyobject.flightType = JsonObjPassengers.data.journeys[i].flightType;
-                //            AAJourneyobject.stops = JsonObjPassengers.data.journeys[i].stops;
-                //            AAJourneyobject.journeyKey = JsonObjPassengers.data.journeys[i].journeyKey;
-
-                //            AADesignator AADesignatorobject = new AADesignator();
-                //            AADesignatorobject.origin = JsonObjPassengers.data.journeys[0].designator.origin;
-                //            AADesignatorobject.destination = JsonObjPassengers.data.journeys[0].designator.destination;
-                //            AADesignatorobject.departure = JsonObjPassengers.data.journeys[0].designator.departure;
-                //            AADesignatorobject.arrival = JsonObjPassengers.data.journeys[0].designator.arrival;
-                //            AAJourneyobject.designator = AADesignatorobject;
+                            AADesignator AADesignatorobject = new AADesignator();
+                            AADesignatorobject.origin = JsonObjPassengers.data.journeys[0].designator.origin;
+                            AADesignatorobject.destination = JsonObjPassengers.data.journeys[0].designator.destination;
+                            AADesignatorobject.departure = JsonObjPassengers.data.journeys[0].designator.departure;
+                            AADesignatorobject.arrival = JsonObjPassengers.data.journeys[0].designator.arrival;
+                            AAJourneyobject.designator = AADesignatorobject;
 
 
-                //            int Segmentscount = JsonObjPassengers.data.journeys[i].segments.Count;
-                //            List<AASegment> AASegmentlist = new List<AASegment>();
-                //            for (int j = 0; j < Segmentscount; j++)
-                //            {
-                //                AASegment AASegmentobject = new AASegment();
-                //                AASegmentobject.isStandby = JsonObjPassengers.data.journeys[i].segments[j].isStandby;
-                //                AASegmentobject.isHosted = JsonObjPassengers.data.journeys[i].segments[j].isHosted;
+                            int Segmentscount = JsonObjPassengers.data.journeys[i].segments.Count;
+                            List<AASegment> AASegmentlist = new List<AASegment>();
+                            for (int j = 0; j < Segmentscount; j++)
+                            {
+                                AASegment AASegmentobject = new AASegment();
+                                AASegmentobject.isStandby = JsonObjPassengers.data.journeys[i].segments[j].isStandby;
+                                AASegmentobject.isHosted = JsonObjPassengers.data.journeys[i].segments[j].isHosted;
 
-                //                AADesignator AASegmentDesignatorobject = new AADesignator();
+                                AADesignator AASegmentDesignatorobject = new AADesignator();
 
-                //                AASegmentDesignatorobject.origin = JsonObjPassengers.data.journeys[i].segments[j].designator.origin;
-                //                AASegmentDesignatorobject.destination = JsonObjPassengers.data.journeys[i].segments[j].designator.destination;
-                //                AASegmentDesignatorobject.departure = JsonObjPassengers.data.journeys[i].segments[j].designator.departure;
-                //                AASegmentDesignatorobject.arrival = JsonObjPassengers.data.journeys[i].segments[j].designator.arrival;
-                //                AASegmentobject.designator = AASegmentDesignatorobject;
+                                AASegmentDesignatorobject.origin = JsonObjPassengers.data.journeys[i].segments[j].designator.origin;
+                                AASegmentDesignatorobject.destination = JsonObjPassengers.data.journeys[i].segments[j].designator.destination;
+                                AASegmentDesignatorobject.departure = JsonObjPassengers.data.journeys[i].segments[j].designator.departure;
+                                AASegmentDesignatorobject.arrival = JsonObjPassengers.data.journeys[i].segments[j].designator.arrival;
+                                AASegmentobject.designator = AASegmentDesignatorobject;
 
-                //                int FareCount = JsonObjPassengers.data.journeys[i].segments[j].fares.Count;
-                //                List<AAFare> AAFareList = new List<AAFare>();
-                //                for (int k = 0; k < FareCount; k++)
-                //                {
-                //                    AAFare AAFareobject = new AAFare();
-                //                    AAFareobject.fareKey = JsonObjPassengers.data.journeys[i].segments[j].fares[k].fareKey;
-                //                    AAFareobject.productClass = JsonObjPassengers.data.journeys[i].segments[j].fares[k].productClass;
+                                int FareCount = JsonObjPassengers.data.journeys[i].segments[j].fares.Count;
+                                List<AAFare> AAFareList = new List<AAFare>();
+                                for (int k = 0; k < FareCount; k++)
+                                {
+                                    AAFare AAFareobject = new AAFare();
+                                    AAFareobject.fareKey = JsonObjPassengers.data.journeys[i].segments[j].fares[k].fareKey;
+                                    AAFareobject.productClass = JsonObjPassengers.data.journeys[i].segments[j].fares[k].productClass;
 
-                //                    var PassengerFares = JsonObjPassengers.data.journeys[i].segments[j].fares[k].passengerFares;
+                                    var PassengerFares = JsonObjPassengers.data.journeys[i].segments[j].fares[k].passengerFares;
 
-                //                    int PassengerFarescount = ((Newtonsoft.Json.Linq.JContainer)PassengerFares).Count;
-                //                    List<AAPassengerfare> AAPassengerfareList = new List<AAPassengerfare>();
-                //                    for (int l = 0; l < PassengerFarescount; l++)
-                //                    {
-                //                        AAPassengerfare AAPassengerfareobject = new AAPassengerfare();
-                //                        AAPassengerfareobject.passengerType = JsonObjPassengers.data.journeys[i].segments[j].fares[k].passengerFares[l].passengerType;
+                                    int PassengerFarescount = ((Newtonsoft.Json.Linq.JContainer)PassengerFares).Count;
+                                    List<AAPassengerfare> AAPassengerfareList = new List<AAPassengerfare>();
+                                    for (int l = 0; l < PassengerFarescount; l++)
+                                    {
+                                        AAPassengerfare AAPassengerfareobject = new AAPassengerfare();
+                                        AAPassengerfareobject.passengerType = JsonObjPassengers.data.journeys[i].segments[j].fares[k].passengerFares[l].passengerType;
 
-                //                        var ServiceCharges1 = JsonObjPassengers.data.journeys[i].segments[j].fares[k].passengerFares[l].serviceCharges;
-                //                        int ServiceChargescount = ((Newtonsoft.Json.Linq.JContainer)ServiceCharges1).Count;
-                //                        List<AAServicecharge> AAServicechargeList = new List<AAServicecharge>();
-                //                        for (int m = 0; m < ServiceChargescount; m++)
-                //                        {
-                //                            AAServicecharge AAServicechargeobject = new AAServicecharge();
+                                        var ServiceCharges1 = JsonObjPassengers.data.journeys[i].segments[j].fares[k].passengerFares[l].serviceCharges;
+                                        int ServiceChargescount = ((Newtonsoft.Json.Linq.JContainer)ServiceCharges1).Count;
+                                        List<AAServicecharge> AAServicechargeList = new List<AAServicecharge>();
+                                        for (int m = 0; m < ServiceChargescount; m++)
+                                        {
+                                            AAServicecharge AAServicechargeobject = new AAServicecharge();
 
-                //                            AAServicechargeobject.amount = JsonObjPassengers.data.journeys[i].segments[j].fares[k].passengerFares[l].serviceCharges[m].amount;
+                                            AAServicechargeobject.amount = JsonObjPassengers.data.journeys[i].segments[j].fares[k].passengerFares[l].serviceCharges[m].amount;
 
 
-                //                            AAServicechargeList.Add(AAServicechargeobject);
-                //                        }
+                                            AAServicechargeList.Add(AAServicechargeobject);
+                                        }
 
 
 
-                //                        AAPassengerfareobject.serviceCharges = AAServicechargeList;
+                                        AAPassengerfareobject.serviceCharges = AAServicechargeList;
 
-                //                        AAPassengerfareList.Add(AAPassengerfareobject);
+                                        AAPassengerfareList.Add(AAPassengerfareobject);
 
-                //                    }
-                //                    AAFareobject.passengerFares = AAPassengerfareList;
+                                    }
+                                    AAFareobject.passengerFares = AAPassengerfareList;
 
-                //                    AAFareList.Add(AAFareobject);
+                                    AAFareList.Add(AAFareobject);
 
 
 
 
-                //                }
-                //                AASegmentobject.fares = AAFareList;
-                //                AAIdentifier AAIdentifierobj = new AAIdentifier();
+                                }
+                                AASegmentobject.fares = AAFareList;
+                                AAIdentifier AAIdentifierobj = new AAIdentifier();
 
-                //                AAIdentifierobj.identifier = JsonObjPassengers.data.journeys[i].segments[j].identifier.identifier;
-                //                AAIdentifierobj.carrierCode = JsonObjPassengers.data.journeys[i].segments[j].identifier.carrierCode;
+                                AAIdentifierobj.identifier = JsonObjPassengers.data.journeys[i].segments[j].identifier.identifier;
+                                AAIdentifierobj.carrierCode = JsonObjPassengers.data.journeys[i].segments[j].identifier.carrierCode;
 
-                //                AASegmentobject.identifier = AAIdentifierobj;
+                                AASegmentobject.identifier = AAIdentifierobj;
 
-                //                var Leg = JsonObjPassengers.data.journeys[i].segments[j].legs;
-                //                int Legcount = ((Newtonsoft.Json.Linq.JContainer)Leg).Count;
-                //                List<AALeg> AALeglist = new List<AALeg>();
-                //                for (int n = 0; n < Legcount; n++)
-                //                {
-                //                    AALeg AALegobj = new AALeg();
-                //                    AALegobj.legKey = JsonObjPassengers.data.journeys[i].segments[j].legs[n].legKey;
-                //                    AADesignator AAlegDesignatorobject = new AADesignator();
-                //                    AAlegDesignatorobject.origin = JsonObjPassengers.data.journeys[i].segments[j].legs[n].designator.origin;
-                //                    AAlegDesignatorobject.destination = JsonObjPassengers.data.journeys[i].segments[j].legs[n].designator.destination;
-                //                    AAlegDesignatorobject.departure = JsonObjPassengers.data.journeys[i].segments[j].legs[n].designator.departure;
-                //                    AAlegDesignatorobject.arrival = JsonObjPassengers.data.journeys[i].segments[j].legs[n].designator.arrival;
-                //                    AALegobj.designator = AAlegDesignatorobject;
+                                var Leg = JsonObjPassengers.data.journeys[i].segments[j].legs;
+                                int Legcount = ((Newtonsoft.Json.Linq.JContainer)Leg).Count;
+                                List<AALeg> AALeglist = new List<AALeg>();
+                                for (int n = 0; n < Legcount; n++)
+                                {
+                                    AALeg AALegobj = new AALeg();
+                                    AALegobj.legKey = JsonObjPassengers.data.journeys[i].segments[j].legs[n].legKey;
+                                    AADesignator AAlegDesignatorobject = new AADesignator();
+                                    AAlegDesignatorobject.origin = JsonObjPassengers.data.journeys[i].segments[j].legs[n].designator.origin;
+                                    AAlegDesignatorobject.destination = JsonObjPassengers.data.journeys[i].segments[j].legs[n].designator.destination;
+                                    AAlegDesignatorobject.departure = JsonObjPassengers.data.journeys[i].segments[j].legs[n].designator.departure;
+                                    AAlegDesignatorobject.arrival = JsonObjPassengers.data.journeys[i].segments[j].legs[n].designator.arrival;
+                                    AALegobj.designator = AAlegDesignatorobject;
 
-                //                    AALeginfo AALeginfoobject = new AALeginfo();
-                //                    AALeginfoobject.arrivalTerminal = JsonObjPassengers.data.journeys[i].segments[j].legs[n].legInfo.arrivalTerminal;
-                //                    AALeginfoobject.arrivalTime = JsonObjPassengers.data.journeys[i].segments[j].legs[n].legInfo.arrivalTime;
-                //                    AALeginfoobject.departureTerminal = JsonObjPassengers.data.journeys[i].segments[j].legs[n].legInfo.departureTerminal;
-                //                    AALeginfoobject.departureTime = JsonObjPassengers.data.journeys[i].segments[j].legs[n].legInfo.departureTime;
-                //                    AALegobj.legInfo = AALeginfoobject;
-                //                    AALeglist.Add(AALegobj);
+                                    AALeginfo AALeginfoobject = new AALeginfo();
+                                    AALeginfoobject.arrivalTerminal = JsonObjPassengers.data.journeys[i].segments[j].legs[n].legInfo.arrivalTerminal;
+                                    AALeginfoobject.arrivalTime = JsonObjPassengers.data.journeys[i].segments[j].legs[n].legInfo.arrivalTime;
+                                    AALeginfoobject.departureTerminal = JsonObjPassengers.data.journeys[i].segments[j].legs[n].legInfo.departureTerminal;
+                                    AALeginfoobject.departureTime = JsonObjPassengers.data.journeys[i].segments[j].legs[n].legInfo.departureTime;
+                                    AALegobj.legInfo = AALeginfoobject;
+                                    AALeglist.Add(AALegobj);
 
-                //                }
+                                }
 
-                //                AASegmentobject.legs = AALeglist;
-                //                AASegmentlist.Add(AASegmentobject);
-                //            }
+                                AASegmentobject.legs = AALeglist;
+                                AASegmentlist.Add(AASegmentobject);
+                            }
 
-                //            AAJourneyobject.segments = AASegmentlist;
-                //            AAJourneyList.Add(AAJourneyobject);
+                            AAJourneyobject.segments = AASegmentlist;
+                            AAJourneyList.Add(AAJourneyobject);
 
-                //        }
+                        }
+                        var Passanger = JsonObjPassengers.data.passengers;
+                        int passengercount = ((Newtonsoft.Json.Linq.JContainer)Passanger).Count;
+                        List<AAPassengers> passkeyList = new List<AAPassengers>();
+                        Infant infantobject = null;
+                        Fee feeobject = null;
+                        foreach (var items in JsonObjPassengers.data.passengers)
+                        {
+                            AAPassengers passkeytypeobject = new AAPassengers();
+                            passkeytypeobject.passengerKey = items.Value.passengerKey;
+                            passkeytypeobject.passengerTypeCode = items.Value.passengerTypeCode;
+                            passkeyList.Add(passkeytypeobject);
+                            passengerkey12 = passkeytypeobject.passengerKey;
+                            //infant
+                            if (passkeytypeobject.passengerTypeCode != "CHD")
+                            {
 
+                                if (JsonObjPassengers.data.passengers[passkeytypeobject.passengerKey].infant != null)
+                                {
+                                    int Feecount = JsonObjPassengers.data.passengers[passkeytypeobject.passengerKey].infant.fees.Count;
+                                    List<Fee> feeList = new List<Fee>();
+                                    for (int i = 0; i < Feecount; i++)
+                                    {
+                                        infantobject = new Infant();
+                                        feeobject = new Fee();
+                                        feeobject.isConfirmed = false;
+                                        feeobject.isConfirming = false;
+                                        feeobject.isConfirmingExternal = false;
+                                        feeobject.code = JsonObjPassengers.data.passengers[passkeytypeobject.passengerKey].infant.fees[i].code;
+                                        feeobject._override = false;
+                                        feeobject.note = "";
+                                        feeobject.isProtected = false;
+                                        infantobject.nationality = "";
+                                        infantobject.dateOfBirth = "";
+                                        infantobject.travelDocuments = "";
+                                        infantobject.residentCountry = "";
+                                        infantobject.gender = 1;
+                                        infantobject.name = "";
+                                        infantobject.type = "";
+                                        feeList.Add(feeobject);
 
-                //        var Passanger = JsonObjPassengers.data.passengers;
-                //        int passengercount = ((Newtonsoft.Json.Linq.JContainer)Passanger).Count;
-                //        List<AAPassengers> passkeyList = new List<AAPassengers>();
-                //        Infant infantobject = null;
-                //        Fee feeobject = null;
-                //        foreach (var items in JsonObjPassengers.data.passengers)
-                //        {
-                //            AAPassengers passkeytypeobject = new AAPassengers();
-                //            passkeytypeobject.passengerKey = items.Value.passengerKey;
-                //            passkeytypeobject.passengerTypeCode = items.Value.passengerTypeCode;
-                //            passkeyList.Add(passkeytypeobject);
-                //            passengerkey12 = passkeytypeobject.passengerKey;
-                //            //infant
-                //            if (passkeytypeobject.passengerTypeCode != "CHD")
-                //            {
-
-                //                if (JsonObjPassengers.data.passengers[passkeytypeobject.passengerKey].infant != null)
-                //                {
-                //                    int Feecount = JsonObjPassengers.data.passengers[passkeytypeobject.passengerKey].infant.fees.Count;
-                //                    List<Fee> feeList = new List<Fee>();
-                //                    for (int i = 0; i < Feecount; i++)
-                //                    {
-                //                        infantobject = new Infant();
-                //                        feeobject = new Fee();
-                //                        feeobject.isConfirmed = false;
-                //                        feeobject.isConfirming = false;
-                //                        feeobject.isConfirmingExternal = false;
-                //                        feeobject.code = JsonObjPassengers.data.passengers[passkeytypeobject.passengerKey].infant.fees[i].code;
-                //                        feeobject._override = false;
-                //                        feeobject.note = "";
-                //                        feeobject.isProtected = false;
-                //                        infantobject.nationality = "";
-                //                        infantobject.dateOfBirth = "";
-                //                        infantobject.travelDocuments = "";
-                //                        infantobject.residentCountry = "";
-                //                        infantobject.gender = 1;
-                //                        infantobject.name = "";
-                //                        infantobject.type = "";
-                //                        feeList.Add(feeobject);
-
-                //                        infantobject.fees = feeList;
-                //                        passkeytypeobject.infant = infantobject;
-                //                    }
-                //                }
-                //            }
+                                        infantobject.fees = feeList;
+                                        passkeytypeobject.infant = infantobject;
+                                    }
+                                }
+                            }
 
 
-                //            AirAsiaTripResponceobject.journeys = AAJourneyList;
-                //            AirAsiaTripResponceobject.passengers = passkeyList;
-                //            AirAsiaTripResponceobject.passengerscount = passengercount;
-                //            HttpContext.Session.SetString("keypassengerItanary", JsonConvert.SerializeObject(AirAsiaTripResponceobject));
-                //            //string passengerInfant = HttpContext.Session.GetString("keypassengerItanary");
+                            AirAsiaTripResponceobject.journeys = AAJourneyList;
+                            AirAsiaTripResponceobject.passengers = passkeyList;
+                            AirAsiaTripResponceobject.passengerscount = passengercount;
+                            HttpContext.Session.SetString("keypassengerItanary", JsonConvert.SerializeObject(AirAsiaTripResponceobject));
+                            //string passengerInfant = HttpContext.Session.GetString("keypassengerItanary");
 
-                //        }
-
-
-                //    }
-                //}
+                        }
+                    }
+                }
                 #endregion
-
                 #region SeatMap
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 //HttpResponseMessage responseSeatmap = await client.PostAsJsonAsync(BaseURL + "api/nsk/v3/booking/seatmaps/journey/ {{journeyKey}}", _SSRAvailabilty);
                 //  var REQUEST1= (BaseURL + "/api/nsk/v3/booking/seatmaps/journey/{{" +journeyKey1+ "}}?IncludePropertyLookup=true");
-                HttpResponseMessage responseSeatmap = await client.GetAsync(AppUrlConstant.URLAirasia + "/api/nsk/v3/booking/seatmaps/journey/" + journeyKey + "?IncludePropertyLookup=true");
+                HttpResponseMessage responseSeatmap = await client.GetAsync(AppUrlConstant.URLAirasia + "/api/nsk/v3/booking/seatmaps/journey/" + key.journeyKey + "?IncludePropertyLookup=true");
 
                 // data[0].seatMap.decks['1'].compartments.Y.units[0].unitKey
-
-
                 if (responseSeatmap.IsSuccessStatusCode)
                 {
                     var _responseSeatmap = responseSeatmap.Content.ReadAsStringAsync().Result;
@@ -745,7 +712,6 @@ namespace OnionConsumeWebAPI.Controllers
                     }
                 }
                 #endregion
-
                 #region Meals
 
                 string passengerdata = HttpContext.Session.GetString("keypassenger");
@@ -860,11 +826,803 @@ namespace OnionConsumeWebAPI.Controllers
 
                 }
                 #endregion
+
+
+                HttpContext.Session.SetString("journeyKey", JsonConvert.SerializeObject(journeyKey));
+                string LeftshowpopupdataR = HttpContext.Session.GetString("PassengerModel");
+                SimpleAvailabilityRequestModel _SimpleAvailabilityobjR = null;
+                _SimpleAvailabilityobjR = JsonConvert.DeserializeObject<SimpleAvailabilityRequestModel>(LeftshowpopupdataR);
+                var AdtTypeR = "";
+                var AdtCountR = 0;
+
+                var chdtypeR = "";
+                var chdcountR = 0;
+
+                var infanttypeR = "";
+                var infantcountR = 0;
+
+                int countpassengerR = _SimpleAvailabilityobjR.passengers.types.Count;
+                AdtType = _SimpleAvailabilityobjR.passengers.types[0].type;
+                AirAsiaTripSellRequestReturn AirAsiaTripSellRequestobjR = new AirAsiaTripSellRequestReturn();
+                _KeyReturn keyR = new _KeyReturn();
+                List<_KeyReturn> _keylistR = new List<_KeyReturn>();
+
+
+                string JourneyKeyOnewayR = journeyKey[1];
+                string[] JpartsR = JourneyKeyOnewayR.Split('/');
+                string _JourneykeyDataR = JpartsR[0];
+                keyR.journeyKey = _JourneykeyDataR;
+
+
+                string fareKeyKeyOnewayR = fareKey[1];
+                string[] FpartsR = fareKeyKeyOnewayR.Split('/');
+                string _FareKeyDataR = FpartsR[0];
+                keyR.fareAvailabilityKey = _FareKeyDataR;
+
+                _keylistR.Add(keyR);
+                AirAsiaTripSellRequestobjR.keys = _keylistR;
+
+                PassengersReturn passengersR = new PassengersReturn();
+                List<_TypesReturn> _typeslistR = new List<_TypesReturn>();
+
+                for (int i = 0; i < _SimpleAvailabilityobjR.passengers.types.Count; i++)
+                {
+                    _TypesReturn _TypesR = new _TypesReturn();
+
+                    if (_SimpleAvailabilityobjR.passengers.types[i].type == "ADT")
+                    {
+                        AdtTypeR = _SimpleAvailabilityobjR.passengers.types[i].type;
+                        _TypesR.type = AdtTypeR;
+                        _TypesR.count = _SimpleAvailabilityobjR.passengers.types[i].count;
+                    }
+                    else if (_SimpleAvailabilityobjR.passengers.types[i].type == "CHD")
+                    {
+                        chdtypeR = _SimpleAvailabilityobjR.passengers.types[i].type;
+                        _TypesR.type = chdtypeR;
+                        _TypesR.count = _SimpleAvailabilityobjR.passengers.types[i].count;
+                    }
+                    else if (_SimpleAvailabilityobjR.passengers.types[i].type == "INFT")
+                    {
+                        infanttypeR = _SimpleAvailabilityobjR.passengers.types[i].type;
+                        continue;
+                    }
+                    //	
+                    _typeslistR.Add(_TypesR);
+                }
+                passengersR.types = _typeslistR;
+                AirAsiaTripSellRequestobjR.passengers = passengersR;
+                AirAsiaTripSellRequestobjR.currencyCode = "INR";
+                AirAsiaTripSellRequestobjR.preventOverlap = true;
+                AirAsiaTripSellRequestobjR.suppressPassengerAgeValidation = true;
+                var AirasiaTripSellRequestR = JsonConvert.SerializeObject(AirAsiaTripSellRequestobjR, Formatting.Indented);
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                HttpResponseMessage responseTripsellR = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v4/trip/sell", AirAsiaTripSellRequestobjR);
+                if (responseTripsellR.IsSuccessStatusCode)
+                {
+                    AirAsiaTripResponceModel AirAsiaTripResponceobjR = new AirAsiaTripResponceModel();
+                    var resultsTripsellR = responseTripsellR.Content.ReadAsStringAsync().Result;
+                    var JsonObjTripsellR = JsonConvert.DeserializeObject<dynamic>(resultsTripsellR);
+                    //var totalAmount = JsonObjTripsell.data.breakdown.journeys[journeyKey[0]].totalAmount;
+                    //var totalTax = JsonObjTripsell.data.breakdown.journeys[journeyKey[0]].totalTax;
+                    #region Comment
+                    int journeyscountR = JsonObjTripsellR.data.journeys.Count;
+                    List<AAJourney> AAJourneyListR = new List<AAJourney>();
+                    for (int i = 0; i < journeyscountR; i++)
+                    {
+                        if (journeyscountR == 2 && i == 0)
+                        {
+                            continue;
+                        }
+                        AAJourney AAJourneyobjR = new AAJourney();
+
+                        AAJourneyobjR.flightType = JsonObjTripsellR.data.journeys[i].flightType;
+                        AAJourneyobjR.stops = JsonObjTripsellR.data.journeys[i].stops;
+                        AAJourneyobjR.journeyKey = JsonObjTripsellR.data.journeys[i].journeyKey;
+
+                        AADesignator AADesignatorobjR = new AADesignator();
+                        AADesignatorobjR.origin = JsonObjTripsellR.data.journeys[0].designator.origin;
+                        AADesignatorobjR.destination = JsonObjTripsellR.data.journeys[0].designator.destination;
+                        AADesignatorobjR.departure = JsonObjTripsellR.data.journeys[0].designator.departure;
+                        AADesignatorobjR.arrival = JsonObjTripsellR.data.journeys[0].designator.arrival;
+                        AAJourneyobjR.designator = AADesignatorobjR;
+
+
+                        int segmentscountR = JsonObjTripsellR.data.journeys[i].segments.Count;
+                        List<AASegment> AASegmentlistR = new List<AASegment>();
+                        for (int j = 0; j < segmentscountR; j++)
+                        {
+                            AASegment AASegmentobjR = new AASegment();
+                            AASegmentobjR.isStandby = JsonObjTripsellR.data.journeys[i].segments[j].isStandby;
+                            AASegmentobjR.isHosted = JsonObjTripsellR.data.journeys[i].segments[j].isHosted;
+
+                            AADesignator AASegmentDesignatorobjR = new AADesignator();
+                            var cityname = Citydata.GetAllcity().Where(x => x.cityCode == "DEL");
+                            AASegmentDesignatorobjR.origin = JsonObjTripsellR.data.journeys[i].segments[j].designator.origin;
+                            AASegmentDesignatorobjR.destination = JsonObjTripsellR.data.journeys[i].segments[j].designator.destination;
+                            AASegmentDesignatorobjR.departure = JsonObjTripsellR.data.journeys[i].segments[j].designator.departure;
+                            AASegmentDesignatorobjR.arrival = JsonObjTripsellR.data.journeys[i].segments[j].designator.arrival;
+                            AASegmentobjR.designator = AASegmentDesignatorobjR;
+
+                            int fareCountR = JsonObjTripsellR.data.journeys[i].segments[j].fares.Count;
+                            List<AAFare> AAFarelistR = new List<AAFare>();
+                            for (int k = 0; k < fareCountR; k++)
+                            {
+                                AAFare AAFareobjR = new AAFare();
+                                AAFareobjR.fareKey = JsonObjTripsellR.data.journeys[i].segments[j].fares[k].fareKey;
+                                AAFareobjR.productClass = JsonObjTripsellR.data.journeys[i].segments[j].fares[k].productClass;
+
+                                var passengerFaresR = JsonObjTripsellR.data.journeys[i].segments[j].fares[k].passengerFares;
+
+                                int passengerFarescountR = ((Newtonsoft.Json.Linq.JContainer)passengerFaresR).Count;
+                                List<AAPassengerfare> AAPassengerfarelistR = new List<AAPassengerfare>();
+                                for (int l = 0; l < passengerFarescountR; l++)
+                                {
+                                    AAPassengerfare AAPassengerfareobjR = new AAPassengerfare();
+                                    AAPassengerfareobjR.passengerType = JsonObjTripsellR.data.journeys[i].segments[j].fares[k].passengerFares[l].passengerType;
+
+                                    var serviceCharges1R = JsonObjTripsellR.data.journeys[i].segments[j].fares[k].passengerFares[l].serviceCharges;
+                                    int serviceChargescountR = ((Newtonsoft.Json.Linq.JContainer)serviceCharges1R).Count;
+                                    List<AAServicecharge> AAServicechargelistR = new List<AAServicecharge>();
+                                    for (int m = 0; m < serviceChargescountR; m++)
+                                    {
+                                        AAServicecharge AAServicechargeobjR = new AAServicecharge();
+
+                                        AAServicechargeobjR.amount = JsonObjTripsellR.data.journeys[i].segments[j].fares[k].passengerFares[l].serviceCharges[m].amount;
+
+
+                                        AAServicechargelistR.Add(AAServicechargeobjR);
+                                    }
+
+
+
+                                    AAPassengerfareobjR.serviceCharges = AAServicechargelistR;
+
+                                    AAPassengerfarelistR.Add(AAPassengerfareobjR);
+
+                                }
+                                AAFareobjR.passengerFares = AAPassengerfarelistR;
+
+                                AAFarelistR.Add(AAFareobjR);
+
+
+
+
+                            }
+                            AASegmentobjR.fares = AAFarelistR;
+                            AAIdentifier AAIdentifierobjR = new AAIdentifier();
+
+                            AAIdentifierobjR.identifier = JsonObjTripsellR.data.journeys[i].segments[j].identifier.identifier;
+                            AAIdentifierobjR.carrierCode = JsonObjTripsellR.data.journeys[i].segments[j].identifier.carrierCode;
+
+                            AASegmentobjR.identifier = AAIdentifierobjR;
+
+                            var legR = JsonObjTripsellR.data.journeys[i].segments[j].legs;
+                            int legcountR = ((Newtonsoft.Json.Linq.JContainer)legR).Count;
+                            List<AALeg> AALeglistR = new List<AALeg>();
+                            for (int n = 0; n < legcountR; n++)
+                            {
+                                AALeg AALegR = new AALeg();
+                                AALegR.legKey = JsonObjTripsellR.data.journeys[i].segments[j].legs[n].legKey;
+                                AADesignator AAlegDesignatorobjR = new AADesignator();
+                                AAlegDesignatorobjR.origin = JsonObjTripsellR.data.journeys[i].segments[j].legs[n].designator.origin;
+                                AAlegDesignatorobjR.destination = JsonObjTripsellR.data.journeys[i].segments[j].legs[n].designator.destination;
+                                AAlegDesignatorobjR.departure = JsonObjTripsellR.data.journeys[i].segments[j].legs[n].designator.departure;
+                                AAlegDesignatorobjR.arrival = JsonObjTripsellR.data.journeys[i].segments[j].legs[n].designator.arrival;
+                                AALegR.designator = AAlegDesignatorobjR;
+
+                                AALeginfo AALeginfoobjR = new AALeginfo();
+                                AALeginfoobjR.arrivalTerminal = JsonObjTripsellR.data.journeys[i].segments[j].legs[n].legInfo.arrivalTerminal;
+                                AALeginfoobjR.arrivalTime = JsonObjTripsellR.data.journeys[i].segments[j].legs[n].legInfo.arrivalTime;
+                                AALeginfoobjR.departureTerminal = JsonObjTripsellR.data.journeys[i].segments[j].legs[n].legInfo.departureTerminal;
+                                AALeginfoobjR.departureTime = JsonObjTripsellR.data.journeys[i].segments[j].legs[n].legInfo.departureTime;
+                                AALegR.legInfo = AALeginfoobjR;
+                                AALeglistR.Add(AALegR);
+
+                            }
+
+                            AASegmentobjR.legs = AALeglistR;
+                            AASegmentlistR.Add(AASegmentobjR);
+                        }
+
+                        AAJourneyobjR.segments = AASegmentlistR;
+                        AAJourneyListR.Add(AAJourneyobjR);
+
+                    }
+                    var passangerR = JsonObjTripsellR.data.passengers;
+                    int passengercountR = ((Newtonsoft.Json.Linq.JContainer)passangerR).Count;
+                    List<AAPassengers> passkeylistR = new List<AAPassengers>();
+                    foreach (var items in JsonObjTripsellR.data.passengers)
+                    {
+                        AAPassengers passkeytypeobjR = new AAPassengers();
+                        passkeytypeobjR.passengerKey = items.Value.passengerKey;
+                        passkeytypeobjR.passengerTypeCode = items.Value.passengerTypeCode;
+                        //  passkeytypeobj.passengertypecount = items.Count;
+
+                        passkeylistR.Add(passkeytypeobjR);
+                        passengerkey12 = passkeytypeobjR.passengerKey;
+                    }
+                    AirAsiaTripResponceobjR.journeys = AAJourneyListR;
+                    AirAsiaTripResponceobjR.passengers = passkeylistR;
+                    AirAsiaTripResponceobjR.passengerscount = passengercountR;
+                    HttpContext.Session.SetString("keypassengerReturn", JsonConvert.SerializeObject(AirAsiaTripResponceobjR));
+                    #endregion
+                }
+                #region itenary 
+                if (infanttypeR != null)
+                {
+                    string passengerdatainfantR = HttpContext.Session.GetString("keypassengerReturn");
+                    AirAsiaTripResponceModel passeengerKeyListinfantR = null;
+                    passeengerKeyListinfantR = JsonConvert.DeserializeObject<AirAsiaTripResponceModel>(passengerdatainfantR);
+                    string RightpassengerModal = HttpContext.Session.GetString("PassengerModelR");
+                    SimpleAvailabilityRequestModel _SimpleAvailabilityobjectR = null;
+                    _SimpleAvailabilityobjectR = JsonConvert.DeserializeObject<SimpleAvailabilityRequestModel>(RightpassengerModal);
+
+                    GetItenaryModel itenaryInfantR = new GetItenaryModel();
+                    List<Ssr1> ssr1slistR = new List<Ssr1>();
+                    Ssr1 ssr1R = new Ssr1();
+                    Market marketobjR = new Market();
+                    Identifier1 identifier1R = new Identifier1();
+                    //Market
+                    identifier1R.identifier = passeengerKeyListinfantR.journeys[0].segments[0].identifier.identifier;
+                    identifier1R.carrierCode = passeengerKeyListinfantR.journeys[0].segments[0].identifier.carrierCode;
+                    marketobjR.identifier = identifier1R;
+                    marketobjR.destination = passeengerKeyListinfantR.journeys[0].segments[0].designator.destination;
+                    marketobjR.origin = passeengerKeyListinfantR.journeys[0].segments[0].designator.origin;
+                    //marketobj.departureDate = passeengerKeyListinfant.journeys[0].segments[0].designator.departure.ToString("yyyy-MM-dd");
+                    marketobjR.departureDate = _SimpleAvailabilityobjectR.beginDate;
+                    ssr1R.market = marketobjR;
+                    ssr1slistR.Add(ssr1R);
+                    //item
+                    List<Item> itemListR = new List<Item>();
+                    //int passtypedatacount = passeengerKeyListinfant.passengers.Count;	
+                    int typecountR = _SimpleAvailabilityobjectR.passengers.types.Count;
+
+                    for (int i = 0; i < typecountR; i++)
+                    {
+                        var infantR = _SimpleAvailabilityobjectR.passengers.types[i].type;
+                        if (infantR == "INFT")
+                        {
+                            int infantCount1R = _SimpleAvailabilityobjectR.passengers.types[i].count;
+
+                            for (int j = 0; j < infantCount1R; j++)
+                            {
+
+                                Item itemobjR = new Item();
+                                List<SsrItem> ssrItemslistR = new List<SsrItem>();
+                                SsrItem ssrItemobjR = new SsrItem();
+
+                                ssrItemobjR.ssrCode = "INFT";
+                                ssrItemobjR.count = 1;
+                                ssrItemslistR.Add(ssrItemobjR);
+
+                                Designatorr designatorrR = new Designatorr();
+                                designatorrR.destination = passeengerKeyListinfantR.journeys[0].segments[0].designator.destination;
+                                designatorrR.origin = passeengerKeyListinfantR.journeys[0].segments[0].designator.origin;
+                                //designatorr.departureDate = passeengerKeyListinfant.journeys[0].segments[0].designator.departure;
+                                designatorrR.departureDate = _SimpleAvailabilityobjectR.beginDate;
+                                ssrItemobjR.designator = designatorrR;
+                                //ssrItemslist.Add(ssrItemobj);
+                                itemobjR.passengerType = passeengerKeyListinfantR.passengers[0].passengerTypeCode;
+                                itemobjR.ssrs = ssrItemslistR;
+                                itemListR.Add(itemobjR);
+                            }
+                        }
+                    }
+                    //      int infantCount = _SimpleAvailabilityobject.passengers.types[1].count;			
+
+                    ssr1R.items = itemListR;
+                    itenaryInfantR.ssrs = ssr1slistR;
+                    List<Key> keylistR = new List<Key>();
+                    Key KeyobjR = new Key();
+                    KeyobjR.journeyKey = journeyKey[0];
+                    KeyobjR.fareAvailabilityKey = fareKey[0];
+                    KeyobjR.standbyPriorityCode = "";
+                    KeyobjR.inventoryControl = "HoldSpace";
+                    keylistR.Add(KeyobjR);
+                    itenaryInfantR.keys = keylistR;
+                    Passengers1 passengers1R = new Passengers1();
+                    passengers1R.residentCountry = "IN";
+                    List<Type2> typelistR = new List<Type2>();
+                    for (int i = 0; i < _SimpleAvailabilityobjR.passengers.types.Count; i++)
+                    {
+                        Type2 _TypesR = new Type2();
+
+                        if (_SimpleAvailabilityobjR.passengers.types[i].type == "ADT")
+                        {
+                            AdtTypeR = _SimpleAvailabilityobjR.passengers.types[i].type;
+                            _TypesR.type = AdtTypeR;
+                            _TypesR.count = _SimpleAvailabilityobjR.passengers.types[i].count;
+                        }
+                        else if (_SimpleAvailabilityobjR.passengers.types[i].type == "CHD")
+                        {
+                            chdtypeR = _SimpleAvailabilityobjR.passengers.types[i].type;
+                            _TypesR.type = chdtypeR;
+                            _TypesR.count = _SimpleAvailabilityobjR.passengers.types[i].count;
+                        }
+                        else if (_SimpleAvailabilityobjR.passengers.types[i].type == "INFT")
+                        {
+                            infanttypeR = _SimpleAvailabilityobjR.passengers.types[i].type;
+                            continue;
+                        }
+                        //	
+                        typelistR.Add(_TypesR);
+                    }
+                    passengers1R.types = typelistR;
+                    itenaryInfantR.passengers = passengers1R;
+                    itenaryInfantR.currencyCode = "INR";
+
+                    var jsonPassengersR = JsonConvert.SerializeObject(itenaryInfantR, Formatting.Indented);
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    HttpResponseMessage responsePassengersR = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/bookings/quote", itenaryInfantR);
+                    if (responsePassengersR.IsSuccessStatusCode)
+                    {
+                        AirAsiaTripResponceModel AirAsiaTripResponceobjectR = new AirAsiaTripResponceModel();
+                        var _responsePassengersR = responsePassengersR.Content.ReadAsStringAsync().Result;
+                        var JsonObjPassengersR = JsonConvert.DeserializeObject<dynamic>(_responsePassengersR);
+                        //var TotalAmount = JsonObjPassengers.data.breakdown.journeys[journeyKey].totalAmount;
+                        //var TotalTax = JsonObjPassengers.data.breakdown.journeys[journeyKey].totalTax;
+                        int JourneyscountR = JsonObjPassengersR.data.journeys.Count;
+                        List<AAJourney> AAJourneyListR = new List<AAJourney>();
+                        for (int i = 0; i < JourneyscountR; i++)
+                        {
+                            AAJourney AAJourneyobjectR = new AAJourney();
+
+                            AAJourneyobjectR.flightType = JsonObjPassengersR.data.journeys[i].flightType;
+                            AAJourneyobjectR.stops = JsonObjPassengersR.data.journeys[i].stops;
+                            AAJourneyobjectR.journeyKey = JsonObjPassengersR.data.journeys[i].journeyKey;
+
+                            AADesignator AADesignatorobjectR = new AADesignator();
+                            AADesignatorobjectR.origin = JsonObjPassengersR.data.journeys[0].designator.origin;
+                            AADesignatorobjectR.destination = JsonObjPassengersR.data.journeys[0].designator.destination;
+                            AADesignatorobjectR.departure = JsonObjPassengersR.data.journeys[0].designator.departure;
+                            AADesignatorobjectR.arrival = JsonObjPassengersR.data.journeys[0].designator.arrival;
+                            AAJourneyobjectR.designator = AADesignatorobjectR;
+
+
+                            int SegmentscountR = JsonObjPassengersR.data.journeys[i].segments.Count;
+                            List<AASegment> AASegmentlistR = new List<AASegment>();
+                            for (int j = 0; j < SegmentscountR; j++)
+                            {
+                                AASegment AASegmentobjectR = new AASegment();
+                                AASegmentobjectR.isStandby = JsonObjPassengersR.data.journeys[i].segments[j].isStandby;
+                                AASegmentobjectR.isHosted = JsonObjPassengersR.data.journeys[i].segments[j].isHosted;
+
+                                AADesignator AASegmentDesignatorobjectR = new AADesignator();
+                                AASegmentDesignatorobjectR.origin = JsonObjPassengersR.data.journeys[i].segments[j].designator.origin;
+                                AASegmentDesignatorobjectR.destination = JsonObjPassengersR.data.journeys[i].segments[j].designator.destination;
+                                AASegmentDesignatorobjectR.departure = JsonObjPassengersR.data.journeys[i].segments[j].designator.departure;
+                                AASegmentDesignatorobjectR.arrival = JsonObjPassengersR.data.journeys[i].segments[j].designator.arrival;
+                                AASegmentobjectR.designator = AASegmentDesignatorobjectR;
+
+                                int FareCountR = JsonObjPassengersR.data.journeys[i].segments[j].fares.Count;
+                                List<AAFare> AAFareListR = new List<AAFare>();
+                                for (int k = 0; k < FareCountR; k++)
+                                {
+                                    AAFare AAFareobjectR = new AAFare();
+                                    AAFareobjectR.fareKey = JsonObjPassengersR.data.journeys[i].segments[j].fares[k].fareKey;
+                                    AAFareobjectR.productClass = JsonObjPassengersR.data.journeys[i].segments[j].fares[k].productClass;
+
+                                    var PassengerFaresR = JsonObjPassengersR.data.journeys[i].segments[j].fares[k].passengerFares;
+
+                                    int PassengerFarescountR = ((Newtonsoft.Json.Linq.JContainer)PassengerFaresR).Count;
+                                    List<AAPassengerfare> AAPassengerfareListR = new List<AAPassengerfare>();
+                                    for (int l = 0; l < PassengerFarescountR; l++)
+                                    {
+                                        AAPassengerfare AAPassengerfareobjectR = new AAPassengerfare();
+                                        AAPassengerfareobjectR.passengerType = JsonObjPassengersR.data.journeys[i].segments[j].fares[k].passengerFares[l].passengerType;
+
+                                        var ServiceCharges1R = JsonObjPassengersR.data.journeys[i].segments[j].fares[k].passengerFares[l].serviceCharges;
+                                        int ServiceChargescountR = ((Newtonsoft.Json.Linq.JContainer)ServiceCharges1R).Count;
+                                        List<AAServicecharge> AAServicechargeListR = new List<AAServicecharge>();
+                                        for (int m = 0; m < ServiceChargescountR; m++)
+                                        {
+                                            AAServicecharge AAServicechargeobjectR = new AAServicecharge();
+
+                                            AAServicechargeobjectR.amount = JsonObjPassengersR.data.journeys[i].segments[j].fares[k].passengerFares[l].serviceCharges[m].amount;
+
+
+                                            AAServicechargeListR.Add(AAServicechargeobjectR);
+                                        }
+
+
+
+                                        AAPassengerfareobjectR.serviceCharges = AAServicechargeListR;
+
+                                        AAPassengerfareListR.Add(AAPassengerfareobjectR);
+
+                                    }
+                                    AAFareobjectR.passengerFares = AAPassengerfareListR;
+
+                                    AAFareListR.Add(AAFareobjectR);
+
+
+
+
+                                }
+                                AASegmentobjectR.fares = AAFareListR;
+                                AAIdentifier AAIdentifierobjR = new AAIdentifier();
+
+                                AAIdentifierobjR.identifier = JsonObjPassengersR.data.journeys[i].segments[j].identifier.identifier;
+                                AAIdentifierobjR.carrierCode = JsonObjPassengersR.data.journeys[i].segments[j].identifier.carrierCode;
+
+                                AASegmentobjectR.identifier = AAIdentifierobjR;
+
+                                var LegR = JsonObjPassengersR.data.journeys[i].segments[j].legs;
+                                int LegcountR = ((Newtonsoft.Json.Linq.JContainer)LegR).Count;
+                                List<AALeg> AALeglistR = new List<AALeg>();
+                                for (int n = 0; n < LegcountR; n++)
+                                {
+                                    AALeg AALegobjR = new AALeg();
+                                    AALegobjR.legKey = JsonObjPassengersR.data.journeys[i].segments[j].legs[n].legKey;
+                                    AADesignator AAlegDesignatorobjectR = new AADesignator();
+                                    AAlegDesignatorobjectR.origin = JsonObjPassengersR.data.journeys[i].segments[j].legs[n].designator.origin;
+                                    AAlegDesignatorobjectR.destination = JsonObjPassengersR.data.journeys[i].segments[j].legs[n].designator.destination;
+                                    AAlegDesignatorobjectR.departure = JsonObjPassengersR.data.journeys[i].segments[j].legs[n].designator.departure;
+                                    AAlegDesignatorobjectR.arrival = JsonObjPassengersR.data.journeys[i].segments[j].legs[n].designator.arrival;
+                                    AALegobjR.designator = AAlegDesignatorobjectR;
+
+                                    AALeginfo AALeginfoobjectR = new AALeginfo();
+                                    AALeginfoobjectR.arrivalTerminal = JsonObjPassengersR.data.journeys[i].segments[j].legs[n].legInfo.arrivalTerminal;
+                                    AALeginfoobjectR.arrivalTime = JsonObjPassengersR.data.journeys[i].segments[j].legs[n].legInfo.arrivalTime;
+                                    AALeginfoobjectR.departureTerminal = JsonObjPassengersR.data.journeys[i].segments[j].legs[n].legInfo.departureTerminal;
+                                    AALeginfoobjectR.departureTime = JsonObjPassengersR.data.journeys[i].segments[j].legs[n].legInfo.departureTime;
+                                    AALegobjR.legInfo = AALeginfoobjectR;
+                                    AALeglistR.Add(AALegobjR);
+
+                                }
+
+                                AASegmentobjectR.legs = AALeglistR;
+                                AASegmentlistR.Add(AASegmentobjectR);
+                            }
+
+                            AAJourneyobjectR.segments = AASegmentlistR;
+                            AAJourneyListR.Add(AAJourneyobjectR);
+
+                        }
+                        var PassangerR = JsonObjPassengersR.data.passengers;
+                        int passengercountR = ((Newtonsoft.Json.Linq.JContainer)PassangerR).Count;
+                        List<AAPassengers> passkeyListR = new List<AAPassengers>();
+                        Infant infantobjectR = null;
+                        Fee feeobjectR = null;
+                        foreach (var items in JsonObjPassengersR.data.passengers)
+                        {
+                            AAPassengers passkeytypeobjectR = new AAPassengers();
+                            passkeytypeobjectR.passengerKey = items.Value.passengerKey;
+                            passkeytypeobjectR.passengerTypeCode = items.Value.passengerTypeCode;
+                            passkeyListR.Add(passkeytypeobjectR);
+                            passengerkey12 = passkeytypeobjectR.passengerKey;
+                            //infant
+                            if (passkeytypeobjectR.passengerTypeCode != "CHD")
+                            {
+
+                                if (JsonObjPassengersR.data.passengers[passkeytypeobjectR.passengerKey].infant != null)
+                                {
+                                    int FeecountR = JsonObjPassengersR.data.passengers[passkeytypeobjectR.passengerKey].infant.fees.Count;
+                                    List<Fee> feeListR = new List<Fee>();
+                                    for (int i = 0; i < FeecountR; i++)
+                                    {
+                                        infantobjectR = new Infant();
+                                        feeobjectR = new Fee();
+                                        feeobjectR.isConfirmed = false;
+                                        feeobjectR.isConfirming = false;
+                                        feeobjectR.isConfirmingExternal = false;
+                                        feeobjectR.code = JsonObjPassengersR.data.passengers[passkeytypeobjectR.passengerKey].infant.fees[i].code;
+                                        feeobjectR._override = false;
+                                        feeobjectR.note = "";
+                                        feeobjectR.isProtected = false;
+                                        infantobjectR.nationality = "";
+                                        infantobjectR.dateOfBirth = "";
+                                        infantobjectR.travelDocuments = "";
+                                        infantobjectR.residentCountry = "";
+                                        infantobjectR.gender = 1;
+                                        infantobjectR.name = "";
+                                        infantobjectR.type = "";
+                                        feeListR.Add(feeobjectR);
+                                        infantobjectR.fees = feeListR;
+                                        passkeytypeobjectR.infant = infantobjectR;
+                                    }
+                                }
+                            }
+                            AirAsiaTripResponceobjectR.journeys = AAJourneyListR;
+                            AirAsiaTripResponceobjectR.passengers = passkeyListR;
+                            AirAsiaTripResponceobjectR.passengerscount = passengercountR;
+                            HttpContext.Session.SetString("keypassengerItanaryReturn", JsonConvert.SerializeObject(AirAsiaTripResponceobjectR));
+
+                            //string passengerInfant = HttpContext.Session.GetString("keypassengerItanaryReturn");
+
+                        }
+                    }
+                }
+                #endregion
+                #region seatmap
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                //HttpResponseMessage responseSeatmap = await client.PostAsJsonAsync(BaseURL + "api/nsk/v3/booking/seatmaps/journey/ {{journeyKey}}", _SSRAvailabilty);
+                //  var REQUEST1= (BaseURL + "/api/nsk/v3/booking/seatmaps/journey/{{" +journeyKey1+ "}}?IncludePropertyLookup=true");
+                HttpResponseMessage responseSeatmapR = await client.GetAsync(AppUrlConstant.URLAirasia + "/api/nsk/v3/booking/seatmaps/journey/" + keyR.journeyKey + "?IncludePropertyLookup=true");
+                // data[0].seatMap.decks['1'].compartments.Y.units[0].unitKey
+                if (responseSeatmapR.IsSuccessStatusCode)
+                {
+                    var _responseSeatmapR = responseSeatmapR.Content.ReadAsStringAsync().Result;
+                    var JsonObjSeatmapR = JsonConvert.DeserializeObject<dynamic>(_responseSeatmapR);
+                    // var decks1 = "1";
+                    //  x.data[0].seatMap.decks.1.compartments.Y.units[0].unitKey
+                    var uniquekey1R = JsonObjSeatmapR.data[0].seatMap.decks["1"].compartments.Y.units[0].unitKey;
+                    //  uniquekey = ((Newtonsoft.Json.Linq.JValue)uniquekey1).Value.ToString();
+                    var dataR = JsonObjSeatmapR.data.Count;
+
+                    List<data> datalistR = new List<data>();
+                    for (int x = 0; x < dataR; x++)
+                    {
+                        data dataobjR = new data();
+                        SeatMapResponceModel SeatMapResponceModelR = new SeatMapResponceModel();
+                        List<SeatMapResponceModel> SeatMapResponceModellistR = new List<SeatMapResponceModel>();
+                        Fees FeesR = new Fees();
+                        Seatmap SeatmapobjR = new Seatmap();
+                        SeatmapobjR.name = JsonObjSeatmapR.data[x].seatMap.name;
+                        SeatmapobjR.arrivalStation = JsonObjSeatmapR.data[x].seatMap.arrivalStation;
+                        SeatmapobjR.departureStation = JsonObjSeatmapR.data[x].seatMap.departureStation;
+                        SeatmapobjR.marketingCode = JsonObjSeatmapR.data[x].seatMap.marketingCode;
+                        SeatmapobjR.equipmentType = JsonObjSeatmapR.data[x].seatMap.equipmentType;
+                        SeatmapobjR.equipmentTypeSuffix = JsonObjSeatmapR.data[x].seatMap.equipmentTypeSuffix;
+                        SeatmapobjR.category = JsonObjSeatmapR.data[x].seatMap.category;
+                        SeatmapobjR.seatmapReference = JsonObjSeatmapR.data[x].seatMap.seatmapReference;
+                        Decks DecksobjR = new Decks();
+                        DecksobjR.availableUnits = JsonObjSeatmapR.data[x].seatMap.availableUnits;
+                        // Seatmap Seatmapobj = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.availableUnits;
+                        DecksobjR.designator = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.designator;
+                        DecksobjR.length = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.length;
+                        DecksobjR.width = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.width;
+                        DecksobjR.sequence = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.sequence;
+                        DecksobjR.orientation = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.orientation;
+                        SeatmapobjR.decks = DecksobjR;
+                        //  int feesgroup1 = JsonObjSeatmap.data[0].fees[passengerdetails.passengerkey].groups.Count;
+
+                        int compartmentsunitCountR = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.units.Count;
+                        List<Unit> compartmentsunitlistR = new List<Unit>();
+                        for (int i = 0; i < compartmentsunitCountR; i++)
+                        {
+                            Unit compartmentsunitobjR = new Unit();
+                            compartmentsunitobjR.unitKey = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.units[i].unitKey;
+                            compartmentsunitobjR.assignable = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.units[i].assignable;
+                            compartmentsunitobjR.availability = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.units[i].availability;
+                            compartmentsunitobjR.compartmentDesignator = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.units[i].compartmentDesignator;
+                            compartmentsunitobjR.designator = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.units[i].designator;
+                            compartmentsunitobjR.type = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.units[i].type;
+                            compartmentsunitobjR.travelClassCode = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.units[i].travelClassCode;
+                            compartmentsunitobjR.set = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.units[i].set;
+                            compartmentsunitobjR.group = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.units[i].group;
+                            compartmentsunitobjR.priority = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.units[i].priority;
+                            compartmentsunitobjR.text = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.units[i].text;
+                            compartmentsunitobjR.setVacancy = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.units[i].setVacancy;
+                            compartmentsunitobjR.angle = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.units[i].angle;
+                            compartmentsunitobjR.width = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.units[i].width;
+                            compartmentsunitobjR.height = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.units[i].height;
+                            compartmentsunitobjR.zone = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.units[i].zone;
+                            compartmentsunitobjR.x = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.units[i].x;
+                            compartmentsunitobjR.y = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.units[i].y;
+                            compartmentsunitlistR.Add(compartmentsunitobjR);
+
+                            int compartmentypropertiesCountR = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.units[i].properties.Count;
+                            List<Properties> PropertieslistR = new List<Properties>();
+                            for (int j = 0; j < compartmentypropertiesCountR; j++)
+                            {
+                                Properties compartmentypropertiesR = new Properties();
+                                compartmentypropertiesR.code = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.units[i].properties[j].code;
+                                compartmentypropertiesR.value = JsonObjSeatmapR.data[x].seatMap.decks["1"].compartments.Y.units[i].properties[j].value;
+                                PropertieslistR.Add(compartmentypropertiesR);
+                            }
+
+                            //compartmentsunitlist.Add(compartmentsunitobj);
+                            compartmentsunitobjR.properties = PropertieslistR;
+                            DecksobjR.units = compartmentsunitlistR;
+                        }
+
+                        var groupscountR = JsonObjSeatmapR.data[x].fees[passengerkey12].groups;
+                        var feesgroupcountR = ((Newtonsoft.Json.Linq.JContainer)groupscountR).Count;
+                        string strTextR = Regex.Match(_responseSeatmapR, @"data""[\s\S]*?fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup",
+                            RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups["data"].Value;
+
+
+                        List<Groups> GroupsFeelistR = new List<Groups>();
+                        foreach (Match item in Regex.Matches(strTextR, @"group"":(?<key>[\s\S]*?),[\s\S]*?type[\s\S]*?}"))
+                        {
+
+                            Groups GroupsobjR = new Groups();
+                            int myString1R = Convert.ToInt32(item.Groups["key"].Value.Trim());
+                            string myStringR = myString1R.ToString();
+                            // x.data[0].fees["MCFBRFQ-"].groups.1
+                            var groupR = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR.ToString()];
+
+                            //var fees = JsonObjSeatmap.data[0].fees["MCFBRFQ-"].groups[myString].fees;
+                            //  Groups Groups = new Groups();
+
+                            GroupsFee GroupsFeeobjR = new GroupsFee();
+
+
+                            GroupsFeeobjR.type = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR].fees[0].type;
+                            GroupsFeeobjR.ssrCode = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR].fees[0].ssrCode;
+                            GroupsFeeobjR.ssrNumber = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR].fees[0].ssrNumber;
+                            GroupsFeeobjR.paymentNumber = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR].fees[0].paymentNumber;
+                            GroupsFeeobjR.isConfirmed = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR].fees[0].isConfirmed;
+                            GroupsFeeobjR.isConfirming = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR].fees[0].isConfirming;
+                            GroupsFeeobjR.isConfirmingExternal = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR].fees[0].isConfirmingExternal;
+                            GroupsFeeobjR.code = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR].fees[0].code;
+                            GroupsFeeobjR.detail = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR].fees[0].detail;
+                            GroupsFeeobjR.passengerFeeKey = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR].fees[0].passengerFeeKey;
+                            //     Feegroupsobj._override = JsonObjSeatmap.data[0].fees[passengerdetails.passengerkey].groups[myString].fees[0]._override;
+                            GroupsFeeobjR.flightReference = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR].fees[0].flightReference;
+                            GroupsFeeobjR.note = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR].fees[0].note;
+                            GroupsFeeobjR.createdDate = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR].fees[0].createdDate;
+                            GroupsFeeobjR.isProtected = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR].fees[0].isProtected;
+                            //Groups.groupsFee = GroupsFeeobj;
+                            var feesgroupserviceChargescountR = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR].fees[0].serviceCharges.Count;
+
+                            List<Servicecharge> feesgroupserviceChargeslistR = new List<Servicecharge>();
+                            for (int l = 0; l < feesgroupserviceChargescountR; l++)
+                            {
+
+                                Servicecharge feesgroupserviceChargesobjR = new Servicecharge();
+                                feesgroupserviceChargesobjR.amount = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR].fees[0].serviceCharges[l].amount;
+                                feesgroupserviceChargesobjR.code = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR].fees[0].serviceCharges[l].code;
+                                feesgroupserviceChargesobjR.detail = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR].fees[0].serviceCharges[l].detail;
+                                feesgroupserviceChargesobjR.type = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR].fees[0].serviceCharges[l].type;
+                                feesgroupserviceChargesobjR.collectType = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR].fees[0].serviceCharges[l].collectType;
+                                feesgroupserviceChargesobjR.currencyCode = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR].fees[0].serviceCharges[l].currencyCode;
+                                feesgroupserviceChargesobjR.amount = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR].fees[0].serviceCharges[l].amount;
+                                feesgroupserviceChargesobjR.foreignAmount = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR].fees[0].serviceCharges[l].foreignAmount;
+                                feesgroupserviceChargesobjR.ticketCode = JsonObjSeatmapR.data[x].fees[passengerkey12].groups[myStringR].fees[0].serviceCharges[l].ticketCode;
+                                feesgroupserviceChargeslistR.Add(feesgroupserviceChargesobjR);
+                            }
+
+                            GroupsFeeobjR.serviceCharges = feesgroupserviceChargeslistR;
+
+                            GroupsobjR.groupsFee = GroupsFeeobjR;
+                            //var data = from obj in Groupsobj
+                            GroupsFeelistR.Add(GroupsobjR);
+                            FeesR.groups = GroupsFeelistR;
+
+
+
+                        }
+
+                        dataobjR.seatMap = SeatmapobjR;
+                        dataobjR.seatMapfees = FeesR;
+                        datalistR.Add(dataobjR);
+                        SeatMapResponceModelR.datalist = datalistR;
+                        //SeatMapResponceModel.seatMapfees = Fees;
+                        //SeatMapResponceModellist.Add(SeatMapResponceModel);
+
+
+
+
+                        HttpContext.Session.SetString("SeatmapReturn", JsonConvert.SerializeObject(SeatMapResponceModelR));
+                        //TempData["Seatmap"] = JsonConvert.SerializeObject(SeatMapResponceModellist);
+                    }
+                }
+                #endregion
+                #region meals
+
+                string passengerdataR = HttpContext.Session.GetString("keypassengerReturn");
+
+                AirAsiaTripResponceModel passeengerKeyListR = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passengerdataR, typeof(AirAsiaTripResponceModel));
+                int passengerscountR = passeengerKeyListR.passengerscount;
+
+                string departuredateR = string.Empty;
+                SSRAvailabiltyModel _SSRAvailabiltyR = new SSRAvailabiltyModel();
+                _SSRAvailabiltyR.passengerKeys = new string[passengerscountR];
+                for (int i = 0; i < passengerscountR; i++)
+                {
+                    _SSRAvailabiltyR.passengerKeys[i] = passeengerKeyListR.passengers[i].passengerKey;
+                }
+                _SSRAvailabiltyR.currencyCode = _SSRAvailabiltyR.currencyCode;
+
+                List<Trip> TripslistR = new List<Trip>();
+                Trip TripobjR = new Trip();
+                //TripobjR.origin = passeengerKeyListR.journeys[0].designator.origin;
+                //TripobjR.departureDate = passeengerKeyListR.journeys[0].designator.departure;
+                TripobjR.origin = passeengerKeyListR.journeys[0].segments[0].designator.origin;
+                TripobjR.departureDate = passeengerKeyListR.journeys[0].segments[0].designator.departure;
+
+
+
+
+                //DateTime dateOnly = passeengerKeyList.journeys[0].designator.departure;
+                //string departuredaterequest = (dateOnly.ToString("yyyy-MM-dd"));
+                //Tripobj.departureDate = departuredaterequest;
+                //  _Trip.departureDate = "2023-07-02";
+                List<TripIdentifier> TripIdentifierlistR = new List<TripIdentifier>();
+                TripIdentifier TripIdentifierobjR = new TripIdentifier();
+                TripIdentifierobjR.carrierCode = passeengerKeyListR.journeys[0].segments[0].identifier.carrierCode;
+                //_Identifier.carrierCode = "I5";
+                TripIdentifierobjR.identifier = passeengerKeyListR.journeys[0].segments[0].identifier.identifier;
+                TripIdentifierlistR.Add(TripIdentifierobjR);
+                TripobjR.identifier = TripIdentifierlistR;
+                // Tripobj.destination = passengerdetails.destination;
+                TripslistR.Add(TripobjR);
+                _SSRAvailabiltyR.trips = TripslistR;
+                var jsonSSRAvailabiltyRequestR = JsonConvert.SerializeObject(_SSRAvailabiltyR, Formatting.Indented);
+                SSRAvailabiltyResponceModel SSRAvailabiltyResponceobjR = new SSRAvailabiltyResponceModel();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                HttpResponseMessage responseSSRAvailabiltyR = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/ssrs/availability", _SSRAvailabiltyR);
+                if (responseSSRAvailabiltyR.IsSuccessStatusCode)
+                {
+
+                    var _responseSSRAvailabiltyR = responseSSRAvailabilty.Content.ReadAsStringAsync().Result;
+                    var JsonObjresponseSSRAvailabiltyR = JsonConvert.DeserializeObject<dynamic>(_responseSSRAvailabiltyR);
+
+
+                    //  var ssrKey1 = JsonObjresponseSSRAvailabilty.data.journeySsrs[0].ssrs[0].passengersAvailability[passengerdetails.passengerkey].ssrKey;
+                    // ssrKey = ((Newtonsoft.Json.Linq.JValue)ssrKey1).Value.ToString();
+                    var journeyKey1R = JsonObjresponseSSRAvailabiltyR.data.journeySsrs[0].journeyKey;
+                    //journeyKey = ((Newtonsoft.Json.Linq.JValue)journeyKey1).Value.ToString();
+
+
+                    int legSsrscountR = JsonObjresponseSSRAvailabiltyR.data.legSsrs.Count;
+
+
+                    List<legSsrs> SSRAvailabiltyLegssrlistR = new List<legSsrs>();
+
+
+                    for (int i = 0; i < legSsrscountR; i++)
+                    {
+                        legSsrs SSRAvailabiltyLegssrobjR = new legSsrs();
+                        SSRAvailabiltyLegssrobjR.legKey = JsonObjresponseSSRAvailabiltyR.data.legSsrs[i].legKey;
+                        legDetails legDetailsobjR = new legDetails();
+                        legDetailsobjR.destination = JsonObjresponseSSRAvailabiltyR.data.legSsrs[i].legDetails.destination;
+                        legDetailsobjR.origin = JsonObjresponseSSRAvailabiltyR.data.legSsrs[i].legDetails.origin;
+                        legDetailsobjR.departureDate = JsonObjresponseSSRAvailabiltyR.data.legSsrs[i].legDetails.departureDate;
+                        legidentifier legidentifierobjR = new legidentifier();
+                        legidentifierobjR.identifier = JsonObjresponseSSRAvailabiltyR.data.legSsrs[i].legDetails.identifier.identifier;
+                        legidentifierobjR.carrierCode = JsonObjresponseSSRAvailabiltyR.data.legSsrs[i].legDetails.identifier.carrierCode;
+                        legDetailsobjR.legidentifier = legidentifierobjR;
+
+                        var ssrscountR = JsonObjresponseSSRAvailabiltyR.data.legSsrs[i].ssrs.Count;
+
+                        List<childlegssrs> legssrslistR = new List<childlegssrs>();
+
+
+                        for (int j = 0; j < ssrscountR; j++)
+                        {
+                            childlegssrs legssrsR = new childlegssrs();
+                            legssrsR.ssrCode = JsonObjresponseSSRAvailabiltyR.data.legSsrs[i].ssrs[j].ssrCode;
+                            legssrsR.ssrType = JsonObjresponseSSRAvailabiltyR.data.legSsrs[i].ssrs[j].ssrType;
+                            legssrsR.name = JsonObjresponseSSRAvailabiltyR.data.legSsrs[i].ssrs[j].name;
+                            legssrsR.limitPerPassenger = JsonObjresponseSSRAvailabiltyR.data.legSsrs[i].ssrs[j].limitPerPassenger;
+                            legssrsR.available = JsonObjresponseSSRAvailabiltyR.data.legSsrs[i].ssrs[j].available;
+                            legssrsR.feeCode = JsonObjresponseSSRAvailabiltyR.data.legSsrs[i].ssrs[j].feeCode;
+                            List<legpassengers> legpassengerslistR = new List<legpassengers>();
+
+                            foreach (var items in JsonObjresponseSSRAvailabiltyR.data.legSsrs[i].ssrs[j].passengersAvailability)
+                            {
+                                legpassengers passengersdetailR = new legpassengers();
+                                passengersdetailR.passengerKey = items.Value.passengerKey;
+                                passengersdetailR.price = items.Value.price;
+                                passengersdetailR.ssrKey = items.Value.ssrKey;
+                                legpassengerslistR.Add(passengersdetailR);
+
+                            }
+
+                            legssrsR.legpassengers = legpassengerslistR;
+                            legssrslistR.Add(legssrsR);
+                        }
+                        SSRAvailabiltyLegssrobjR.legDetails = legDetailsobjR;
+                        SSRAvailabiltyLegssrobjR.legssrs = legssrslistR;
+                        SSRAvailabiltyLegssrlistR.Add(SSRAvailabiltyLegssrobjR);
+
+                    }
+                    SSRAvailabiltyResponceobjR.legSsrs = SSRAvailabiltyLegssrlistR;
+                    HttpContext.Session.SetString("MealsReturn", JsonConvert.SerializeObject(SSRAvailabiltyResponceobjR));
+
+                }
+                #endregion
+
             }
-            //return View();
 
             return RedirectToAction("RoundAATripsellView", "RoundAATripsell");
-
         }
 
     }

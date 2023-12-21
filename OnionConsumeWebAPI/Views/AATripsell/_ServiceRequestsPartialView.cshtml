@@ -184,12 +184,17 @@
                                                         }
                                                         else
                                                         {
-                                                            string feeamountF1 = ht0[data].ToString();
-                                                            if (feeamountF1 == "0")
+
+
+                                                           // var group1 = @Model.Seatmaplist.datalist[0].seatMap.decks.units[i].group;
+                                                            var group = Model.Seatmaplist.datalist[0].seatMapfees.groups[i].groupsFee.groupid;
+                                                            var feeamountF1 =@Model.Seatmaplist.datalist[0].seatMapfees.groups[group].groupsFee.serviceCharges[0].amount;
+                                                         
+                                                            if (feeamountF1 == 0)
                                                             {
                                                                 <li class="seat-li free-seat tooltip">
                                                                     <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                    <input type="checkbox" name="unitKey" value="@Model.Seatmaplist.datalist[0].seatMapfees.groups[0].groupsFee.serviceCharges[0].amount _@Model.Seatmaplist.datalist[0].seatMap.decks.units[i].unitKey" id="unitKey" />
+                                                                    <input type="checkbox" name="unitKey" value="@Model.Seatmaplist.datalist[0].seatMapfees.groups[group].groupsFee.serviceCharges[0].amount _@Model.Seatmaplist.datalist[0].seatMap.decks.units[i].unitKey" id="unitKey" />
                                                                     <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
                                                                 </li>
                                                             }
@@ -197,7 +202,7 @@
                                                             {
                                                                 <li class="seat-li midcomfort tooltip">
                                                                     <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                    <input type="checkbox" name="unitKey" value="@Model.Seatmaplist.datalist[0].seatMapfees.groups[0].groupsFee.serviceCharges[0].amount _@Model.Seatmaplist.datalist[0].seatMap.decks.units[i].unitKey" id="unitKey" />
+                                                                    <input type="checkbox" name="unitKey" value="@Model.Seatmaplist.datalist[0].seatMapfees.groups[group].groupsFee.serviceCharges[0].amount _@Model.Seatmaplist.datalist[0].seatMap.decks.units[i].unitKey" id="unitKey" />
                                                                     <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
                                                                 </li>
                                                             }
@@ -257,20 +262,24 @@
                                                         }
                                                         else
                                                         {
-                                                            string feeamountF1 = ht1[data].ToString();
-                                                            if (feeamountF1 == "0")
+                                                          //  string feeamountF1 = ht1[data].ToString();
+                                                            var group = Model.Seatmaplist.datalist[1].seatMapfees.groups[i].groupsFee.groupid;
+                                                            var feeamountF1 = @Model.Seatmaplist.datalist[1].seatMapfees.groups[group].groupsFee.serviceCharges[0].amount;
+                                                            if (feeamountF1 == 0)
                                                             {
                                                                 <li class="seat-li free-seat tooltip">
                                                                     <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                    <input type="checkbox" name="unitKey" value="@Model.Seatmaplist.datalist[0].seatMapfees.groups[0].groupsFee.serviceCharges[0].amount _@Model.Seatmaplist.datalist[0].seatMap.decks.units[i].unitKey" id="unitKey" />
+                                                                    <input type="checkbox" name="unitKey" value="@Model.Seatmaplist.datalist[1].seatMapfees.groups[0].groupsFee.serviceCharges[0].amount _@Model.Seatmaplist.datalist[1].seatMap.decks.units[i].unitKey" id="unitKey" />
                                                                     <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
                                                                 </li>
+
+
                                                             }
                                                             else
                                                             {
                                                                 <li class="seat-li midcomfort tooltip">
                                                                     <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                    <input type="checkbox" name="unitKey" value="@Model.Seatmaplist.datalist[0].seatMapfees.groups[0].groupsFee.serviceCharges[0].amount _@Model.Seatmaplist.datalist[0].seatMap.decks.units[i].unitKey" id="unitKey" />
+                                                                    <input type="checkbox" name="unitKey" value="@Model.Seatmaplist.datalist[1].seatMapfees.groups[0].groupsFee.serviceCharges[0].amount _@Model.Seatmaplist.datalist[1].seatMap.decks.units[i].unitKey" id="unitKey" />
                                                                     <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
                                                                 </li>
                                                             }

@@ -15,10 +15,12 @@ builder.Services.AddScoped<Ilogin, LoginService>();
 builder.Services.AddScoped<ICredential, CredentialServices>();
 builder.Services.AddScoped<ITicketBooking, TicketBookingServices>();
 builder.Services.AddScoped<IGSTDetails, GSTDetailsServices>();
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.AddHttpContextAccessor();
-
 builder.Services.BuildServiceProvider();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+
+
 
 
 builder.Services.AddControllers();

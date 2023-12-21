@@ -29,8 +29,7 @@
 
 </head>
 <body>
-    <main>
-        @* <form id="multipleValuesFormmm"> *@
+    <main id="filternonstop">
 
         <!-- ***** Header Start ***** -->
         <header class="navbar navbar-sticky navbar-expand-lg inner-bg">
@@ -148,8 +147,6 @@
                                 <form id="reconnectingFlight">
                                     @for (var j = 0; j < Model.SimpleAvailibilityaAddResponcelist.Count; j++)
                                     {
-                                        @*  @for (var i = 0; i < Model.SimpleAvailibilityaAddResponcelist[j].segments.Count; i++)
-                                    { *@
                                         <div class="py-10 px-20 bg-white mt-20">
                                             <div class="d-flex y-gap-30 justify-between">
                                                 <div class="fare-round">
@@ -439,7 +436,7 @@
                                             </div>
 
                                         </div>
-                                        @* } *@
+
                                     }
 
                                 </form>
@@ -464,12 +461,8 @@
                                 </div>
                                 <!----->
                                 <form asp-controller="FlightSearchIndex" method="post">
-
                                     @for (var j = 0; j < Model.SimpleAvailibilityaAddResponcelistR.Count; j++)
                                     {
-                                        @*  @for (var i = 0; i < Model.SimpleAvailibilityaAddResponcelistR[j].segments.Count; i++)
-                                    { *@
-
                                         <div class="py-10 px-20 bg-white mt-20">
                                             <div class="d-flex y-gap-30 justify-between">
                                                 <div class="fare-round">
@@ -777,9 +770,7 @@
 
 
         <section class="rtfix-bottom ">
-
             <div class="container">
-                @*  <partial name="_RadioPartialView.cshtml" /> *@
                 <div class="row">
                     <div class="col-auto">
                         <div class="d-flex y-gap-30 justify-between align-items-center">
@@ -811,13 +802,7 @@
                             </div>
                         </div>
                     </div>
-
-
                     <div class="col-auto border-right"></div>
-
-
-
-
                     <div class="col-auto">
                         <div class="d-flex y-gap-30 justify-between align-items-center">
                             <div class="fare-round d-flex align-items-center">
@@ -878,8 +863,6 @@
 
 
         </section>
-
-
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -894,7 +877,6 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    @* -----  form------ *@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -2303,117 +2285,114 @@
             <div class="map js-map"></div>
         </div>
     </div>
-    </div>
 
-
-
-    <!-- ***** All jQuery Plugins ***** -->
-    <!-- Social media js -->
-    <script src="~/js/jquery/jquery.min.js"></script>
-    <!-- Plugins js -->
-    <script src="~/js/plugins/plugins.min.js"></script>
-
-    <!-- ***** Clander js ***** -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
-    <script src="~/js/daterangepicker.js"></script>
-
-    <!-- Bootstrap js -->
-    <script src="~/js/bootstrap/popper.min.js"></script>
-    <script src="~/js/bootstrap/bootstrap.min.js"></script>
-    <!-- Travellers js -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAz77U5XQuEME6TpftaMdX0bBelQxXRlM"></script>
-    <script src="~/js/vendors.js"></script>
-    <script src="~/js/main.js"></script>
-    <!-- Active js -->
-    <script src="~/js/active.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script>
-        $('input[type=radio][name=dynamicRadio]').change(function () {
-            uniqueId = $(this).val();
-            alert(uniqueId);
-            // Retrieve values from hidden input fields
-            var departureTime = $('.departuretime').eq(uniqueId).val();
-            var origin = $('.origin').eq(uniqueId).val();
-            var destination = $('.destination').eq(uniqueId).val();
-            var diffL = $('.diff').eq(uniqueId).val();
-            var stopsL = $('.stops').eq(uniqueId).val();
-            var arrivalL = $('.arrival').eq(uniqueId).val();
-            var fareTotalsumL = $('.fareTotalsum').eq(uniqueId).val();
-            // Display the retrieved values
-            $('#departureData').text(departureTime);
-            $('#originData').text(origin);
-            $('#diffData').text(diffL);
-            $('#stopsData').text(stopsL);
-            $('#arrivalData').text(arrivalL);
-            $('#destinationData').text(destination);
-            $('#fareTotalsumData').text(fareTotalsumL);
-            // Store in session Total Fare Left
-            localStorage.setItem('TotalfareL', fareTotalsumL);
-        });
-
-        $('input[type=radio][name=dynamicRadioR]').change(function () {
-            debugger;
-            uniqueIdR = $(this).val();
-            alert(uniqueIdR);
-            // Retrieve values from hidden input fields
-            var departureTimeR = $('.departurereturn').eq(uniqueIdR).val();
-            var originR = $('.originreturn').eq(uniqueIdR).val();
-            var diffR = $('.diffreturn').eq(uniqueIdR).val();
-            var stopsR = $('.stopsreturn').eq(uniqueIdR).val();
-            var arrivalR = $('.arrivalreturn').eq(uniqueIdR).val();
-            var destinationR = $('.destinationreturn').eq(uniqueIdR).val();
-            var fareTotalsumR = $('.faretotalsumreturn').eq(uniqueIdR).val();
-            // Display the retrieved values
-            $('#departurereturndata').text(departureTimeR);
-            $('#originreturndata').text(originR);
-            $('#diffreturndata').text(diffR);
-            $('#stopsreturndata').text(stopsR);
-            $('#arrivalreturndata').text(arrivalR);
-            $('#destinationreturndata').text(destinationR);
-            $('#faretotalsumreturndata').text(fareTotalsumR);
-            //Sum Of Total fare left and right
-            var totalL = localStorage.getItem('TotalfareL');
-            var TotalfareLR = parseInt(totalL) + parseInt(fareTotalsumR, 10);
-            $('#totalfaretotalround').text(TotalfareLR);
-
-        });
-        $('#ReturnButtonId').click(function () {
-            debugger;
-            $.ajax({
-                type: 'POST',
-                url: '/RoundTrip/PostReturnAATripsellView',
-                data: {
-                    uniqueId: uniqueId,
-                    uniqueIdR: uniqueIdR
-                },
-                success: function (response) {
-
-                    console.log('POST request successful');
-                    $('#rtexampleModal .modal-body').html(response);
-                    $('#rtexampleModal').modal('show');
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error occurred:', error);
-                }
-            });
-        });
-        $('.showBtn').click(function () {
-            //$('.hideme').hide();
-            if ($(this).hasClass('active')) {
-                $(this).removeClass('active');
-                $('.hideme').slideUp(1);
-            } else {
-                $('.hideme').slideUp(1);
-                $('.showBtn').removeClass('active');
-                $(this).addClass('active');
-                $(this).next().filter('.hideme').slideDown(1);
-            }
-        });
-
-    </script>
 </body>
 </html>
+<!-- ***** All jQuery Plugins ***** -->
+<!-- Social media js -->
+<script src="~/js/jquery/jquery.min.js"></script>
+<!-- Plugins js -->
+<script src="~/js/plugins/plugins.min.js"></script>
+
+<!-- ***** Clander js ***** -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+<script src="~/js/daterangepicker.js"></script>
+
+<!-- Bootstrap js -->
+<script src="~/js/bootstrap/popper.min.js"></script>
+<script src="~/js/bootstrap/bootstrap.min.js"></script>
+<!-- Travellers js -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAz77U5XQuEME6TpftaMdX0bBelQxXRlM"></script>
+<script src="~/js/vendors.js"></script>
+<script src="~/js/main.js"></script>
+<!-- Active js -->
+<script src="~/js/active.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $('input[type=radio][name=dynamicRadio]').change(function () {
+        uniqueId = $(this).val();
+
+        // Retrieve values from hidden input fields
+        var departureTime = $('.departuretime').eq(uniqueId).val();
+        var origin = $('.origin').eq(uniqueId).val();
+        var destination = $('.destination').eq(uniqueId).val();
+        var diffL = $('.diff').eq(uniqueId).val();
+        var stopsL = $('.stops').eq(uniqueId).val();
+        var arrivalL = $('.arrival').eq(uniqueId).val();
+        var fareTotalsumL = $('.fareTotalsum').eq(uniqueId).val();
+        // Display the retrieved values
+        $('#departureData').text(departureTime);
+        $('#originData').text(origin);
+        $('#diffData').text(diffL);
+        $('#stopsData').text(stopsL);
+        $('#arrivalData').text(arrivalL);
+        $('#destinationData').text(destination);
+        $('#fareTotalsumData').text(fareTotalsumL);
+        // Store in session Total Fare Left
+        localStorage.setItem('TotalfareL', fareTotalsumL);
+    });
+
+    $('input[type=radio][name=dynamicRadioR]').change(function () {
+        debugger;
+        uniqueIdR = $(this).val();
+
+        // Retrieve values from hidden input fields
+        var departureTimeR = $('.departurereturn').eq(uniqueIdR).val();
+        var originR = $('.originreturn').eq(uniqueIdR).val();
+        var diffR = $('.diffreturn').eq(uniqueIdR).val();
+        var stopsR = $('.stopsreturn').eq(uniqueIdR).val();
+        var arrivalR = $('.arrivalreturn').eq(uniqueIdR).val();
+        var destinationR = $('.destinationreturn').eq(uniqueIdR).val();
+        var fareTotalsumR = $('.faretotalsumreturn').eq(uniqueIdR).val();
+        // Display the retrieved values
+        $('#departurereturndata').text(departureTimeR);
+        $('#originreturndata').text(originR);
+        $('#diffreturndata').text(diffR);
+        $('#stopsreturndata').text(stopsR);
+        $('#arrivalreturndata').text(arrivalR);
+        $('#destinationreturndata').text(destinationR);
+        $('#faretotalsumreturndata').text(fareTotalsumR);
+        //Sum Of Total fare left and right
+        var totalL = localStorage.getItem('TotalfareL');
+        var TotalfareLR = parseInt(totalL) + parseInt(fareTotalsumR, 10);
+        $('#totalfaretotalround').text(TotalfareLR);
+
+    });
+    $('#ReturnButtonId').click(function () {
+        debugger;
+        $.ajax({
+            type: 'POST',
+            url: '/RoundTrip/PostReturnAATripsellView',
+            data: {
+                uniqueId: uniqueId,
+                uniqueIdR: uniqueIdR
+            },
+            success: function (response) {
+
+                console.log('POST request successful');
+                $('#rtexampleModal .modal-body').html(response);
+                $('#rtexampleModal').modal('show');
+            },
+            error: function (xhr, status, error) {
+                console.error('Error occurred:', error);
+            }
+        });
+    });
+    $('.showBtn').click(function () {
+        //$('.hideme').hide();
+        if ($(this).hasClass('active')) {
+            $(this).removeClass('active');
+            $('.hideme').slideUp(1);
+        } else {
+            $('.hideme').slideUp(1);
+            $('.showBtn').removeClass('active');
+            $(this).addClass('active');
+            $(this).next().filter('.hideme').slideDown(1);
+        }
+    });
+
+</script>
 
 

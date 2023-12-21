@@ -91,6 +91,7 @@ namespace DomainLayer.Model
 
         public class GroupsFee
         {
+            public int groupid { get; set; }
             public int type { get; set; }
             public object ssrCode { get; set; }
             public int ssrNumber { get; set; }

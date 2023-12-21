@@ -1,8 +1,4 @@
-﻿
-@{
-    Layout = null;
-}
-<div class="row y-gap-40">
+﻿<div class="row y-gap-40">
     <div class="sidebar__item -no-border">
         <h5 class="text-18 fw-500 mb-10">Stops</h5>
         <div class="sidebar-checkbox">
@@ -10,16 +6,13 @@
                 <div class="col-auto">
                     <div class="d-flex items-center">
                         <div class="form-checkbox ">
-                            <input type="checkbox" id="chknonstop" value="1" name="chknonstop">
+                            <input type="checkbox" class="selectionCheckbox" value="0" name="stopsCheckbox" onclick="nonStopFunction()">
                             <div class="form-checkbox__mark">
                                 <div class="form-checkbox__icon icon-check"></div>
                             </div>
                         </div>
-
                         <div class="text-15 ml-10">Nonstop</div>
-
                     </div>
-
                 </div>
 
                 <div class="col-auto">
@@ -29,21 +22,16 @@
 
             <div class="row y-gap-10 items-center justify-between">
                 <div class="col-auto">
-
                     <div class="d-flex items-center">
                         <div class="form-checkbox ">
-                            <input type="checkbox" name="name">
+                            <input type="checkbox" class="selectionCheckbox" name="stopsCheckbox" value="1" onclick="nonStopFunction()">
                             <div class="form-checkbox__mark">
                                 <div class="form-checkbox__icon icon-check"></div>
                             </div>
                         </div>
-
                         <div class="text-15 ml-10">1 Stop</div>
-
                     </div>
-
                 </div>
-
                 <div class="col-auto">
                     <div class="text-15 text-light-1">$92</div>
                 </div>
@@ -54,7 +42,7 @@
 
                     <div class="d-flex items-center">
                         <div class="form-checkbox ">
-                            <input type="checkbox" name="name">
+                            <input type="checkbox" class="selectionCheckbox" name="stopsCheckbox" value="2" onclick="nonStopFunction()">
                             <div class="form-checkbox__mark">
                                 <div class="form-checkbox__icon icon-check"></div>
                             </div>
@@ -146,7 +134,6 @@
 
         </div>
     </div>
-
     <div class="sidebar__item pb-30">
         <h5 class="text-18 fw-500 mb-20">Flight Times</h5>
         <div class="row x-gap-10 y-gap-30">
@@ -217,7 +204,6 @@
 
         </div>
     </div>
-
     <div class="sidebar__item">
         <h5 class="text-18 fw-500 mb-10">Airlines</h5>
         <div class="sidebar-checkbox">
@@ -509,7 +495,6 @@
 
         </div>
     </div>
-
     <div class="sidebar__item pb-30">
         <h5 class="text-18 fw-500 mb-10">Price</h5>
         <div class="row x-gap-10 y-gap-30">
@@ -532,5 +517,39 @@
             </div>
         </div>
     </div>
-
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    function nonStopFunction() {
+        $('.selectionCheckbox').on('change', function () {
+            updateFilter();
+        });
+        function updateFilter() {
+            var selectedIds = [];
+            $('input.selectionCheckbox:checked').each(function () {
+                selectedIds.push($(this).val());
+            });
+            $.ajax({
+                url: '/RoundTrip/RTFlightView',
+                type: 'POST',
+                traditional: true,
+                data: { selectedIds: selectedIds },
+                success: function (response) {
+                    $('#filternonstop').html(response);
+                    restoreCheckboxState(selectedIds);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error occurred:', error);
+                }
+            });
+        }
+        function restoreCheckboxState(selectedIds) {
+            $('.selectionCheckbox').each(function () {
+                var checkboxValue = $(this).val();
+                $(this).prop('checked', selectedIds.includes(checkboxValue));
+            });
+        }
+    }
+</script>

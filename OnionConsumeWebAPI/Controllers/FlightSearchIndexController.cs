@@ -610,6 +610,8 @@ namespace OnionConsumeWebAPI.Controllers
                 }
                 else
                 {
+                    HttpContext.Session.SetString("OneWayFlightView", JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist));
+                    HttpContext.Session.SetString("OneWayPassengerModel", JsonConvert.SerializeObject(_SimpleAvailabilityobj));
                     TempData["Mymodel"] = JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist);
                     TempData["PassengerModel"] = JsonConvert.SerializeObject(_SimpleAvailabilityobj);
                     return RedirectToAction("FlightView", "ResultFlightView");

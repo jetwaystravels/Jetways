@@ -13,8 +13,8 @@ namespace DomainLayer.Model
         [Required]
         public string origin { get; set; }
         [Required]
-        public string destination { get; set; } 
-        public bool searchDestinationMacs { get; set; } 
+        public string destination { get; set; }
+        public bool searchDestinationMacs { get; set; }
 
         public bool searchOriginMacs { get; set; }
         [Required]
@@ -41,10 +41,17 @@ namespace DomainLayer.Model
         public string type { get; set; }
         public int count { get; set; }
     }
-    //public class countList
-    //{
-    //    public int count { get; set; }
-    //}
+    public class PassengersReturn
+    {
+        public List<_TypesReturn> types { get; set; }
+    }
+    public class _TypesReturn
+    {
+        public string type { get; set; }
+        public int count { get; set; }
+    }
 
-   
+
+
+
 }

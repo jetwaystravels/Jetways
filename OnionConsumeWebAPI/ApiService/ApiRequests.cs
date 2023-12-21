@@ -35,20 +35,20 @@ namespace OnionConsumeWebAPI.ApiService
         {
             get
             {
-                IHttpContextAccessor httpContextAccessor = services.GetService(typeof(IHttpContextAccessor)) as IHttpContextAccessor;
+                IHttpContextAccessor httpContextAccessor = services?.GetService(typeof(IHttpContextAccessor)) as IHttpContextAccessor;
                 return httpContextAccessor?.HttpContext;
             }
         }
 
     }
-    public class ApiRequests
+    public class ApiRequests 
     {
-       private readonly string Token = AppHttpContext.Current.Session.GetString("AirasiaTokan");
+       // private readonly string Token = "abc";//AppHttpContext.Current.Session.GetString("AirasiaTokan");
        
         // string tokenview = HttpContext.("AirasiaTokan");
-        //  string tokenview = HttpContext.Session.GetString("AirasiaTokan");
-        // private readonly string Token = AppHttpContext.Current.Session.GetString("AirasiaTokan");
-
+       //  string tokenview = HttpContext.Session.GetString("AirasiaTokan");
+         private readonly string Token = AppHttpContext.Current?.Session.GetString("AirasiaTokan");
+       
         public async Task<ApiResponseModel> OnPostAsync<T>(string Uri, T RequestModel)
         {
             ApiResponseModel responseModel = new ApiResponseModel();

@@ -7,14 +7,16 @@ using DomainLayer.Model;
 
 namespace DomainLayer.ViewModel
 {
-	public class ViewModel
-	{
-		public AirAsiaTripResponceModel passeengerlist { set; get; }
+    public class ViewModel
+    {
+        public AirAsiaTripResponceModel passeengerlist { set; get; }
+        public AirAsiaTripResponceModel passeengerlistR { set; get; }
         public AirAsiaTripResponceModel passeengerlistItanary { set; get; }
-
+        public AirAsiaTripResponceModel passeengerlistItanaryR { set; get; }
         public SeatMapResponceModel Seatmaplist { set; get; }
-
-		public SSRAvailabiltyResponceModel Meals { set; get; }
+        public SeatMapResponceModel SeatmaplistR { set; get; }
+        public SSRAvailabiltyResponceModel Meals { set; get; }
+        public SSRAvailabiltyResponceModel MealsR { set; get; }
 
         public List<SimpleAvailibilityaAddResponce> SimpleAvailibilityaAddResponcelist { get; set; }
 

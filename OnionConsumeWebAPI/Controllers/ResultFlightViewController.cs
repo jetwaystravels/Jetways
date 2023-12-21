@@ -21,25 +21,27 @@ namespace OnionConsumeWebAPI.Controllers
 {
     public class ResultFlightViewController : Controller
     {
-      //  string BaseURL = "https://dotrezapi.test.I5.navitaire.com";
         string passengerkey12 = string.Empty;
         public IActionResult FlightView()
         {
-
             var searchcount = TempData["count"];
             ViewData["count"] = searchcount;
-            List<SimpleAvailibilityaAddResponce> SimpleAvailibilityaAddResponcelist = new List<SimpleAvailibilityaAddResponce>();
-            SimpleAvailibilityaAddResponce SimpleAvailibilityaAddResponceobj = new SimpleAvailibilityaAddResponce();
-            SimpleAvailibilityaAddResponcelist = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(TempData["Mymodel"].ToString());
-            //var methodsyntax = _addingAvailibilityDetailsAirAsia.Where(x => x.flightType == 1); for linq
+            string OnewayFlightData = HttpContext.Session.GetString("OneWayFlightView");
+            List<SimpleAvailibilityaAddResponce> OnewaydeserializedObjects = null;
+            OnewaydeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(OnewayFlightData);
+            return View(OnewaydeserializedObjects);
+        }
+        [HttpPost]
+        public IActionResult FlightView(List<int> FilterId)
+        {
+            var searchcount = TempData["count"];
+            ViewData["count"] = searchcount;
+            string OnewayFlightData = HttpContext.Session.GetString("OneWayFlightView");
+            List<SimpleAvailibilityaAddResponce> OnewaydeserializedObjects = null;
+            OnewaydeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(OnewayFlightData);
+            var FilterStopsData = OnewaydeserializedObjects.Where(x => FilterId.Contains(x.stops)).ToList();
+            return View(FilterStopsData);
 
-            //return View(methodsyntax.AsEnumerable());
-
-            HttpContext.Session.SetString("FlightDetail", JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist));
-
-            return View(SimpleAvailibilityaAddResponcelist.AsEnumerable());
-
-            //return View();
         }
 
         [HttpPost]
@@ -157,7 +159,7 @@ namespace OnionConsumeWebAPI.Controllers
                             AASegmentobj.isHosted = JsonObjTripsell.data.journeys[i].segments[j].isHosted;
 
                             AADesignator AASegmentDesignatorobj = new AADesignator();
-                            var cityname=   Citydata.GetAllcity().Where(x => x.cityCode == "DEL");
+                            var cityname = Citydata.GetAllcity().Where(x => x.cityCode == "DEL");
                             AASegmentDesignatorobj.origin = JsonObjTripsell.data.journeys[i].segments[j].designator.origin;
                             AASegmentDesignatorobj.destination = JsonObjTripsell.data.journeys[i].segments[j].designator.destination;
                             AASegmentDesignatorobj.departure = JsonObjTripsell.data.journeys[i].segments[j].designator.departure;
@@ -274,7 +276,7 @@ namespace OnionConsumeWebAPI.Controllers
                     HttpContext.Session.SetString("keypassenger", JsonConvert.SerializeObject(AirAsiaTripResponceobj));
                 }
                 #region Itenary 
-                 if (infanttype != null )
+                if (infanttype != null)
                 {
 
                     string passengerdatainfant = HttpContext.Session.GetString("keypassenger");
@@ -604,7 +606,7 @@ namespace OnionConsumeWebAPI.Controllers
                     var data = JsonObjSeatmap.data.Count;
 
                     List<data> datalist = new List<data>();
-                    for (int x = 0; x < data; x++) 
+                    for (int x = 0; x < data; x++)
                     {
                         data dataobj = new data();
 
@@ -714,7 +716,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                             GroupsFee GroupsFeeobj = new GroupsFee();
 
-
+                            GroupsFeeobj.groupid = myString1;
                             GroupsFeeobj.type = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].type;
                             GroupsFeeobj.ssrCode = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].ssrCode;
                             GroupsFeeobj.ssrNumber = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].ssrNumber;

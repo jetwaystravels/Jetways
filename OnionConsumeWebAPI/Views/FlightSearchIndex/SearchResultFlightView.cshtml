@@ -750,11 +750,12 @@
                                                         <div class="">@departuretimefinal</div>
                                                         <div class="">@flightResult.designator.origin</div>
                                                     </div>
-                                                     @{
-                                                        var arrivalDate = flightResult.designator.arrival;
-                                                        var departureDate = flightResult.designator.departure;
-                                                        var diff = (arrivalDate - departureDate);
-                                                       }
+                                                        @{
+                                                            var arrivalDate = flightResult.designator.arrival;
+                                                            var departureDate = flightResult.designator.departure;
+                                                            var diff = (arrivalDate - departureDate);
+                                                            var difftime = diff.Minutes;
+                                                        }
                                                     <div class="col text-center">
                                                         <div class="px-20 md:px-0">@diff</div>
                                                         <div class="flightLine">
