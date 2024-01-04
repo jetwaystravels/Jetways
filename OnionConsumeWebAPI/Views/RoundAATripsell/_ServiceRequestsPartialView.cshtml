@@ -71,7 +71,7 @@
                             if (seatmaap2 == 1)
                             {
                                 <li class="nav-item">
-                                    <button id="seattab" class="nav-link active">@Model.passeengerlist.journeys[0].segments[0].designator.origin-@Model.passeengerlist.journeys[0].segments[0].designator.destination</button>
+                                    <div id="seattab1way" class="nav-link active">@Model.passeengerlist.journeys[0].segments[0].designator.origin-@Model.passeengerlist.journeys[0].segments[0].designator.destination</div>
                                 </li>
                             }
                             else
@@ -93,45 +93,45 @@
 
                                 }
                             }
-
-
-                            var seatmaapReturn = @Model.passeengerlist.journeys[0].segments.Count;
-                            if (seatmaapReturn == 1)
+                            // RoundTrip
+                            var seatmaapR = @Model.passeengerlistR.journeys[0].segments.Count;
+                            if (seatmaapR == 1)
                             {
                                 <li class="nav-item">
-                                    <button id="seattab1RT" class="nav-link ">@Model.passeengerlist.journeys[0].segments[0].designator.origin-@Model.passeengerlist.journeys[0].segments[0].designator.destination</button>
+                                    <div id="seattabRT1way" class="nav-link ">@Model.passeengerlistR.journeys[0].segments[0].designator.origin-@Model.passeengerlistR.journeys[0].segments[0].designator.destination</div>
                                 </li>
                             }
                             else
                             {
-                                @for (int i = 0; i < seatmaapReturn; i++)
+                                @for (int i = 0; i < seatmaapR; i++)
                                 {
                                     <li class="nav-item d-flex">
                                         @if (i == 0)
                                         {
-                                            <div id="seattab1" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
+                                            <div id="seattabRT1" class="nav-link">@Model.passeengerlistR.journeys[0].segments[i].designator.origin-@Model.passeengerlistR.journeys[0].segments[i].designator.destination</div>
 
                                         }
                                         else
                                         {
-                                            <div id="seattab2" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
+                                            <div id="seattabRT2" class="nav-link">@Model.passeengerlistR.journeys[0].segments[i].designator.origin-@Model.passeengerlistR.journeys[0].segments[i].designator.destination</div>
                                         }
                                     </li>
 
 
                                 }
                             }
-
                         }
 
                     </ul>
                 </div>
+
+
                 <div class="flight-protip">Pro Tip Grab your favourite seat before it gets sold.</div>
                 <div class="wing-left">&nbsp;</div>
-
                 @{
-                    var seatmaap = Model.passeengerlist.journeys[0].segments.Count;
 
+
+                    var seatmaap = Model.passeengerlist.journeys[0].segments.Count;
                     Hashtable ht0 = new Hashtable();
                     Hashtable ht1 = new Hashtable();
                     for (int k = 0; k < Model.Seatmaplist.datalist.Count; k++)
@@ -165,12 +165,13 @@
                         }
                     }
 
+
                     for (int l = 0; l < Model.Seatmaplist.datalist.Count; l++)
                     {
                         if (l == 0)
                         {
                             <div id="tabshow1" class="seat-section">
-
+                                A
                                 <div class="inner-section">
                                     <ul class="column">
                                         <li class="seat-li row-no">F</li>
@@ -206,12 +207,17 @@
                                                         }
                                                         else
                                                         {
-                                                            string feeamountF1 = ht0[data].ToString();
-                                                            if (feeamountF1 == "0")
+
+
+                                                            // var group1 = @Model.Seatmaplist.datalist[0].seatMap.decks.units[i].group;
+                                                            var group = Model.Seatmaplist.datalist[0].seatMapfees.groups[i].groupsFee.groupid;
+                                                            var feeamountF1 = Model.Seatmaplist.datalist[0].seatMapfees.groups[group].groupsFee.serviceCharges[0].amount;
+
+                                                            if (feeamountF1 == 0)
                                                             {
                                                                 <li class="seat-li free-seat tooltip">
                                                                     <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                    <input type="checkbox" name="unitKey" value="@Model.Seatmaplist.datalist[0].seatMapfees.groups[0].groupsFee.serviceCharges[0].amount _@Model.Seatmaplist.datalist[0].seatMap.decks.units[i].unitKey" id="unitKey" />
+                                                                    <input type="checkbox" name="unitKey" value="@Model.Seatmaplist.datalist[0].seatMapfees.groups[group].groupsFee.serviceCharges[0].amount _@Model.Seatmaplist.datalist[0].seatMap.decks.units[i].unitKey" id="unitKey" />
                                                                     <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
                                                                 </li>
                                                             }
@@ -219,7 +225,7 @@
                                                             {
                                                                 <li class="seat-li midcomfort tooltip">
                                                                     <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                    <input type="checkbox" name="unitKey" value="@Model.Seatmaplist.datalist[0].seatMapfees.groups[0].groupsFee.serviceCharges[0].amount _@Model.Seatmaplist.datalist[0].seatMap.decks.units[i].unitKey" id="unitKey" />
+                                                                    <input type="checkbox" name="unitKey" value="@Model.Seatmaplist.datalist[0].seatMapfees.groups[group].groupsFee.serviceCharges[0].amount _@Model.Seatmaplist.datalist[0].seatMap.decks.units[i].unitKey" id="unitKey" />
                                                                     <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
                                                                 </li>
                                                             }
@@ -243,7 +249,7 @@
                         else
                         {
                             <div id="tabshow2" class="seat-section">
-
+                                B
                                 <div class="inner-section">
                                     <ul class="column">
                                         <li class="seat-li row-no">F</li>
@@ -279,20 +285,216 @@
                                                         }
                                                         else
                                                         {
-                                                            string feeamountF1 = ht1[data].ToString();
-                                                            if (feeamountF1 == "0")
+                                                            //  string feeamountF1 = ht1[data].ToString();
+                                                            var group = Model.Seatmaplist.datalist[1].seatMapfees.groups[i].groupsFee.groupid;
+                                                            var feeamountF1 = @Model.Seatmaplist.datalist[1].seatMapfees.groups[group].groupsFee.serviceCharges[0].amount;
+                                                            if (feeamountF1 == 0)
                                                             {
                                                                 <li class="seat-li free-seat tooltip">
                                                                     <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                    <input type="checkbox" name="unitKey" value="@Model.Seatmaplist.datalist[0].seatMapfees.groups[0].groupsFee.serviceCharges[0].amount _@Model.Seatmaplist.datalist[0].seatMap.decks.units[i].unitKey" id="unitKey" />
+                                                                    <input type="checkbox" name="unitKey" value="@Model.Seatmaplist.datalist[1].seatMapfees.groups[0].groupsFee.serviceCharges[0].amount _@Model.Seatmaplist.datalist[1].seatMap.decks.units[i].unitKey" id="unitKey" />
+                                                                    <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                                </li>
+
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <li class="seat-li midcomfort tooltip">
+                                                                    <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+                                                                    <input type="checkbox" name="unitKey" value="@Model.Seatmaplist.datalist[1].seatMapfees.groups[0].groupsFee.serviceCharges[0].amount _@Model.Seatmaplist.datalist[1].seatMap.decks.units[i].unitKey" id="unitKey" />
+                                                                    <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                                </li>
+                                                            }
+                                                        }
+
+                                                        if (k == 4)
+                                                        {
+                                                            <li class="seat-li"></li>
+                                                        }
+
+                                                        <li class="seat-li colNo left">@i</li>
+                                                    }
+                                                }
+
+                                            </ul>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                    //}
+
+
+
+
+                    //RoundTrip AAsia SeatMap
+                    Hashtable htR = new Hashtable();
+                    Hashtable htRA = new Hashtable();
+                    for (int k = 0; k < Model.SeatmaplistR.datalist.Count; k++)
+                    {
+                        int count = Model.SeatmaplistR.datalist[k].seatMap.decks.units.Count;
+                        for (int j = 0; j < count; j++)
+                        {
+                            if (Model.SeatmaplistR.datalist[k].seatMap.decks.units[j].assignable == true)
+                            {
+                                if (!htR.Contains(Model.SeatmaplistR.datalist[k].seatMap.decks.units[j].designator))
+                                    htR.Add(Model.SeatmaplistR.datalist[k].seatMap.decks.units[j].designator, Model.SeatmaplistR.datalist[k].seatMap.decks.units[j].servicechargefeeAmount);
+                            }
+
+                            if (k == 0)
+                            {
+                                if (!htR.Contains(Model.SeatmaplistR.datalist[k].seatMap.decks.units[j].designator))
+                                {
+                                    htR.Add(Model.SeatmaplistR.datalist[k].seatMap.decks.units[j].designator, Model.SeatmaplistR.datalist[k].seatMap.decks.units[j].servicechargefeeAmount);
+                                }
+
+                            }
+                            else
+                            {
+                                if (!htRA.Contains(Model.SeatmaplistR.datalist[k].seatMap.decks.units[j].designator))
+                                {
+                                    htRA.Add(Model.SeatmaplistR.datalist[k].seatMap.decks.units[j].designator, Model.SeatmaplistR.datalist[k].seatMap.decks.units[j].servicechargefeeAmount);
+                                }
+
+                            }
+
+                        }
+                    }
+                    for (int l = 0; l < Model.SeatmaplistR.datalist.Count; l++)
+                    {
+                        if (l == 0)
+                        {
+                            <div id="tabshowRT1" class="seat-section">
+                                C
+                                <div class="inner-section">
+                                    <ul class="column">
+                                        <li class="seat-li row-no">F</li>
+                                        <li class="seat-li row-no">E</li>
+                                        <li class="seat-li row-no">D</li>
+                                        <li class="seat-li row-no"></li>
+                                        <li class="seat-li row-no">C</li>
+                                        <li class="seat-li row-no">B</li>
+                                        <li class="seat-li row-no">A</li>
+                                    </ul>
+
+                                    @{
+                                        @for (int i = 1; i <= 30; i++)
+                                        {
+
+                                            <ul class="column" id="itemList">
+                                                @{
+                                                    for (int k = 6; k >= 1; k--)
+                                                    {
+                                                        string data = string.Empty;
+                                                        if (k == 6) { data = i.ToString() + "F"; }
+                                                        else if (k == 5) { data = i.ToString() + "E"; }
+                                                        else if (k == 4) { data = i.ToString() + "D"; }
+                                                        else if (k == 3) { data = i.ToString() + "C"; }
+                                                        else if (k == 2) { data = i.ToString() + "B"; }
+                                                        else if (k == 1) { data = i.ToString() + "A"; }
+                                                        var designation = data;
+                                                        if (!htR.Contains(data))
+                                                        {
+                                                            <li class="seat-li chkbox">
+                                                                <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
+                                                            </li>
+                                                        }
+                                                        else
+                                                        {
+                                                            var group = Model.SeatmaplistR.datalist[0].seatMapfees.groups[i].groupsFee.groupid;
+                                                            var feeamountF1 = @Model.SeatmaplistR.datalist[0].seatMapfees.groups[group].groupsFee.serviceCharges[0].amount;
+                                                            if (feeamountF1 == 0)
+                                                            {
+                                                                <li class="seat-li free-seat tooltip">
+                                                                    <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlistR.passengers[0].passengerKey" />
+                                                                    <input type="checkbox" name="unitKey" value="@Model.SeatmaplistR.datalist[0].seatMapfees.groups[group].groupsFee.serviceCharges[0].amount _@Model.SeatmaplistR.datalist[0].seatMap.decks.units[i].unitKey _R1" id="unitKey" />
                                                                     <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
                                                                 </li>
                                                             }
                                                             else
                                                             {
                                                                 <li class="seat-li midcomfort tooltip">
-                                                                    <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                    <input type="checkbox" name="unitKey" value="@Model.Seatmaplist.datalist[0].seatMapfees.groups[0].groupsFee.serviceCharges[0].amount _@Model.Seatmaplist.datalist[0].seatMap.decks.units[i].unitKey" id="unitKey" />
+                                                                    <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlistR.passengers[0].passengerKey" />
+                                                                    <input type="checkbox" name="unitKey" value="@Model.SeatmaplistR.datalist[0].seatMapfees.groups[group].groupsFee.serviceCharges[0].amount _@Model.SeatmaplistR.datalist[0].seatMap.decks.units[i].unitKey _R1" id="unitKey" />
+                                                                    <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                                </li>
+                                                            }
+                                                        }
+
+                                                        if (k == 4)
+                                                        {
+                                                            <li class="seat-li"></li>
+                                                        }
+
+                                                        <li class="seat-li colNo left">@i</li>
+                                                    }
+                                                }
+
+                                            </ul>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div id="tabshowRT2" class="seat-section">
+                                D
+                                <div class="inner-section">
+                                    <ul class="column">
+                                        <li class="seat-li row-no">F</li>
+                                        <li class="seat-li row-no">E</li>
+                                        <li class="seat-li row-no">D</li>
+                                        <li class="seat-li row-no"></li>
+                                        <li class="seat-li row-no">C</li>
+                                        <li class="seat-li row-no">B</li>
+                                        <li class="seat-li row-no">A</li>
+                                    </ul>
+
+                                    @{
+                                        @for (int i = 1; i <= 30; i++)
+                                        {
+
+                                            <ul class="column" id="itemList">
+                                                @{
+                                                    for (int k = 6; k >= 1; k--)
+                                                    {
+                                                        string data = string.Empty;
+                                                        if (k == 6) { data = i.ToString() + "F"; }
+                                                        else if (k == 5) { data = i.ToString() + "E"; }
+                                                        else if (k == 4) { data = i.ToString() + "D"; }
+                                                        else if (k == 3) { data = i.ToString() + "C"; }
+                                                        else if (k == 2) { data = i.ToString() + "B"; }
+                                                        else if (k == 1) { data = i.ToString() + "A"; }
+                                                        var designation = data;
+                                                        if (!htRA.Contains(data))
+                                                        {
+                                                            <li class="seat-li chkbox">
+                                                                <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
+                                                            </li>
+                                                        }
+                                                        else
+                                                        {
+
+                                                            var group = Model.SeatmaplistR.datalist[1].seatMapfees.groups[i].groupsFee.groupid;
+                                                            var feeamountF1 = @Model.SeatmaplistR.datalist[1].seatMapfees.groups[group].groupsFee.serviceCharges[0].amount;
+                                                            if (feeamountF1 == 0)
+                                                            {
+                                                                <li class="seat-li free-seat tooltip">
+                                                                    <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlistR.passengers[0].passengerKey" />
+                                                                    <input type="checkbox" name="unitKey" value="@Model.SeatmaplistR.datalist[1].seatMapfees.groups[0].groupsFee.serviceCharges[0].amount _@Model.SeatmaplistR.datalist[1].seatMap.decks.units[i].unitKey" id="unitKey" />
+                                                                    <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                                </li>
+
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <li class="seat-li midcomfort tooltip">
+                                                                    <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlistR.passengers[0].passengerKey" />
+                                                                    <input type="checkbox" name="unitKey" value="@Model.Seatmaplist.datalist[1].seatMapfees.groups[0].groupsFee.serviceCharges[0].amount _@Model.Seatmaplist.datalist[1].seatMap.decks.units[i].unitKey" id="unitKey" />
                                                                     <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
                                                                 </li>
                                                             }
@@ -316,199 +518,11 @@
                     }
 
                 }
-                @* <ReturnSeatMapList>*@
-                <div id="seatflight2">
-                    Deepa pal
-                    @{
-                        //     var seatmaapR   = Model.passeengerlistR.journeys[1].segments.Count;
-
-                        //     Hashtable ht0R = new Hashtable();
-                        //     Hashtable ht1R = new Hashtable();
-                        //     for (int k = 0; k < Model.SeatmaplistR.datalist.Count; k++)
-                        //     {
-                        //         int count = Model.SeatmaplistR.datalist[k].seatMap.decks.units.Count;
-                        //         for (int j = 0; j < count; j++)
-                        //         {
-                        //             if (Model.SeatmaplistR.datalist[k].seatMap.decks.units[j].assignable == true)
-                        //             {
-                        //                 if (!ht0.Contains(Model.SeatmaplistR.datalist[k].seatMap.decks.units[j].designator))
-                        //                     ht0.Add(Model.SeatmaplistR.datalist[k].seatMap.decks.units[j].designator, Model.SeatmaplistR.datalist[k].seatMap.decks.units[j].servicechargefeeAmount);
-                        //             }
-
-                        //             if (k == 0)
-                        //             {
-                        //                 if (!ht0.Contains(Model.SeatmaplistR.datalist[k].seatMap.decks.units[j].designator))
-                        //                 {
-                        //                     ht0.Add(Model.SeatmaplistR.datalist[k].seatMap.decks.units[j].designator, Model.SeatmaplistR.datalist[k].seatMap.decks.units[j].servicechargefeeAmount);
-                        //                 }
-
-                        //             }
-                        //             else
-                        //             {
-                        //                 if (!ht1R.Contains(Model.SeatmaplistR.datalist[k].seatMap.decks.units[j].designator))
-                        //                 {
-                        //                     ht1R.Add(Model.SeatmaplistR.datalist[k].seatMap.decks.units[j].designator, Model.SeatmaplistR.datalist[k].seatMap.decks.units[j].servicechargefeeAmount);
-                        //                 }
-
-                        //             }
-
-                        //         }
-                        //     }
-
-                        //     for (int l = 0; l < Model.SeatmaplistR.datalist.Count; l++)
-                        //     {
-                        //         if (l == 0)
-                        //         {
-                        //             <div id="tabshow1" class="seat-section">
-
-                        //                 <div class="inner-section">
-                        //                     <ul class="column">
-                        //                         <li class="seat-li row-no">F</li>
-                        //                         <li class="seat-li row-no">E</li>
-                        //                         <li class="seat-li row-no">D</li>
-                        //                         <li class="seat-li row-no"></li>
-                        //                         <li class="seat-li row-no">C</li>
-                        //                         <li class="seat-li row-no">B</li>
-                        //                         <li class="seat-li row-no">A</li>
-                        //                     </ul>
-
-                        //                     @{
-                        //                         @for (int i = 1; i <= 30; i++)
-                        //                         {
-
-                        //                             <ul class="column" id="itemList">
-                        //                                 @{
-                        //                                     for (int k = 6; k >= 1; k--)
-                        //                                     {
-                        //                                         string dataR = string.Empty;
-                        //                                         if (k == 6) { dataR = i.ToString() + "F"; }
-                        //                                         else if (k == 5) { dataR = i.ToString() + "E"; }
-                        //                                         else if (k == 4) { dataR = i.ToString() + "D"; }
-                        //                                         else if (k == 3) { dataR = i.ToString() + "C"; }
-                        //                                         else if (k == 2) { dataR = i.ToString() + "B"; }
-                        //                                         else if (k == 1) { dataR = i.ToString() + "A"; }
-                        //                                         var designation = dataR;
-                        //                                         if (!ht0R.Contains(dataR))
-                        //                                         {
-                        //                                             <li class="seat-li chkbox">
-                        //                                                 <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
-                        //                                             </li>
-                        //                                         }
-                        //                                         else
-                        //                                         {
-                        //                                             string feeamountF1 = ht0R[dataR].ToString();
-                        //                                             if (feeamountF1 == "0")
-                        //                                             {
-                        //                                                 <li class="seat-li free-seat tooltip">
-                        //                                                     <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlistR.passengers[0].passengerKey" />
-                        //                                                     <input type="checkbox" name="unitKey" value="@Model.SeatmaplistR.datalist[0].seatMapfees.groups[0].groupsFee.serviceCharges[0].amount _@Model.SeatmaplistR.datalist[0].seatMap.decks.units[i].unitKey" id="unitKey" />
-                        //                                                     <span class="tooltiptext">@dataR <span>&#8377; @feeamountF1</span></span>
-                        //                                                 </li>
-                        //                                             }
-                        //                                             else
-                        //                                             {
-                        //                                                 <li class="seat-li midcomfort tooltip">
-                        //                                                     <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlistR.passengers[0].passengerKey" />
-                        //                                                     <input type="checkbox" name="unitKey" value="@Model.SeatmaplistR.datalist[0].seatMapfees.groups[0].groupsFee.serviceCharges[0].amount _@Model.SeatmaplistR.datalist[0].seatMap.decks.units[i].unitKey" id="unitKey" />
-                        //                                                     <span class="tooltiptext">@dataR <span>&#8377; @feeamountF1</span></span>
-                        //                                                 </li>
-                        //                                             }
-                        //                                         }
-
-                        //                                         if (k == 4)
-                        //                                         {
-                        //                                             <li class="seat-li"></li>
-                        //                                         }
-
-                        //                                         <li class="seat-li colNo left">@i</li>
-                        //                                     }
-                        //                                 }
-
-                        //                             </ul>
-                        //                         }
-                        //                     }
-                        //                 </div>
-                        //             </div>
-                        //         }
-                        //         else
-                        //         {
-                        //             <div id="tabshow2" class="seat-section">
-
-                        //                 <div class="inner-section">
-                        //                     <ul class="column">
-                        //                         <li class="seat-li row-no">F</li>
-                        //                         <li class="seat-li row-no">E</li>
-                        //                         <li class="seat-li row-no">D</li>
-                        //                         <li class="seat-li row-no"></li>
-                        //                         <li class="seat-li row-no">C</li>
-                        //                         <li class="seat-li row-no">B</li>
-                        //                         <li class="seat-li row-no">A</li>
-                        //                     </ul>
-
-                        //                     @{
-                        //                         @for (int i = 1; i <= 30; i++)
-                        //                         {
-
-                        //                             <ul class="column" id="itemList">
-                        //                                 @{
-                        //                                     for (int k = 6; k >= 1; k--)
-                        //                                     {
-                        //                                         string dataR = string.Empty;
-                        //                                         if (k == 6) { dataR = i.ToString() + "F"; }
-                        //                                         else if (k == 5) { dataR = i.ToString() + "E"; }
-                        //                                         else if (k == 4) { dataR = i.ToString() + "D"; }
-                        //                                         else if (k == 3) { dataR = i.ToString() + "C"; }
-                        //                                         else if (k == 2) { dataR = i.ToString() + "B"; }
-                        //                                         else if (k == 1) { dataR = i.ToString() + "A"; }
-                        //                                         var designation = dataR;
-                        //                                         if (!ht1R.Contains(dataR))
-                        //                                         {
-                        //                                             <li class="seat-li chkbox">
-                        //                                                 <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
-                        //                                             </li>
-                        //                                         }
-                        //                                         else
-                        //                                         {
-                        //                                             string feeamountF1 = ht1R[dataR].ToString();
-                        //                                             if (feeamountF1 == "0")
-                        //                                             {
-                        //                                                 <li class="seat-li free-seat tooltip">
-                        //                                                     <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlistR.passengers[0].passengerKey" />
-                        //                                                     <input type="checkbox" name="unitKey" value="@Model.SeatmaplistR.datalist[0].seatMapfees.groups[0].groupsFee.serviceCharges[0].amount _@Model.SeatmaplistR.datalist[0].seatMap.decks.units[i].unitKey" id="unitKey" />
-                        //                                                     <span class="tooltiptext">@dataR <span>&#8377; @feeamountF1</span></span>
-                        //                                                 </li>
-                        //                                             }
-                        //                                             else
-                        //                                             {
-                        //                                                 <li class="seat-li midcomfort tooltip">
-                        //                                                     <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlistR.passengers[0].passengerKey" />
-                        //                                                     <input type="checkbox" name="unitKey" value="@Model.SeatmaplistR.datalist[0].seatMapfees.groups[0].groupsFee.serviceCharges[0].amount _@Model.SeatmaplistR.datalist[0].seatMap.decks.units[i].unitKey" id="unitKey" />
-                        //                                                     <span class="tooltiptext">@dataR <span>&#8377; @feeamountF1</span></span>
-                        //                                                 </li>
-                        //                                             }
-                        //                                         }
-
-                        //                                         if (k == 4)
-                        //                                         {
-                        //                                             <li class="seat-li"></li>
-                        //                                         }
-
-                        //                                         <li class="seat-li colNo left">@i</li>
-                        //                                     }
-                        //                                 }
-
-                        //                             </ul>
-                        //                         }
-                        //                     }
-                        //                 </div>
-                        //             </div>
-                        //         }
-                        //     }
-                        //     //}
-                    }
 
 
-                </div>
+
+
+
                 @* ----------End--------- *@
                 <div class="wing-right">&nbsp;</div>
                 <div class="legendHolder-box">
@@ -524,23 +538,67 @@
                     <p><strong>Disclaimer:</strong> Seat allotment is the sole prerogative of the airline and can't be guaranteed by Yatra.com</p>
                 </div>
             </div>
+
+
+
+
             <div class="tabs__pane -tab-item-2">
                 <div class="journey-box">
                     <ul class="nav nav-pills mb-3">
-
-                        @for (int i = 0; i < seatmaap2; i++)
-                        {
-                            <li class="nav-item d-flex">
-                                @if (i == 0)
+                        @{
+                            var mealmap2 = @Model.passeengerlist.journeys[0].segments.Count;
+                            if (seatmaap2 == 1)
+                            {
+                                <li class="nav-item">
+                                    <div id="seattab1way" class="nav-link active">@Model.passeengerlist.journeys[0].segments[0].designator.origin-@Model.passeengerlist.journeys[0].segments[0].designator.destination</div>
+                                </li>
+                            }
+                            else
+                            {
+                                @for (int i = 0; i < seatmaap2; i++)
                                 {
-                                    <div id="seattab3" class="nav-link">@Model.passeengerlistR.journeys[0].segments[i].designator.origin-@Model.passeengerlistR.journeys[0].segments[i].designator.destination</div>
+                                    <li class="nav-item d-flex">
+                                        @if (i == 0)
+                                        {
+                                            <div id="seattab1" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
+
+                                        }
+                                        else
+                                        {
+                                            <div id="seattab2" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
+                                        }
+                                    </li>
+
 
                                 }
-                                else
+                            }
+                            // RoundTrip
+                            var MealmaapR = @Model.passeengerlistR.journeys[0].segments.Count;
+                            if (MealmaapR == 1)
+                            {
+                                <li class="nav-item">
+                                    <div id="mealtabRT1way" class="nav-link ">@Model.passeengerlistR.journeys[0].segments[0].designator.origin-@Model.passeengerlistR.journeys[0].segments[0].designator.destination</div>
+                                </li>
+                            }
+                            else
+                            {
+                                @for (int i = 0; i < MealmaapR; i++)
                                 {
-                                    <div id="seattab4" class="nav-link">@Model.passeengerlistR.journeys[0].segments[i].designator.origin-@Model.passeengerlistR.journeys[0].segments[i].designator.destination</div>
+                                    <li class="nav-item d-flex">
+                                        @if (i == 0)
+                                        {
+                                            <div id="mealtabRT1" class="nav-link">@Model.passeengerlistR.journeys[0].segments[i].designator.origin-@Model.passeengerlistR.journeys[0].segments[i].designator.destination</div>
+
+                                        }
+                                        else
+                                        {
+                                            <div id="mealtabRT2" class="nav-link">@Model.passeengerlistR.journeys[0].segments[i].designator.origin-@Model.passeengerlistR.journeys[0].segments[i].designator.destination</div>
+                                        }
+                                    </li>
+
+
                                 }
-                            </li>
+                            }
                         }
 
                     </ul>
@@ -565,6 +623,142 @@
                 </div>
             </div>
 
+            <div class="tabs__pane -tab-item-3">
+                <div class="journey-box">
+                    <ul class="nav nav-pills mb-3">
+                        <li class="nav-item">
+                            <button class="nav-link active">Departure:DEL-BOM</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link">Return:BOM-DEL</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="flight-protip" style="margin-bottom:0;">Pre-booked baggage is up to 25% cheaper than on-board price.</div>
+                <div>
+                    <div class="d-flex x-gap-15 mt-25 items-end justify-end">
+                        <div class="d-flex x-gap-15 items-end mt-10 mb-10">
+                            <div class="col-auto">
+                                <button class="d-flex items-end text-18 arrow-left-hover js-tour-prev">
+                                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="col-auto">
+                                <button class="d-flex items-end text-15 arrow-right-hover js-tour-next">
+                                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative overflow-hidden js-section-slider pt-10 sm:pt-20" data-gap="30" data-scrollbar data-slider-cols="xl-5 lg-4 md-3 sm-2 base-2" data-nav-prev="js-tour-prev" data-pagination="js-tour-pag" data-nav-next="js-tour-next">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide active">
+                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                    <img src="~/img/images/travel-bag.png" title="image" alt="image">
+                                    <h6 class="text-14 fw-600 mt-10">Additional</h6>
+                                    <h5 class="text-16 fw-700 mt-6">3 Kg</h5>
+                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; 1,350</p>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="button -md -outline-blue-1 text-blue-1">Select</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="swiper-slide">
+                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                    <img src="~/img/images/travel-bag.png" title="image" alt="image">
+                                    <h6 class="text-14 fw-600 mt-10">Additional</h6>
+                                    <h5 class="text-16 fw-700 mt-6">5 Kg</h5>
+                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; 2,250</p>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="button -md -outline-blue-1 text-blue-1">Select</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="swiper-slide">
+                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                    <img src="~/img/images/travel-bag.png" title="image" alt="image">
+                                    <h6 class="text-14 fw-600 mt-10">Additional</h6>
+                                    <h5 class="text-16 fw-700 mt-6">10 Kg</h5>
+                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; 4,500</p>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="button -md -outline-blue-1 text-blue-1">Select</button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="swiper-slide">
+                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                    <img src="~/img/images/travel-bag.png" title="image" alt="image">
+                                    <h6 class="text-14 fw-600 mt-10">Additional</h6>
+                                    <h5 class="text-16 fw-700 mt-6">15 Kg</h5>
+                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; 6,750</p>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="button -md -outline-blue-1 text-blue-1">Select</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="swiper-slide">
+                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                    <img src="~/img/images/travel-bag.png" title="image" alt="image">
+                                    <h6 class="text-14 fw-600 mt-10">Additional</h6>
+                                    <h5 class="text-16 fw-700 mt-6">25 Kg</h5>
+                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; 11,250</p>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="button -md -outline-blue-1 text-blue-1">Select</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tabs__pane -tab-item-4">
+                <div class="journey-box">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active">Return:BOM-DEL</button>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="d-flex x-gap-15 mt-25 items-end justify-end">
+                        <div class="d-flex x-gap-15 items-end mt-10 mb-10">
+                            <div class="col-auto">
+                                <button class="d-flex items-end text-18 arrow-left-hover js-tour-prev-two">
+                                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="col-auto">
+                                <button class="d-flex items-end text-15 arrow-right-hover js-tour-next-two">
+                                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative overflow-hidden js-section-slider pt-10 sm:pt-20" data-gap="30" data-scrollbar data-slider-cols="xl-5 lg-4 md-3 sm-2 base-2" data-nav-prev="js-tour-prev-two" data-pagination="js-tour-pag" data-nav-next="js-tour-next-two">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                    <img src="~/img/images/check-bag-icon.png" title="image" alt="image">
+                                    <h6 class="text-14 fw-700 mt-10">Fast forward</h6>
+                                    <h5 class="text-12 fw-600 pt-1">Check-in first and get your bag(s) before anyone else</h5>
+                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; 530</p>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="button -md -outline-blue-1 text-blue-1">Select</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </div>
@@ -575,32 +769,81 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/jquery/dist/jquery.js"></script>
 
+<style type="text/css">
+    .activeblue {
+        background-color: #d1c3c4 !important;
+        height: 40px !important;
+        padding: 5px 10px !important;
+        border-radius: 30px !important;
+        margin-top: 10px;
+    }
+</style>
 <script type="text/javascript">
     /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
     $(document).ready(function () {
-        $("#seattab1").addClass('active');
+
+        $("#seattab1way").click(function () {
+            $("#tabshow1").show();
+            $("#tabshowRT1").hide();
+            $("#seattab1way").addClass('activeblue');
+            $("#seattabRT1way").removeClass('activeblue');
+        });
+        $("#seattabRT1way").click(function () {
+            $("#tabshow1").hide();
+            $("#tabshowRT1").show();
+            $("#seattabRT1way").addClass('activeblue');
+            $("#seattab1way").removeClass('activeblue');
+        });
+
+
         $("#tabshow2").hide();
-        $("#seattab").click(function () {
+        $("#tabshowRT1").hide();
+        $("#tabshowRT2").hide();
+        $("#seattab1").click(function () {
             $("#tabshow1").show();
             $("#tabshow2").hide();
-            $("#seatflight2").hide();
-            $("#seattab1").addClass('active');
-            $("#seattab2").removeClass('active');
+            $("#tabshowRT1").hide();
+            $("#tabshowRT2").hide();
+            $("#seattab1").addClass('activeblue');
+            $("#seattab2").removeClass('activeblue');
+            $("#tabshowRT2").removeClass('activeblue');
+            $("#tabshowRT1").removeClass('activeblue');
 
         });
 
         $("#seattab2").click(function () {
-            $("#tabshow2").css("display", "block");
-            $("#seattab2").addClass('active');
-            $("#seattab1").removeClass('active');
+            $("#tabshow2").show();
+            $("#tabshowRT1").hide();
+            $("#tabshowRT2").hide();
+            $("#seattab2").addClass('activeblue');
+            $("#seattab1").removeClass('activeblue');
+            $("#seattabRT2").removeClass('activeblue');
+            $("#seattabRT1").removeClass('activeblue');
             $("#tabshow1").hide();
         });
-
-        $("#seatflight2").hide();
-        $("#seattab1RT").click(function () {
+        $("#seattabRT1").click(function () {
+            $("#tabshow2").hide();
             $("#tabshow1").hide();
-            $("#seatflight2").show();
+            $("#tabshowRT1").show();
+            $("#tabshowRT2").hide();
+            $("#seattabRT1").addClass('activeblue');
+            $("#seattabRT2").removeClass('activeblue');
+            $("#seattab2").removeClass('activeblue');
+            $("#seattab1").removeClass('activeblue');
+
 
         });
+        $("#seattabRT2").click(function () {
+            $("#tabshowRT2").show();
+            $("#tabshow2").hide();
+            $("#tabshow1").hide();
+            $("#tabshowRT1").hide();
+            $("#seattabRT2").addClass('activeblue');
+            $("#seattabRT1").removeClass('activeblue');
+            $("#seattab2").removeClass('activeblue');
+            $("#seattab1").removeClass('activeblue');
+
+        });
+
     });
 </script>

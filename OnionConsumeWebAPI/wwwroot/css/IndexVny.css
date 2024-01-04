@@ -52,33 +52,59 @@
     border-radius: 6px;
     max-height: 210px;
     overflow-y: scroll;
-   
     top: 80px;
 }
 
 #airportSuggestions {
     width: 256px;
 }
+
 #airportname {
     position: absolute;
     bottom: 9px;
     left: 40px;
     font-size: 14px;
 }
-#airportInput {
+
+#airportdestination {
+    position: absolute;
+    bottom: 9px;
+    left: 40px;
+    font-size: 14px;
+}
+
+#myInput {
     font-size: 20px !important;
     font-weight: 600;
 }
+
+#myInput1 {
+    font-size: 20px !important;
+    font-weight: 600;
+}
+
+#myInput1::placeholder {
+    font-size: 15px;
+    font-weight: 400;
+}
+
 .flightdepr img {
     padding-left: 10px;
 }
 
-#airportInput::placeholder {
-    font-size:15px; 
-    font-weight:400;
+#myInput::placeholder {
+    font-size: 15px;
+    font-weight: 400;
 }
+
 .auto-suggest li::before {
     content: url('../img/plane-icn.png'); /* Replace 'flight-icon.png' with the path to your flight icon */
     margin-right: 5px;
 }
-   
+
+.rounddateinput {
+    font-size: 12px;
+    position: absolute;
+    bottom: 16px;
+    left: 34px;
+}

@@ -38,17 +38,23 @@ var app = builder.Build();
 
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseDeveloperExceptionPage();
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
+//else
+//{
+//    // Configure error handling for production environment here
+//    app.UseExceptionHandler("/Home/Error");
+//    app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
+//}
+
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
-    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
-}
-else
-{
-    // Configure error handling for production environment here
-    app.UseExceptionHandler("/Home/Error");
-    app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
 }
 
 app.UseAuthorization();

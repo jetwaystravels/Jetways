@@ -107,12 +107,51 @@ namespace OnionConsumeWebAPI.Controllers
                 HttpContext.Session.SetString("AirasiaTokan", JsonConvert.SerializeObject(AirasiaTokan.token));
 
 
+
                 SimpleAvailabilityRequestModel _SimpleAvailabilityobj = new SimpleAvailabilityRequestModel();
+                string orgincity = string.Empty;
+                string destinationcode = string.Empty;
+                string destinationCity = string.Empty;
+                string orgincode = string.Empty;
+
+                string input = _GetfligthModel.origin;
+                string[] parts = input.Split('-');
+
+                if (parts.Length == 2)
+                {
+                    orgincity = parts[0].Trim(); // Contains "New Delhi"
+                    orgincode = parts[1].Trim(); // Contains "DEL"
+                    _GetfligthModel.origin = orgincode;
+                }
+                input = _GetfligthModel.destination;
+                parts = input.Split('-');
+                if (parts.Length == 2)
+                {
+                    destinationCity = parts[0].Trim(); // Contains "New Delhi"
+                    destinationcode = parts[1].Trim(); // Contains "DEL"
+                    _GetfligthModel.destination = destinationcode;
+                }
                 _SimpleAvailabilityobj.origin = _GetfligthModel.origin;
                 _SimpleAvailabilityobj.destination = _GetfligthModel.destination;
                 _SimpleAvailabilityobj.beginDate = _GetfligthModel.beginDate;
-                //_SimpleAvailabilityobj.endDate = "2023-12-20";//_GetfligthModel.endDate;
+                //if (_GetfligthModel.endDate == null)
+                //{
+                //    _SimpleAvailabilityobj.endDate = _GetfligthModel.beginDate;
+                //}
+                //else
+                _SimpleAvailabilityobj.endDate = _GetfligthModel.endDate;
+
+
                 Codessimple _codes = new Codessimple();
+
+
+                //SimpleAvailabilityRequestModel _SimpleAvailabilityobj = new SimpleAvailabilityRequestModel();
+
+                //_SimpleAvailabilityobj.origin = _GetfligthModel.origin;
+                //_SimpleAvailabilityobj.destination = _GetfligthModel.destination;
+                //_SimpleAvailabilityobj.beginDate = _GetfligthModel.beginDate;
+                ////_SimpleAvailabilityobj.endDate = "2023-12-20";//_GetfligthModel.endDate;
+                //Codessimple _codes = new Codessimple();
 
 
                 List<Typesimple> _typeslist = new List<Typesimple>();

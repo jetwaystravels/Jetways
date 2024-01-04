@@ -26,7 +26,8 @@ builder.Services.AddSession();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+//if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
 
     app.UseExceptionHandler("/Home/Error");
@@ -39,7 +40,7 @@ app.UseRouting();
 app.UseAuthorization();
 app.UseSession();
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=FlightSearchIndex}/{action=Index}/{id?}");
+name: "default",
+pattern: "{controller=FlightSearchIndex}/{action=Index}/{id?}");
 
 app.Run();

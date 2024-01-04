@@ -30,6 +30,7 @@
         public static string AirasiaSeatSelect = URLAirasia + "/api/nsk/v2/booking/passengers/";
         public static string AirasiaMealSelect = URLAirasia + "/api/nsk/v2/booking/ssrs/";
         public static string AirasiaCommitBooking = URLAirasia + "/api/nsk/v3/booking";
+        public static string AirasiaPNRBooking = URLAirasia + "/api/nsk/v1/booking/retrieve/byRecordLocator/";
 
 
 

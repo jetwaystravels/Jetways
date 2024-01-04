@@ -2,7 +2,6 @@
 @{
     Layout = null;
     var data = Model;
-
 }
 
 <!DOCTYPE html>
@@ -117,14 +116,14 @@
 
         <section class="layout-pt-md layout-pb-md bg-light-2 search-result mb-5">
             <div class="container">
-                <div class="row y-gap-30">
+                <div class="row  y-gap-30">
                     <div class="col-xl-3 col-lg-4">
                         <aside class="sidebar py-20 px-20 rounded-4 bg-white">
                             <partial name="_RTFlightViewPartialView.cshtml" />
                         </aside>
                     </div>
                     <div class="col-xl-9 col-lg-8 ps-0">
-                        <div class="row">
+                        <div class="row ">
                             <div class="col-xl-6 col-lg-6">
 
                                 <div class="row y-gap-10 justify-between items-center">
@@ -751,13 +750,8 @@
 
 
                                         </div>
-                                        @*  } *@
-
-
 
                                     }
-
-
                                 </form>
                             </div>
                         </div>
@@ -765,10 +759,6 @@
                 </div>
             </div>
         </section>
-
-
-
-
         <section class="rtfix-bottom ">
             <div class="container">
                 <div class="row">
@@ -2313,7 +2303,6 @@
 <script>
     $('input[type=radio][name=dynamicRadio]').change(function () {
         uniqueId = $(this).val();
-
         // Retrieve values from hidden input fields
         var departureTime = $('.departuretime').eq(uniqueId).val();
         var origin = $('.origin').eq(uniqueId).val();
@@ -2337,7 +2326,6 @@
     $('input[type=radio][name=dynamicRadioR]').change(function () {
         debugger;
         uniqueIdR = $(this).val();
-
         // Retrieve values from hidden input fields
         var departureTimeR = $('.departurereturn').eq(uniqueIdR).val();
         var originR = $('.originreturn').eq(uniqueIdR).val();
