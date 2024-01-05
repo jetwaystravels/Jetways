@@ -34,8 +34,12 @@ namespace DomainLayer.Model
         public List<Payment> payments { get; set; }
         public List<object> orders { get; set; }
 
+		public string customerNumber { get; set; }
+		public string companyName { get; set; }
+		public string emailAddress { get; set; }
 
-        public class Address
+
+		public class Address
         {
             public string lineOne { get; set; }
             public string lineTwo { get; set; }

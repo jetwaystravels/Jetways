@@ -1,17 +1,508 @@
-﻿
+﻿@model DomainLayer.ViewModel.AirLinePNRTicket
 @{
-    Layout = null;
+    var data = Model;
 }
 
+
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>booking</title>
+    <title>AirAsia</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/style_ticket.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style_ticket.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3/dist/JsBarcode.all.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script>
+    <style>
 
+        #scissors {
+            height: 43px; /* image height */
+            width: 90%;
+            margin: auto auto;
+            background-image: url('http://i.stack.imgur.com/cXciH.png');
+            background-repeat: no-repeat;
+            background-position: right;
+            position: relative;
+            overflow: hidden;
+        }
+
+            #scissors:after {
+                content: "";
+                position: relative;
+                top: 50%;
+                display: block;
+                border-top: 1px dashed #000;
+                margin-top: 0px;
+            }
+    </style>
 </head>
 <body>
-    <h2>Booking confirm Your Pnr is -PNR062223444</h2>
+    <form asp-action="PostTicketBooking" asp-controller="AirLinesTicket" method="post">
+
+        <div id="printableArea">
+            <div class="container">
+                <div class="row mt-5">
+                    <div class="d-flex flex-row justify-content-end">
+                        <div class="Tlogo">
+                            <img src="~/img/logo.png">
+                            <!--<img class="crazyFrog"></img>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!----------Legal Entity Section-------------->
+            <section class="container mt-1">
+                <div class="row border-dot">
+                    <div class="d-flex flex-row align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <span class="mb-0">Trip ID</span>
+                            <span class="mb-0  ms-1 fw-bold-600">@Model.AirlinePNR[0].bookingKey</span>
+                        </div>
+                        <div class="pnrdiv">
+                            <div class="TPNR d-flex">
+                                <div class="mb-0 fw-bold-600" id="Tpnr">Airline PNR : </div><div id="PNR" class="ms-2 t-color fw-bold-600 "><span class="mb-0">@Model.AirlinePNR[0].recordLocator</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-------------Air Line PNR Section ------------->
+            <section class="container mt-1">
+                <div class="row border-dot pt-2">
+                    <div class="d-flex flex-row justify-content-between flex-wrap">
+                        <div class="TPNR">
+                            <span class="mb-0 fw-bold-600"><span id="depart"> @Model.AirlinePNR[0].journeys[0].segments[0].designator.origin</span><span> to</span><span id="tarrive"> @Model.AirlinePNR[0].journeys[0].segments[0].designator.destination</span></span>
+                        </div>
+                    </div>
+                    <div class="col-12 border-width"></div>
+
+                    <div class="col-12 border-width"></div>
+
+                    <!------Passengers-Detail-Section--------->
+                    @for (int i = 0; i < Model.AirlinePNR[0].passengerscount; i++)
+                    {
+                        <div class="col-12 PDetail">
+                            <div class="d-flex flex-row justify-content-between">
+                                <div class="Pdetail1">
+
+                                    <ul class="td-inline">
+                                        <li class="tlist-none"><span id="Adult1">Passengers @Model.AirlinePNR[0].passengers[i].passengerTypeCode</span></li>
+                                        <li class="tlist-none"><span id="Pname1" class="fw-bold-600">@Model.AirlinePNR[0].passengers[i].name.first</span></li>
+                                        @* <li class="tlist-none"><span>(Adult)</span></li> *@
+                                    </ul>
+                                </div>
+                                <div class="Pdetail1">
+                                    <ul class="td-inline">
+                                        <li class="tlist-none"> <span>Mobile No:</span><span class="fw-bold-600">@Model.AirlinePNR[0].PhoneNumbers[0].number</span></li>
+                                    </ul>
+                                </div>
+
+                                <div class="Pdetail1">
+                                    <ul class="td-inline">
+                                        <li class="tlist-none"><svg id="barcode"></svg></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="col-12 border-width mt-1"></div>
+                    <!--------------Non-Stop------------------------->
+                    <div class="row mt-1">
+                        <div class="col-3">
+
+                            <div class="Clogo">
+                                <div class="Clogo2">
+                                    @if (@Model.AirlinePNR[0].airLines == "Air Asia")
+                                    {
+                                        <img src="~/img/clogo.png">
+                                    }
+
+                                </div><span id="CName" class="fw-bold-600"> @Model.AirlinePNR[0].journeys[0].segments[0].identifier.carrierCode</span> |
+                                <span id="Cnomer" class="fw-bold-600">@Model.AirlinePNR[0].journeys[0].segments[0].identifier.identifier</span>
+                            </div>
+                            <div class="TEconomy">
+                                <span id="eco-class">Corpate Fare : </span>
+                                <span id="Cnomer" class="fw-bold-600"> Ecomomics</span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-3">
+                            <h3 id="citycode" class="fw-bold-700 mb-0 t-color">@Model.AirlinePNR[0].journeys[0].segments[0].designator.origin</h3>
+                            <div>DELHI</div>
+                            <div class="col-12 border-width"></div>
+                            <div class="fw-bold-600">@Model.AirlinePNR[0].journeys[0].segments[0].designator.departure</div>
+                            <div class="col-12 border-width"></div>
+                            <p class="mb-0">Indira Gandhi International Airport</p>
+                            <p class="mb-0">Terminal: <span class="fw-bold-700 t-color">@Model.AirlinePNR[0].journeys[0].segments[0].legs[0].legInfo.departureTerminal</span></p>
+
+                        </div>
+                        <div class="col-2 t-center">
+                            <div id="Ttiming" class="fw-bold-600">2hr 20m</div>
+
+                            <div class="arrow-icon"><i class="fas fa-arrow-right"></i></div>
+                            <!--<p class="mb-0">Economy</p>--->
+                            <!--<p>Status: <span class="fw-bold-600 t-color">Confirmed</span></p>-->
+                        </div>
+                        <div class="col-4">
+                            <h3 id="citycode" class="fw-bold-700 mb-0 t-color">@Model.AirlinePNR[0].journeys[0].segments[0].designator.destination</h3>
+                            <div>MUMBAI</div>
+                            <div class="col-12 border-width"></div>
+                            <div class="fw-bold-600">@Model.AirlinePNR[0].journeys[0].segments[0].designator.arrival</div>
+                            <div class="col-12 border-width"></div>
+                            <p class="mb-0">Chhatrapati Shivaji Maharaj International Airport</p>
+                            <p class="mb-0">Terminal: <span class="fw-bold-700 t-color">@Model.AirlinePNR[0].journeys[0].segments[0].legs[0].legInfo.arrivalTerminal</span></p>
+                        </div>
+
+
+                        <div class="col-12 mt-1">
+                            <div class="col-12 border-width"></div>
+                            <div class="d-flex flex-row justify-content-between px-2 py-1">
+                                @{
+
+                                    var passengerSegmentsList = Model.AirlinePNR[0].journeys[0].segments[0]?.passengerSegment;
+
+                                    if (passengerSegmentsList != null)
+                                    {
+                                        foreach (var passengerSegment in passengerSegmentsList)
+                                        {
+                                            // <h3>Passenger Key: @passengerSegment.passengerKey</h3>
+
+
+                                            @foreach (var seat in passengerSegment.seats)
+                                            {
+                                                <div class="tseat5d d-flex align-items-center">
+                                                    <span><img src="~/img/pseat.png"></span>
+                                                    <div class="seat5d ps-2">
+                                                        <span class="fw-bold-600"> Seat  @seat.unitDesignator</span>
+                                                    </div>
+                                                </div>
+
+                                            }
+
+
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <p>No passenger segments found.</p>
+                                    }
+                                }
+                                @* <div class="tseat5d d-flex align-items-center">
+                                <span><img src="~/img/pseat.png"></span>
+                                <div class="seat5d ps-2">
+                                <span class="fw-bold-600"> Seat  5D</span>
+                                </div>
+                                </div> *@
+
+                                <div class="tseat5d d-flex align-items-center">
+                                    <span><img src="~/img/pmeal.png"></span>
+                                    <div class="pmeal ps-2">
+                                        <span class="fw-bold-600"> @Model.AirlinePNR[0].journeys[0].segments[0].designator.origin-@Model.AirlinePNR[0].journeys[0].segments[0].designator.destination: CPML(Select On board)</span>
+                                    </div>
+                                </div>
+                                <div class="tseat5d d-flex align-items-center">
+                                    <span><img src="~/img/pbaggage.png"></span>
+                                    <div class="baggag ps-2 ">
+                                        <div class="bgagg-kg">
+                                            <span>Baggage:</span> <span class="fw-bold-600"> Cabin - 7kgs,</span>
+                                            <span>Check-In -</span> <span class="fw-bold-600"> 15Kgs</span>
+                                        </div>
+                                        <div class="bgagg-kg">
+                                            <span>Extra Baggage: </span> <span class="fw-bold-600"> NA</span>
+                                        </div>
+                                        <div class="bgagg-kg">
+                                            <span>Special request: </span> <span class="fw-bold-600"> -</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <!--------Passengers-D-End-------->
+                </div>
+
+                <!-----GST-DETAILS-------->
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <span class="fw-bold-600">GST Details</span>
+                    </div>
+                    <div class="col-12 border-dot">
+                        <div class="row">
+                            <div class="col-auto">
+                                <div class="T-ID ">
+                                    GST Number
+                                </div>
+                                <div class="T-ID fw-bold-600">
+                                    <span>@Model.AirlinePNR[0].customerNumber</span>
+                                </div>
+                            </div>
+                            <div class="col-auto border-right"></div>
+                            <div class="col-auto">
+                                <div class="T-ID ">
+                                    GST Name
+                                </div>
+                                <div class="T-ID fw-bold-600">
+                                    <span> @Model.AirlinePNR[0].companyName</span>
+                                </div>
+                            </div>
+                            <div class="col-auto border-right"></div>
+                            <div class="col-auto">
+                                <div class="T-ID ">
+                                    GST Email
+                                </div>
+                                <div class="T-ID fw-bold-600">
+                                    <span>@Model.AirlinePNR[0].emailAddress</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!--------Pricing-Details------------->
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <span class="fw-bold-600">Pricing Details</span>
+                    </div>
+                    <div class="col-12 border-dot">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="T-ID fw-bold-600">
+                                    Mode of Payment:
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="T-ID fw-bold-600">
+                                    Bill to Company
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 border-width"></div>
+                            <div class="col-5">
+                                <div class="row mt-2">
+                                    <div class="col-7">
+                                        <span>Base Price</span>
+                                    </div>
+                                    <div class="col-5">
+                                        <span class="fw-bold-600">5,747</span>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-7">
+                                        <span>Airline taxes and Fees</span>
+                                    </div>
+                                    <div class="col-5">
+                                        <span class="fw-bold-600">15,62</span>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-auto">
+                                        <span>(Basic:57.00, PHF:50.00, TTF:201.00, ASF: 236.00, UDF:723.00, Airline GST: 302.00)</span>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-7">
+                                        <span>6E (CCU-MAA) Airline GST</span>
+                                    </div>
+                                    <div class="col-5">
+                                        <span class="fw-bold-600">IGST 302</span>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-7">
+                                        <span>Commissionable Tax</span>
+                                    </div>
+                                    <div class="col-5">
+                                        <span class="fw-bold-600">0</span>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-7">
+                                        <span>Non-Commissionable Tax</span>
+                                    </div>
+                                    <div class="col-5">
+                                        <span class="fw-bold-600">15,62</span>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-7">
+                                        <span>Airline Service Charge</span>
+                                    </div>
+                                    <div class="col-5">
+                                        <span class="fw-bold-600">0</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-2 border-right"></div>
+
+                            <div class="col-5">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-9">
+                                                <span>Meal/Seat/Baggage/Misc Charges</span> <br>
+                                                <span>(Meal:0, Seat:0, Baggage:0, Misc Charges: 0)</span>
+                                            </div>
+                                            <div class="col-3">
+                                                <span class="fw-bold-600">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="row mt-2">
+                                            <div class="col-9">
+                                                <span>Finance Charges(s)</span>
+                                            </div>
+                                            <div class="col-3">
+                                                <span class="fw-bold-600">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 border-width"></div>
+                        </div>
+
+                        <!-----------------Toatl-Price-------------------------->
+
+                        <div class="row">
+                            <div class="col-5">
+                                <div class="row mt-2">
+                                    <div class="col-9">
+                                        <span class="fw-bold-600">Total Fare</span>
+                                    </div>
+                                    <div class="col-3">
+                                        <span class="fw-bold-600">XXXX</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto"></div>
+                            <div class="col-5">
+                                <div class="row mt-2">
+                                    <div class="col-9">
+                                        <span class="fw-bold-600">Add-ons and Service Fee</span>
+                                    </div>
+                                    <div class="col-3">
+                                        <span class="fw-bold-600">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-12 border-width"></div>
+                        </div>
+                        <div class="d-flex flex-row justify-content-between">
+                            <div class="totalprice">
+                                <span class="fw-bold-600">Total Price (tatal Fare + Add-ons and Service Fee)</span>
+                            </div>
+                            <div class="totalprice">
+                                <span class="fw-bold-600">item.price</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row border-dot my-4 py-2">
+                    <div class="col-12">
+                        <span class="fw-bold-600">Jetways Travels,</span>
+                        UGF 5, INDRA PRAKASH BUILDING 21, B.K. ROAD, CONNAUGHT PLACE, New Delhi 110001. <a class="tl-link" href="tel: 9090909090">+91-9090909090</a>
+                    </div>
+                </div>
+
+                <!------------------------------------>
+            </section>
+        </div>
+
+    </form>
+
+    <div id="scissors"></div>
+
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12">
+                <!--<button id="savePDFbutton" onclick="savePDF()"> save pdf</button>-->
+                <input type="button" onclick="printDiv('printableArea')" value="Print and Save Ticket!" />
+            </div>
+        </div>
+    </div>
+
+
+
 </body>
 </html>
+
+
+<script type="text/javascript">
+
+    //JsBarcode("#barcode", "1234", {
+    //format: "pharmacode",
+    //lineColor: "#0aa",
+    //width: 4,
+    //height: 40,
+    //displayValue: false
+    //});
+
+    JsBarcode("#barcode", "Vinay", {
+        width: 1,
+        height: 30,
+        displayValue: false
+
+    });
+
+    //-----PDF-Filegenrate-Code-----------
+    //var testDivElement = document.getElementById('someHtml');
+
+    //function savePDF() {
+    // var imgData;
+    //html2canvas($("#someHtml"), {
+    //useCORS: true,
+    //onrendered: function (canvas) {
+    // imgData = canvas.toDataURL('image/png');
+    // var doc = new jsPDF('p', 'pt', 'a4');
+    // doc.addImage(imgData, 'PNG', 10, 10);
+    //doc.save('sample-file.pdf');
+    //window.open(imgData);
+    //}
+
+    //});
+    //};
+
+
+
+    function printDiv(divName) {
+
+        var printContents = document.getElementById(divName).innerHTML;
+
+        var originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+
+        window.print();
+
+        document.body.innerHTML = originalContents;
+
+    }
+
+</script>
+
+

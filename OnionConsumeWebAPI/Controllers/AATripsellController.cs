@@ -579,10 +579,10 @@ namespace OnionConsumeWebAPI.Controllers
 
 
 
+			return RedirectToAction("booking", "CommitBooking");
+			//return RedirectToAction("Payment", "PaymentGateway");
 
-            return RedirectToAction("Payment", "PaymentGateway");
-
-        }
+		}
 
 
 
