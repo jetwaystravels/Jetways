@@ -236,11 +236,14 @@
                 </div>
 
                 <!-----GST-DETAILS-------->
-                <div class="row mt-2">
-                    <div class="col-12">
+                @{
+                    if (@Model.AirlinePNR[0].customerNumber!= null)
+                    {
+                       <div class="row mt-2">
+                       <div class="col-12">
                         <span class="fw-bold-600">GST Details</span>
                     </div>
-                    <div class="col-12 border-dot">
+                       <div class="col-12 border-dot">
                         <div class="row">
                             <div class="col-auto">
                                 <div class="T-ID ">
@@ -272,6 +275,8 @@
                         </div>
                     </div>
                 </div>
+                    }
+                }
 
                 <!--------Pricing-Details------------->
                 <div class="row mt-2">

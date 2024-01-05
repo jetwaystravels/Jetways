@@ -98,9 +98,13 @@ namespace OnionConsumeWebAPI.Controllers
 					ReturnTicketBooking returnTicketBooking = new ReturnTicketBooking();
 					returnTicketBooking.recordLocator = JsonObjPNRBooking.data.recordLocator;
 					returnTicketBooking.bookingKey = JsonObjPNRBooking.data.bookingKey;
-					returnTicketBooking.customerNumber = JsonObjPNRBooking.data.contacts.G.customerNumber;
-					returnTicketBooking.companyName = JsonObjPNRBooking.data.contacts.G.companyName;
-					returnTicketBooking.emailAddress = JsonObjPNRBooking.data.contacts.G.emailAddress;
+				
+                    if (JsonObjPNRBooking.data.contacts.G != null)
+					{
+						returnTicketBooking.customerNumber = JsonObjPNRBooking.data.contacts.G.customerNumber;
+						returnTicketBooking.companyName = JsonObjPNRBooking.data.contacts.G.companyName;
+						returnTicketBooking.emailAddress = JsonObjPNRBooking.data.contacts.G.emailAddress;
+					}
 					Contacts _contactobj = new Contacts();
 					int PhoneNumberCount = JsonObjPNRBooking.data.contacts.P.phoneNumbers.Count;
 					List<PhoneNumber> phoneNumberList = new List<PhoneNumber>();
