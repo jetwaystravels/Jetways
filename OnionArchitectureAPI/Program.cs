@@ -2,7 +2,7 @@ using DomainLayer.Model;
 using Microsoft.EntityFrameworkCore;
 using RepositoryLayer.DbContextLayer;
 using ServiceLayer.Service.Implementation;
-using ServiceLayer.Service.Interface;
+using ServiceLayer.Service.Interface; 
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,9 +20,6 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 
-
-
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -32,24 +29,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAWSLambdaHosting(LambdaEventSource.HttpApi);
 
 
-
 var app = builder.Build();
 
 
 
-// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-//    app.UseDeveloperExceptionPage();
-//    app.UseSwagger();
-//    app.UseSwaggerUI();
-//}
-//else
-//{
-//    // Configure error handling for production environment here
-//    app.UseExceptionHandler("/Home/Error");
-//    app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
-//}
 
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {

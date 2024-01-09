@@ -799,7 +799,7 @@ namespace OnionConsumeWebAPI.Controllers
                 List<Trip> Tripslist = new List<Trip>();
                 Trip Tripobj = new Trip();
                 Tripobj.origin = passeengerKeyList.journeys[0].designator.origin;
-                Tripobj.departureDate = passeengerKeyList.journeys[0].designator.departure;
+                //Tripobj.departureDate = passeengerKeyList.journeys[0].designator.departure; //commneted by vivek 09/01/2024 duyring code merge
                 //DateTime dateOnly = passeengerKeyList.journeys[0].designator.departure;
                 //string departuredaterequest = (dateOnly.ToString("yyyy-MM-dd"));
                 //Tripobj.departureDate = departuredaterequest;

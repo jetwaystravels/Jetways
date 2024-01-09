@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceLayer", "ServiceLaye
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnionConsumeWebAPI", "OnionConsumeWebAPI\OnionConsumeWebAPI.csproj", "{B6891B51-C756-4DA5-9E40-97182DE8FB55}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility", "Utility\Utility.csproj", "{6619DE03-424B-4252-9953-FCAD7BEC244D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{B6891B51-C756-4DA5-9E40-97182DE8FB55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6891B51-C756-4DA5-9E40-97182DE8FB55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6891B51-C756-4DA5-9E40-97182DE8FB55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6619DE03-424B-4252-9953-FCAD7BEC244D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6619DE03-424B-4252-9953-FCAD7BEC244D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6619DE03-424B-4252-9953-FCAD7BEC244D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6619DE03-424B-4252-9953-FCAD7BEC244D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -32,7 +32,9 @@ namespace DomainLayer.Model
             public int availableUnits { get; set; }
             public string seatmapReference { get; set; }
             public Decks decks { get; set; }
-            
+
+            public string categorySG { get; set; }
+
         }
         public class Decks
         {
@@ -47,12 +49,15 @@ namespace DomainLayer.Model
 
         public class Unit
         {
+            public Airlines Airline { get; set; }
             public string unitKey { get; set; }
             public bool assignable { get; set; }
             public int availability { get; set; }
+            public string availabilitySG { get; set; }
             public string compartmentDesignator { get; set; }
             public string designator { get; set; }
             public int type { get; set; }
+            public string typeSG { get; set; }
             public string travelClassCode { get; set; }
             public int set { get; set; }
             public int group { get; set; }
@@ -91,7 +96,8 @@ namespace DomainLayer.Model
 
         public class GroupsFee
         {
-            public int groupid { get; set; }
+            public string SeatGroup { get; set; }
+			public int groupid { get; set; }
             public int type { get; set; }
             public object ssrCode { get; set; }
             public int ssrNumber { get; set; }

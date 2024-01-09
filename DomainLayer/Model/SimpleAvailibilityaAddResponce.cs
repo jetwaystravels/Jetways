@@ -9,6 +9,7 @@ namespace DomainLayer.Model
     public class SimpleAvailibilityaAddResponce
     {
         public int uniqueId { get; set; }
+        public Airlines Airline { get; set; }
         public int flightType { get; set; }
         public int stops { get; set; }
         public Designator designator { get; set; }
@@ -34,6 +35,12 @@ namespace DomainLayer.Model
         public string bookingdate { get; set; }
 
 
+    }
+
+    public enum Airlines
+    {
+        Airasia = 0,
+        Spicejet = 1
     }
 
     // Root myDeserializedClass = JsonConvert.DeserializeObject<List<Root>>(myJsonResponse);
@@ -86,7 +93,7 @@ namespace DomainLayer.Model
     public class Leg
     {
         public string legKey { get; set; }
-        public string operationsInfo { get; set; }
+        public object operationsInfo { get; set; }
         public Designator designator { get; set; }
         public LegInfo legInfo { get; set; }
         public List<string> nests { get; set; }

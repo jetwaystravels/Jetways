@@ -15,7 +15,7 @@
     <Content Remove="wwwroot\css\bootstrap.min.css" />
     <Content Remove="wwwroot\css\datepicker.css" />
     <Content Remove="wwwroot\css\fontAwesome.css" />
-    <Content Remove="wwwroot\css\hero-slider.css" />
+    <Content Remove="wwwroot\css\hero-slider.css" /> 
     <Content Remove="wwwroot\css\main.css" />
     <Content Remove="wwwroot\css\owl-carousel.css" />
     <Content Remove="wwwroot\css\tooplate-style.css" />
@@ -171,10 +171,16 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
     <PackageReference Include="Nancy" Version="2.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="4.10.*" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="4.10.*" />
+    <PackageReference Include="System.ServiceModel.Http" Version="4.10.*" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="4.10.*" />
+    <PackageReference Include="System.ServiceModel.Security" Version="4.10.*" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DomainLayer\DomainLayer.csproj" />
+    <ProjectReference Include="..\Utility\Utility.csproj" />
   </ItemGroup>
 
 </Project>

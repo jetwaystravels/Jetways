@@ -44,8 +44,43 @@ namespace DomainLayer.Model
 
     }
 
+    //public class Infant
+    //{
+    //    public List<Fee> fees { get; set; }
+    //    public object nationality { get; set; }
+    //    public string dateOfBirth { get; set; }
+    //    public object travelDocuments { get; set; }
+    //    public object residentCountry { get; set; }
+    //    public int gender { get; set; }
+    //    public object name { get; set; }
+    //    public object type { get; set; }
+    //    public int total { get; set; }
+    //    public int taxes { get; set; }
+    //    public object adjustments { get; set; }
+    //    //public List<Charge> charges { get; set; }
+    //}
+    //public class Fee
+    //{
+    //    public int type { get; set; }
+    //    public object ssrCode { get; set; }
+    //    public int ssrNumber { get; set; }
+    //    public int paymentNumber { get; set; }
+    //    public bool isConfirmed { get; set; }
+    //    public bool isConfirming { get; set; }
+    //    public bool isConfirmingExternal { get; set; }
+    //    public string code { get; set; }
+    //    public object detail { get; set; }
+    //    public string passengerFeeKey { get; set; }
+    //    public bool _override { get; set; }
+    //    public string flightReference { get; set; }
+    //    public object note { get; set; }
+    //    public DateTime createdDate { get; set; }
+    //    public bool isProtected { get; set; }
+    //    //public Servicecharge[] serviceCharges { get; set; }
+    //}
     public class AAJourney
     {
+        public string Airlinename { get; set; }
         public int flightType { get; set; }
         public int stops { get; set; }
         public AADesignator designator { get; set; }
@@ -54,13 +89,17 @@ namespace DomainLayer.Model
         public string journeyKey { get; set; }
         public bool notForGeneralUser { get; set; }
     }
+
     public class AADesignator
     {
         public string destination { get; set; }
         public string origin { get; set; }
-        public string arrival { get; set; }
-        public string departure { get; set; }
+        public DateTime arrival { get; set; }
+        public DateTime departure { get; set; }
+
+
     }
+
     public class AASegment
     {
         public bool isStandby { get; set; }
@@ -351,13 +390,17 @@ namespace DomainLayer.Model
     {
         public string destination { get; set; }
         public string origin { get; set; }
-        public string arrival { get; set; }
-        public string departure { get; set; }
+        public DateTime arrival { get; set; }
+        public DateTime departure { get; set; }
     }
+
+
+
     public class AAPassengersegment
     {
         public AAMCFBRFQ2 MCFBRFQ { get; set; }
     }
+
     public class AAMCFBRFQ2
     {
         public object[] seats { get; set; }

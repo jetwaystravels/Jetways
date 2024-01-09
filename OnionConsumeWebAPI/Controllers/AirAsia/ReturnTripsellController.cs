@@ -731,7 +731,7 @@ namespace OnionConsumeWebAPI.Controllers
                 List<Trip> Tripslist = new List<Trip>();
                 Trip Tripobj = new Trip();
                 Tripobj.origin = passeengerKeyList.journeys[0].designator.origin;
-                Tripobj.departureDate = passeengerKeyList.journeys[0].designator.departure;
+                //Tripobj.departureDate = passeengerKeyList.journeys[0].designator.departure;
                 //DateTime dateOnly = passeengerKeyList.journeys[0].designator.departure;
                 //string departuredaterequest = (dateOnly.ToString("yyyy-MM-dd"));
                 //Tripobj.departureDate = departuredaterequest;
@@ -1524,7 +1524,7 @@ namespace OnionConsumeWebAPI.Controllers
                 //TripobjR.origin = passeengerKeyListR.journeys[0].designator.origin;
                 //TripobjR.departureDate = passeengerKeyListR.journeys[0].designator.departure;
                 TripobjR.origin = passeengerKeyListR.journeys[0].segments[0].designator.origin;
-                TripobjR.departureDate = passeengerKeyListR.journeys[0].segments[0].designator.departure;
+                //TripobjR.departureDate = passeengerKeyListR.journeys[0].segments[0].designator.departure; //commented by vivek to code error during merge
 
 
 
