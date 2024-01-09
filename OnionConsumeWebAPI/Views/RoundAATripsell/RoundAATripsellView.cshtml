@@ -131,14 +131,14 @@
                 <div class="row">
                     <div class="col-xl-8 col-lg-8">
                         <div class="row x-gap-20 y-gap-20 pt-9">
-                            <h2 class="text-22 fw-600 mt-10 md:mt-24">Round Vinay Review Your Booking</h2>
-                            <partial name="_TripsellPatialView.cshtml" />
+                            <h2 class="text-22 fw-600 mt-10 md:mt-24">Round Booking</h2>
+                             <partial name="_TripsellPatialView.cshtml" /> 
                         </div>
                         <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
                             <div id="toggleButton" class="bg-h2"><h2 class="text-22 fw-600 md:mt-20 ">Enter Traveller Details |  <span class="text-18">Sign in  to book faster and use eCash</span></h2></div>
                         </div>
                         <div id="content" class="hidden row bg-white mt-2">
-                            <partial name="_ContactDetailsPartialView.cshtml" /> <br> <br>
+                            <partial name="_ContactDetailsPartialView.cshtml" /> <br> <br> 
                             <div style="margin-top:-10px;">
 
                                 <div class="col-12">
@@ -161,7 +161,7 @@
                             <div id="toggleButton2" class="bg-h2"><h2 class="text-22 fw-600 md:mt-20 ">Enter Traveller Details |  <span class="text-18">Name</span></h2></div>
                         </div>
                         <div id="content2" class="row hidden">
-                            <partial name="_TravellerInfoPartialView.cshtml" />
+                             <partial name="_TravellerInfoPartialView.cshtml" /> 
                         </div>
 
                         <div class="row x-gap-20 y-gap-20 mt-3 pt-10">
@@ -184,57 +184,57 @@
                                         </span>Join Yatra for Business <a href="#" class="ml-2"><strong>View Benefits</strong></a>
                                     </div>
                                 </div>
-                                <partial name="_TravellingBebefitPartialView.cshtml" />
+                              <partial name="_TravellingBebefitPartialView.cshtml" />
                             </div>
                         </div>
 
 
 
-                        <form asp-action="PostReturnSeatMealsData" asp-controller="RoundAATripsell" method="post">
+                        <form asp-action="PostUnitkey" asp-controller="RoundAATripsell" method="post">
 
                             <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
-                            <div id="toggleButton4" class="bg-h2"><h2 class="text-22 fw-600 md:mt-20 ">Service Requests <span class="text-18">(Optional)</span></h2></div>
-                        </div>
-                        <div id="content4" class="hidden">
-                            <div id="show" class="row x-gap-20 y-gap-20 mt-10 bg-white service-section">
-                                <div class="seathide">
-                                    <partial name="_ServiceRequestsPartialView.cshtml" />
+                                <div id="toggleButton4" class="bg-h2"><h2 class="text-22 fw-600 md:mt-20 ">Service Requests <span class="text-18">(Optional)</span></h2></div>
+                            </div>
+                            <div id="content4" class="hidden">
+                                <div id="show" class="row x-gap-20 y-gap-20 mt-10 bg-white service-section">
+                                    <div class="seathide">
+                                        <partial name="_ServiceRequestsPartialView.cshtml" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
-                            <div id="toggleButton5" class="bg-h2"><h2 class="text-22 fw-600 md:mt-20 ">Travel Insurance  <span class="text-18">(Recommended)</span></h2></div>
-                        </div>
-                        <div id="content5" class="row hidden mt-2">
-                            <partial name="_TravelInsurancePatialView.cshtml" />
-                        </div>
-                        <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
-                            <div id="toggleButton6" class="bg-h2"><h2 class="text-22 fw-600 md:mt-20 ">Add-ons <span class="text-18">(Recommended)</span></h2></div>
-                        </div>
-                        <div id="content6" class="row hidden mt-2">
-                            Add-Ons
-                        </div>
-
+                            <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
+                                <div id="toggleButton5" class="bg-h2"><h2 class="text-22 fw-600 md:mt-20 ">Travel Insurance  <span class="text-18">(Recommended)</span></h2></div>
+                            </div>
+                            <div id="content5" class="row hidden mt-2">
+                                  <partial name="_TravelInsurancePatialView.cshtml" /> 
+                            </div>
+                            <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
+                                <div id="toggleButton6" class="bg-h2"><h2 class="text-22 fw-600 md:mt-20 ">Add-ons <span class="text-18">(Recommended)</span></h2></div>
+                            </div>
+                            <div id="content6" class="row hidden mt-2">
+                                Add-Ons
+                            </div>
 
 
-                        @* <form>
-                        <div class="row x-gap-20 y-gap-20 mt-30 bg-white">
-                        <input type="submit" asp-action="SpiceJetPayment" asp-controller="SGPaymentGateway" value="Proceed to payment" class="btn btn-primary btn-lg">
 
-                        </div>
+                            @* <form>
+                            <div class="row x-gap-20 y-gap-20 mt-30 bg-white">
+                            <input type="submit" asp-action="SpiceJetPayment" asp-controller="SGPaymentGateway" value="Proceed to payment" class="btn btn-primary btn-lg">
+
+                            </div>
                             </form> *@
 
 
-                        <div class="row x-gap-20 y-gap-20 mt-30 bg-white">
-                            <input type="submit" class="btn btn-btn-primary" value="Continue" />
-                        </div>
-                       </form>
+                            <div class="row x-gap-20 y-gap-20 mt-30 bg-white">
+                                <input type="submit" class="btn btn-btn-primary" value="Continue" />
+                            </div>
+                         </form>
 
                     </div>
 
                     <div class="col-xl-4 col-lg-4">
-                        <partial name="_FareDetailsPartialView.cshtml" />
+                        <partial name="_FareDetailsPartialView.cshtml" /> 
                     </div>
 
                 </div>

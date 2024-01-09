@@ -1,20 +1,23 @@
 ﻿function validateForm() {
-    var originfocus = document.getElementById("airportInput").value;
+
+    var originfocus = document.getElementById("myInput").value;
     if (originfocus == "") {
         //alert("Enter Origin Name");
         var originToDisplay = document.getElementById("errororigin");
         originToDisplay.style.display = "block";
-        document.getElementById("airportInput").focus();
+        document.getElementById("myInput").focus();
         return false;
     }
-    var destinationfocus = document.getElementById("airportdestinationInput").value;
+    var destinationfocus = document.getElementById("myInput1").value;
     if (destinationfocus == "") {
         //alert("Enter Origin Name");
         var originToDisplay = document.getElementById("errordestinaton");
-        originToDisplay.style.display = "block";
-        document.getElementById("airportdestinationInput").focus();
+        originToDisplay.style.display = "block"; flightImage
+        document.getElementById("myInput1").focus();
         return false;
     }
+
+
     //var sdate = document.getElementById("start-date").value;
     //if (sdate == "") {
     //    //alert("Enter Start Date");
@@ -36,11 +39,34 @@
     //    }
     //}
 
+    
+    var flhticonDisplay = document.getElementById("flightImage");
+    flhticonDisplay.style.display = "block";
+    var flhticonDisplay1 = document.getElementById("animationOverlay");
+    flhticonDisplay1.style.display = "block";
+    $('#animationOverlay').fadeIn(6000);
+
+    // Your existing AJAX code
+    var formData = $('#multipleValuesForm').serialize();
+    $.ajax({
+        url: '/FlightSearchIndex/SearchResultFlight',
+        type: 'POST',
+        data: formData,
+        success: function (response) {
+            alert(response);
+            $('#animationOverlay').fadeOut(3000);
+        },
+        error: function (xhr, status, error) {
+            // Handle error
+            console.error(xhr.responseText); // Log the error response
+            // Hide the animation overlay on error
+            $('#animationOverlay').fadeOut();
+        }
+    });
 
 
-}
 
-
+};
 
 
 

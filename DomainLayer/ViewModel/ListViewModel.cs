@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DomainLayer.Model;
-
+using Bookingmanager_;
 namespace DomainLayer.ViewModel
 {
     public class ViewModel
@@ -23,6 +23,12 @@ namespace DomainLayer.ViewModel
         public List<SimpleAvailibilityaAddResponce> SimpleAvailibilityaAddResponcelistR { get; set; }
 
 
+        public PassengerModel _PassengerModel { get; set; }
+		
+        public List<AirAsiaTripResponceModel> passeengerlistRT { set; get; }
 
+        public List<SeatMapResponceModel> SeatmaplistRT { set; get; }
+
+        public List<SSRAvailabiltyResponceModel> MealslistRT { set; get; }
     }
 }

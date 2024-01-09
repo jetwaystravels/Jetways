@@ -27,7 +27,15 @@ namespace DomainLayer.Model
         public string fareAvailabilityKey { get; set; }
         public string inventoryControl { get; set; } = "HoldSpace";
     }
+    public class PassengerModel
+    {
+        public string Title { get; set; }
+        public string First { get; set; }
+        public string Last { get; set; }
 
+        public String PassengerType { get; set; }
+        // Add other properties as needed
+    }
     public class passkeytype
     {
         public string passengerkey { get; set; }

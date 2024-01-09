@@ -88,7 +88,8 @@ namespace DomainLayer.Model
         }
         public class Contacts
         {
-
+            public string ReturnPaxSeats { get; set; }
+            public string phoneNumbers { get; set; }
             public P P { get; set; }
             //public List<PhoneNumber> PhoneNumbers { get; set; }
         }
@@ -644,6 +645,10 @@ namespace DomainLayer.Model
             public Created created { get; set; }
             public Source source { get; set; }
             public Modified modified { get; set; }
+        }
+        public class ReturnPaxSeats
+        {
+            public string unitDesignatorPax { get; set; }
         }
 
         public class SeatInformation

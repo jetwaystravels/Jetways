@@ -2,6 +2,7 @@
 @{
     Layout = null;
     var data = Model;
+
 }
 
 <!DOCTYPE html>
@@ -20,10 +21,22 @@
     <link rel="stylesheet" href="~/css/main.css">
     <link rel="stylesheet" href="~/css/style.css">
     <link href="~/css/roundviewpage.css" rel="stylesheet" />
-    <style>
+    <style type="text/css">
         .custom-flex p {
             font-size: 12px;
         }
+
+        #myAnimation1 {
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            bottom: 0px;
+            border-radius: 50%;
+            padding: 10px;
+            background-color: red;
+            display: none;
+        }
+
     </style>
 
 </head>
@@ -149,7 +162,16 @@
                                         <div class="py-10 px-20 bg-white mt-20">
                                             <div class="d-flex y-gap-30 justify-between">
                                                 <div class="fare-round">
-                                                    <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
+                                                    @if (Model.SimpleAvailibilityaAddResponcelist[j].Airline.ToString().ToLower().Equals("spicejet"))
+                                                    {
+
+                                                        <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
+                                                    }
+                                                    else
+                                                    {
+                                                        <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
+                                                    }
+                                                    @* <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image"> *@
                                                     <input type="hidden" value="@Model.SimpleAvailibilityaAddResponcelist[j].uniqueId" />
                                                     @*<input type="hidden" class="carrierCode" name="carrierCode" value="@Model.SimpleAvailibilityaAddResponcelist[j].segments[i].identifier.carrierCode" />
                                                 <input type="hidden" class="identifier" name="identifier" value="@Model.SimpleAvailibilityaAddResponcelist[j].segments[i].identifier.identifier" />
@@ -465,7 +487,16 @@
                                         <div class="py-10 px-20 bg-white mt-20">
                                             <div class="d-flex y-gap-30 justify-between">
                                                 <div class="fare-round">
-                                                    <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
+                                                    @if (Model.SimpleAvailibilityaAddResponcelistR[j].Airline.ToString().ToLower().Equals("spicejet"))
+                                                    {
+
+                                                        <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
+                                                    }
+                                                    else
+                                                    {
+                                                        <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
+                                                    }
+                                                    @* <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image"> *@
                                                     @*  <input type="hidden" class="carrierreturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].segments[i].identifier.carrierCode" />
                                                 <input type="hidden" class="identifierreturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].segments[i].identifier.identifier" />
                                                 <div class="fliCode"><div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelistR[j].segments[i].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelistR[j].segments[i].identifier.identifier</div></div>*@
@@ -853,6 +884,7 @@
 
 
         </section>
+        <section id="myContainer1">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -870,7 +902,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" onclick="PostdataReturnTripsell()" class="btn btn-primary">Continue</button>
+                                    <button type="submit" id="flighticon" onclick="PostdataReturnTripsell()" class="btn btn-primary">Continue</button>
 
                                 </div>
 
@@ -884,6 +916,7 @@
                 </div>
             </div>
         </div>
+     </section>
     </main>
     <div class="langMenu is-hidden js-langMenu" data-x="lang" data-x-toggle="is-hidden">
         <div class="langMenu__bg" data-x-click="lang"></div>
@@ -2275,14 +2308,15 @@
             <div class="map js-map"></div>
         </div>
     </div>
+    </div>
 
-</body>
-</html>
-<!-- ***** All jQuery Plugins ***** -->
-<!-- Social media js -->
-<script src="~/js/jquery/jquery.min.js"></script>
-<!-- Plugins js -->
-<script src="~/js/plugins/plugins.min.js"></script>
+
+
+    <!-- ***** All jQuery Plugins ***** -->
+    <!-- Social media js -->
+    <script src="~/js/jquery/jquery.min.js"></script>
+    <!-- Plugins js -->
+    <script src="~/js/plugins/plugins.min.js"></script>
 
 <!-- ***** Clander js ***** -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
@@ -2300,7 +2334,8 @@
 <script src="~/js/active.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
+<script type="text/javascript">
+    var uniqueId, uniqueIdR;
     $('input[type=radio][name=dynamicRadio]').change(function () {
         uniqueId = $(this).val();
         // Retrieve values from hidden input fields
@@ -2383,4 +2418,6 @@
 
 </script>
 
+</body>
+</html>
 

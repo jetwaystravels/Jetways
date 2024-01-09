@@ -160,6 +160,7 @@ namespace DomainLayer.Model
 
     public class legpassengers
     {
+        public Airlines Airline { get; set; }
         public string ssrKey { get; set; }
         public string passengerKey { get; set; }
         public string price { get; set; }

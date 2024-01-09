@@ -1,7 +1,4 @@
 ﻿@model DomainLayer.ViewModel.ViewModel
-@{
-    var Meals = Model;
-}
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="~/js/custom.js/customnew.js"></script>
@@ -20,7 +17,162 @@
         width: 100px;
         border: none;
     }
+
+    .seat-section1{overflow:hidden;overflow-x:scroll;}
+
+  
 </style>
+
+
+ <div class="relative  js-section-slider pt-10 sm:pt-20" data-gap="30" data-scrollbar data-slider-cols="xl-5 lg-4 md-3 sm-2 base-1" data-nav-prev="js-tour-prev-one" data-pagination="js-tour-pag" data-nav-next="js-tour-next-one">
+ 
+    @{
+       
+        for (int l = 0; l < Model.MealslistRT[0].legSsrs.Count; l++)
+        {
+            if (l == 0)
+            {
+                <div id="tabshowRTmealA" class="seat-section1">
+                    vinay
+                    <div class="swiper-wrapper slid-rght">
+
+                        @{
+
+                            for (int i = 0; i < Model.MealslistRT[0].legSsrs[l].legssrs.Count; i++)
+                            {
+                                <div class="swiper-slide active">
+                                    <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                        <span class="nveg-food"></span>
+                                        <img src="~/img/images/non-veg-img-1.png" title="image" alt="image">
+                                        <h6 class="text-14 fw-600 mt-10"> @Model.MealslistRT[0].legSsrs[l].legssrs[i].name </h6>
+                                        <input class="input-ammount2" id="inputField" type="text" name="inputField" value="@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].price" />
+                                        <div class="d-flex justify-content-center">
+                                            <input type="checkbox" id="ssrkey+@i" name="ssrKey" value='"@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].ssrKey _@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].price _@l _@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].Airline"' />
+                                            <input type="hidden" id="mealprice+@i" name="inputFieldmeal" value="@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].price" />
+                                            <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlistRT[0].passengers[0].passengerKey" />
+
+                                            @*<input type="submit" class="btn btn-primary" id="showValueButton" onchange="AddMeal()" value="Select" />*@
+                                            <div class="btn2" data-ssrkey="ssrkey+@i" id="showValueButton" onclick="selectSSR_test(this)">Select</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+
+                        }
+
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div id="tabshowRTmealB" class="seat-section1">
+                    vivek
+                    <div class="swiper-wrapper slid-rght">
+
+                        @{
+                            for (int i = 0; i < Model.MealslistRT[0].legSsrs[l].legssrs.Count; i++)
+                            {
+                                <div class="swiper-slide active">
+                                    <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                        <span class="nveg-food"></span>
+                                        <img src="~/img/images/non-veg-img-1.png" title="image" alt="image">
+                                        <h6 class="text-14 fw-600 mt-10"> @Model.MealslistRT[0].legSsrs[l].legssrs[i].name </h6>
+                                        <input class="input-ammount2" id="inputField" type="text" name="inputField" value="@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].price" />
+                                        <div class="d-flex justify-content-center">
+                                            <input type="checkbox" id="ssrkey+@i" name="ssrKey" value='"@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].ssrKey _@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].price _@l _@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].Airline"' />
+                                            <input type="hidden" id="mealprice+@i" name="inputFieldmeal" value="@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].price" />
+                                            <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlistRT[0].passengers[0].passengerKey" />
+
+                                            @*<input type="submit" class="btn btn-primary" id="showValueButton" onchange="AddMeal()" value="Select" />*@
+                                            <div class="btn2" data-ssrkey="ssrkey+@i" id="showValueButton" onclick="selectSSR_test(this)">Select</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+
+                        }
+
+                    </div>
+                </div>
+            }
+        }
+
+        for (int l = 0; l < Model.MealslistRT[1].legSsrs.Count; l++)
+        {
+            if (l == 0)
+            {
+                <div id="tabshowRTmealC" class="seat-section1">
+                    vinayRT
+                    <div class="swiper-wrapper slid-rght">
+
+                        @{
+
+                            for (int i = 0; i < Model.MealslistRT[1].legSsrs[l].legssrs.Count; i++)
+                            {
+                                <div class="swiper-slide active">
+                                    <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                        <span class="nveg-food"></span>
+                                        <img src="~/img/images/non-veg-img-1.png" title="image" alt="image">
+                                        <h6 class="text-14 fw-600 mt-10"> @Model.MealslistRT[1].legSsrs[l].legssrs[i].name </h6>
+                                        <input class="input-ammount2" id="inputField" type="text" name="inputField" value="@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].price" />
+                                        <div class="d-flex justify-content-center">
+                                            <input type="checkbox" id="ssrkey+@i" name="ssrKey" value='"@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].ssrKey _@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].price _@l _@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].Airline"' />
+                                            <input type="hidden" id="mealprice+@i" name="inputFieldmeal" value="@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].price" />
+                                            <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlistRT[1].passengers[0].passengerKey" />
+
+                                            @*<input type="submit" class="btn btn-primary" id="showValueButton" onchange="AddMeal()" value="Select" />*@
+                                            <div class="btn2" data-ssrkey="ssrkey+@i" id="showValueButton" onclick="selectSSR_test(this)">Select</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+
+                        }
+
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div id="tabshowRTmealD" class="seat-section1">
+                    vivekRT
+                    <div class="swiper-wrapper slid-rght">
+
+                        @{
+                            for (int i = 0; i < Model.MealslistRT[1].legSsrs[l].legssrs.Count; i++)
+                            {
+                                <div class="swiper-slide active">
+                                    <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                        <span class="nveg-food"></span>
+                                        <img src="~/img/images/non-veg-img-1.png" title="image" alt="image">
+                                        <h6 class="text-14 fw-600 mt-10"> @Model.MealslistRT[1].legSsrs[l].legssrs[i].name </h6>
+                                        <input class="input-ammount2" id="inputField" type="text" name="inputField" value="@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].price" />
+                                        <div class="d-flex justify-content-center">
+                                            <input type="checkbox" id="ssrkey+@i" name="ssrKey" value='"@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].ssrKey _@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].price _@l _@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].Airline"' />
+                                            <input type="hidden" id="mealprice+@i" name="inputFieldmeal" value="@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].price" />
+                                            <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlistRT[1].passengers[0].passengerKey" />
+
+                                            @*<input type="submit" class="btn btn-primary" id="showValueButton" onchange="AddMeal()" value="Select" />*@
+                                            <div class="btn2" data-ssrkey="ssrkey+@i" id="showValueButton" onclick="selectSSR_test(this)">Select</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+
+                        }
+
+                    </div>
+                </div>
+            }
+        }
+    } 
+</div>
+
+
 <script>
     $(document).ready(function () {
         debugger;
@@ -56,6 +208,7 @@
 
         });
 
+
     });
 
 
@@ -64,20 +217,49 @@
 
 </script>
 <script>
+    function AddMeal111() {
+        debugger;
+        var ssrKey = $("#ssrKey").val();
+        ssrKey = [
+            {
+                ssrKey: ssrKey
+
+            }
+        ],
+            $.ajax({
+                url: "/AATripsell/PostMeal",
+                type: "POST",
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                data: { ssrkey: ssrKey },
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (err) {
+                    console.error(err);
+                }
+            });
+    }
+
+
+
+
+
+
+
 
     /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
     $(document).ready(function () {
         $("#mealtab1way").click(function () {
             $("#tabshowRTmealA").show();
             $("#tabshowRTmealC").hide();
-            $("#mealtab1").addClass('activeblue');
-            $("#mealtabRT1").removeClass('activeblue');
+            $("#mealtab1way").addClass('activeblue');
+            $("#mealtabRT1way").removeClass('activeblue');
         });
         $("#mealtabRT1way").click(function () {
-            $("#tabshowRTmealC").show();
             $("#tabshowRTmealA").hide();
-            $("#mealtabRT1").addClass('activeblue');
-            $("#mealtab1").removeClass('activeblue');
+            $("#tabshowRTmealC").show();
+            $("#mealtabRT1way").addClass('activeblue');
+            $("#mealtab1way").removeClass('activeblue');
         });
 
 
@@ -137,169 +319,6 @@
 
     });
 </script>
-
-
-<div class="relative overflow-hidden js-section-slider pt-10 sm:pt-20" data-gap="30" data-scrollbar data-slider-cols="xl-5 lg-4 md-3 sm-2 base-1" data-nav-prev="js-tour-prev-one" data-pagination="js-tour-pag" data-nav-next="js-tour-next-one">
-
-    <div id="tabshowRTmealA" class="seat-section1">
-
-        <div class="swiper-wrapper">
-
-            @{
-                foreach (var item in Model.Meals.legSsrs)
-                {
-
-                    for (int i = 0; i < item.legssrs.Count; i++)
-                    {
-                        for (int j = 0; j < item.legssrs[i].legpassengers.Count; j++)
-                        {
-                            <div class="swiper-slide active">
-                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
-                                    <span class="nveg-food"></span>
-                                    <img src="~/img/images/non-veg-img-1.png" title="image" alt="image">
-                                    <h6 class="text-14 fw-600 mt-10"> @item.legssrs[i].name </h6>
-                                    <input class="input-ammount2" type="text" name="price" value="@item.legssrs[i].legpassengers[j].price" id="inputField" />
-                                    <div class="d-flex justify-content-center">
-                                        <input type="checkbox" id="ssrKey" name="ssrKey" value="@item.legssrs[i].legpassengers[j].ssrKey" />
-                                        <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                        @*<input type="submit" class="btn btn-primary" id="showValueButton" onchange="AddMeal()" value="Select" />*@
-                                        <div class="btn2" id="showValueButton" onclick="AddMeal1()">Select</div>
-
-
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    }
-                }
-            }
-
-
-
-        </div>
-
-    </div>
-    <div id="tabshowRTmealB" class="seat-section2">
-
-        <div class="swiper-wrapper">
-            @{
-                foreach (var item in Model.Meals.legSsrs)
-                {
-
-                    for (int i = 0; i < item.legssrs.Count; i++)
-                    {
-                        for (int j = 0; j < item.legssrs[i].legpassengers.Count; j++)
-                        {
-                            <div class="swiper-slide active">
-                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
-                                    <span class="nveg-food"></span>
-                                    <img src="~/img/images/non-veg-img-1.png" title="image" alt="image">
-                                    <h6 class="text-14 fw-600 mt-10"> @item.legssrs[i].name </h6>
-                                    <input class="input-ammount2" type="text" name="price" value="@item.legssrs[1].legpassengers[j].price" id="inputField" />
-                                    <div class="d-flex justify-content-center">
-                                        <input type="checkbox" id="ssrKey" name="ssrKey" value="@item.legssrs[i].legpassengers[j].ssrKey" />
-                                        <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                        @*<input type="submit" class="btn btn-primary" id="showValueButton" onchange="AddMeal()" value="Select" />*@
-                                        <div class="btn2" id="showValueButton" onclick="AddMeal1()">Select</div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    }
-                }
-
-            }
-
-        </div>
-    </div>
-
-    @* ReturnMeals *@
-    <div id="tabshowRTmealC" class="seat-section1">
-        vinayRT
-        <div class="swiper-wrapper slid-rght">
-
-            @{
-
-
-                foreach (var item in Model.Meals.legSsrs)
-                {
-
-                    for (int i = 0; i < item.legssrs.Count; i++)
-                    {
-                        for (int j = 0; j < item.legssrs[i].legpassengers.Count; j++)
-                        {
-                            <div class="swiper-slide active">
-                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
-                                    <span class="nveg-food"></span>
-                                    <img src="~/img/images/non-veg-img-1.png" title="image" alt="image">
-                                    <h6 class="text-14 fw-600 mt-10"> @item.legssrs[i].name </h6>
-                                    <input class="input-ammount2" type="text" name="price" value="@item.legssrs[i].legpassengers[j].price" id="inputField" />
-                                    <div class="d-flex justify-content-center">
-                                        <input type="checkbox" id="ssrKey" name="ssrKey" value="@item.legssrs[i].legpassengers[j].ssrKey" />
-                                        <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                        @*<input type="submit" class="btn btn-primary" id="showValueButton" onchange="AddMeal()" value="Select" />*@
-                                        <div class="btn2" id="showValueButton" onclick="AddMeal1()">Select</div>
-
-
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    }
-                }
-            }
-
-
-
-
-        </div>
-    </div>
-    <div id="tabshowRTmealD" class="seat-section1">
-        vivekRT
-        <div class="swiper-wrapper slid-rght">
-
-            @{
-                foreach (var item in Model.Meals.legSsrs)
-                {
-
-                    for (int i = 0; i < item.legssrs.Count; i++)
-                    {
-                        for (int j = 0; j < item.legssrs[i].legpassengers.Count; j++)
-                        {
-                            <div class="swiper-slide active">
-                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
-                                    <span class="nveg-food"></span>
-                                    <img src="~/img/images/non-veg-img-1.png" title="image" alt="image">
-                                    <h6 class="text-14 fw-600 mt-10"> @item.legssrs[i].name </h6>
-                                    <input class="input-ammount2" type="text" name="price" value="@item.legssrs[i].legpassengers[j].price" id="inputField" />
-                                    <div class="d-flex justify-content-center">
-                                        <input type="checkbox" id="ssrKey" name="ssrKey" value="@item.legssrs[i].legpassengers[j].ssrKey" />
-                                        <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                        @*<input type="submit" class="btn btn-primary" id="showValueButton" onchange="AddMeal()" value="Select" />*@
-                                        <div class="btn2" id="showValueButton" onclick="AddMeal1()">Select</div>
-
-
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    }
-                }
-            }
-
-
-        </div>
-    </div>
-
-
-
-
-
-
-</div>
-
-
 
 
 

@@ -6,6 +6,16 @@
 <!----data Bind --------->
 <div class="row">
     <div class="col-lg-12">
+        <div class="overlay" id="animationOverlay">
+            <div class="loader"></div>
+            <div class="iconanimate">
+                <img id="flightImage" src="~/img/flytk.png" alt="Flight" style="display:none">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
         <div class="row">
 
             <div class="col-5">
@@ -88,6 +98,7 @@
 
                                         <input type="hidden" class="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
                                         <input type="hidden" class="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
+                                        <input type="hidden" class="Airline" value="@Model.SimpleAvailibilityaAddResponcelist[j].Airline" />
                                         <input type="radio" name="fareRadioGroup" class="fareRadio" onclick="collectData('fare', @k)">
                                         <div class="ms-2">Saver Fare @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass</div>
                                     </div>
@@ -134,10 +145,10 @@
 
 
                             </div>
-                        }
 
+
+                        }
                     }
-                    
                 </form>
             </div>
 
@@ -224,6 +235,7 @@
 
                                         <input type="hidden" class="fareKeyReturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].fareKey" />
                                         <input type="hidden" class="journeyKeyReturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].journeyKey" />
+                                        <input type="hidden" class="AirlineReturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].Airline" />
                                         <input type="radio" name="renderRadioGroup" class="renderRadio" onclick="collectData('render', @k)">
                                         <div class="ms-2">Saver Fare @Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass</div>
                                     </div>
@@ -280,8 +292,76 @@
         </div>
     </div>
 </div>
+<style type="text/css">
 
+    /* Overlay styles */
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+        z-index: 9999;
+    }
 
+    /* Loader animation styles */
+    .loader {
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #3498db;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 2s linear infinite;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -25px;
+        margin-left: -25px;
+    }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .iconanimate {
+        width: 60px;
+        height: 60px;
+        /* position: absolute; */
+        border-radius: 50%;
+        padding: 10px;
+        background-color: red;
+        position: relative;
+        top: 50%;
+        animation-name: example;
+        animation-duration: 10s;
+    }
+
+    @@keyframes example {
+        0% {
+            left: 0; /* Starting position */
+        }
+
+        100% {
+            left: calc(100% - 100px); /* Move to the right edge (100% - width) */
+        }
+        /* 0%   {background-color:red; left:0px; right:0px;}
+                      25%  {background-color:yellow; left:80%; top:10%;}
+                      50%  {background-color:blue; left:200px; top:200px;}
+                      75%  {background-color:green; left:0px; top:200px;}
+                      100% {background-color:red; left:0px; top:0px;}  */
+    }
+
+    .iconanimate img {
+        transform: rotate(45deg);
+    }</style>
 <script>
     let fareKey = [];
     let journeyKey = [];
@@ -289,11 +369,11 @@
     function collectData(type, index) {
         debugger;
         if (type === 'fare') {
-            fareKey.push(document.getElementsByClassName('fareKey')[index].value + "/0f");
-            journeyKey.push(document.getElementsByClassName('journeyKey')[index].value + "/0j");
+            fareKey.push(document.getElementsByClassName('fareKey')[index].value + "@@0f" + "@@" + document.getElementsByClassName('Airline')[index].value);
+            journeyKey.push(document.getElementsByClassName('journeyKey')[index].value + "@@0j" + "@@" + document.getElementsByClassName('Airline')[index].value);
         } else if (type === 'render') {
-            fareKey.push(document.getElementsByClassName('fareKeyReturn')[index].value + "/1f");
-            journeyKey.push(document.getElementsByClassName('journeyKeyReturn')[index].value + "/1j");
+            fareKey.push(document.getElementsByClassName('fareKeyReturn')[index].value + "@@1f" + "@@" + document.getElementsByClassName('AirlineReturn')[index].value);
+            journeyKey.push(document.getElementsByClassName('journeyKeyReturn')[index].value + "@@1j" + "@@" + document.getElementsByClassName('AirlineReturn')[index].value);
         }
 
     }
@@ -323,6 +403,31 @@
             .catch(error => {
                 console.error('Error occurred:', error);
             });
+
+
+        // Flight Icon Animation
+        var flhticonDisplay = document.getElementById("flightImage");
+        flhticonDisplay.style.display = "block";
+        $('#animationOverlay').fadeIn(8000);
+
+        // Your existing AJAX code
+        var formData = $('#reconnectingFlightOneway').serialize();
+
+        $.ajax({
+            url: '/RoundAATripsell/RoundAATripsellView',
+            type: 'POST',
+            data: formData,
+            success: function (response) {
+                $('#animationOverlay').fadeOut(4000);
+            },
+            error: function (xhr, status, error) {
+                // Handle error
+                console.error(xhr.responseText); // Log the error response
+                // Hide the animation overlay on error
+                $('#animationOverlay').fadeOut();
+            }
+        });
+        $('#flighticon').hide();
     }
 </script>
 
