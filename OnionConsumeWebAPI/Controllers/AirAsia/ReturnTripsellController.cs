@@ -26,11 +26,11 @@ namespace OnionConsumeWebAPI.Controllers
         Logs logs = new Logs();
         SpiceJetApiController objSpiceJet = new SpiceJetApiController();
         public async Task<IActionResult> ReturnTripsellView(List<string> fareKey, List<string> journeyKey)
-             {
+        {
 
             bool AirLinefound1 = fareKey.Any(s => s.Contains("Airasia"));
             bool AirLinefound2 = fareKey.Any(s => s.Contains("Spicejet"));
-            if (AirLinefound1==true && AirLinefound2==false)
+            if (AirLinefound1 == true && AirLinefound2 == false)
             {
                 HttpContext.Session.Remove("SpicejetSignautre");
             }
@@ -353,7 +353,7 @@ namespace OnionConsumeWebAPI.Controllers
                             _Passengerdata.Add("<Start>" + JsonConvert.SerializeObject(AirAsiaTripResponceobj) + "<End>");
                             HttpContext.Session.SetString("keypassenger", JsonConvert.SerializeObject(AirAsiaTripResponceobj));
                             HttpContext.Session.SetString("_keypassengerdata", JsonConvert.SerializeObject(_Passengerdata));
-                            
+
                             if (!string.IsNullOrEmpty(JsonConvert.SerializeObject(_Passengerdata)))
                             {
                                 if (_Passengerdata.Count == 2)
@@ -982,8 +982,9 @@ namespace OnionConsumeWebAPI.Controllers
                             AirAsiaTripResponceobj.journeys = AAJourneyList;
                             AirAsiaTripResponceobj.passengers = passkeylist;
                             AirAsiaTripResponceobj.passengerscount = passengercount;
-                            
-                            Passengerdata.Add("<Start>"+JsonConvert.SerializeObject(AirAsiaTripResponceobj)+"<End>");
+
+                            Passengerdata = new List<string>();
+                            Passengerdata.Add("<Start>" + JsonConvert.SerializeObject(AirAsiaTripResponceobj) + "<End>");
                             HttpContext.Session.SetString("SGkeypassengerRT", JsonConvert.SerializeObject(AirAsiaTripResponceobj));
                             HttpContext.Session.SetString("keypassengerdata", JsonConvert.SerializeObject(Passengerdata));
 
@@ -1097,12 +1098,12 @@ namespace OnionConsumeWebAPI.Controllers
                                         compartmentsunitobj.properties = Propertieslist;
                                         Decksobj.units = compartmentsunitlist;
                                     }
-                                    catch(Exception ex) 
-                                    { 
+                                    catch (Exception ex)
+                                    {
                                     }
 
                                     //compartmentsunitlist.Add(compartmentsunitobj);
-                                    
+
                                 }
 
                                 //var groupscount = JsonObjSeatmap.data[x].fees[passengerkey12].groups;
@@ -1189,15 +1190,15 @@ namespace OnionConsumeWebAPI.Controllers
                                 HttpContext.Session.SetString("Seatmap", JsonConvert.SerializeObject(SeatMapResponceModel));
                             }
                             _SeatMapdata.Add("<Start>" + JsonConvert.SerializeObject(SeatMapResponceModel) + "<End>");
-                                HttpContext.Session.SetString("_SeatmapData", JsonConvert.SerializeObject(_SeatMapdata));
+                            HttpContext.Session.SetString("_SeatmapData", JsonConvert.SerializeObject(_SeatMapdata));
 
-                                if (!string.IsNullOrEmpty(JsonConvert.SerializeObject(_SeatMapdata)))
+                            if (!string.IsNullOrEmpty(JsonConvert.SerializeObject(_SeatMapdata)))
+                            {
+                                if (_SeatMapdata.Count == 2)
                                 {
-                                    if (_SeatMapdata.Count == 2)
-                                    {
-                                        MainSeatMapdata = new List<string>();
-                                    }
-                                    MainSeatMapdata.Add(JsonConvert.SerializeObject(_SeatMapdata));
+                                    MainSeatMapdata = new List<string>();
+                                }
+                                MainSeatMapdata.Add(JsonConvert.SerializeObject(_SeatMapdata));
                                 //TempData["Seatmap"] = JsonConvert.SerializeObject(SeatMapResponceModellist);
                             }
                         }
@@ -1408,8 +1409,8 @@ namespace OnionConsumeWebAPI.Controllers
                                 SeatMapResponceModel.datalist = datalist;
                             }
                             string strseat = JsonConvert.SerializeObject(SeatMapResponceModel);
-                            
-                            
+
+                            SeatMapdata = new List<string>();
                             SeatMapdata.Add("<Start>" + JsonConvert.SerializeObject(SeatMapResponceModel) + "<End>");
                             HttpContext.Session.SetString("SeatmapRT", JsonConvert.SerializeObject(SeatMapResponceModel));
                             HttpContext.Session.SetString("SeatmapData", JsonConvert.SerializeObject(SeatMapdata));
@@ -1533,7 +1534,7 @@ namespace OnionConsumeWebAPI.Controllers
                             }
                             SSRAvailabiltyResponceobj.legSsrs = SSRAvailabiltyLegssrlist;
                             //HttpContext.Session.SetString("Meals", JsonConvert.SerializeObject(SSRAvailabiltyResponceobj));
-                           
+
                             _Mealsdata.Add("<Start>" + JsonConvert.SerializeObject(SSRAvailabiltyResponceobj) + "<End>");
                             HttpContext.Session.SetString("Meals", JsonConvert.SerializeObject(SSRAvailabiltyResponceobj));
                             HttpContext.Session.SetString("_MealsData", JsonConvert.SerializeObject(_Mealsdata));
@@ -1700,8 +1701,8 @@ namespace OnionConsumeWebAPI.Controllers
 
 
                                 SSRAvailabiltyResponceobj.legSsrs = SSRAvailabiltyLegssrlist;
-                                
 
+                                Mealsdata = new List<string>();
                                 Mealsdata.Add("<Start>" + JsonConvert.SerializeObject(SSRAvailabiltyResponceobj) + "<End>");
                                 HttpContext.Session.SetString("SGMealsRT", JsonConvert.SerializeObject(SSRAvailabiltyResponceobj));
                                 HttpContext.Session.SetString("MealsData", JsonConvert.SerializeObject(Mealsdata));

@@ -60,8 +60,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
         [HttpPost]
         [Route("")]
         public async Task<IActionResult> SearchResultFlight(SimpleAvailabilityRequestModel _GetfligthModel)
-        {
-            
+        {            
             Logs logs = new Logs();
             string destination1 = string.Empty;
             string origin = string.Empty;

@@ -485,15 +485,6 @@ namespace OnionConsumeWebAPI.Controllers
             //#region AirAsia
 
             //Seat
-            string tokenview = HttpContext.Session.GetString("AirasiaTokan");
-            if (!string.IsNullOrEmpty(tokenview))
-            {
-                token = tokenview.Replace(@"""", string.Empty);
-                if (token == "" || token == null)
-                {
-                    return RedirectToAction("Index");
-                }
-            }
 
             string Meals = string.Empty;
             List<AirAsiaTripResponceModel> passeengerKeyListRT = new List<AirAsiaTripResponceModel>();
@@ -568,329 +559,599 @@ namespace OnionConsumeWebAPI.Controllers
 
                     int journeyscount = 0;// passeengerKeyList.journeys.Count;
                     int mealid = 0;
-                    for (int i1 = 0; i1 < passeengerKeyListRT.Count; i1++)
+                    //for (int i1 = 0; i1 < passeengerKeyListRT.Count; i1++)
+                    //{
+                    //if (i1 == 0)
+                    //{
+                    //    journeyscount = passeengerKeyListRT[0].journeys.Count;
+
+                    //    for (int i = 0; i < journeyscount; i++)
+                    //    {
+                    //        //int segmentscount = passeengerKeyListRT[0].journeys[i].segments.Count;
+                    //        //for (int k1 = 0; k1 < segmentscount; k1++)
+                    //        //{
+                    //        for (int l1 = 0; l1 < ssrKey.Count; l1++)
+                    //        {
+                    //            int l = 0;
+                    //            int m = 0;
+                    //            int idx = 0;
+                    //            int paxnum = 0;
+                    //            //if (passeengerKeyListRT[0].passengers[l1].passengerTypeCode == "INFT")
+                    //            //    continue;
+                    //            if (ssrKey[l1].ToLower().Contains("airasia"))
+                    //            {
+                    //                if (ssrKey[l1].Length > 1)
+                    //                {
+
+                    //                    ssrsubKey2 = ssrKey[l1].Split('_');
+                    //                    pas_ssrKey = ssrsubKey2[0].Trim();
+                    //                    //idx = int.Parse(ssrsubKey2[3]);
+                    //                    //if (idx == 0) paxnum = l++;
+                    //                    //else
+                    //                    //paxnum = m++;
+
+                    //                }
+
+                    //                //string passengerkey = string.Empty;
+                    //                // passengerkey = passeengerKeyListRT[0].passengers[l1].passengerKey;
+                    //                string mealskey = pas_ssrKey;
+                    //                mealskey = mealskey.Replace(@"""", string.Empty);
+                    //                if (!string.IsNullOrEmpty(token))
+                    //                {
+                    //                    using (HttpClient client = new HttpClient())
+                    //                    {
+                    //                        SellSSRModel _sellSSRModel = new SellSSRModel();
+                    //                        _sellSSRModel.count = 1;
+                    //                        _sellSSRModel.note = "DevTest";
+                    //                        _sellSSRModel.forceWaveOnSell = false;
+                    //                        _sellSSRModel.currencyCode = "INR";
+                    //                        var jsonSellSSR = JsonConvert.SerializeObject(_sellSSRModel, Formatting.Indented);
+                    //                        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    //                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    //                        HttpResponseMessage responseSellSSR = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/ssrs/" + mealskey, _sellSSRModel);
+                    //                        if (responseSellSSR.IsSuccessStatusCode)
+                    //                        {
+                    //                            var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
+                    //                            var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
+                    //                        }
+
+                    //                    }
+                    //                }
+                    //            }
+                    //            else
+                    //            {
+                    //                continue;
+                    //            }
+                    //            //continue;
+                    //            mealid++;
+                    //        }
+                    //        //seatid++;
+                    //        //}
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //
+                    //tokenview = HttpContext.Session.GetString("SpicejetSignautre");//spelling 
+                    ////if (!string.IsNullOrEmpty(tokenview))
+                    ////{
+                    //    token = tokenview.Replace(@"""", string.Empty);
+                    //    if (token == "" || token == null)
+                    //    {
+                    //        return RedirectToAction("Index");
+                    //    }
+
+                    //int journeyscount = passeengerlist.journeys.Count;
+
+                    if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Mainpassengervm")))
                     {
-                        if (i1 == 0)
+                        passenger = HttpContext.Session.GetString("Mainpassengervm");
+                        int _a = 0;
+                        foreach (Match item in Regex.Matches(passenger, @"<Start>(?<test>[\s\S]*?)<End>"))
                         {
-                            journeyscount = passeengerKeyListRT[0].journeys.Count;
-
-                            for (int i = 0; i < journeyscount; i++)
+                            passenger = item.Groups["test"].Value.ToString().Replace("/\"", "\"").Replace("\\\"", "\"").Replace("\\\\", "");
+                            if (passenger != null)
                             {
-                                //int segmentscount = passeengerKeyListRT[0].journeys[i].segments.Count;
-                                //for (int k1 = 0; k1 < segmentscount; k1++)
-                                //{
-                                for (int l1 = 0; l1 < ssrKey.Count; l1++)
-                                {
-                                    int l = 0;
-                                    int m = 0;
-                                    int idx = 0;
-                                    int paxnum = 0;
-                                    //if (passeengerKeyListRT[0].passengers[l1].passengerTypeCode == "INFT")
-                                    //    continue;
-                                    if (ssrKey[l1].ToLower().Contains("airasia"))
-                                    {
-                                        if (ssrKey[l1].Length > 1)
-                                        {
-
-                                            ssrsubKey2 = ssrKey[l1].Split('_');
-                                            pas_ssrKey = ssrsubKey2[0].Trim();
-                                            //idx = int.Parse(ssrsubKey2[3]);
-                                            //if (idx == 0) paxnum = l++;
-                                            //else
-                                            //paxnum = m++;
-
-                                        }
-
-                                        //string passengerkey = string.Empty;
-                                        // passengerkey = passeengerKeyListRT[0].passengers[l1].passengerKey;
-                                        string mealskey = pas_ssrKey;
-                                        mealskey = mealskey.Replace(@"""", string.Empty);
-                                        if (!string.IsNullOrEmpty(token))
-                                        {
-                                            using (HttpClient client = new HttpClient())
-                                            {
-                                                SellSSRModel _sellSSRModel = new SellSSRModel();
-                                                _sellSSRModel.count = 1;
-                                                _sellSSRModel.note = "DevTest";
-                                                _sellSSRModel.forceWaveOnSell = false;
-                                                _sellSSRModel.currencyCode = "INR";
-                                                var jsonSellSSR = JsonConvert.SerializeObject(_sellSSRModel, Formatting.Indented);
-                                                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                                                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                                                HttpResponseMessage responseSellSSR = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/ssrs/" + mealskey, _sellSSRModel);
-                                                if (responseSellSSR.IsSuccessStatusCode)
-                                                {
-                                                    var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
-                                                    var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
-                                                }
-
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        continue;
-                                    }
-                                    //continue;
-                                    mealid++;
-                                }
-                                //seatid++;
-                                //}
-                            }
-                        }
-                        else
-                        {
-                            //
-                            tokenview = HttpContext.Session.GetString("SpicejetSignautre");//spelling 
-                            if (!string.IsNullOrEmpty(tokenview))
-                            {
-                                token = tokenview.Replace(@"""", string.Empty);
-                                if (token == "" || token == null)
-                                {
-                                    return RedirectToAction("Index");
-                                }
-
-                                //int journeyscount = passeengerlist.journeys.Count;
-                                passenger = HttpContext.Session.GetString("SGkeypassengerRT");
                                 passeengerKeyList = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
-                                passengerscount = passeengerKeyList.passengerscount;
-                                Logs logs = new Logs();
-                                //string journeyKey = passeengerKeyList.journeys[0].journeyKey;
-                                using (HttpClient client = new HttpClient())
+                                if (passeengerKeyList.journeys[0].Airlinename.ToLower() == "spicejet")
                                 {
-                                    if (ssrKey.Count >= 0)
+                                    string tokenview = HttpContext.Session.GetString("SpicejetSignautre");//spelling 
+                                    token = tokenview.Replace(@"""", string.Empty);
+                                    passengerscount = passeengerKeyList.passengerscount;
+                                    Logs logs = new Logs();
+                                    using (HttpClient client = new HttpClient())
                                     {
-
-                                        #region SellSSr
-                                        SellRequest sellSsrRequest = new SellRequest();
-                                        SellRequestData sellreqd = new SellRequestData();
-                                        sellSsrRequest.Signature = token;
-                                        sellSsrRequest.ContractVersion = 420;
-                                        sellreqd.SellBy = SellBy.SSR;
-                                        sellreqd.SellBySpecified = true;
-                                        sellreqd.SellSSR = new SellSSR();
-                                        sellreqd.SellSSR.SSRRequest = new SSRRequest();
-
-                                        journeyscount = passeengerKeyList.journeys.Count;
-                                        for (int i = 0; i < journeyscount; i++)
+                                        if (ssrKey.Count >= 0)
                                         {
-                                            int segmentscount = passeengerKeyList.journeys[i].segments.Count;
-                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests = new SegmentSSRRequest[segmentscount];
-                                            for (int j = 0; j < segmentscount; j++)
+
+                                            #region SellSSr
+                                            SellRequest sellSsrRequest = new SellRequest();
+                                            SellRequestData sellreqd = new SellRequestData();
+                                            sellSsrRequest.Signature = token;
+                                            sellSsrRequest.ContractVersion = 420;
+                                            sellreqd.SellBy = SellBy.SSR;
+                                            sellreqd.SellBySpecified = true;
+                                            sellreqd.SellSSR = new SellSSR();
+                                            sellreqd.SellSSR.SSRRequest = new SSRRequest();
+
+                                            journeyscount = passeengerKeyList.journeys.Count;
+                                            for (int i = 0; i < journeyscount; i++)
                                             {
-                                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j] = new SegmentSSRRequest();
-                                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
-                                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
-                                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].STD = passeengerKeyList.journeys[i].segments[j].designator.departure;
-                                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].STDSpecified = true;
-                                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].FlightDesignator = new FlightDesignator();
-                                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].FlightDesignator.CarrierCode = passeengerKeyList.journeys[i].segments[j].identifier.carrierCode;
-                                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].FlightDesignator.FlightNumber = passeengerKeyList.journeys[i].segments[j].identifier.identifier;
-                                                string numinfant = HttpContext.Session.GetString("PaxArray");
-                                                Paxes PaxNum = null;
-                                                if (!string.IsNullOrEmpty(numinfant))
+                                                int segmentscount = passeengerKeyList.journeys[i].segments.Count;
+                                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests = new SegmentSSRRequest[segmentscount];
+                                                for (int j = 0; j < segmentscount; j++)
                                                 {
-                                                    PaxNum = (Paxes)JsonConvert.DeserializeObject(numinfant, typeof(Paxes));
-                                                }
-                                                bool infant = false;
-                                                ssrsegmentwise _obj = new ssrsegmentwise();
-                                                _obj.SSRcode0 = new List<ssrsKey>();
-                                                _obj.SSRcode1 = new List<ssrsKey>();
-                                                for (int k = 0; k < ssrKey.Count; k++)
-                                                {
-                                                    if (ssrKey[k].ToLower().Contains("airasia"))
-                                                        continue;
-
-                                                    if (ssrKey[k].Contains("_0"))
+                                                    sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j] = new SegmentSSRRequest();
+                                                    sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
+                                                    sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
+                                                    sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].STD = passeengerKeyList.journeys[i].segments[j].designator.departure;
+                                                    sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].STDSpecified = true;
+                                                    sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].FlightDesignator = new FlightDesignator();
+                                                    sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].FlightDesignator.CarrierCode = passeengerKeyList.journeys[i].segments[j].identifier.carrierCode;
+                                                    sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].FlightDesignator.FlightNumber = passeengerKeyList.journeys[i].segments[j].identifier.identifier;
+                                                    string numinfant = HttpContext.Session.GetString("PaxArray");
+                                                    Paxes PaxNum = null;
+                                                    if (!string.IsNullOrEmpty(numinfant))
                                                     {
-
-                                                        ssrsKey _obj0 = new ssrsKey();
-                                                        _obj0.key = ssrKey[k];
-                                                        _obj.SSRcode0.Add(_obj0);
+                                                        PaxNum = (Paxes)JsonConvert.DeserializeObject(numinfant, typeof(Paxes));
                                                     }
-                                                    else if (ssrKey[k].Contains("_1"))
+                                                    bool infant = false;
+                                                    ssrsegmentwise _obj = new ssrsegmentwise();
+                                                    _obj.SSRcodeOneWayI = new List<ssrsKey>();
+                                                    _obj.SSRcodeOneWayII = new List<ssrsKey>();
+                                                    _obj.SSRcodeRTI = new List<ssrsKey>();
+                                                    _obj.SSRcodeRTII = new List<ssrsKey>();
+                                                    for (int k = 0; k < ssrKey.Count; k++)
                                                     {
-                                                        ssrsKey _obj1 = new ssrsKey();
-                                                        _obj1.key = ssrKey[k];
-                                                        _obj.SSRcode1.Add(_obj1);
-                                                    }
+                                                        if (ssrKey[k].ToLower().Contains("airasia"))
+                                                            continue;
 
-                                                }
-                                                if (j == 0)
-                                                {
-                                                    sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[PaxNum.Infant_.Count + _obj.SSRcode0.Count];
-                                                }
-                                                else if (j == 1)
-                                                {
-                                                    sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[PaxNum.Infant_.Count + _obj.SSRcode1.Count];
-                                                }
-
-
-                                                int TotalPaxcount = PaxNum.Adults_.Count + PaxNum.Childs_.Count;
-
-                                                if (j == 0)
-                                                {
-                                                    //int k = 0;
-
-                                                    if (TotalPaxcount > 0)
-                                                    {
-                                                        for (int j1 = 0; j1 < PaxNum.Infant_.Count + _obj.SSRcode0.Count; j1++)
+                                                        if (ssrKey[k].Contains("_OneWay0"))
                                                         {
 
-                                                            if (j1 < PaxNum.Infant_.Count)
-                                                            {
-                                                                for (int i2 = 0; i2 < PaxNum.Adults_.Count; i2++)//Paxnum 1 adult,1 child,1 infant 2 meal
-                                                                {
-                                                                    int infantcount = PaxNum.Infant_.Count;
-                                                                    if (infantcount > 0 && i2 + 1 <= infantcount)
-                                                                    {
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2] = new PaxSSR();
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].ActionStatusCode = "NN";
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].SSRCode = "INFT";
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].PassengerNumberSpecified = true;
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].PassengerNumber = Convert.ToInt16(i2);
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].SSRNumber = Convert.ToInt16(0);
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
-                                                                        j1 = PaxNum.Infant_.Count - 1;
-                                                                    }
-                                                                }
-                                                            }
-                                                            else
-                                                            {
-                                                                int idx = 0;
-                                                                if (_obj.SSRcode0.Count > 0)//&& i1 + 1 <= ssrKey.Count
-                                                                {
-                                                                    for (int i2 = 0; i2 < _obj.SSRcode0.Count; i2++)//Paxnum 1 adult,1 child,1 infant 2 meal
-                                                                    {
-                                                                        string[] wordsArray = _obj.SSRcode0[i2].key.ToString().Split(' ');
-                                                                        //alert(wordsArray);
-                                                                        //var meal = null;
-                                                                        string ssrCodeKey = "";
-                                                                        if (wordsArray.Length > 1)
-                                                                        {
-                                                                            ssrCodeKey = wordsArray[0];
-                                                                            ssrCodeKey = ssrCodeKey.Replace(@"""", "");
-                                                                        }
-                                                                        else
-                                                                            ssrCodeKey = _obj.SSRcode0[i2].key.ToString();
-                                                                        idx = j1 + i2;
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx] = new PaxSSR();
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ActionStatusCode = "NN";
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRCode = ssrCodeKey;
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumberSpecified = true;
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumber = Convert.ToInt16(i2);
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRNumber = Convert.ToInt16(0);
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
-                                                                        //j1 = j1 + i1;
-
-                                                                    }
-
-                                                                }
-                                                                j1 = idx;
-                                                            }
+                                                            ssrsKey _obj0 = new ssrsKey();
+                                                            _obj0.key = ssrKey[k];
+                                                            _obj.SSRcodeOneWayI.Add(_obj0);
+                                                        }
+                                                        else if (ssrKey[k].Contains("_OneWay1"))
+                                                        {
+                                                            ssrsKey _obj1 = new ssrsKey();
+                                                            _obj1.key = ssrKey[k];
+                                                            _obj.SSRcodeOneWayII.Add(_obj1);
+                                                        }
+                                                        else if (ssrKey[k].Contains("_RT0"))
+                                                        {
+                                                            ssrsKey _obj2 = new ssrsKey();
+                                                            _obj2.key = ssrKey[k];
+                                                            _obj.SSRcodeRTI.Add(_obj2);
+                                                        }
+                                                        else if (ssrKey[k].Contains("_RT1"))
+                                                        {
+                                                            ssrsKey _obj3 = new ssrsKey();
+                                                            _obj3.key = ssrKey[k];
+                                                            _obj.SSRcodeRTII.Add(_obj3);
                                                         }
 
                                                     }
-
-
-                                                }
-                                                else
-                                                {
-                                                    if (TotalPaxcount > 0)
+                                                    if (j == 0 && _a == 0)
                                                     {
-                                                        for (int j1 = 0; j1 < PaxNum.Infant_.Count + _obj.SSRcode1.Count; j1++)
+                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[PaxNum.Infant_.Count + _obj.SSRcodeOneWayI.Count];
+                                                    }
+                                                    else if (j == 1 && _a == 0)
+                                                    {
+                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[PaxNum.Infant_.Count + _obj.SSRcodeOneWayII.Count];
+                                                    }
+                                                    else if (j == 0 && _a == 1)
+                                                    {
+                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[PaxNum.Infant_.Count + _obj.SSRcodeRTI.Count];
+                                                    }
+                                                    else if (j == 1 && _a == 1)
+                                                    {
+                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[PaxNum.Infant_.Count + _obj.SSRcodeRTII.Count];
+                                                    }
+
+
+                                                    int TotalPaxcount = PaxNum.Adults_.Count + PaxNum.Childs_.Count;
+
+                                                    if (j == 0 && _a == 0)
+                                                    {
+                                                        //int k = 0;
+
+                                                        if (TotalPaxcount > 0)
                                                         {
+                                                            for (int j1 = 0; j1 < PaxNum.Infant_.Count + _obj.SSRcodeOneWayI.Count; j1++)
+                                                            {
 
-                                                            if (j1 < PaxNum.Infant_.Count)
-                                                            {
-                                                                for (int i2 = 0; i2 < PaxNum.Adults_.Count; i2++)//Paxnum 1 adult,1 child,1 infant 2 meal
+                                                                if (j1 < PaxNum.Infant_.Count)
                                                                 {
-                                                                    int infantcount = PaxNum.Infant_.Count;
-                                                                    if (infantcount > 0 && i2 + 1 <= infantcount)
+                                                                    for (int i2 = 0; i2 < PaxNum.Adults_.Count; i2++)//Paxnum 1 adult,1 child,1 infant 2 meal
                                                                     {
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2] = new PaxSSR();
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].ActionStatusCode = "NN";
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].SSRCode = "INFT";
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].PassengerNumberSpecified = true;
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].PassengerNumber = Convert.ToInt16(i2);
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].SSRNumber = Convert.ToInt16(0);
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
-                                                                        j1 = PaxNum.Infant_.Count - 1;
-                                                                    }
-                                                                }
-                                                            }
-                                                            else
-                                                            {
-                                                                int idx = 0;
-                                                                if (_obj.SSRcode1.Count > 0)//&& i1 + 1 <= ssrKey.Count
-                                                                {
-                                                                    for (int i2 = 0; i2 < _obj.SSRcode1.Count; i2++)//Paxnum 1 adult,1 child,1 infant 2 meal
-                                                                    {
-                                                                        string[] wordsArray = _obj.SSRcode1[i2].key.ToString().Split(' ');
-                                                                        //alert(wordsArray);
-                                                                        //var meal = null;
-                                                                        string ssrCodeKey = "";
-                                                                        if (wordsArray.Length > 1)
+                                                                        int infantcount = PaxNum.Infant_.Count;
+                                                                        if (infantcount > 0 && i2 + 1 <= infantcount)
                                                                         {
-                                                                            ssrCodeKey = wordsArray[0];
-                                                                            ssrCodeKey = ssrCodeKey.Replace(@"""", "");
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2] = new PaxSSR();
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].ActionStatusCode = "NN";
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].SSRCode = "INFT";
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].PassengerNumberSpecified = true;
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].PassengerNumber = Convert.ToInt16(i2);
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].SSRNumber = Convert.ToInt16(0);
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
+                                                                            j1 = PaxNum.Infant_.Count - 1;
                                                                         }
-                                                                        else
-                                                                            ssrCodeKey = _obj.SSRcode1[i2].key.ToString();
-                                                                        idx = j1 + i2;
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx] = new PaxSSR();
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ActionStatusCode = "NN";
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRCode = ssrCodeKey;
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumberSpecified = true;
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumber = Convert.ToInt16(i2);
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRNumber = Convert.ToInt16(0);
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
-                                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
-                                                                        //j1 = j1 + i1;
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    int idx = 0;
+                                                                    if (_obj.SSRcodeOneWayI.Count > 0)//&& i1 + 1 <= ssrKey.Count
+                                                                    {
+                                                                        for (int i2 = 0; i2 < _obj.SSRcodeOneWayI.Count; i2++)//Paxnum 1 adult,1 child,1 infant 2 meal
+                                                                        {
+                                                                            string[] wordsArray = _obj.SSRcodeOneWayI[i2].key.ToString().Split(' ');
+                                                                            //alert(wordsArray);
+                                                                            //var meal = null;
+                                                                            string ssrCodeKey = "";
+                                                                            if (wordsArray.Length > 1)
+                                                                            {
+                                                                                ssrCodeKey = wordsArray[0];
+                                                                                ssrCodeKey = ssrCodeKey.Replace(@"""", "");
+                                                                            }
+                                                                            else
+                                                                                ssrCodeKey = _obj.SSRcodeOneWayI[i2].key.ToString();
+                                                                            idx = j1 + i2;
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx] = new PaxSSR();
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ActionStatusCode = "NN";
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRCode = ssrCodeKey;
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumberSpecified = true;
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumber = Convert.ToInt16(i2);
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRNumber = Convert.ToInt16(0);
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
+                                                                            //j1 = j1 + i1;
+
+                                                                        }
 
                                                                     }
-
+                                                                    j1 = idx;
                                                                 }
-                                                                j1 = idx;
                                                             }
+
                                                         }
 
-                                                    }
-                                                }
 
+                                                    }
+                                                    else if (j == 1 && _a == 0)
+                                                    {
+                                                        if (TotalPaxcount > 0)
+                                                        {
+                                                            for (int j1 = 0; j1 < PaxNum.Infant_.Count + _obj.SSRcodeOneWayII.Count; j1++)
+                                                            {
+
+                                                                if (j1 < PaxNum.Infant_.Count)
+                                                                {
+                                                                    for (int i2 = 0; i2 < PaxNum.Adults_.Count; i2++)//Paxnum 1 adult,1 child,1 infant 2 meal
+                                                                    {
+                                                                        int infantcount = PaxNum.Infant_.Count;
+                                                                        if (infantcount > 0 && i2 + 1 <= infantcount)
+                                                                        {
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2] = new PaxSSR();
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].ActionStatusCode = "NN";
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].SSRCode = "INFT";
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].PassengerNumberSpecified = true;
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].PassengerNumber = Convert.ToInt16(i2);
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].SSRNumber = Convert.ToInt16(0);
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
+                                                                            j1 = PaxNum.Infant_.Count - 1;
+                                                                        }
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    int idx = 0;
+                                                                    if (_obj.SSRcodeOneWayII.Count > 0)//&& i1 + 1 <= ssrKey.Count
+                                                                    {
+                                                                        for (int i2 = 0; i2 < _obj.SSRcodeOneWayII.Count; i2++)//Paxnum 1 adult,1 child,1 infant 2 meal
+                                                                        {
+                                                                            string[] wordsArray = _obj.SSRcodeOneWayII[i2].key.ToString().Split(' ');
+                                                                            //alert(wordsArray);
+                                                                            //var meal = null;
+                                                                            string ssrCodeKey = "";
+                                                                            if (wordsArray.Length > 1)
+                                                                            {
+                                                                                ssrCodeKey = wordsArray[0];
+                                                                                ssrCodeKey = ssrCodeKey.Replace(@"""", "");
+                                                                            }
+                                                                            else
+                                                                                ssrCodeKey = _obj.SSRcodeOneWayII[i2].key.ToString();
+                                                                            idx = j1 + i2;
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx] = new PaxSSR();
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ActionStatusCode = "NN";
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRCode = ssrCodeKey;
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumberSpecified = true;
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumber = Convert.ToInt16(i2);
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRNumber = Convert.ToInt16(0);
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
+                                                                            //j1 = j1 + i1;
+
+                                                                        }
+
+                                                                    }
+                                                                    j1 = idx;
+                                                                }
+                                                            }
+
+                                                        }
+                                                    }
+                                                    else if (j == 0 && _a == 1)
+                                                    {
+                                                        //int k = 0;
+
+                                                        if (TotalPaxcount > 0)
+                                                        {
+                                                            for (int j1 = 0; j1 < PaxNum.Infant_.Count + _obj.SSRcodeRTI.Count; j1++)
+                                                            {
+
+                                                                if (j1 < PaxNum.Infant_.Count)
+                                                                {
+                                                                    for (int i2 = 0; i2 < PaxNum.Adults_.Count; i2++)//Paxnum 1 adult,1 child,1 infant 2 meal
+                                                                    {
+                                                                        int infantcount = PaxNum.Infant_.Count;
+                                                                        if (infantcount > 0 && i2 + 1 <= infantcount)
+                                                                        {
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2] = new PaxSSR();
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].ActionStatusCode = "NN";
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].SSRCode = "INFT";
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].PassengerNumberSpecified = true;
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].PassengerNumber = Convert.ToInt16(i2);
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].SSRNumber = Convert.ToInt16(0);
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
+                                                                            j1 = PaxNum.Infant_.Count - 1;
+                                                                        }
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    int idx = 0;
+                                                                    if (_obj.SSRcodeRTI.Count > 0)//&& i1 + 1 <= ssrKey.Count
+                                                                    {
+                                                                        for (int i2 = 0; i2 < _obj.SSRcodeRTI.Count; i2++)//Paxnum 1 adult,1 child,1 infant 2 meal
+                                                                        {
+                                                                            string[] wordsArray = _obj.SSRcodeRTI[i2].key.ToString().Split(' ');
+                                                                            //alert(wordsArray);
+                                                                            //var meal = null;
+                                                                            string ssrCodeKey = "";
+                                                                            if (wordsArray.Length > 1)
+                                                                            {
+                                                                                ssrCodeKey = wordsArray[0];
+                                                                                ssrCodeKey = ssrCodeKey.Replace(@"""", "");
+                                                                            }
+                                                                            else
+                                                                                ssrCodeKey = _obj.SSRcodeRTI[i2].key.ToString();
+                                                                            idx = j1 + i2;
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx] = new PaxSSR();
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ActionStatusCode = "NN";
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRCode = ssrCodeKey;
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumberSpecified = true;
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumber = Convert.ToInt16(i2);
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRNumber = Convert.ToInt16(0);
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
+                                                                            //j1 = j1 + i1;
+
+                                                                        }
+
+                                                                    }
+                                                                    j1 = idx;
+                                                                }
+                                                            }
+
+                                                        }
+
+
+                                                    }
+                                                    else if (j == 1 && _a == 1)
+                                                    {
+                                                        if (TotalPaxcount > 0)
+                                                        {
+                                                            for (int j1 = 0; j1 < PaxNum.Infant_.Count + _obj.SSRcodeRTII.Count; j1++)
+                                                            {
+
+                                                                if (j1 < PaxNum.Infant_.Count)
+                                                                {
+                                                                    for (int i2 = 0; i2 < PaxNum.Adults_.Count; i2++)//Paxnum 1 adult,1 child,1 infant 2 meal
+                                                                    {
+                                                                        int infantcount = PaxNum.Infant_.Count;
+                                                                        if (infantcount > 0 && i2 + 1 <= infantcount)
+                                                                        {
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2] = new PaxSSR();
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].ActionStatusCode = "NN";
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].SSRCode = "INFT";
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].PassengerNumberSpecified = true;
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].PassengerNumber = Convert.ToInt16(i2);
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].SSRNumber = Convert.ToInt16(0);
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i2].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
+                                                                            j1 = PaxNum.Infant_.Count - 1;
+                                                                        }
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    int idx = 0;
+                                                                    if (_obj.SSRcodeRTII.Count > 0)//&& i1 + 1 <= ssrKey.Count
+                                                                    {
+                                                                        for (int i2 = 0; i2 < _obj.SSRcodeRTII.Count; i2++)//Paxnum 1 adult,1 child,1 infant 2 meal
+                                                                        {
+                                                                            string[] wordsArray = _obj.SSRcodeRTII[i2].key.ToString().Split(' ');
+                                                                            //alert(wordsArray);
+                                                                            //var meal = null;
+                                                                            string ssrCodeKey = "";
+                                                                            if (wordsArray.Length > 1)
+                                                                            {
+                                                                                ssrCodeKey = wordsArray[0];
+                                                                                ssrCodeKey = ssrCodeKey.Replace(@"""", "");
+                                                                            }
+                                                                            else
+                                                                                ssrCodeKey = _obj.SSRcodeRTII[i2].key.ToString();
+                                                                            idx = j1 + i2;
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx] = new PaxSSR();
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ActionStatusCode = "NN";
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRCode = ssrCodeKey;
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumberSpecified = true;
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumber = Convert.ToInt16(i2);
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRNumber = Convert.ToInt16(0);
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
+                                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
+                                                                            //j1 = j1 + i1;
+
+                                                                        }
+
+                                                                    }
+                                                                    j1 = idx;
+                                                                }
+                                                            }
+
+                                                        }
+                                                    }
+
+                                                    //to do 
+                                                    //sellSsrRequest.SellRequestData = sellreqd;
+                                                    //SellResponse sellSsrResponse = null;
+                                                    //sellreqd.SellSSR.SSRRequest.SellSSRMode = SellSSRMode.NonBundle;
+                                                    //sellreqd.SellSSR.SSRRequest.SellSSRModeSpecified = true;
+                                                    //SpiceJetApiController objSpiceJet = new SpiceJetApiController();
+                                                    //sellSsrResponse = await objSpiceJet.sellssR(sellSsrRequest);
+
+                                                    //string Str3 = JsonConvert.SerializeObject(sellSsrResponse);
+                                                }
                                             }
+
+                                            sellSsrRequest.SellRequestData = sellreqd;
+                                            SellResponse sellSsrResponse = null;
+                                            sellreqd.SellSSR.SSRRequest.SellSSRMode = SellSSRMode.NonBundle;
+                                            sellreqd.SellSSR.SSRRequest.SellSSRModeSpecified = true;
+                                            SpiceJetApiController objSpiceJet = new SpiceJetApiController();
+                                            sellSsrResponse = await objSpiceJet.sellssR(sellSsrRequest);
+
+                                            string Str3 = JsonConvert.SerializeObject(sellSsrResponse);
+                                            logs.WriteLogs("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSR");
+
+
+                                            if (sellSsrResponse != null)
+                                            {
+                                                var JsonObjSeatAssignment = sellSsrResponse;
+                                            }
+                                            #endregion
                                         }
-
-
-                                        //sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[0].PaxSSRs=
-
-                                        sellSsrRequest.SellRequestData = sellreqd;
-                                        SellResponse sellSsrResponse = null;
-                                        sellreqd.SellSSR.SSRRequest.SellSSRMode = SellSSRMode.NonBundle;
-                                        sellreqd.SellSSR.SSRRequest.SellSSRModeSpecified = true;
-                                        SpiceJetApiController objSpiceJet = new SpiceJetApiController();
-                                        sellSsrResponse = await objSpiceJet.sellssR(sellSsrRequest);
-
-                                        string Str3 = JsonConvert.SerializeObject(sellSsrResponse);
-                                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSR");
-
-
-                                        if (sellSsrResponse != null)
+                                    }
+                                }
+                                else if (passeengerKeyList.journeys[0].Airlinename.ToLower() == "airasia")
+                                {
+                                    mealid = 0;
+                                    string tokenview = HttpContext.Session.GetString("AirasiaTokan");
+                                    if (!string.IsNullOrEmpty(tokenview))
+                                    {
+                                        token = tokenview.Replace(@"""", string.Empty);
+                                        if (token == "" || token == null)
                                         {
-                                            //var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
-                                            var JsonObjSeatAssignment = sellSsrResponse;
+                                            return RedirectToAction("Index");
                                         }
-                                        #endregion
+                                    }
+                                    for (int l1 = 0; l1 < ssrKey.Count; l1++)
+                                    {
+                                        int l = 0;
+                                        int m = 0;
+                                        int idx = 0;
+                                        int paxnum = 0;
+                                        if (mealid < ssrKey.Count)
+                                        {
+                                            if (ssrKey[mealid].ToLower().Contains("airasia") && _a == 0 && (ssrKey[mealid].ToLower().Contains("oneway0") || ssrKey[mealid].ToLower().Contains("oneway1")))
+                                            {
+                                                if (ssrKey[mealid].Length > 1)
+                                                {
+                                                    ssrsubKey2 = ssrKey[mealid].Split('_');
+                                                    pas_ssrKey = ssrsubKey2[0].Trim();
+                                                }
+                                                string mealskey = pas_ssrKey;
+                                                mealskey = mealskey.Replace(@"""", string.Empty);
+                                                if (!string.IsNullOrEmpty(token))
+                                                {
+                                                    using (HttpClient client = new HttpClient())
+                                                    {
+                                                        SellSSRModel _sellSSRModel = new SellSSRModel();
+                                                        _sellSSRModel.count = 1;
+                                                        _sellSSRModel.note = "DevTest";
+                                                        _sellSSRModel.forceWaveOnSell = false;
+                                                        _sellSSRModel.currencyCode = "INR";
+                                                        var jsonSellSSR = JsonConvert.SerializeObject(_sellSSRModel, Formatting.Indented);
+                                                        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                                                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                                        HttpResponseMessage responseSellSSR = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/ssrs/" + mealskey, _sellSSRModel);
+                                                        if (responseSellSSR.IsSuccessStatusCode)
+                                                        {
+                                                            var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
+                                                            var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                            else if (ssrKey[mealid].ToLower().Contains("airasia") && _a == 1 && (ssrKey[mealid].ToLower().Contains("rt0") || ssrKey[mealid].ToLower().Contains("rt1")))
+                                            {
+                                                if (ssrKey[mealid].Length > 1)
+                                                {
+                                                    ssrsubKey2 = ssrKey[mealid].Split('_');
+                                                    pas_ssrKey = ssrsubKey2[0].Trim();
+                                                }
+                                                string mealskey = pas_ssrKey;
+                                                mealskey = mealskey.Replace(@"""", string.Empty);
+                                                if (!string.IsNullOrEmpty(token))
+                                                {
+                                                    using (HttpClient client = new HttpClient())
+                                                    {
+                                                        SellSSRModel _sellSSRModel = new SellSSRModel();
+                                                        _sellSSRModel.count = 1;
+                                                        _sellSSRModel.note = "DevTest";
+                                                        _sellSSRModel.forceWaveOnSell = false;
+                                                        _sellSSRModel.currencyCode = "INR";
+                                                        var jsonSellSSR = JsonConvert.SerializeObject(_sellSSRModel, Formatting.Indented);
+                                                        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                                                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                                        HttpResponseMessage responseSellSSR = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/ssrs/" + mealskey, _sellSSRModel);
+                                                        if (responseSellSSR.IsSuccessStatusCode)
+                                                        {
+                                                            var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
+                                                            var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                mealid++;
+                                                continue;
+                                            }
+                                            mealid++;
+                                        }
+                                        //continue;
 
                                     }
 
                                 }
+                                _a++;
                             }
                         }
                     }
+                    //}
+                    //end of spicejet code
+
+                    //}
+                    //}
                 }
                 catch (Exception ex)
                 {
@@ -906,107 +1167,121 @@ namespace OnionConsumeWebAPI.Controllers
 
             #region SeatMap RoundTrip Both
             //here to do 
+            //if (unitKey.Count > 0)
+            //{
+            //try
+            //{
+
+            //var unitKey_1 = unitKey;// selectedIds;
+            //string[] unitKey2 = null;
+            //string[] unitsubKey2 = null;
+            //string pas_unitKey = string.Empty;
+
+            //int journeyscount = 0;// passeengerKeyList.journeys.Count;
+            //int seatid = 0;
+            //for (int i1 = 0; i1 < passeengerKeyListRT.Count; i1++)
+            //{
+            //if (i1 == 0)
+            //{
+            //journeyscount = passeengerKeyListRT[0].journeys.Count;
+
+            //for (int i = 0; i < journeyscount; i++)
+            //{
+            //    int segmentscount = passeengerKeyListRT[0].journeys[i].segments.Count;
+            //    for (int k1 = 0; k1 < segmentscount; k1++)
+            //    {
+            //        for (int l1 = 0; l1 < passeengerKeyListRT[0].passengerscount; l1++)
+            //        {
+            //            int l = 0;
+            //            int m = 0;
+            //            int idx = 0;
+            //            int paxnum = 0;
+            //            if (passeengerKeyListRT[0].passengers[l1].passengerTypeCode == "INFT")
+            //                continue;
+            //            if (unitKey[seatid].ToLower().Contains("airasia"))
+            //            {
+            //                if (unitKey[seatid].Length > 1)
+            //                {
+
+            //                    unitsubKey2 = unitKey[seatid].Split('_');
+            //                    pas_unitKey = unitsubKey2[1].Trim();
+            //                    idx = int.Parse(unitsubKey2[3]);
+            //                    if (idx == 0) paxnum = l++;
+            //                    else
+            //                        paxnum = m++;
+
+            //                }
+
+            //                string passengerkey = string.Empty;
+            //                passengerkey = passeengerKeyListRT[0].passengers[l1].passengerKey;
+            //                string unitkey = pas_unitKey;
+            //                using (HttpClient client = new HttpClient())
+            //                {
+            //                    string journeyKey = passeengerKeyListRT[0].journeys[i].journeyKey;
+            //                    SeatAssignmentModel _SeatAssignmentModel = new SeatAssignmentModel();
+            //                    _SeatAssignmentModel.journeyKey = journeyKey;
+            //                    var jsonSeatAssignmentRequest = JsonConvert.SerializeObject(_SeatAssignmentModel, Formatting.Indented);
+            //                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            //                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            //                    HttpResponseMessage responceSeatAssignment = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/passengers/" + passengerkey + "/seats/" + pas_unitKey, _SeatAssignmentModel);
+            //                    //HttpResponseMessage responceSeatAssignment = await client.PostAsJsonAsync(AppUrlConstant.AirasiaSeatSelect + unitkey, _SeatAssignmentModel);
+
+            //                    if (responceSeatAssignment.IsSuccessStatusCode)
+            //                    {
+            //                        var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
+            //                        var JsonObjSeatAssignment = JsonConvert.DeserializeObject<dynamic>(_responseSeatAssignment);
+            //                    }
+
+            //                }
+            //            }
+            //            else
+            //            {
+            //                continue;
+            //            }
+            //            //continue;
+            //            seatid++;
+            //        }
+            //        //seatid++;
+            //    }
+            //}
+            //}
+            //else
+            //{
             if (unitKey.Count > 0)
             {
+
                 try
                 {
-                    tokenview = HttpContext.Session.GetString("AirasiaTokan");
-                    if (!string.IsNullOrEmpty(tokenview))
-                    {
-                        token = tokenview.Replace(@"""", string.Empty);
-                        if (token == "" || token == null)
-                        {
-                            return RedirectToAction("Index");
-                        }
-                    }
-                    var unitKey_1 = unitKey;// selectedIds;
+                    int journeyscount = 0;
+                    int keycount1 = 0;
+                    int keycount0 = 0;
+                    int seatid = 0;
                     string[] unitKey2 = null;
                     string[] unitsubKey2 = null;
                     string pas_unitKey = string.Empty;
-
-                    int journeyscount = 0;// passeengerKeyList.journeys.Count;
-                    int seatid = 0;
-                    for (int i1 = 0; i1 < passeengerKeyListRT.Count; i1++)
+                    for (int k = 0; k < unitKey.Count; k++)
                     {
-                        if (i1 == 0)
+                        if (unitKey[k].ToLower().Contains("spicejet") && (unitKey[k].ToString().Contains("OneWay0") || unitKey[k].ToString().Contains("OneWay1")))
+                            keycount0++;
+                        if (unitKey[k].ToLower().Contains("spicejet") && (unitKey[k].ToString().Contains("RT0") || unitKey[k].ToString().Contains("RT1")))
+                            keycount1++;
+
+                    }
+                    Logs _logs = new Logs();
+                    int p = 0;
+                    if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Mainpassengervm")))
+                    {
+                        passenger = HttpContext.Session.GetString("Mainpassengervm");
+                        foreach (Match item in Regex.Matches(passenger, @"<Start>(?<test>[\s\S]*?)<End>"))
                         {
-                            journeyscount = passeengerKeyListRT[0].journeys.Count;
-
-                            for (int i = 0; i < journeyscount; i++)
+                            passenger = item.Groups["test"].Value.ToString().Replace("/\"", "\"").Replace("\\\"", "\"").Replace("\\\\", "");
+                            if (passenger != null)
                             {
-                                int segmentscount = passeengerKeyListRT[0].journeys[i].segments.Count;
-                                for (int k1 = 0; k1 < segmentscount; k1++)
+                                passeengerKeyList = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
+                                if (passeengerKeyList.journeys[0].Airlinename.ToLower() == "spicejet")
                                 {
-                                    for (int l1 = 0; l1 < passeengerKeyListRT[0].passengerscount; l1++)
-                                    {
-                                        int l = 0;
-                                        int m = 0;
-                                        int idx = 0;
-                                        int paxnum = 0;
-                                        if (passeengerKeyListRT[0].passengers[l1].passengerTypeCode == "INFT")
-                                            continue;
-                                        if (unitKey[seatid].ToLower().Contains("airasia"))
-                                        {
-                                            if (unitKey[seatid].Length > 1)
-                                            {
-
-                                                unitsubKey2 = unitKey[seatid].Split('_');
-                                                pas_unitKey = unitsubKey2[1].Trim();
-                                                idx = int.Parse(unitsubKey2[3]);
-                                                if (idx == 0) paxnum = l++;
-                                                else
-                                                    paxnum = m++;
-
-                                            }
-
-                                            string passengerkey = string.Empty;
-                                            passengerkey = passeengerKeyListRT[0].passengers[l1].passengerKey;
-                                            string unitkey = pas_unitKey;
-                                            using (HttpClient client = new HttpClient())
-                                            {
-                                                string journeyKey = passeengerKeyListRT[0].journeys[i].journeyKey;
-                                                SeatAssignmentModel _SeatAssignmentModel = new SeatAssignmentModel();
-                                                _SeatAssignmentModel.journeyKey = journeyKey;
-                                                var jsonSeatAssignmentRequest = JsonConvert.SerializeObject(_SeatAssignmentModel, Formatting.Indented);
-                                                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                                                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                                                HttpResponseMessage responceSeatAssignment = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/passengers/" + passengerkey + "/seats/" + pas_unitKey, _SeatAssignmentModel);
-                                                //HttpResponseMessage responceSeatAssignment = await client.PostAsJsonAsync(AppUrlConstant.AirasiaSeatSelect + unitkey, _SeatAssignmentModel);
-
-                                                if (responceSeatAssignment.IsSuccessStatusCode)
-                                                {
-                                                    var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
-                                                    var JsonObjSeatAssignment = JsonConvert.DeserializeObject<dynamic>(_responseSeatAssignment);
-                                                }
-
-                                            }
-                                        }
-                                        else
-                                        {
-                                            continue;
-                                        }
-                                        //continue;
-                                        seatid++;
-                                    }
-                                    //seatid++;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (unitKey.Count > 0)
-                            {
-
-                                try
-                                {
-                                    int keycount = 0;
-                                    for (int k = 0; k < unitKey.Count; k++)
-                                    {
-                                        if (unitKey[k].ToLower().Contains("spicejet"))
-                                            keycount++;
-                                    }
-                                    Logs _logs = new Logs();
-                                    journeyscount = passeengerKeyListRT[1].journeys.Count;
+                                    seatid = 0;
+                                    journeyscount = passeengerKeyList.journeys.Count;
                                     AssignSeatsResponse _AssignseatRes = new AssignSeatsResponse();
                                     AssignSeatsRequest _AssignSeatReq = new AssignSeatsRequest();
                                     string Signature = HttpContext.Session.GetString("SpicejetSignautre");
@@ -1018,41 +1293,77 @@ namespace OnionConsumeWebAPI.Controllers
                                         _AssignSeatReq.SellSeatRequest = new SeatSellRequest();
                                         _AssignSeatReq.SellSeatRequest.SeatAssignmentMode = SeatAssignmentMode.PreSeatAssignment;
                                         _AssignSeatReq.SellSeatRequest.SeatAssignmentModeSpecified = true;
+                                        int keycount = 0;
+                                        if (p == 0)
+                                            keycount = keycount0;
+                                        else
+                                            keycount = keycount1;
                                         _AssignSeatReq.SellSeatRequest.SegmentSeatRequests = new SegmentSeatRequest[keycount];// [unitKey.Count];//to do
 
                                         for (int i2 = 0; i2 < journeyscount; i2++)
                                         {
-                                            //    int segmentscount = passeengerKeyList.journeys[i].segments.Count;
-                                            //    //for (int j = 0; j < segmentscount; j++)
                                             int l = 0;
                                             int m = 0;
-                                            for (int k = 0; k < keycount; k++)
+                                            for (int k = 0; k < unitKey.Count; k++)
                                             {
                                                 int idx = 0;
                                                 int paxnum = 0;
-                                                if (unitKey[seatid].Length > 1)
+                                                if (seatid < unitKey.Count)
                                                 {
-                                                    unitsubKey2 = unitKey[seatid].Split('_');
-                                                    pas_unitKey = unitsubKey2[1];
-                                                    idx = int.Parse(unitsubKey2[3]);
-                                                    if (idx == 0) paxnum = l++;
-                                                    else
-                                                        paxnum = m++;
+                                                    if (unitKey[seatid].Length > 1)
+                                                    {
+                                                        if ((unitKey[seatid].ToString().Contains("OneWay0") || unitKey[seatid].ToString().Contains("OneWay1")) && p == 0)
+                                                        {
+                                                            unitsubKey2 = unitKey[seatid].Split('_');
+                                                            pas_unitKey = unitsubKey2[1];
+                                                            idx = int.Parse(unitsubKey2[3]);
+                                                            if (idx == 0)
+                                                            {
+                                                                paxnum = l++;
+                                                            }
+                                                            else
+                                                            {
+                                                                paxnum = m++;
+                                                            }
+                                                            //keycount++;
 
+                                                        }
+                                                        else if ((unitKey[seatid].ToString().Contains("RT0") || unitKey[seatid].ToString().Contains("RT1")) && p == 1)
+                                                        {
+                                                            unitsubKey2 = unitKey[seatid].Split('_');
+                                                            pas_unitKey = unitsubKey2[1];
+                                                            idx = int.Parse(unitsubKey2[3]);
+                                                            if (idx == 0)
+                                                            {
+                                                                paxnum = l++;
+                                                            }
+                                                            else
+                                                            {
+                                                                paxnum = m++;
+                                                            }
+                                                            //keycount++;
+
+                                                        }
+                                                        else
+                                                        {
+                                                            seatid++;
+                                                            continue;
+                                                        }
+                                                    }
+
+                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[idx] = new SegmentSeatRequest();
+                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[idx].FlightDesignator = new FlightDesignator();
+                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[idx].FlightDesignator.CarrierCode = passeengerKeyList.journeys[i2].segments[idx].identifier.carrierCode;
+                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[idx].FlightDesignator.FlightNumber = passeengerKeyList.journeys[i2].segments[idx].identifier.identifier;
+                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[idx].STD = passeengerKeyList.journeys[i2].segments[idx].designator.departure;
+                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[idx].STDSpecified = true;
+                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[idx].DepartureStation = passeengerKeyList.journeys[i2].segments[idx].designator.origin;
+                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[idx].ArrivalStation = passeengerKeyList.journeys[i2].segments[idx].designator.destination;
+                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[idx].UnitDesignator = pas_unitKey.Trim();
+                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[idx].PassengerNumbers = new short[1];
+                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[idx].PassengerNumbers[0] = Convert.ToInt16(paxnum);
+                                                    seatid++;
                                                 }
-
-                                                _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[k] = new SegmentSeatRequest();
-                                                _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[k].FlightDesignator = new FlightDesignator();
-                                                _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[k].FlightDesignator.CarrierCode = passeengerKeyListRT[1].journeys[i2].segments[idx].identifier.carrierCode;
-                                                _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[k].FlightDesignator.FlightNumber = passeengerKeyListRT[1].journeys[i2].segments[idx].identifier.identifier;
-                                                _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[k].STD = passeengerKeyListRT[1].journeys[i2].segments[idx].designator.departure;
-                                                _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[k].STDSpecified = true;
-                                                _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[k].DepartureStation = passeengerKeyListRT[1].journeys[i2].segments[idx].designator.origin;
-                                                _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[k].ArrivalStation = passeengerKeyListRT[1].journeys[i2].segments[idx].designator.destination;
-                                                _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[k].UnitDesignator = pas_unitKey.Trim();
-                                                _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[k].PassengerNumbers = new short[1];
-                                                _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[k].PassengerNumbers[0] = Convert.ToInt16(paxnum);
-                                                seatid++;
                                             }
 
                                         }
@@ -1067,99 +1378,295 @@ namespace OnionConsumeWebAPI.Controllers
 
                                         _logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_AssignSeatReq) + "\n\n Response: " + JsonConvert.SerializeObject(_AssignseatRes), "AssignSeat");
                                     }
-                                    //if (_AssignseatRes != null)
-                                    //{
-                                    //    var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
-                                    //    var JsonObjSeatAssignment = _AssignseatRes;
-                                    //}
                                 }
-                                catch (Exception ex)
+                                else if (passeengerKeyList.journeys[0].Airlinename.ToLower() == "airasia")
                                 {
+                                    //seatid = 0;
+                                    string tokenview = HttpContext.Session.GetString("AirasiaTokan");
+                                    if (!string.IsNullOrEmpty(tokenview))
+                                    {
+                                        token = tokenview.Replace(@"""", string.Empty);
+                                        if (token == "" || token == null)
+                                        {
+                                            return RedirectToAction("Index");
+                                        }
+                                    }
+                                    journeyscount = passeengerKeyList.journeys.Count;
+                                    for (int i = 0; i < journeyscount; i++)
+                                    {
+                                        int segmentscount = passeengerKeyList.journeys[i].segments.Count;
+                                        //for (int k1 = 0; k1 < segmentscount; k1++)
+                                        //{
+                                            seatid = 0;
+                                            for (int l1 = 0; l1 < passeengerKeyList.passengerscount; l1++)
+                                            {
+                                                int l = 0;
+                                                int m = 0;
+                                                int idx = 0;
+                                                int paxnum = 0;
+                                                if (passeengerKeyList.passengers[l1].passengerTypeCode == "INFT")
+                                                    continue;
+                                                for (int k = 0; k < unitKey.Count; k++)
+                                                {
+                                                    if (seatid < unitKey.Count)
+                                                    {
+                                                        if ((unitKey[seatid].ToString().Contains("OneWay0") || unitKey[seatid].ToString().Contains("OneWay1")) && p == 0)
+                                                        {
+                                                            if (unitKey[seatid].Length > 1)
+                                                            {
+
+                                                                unitsubKey2 = unitKey[seatid].Split('_');
+                                                                pas_unitKey = unitsubKey2[1].Trim();
+                                                                idx = int.Parse(unitsubKey2[3]);
+                                                                if (idx == 0) paxnum = l++;
+                                                                else
+                                                                    paxnum = m++;
+
+                                                            }
+
+                                                            string passengerkey = string.Empty;
+                                                            passengerkey = passeengerKeyList.passengers[l1].passengerKey;
+                                                            string unitkey = pas_unitKey;
+                                                            using (HttpClient client = new HttpClient())
+                                                            {
+                                                                string journeyKey = passeengerKeyList.journeys[i].journeyKey;
+                                                                SeatAssignmentModel _SeatAssignmentModel = new SeatAssignmentModel();
+                                                                _SeatAssignmentModel.journeyKey = journeyKey;
+                                                                var jsonSeatAssignmentRequest = JsonConvert.SerializeObject(_SeatAssignmentModel, Formatting.Indented);
+                                                                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                                                                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                                                HttpResponseMessage responceSeatAssignment = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/passengers/" + passengerkey + "/seats/" + pas_unitKey, _SeatAssignmentModel);
+                                                                if (responceSeatAssignment.IsSuccessStatusCode)
+                                                                {
+                                                                    var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
+                                                                    var JsonObjSeatAssignment = JsonConvert.DeserializeObject<dynamic>(_responseSeatAssignment);
+                                                                }
+
+                                                            }
+                                                        }
+                                                        else if ((unitKey[seatid].ToString().Contains("RT0") || unitKey[seatid].ToString().Contains("RT1")) && p == 1)
+                                                        {
+                                                            if (unitKey[seatid].Length > 1)
+                                                            {
+
+                                                                unitsubKey2 = unitKey[seatid].Split('_');
+                                                                pas_unitKey = unitsubKey2[1].Trim();
+                                                                idx = int.Parse(unitsubKey2[3]);
+                                                                if (idx == 0) paxnum = l++;
+                                                                else
+                                                                    paxnum = m++;
+
+                                                            }
+
+                                                            string passengerkey = string.Empty;
+                                                            passengerkey = passeengerKeyList.passengers[l1].passengerKey;
+                                                            string unitkey = pas_unitKey;
+                                                            using (HttpClient client = new HttpClient())
+                                                            {
+                                                                string journeyKey = passeengerKeyList.journeys[i].journeyKey;
+                                                                SeatAssignmentModel _SeatAssignmentModel = new SeatAssignmentModel();
+                                                                _SeatAssignmentModel.journeyKey = journeyKey;
+                                                                var jsonSeatAssignmentRequest = JsonConvert.SerializeObject(_SeatAssignmentModel, Formatting.Indented);
+                                                                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                                                                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                                                HttpResponseMessage responceSeatAssignment = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/passengers/" + passengerkey + "/seats/" + pas_unitKey, _SeatAssignmentModel);
+                                                                if (responceSeatAssignment.IsSuccessStatusCode)
+                                                                {
+                                                                    var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
+                                                                    var JsonObjSeatAssignment = JsonConvert.DeserializeObject<dynamic>(_responseSeatAssignment);
+                                                                }
+
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            seatid++;
+                                                            continue;
+                                                        }
+                                                    }
+                                                    seatid++;
+                                                }
+                                            }
+                                            //continue;
+                                           
+                                        //}
+                                    }
+
 
                                 }
+                                p++;
                             }
                         }
                     }
+
                 }
                 catch (Exception ex)
                 {
 
                 }
+                //}
+                // }
+                //}
             }
+            //catch (Exception ex)
+            //{
+
+            //}
+        //}
 
             #endregion
 
             return RedirectToAction("RoundTripPaymentView", "RoundTripPaymentGateway");
-        }
-        public class Paxes
+    }
+    public class Paxes
+    {
+        public List<passkeytype> Adults_ { get; set; }
+        public List<passkeytype> Childs_ { get; set; }
+
+        public List<passkeytype> Infant_ { get; set; }
+    }
+    Paxes _paxes = new Paxes();
+
+    public Passenger[] GetPassenger(List<passkeytype> travellers_)
+    {
+
+        _paxes.Adults_ = new List<passkeytype>();
+        _paxes.Childs_ = new List<passkeytype>();
+        _paxes.Infant_ = new List<passkeytype>();
+        for (int i = 0; i < travellers_.Count; i++)
         {
-            public List<passkeytype> Adults_ { get; set; }
-            public List<passkeytype> Childs_ { get; set; }
+            if (travellers_[i].passengertypecode == "ADT")
+                _paxes.Adults_.Add(travellers_[i]);
+            else if (travellers_[i].passengertypecode == "CHD")
+                _paxes.Childs_.Add(travellers_[i]);
+            else if (travellers_[i].passengertypecode == "INFT")
+                _paxes.Infant_.Add(travellers_[i]);
 
-            public List<passkeytype> Infant_ { get; set; }
         }
-        Paxes _paxes = new Paxes();
 
-        public Passenger[] GetPassenger(List<passkeytype> travellers_)
+        HttpContext.Session.SetString("PaxArray", JsonConvert.SerializeObject(_paxes));
+
+        Passenger[] passengers = null;
+        try
         {
 
-            _paxes.Adults_ = new List<passkeytype>();
-            _paxes.Childs_ = new List<passkeytype>();
-            _paxes.Infant_ = new List<passkeytype>();
-            for (int i = 0; i < travellers_.Count; i++)
+
+
+            int chdPax = 0;
+            int infFax = 0;
+            if (_paxes.Childs_ != null)
             {
-                if (travellers_[i].passengertypecode == "ADT")
-                    _paxes.Adults_.Add(travellers_[i]);
-                else if (travellers_[i].passengertypecode == "CHD")
-                    _paxes.Childs_.Add(travellers_[i]);
-                else if (travellers_[i].passengertypecode == "INFT")
-                    _paxes.Infant_.Add(travellers_[i]);
-
+                chdPax = _paxes.Childs_.Count;
             }
-
-            HttpContext.Session.SetString("PaxArray", JsonConvert.SerializeObject(_paxes));
-
-            Passenger[] passengers = null;
-            try
+            if (_paxes.Infant_ != null)
             {
-
-
-
-                int chdPax = 0;
-                int infFax = 0;
-                if (_paxes.Childs_ != null)
+                infFax = _paxes.Infant_.Count;
+            }
+            passengers = new Passenger[_paxes.Adults_.Count + chdPax]; //Assign Passenger Information 
+            Passenger p1 = null;
+            int PassCnt = 0;
+            for (int cntAdt = 0; cntAdt < _paxes.Adults_.Count; cntAdt++)
+            {
+                p1 = new Passenger();
+                p1.PassengerNumberSpecified = true;
+                p1.PassengerNumber = Convert.ToInt16(PassCnt);
+                p1.Names = new BookingName[1];
+                p1.Names[0] = new BookingName();
+                if (!string.IsNullOrEmpty(_paxes.Adults_[cntAdt].first))
                 {
-                    chdPax = _paxes.Childs_.Count;
+                    p1.Names[0].FirstName = Convert.ToString(_paxes.Adults_[cntAdt].first.Trim()).ToUpper();
                 }
-                if (_paxes.Infant_ != null)
+                if (!string.IsNullOrEmpty(_paxes.Adults_[cntAdt].middle))
                 {
-                    infFax = _paxes.Infant_.Count;
+                    p1.Names[0].MiddleName = Convert.ToString(_paxes.Adults_[cntAdt].middle.Trim()).ToUpper();
                 }
-                passengers = new Passenger[_paxes.Adults_.Count + chdPax]; //Assign Passenger Information 
-                Passenger p1 = null;
-                int PassCnt = 0;
-                for (int cntAdt = 0; cntAdt < _paxes.Adults_.Count; cntAdt++)
+                if (!string.IsNullOrEmpty(_paxes.Adults_[cntAdt].last))
+                {
+                    p1.Names[0].LastName = Convert.ToString(_paxes.Adults_[cntAdt].last.Trim()).ToUpper();
+                }
+                p1.Names[0].Title = _paxes.Adults_[cntAdt].title.ToUpper().Replace(".", "");
+                p1.PassengerInfo = new PassengerInfo();
+                if (_paxes.Adults_[cntAdt].title.ToUpper().Replace(".", "") == "MR")
+                {
+                    p1.PassengerInfo.Gender = Gender.Male;
+                    p1.PassengerInfo.WeightCategory = WeightCategory.Male;
+                }
+                else
+                {
+                    p1.PassengerInfo.Gender = Gender.Female;
+                    p1.PassengerInfo.WeightCategory = WeightCategory.Female;
+                }
+                p1.PassengerTypeInfos = new PassengerTypeInfo[1];
+                p1.PassengerTypeInfos[0] = new PassengerTypeInfo();
+                p1.PassengerTypeInfos[0].DOBSpecified = true;
+                p1.PassengerTypeInfos[0].PaxType = _paxes.Adults_[cntAdt].passengertypecode.ToString().ToUpper();
+                if (_paxes.Infant_ != null && _paxes.Infant_.Count > 0)
+                {
+                    if (cntAdt < _paxes.Infant_.Count)
+                    {
+                        p1.Infant = new PassengerInfant();
+                        p1.Infant.DOBSpecified = true;
+                        p1.Infant.DOB = Convert.ToDateTime("2023-08-01");//Convert.ToDateTime(_paxes.Infant_[cntAdt].dateOfBirth);
+                                                                         //p1.Infant.Gender = Gender.Male;
+                        if (_paxes.Infant_[cntAdt].title.ToUpper().Replace(".", "") == "MR")
+                        {
+                            p1.Infant.Gender = Gender.Male;
+                        }
+                        else
+                        {
+                            p1.Infant.Gender = Gender.Female;
+                        }
+                        p1.Infant.Names = new BookingName[1];
+                        p1.Infant.Names[0] = new BookingName();
+                        if (!string.IsNullOrEmpty(_paxes.Infant_[cntAdt].first))
+                        {
+                            p1.Infant.Names[0].FirstName = Convert.ToString(_paxes.Infant_[cntAdt].first.Trim());
+                        }
+                        if (!string.IsNullOrEmpty(_paxes.Infant_[cntAdt].middle))
+                        {
+                            p1.Infant.Names[0].MiddleName = Convert.ToString(_paxes.Infant_[cntAdt].middle.Trim());
+                        }
+                        if (!string.IsNullOrEmpty(_paxes.Infant_[cntAdt].last))
+                        {
+                            p1.Infant.Names[0].LastName = Convert.ToString(_paxes.Infant_[cntAdt].last.Trim());
+                        }
+                        p1.Infant.Names[0].Title = _paxes.Infant_[cntAdt].title.Replace(".", "");
+                        p1.Infant.Nationality = _paxes.Infant_[cntAdt].nationality;
+                        p1.Infant.ResidentCountry = _paxes.Infant_[cntAdt].residentCountry;
+                        p1.State = MessageState.New;
+                    }
+
+                }
+
+                passengers[PassCnt] = p1;
+                PassCnt++;
+            }
+            if (_paxes.Childs_ != null)
+            {
+                for (int cntChd = 0; cntChd < _paxes.Childs_.Count; cntChd++)
                 {
                     p1 = new Passenger();
+
                     p1.PassengerNumberSpecified = true;
                     p1.PassengerNumber = Convert.ToInt16(PassCnt);
                     p1.Names = new BookingName[1];
                     p1.Names[0] = new BookingName();
-                    if (!string.IsNullOrEmpty(_paxes.Adults_[cntAdt].first))
+
+                    if (!string.IsNullOrEmpty(_paxes.Childs_[cntChd].first))
                     {
-                        p1.Names[0].FirstName = Convert.ToString(_paxes.Adults_[cntAdt].first.Trim()).ToUpper();
+                        p1.Names[0].FirstName = Convert.ToString(_paxes.Childs_[cntChd].first).ToUpper();
                     }
-                    if (!string.IsNullOrEmpty(_paxes.Adults_[cntAdt].middle))
+                    if (!string.IsNullOrEmpty(_paxes.Childs_[cntChd].middle))
                     {
-                        p1.Names[0].MiddleName = Convert.ToString(_paxes.Adults_[cntAdt].middle.Trim()).ToUpper();
+                        p1.Names[0].MiddleName = Convert.ToString(_paxes.Childs_[cntChd].middle).ToUpper();
                     }
-                    if (!string.IsNullOrEmpty(_paxes.Adults_[cntAdt].last))
+                    if (!string.IsNullOrEmpty(_paxes.Childs_[cntChd].last))
                     {
-                        p1.Names[0].LastName = Convert.ToString(_paxes.Adults_[cntAdt].last.Trim()).ToUpper();
+                        p1.Names[0].LastName = Convert.ToString(_paxes.Childs_[cntChd].last).ToUpper();
                     }
-                    p1.Names[0].Title = _paxes.Adults_[cntAdt].title.ToUpper().Replace(".", "");
+                    p1.Names[0].Title = _paxes.Childs_[cntChd].title.ToUpper().Replace(".", "");
                     p1.PassengerInfo = new PassengerInfo();
-                    if (_paxes.Adults_[cntAdt].title.ToUpper().Replace(".", "") == "MR")
+                    if (_paxes.Childs_[cntChd].title.ToUpper().Replace(".", "") == "Mr")
                     {
                         p1.PassengerInfo.Gender = Gender.Male;
                         p1.PassengerInfo.WeightCategory = WeightCategory.Male;
@@ -1172,96 +1679,16 @@ namespace OnionConsumeWebAPI.Controllers
                     p1.PassengerTypeInfos = new PassengerTypeInfo[1];
                     p1.PassengerTypeInfos[0] = new PassengerTypeInfo();
                     p1.PassengerTypeInfos[0].DOBSpecified = true;
-                    p1.PassengerTypeInfos[0].PaxType = _paxes.Adults_[cntAdt].passengertypecode.ToString().ToUpper();
-                    if (_paxes.Infant_ != null && _paxes.Infant_.Count > 0)
-                    {
-                        if (cntAdt < _paxes.Infant_.Count)
-                        {
-                            p1.Infant = new PassengerInfant();
-                            p1.Infant.DOBSpecified = true;
-                            p1.Infant.DOB = Convert.ToDateTime("2023-08-01");//Convert.ToDateTime(_paxes.Infant_[cntAdt].dateOfBirth);
-                                                                             //p1.Infant.Gender = Gender.Male;
-                            if (_paxes.Infant_[cntAdt].title.ToUpper().Replace(".", "") == "MR")
-                            {
-                                p1.Infant.Gender = Gender.Male;
-                            }
-                            else
-                            {
-                                p1.Infant.Gender = Gender.Female;
-                            }
-                            p1.Infant.Names = new BookingName[1];
-                            p1.Infant.Names[0] = new BookingName();
-                            if (!string.IsNullOrEmpty(_paxes.Infant_[cntAdt].first))
-                            {
-                                p1.Infant.Names[0].FirstName = Convert.ToString(_paxes.Infant_[cntAdt].first.Trim());
-                            }
-                            if (!string.IsNullOrEmpty(_paxes.Infant_[cntAdt].middle))
-                            {
-                                p1.Infant.Names[0].MiddleName = Convert.ToString(_paxes.Infant_[cntAdt].middle.Trim());
-                            }
-                            if (!string.IsNullOrEmpty(_paxes.Infant_[cntAdt].last))
-                            {
-                                p1.Infant.Names[0].LastName = Convert.ToString(_paxes.Infant_[cntAdt].last.Trim());
-                            }
-                            p1.Infant.Names[0].Title = _paxes.Infant_[cntAdt].title.Replace(".", "");
-                            p1.Infant.Nationality = _paxes.Infant_[cntAdt].nationality;
-                            p1.Infant.ResidentCountry = _paxes.Infant_[cntAdt].residentCountry;
-                            p1.State = MessageState.New;
-                        }
-
-                    }
-
+                    p1.PassengerTypeInfos[0].PaxType = _paxes.Childs_[cntChd].passengertypecode.ToString().ToUpper();
                     passengers[PassCnt] = p1;
                     PassCnt++;
                 }
-                if (_paxes.Childs_ != null)
-                {
-                    for (int cntChd = 0; cntChd < _paxes.Childs_.Count; cntChd++)
-                    {
-                        p1 = new Passenger();
-
-                        p1.PassengerNumberSpecified = true;
-                        p1.PassengerNumber = Convert.ToInt16(PassCnt);
-                        p1.Names = new BookingName[1];
-                        p1.Names[0] = new BookingName();
-
-                        if (!string.IsNullOrEmpty(_paxes.Childs_[cntChd].first))
-                        {
-                            p1.Names[0].FirstName = Convert.ToString(_paxes.Childs_[cntChd].first).ToUpper();
-                        }
-                        if (!string.IsNullOrEmpty(_paxes.Childs_[cntChd].middle))
-                        {
-                            p1.Names[0].MiddleName = Convert.ToString(_paxes.Childs_[cntChd].middle).ToUpper();
-                        }
-                        if (!string.IsNullOrEmpty(_paxes.Childs_[cntChd].last))
-                        {
-                            p1.Names[0].LastName = Convert.ToString(_paxes.Childs_[cntChd].last).ToUpper();
-                        }
-                        p1.Names[0].Title = _paxes.Childs_[cntChd].title.ToUpper().Replace(".", "");
-                        p1.PassengerInfo = new PassengerInfo();
-                        if (_paxes.Childs_[cntChd].title.ToUpper().Replace(".", "") == "Mr")
-                        {
-                            p1.PassengerInfo.Gender = Gender.Male;
-                            p1.PassengerInfo.WeightCategory = WeightCategory.Male;
-                        }
-                        else
-                        {
-                            p1.PassengerInfo.Gender = Gender.Female;
-                            p1.PassengerInfo.WeightCategory = WeightCategory.Female;
-                        }
-                        p1.PassengerTypeInfos = new PassengerTypeInfo[1];
-                        p1.PassengerTypeInfos[0] = new PassengerTypeInfo();
-                        p1.PassengerTypeInfos[0].DOBSpecified = true;
-                        p1.PassengerTypeInfos[0].PaxType = _paxes.Childs_[cntChd].passengertypecode.ToString().ToUpper();
-                        passengers[PassCnt] = p1;
-                        PassCnt++;
-                    }
-                }
             }
-            catch (SystemException sex_)
-            {
-            }
-            return passengers;
         }
+        catch (SystemException sex_)
+        {
+        }
+        return passengers;
     }
+}
 }
