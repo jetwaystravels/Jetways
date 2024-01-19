@@ -8,6 +8,7 @@ using OnionConsumeWebAPI.Extensions;
 using Sessionmanager;
 using System.Net.Http.Headers;
 using Utility;
+using static DomainLayer.Model.ReturnAirLineTicketBooking;
 using static DomainLayer.Model.ReturnTicketBooking;
 
 namespace OnionConsumeWebAPI.Controllers.AirAsia
@@ -61,6 +62,8 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     if (responceCommit_Booking.IsSuccessStatusCode)
                     {
                         var _responceCommit_Booking = responceCommit_Booking.Content.ReadAsStringAsync().Result;
+                        logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_Commit_BookingModel) + "Url: " + AppUrlConstant.AirasiaCommitBooking + "\n Response: " + _responceCommit_Booking, "Commit", "AirAsiaRT");
+
                         var JsonObjCommit_Booking = JsonConvert.DeserializeObject<dynamic>(_responceCommit_Booking);
                     }
                     #endregion
@@ -74,6 +77,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     {
                         // string BaseURL1 = "http://localhost:5225/";
                         var _responceGetBooking = responceGetBooking.Content.ReadAsStringAsync().Result;
+                        logs.WriteLogsR("Request: " + JsonConvert.SerializeObject("GetFinalRequest") + "Url: " + AppUrlConstant.AirasiaGetBoking + "\n Response: " + _responceGetBooking, "FinalgetBooking", "AirAsiaRT");
                         var JsonObjGetBooking = JsonConvert.DeserializeObject<dynamic>(_responceGetBooking);
                         AirLinePNR = JsonObjGetBooking.data.recordLocator;
 
@@ -238,24 +242,13 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                 {
 
                     token = tokenview.Replace(@"""", string.Empty);
-
                     string passengernamedetails = HttpContext.Session.GetString("PassengerNameDetails");
-
-
                     List<passkeytype> passeengerlist = (List<passkeytype>)JsonConvert.DeserializeObject(passengernamedetails, typeof(List<passkeytype>));
-
-
                     string contactdata = HttpContext.Session.GetString("ContactDetails");
-
-
                     UpdateContactsRequest contactList = (UpdateContactsRequest)JsonConvert.DeserializeObject(contactdata, typeof(UpdateContactsRequest));
-
-
-
                     using (HttpClient client1 = new HttpClient())
                     {
                         #region Commit Booking
-
                         BookingCommitRequest _bookingCommitRequest = new BookingCommitRequest();
                         BookingCommitResponse _BookingCommitResponse = new BookingCommitResponse();
                         _bookingCommitRequest.Signature = token;
@@ -283,13 +276,11 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].CultureCode = "en-GB";
                         _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].DistributionOption = DistributionOption.Email;
 
-
                         SpiceJetApiController objSpiceJet = new SpiceJetApiController();
                         _BookingCommitResponse = await objSpiceJet.BookingCommit(_bookingCommitRequest);
 
                         string Str3 = JsonConvert.SerializeObject(_BookingCommitResponse);
-                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_bookingCommitRequest) + "\n\n Response: " + JsonConvert.SerializeObject(_BookingCommitResponse), "BookingCommit");
-
+                        logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_bookingCommitRequest) + "\n\n Response: " + JsonConvert.SerializeObject(_BookingCommitResponse), "BookingCommit", "SpiceJetRT");
 
                         GetBookingRequest getBookingRequest = new GetBookingRequest();
                         GetBookingResponse _getBookingResponse = new GetBookingResponse();
@@ -303,7 +294,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         _getBookingResponse = await objSpiceJet.GetBookingdetails(getBookingRequest);
                         string _responceGetBooking = JsonConvert.SerializeObject(_getBookingResponse);
 
-                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getBookingResponse) + "\n\n Response: " + JsonConvert.SerializeObject(_getBookingResponse), "GetBookingDetails");
+                        logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getBookingResponse) + "\n\n Response: " + JsonConvert.SerializeObject(_getBookingResponse), "GetBookingDetails", "SpiceJetRT");
 
                         if (_getBookingResponse != null)
                         {

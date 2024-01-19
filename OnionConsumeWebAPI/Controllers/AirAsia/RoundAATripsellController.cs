@@ -287,6 +287,9 @@ namespace OnionConsumeWebAPI.Controllers
                     if (responseAddContact.IsSuccessStatusCode)
                     {
                         var _responseAddContact = responseAddContact.Content.ReadAsStringAsync().Result;
+                        Logs logs1 = new Logs();
+                        logs1.WriteLogsR("Request: " + JsonConvert.SerializeObject(_ContactModel) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v1/booking/contacts" + "\n Response: " + JsonConvert.SerializeObject(_responseAddContact), "Update Contacts", "AirAsiaRT");
+
                         var JsonObjAddContact = JsonConvert.DeserializeObject<dynamic>(_responseAddContact);
                     }
 
@@ -316,7 +319,7 @@ namespace OnionConsumeWebAPI.Controllers
                 HttpContext.Session.SetString("ContactDetails", JsonConvert.SerializeObject(_ContactModelSG));
                 String Str1 = JsonConvert.SerializeObject(responseAddContactSG);
 
-                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_ContactModelSG) + "\n\n Response: " + JsonConvert.SerializeObject(responseAddContactSG), "UpdateContact");
+                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_ContactModelSG) + "\n\n Response: " + JsonConvert.SerializeObject(responseAddContactSG), "UpdateContact", "SpiceJetRT");
             }
             return RedirectToAction("RoundAATripsellView", "RoundAATripsell");
         }
@@ -365,6 +368,9 @@ namespace OnionConsumeWebAPI.Controllers
                             if (responsePassengers.IsSuccessStatusCode)
                             {
                                 var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
+                                Logs logs = new Logs();
+                                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_PassengersModel) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v3/booking/passengers/" + passengerdetails[i].passengerkey + "\n Response: " + JsonConvert.SerializeObject(_responsePassengers), "Update passenger", "AirAsiaRT");
+
                                 var JsonObjPassengers = JsonConvert.DeserializeObject<dynamic>(_responsePassengers);
                             }
                         }
@@ -410,6 +416,9 @@ namespace OnionConsumeWebAPI.Controllers
                                 if (responsePassengers.IsSuccessStatusCode)
                                 {
                                     var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
+                                    Logs logs = new Logs();
+                                    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_PassengersModel1) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v3/booking/passengers/" + passengerdetails[k].passengerkey + "/infant" + "\n Response: " + JsonConvert.SerializeObject(_responsePassengers), "Update passenger_Infant", "AirAsiaRT");
+
                                     var JsonObjPassengers = JsonConvert.DeserializeObject<dynamic>(_responsePassengers);
                                 }
                                 i++;
@@ -423,6 +432,9 @@ namespace OnionConsumeWebAPI.Controllers
                             if (responceGetBooking.IsSuccessStatusCode)
                             {
                                 var _responceGetBooking = responceGetBooking.Content.ReadAsStringAsync().Result;
+                                Logs logs = new Logs();
+                                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject("GetBookingRequest") + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v1/booking" + "\n Response: " + JsonConvert.SerializeObject(_responceGetBooking), "GetBooking", "AirAsiaRT");
+
                                 var JsonObjGetBooking = JsonConvert.DeserializeObject<dynamic>(_responceGetBooking);
                             }
                             //END
@@ -457,7 +469,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                             string Str2 = JsonConvert.SerializeObject(updatePaxResp);
                             Logs logs = new Logs();
-                            logs.WriteLogs("Request: " + JsonConvert.SerializeObject(updatePaxReq) + "\n\n Response: " + JsonConvert.SerializeObject(updatePaxResp), "UpdatePassenger");
+                            logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(updatePaxReq) + "\n\n Response: " + JsonConvert.SerializeObject(updatePaxResp), "UpdatePassenger", "SpiceJetRT");
 
                         }
                         catch (Exception ex)
@@ -468,7 +480,9 @@ namespace OnionConsumeWebAPI.Controllers
                     catch (Exception ex)
                     {
 
+
                     }
+                    HttpContext.Session.SetString("PassengerNameDetails", JsonConvert.SerializeObject(passengerdetails));
                 }
 
 
@@ -546,7 +560,7 @@ namespace OnionConsumeWebAPI.Controllers
 
             #region RoundTripSSR
 
-
+            Logs logs1 = new Logs();
             if (ssrKey.Count > 0)
             {
 
@@ -1038,7 +1052,7 @@ namespace OnionConsumeWebAPI.Controllers
                                             sellSsrResponse = await objSpiceJet.sellssR(sellSsrRequest);
 
                                             string Str3 = JsonConvert.SerializeObject(sellSsrResponse);
-                                            logs.WriteLogs("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSR");
+                                            logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSR", "SpiceJetRT");
 
 
                                             if (sellSsrResponse != null)
@@ -1093,7 +1107,9 @@ namespace OnionConsumeWebAPI.Controllers
                                                         HttpResponseMessage responseSellSSR = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/ssrs/" + mealskey, _sellSSRModel);
                                                         if (responseSellSSR.IsSuccessStatusCode)
                                                         {
+
                                                             var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
+                                                            logs1.WriteLogsR("Request: " + JsonConvert.SerializeObject(_sellSSRModel) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/ssrs/" + mealskey + "\n Response: " + JsonConvert.SerializeObject(_responseresponseSellSSR), "SellSSR", "AirAsiaRT");
                                                             var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
                                                         }
 
@@ -1125,6 +1141,7 @@ namespace OnionConsumeWebAPI.Controllers
                                                         if (responseSellSSR.IsSuccessStatusCode)
                                                         {
                                                             var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
+                                                            logs1.WriteLogsR("Request: " + JsonConvert.SerializeObject(_sellSSRModel) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/ssrs/" + mealskey + "\n Response: " + JsonConvert.SerializeObject(_responseresponseSellSSR), "SellSSR", "AirAsiaRT");
                                                             var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
                                                         }
 
@@ -1268,6 +1285,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                     }
                     Logs _logs = new Logs();
+                    int _index = 0;
                     int p = 0;
                     if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Mainpassengervm")))
                     {
@@ -1281,6 +1299,7 @@ namespace OnionConsumeWebAPI.Controllers
                                 if (passeengerKeyList.journeys[0].Airlinename.ToLower() == "spicejet")
                                 {
                                     seatid = 0;
+                                    _index = 0;
                                     journeyscount = passeengerKeyList.journeys.Count;
                                     AssignSeatsResponse _AssignseatRes = new AssignSeatsResponse();
                                     AssignSeatsRequest _AssignSeatReq = new AssignSeatsRequest();
@@ -1351,18 +1370,19 @@ namespace OnionConsumeWebAPI.Controllers
                                                         }
                                                     }
 
-                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[idx] = new SegmentSeatRequest();
-                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[idx].FlightDesignator = new FlightDesignator();
-                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[idx].FlightDesignator.CarrierCode = passeengerKeyList.journeys[i2].segments[idx].identifier.carrierCode;
-                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[idx].FlightDesignator.FlightNumber = passeengerKeyList.journeys[i2].segments[idx].identifier.identifier;
-                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[idx].STD = passeengerKeyList.journeys[i2].segments[idx].designator.departure;
-                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[idx].STDSpecified = true;
-                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[idx].DepartureStation = passeengerKeyList.journeys[i2].segments[idx].designator.origin;
-                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[idx].ArrivalStation = passeengerKeyList.journeys[i2].segments[idx].designator.destination;
-                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[idx].UnitDesignator = pas_unitKey.Trim();
-                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[idx].PassengerNumbers = new short[1];
-                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[idx].PassengerNumbers[0] = Convert.ToInt16(paxnum);
+                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[_index] = new SegmentSeatRequest();
+                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[_index].FlightDesignator = new FlightDesignator();
+                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[_index].FlightDesignator.CarrierCode = passeengerKeyList.journeys[i2].segments[idx].identifier.carrierCode;
+                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[_index].FlightDesignator.FlightNumber = passeengerKeyList.journeys[i2].segments[idx].identifier.identifier;
+                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[_index].STD = passeengerKeyList.journeys[i2].segments[idx].designator.departure;
+                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[_index].STDSpecified = true;
+                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[_index].DepartureStation = passeengerKeyList.journeys[i2].segments[idx].designator.origin;
+                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[_index].ArrivalStation = passeengerKeyList.journeys[i2].segments[idx].designator.destination;
+                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[_index].UnitDesignator = pas_unitKey.Trim();
+                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[_index].PassengerNumbers = new short[1];
+                                                    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[_index].PassengerNumbers[0] = Convert.ToInt16(paxnum);
                                                     seatid++;
+                                                    _index++;
                                                 }
                                             }
 
@@ -1376,7 +1396,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                                         string Str2 = JsonConvert.SerializeObject(_AssignseatRes);
 
-                                        _logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_AssignSeatReq) + "\n\n Response: " + JsonConvert.SerializeObject(_AssignseatRes), "AssignSeat");
+                                        _logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_AssignSeatReq) + "\n\n Response: " + JsonConvert.SerializeObject(_AssignseatRes), "AssignSeat", "SpiceJetRT");
                                     }
                                 }
                                 else if (passeengerKeyList.journeys[0].Airlinename.ToLower() == "airasia")
@@ -1392,105 +1412,272 @@ namespace OnionConsumeWebAPI.Controllers
                                         }
                                     }
                                     journeyscount = passeengerKeyList.journeys.Count;
+                                    //To do
+
+                                    ssrsegmentwise _obj = new ssrsegmentwise();
+                                    _obj.SSRcodeOneWayI = new List<ssrsKey>();
+                                    _obj.SSRcodeOneWayII = new List<ssrsKey>();
+                                    _obj.SSRcodeRTI = new List<ssrsKey>();
+                                    _obj.SSRcodeRTII = new List<ssrsKey>();
+                                    for (int k = 0; k < unitKey.Count; k++)
+                                    {
+                                        if (unitKey[k].ToLower().Contains("spicejet"))
+                                            continue;
+
+                                        if (unitKey[k].Contains("_OneWay0") && p==0)
+                                        {
+                                            unitsubKey2 = unitKey[k].Split('_');
+                                            pas_unitKey = unitsubKey2[1].Trim();
+                                            ssrsKey _obj0 = new ssrsKey();
+                                            _obj0.key = pas_unitKey;
+                                            _obj.SSRcodeOneWayI.Add(_obj0);
+                                        }
+                                        else if (unitKey[k].Contains("_OneWay1") && p == 0)
+                                        {
+                                            unitsubKey2 = unitKey[k].Split('_');
+                                            pas_unitKey = unitsubKey2[1].Trim();
+                                            ssrsKey _obj1 = new ssrsKey();
+                                            _obj1.key = pas_unitKey;
+                                            _obj.SSRcodeOneWayII.Add(_obj1);
+                                        }
+                                        else if (unitKey[k].Contains("_RT0") && p == 1)
+                                        {
+                                            unitsubKey2 = unitKey[k].Split('_');
+                                            pas_unitKey = unitsubKey2[1].Trim();
+                                            ssrsKey _obj2 = new ssrsKey();
+                                            _obj2.key = pas_unitKey;
+                                            _obj.SSRcodeRTI.Add(_obj2);
+                                        }
+                                        else if (unitKey[k].Contains("_RT1") && p == 1)
+                                        {
+                                            unitsubKey2 = unitKey[k].Split('_');
+                                            pas_unitKey = unitsubKey2[1].Trim();
+                                            ssrsKey _obj3 = new ssrsKey();
+                                            _obj3.key = pas_unitKey;
+                                            _obj.SSRcodeRTII.Add(_obj3);
+                                        }
+
+                                    }
+
+
+
+
                                     for (int i = 0; i < journeyscount; i++)
                                     {
                                         int segmentscount = passeengerKeyList.journeys[i].segments.Count;
-                                        //for (int k1 = 0; k1 < segmentscount; k1++)
-                                        //{
-                                            seatid = 0;
-                                            for (int l1 = 0; l1 < passeengerKeyList.passengerscount; l1++)
+
+                                        for (int l2 = 0; l2 < _obj.SSRcodeOneWayI.Count; l2++)
+                                        {
+                                            if (passeengerKeyList.passengers[l2].passengerTypeCode == "INFT")
+                                                continue;
+                                            string passengerkey = string.Empty;
+                                            passengerkey = passeengerKeyList.passengers[l2].passengerKey;
+                                            pas_unitKey = _obj.SSRcodeOneWayI[l2].key.Trim();
+                                            using (HttpClient client = new HttpClient())
                                             {
-                                                int l = 0;
-                                                int m = 0;
-                                                int idx = 0;
-                                                int paxnum = 0;
-                                                if (passeengerKeyList.passengers[l1].passengerTypeCode == "INFT")
-                                                    continue;
-                                                for (int k = 0; k < unitKey.Count; k++)
+                                                string journeyKey = passeengerKeyList.journeys[i].journeyKey;
+                                                SeatAssignmentModel _SeatAssignmentModel = new SeatAssignmentModel();
+                                                _SeatAssignmentModel.journeyKey = journeyKey;
+                                                var jsonSeatAssignmentRequest = JsonConvert.SerializeObject(_SeatAssignmentModel, Formatting.Indented);
+                                                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                                                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                                HttpResponseMessage responceSeatAssignment = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/passengers/" + passengerkey + "/seats/" + pas_unitKey, _SeatAssignmentModel);
+                                                if (responceSeatAssignment.IsSuccessStatusCode)
                                                 {
-                                                    if (seatid < unitKey.Count)
-                                                    {
-                                                        if ((unitKey[seatid].ToString().Contains("OneWay0") || unitKey[seatid].ToString().Contains("OneWay1")) && p == 0)
-                                                        {
-                                                            if (unitKey[seatid].Length > 1)
-                                                            {
-
-                                                                unitsubKey2 = unitKey[seatid].Split('_');
-                                                                pas_unitKey = unitsubKey2[1].Trim();
-                                                                idx = int.Parse(unitsubKey2[3]);
-                                                                if (idx == 0) paxnum = l++;
-                                                                else
-                                                                    paxnum = m++;
-
-                                                            }
-
-                                                            string passengerkey = string.Empty;
-                                                            passengerkey = passeengerKeyList.passengers[l1].passengerKey;
-                                                            string unitkey = pas_unitKey;
-                                                            using (HttpClient client = new HttpClient())
-                                                            {
-                                                                string journeyKey = passeengerKeyList.journeys[i].journeyKey;
-                                                                SeatAssignmentModel _SeatAssignmentModel = new SeatAssignmentModel();
-                                                                _SeatAssignmentModel.journeyKey = journeyKey;
-                                                                var jsonSeatAssignmentRequest = JsonConvert.SerializeObject(_SeatAssignmentModel, Formatting.Indented);
-                                                                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                                                                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                                                                HttpResponseMessage responceSeatAssignment = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/passengers/" + passengerkey + "/seats/" + pas_unitKey, _SeatAssignmentModel);
-                                                                if (responceSeatAssignment.IsSuccessStatusCode)
-                                                                {
-                                                                    var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
-                                                                    var JsonObjSeatAssignment = JsonConvert.DeserializeObject<dynamic>(_responseSeatAssignment);
-                                                                }
-
-                                                            }
-                                                        }
-                                                        else if ((unitKey[seatid].ToString().Contains("RT0") || unitKey[seatid].ToString().Contains("RT1")) && p == 1)
-                                                        {
-                                                            if (unitKey[seatid].Length > 1)
-                                                            {
-
-                                                                unitsubKey2 = unitKey[seatid].Split('_');
-                                                                pas_unitKey = unitsubKey2[1].Trim();
-                                                                idx = int.Parse(unitsubKey2[3]);
-                                                                if (idx == 0) paxnum = l++;
-                                                                else
-                                                                    paxnum = m++;
-
-                                                            }
-
-                                                            string passengerkey = string.Empty;
-                                                            passengerkey = passeengerKeyList.passengers[l1].passengerKey;
-                                                            string unitkey = pas_unitKey;
-                                                            using (HttpClient client = new HttpClient())
-                                                            {
-                                                                string journeyKey = passeengerKeyList.journeys[i].journeyKey;
-                                                                SeatAssignmentModel _SeatAssignmentModel = new SeatAssignmentModel();
-                                                                _SeatAssignmentModel.journeyKey = journeyKey;
-                                                                var jsonSeatAssignmentRequest = JsonConvert.SerializeObject(_SeatAssignmentModel, Formatting.Indented);
-                                                                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                                                                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                                                                HttpResponseMessage responceSeatAssignment = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/passengers/" + passengerkey + "/seats/" + pas_unitKey, _SeatAssignmentModel);
-                                                                if (responceSeatAssignment.IsSuccessStatusCode)
-                                                                {
-                                                                    var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
-                                                                    var JsonObjSeatAssignment = JsonConvert.DeserializeObject<dynamic>(_responseSeatAssignment);
-                                                                }
-
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            seatid++;
-                                                            continue;
-                                                        }
-                                                    }
-                                                    seatid++;
+                                                    var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
+                                                    logs1.WriteLogsR("Request: " + JsonConvert.SerializeObject(_SeatAssignmentModel) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/passengers/" + passengerkey + "/seats/" + pas_unitKey + "\n Response: " + JsonConvert.SerializeObject(_responseSeatAssignment), "AssignSeat", "AirAsiaRT");
+                                                    var JsonObjSeatAssignment = JsonConvert.DeserializeObject<dynamic>(_responseSeatAssignment);
                                                 }
+
                                             }
-                                            //continue;
-                                           
-                                        //}
+                                        }
+
+                                        for (int l2 = 0; l2 < _obj.SSRcodeOneWayII.Count; l2++)
+                                        {
+                                            if (passeengerKeyList.passengers[l2].passengerTypeCode == "INFT")
+                                                continue;
+                                            string passengerkey = string.Empty;
+                                            passengerkey = passeengerKeyList.passengers[l2].passengerKey;
+                                            pas_unitKey = _obj.SSRcodeOneWayII[l2].key.Trim();
+                                            using (HttpClient client = new HttpClient())
+                                            {
+                                                string journeyKey = passeengerKeyList.journeys[i].journeyKey;
+                                                SeatAssignmentModel _SeatAssignmentModel = new SeatAssignmentModel();
+                                                _SeatAssignmentModel.journeyKey = journeyKey;
+                                                var jsonSeatAssignmentRequest = JsonConvert.SerializeObject(_SeatAssignmentModel, Formatting.Indented);
+                                                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                                                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                                HttpResponseMessage responceSeatAssignment = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/passengers/" + passengerkey + "/seats/" + pas_unitKey, _SeatAssignmentModel);
+                                                if (responceSeatAssignment.IsSuccessStatusCode)
+                                                {
+                                                    var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
+                                                    logs1.WriteLogsR("Request: " + JsonConvert.SerializeObject(_SeatAssignmentModel) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/passengers/" + passengerkey + "/seats/" + pas_unitKey + "\n Response: " + JsonConvert.SerializeObject(_responseSeatAssignment), "AssignSeat", "AirAsiaRT");
+                                                    var JsonObjSeatAssignment = JsonConvert.DeserializeObject<dynamic>(_responseSeatAssignment);
+                                                }
+
+                                            }
+                                        }
+
+                                        for (int l2 = 0; l2 < _obj.SSRcodeRTI.Count; l2++)
+                                        {
+                                            if (passeengerKeyList.passengers[l2].passengerTypeCode == "INFT")
+                                                continue;
+                                            string passengerkey = string.Empty;
+                                            passengerkey = passeengerKeyList.passengers[l2].passengerKey;
+                                            pas_unitKey = _obj.SSRcodeRTI[l2].key.Trim();
+                                            using (HttpClient client = new HttpClient())
+                                            {
+                                                string journeyKey = passeengerKeyList.journeys[i].journeyKey;
+                                                SeatAssignmentModel _SeatAssignmentModel = new SeatAssignmentModel();
+                                                _SeatAssignmentModel.journeyKey = journeyKey;
+                                                var jsonSeatAssignmentRequest = JsonConvert.SerializeObject(_SeatAssignmentModel, Formatting.Indented);
+                                                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                                                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                                HttpResponseMessage responceSeatAssignment = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/passengers/" + passengerkey + "/seats/" + pas_unitKey, _SeatAssignmentModel);
+                                                if (responceSeatAssignment.IsSuccessStatusCode)
+                                                {
+                                                    var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
+                                                    logs1.WriteLogsR("Request: " + JsonConvert.SerializeObject(_SeatAssignmentModel) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/passengers/" + passengerkey + "/seats/" + pas_unitKey + "\n Response: " + JsonConvert.SerializeObject(_responseSeatAssignment), "AssignSeat", "AirAsiaRT");
+                                                    var JsonObjSeatAssignment = JsonConvert.DeserializeObject<dynamic>(_responseSeatAssignment);
+                                                }
+
+                                            }
+                                        }
+                                        for (int l2 = 0; l2 < _obj.SSRcodeRTII.Count; l2++)
+                                        {
+                                            if (passeengerKeyList.passengers[l2].passengerTypeCode == "INFT")
+                                                continue;
+                                            string passengerkey = string.Empty;
+                                            passengerkey = passeengerKeyList.passengers[l2].passengerKey;
+                                            pas_unitKey = _obj.SSRcodeRTII[l2].key.Trim();
+                                            using (HttpClient client = new HttpClient())
+                                            {
+                                                string journeyKey = passeengerKeyList.journeys[i].journeyKey;
+                                                SeatAssignmentModel _SeatAssignmentModel = new SeatAssignmentModel();
+                                                _SeatAssignmentModel.journeyKey = journeyKey;
+                                                var jsonSeatAssignmentRequest = JsonConvert.SerializeObject(_SeatAssignmentModel, Formatting.Indented);
+                                                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                                                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                                HttpResponseMessage responceSeatAssignment = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/passengers/" + passengerkey + "/seats/" + pas_unitKey, _SeatAssignmentModel);
+                                                if (responceSeatAssignment.IsSuccessStatusCode)
+                                                {
+                                                    var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
+                                                    logs1.WriteLogsR("Request: " + JsonConvert.SerializeObject(_SeatAssignmentModel) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/passengers/" + passengerkey + "/seats/" + pas_unitKey + "\n Response: " + JsonConvert.SerializeObject(_responseSeatAssignment), "AssignSeat", "AirAsiaRT");
+                                                    var JsonObjSeatAssignment = JsonConvert.DeserializeObject<dynamic>(_responseSeatAssignment);
+                                                }
+
+                                            }
+                                        }
                                     }
+
+
+
+
+
+
+
+                                    //for (int k1 = 0; k1 < segmentscount; k1++)
+                                    //{
+                                    //seatid = 0;
+                                    //for (int l1 = 0; l1 < passeengerKeyList.passengerscount; l1++)
+                                    //{
+                                    int l = 0;
+                                    //int m = 0;
+                                    //int idx = 0;
+                                    //int paxnum = 0;
+
+                                    //for (int k = 0; k < unitKey.Count; k++)
+                                    //{
+                                    //for (int l1 = 0; l1 < passeengerKeyList.passengerscount; l1++)
+                                    //{
+                                    //if (passeengerKeyList.passengers[l1].passengerTypeCode == "INFT")
+                                    // continue;
+                                    //if (seatid < unitKey.Count)
+                                    //{
+                                    //    if ((unitKey[seatid].ToString().Contains("OneWay0") || unitKey[seatid].ToString().Contains("OneWay1")) && p == 0)
+                                    //    {
+                                    //        if (unitKey[seatid].Length > 1)
+                                    //        {
+
+                                    //            unitsubKey2 = unitKey[seatid].Split('_');
+                                    //            pas_unitKey = unitsubKey2[1].Trim();
+                                    //            idx = int.Parse(unitsubKey2[3]);
+                                    //            if (idx == 0) paxnum = l++;
+                                    //            else
+                                    //                paxnum = m++;
+
+                                    //        }
+
+                                    //        string passengerkey = string.Empty;
+                                    //        passengerkey = passeengerKeyList.passengers[l1].passengerKey;
+                                    //        string unitkey = pas_unitKey;
+                                    //        using (HttpClient client = new HttpClient())
+                                    //        {
+                                    //            string journeyKey = passeengerKeyList.journeys[i].journeyKey;
+                                    //            SeatAssignmentModel _SeatAssignmentModel = new SeatAssignmentModel();
+                                    //            _SeatAssignmentModel.journeyKey = journeyKey;
+                                    //            var jsonSeatAssignmentRequest = JsonConvert.SerializeObject(_SeatAssignmentModel, Formatting.Indented);
+                                    //            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                                    //            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                    //            HttpResponseMessage responceSeatAssignment = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/passengers/" + passengerkey + "/seats/" + pas_unitKey, _SeatAssignmentModel);
+                                    //            if (responceSeatAssignment.IsSuccessStatusCode)
+                                    //            {
+                                    //                var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
+                                    //                logs1.WriteLogsR("Request: " + JsonConvert.SerializeObject(_SeatAssignmentModel) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/passengers/" + passengerkey + "/seats/" + pas_unitKey + "\n Response: " + JsonConvert.SerializeObject(_responseSeatAssignment), "AssignSeat", "AirAsiaRT");
+                                    //                var JsonObjSeatAssignment = JsonConvert.DeserializeObject<dynamic>(_responseSeatAssignment);
+                                    //            }
+
+                                    //        }
+                                    //    }
+                                    //    else if ((unitKey[seatid].ToString().Contains("RT0") || unitKey[seatid].ToString().Contains("RT1")) && p == 1)
+                                    //    {
+                                    //        if (unitKey[seatid].Length > 1)
+                                    //        {
+
+                                    //            unitsubKey2 = unitKey[seatid].Split('_');
+                                    //            pas_unitKey = unitsubKey2[1].Trim();
+                                    //            idx = int.Parse(unitsubKey2[3]);
+                                    //            if (idx == 0) paxnum = l++;
+                                    //            else
+                                    //                paxnum = m++;
+
+                                    //        }
+
+                                    //        string passengerkey = string.Empty;
+                                    //        passengerkey = passeengerKeyList.passengers[l1].passengerKey;
+                                    //        string unitkey = pas_unitKey;
+                                    //        using (HttpClient client = new HttpClient())
+                                    //        {
+                                    //            string journeyKey = passeengerKeyList.journeys[i].journeyKey;
+                                    //            SeatAssignmentModel _SeatAssignmentModel = new SeatAssignmentModel();
+                                    //            _SeatAssignmentModel.journeyKey = journeyKey;
+                                    //            var jsonSeatAssignmentRequest = JsonConvert.SerializeObject(_SeatAssignmentModel, Formatting.Indented);
+                                    //            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                                    //            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                    //            HttpResponseMessage responceSeatAssignment = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/passengers/" + passengerkey + "/seats/" + pas_unitKey, _SeatAssignmentModel);
+                                    //            if (responceSeatAssignment.IsSuccessStatusCode)
+                                    //            {
+                                    //                var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
+                                    //                logs1.WriteLogsR("Request: " + JsonConvert.SerializeObject(_SeatAssignmentModel) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/passengers/" + passengerkey + "/seats/" + pas_unitKey + "\n Response: " + JsonConvert.SerializeObject(_responseSeatAssignment), "AssignSeat", "AirAsiaRT");
+                                    //                var JsonObjSeatAssignment = JsonConvert.DeserializeObject<dynamic>(_responseSeatAssignment);
+                                    //            }
+
+                                    //        }
+                                    //    }
+                                    //    else
+                                    //    {
+                                    //        seatid++;
+                                    //        continue;
+                                    //    }
+                                    //}
+                                    //seatid++;
+                                    //}
+                                    //}
+                                    //}
+                                    //continue;
+
+                                    //}
+                                    //}
 
 
                                 }
@@ -1512,161 +1699,81 @@ namespace OnionConsumeWebAPI.Controllers
             //{
 
             //}
-        //}
+            //}
 
             #endregion
 
             return RedirectToAction("RoundTripPaymentView", "RoundTripPaymentGateway");
-    }
-    public class Paxes
-    {
-        public List<passkeytype> Adults_ { get; set; }
-        public List<passkeytype> Childs_ { get; set; }
-
-        public List<passkeytype> Infant_ { get; set; }
-    }
-    Paxes _paxes = new Paxes();
-
-    public Passenger[] GetPassenger(List<passkeytype> travellers_)
-    {
-
-        _paxes.Adults_ = new List<passkeytype>();
-        _paxes.Childs_ = new List<passkeytype>();
-        _paxes.Infant_ = new List<passkeytype>();
-        for (int i = 0; i < travellers_.Count; i++)
-        {
-            if (travellers_[i].passengertypecode == "ADT")
-                _paxes.Adults_.Add(travellers_[i]);
-            else if (travellers_[i].passengertypecode == "CHD")
-                _paxes.Childs_.Add(travellers_[i]);
-            else if (travellers_[i].passengertypecode == "INFT")
-                _paxes.Infant_.Add(travellers_[i]);
-
         }
+        public class Paxes
+        {
+            public List<passkeytype> Adults_ { get; set; }
+            public List<passkeytype> Childs_ { get; set; }
 
-        HttpContext.Session.SetString("PaxArray", JsonConvert.SerializeObject(_paxes));
+            public List<passkeytype> Infant_ { get; set; }
+        }
+        Paxes _paxes = new Paxes();
 
-        Passenger[] passengers = null;
-        try
+        public Passenger[] GetPassenger(List<passkeytype> travellers_)
         {
 
-
-
-            int chdPax = 0;
-            int infFax = 0;
-            if (_paxes.Childs_ != null)
+            _paxes.Adults_ = new List<passkeytype>();
+            _paxes.Childs_ = new List<passkeytype>();
+            _paxes.Infant_ = new List<passkeytype>();
+            for (int i = 0; i < travellers_.Count; i++)
             {
-                chdPax = _paxes.Childs_.Count;
+                if (travellers_[i].passengertypecode == "ADT")
+                    _paxes.Adults_.Add(travellers_[i]);
+                else if (travellers_[i].passengertypecode == "CHD")
+                    _paxes.Childs_.Add(travellers_[i]);
+                else if (travellers_[i].passengertypecode == "INFT")
+                    _paxes.Infant_.Add(travellers_[i]);
+
             }
-            if (_paxes.Infant_ != null)
-            {
-                infFax = _paxes.Infant_.Count;
-            }
-            passengers = new Passenger[_paxes.Adults_.Count + chdPax]; //Assign Passenger Information 
-            Passenger p1 = null;
-            int PassCnt = 0;
-            for (int cntAdt = 0; cntAdt < _paxes.Adults_.Count; cntAdt++)
-            {
-                p1 = new Passenger();
-                p1.PassengerNumberSpecified = true;
-                p1.PassengerNumber = Convert.ToInt16(PassCnt);
-                p1.Names = new BookingName[1];
-                p1.Names[0] = new BookingName();
-                if (!string.IsNullOrEmpty(_paxes.Adults_[cntAdt].first))
-                {
-                    p1.Names[0].FirstName = Convert.ToString(_paxes.Adults_[cntAdt].first.Trim()).ToUpper();
-                }
-                if (!string.IsNullOrEmpty(_paxes.Adults_[cntAdt].middle))
-                {
-                    p1.Names[0].MiddleName = Convert.ToString(_paxes.Adults_[cntAdt].middle.Trim()).ToUpper();
-                }
-                if (!string.IsNullOrEmpty(_paxes.Adults_[cntAdt].last))
-                {
-                    p1.Names[0].LastName = Convert.ToString(_paxes.Adults_[cntAdt].last.Trim()).ToUpper();
-                }
-                p1.Names[0].Title = _paxes.Adults_[cntAdt].title.ToUpper().Replace(".", "");
-                p1.PassengerInfo = new PassengerInfo();
-                if (_paxes.Adults_[cntAdt].title.ToUpper().Replace(".", "") == "MR")
-                {
-                    p1.PassengerInfo.Gender = Gender.Male;
-                    p1.PassengerInfo.WeightCategory = WeightCategory.Male;
-                }
-                else
-                {
-                    p1.PassengerInfo.Gender = Gender.Female;
-                    p1.PassengerInfo.WeightCategory = WeightCategory.Female;
-                }
-                p1.PassengerTypeInfos = new PassengerTypeInfo[1];
-                p1.PassengerTypeInfos[0] = new PassengerTypeInfo();
-                p1.PassengerTypeInfos[0].DOBSpecified = true;
-                p1.PassengerTypeInfos[0].PaxType = _paxes.Adults_[cntAdt].passengertypecode.ToString().ToUpper();
-                if (_paxes.Infant_ != null && _paxes.Infant_.Count > 0)
-                {
-                    if (cntAdt < _paxes.Infant_.Count)
-                    {
-                        p1.Infant = new PassengerInfant();
-                        p1.Infant.DOBSpecified = true;
-                        p1.Infant.DOB = Convert.ToDateTime("2023-08-01");//Convert.ToDateTime(_paxes.Infant_[cntAdt].dateOfBirth);
-                                                                         //p1.Infant.Gender = Gender.Male;
-                        if (_paxes.Infant_[cntAdt].title.ToUpper().Replace(".", "") == "MR")
-                        {
-                            p1.Infant.Gender = Gender.Male;
-                        }
-                        else
-                        {
-                            p1.Infant.Gender = Gender.Female;
-                        }
-                        p1.Infant.Names = new BookingName[1];
-                        p1.Infant.Names[0] = new BookingName();
-                        if (!string.IsNullOrEmpty(_paxes.Infant_[cntAdt].first))
-                        {
-                            p1.Infant.Names[0].FirstName = Convert.ToString(_paxes.Infant_[cntAdt].first.Trim());
-                        }
-                        if (!string.IsNullOrEmpty(_paxes.Infant_[cntAdt].middle))
-                        {
-                            p1.Infant.Names[0].MiddleName = Convert.ToString(_paxes.Infant_[cntAdt].middle.Trim());
-                        }
-                        if (!string.IsNullOrEmpty(_paxes.Infant_[cntAdt].last))
-                        {
-                            p1.Infant.Names[0].LastName = Convert.ToString(_paxes.Infant_[cntAdt].last.Trim());
-                        }
-                        p1.Infant.Names[0].Title = _paxes.Infant_[cntAdt].title.Replace(".", "");
-                        p1.Infant.Nationality = _paxes.Infant_[cntAdt].nationality;
-                        p1.Infant.ResidentCountry = _paxes.Infant_[cntAdt].residentCountry;
-                        p1.State = MessageState.New;
-                    }
 
-                }
+            HttpContext.Session.SetString("PaxArray", JsonConvert.SerializeObject(_paxes));
 
-                passengers[PassCnt] = p1;
-                PassCnt++;
-            }
-            if (_paxes.Childs_ != null)
+            Passenger[] passengers = null;
+            try
             {
-                for (int cntChd = 0; cntChd < _paxes.Childs_.Count; cntChd++)
+
+
+
+                int chdPax = 0;
+                int infFax = 0;
+                if (_paxes.Childs_ != null)
+                {
+                    chdPax = _paxes.Childs_.Count;
+                }
+                if (_paxes.Infant_ != null)
+                {
+                    infFax = _paxes.Infant_.Count;
+                }
+                passengers = new Passenger[_paxes.Adults_.Count + chdPax]; //Assign Passenger Information 
+                Passenger p1 = null;
+                int PassCnt = 0;
+                for (int cntAdt = 0; cntAdt < _paxes.Adults_.Count; cntAdt++)
                 {
                     p1 = new Passenger();
-
                     p1.PassengerNumberSpecified = true;
                     p1.PassengerNumber = Convert.ToInt16(PassCnt);
                     p1.Names = new BookingName[1];
                     p1.Names[0] = new BookingName();
-
-                    if (!string.IsNullOrEmpty(_paxes.Childs_[cntChd].first))
+                    if (!string.IsNullOrEmpty(_paxes.Adults_[cntAdt].first))
                     {
-                        p1.Names[0].FirstName = Convert.ToString(_paxes.Childs_[cntChd].first).ToUpper();
+                        p1.Names[0].FirstName = Convert.ToString(_paxes.Adults_[cntAdt].first.Trim()).ToUpper();
                     }
-                    if (!string.IsNullOrEmpty(_paxes.Childs_[cntChd].middle))
+                    if (!string.IsNullOrEmpty(_paxes.Adults_[cntAdt].middle))
                     {
-                        p1.Names[0].MiddleName = Convert.ToString(_paxes.Childs_[cntChd].middle).ToUpper();
+                        p1.Names[0].MiddleName = Convert.ToString(_paxes.Adults_[cntAdt].middle.Trim()).ToUpper();
                     }
-                    if (!string.IsNullOrEmpty(_paxes.Childs_[cntChd].last))
+                    if (!string.IsNullOrEmpty(_paxes.Adults_[cntAdt].last))
                     {
-                        p1.Names[0].LastName = Convert.ToString(_paxes.Childs_[cntChd].last).ToUpper();
+                        p1.Names[0].LastName = Convert.ToString(_paxes.Adults_[cntAdt].last.Trim()).ToUpper();
                     }
-                    p1.Names[0].Title = _paxes.Childs_[cntChd].title.ToUpper().Replace(".", "");
+                    p1.Names[0].Title = _paxes.Adults_[cntAdt].title.ToUpper().Replace(".", "");
                     p1.PassengerInfo = new PassengerInfo();
-                    if (_paxes.Childs_[cntChd].title.ToUpper().Replace(".", "") == "Mr")
+                    if (_paxes.Adults_[cntAdt].title.ToUpper().Replace(".", "") == "MR")
                     {
                         p1.PassengerInfo.Gender = Gender.Male;
                         p1.PassengerInfo.WeightCategory = WeightCategory.Male;
@@ -1679,16 +1786,96 @@ namespace OnionConsumeWebAPI.Controllers
                     p1.PassengerTypeInfos = new PassengerTypeInfo[1];
                     p1.PassengerTypeInfos[0] = new PassengerTypeInfo();
                     p1.PassengerTypeInfos[0].DOBSpecified = true;
-                    p1.PassengerTypeInfos[0].PaxType = _paxes.Childs_[cntChd].passengertypecode.ToString().ToUpper();
+                    p1.PassengerTypeInfos[0].PaxType = _paxes.Adults_[cntAdt].passengertypecode.ToString().ToUpper();
+                    if (_paxes.Infant_ != null && _paxes.Infant_.Count > 0)
+                    {
+                        if (cntAdt < _paxes.Infant_.Count)
+                        {
+                            p1.Infant = new PassengerInfant();
+                            p1.Infant.DOBSpecified = true;
+                            p1.Infant.DOB = Convert.ToDateTime("2023-08-01");//Convert.ToDateTime(_paxes.Infant_[cntAdt].dateOfBirth);
+                                                                             //p1.Infant.Gender = Gender.Male;
+                            if (_paxes.Infant_[cntAdt].title.ToUpper().Replace(".", "") == "MR")
+                            {
+                                p1.Infant.Gender = Gender.Male;
+                            }
+                            else
+                            {
+                                p1.Infant.Gender = Gender.Female;
+                            }
+                            p1.Infant.Names = new BookingName[1];
+                            p1.Infant.Names[0] = new BookingName();
+                            if (!string.IsNullOrEmpty(_paxes.Infant_[cntAdt].first))
+                            {
+                                p1.Infant.Names[0].FirstName = Convert.ToString(_paxes.Infant_[cntAdt].first.Trim());
+                            }
+                            if (!string.IsNullOrEmpty(_paxes.Infant_[cntAdt].middle))
+                            {
+                                p1.Infant.Names[0].MiddleName = Convert.ToString(_paxes.Infant_[cntAdt].middle.Trim());
+                            }
+                            if (!string.IsNullOrEmpty(_paxes.Infant_[cntAdt].last))
+                            {
+                                p1.Infant.Names[0].LastName = Convert.ToString(_paxes.Infant_[cntAdt].last.Trim());
+                            }
+                            p1.Infant.Names[0].Title = _paxes.Infant_[cntAdt].title.Replace(".", "");
+                            p1.Infant.Nationality = _paxes.Infant_[cntAdt].nationality;
+                            p1.Infant.ResidentCountry = _paxes.Infant_[cntAdt].residentCountry;
+                            p1.State = MessageState.New;
+                        }
+
+                    }
+
                     passengers[PassCnt] = p1;
                     PassCnt++;
                 }
+                if (_paxes.Childs_ != null)
+                {
+                    for (int cntChd = 0; cntChd < _paxes.Childs_.Count; cntChd++)
+                    {
+                        p1 = new Passenger();
+
+                        p1.PassengerNumberSpecified = true;
+                        p1.PassengerNumber = Convert.ToInt16(PassCnt);
+                        p1.Names = new BookingName[1];
+                        p1.Names[0] = new BookingName();
+
+                        if (!string.IsNullOrEmpty(_paxes.Childs_[cntChd].first))
+                        {
+                            p1.Names[0].FirstName = Convert.ToString(_paxes.Childs_[cntChd].first).ToUpper();
+                        }
+                        if (!string.IsNullOrEmpty(_paxes.Childs_[cntChd].middle))
+                        {
+                            p1.Names[0].MiddleName = Convert.ToString(_paxes.Childs_[cntChd].middle).ToUpper();
+                        }
+                        if (!string.IsNullOrEmpty(_paxes.Childs_[cntChd].last))
+                        {
+                            p1.Names[0].LastName = Convert.ToString(_paxes.Childs_[cntChd].last).ToUpper();
+                        }
+                        p1.Names[0].Title = _paxes.Childs_[cntChd].title.ToUpper().Replace(".", "");
+                        p1.PassengerInfo = new PassengerInfo();
+                        if (_paxes.Childs_[cntChd].title.ToUpper().Replace(".", "") == "Mr")
+                        {
+                            p1.PassengerInfo.Gender = Gender.Male;
+                            p1.PassengerInfo.WeightCategory = WeightCategory.Male;
+                        }
+                        else
+                        {
+                            p1.PassengerInfo.Gender = Gender.Female;
+                            p1.PassengerInfo.WeightCategory = WeightCategory.Female;
+                        }
+                        p1.PassengerTypeInfos = new PassengerTypeInfo[1];
+                        p1.PassengerTypeInfos[0] = new PassengerTypeInfo();
+                        p1.PassengerTypeInfos[0].DOBSpecified = true;
+                        p1.PassengerTypeInfos[0].PaxType = _paxes.Childs_[cntChd].passengertypecode.ToString().ToUpper();
+                        passengers[PassCnt] = p1;
+                        PassCnt++;
+                    }
+                }
             }
+            catch (SystemException sex_)
+            {
+            }
+            return passengers;
         }
-        catch (SystemException sex_)
-        {
-        }
-        return passengers;
     }
-}
 }

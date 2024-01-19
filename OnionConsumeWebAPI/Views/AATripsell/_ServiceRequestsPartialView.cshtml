@@ -186,10 +186,10 @@
                                                         {
 
 
-                                                           // var group1 = @Model.Seatmaplist.datalist[0].seatMap.decks.units[i].group;
+                                                            // var group1 = @Model.Seatmaplist.datalist[0].seatMap.decks.units[i].group;
                                                             var group = Model.Seatmaplist.datalist[0].seatMapfees.groups[i].groupsFee.groupid;
-                                                            var feeamountF1 =@Model.Seatmaplist.datalist[0].seatMapfees.groups[group].groupsFee.serviceCharges[0].amount;
-                                                         
+                                                            var feeamountF1 = @Model.Seatmaplist.datalist[0].seatMapfees.groups[group].groupsFee.serviceCharges[0].amount;
+
                                                             if (feeamountF1 == 0)
                                                             {
                                                                 <li class="seat-li free-seat tooltip">
@@ -262,7 +262,7 @@
                                                         }
                                                         else
                                                         {
-                                                          //  string feeamountF1 = ht1[data].ToString();
+                                                            //  string feeamountF1 = ht1[data].ToString();
                                                             var group = Model.Seatmaplist.datalist[1].seatMapfees.groups[i].groupsFee.groupid;
                                                             var feeamountF1 = @Model.Seatmaplist.datalist[1].seatMapfees.groups[group].groupsFee.serviceCharges[0].amount;
                                                             if (feeamountF1 == 0)
@@ -419,29 +419,25 @@
                 <div class="journey-box">
                     <ul class="nav nav-pills mb-3">
                         <li class="nav-item">
+                            @{
 
-                            @for (int i = 0; i < seatmaap2; i++)
-                            {
-                            <li class="nav-item d-flex">
-                                    @if (i == 0)
-                                    {
-                                    <div id="seattab3" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
+                                for (int i = 0; i < seatmaap2; i++)
+                                {
+                                <li class="nav-item d-flex">
+                                        @if (i == 0)
+                                        {
+                                        <div id="seattab3" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
 
-                                    }
-                                    else
-                                    {
-                                    <div id="seattab4" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
-                                    }
-                            </li>
-
-
+                                        }
+                                        else
+                                        {
+                                        <div id="seattab4" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
+                                        }
+                                </li>
+                                }
                             }
+                        </li>
 
-                            @*<button class="nav-link active">Departure:DEL-BOM</button>*@
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link">Return:BOM-DEL</button>
-                        </li>
                     </ul>
                 </div>
                 <div class="flight-protip" style="margin-bottom:0;">Pre-booked meal is up to 25% cheaper than on-board price.</div>
@@ -449,21 +445,20 @@
                     <div class="d-flex x-gap-15 mt-25 items-end justify-end">
                         <div class="d-flex x-gap-15 items-end mt-10 mb-10">
                             <div class="col-auto">
-                                <button class="d-flex items-end text-18 arrow-left-hover js-tour-prev-one">
+                                <div class="d-flex items-end text-18 arrow-left-hover js-tour-prev-one">
                                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                                </button>
+                                </div>
                             </div>
                             <div class="col-auto">
-                                <button class="d-flex items-end text-15 arrow-right-hover js-tour-next-one">
+                                <div class="d-flex items-end text-15 arrow-right-hover js-tour-next-one">
                                     <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                                </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <partial name="_AddCartlPatialView.cshtml" />
                 </div>
             </div>
-
             <div class="tabs__pane -tab-item-3">
                 <div class="journey-box">
                     <ul class="nav nav-pills mb-3">
@@ -480,86 +475,48 @@
                     <div class="d-flex x-gap-15 mt-25 items-end justify-end">
                         <div class="d-flex x-gap-15 items-end mt-10 mb-10">
                             <div class="col-auto">
-                                <button class="d-flex items-end text-18 arrow-left-hover js-tour-prev">
+                                <div class="d-flex items-end text-18 arrow-left-hover js-tour-prev">
                                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                                </button>
+                                </div>
                             </div>
                             <div class="col-auto">
-                                <button class="d-flex items-end text-15 arrow-right-hover js-tour-next">
+                                <div class="d-flex items-end text-15 arrow-right-hover js-tour-next">
                                     <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                                </button>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="relative overflow-hidden js-section-slider pt-10 sm:pt-20" data-gap="30" data-scrollbar data-slider-cols="xl-5 lg-4 md-3 sm-2 base-2" data-nav-prev="js-tour-prev" data-pagination="js-tour-pag" data-nav-next="js-tour-next">
+
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide active">
-                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
-                                    <img src="~/img/images/travel-bag.png" title="image" alt="image">
-                                    <h6 class="text-14 fw-600 mt-10">Additional</h6>
-                                    <h5 class="text-16 fw-700 mt-6">3 Kg</h5>
-                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; 1,350</p>
-                                    <div class="d-flex justify-content-center">
-                                        <button class="button -md -outline-blue-1 text-blue-1">Select</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="swiper-slide">
-                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
-                                    <img src="~/img/images/travel-bag.png" title="image" alt="image">
-                                    <h6 class="text-14 fw-600 mt-10">Additional</h6>
-                                    <h5 class="text-16 fw-700 mt-6">5 Kg</h5>
-                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; 2,250</p>
-                                    <div class="d-flex justify-content-center">
-                                        <button class="button -md -outline-blue-1 text-blue-1">Select</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="swiper-slide">
-                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
-                                    <img src="~/img/images/travel-bag.png" title="image" alt="image">
-                                    <h6 class="text-14 fw-600 mt-10">Additional</h6>
-                                    <h5 class="text-16 fw-700 mt-6">10 Kg</h5>
-                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; 4,500</p>
-                                    <div class="d-flex justify-content-center">
-                                        <button class="button -md -outline-blue-1 text-blue-1">Select</button>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="swiper-slide">
-                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
-                                    <img src="~/img/images/travel-bag.png" title="image" alt="image">
-                                    <h6 class="text-14 fw-600 mt-10">Additional</h6>
-                                    <h5 class="text-16 fw-700 mt-6">15 Kg</h5>
-                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; 6,750</p>
-                                    <div class="d-flex justify-content-center">
-                                        <button class="button -md -outline-blue-1 text-blue-1">Select</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="swiper-slide">
-                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
-                                    <img src="~/img/images/travel-bag.png" title="image" alt="image">
-                                    <h6 class="text-14 fw-600 mt-10">Additional</h6>
-                                    <h5 class="text-16 fw-700 mt-6">25 Kg</h5>
-                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; 11,250</p>
-                                    <div class="d-flex justify-content-center">
-                                        <button class="button -md -outline-blue-1 text-blue-1">Select</button>
-                                    </div>
-                                </div>
-                            </div>
+                            @{
+                                for (int r = 0; r < Model.Baggage.journeySsrsBaggage.Count; r++)
+                                {
+                                    for (int s = 0; s < Model.Baggage.journeySsrsBaggage[r].baggageSsr.Count; s++)
+                                    {
+                                        for (int q = 0; q < Model.Baggage.journeySsrsBaggage[r].baggageSsr[s].passengersAvailabilityBaggage.Count; q++)
+                                        {
+                                            <div class="swiper-slide active">
+                                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                                    <img src="~/img/images/travel-bag.png" title="image" alt="image">
+                                                    @* <h6 class="text-14 fw-600 mt-10">Additional</h6>*@
+                                                    <h5 class="text-16 fw-700 mt-6">@Model.Baggage.journeySsrsBaggage[r].baggageSsr[s].name</h5>
+                                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; @Model.Baggage.journeySsrsBaggage[r].baggageSsr[s].passengersAvailabilityBaggage[q].price</p>
+                                                    <div class="d-flex justify-content-center">
+                                                        <input type="checkbox" id="ssrKeyBaggage" name="ssrKey" value="@Model.Baggage.journeySsrsBaggage[r].baggageSsr[s].passengersAvailabilityBaggage[q].ssrKey" />
+                                                        @* <button class="button -md -outline-blue-1 text-blue-1">Select</button>*@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                }
+                            }
                         </div>
                     </div>
                 </div>
             </div>
-
-
             <div class="tabs__pane -tab-item-4">
                 <div class="journey-box">
                     <ul class="nav nav-pills">

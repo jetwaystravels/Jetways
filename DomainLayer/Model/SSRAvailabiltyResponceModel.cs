@@ -3,44 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static DomainLayer.Model.ReturnTicketBooking;
 
 namespace DomainLayer.Model
 {
     public class SSRAvailabiltyResponceModel
     {
-        public List<Journeyssr> journeySsrs { get; set; }
+        public List<JourneyssrBaggage> journeySsrsBaggage { get; set; }
         public List<segmentSsrs> segmentSsrs { get; set; }
         public List<legSsrs> legSsrs { get; set; }
+        public int SegmentSSrcount { get; set; }
+    }
+    //BagggageModel
+    public class JourneyssrBaggage
+    {
+        public string journeyBaggageKey { get; set; }
+        public JourneyDetailsBaggage journeydetailsBaggage { get; set; }
+        public List<BaggageSsr> baggageSsr { get; set; }
     }
 
-    public class Journeyssr
+    public class JourneyDetailsBaggage
     {
-        public string journeyKey { get; set; }
-        public Journeydetails journeyDetails { get; set; }
-        public List<jouSsr> ssrs { get; set; }
-    }
-
-    public class Journeydetails
-    {
-        public JIdentifier identifier { get; set; }
+        public JBaggageIdentifier identifier { get; set; }
         public string destination { get; set; }
         public string origin { get; set; }
         public DateTime departureDate { get; set; }
     }
 
-    public class JIdentifier
+    public class JBaggageIdentifier
     {
         public string identifier { get; set; }
         public string carrierCode { get; set; }
         public object opSuffix { get; set; }
     }
 
-    public class jouSsr
+    public class BaggageSsr
     {
         public string ssrCode { get; set; }
-
-        public joupassengers[] joupassengers{ get; set; }
-
+        public List<PassengersAvailabilityBaggage> passengersAvailabilityBaggage { get; set; }
         public int ssrType { get; set; }
         public string name { get; set; }
         public int limitPerPassenger { get; set; }
@@ -51,9 +51,9 @@ namespace DomainLayer.Model
         public string nest { get; set; }
         public int seatRestriction { get; set; }
     }
-
-    public class joupassengers
+    public class PassengersAvailabilityBaggage
     {
+        public Airlines Airline { get; set; }
         public string ssrKey { get; set; }
         public string passengerKey { get; set; }
         public string price { get; set; }
@@ -77,7 +77,6 @@ namespace DomainLayer.Model
 
 
     }
-
     public class segidentifier
     {
 
@@ -86,7 +85,6 @@ namespace DomainLayer.Model
         public object opSuffix { get; set; }
 
     }
-
     public class segSsrs
     {
         public string ssrCode { get; set; }
@@ -103,15 +101,12 @@ namespace DomainLayer.Model
 
 
     }
-
     public class segpassengers
     {
         public string ssrKey { get; set; }
         public string passengerKey { get; set; }
         public string price { get; set; }
     }
-
-
     public class legSsrs
     {
         public string legKey { get; set; }
@@ -121,7 +116,6 @@ namespace DomainLayer.Model
         public List<childlegssrs> legssrs { get; set; }
 
     }
-
     public class legDetails
     {
         public legidentifier legidentifier { get; set; }
@@ -129,11 +123,7 @@ namespace DomainLayer.Model
         public string origin { get; set; }
         public string departureDate { get; set; }
 
-       
-
-
     }
-
     public class legidentifier
     {
         public string identifier { get; set; }
@@ -141,7 +131,6 @@ namespace DomainLayer.Model
         public object opSuffix { get; set; }
 
     }
-
     public class childlegssrs
     {
         public string ssrCode { get; set; }
@@ -157,7 +146,6 @@ namespace DomainLayer.Model
         public int seatRestriction { get; set; }
 
     }
-
     public class legpassengers
     {
         public Airlines Airline { get; set; }
@@ -166,27 +154,26 @@ namespace DomainLayer.Model
         public string price { get; set; }
     }
 
-
 }
 
 
 
 
 
-    
-       
 
-       
 
-       
 
-       
-      
 
-       
 
-        
-       
 
-    
+
+
+
+
+
+
+
+
+
+
 

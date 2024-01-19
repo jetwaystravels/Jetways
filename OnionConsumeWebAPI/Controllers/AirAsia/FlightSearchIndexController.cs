@@ -107,6 +107,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                 var AirasialoginRequest = JsonConvert.SerializeObject(login, Formatting.Indented);
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 HttpResponseMessage responce = await client.PostAsJsonAsync(AppUrlConstant.AirasiaTokan, login);
+
                 if (responce.IsSuccessStatusCode)
                 {
                     var results = responce.Content.ReadAsStringAsync().Result;
@@ -115,6 +116,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     AirasiaTokan.idleTimeoutInMinutes = JsonObj.data.idleTimeoutInMinutes;
                     //token = ((Newtonsoft.Json.Linq.JValue)value).Value.ToString();
                 }
+                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(AirasialoginRequest) + "\n Response: " + JsonConvert.SerializeObject(AirasiaTokan.token), "Logon");
 
 
                 HttpContext.Session.SetString("AirasiaTokan", JsonConvert.SerializeObject(AirasiaTokan.token));
@@ -245,6 +247,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                 if (responce1.IsSuccessStatusCode)
                 {
                     var results = responce1.Content.ReadAsStringAsync().Result;
+                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_SimpleAvailabilityobj) + "\n Response: " + JsonConvert.SerializeObject(results), "GetAvailability");
                     var JsonObj = JsonConvert.DeserializeObject<dynamic>(results);
                     // var value = JsonObj.data.token;
                     //var value = JsonObj.data.results[0].trips[0].date;
@@ -824,6 +827,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     if (responceR.IsSuccessStatusCode)
                     {
                         var resultsR = responceR.Content.ReadAsStringAsync().Result;
+                        logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_SimpleAvailabilityobjR) + "Url: " + AppUrlConstant.AirasiasearchsimpleR + "\n Response: " + JsonConvert.SerializeObject(resultsR), "GetAvailability", "AirAsiaRT");
                         var JsonObjR = JsonConvert.DeserializeObject<dynamic>(resultsR);
                         // var value = JsonObj.data.token;
                         //var value = JsonObj.data.results[0].trips[0].date;
@@ -991,7 +995,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     SpiceJetApiController objSpiceJetR = new SpiceJetApiController();
                     LogonResponse _logonResponseobjR = await objSpiceJet.Signature(_logonRequestobjR);
 
-                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_logonRequestobjR) + "\n Response: " + JsonConvert.SerializeObject(_logonResponseobjR), "Logon");
+                    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_logonRequestobjR) + "\n Response: " + JsonConvert.SerializeObject(_logonResponseobjR), "Logon", "SpiceJetRT");
 
 
                     #endregion
@@ -1061,7 +1065,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
                     GetAvailabilityVer2Response _getAvailabilityVer2ReturnResponse = await objSpiceJet.GetAvailabilityVer2Async(_getAvailabilityReturnRQ);
 
-                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getAvailabilityReturnRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getAvailabilityVer2ReturnResponse), "GetAvailability");
+                    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getAvailabilityReturnRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getAvailabilityVer2ReturnResponse), "GetAvailability", "SpiceJetRT");
 
 
                     int count2 = 0;

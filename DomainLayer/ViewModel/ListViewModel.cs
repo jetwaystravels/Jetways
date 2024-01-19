@@ -17,18 +17,12 @@ namespace DomainLayer.ViewModel
         public SeatMapResponceModel SeatmaplistR { set; get; }
         public SSRAvailabiltyResponceModel Meals { set; get; }
         public SSRAvailabiltyResponceModel MealsR { set; get; }
-
+        public SSRAvailabiltyResponceModel Baggage { set; get; }
         public List<SimpleAvailibilityaAddResponce> SimpleAvailibilityaAddResponcelist { get; set; }
-
         public List<SimpleAvailibilityaAddResponce> SimpleAvailibilityaAddResponcelistR { get; set; }
-
-
         public PassengerModel _PassengerModel { get; set; }
-		
         public List<AirAsiaTripResponceModel> passeengerlistRT { set; get; }
-
         public List<SeatMapResponceModel> SeatmaplistRT { set; get; }
-
         public List<SSRAvailabiltyResponceModel> MealslistRT { set; get; }
     }
 }
