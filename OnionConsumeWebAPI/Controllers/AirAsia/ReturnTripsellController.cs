@@ -1303,6 +1303,10 @@ namespace OnionConsumeWebAPI.Controllers
 
                             for (int i = 0; i < legSsrscount; i++)
                             {
+                                if (i <= 1 && legSsrscount > 2)
+                                {
+                                    continue;
+                                }
                                 legSsrs SSRAvailabiltyLegssrobj = new legSsrs();
                                 SSRAvailabiltyLegssrobj.legKey = JsonObjresponseSSRAvailabilty.data.legSsrs[i].legKey;
                                 legDetails legDetailsobj = new legDetails();

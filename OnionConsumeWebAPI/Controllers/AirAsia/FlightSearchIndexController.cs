@@ -60,7 +60,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
         [HttpPost]
         [Route("")]
         public async Task<IActionResult> SearchResultFlight(SimpleAvailabilityRequestModel _GetfligthModel)
-        {            
+        {
             Logs logs = new Logs();
             string destination1 = string.Empty;
             string origin = string.Empty;
@@ -243,7 +243,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AirasiaTokan.token);
                 HttpResponseMessage responce1 = await client.PostAsJsonAsync(AppUrlConstant.Airasiasearchsimple, _SimpleAvailabilityobj);
-                 int uniqueidx = 0;
+                int uniqueidx = 0;
                 if (responce1.IsSuccessStatusCode)
                 {
                     var results = responce1.Content.ReadAsStringAsync().Result;
@@ -395,8 +395,9 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             _SimpleAvailibilityaAddResponceobj.journeyKey = journeyKey;
                             _SimpleAvailibilityaAddResponceobj.faresIndividual = fareIndividualsList;
                             _SimpleAvailibilityaAddResponceobj.uniqueId = i;
-                             _SimpleAvailibilityaAddResponceobj.Airline = Airlines.Airasia;
-                             uniqueidx++;
+                            _SimpleAvailibilityaAddResponceobj.Airline = Airlines.Airasia;
+                            _SimpleAvailibilityaAddResponceobj.uniqueId = uniqueidx;
+                            uniqueidx++;
                             SimpleAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
                         }
                     }
@@ -440,7 +441,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                 _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0] = new AvailabilityRequest();
 
                 _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].DepartureStation = _GetfligthModel.origin;
-                _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].ArrivalStation =  _GetfligthModel.destination;
+                _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].ArrivalStation = _GetfligthModel.destination;
 
                 _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].BeginDateSpecified = true;
                 //_getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].BeginDate = Convert.ToDateTime("2024-01-18");
@@ -474,7 +475,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                 _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareClassControl = FareClassControl.CompressByProductClass;
 
                 //string[] faretypes = { "R", "MX", "IO", "SF" };
-                string[] faretypes = {"R"};
+                string[] faretypes = { "R" };
                 _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareTypes = faretypes;
 
                 string[] productclasses = new string[1];
@@ -509,8 +510,8 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     Designatorobj.destination = _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0][0].ArrivalStation;
 
                     string journeykey = _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].JourneySellKey.ToString();
-                    string departureTime = Regex.Match(journeykey, @Designatorobj.origin+@"[\s\S]*?\s(?<STD>[\s\S]*?)~").Groups["STD"].Value.Trim();
-                    string arrivalTime= Regex.Match(journeykey, @Designatorobj.destination + @"[\s\S]*?\s(?<STA>[\s\S]*?)~").Groups["STA"].Value.Trim();
+                    string departureTime = Regex.Match(journeykey, @Designatorobj.origin + @"[\s\S]*?\s(?<STD>[\s\S]*?)~").Groups["STD"].Value.Trim();
+                    string arrivalTime = Regex.Match(journeykey, @Designatorobj.destination + @"[\s\S]*?\s(?<STA>[\s\S]*?)~").Groups["STA"].Value.Trim();
 
                     Designatorobj.departure = Convert.ToDateTime(departureTime);
 
@@ -710,12 +711,12 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         #endregion
 
                     }
-                    
+
                     //Legobj.designator = Designatorobj;
 
                     _SimpleAvailibilityaAddResponceobj.designator = Designatorobj;
                     _SimpleAvailibilityaAddResponceobj.segments = Segmentobjlist;
-                    _SimpleAvailibilityaAddResponceobj.stops = Segmentobjlist.Count-1;
+                    _SimpleAvailibilityaAddResponceobj.stops = Segmentobjlist.Count - 1;
 
 
                     var bookingdate = "2023-12-10T00:00:00";
@@ -739,10 +740,10 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                 {
 
 
-                     uniqueidx = 0;
+                    uniqueidx = 0;
                     ////Roundtripcode for AirAsia
-                     SimpleAvailibilityaAddResponcelistR = new List<SimpleAvailibilityaAddResponce>();
-                     _SimpleAvailibilityaAddResponceobjR = new SimpleAvailibilityaAddResponce();
+                    SimpleAvailibilityaAddResponcelistR = new List<SimpleAvailibilityaAddResponce>();
+                    _SimpleAvailibilityaAddResponceobjR = new SimpleAvailibilityaAddResponce();
 
                     DomainLayer.Model.SimpleAvailabilityRequestModel _SimpleAvailabilityobjR = new DomainLayer.Model.SimpleAvailabilityRequestModel();
                     _SimpleAvailabilityobjR.origin = _GetfligthModel.destination;
@@ -1016,7 +1017,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
                     _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].DepartureStation = _GetfligthModel.destination; //return_origin
 
-                    _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].ArrivalStation =_GetfligthModel.origin; //return_depart
+                    _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].ArrivalStation = _GetfligthModel.origin; //return_depart
 
                     _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].BeginDateSpecified = true;
                     //_getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].BeginDate = Convert.ToDateTime("2024-01-18");
@@ -1124,7 +1125,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 DomainLayer.Model.Leg Legobj = new DomainLayer.Model.Leg();
                                 Designator legdesignatorobj = new Designator();
                                 legdesignatorobj.origin = _getAvailabilityVer2ReturnResponse.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].DepartureStation; ;
-                                legdesignatorobj.destination = _getAvailabilityVer2ReturnResponse.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].ArrivalStation; 
+                                legdesignatorobj.destination = _getAvailabilityVer2ReturnResponse.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].ArrivalStation;
                                 legdesignatorobj.departure = _getAvailabilityVer2ReturnResponse.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].STD;
                                 legdesignatorobj.arrival = _getAvailabilityVer2ReturnResponse.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].STA;
                                 Legobj.designator = legdesignatorobj;

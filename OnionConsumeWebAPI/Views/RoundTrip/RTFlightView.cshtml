@@ -162,20 +162,19 @@
                                         <div class="py-10 px-20 bg-white mt-20">
                                             <div class="d-flex y-gap-30 justify-between">
                                                 <div class="fare-round">
+
+
                                                     @if (Model.SimpleAvailibilityaAddResponcelist[j].Airline.ToString().ToLower().Equals("spicejet"))
                                                     {
-
-                                                        <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
+                                                        <img class="size-40 clickable-image" src="~/img/flight-logo-icon/SG.png" alt="SpiceJet" data-index="@j">
                                                     }
                                                     else
                                                     {
-                                                        <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
+                                                        <img class="size-40 clickable-image" src="~/img/flight-logo-icon/1.webp" alt="Default" data-index="@j">
                                                     }
-                                                    @* <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image"> *@
+
+
                                                     <input type="hidden" value="@Model.SimpleAvailibilityaAddResponcelist[j].uniqueId" />
-                                                    @*<input type="hidden" class="carrierCode" name="carrierCode" value="@Model.SimpleAvailibilityaAddResponcelist[j].segments[i].identifier.carrierCode" />
-                                                <input type="hidden" class="identifier" name="identifier" value="@Model.SimpleAvailibilityaAddResponcelist[j].segments[i].identifier.identifier" />
-                                                <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[i].identifier.carrierCode  - @Model.SimpleAvailibilityaAddResponcelist[j].segments[i].identifier.identifier </div>*@
                                                     <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode  - @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.identifier </div>
 
                                                 </div>
@@ -221,7 +220,6 @@
                                                     <input type="hidden" class="arrival" value="@arrivalfinal" />
                                                     <input type="hidden" class="destination" value="@Model.SimpleAvailibilityaAddResponcelist[j].designator.destination" />
                                                 </div>
-
                                                 <div class="fare-round mt-3">
                                                     <div class="rtprice">₹ @Model.SimpleAvailibilityaAddResponcelist[j].fareTotalsum</div>
                                                     <input type="hidden" class="fareTotalsum" value="@Model.SimpleAvailibilityaAddResponcelist[j].fareTotalsum" />
@@ -229,11 +227,10 @@
                                                 </div>
 
                                                 <div class="fare-round mt-3">
-                                                    <input type="radio" id="uniqueId" name="dynamicRadio" value="@Model.SimpleAvailibilityaAddResponcelist[j].uniqueId" onclick="RenderData()">
-                                                    @* <input class="farebtniddd" type="radio" name="radiosL" onclick="RenderData(@j)">*@
+                                                    <input type="radio" id="uniqueId" name="dynamicRadio" value="@Model.SimpleAvailibilityaAddResponcelist[j].uniqueId" onclick="RenderData()" data-index="@j">
+
                                                 </div>
                                             </div>
-
                                             <div class="rtflight-dtl showBtn"><a href="#">Flight Details <i class="fa fa-angle-down" data-unicode="f107"></i></a></div>
                                             <div class="hideme" style="display:none;">
                                                 <div class="tabs -underline-2 pt-30 lg:pt-30 sm:pt-30 js-tabs">
@@ -489,14 +486,13 @@
                                                 <div class="fare-round">
                                                     @if (Model.SimpleAvailibilityaAddResponcelistR[j].Airline.ToString().ToLower().Equals("spicejet"))
                                                     {
-
-                                                        <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
+                                                        <img class="size-40 clickable-image" src="~/img/flight-logo-icon/SG.png" alt="SpiceJet" data-index="@j">
                                                     }
                                                     else
                                                     {
-                                                        <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
+                                                        <img class="size-40 clickable-image" src="~/img/flight-logo-icon/1.webp" alt="Default" data-index="@j">
                                                     }
-                                                    @* <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image"> *@
+
                                                     @*  <input type="hidden" class="carrierreturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].segments[i].identifier.carrierCode" />
                                                 <input type="hidden" class="identifierreturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].segments[i].identifier.identifier" />
                                                 <div class="fliCode"><div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelistR[j].segments[i].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelistR[j].segments[i].identifier.identifier</div></div>*@
@@ -551,10 +547,7 @@
 
                                                 </div>
                                                 <div class="fare-round mt-3">
-                                                    <input type="radio" id="uniqueId" name="dynamicRadioR" value="@Model.SimpleAvailibilityaAddResponcelistR[j].uniqueId" onclick="RenderDataR()">
-                                                    @* <input type="radio" name="ReturnRadioGroup" class="OnewayRadio" onclick="RenderData('fareReturnway', @j)"> *@
-                                                    @*<input class="farebtn" type="radio" name="RadiosR" onclick="RenderDataReturn(@j)">*@
-
+                                                    <input type="radio" id="uniqueIdR" name="dynamicRadioR" value="@Model.SimpleAvailibilityaAddResponcelistR[j].uniqueId" onclick="RenderDataR()" data-index="@j">
                                                 </div>
                                             </div>
 
@@ -796,7 +789,11 @@
                     <div class="col-auto">
                         <div class="d-flex y-gap-30 justify-between align-items-center">
                             <div class="fare-round d-flex align-items-center">
-                                <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
+                                @* <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">  *@
+                                <div id="selectedImageContainer">
+                                    <img id="selectedImage" class="size-40" src="" alt="Selected Image">
+                                </div>
+
                                 <div class="text-12 ms-2"><span id="carierCodedata"></span>-<span id="IdentifierData"></span></div>
                             </div>
                             <div class="fare-round ms-2">
@@ -827,7 +824,10 @@
                     <div class="col-auto">
                         <div class="d-flex y-gap-30 justify-between align-items-center">
                             <div class="fare-round d-flex align-items-center">
-                                <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
+                                @*  <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image"> *@
+                                <div id="selectedImageContainer">
+                                    <img id="selectedImageR" class="size-40" src="" alt="Selected Image">
+                                </div>
                                 <div class="text-12 ms-2"><span id="carrierreturndata"></span>-<span id="identifierreturndata"></span></div>
                             </div>
                             <div class="fare-round ms-2">
@@ -885,38 +885,38 @@
 
         </section>
         <section id="myContainer1">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <!-- Modal -->
-                    <div class="modal fade" id="rtexampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog rtwidth-modal" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">More Fare Options Available</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" id="flighticon" onclick="PostdataReturnTripsell()" class="btn btn-primary">Continue</button>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Modal -->
+                        <div class="modal fade" id="rtexampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog rtwidth-modal" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">More Fare Options Available</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" id="flighticon" onclick="PostdataReturnTripsell()" class="btn btn-primary">Continue</button>
+
+                                    </div>
+
 
                                 </div>
-
-
                             </div>
+
+
                         </div>
 
-
                     </div>
-
                 </div>
             </div>
-        </div>
-     </section>
+        </section>
     </main>
     <div class="langMenu is-hidden js-langMenu" data-x="lang" data-x-toggle="is-hidden">
         <div class="langMenu__bg" data-x-click="lang"></div>
@@ -2318,105 +2318,124 @@
     <!-- Plugins js -->
     <script src="~/js/plugins/plugins.min.js"></script>
 
-<!-- ***** Clander js ***** -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
-<script src="~/js/daterangepicker.js"></script>
+    <!-- ***** Clander js ***** -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+    <script src="~/js/daterangepicker.js"></script>
 
-<!-- Bootstrap js -->
-<script src="~/js/bootstrap/popper.min.js"></script>
-<script src="~/js/bootstrap/bootstrap.min.js"></script>
-<!-- Travellers js -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAz77U5XQuEME6TpftaMdX0bBelQxXRlM"></script>
-<script src="~/js/vendors.js"></script>
-<script src="~/js/main.js"></script>
-<!-- Active js -->
-<script src="~/js/active.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="~/js/bootstrap/popper.min.js"></script>
+    <script src="~/js/bootstrap/bootstrap.min.js"></script>
+    <!-- Travellers js -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAz77U5XQuEME6TpftaMdX0bBelQxXRlM"></script>
+    <script src="~/js/vendors.js"></script>
+    <script src="~/js/main.js"></script>
+    <!-- Active js -->
+    <script src="~/js/active.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script type="text/javascript">
-    var uniqueId, uniqueIdR;
-    $('input[type=radio][name=dynamicRadio]').change(function () {
-        uniqueId = $(this).val();
-        // Retrieve values from hidden input fields
-        var departureTime = $('.departuretime').eq(uniqueId).val();
-        var origin = $('.origin').eq(uniqueId).val();
-        var destination = $('.destination').eq(uniqueId).val();
-        var diffL = $('.diff').eq(uniqueId).val();
-        var stopsL = $('.stops').eq(uniqueId).val();
-        var arrivalL = $('.arrival').eq(uniqueId).val();
-        var fareTotalsumL = $('.fareTotalsum').eq(uniqueId).val();
-        // Display the retrieved values
-        $('#departureData').text(departureTime);
-        $('#originData').text(origin);
-        $('#diffData').text(diffL);
-        $('#stopsData').text(stopsL);
-        $('#arrivalData').text(arrivalL);
-        $('#destinationData').text(destination);
-        $('#fareTotalsumData').text(fareTotalsumL);
-        // Store in session Total Fare Left
-        localStorage.setItem('TotalfareL', fareTotalsumL);
-    });
+    <script type="text/javascript">
+        var uniqueId, uniqueIdR;
 
-    $('input[type=radio][name=dynamicRadioR]').change(function () {
-        debugger;
-        uniqueIdR = $(this).val();
-        // Retrieve values from hidden input fields
-        var departureTimeR = $('.departurereturn').eq(uniqueIdR).val();
-        var originR = $('.originreturn').eq(uniqueIdR).val();
-        var diffR = $('.diffreturn').eq(uniqueIdR).val();
-        var stopsR = $('.stopsreturn').eq(uniqueIdR).val();
-        var arrivalR = $('.arrivalreturn').eq(uniqueIdR).val();
-        var destinationR = $('.destinationreturn').eq(uniqueIdR).val();
-        var fareTotalsumR = $('.faretotalsumreturn').eq(uniqueIdR).val();
-        // Display the retrieved values
-        $('#departurereturndata').text(departureTimeR);
-        $('#originreturndata').text(originR);
-        $('#diffreturndata').text(diffR);
-        $('#stopsreturndata').text(stopsR);
-        $('#arrivalreturndata').text(arrivalR);
-        $('#destinationreturndata').text(destinationR);
-        $('#faretotalsumreturndata').text(fareTotalsumR);
-        //Sum Of Total fare left and right
-        var totalL = localStorage.getItem('TotalfareL');
-        var TotalfareLR = parseInt(totalL) + parseInt(fareTotalsumR, 10);
-        $('#totalfaretotalround').text(TotalfareLR);
+        $('input[type=radio][name=dynamicRadio]').change(function () {
+            debugger;
+            uniqueId = $(this).val();
+            alert(uniqueId);
+            var dataIndex = $(this).attr('data-index');
+            alert(dataIndex);
+            var selectedImageSrc = $('.clickable-image[data-index="' + dataIndex + '"]').attr('src');
+            alert(selectedImageSrc);
+            // Update the source of the selected image in the other div
+            $('#selectedImage').attr('src', selectedImageSrc);
+            // Retrieve values from hidden input fields
+            var departureTime = $('.departuretime').eq(uniqueId).val();
+            var origin = $('.origin').eq(uniqueId).val();
+            var destination = $('.destination').eq(uniqueId).val();
+            var diffL = $('.diff').eq(uniqueId).val();
+            var stopsL = $('.stops').eq(uniqueId).val();
+            var arrivalL = $('.arrival').eq(uniqueId).val();
+            var fareTotalsumL = $('.fareTotalsum').eq(uniqueId).val();
 
-    });
-    $('#ReturnButtonId').click(function () {
-        debugger;
-        $.ajax({
-            type: 'POST',
-            url: '/RoundTrip/PostReturnAATripsellView',
-            data: {
-                uniqueId: uniqueId,
-                uniqueIdR: uniqueIdR
-            },
-            success: function (response) {
+            // Display the retrieved values
+            $('#departureData').text(departureTime);
+            $('#originData').text(origin);
+            $('#diffData').text(diffL);
+            $('#stopsData').text(stopsL);
+            $('#arrivalData').text(arrivalL);
+            $('#destinationData').text(destination);
+            $('#fareTotalsumData').text(fareTotalsumL);
+            // Store in session Total Fare Left
+            localStorage.setItem('TotalfareL', fareTotalsumL);
+        });
 
-                console.log('POST request successful');
-                $('#rtexampleModal .modal-body').html(response);
-                $('#rtexampleModal').modal('show');
-            },
-            error: function (xhr, status, error) {
-                console.error('Error occurred:', error);
+        $('input[type=radio][name=dynamicRadioR]').change(function () {
+            debugger;
+            uniqueIdR = $(this).val();
+            alert(uniqueIdR);
+            var dataIndexR = $(this).attr('data-index');
+            alert(dataIndexR);
+            var selectedImageSrcR = $('.clickable-image[data-index="' + dataIndexR + '"]').attr('src');
+            alert(selectedImageSrcR);
+
+            // Update the source of the selected image in the other div
+            $('#selectedImageR').attr('src', selectedImageSrcR);
+
+            // Retrieve values from hidden input fields
+            var departureTimeR = $('.departurereturn').eq(uniqueIdR).val();
+            var originR = $('.originreturn').eq(uniqueIdR).val();
+            var diffR = $('.diffreturn').eq(uniqueIdR).val();
+            var stopsR = $('.stopsreturn').eq(uniqueIdR).val();
+            var arrivalR = $('.arrivalreturn').eq(uniqueIdR).val();
+            var destinationR = $('.destinationreturn').eq(uniqueIdR).val();
+            var fareTotalsumR = $('.faretotalsumreturn').eq(uniqueIdR).val();
+            // Display the retrieved values
+            $('#departurereturndata').text(departureTimeR);
+            $('#originreturndata').text(originR);
+            $('#diffreturndata').text(diffR);
+            $('#stopsreturndata').text(stopsR);
+            $('#arrivalreturndata').text(arrivalR);
+            $('#destinationreturndata').text(destinationR);
+            $('#faretotalsumreturndata').text(fareTotalsumR);
+            //Sum Of Total fare left and right
+            var totalL = localStorage.getItem('TotalfareL');
+            var TotalfareLR = parseInt(totalL) + parseInt(fareTotalsumR, 10);
+            $('#totalfaretotalround').text(TotalfareLR);
+
+        });
+        $('#ReturnButtonId').click(function () {
+            debugger;
+            $.ajax({
+                type: 'POST',
+                url: '/RoundTrip/PostReturnAATripsellView',
+                data: {
+                    uniqueId: uniqueId,
+                    uniqueIdR: uniqueIdR
+                },
+                success: function (response) {
+
+                    console.log('POST request successful');
+                    $('#rtexampleModal .modal-body').html(response);
+                    $('#rtexampleModal').modal('show');
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error occurred:', error);
+                }
+            });
+        });
+        $('.showBtn').click(function () {
+            //$('.hideme').hide();
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+                $('.hideme').slideUp(1);
+            } else {
+                $('.hideme').slideUp(1);
+                $('.showBtn').removeClass('active');
+                $(this).addClass('active');
+                $(this).next().filter('.hideme').slideDown(1);
             }
         });
-    });
-    $('.showBtn').click(function () {
-        //$('.hideme').hide();
-        if ($(this).hasClass('active')) {
-            $(this).removeClass('active');
-            $('.hideme').slideUp(1);
-        } else {
-            $('.hideme').slideUp(1);
-            $('.showBtn').removeClass('active');
-            $(this).addClass('active');
-            $(this).next().filter('.hideme').slideDown(1);
-        }
-    });
 
-</script>
+    </script>
 
 </body>
 </html>
