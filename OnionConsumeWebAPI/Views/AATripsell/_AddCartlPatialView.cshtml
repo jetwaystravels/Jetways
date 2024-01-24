@@ -64,12 +64,30 @@
                             {
                                 <div class="swiper-slide active">
                                     <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
-                                        <img src="~/img/images/non-veg-img-1.png" title="image" alt="image">
+
+                                        @{
+                                            // Assuming you have a variable named mealImage dynamically assigned based on some condition
+                                            string MealImagelist = string.Empty;
+                                            string querymeal = @Model.Meals.legSsrs[0].legssrs[s].ssrCode;
+                                            var Mealdata = DomainLayer.Model.MealImageList.GetAllmeal().Where(x => x.MealCode == querymeal).SingleOrDefault();
+
+                                            if (Mealdata != null)
+                                            {
+                                                MealImagelist = DomainLayer.Model.MealImageList.GetAllmeal().Where(x => x.MealCode == querymeal).SingleOrDefault().MealImage;
+                                            }
+
+                                                                                      
+                                           
+                                        }
+                                       
+                                        <img src="~/img/images/@MealImagelist" title="image" alt="image" />
+                                        <h5 class="text-16 fw-700 mt-6">meal</h5>
                                         <h5 class="text-16 fw-700 mt-6">@Model.Meals.legSsrs[0].legssrs[s].name</h5>
+                                        
                                         <p class="text-14 fw-600 mt-2 text-center">&#8377; @Model.Meals.legSsrs[0].legssrs[s].legpassengers[q].price</p>
                                         <div class="d-flex justify-content-center">
                                             <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                            <input type="checkbox" id="ssrKeyBaggage" name="ssrKey" value="@Model.Meals.legSsrs[0].legssrs[s].legpassengers[q].ssrKey" />
+                                            <input type="checkbox" id="ssrKeymeal" name="ssrKey" value="@Model.Meals.legSsrs[0].legssrs[s].legpassengers[q].ssrKey" />
                                         </div>
                                     </div>
                                 </div>
@@ -86,7 +104,6 @@
                 <div class="swiper-wrapper">
                     @{
 
-
                         for (int s = 0; s < Model.Meals.legSsrs[1].legssrs.Count; s++)
                         {
                             for (int q = 0; q < Model.Meals.legSsrs[1].legssrs[s].legpassengers.Count; q++)
@@ -98,7 +115,7 @@
                                         <p class="text-14 fw-600 mt-2 text-center">&#8377; @Model.Meals.legSsrs[1].legssrs[s].legpassengers[q].price</p>
                                         <div class="d-flex justify-content-center">
                                             <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                            <input type="checkbox" id="ssrKeyBaggage" name="ssrKey" value="@Model.Meals.legSsrs[1].legssrs[s].legpassengers[q].ssrKey" />
+                                            <input type="checkbox" id="ssrKeymeal" name="ssrKey" value="@Model.Meals.legSsrs[1].legssrs[s].legpassengers[q].ssrKey" />
                                         </div>
                                     </div>
                                 </div>

@@ -1,7 +1,97 @@
 ﻿@model DomainLayer.ViewModel.ViewModel
 @{
     Layout = null;
+
 }
+<div class="py-15 px-20 rounded-4 text-15 bg-blue-1-05 mb-10">
+    <label class="text-18 fw-600">Traveller Information</label>
+    <div class="mb-3">
+        <span class="text-primary fw-600">Important Note:</span>
+        <span id="contactfocus">Please ensure that the names of the passengers on the travel documents is the same as on their government issued identity proof.</span>
+    </div>
+    <form asp-action="TravllerDetails" asp-controller="AATripsell" method="post" id="passengerForm">
+        @for (var i = 0; i < Model.passeengerlist.passengers.Count; i++)
+        {
+            <input type="hidden" name="passengers[@i].origin" value="@Model.passeengerlist.journeys[0].designator.origin" />
+            <input type="hidden" name="passengers[@i].departure" value="@Model.passeengerlist.journeys[0].designator.departure" />
+            <input type="hidden" name="passengers[@i].destination" value="@Model.passeengerlist.journeys[0].designator.destination" />
+            <input type="hidden" name="passengers[@i].identifier" value="@Model.passeengerlist.journeys[0].segments[0].identifier.identifier" />
+            <input type="hidden" name="passengers[@i].carrierCode" value="@Model.passeengerlist.journeys[0].segments[0].identifier.carrierCode" />
+
+            <div><label class="text-16 fw-600">@Model.passeengerlist.passengers[i].passengerTypeCode</label></div>
+            <input type="hidden" name="passengerdetails[@i].passengertypecode" value="@Model.passeengerlist.passengers[i].passengerTypeCode" />
+            <div class="row">
+                <div class="col-md-2">
+                    <select name="passengerdetails[@i].Title" class="form-control" asp-items="@ViewBag.Title"></select>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-input">
+                        @{
+                            if (Model.passeengerlist.passengers[i].passengerKey == "0")
+                            {
+                                <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlist.passengers[i].passengerKey" required />
+                            }
+                            else
+                            {
+                                <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlist.passengers[i].passengerKey" required />
+                            }
+                        }
+                        <input type="text" name="passengerdetails[@i].First" required />
+                        <label class="lh-1 text-16 text-light-1">First & middle name</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-input">
+                        <input type="text" name="passengerdetails[@i].Last" required />
+                        <label class="lh-1 text-16 text-light-1">Last name</label>
+                    </div>
+                </div>
+                @{
+                    if (@Model.passeengerlist.passengers[i].passengerTypeCode == "INFT")
+                    {
+                        <div class="col-md-4">
+                            <div class="form-input dobinput d-flex">
+                                <div class="dob-picker">
+                                    <select class="brd-none day-select" required>
+                                        <option value="" disabled selected>Day</option>
+                                    </select>
+                                    <select class="brd-none month-select" required>
+                                        <option value="" disabled selected>Month</option>
+                                        <option value="1">January</option>
+                                        <option value="2">February</option>
+                                        <option value="3">March</option>
+                                        <option value="4">April</option>
+                                        <option value="5">May</option>
+                                        <option value="6">June</option>
+                                        <option value="7">July</option>
+                                        <option value="8">August</option>
+                                        <option value="9">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+                                    </select>
+                                    <select class="brd-none year-select" required>
+                                        <option value="" disabled selected>Year</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+
+                }
+            </div>
+        }
+        <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-primary mt-15" id="showReviewPopup">Save</button>
+        </div>
+    </form>
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<!-- Include Bootstrap JavaScript -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style>
     .modal-body p {
         border-radius: 6px;
@@ -10,237 +100,90 @@
         padding: 8px;
         margin-bottom: 10px;
     }
+
+    .dobinput {
+        background: #fff;
+        color: var(--color-light-1);
+        border: 1px solid var(--color-border);
+        border-radius: 4px;
+        padding: 0 5px;
+        padding-top: 15px;
+        min-height: 53px;
+        transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .brd-none {
+        border: none;
+    }
+
+    .custom-select::-ms-expand {
+        display: none; /* Hide the arrow icon in IE */
+    }
+
+    .custom-select option {
+        padding: 5px; /* Set the desired padding for each option */
+        height: 50px;
+        overflow: hidden;
+    }
 </style>
-@if (Model.passeengerlistItanary == null)
-{
-    <div class="py-15 px-20 rounded-4 text-15 bg-blue-1-05">
-        <label class="text-18 fw-600">Traveller Information</label>
-        <div class="mb-3">
-            <span class="text-primary fw-600">Important Note:</span>
-            <span id="contactfocus">Please ensure that the names of the passengers on the travel documents is the same as on their government issued identity proof.</span>
-        </div>
+<script type="text/javascript">
 
-        <form asp-action="TravllerDetails" asp-controller="AATripsell" method="post" id="passengerForm">
+    document.addEventListener('DOMContentLoaded', function (event) {
+        event.preventDefault();
+        const daySelect = document.querySelector('.day-select');
+        const yearSelect = document.querySelector('.year-select');
 
-            @for (var i = 0; i < Model.passeengerlist.passengers.Count; i++)
-            {
-                <input type="hidden" name="passengers[@i].origin" value="@Model.passeengerlist.journeys[0].designator.origin" />
-                <input type="hidden" name="passengers[@i].departure" value="@Model.passeengerlist.journeys[0].designator.departure" />
-                <input type="hidden" name="passengers[@i].destination" value="@Model.passeengerlist.journeys[0].designator.destination" />
-                <input type="hidden" name="passengers[@i].identifier" value="@Model.passeengerlist.journeys[0].segments[0].identifier.identifier" />
-                <input type="hidden" name="passengers[@i].carrierCode" value="@Model.passeengerlist.journeys[0].segments[0].identifier.carrierCode" />
-                @if (Model.passeengerlist.passengers[@i].passengerTypeCode != null)
-                {
-                    <div><label class="text-16 fw-600">@Model.passeengerlist.passengers[@i].passengerTypeCode</label></div>
-                    <input type="hidden" id="passengerTypeCode" name="passengerdetails[@i].passengertypecode" value="@Model.passeengerlist.passengers[i].passengerTypeCode" />
-                    <div class="row">
-                        <div class="col-md-2">
-                            <select name="passengerdetails[@i].Title" class="form-control" asp-items="@ViewBag.Title" id="title"></select>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-input">
-                                <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlist.passengers[i].passengerKey" required />
-                                <input type="text" name="passengerdetails[@i].First" id="first" required />
-                                <label class="lh-1 text-16 text-light-1">First & middle name</label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-input">
-                                <input type="text" name="passengerdetails[@i].Last" id="last" required />
-                                <label class="lh-1 text-16 text-light-1">Last name</label>
-                            </div>
-                        </div>
-                    </div>
-                }
-
+        function populateDayOptions() {
+            for (let i = 1; i <= 31; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                daySelect.appendChild(option);
             }
-            <div class="d-flex justify-content-end">
-                <button type="button" class="btn btn-primary mt-15" id="showReviewPopupAsia01">Save</button>
-            </div>
-        </form>
-    </div>
-}
-@if (Model.passeengerlistItanary != null)
-{
-    <div class="py-15 px-20 rounded-4 text-15 bg-blue-1-05">
-        <label class="text-18 fw-600">Traveller Information</label>
-        <div class="mb-3">
-            <span class="text-primary fw-600">Important Note:</span>
-            <span id="contactfocus">Please ensure that the names of the passengers on the travel documents is the same as on their government issued identity proof.</span>
-        </div>
-        <form asp-action="TravllerDetails" asp-controller="AATripsell" method="post" id="passengerFormInfant">
-
-            @for (var i = 0; i < Model.passeengerlistItanary.passengers.Count; i++)
-            {
-                <div><label class="text-16 fw-600">@Model.passeengerlistItanary.passengers[@i].passengerTypeCode</label></div>
-                <div class="row">
-                    <div class="col-md-2">
-                        <input type="hidden" id="passengerTypeCode" name="passengerdetails[@i].passengertypecode" value="@Model.passeengerlistItanary.passengers[i].passengerTypeCode" />
-                        @* <input type="hidden" id="passengerTypeCode" name="passeengerlistItanary[@i].passengertypecode" value="@Model.passeengerlistItanary.passengers[i].passengerTypeCode" /> *@
-                        <select name="passengerdetails[@i].Title" class="form-control" asp-items="@ViewBag.Title" id="title"></select>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-input">
-                            <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlistItanary.passengers[i].passengerKey" required />
-                            <input type="text" name="passengerdetails[@i].First" id="first" required />
-                            <label class="lh-1 text-16 text-light-1">First & middle name</label>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-input">
-                            <input type="text" name="passengerdetails[@i].Last" id="last" required />
-                            <label class="lh-1 text-16 text-light-1">Last name</label>
-                        </div>
-                    </div>
-                </div>
-
-                @if (Model.passeengerlistItanary.passengers[@i].infant != null)
-                {
-                    @for (int j = 0; j < Model.passeengerlistItanary.passengers[i].infant.fees.Count; j++)
-                    {
-
-                        <div><label class="text-16 fw-600">@Model.passeengerlistItanary.passengers[i].infant.fees[j].code</label></div>
-                        <div class="row">
-                            <div class="col-md-2">
-                                <select name="infanttype[@j].Title" class="form-control" asp-items="@ViewBag.Title" id="title"></select>
-                                <input type="hidden" id="code" name="infanttype[@j].code" value="@Model.passeengerlistItanary.passengers[i].infant.fees[j].code" />
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-input ">
-                                    <input type="hidden" name="infanttype[@j].passengerkey" value="@Model.passeengerlistItanary.passengers[j].passengerKey" />
-                                    <input type="text" name="infanttype[@j].First" id="FirstName" />
-                                    <label class="lh-1 text-16 text-light-1">first & middle name </label>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-input ">
-                                    <input type="text" name="infanttype[@j].Last" id="Lastname" />
-                                    <label class="lh-1 text-16 text-light-1">last name</label>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                }
+        }
+        function populateYearOptions() {
+            const currentYear = new Date().getFullYear();
+            const maxInfantAge = 2;
+            for (let i = currentYear; i >= currentYear - maxInfantAge; i--) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                yearSelect.appendChild(option);
             }
-            <div class="d-flex justify-content-end">
-                <button type="button" class="btn btn-primary mt-15" id="SeachinfantaryId">Save</button>
-            </div>
-        </form>
-    </div>
-}
-<!-- Modal to display and edit the data -->
-<div class="modal fade" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Please review your details to ensure accuracy</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="modalBodyContent">
-                <!-- Information will be displayed in spans -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Edit</button>
-                @*      <button type="button" class="btn btn-primary" id="editData">Edit</button>
-                <button type="button" class="btn btn-primary" id="saveChanges" style="display: none;">Save changes</button>*@
-                <button type="button" class="btn btn-primary w-20" id="ContinueId">Continue</button>
-            </div>
-        </div>
-    </div>
-</div>
+        }
+        // Call the functions to populate day and year options
+        populateDayOptions();
+        populateYearOptions();
+    });
+    function getSelectedDayValue() {
+        const daySelect = document.querySelector('.day-select');
+        return daySelect.value;
+    }
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<!-- Include Bootstrap JavaScript -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    function getSelectedYearValue() {
+        const yearSelect = document.querySelector('.year-select');
+        return yearSelect.value;
+    }
+</script>
 
-<script>
+<script type="text/javascript">
     $(document).ready(function () {
-
-        $("#SeachinfantaryId").click(function () {
-            debugger;
-            var modalContent = '';
-            var passengerCount = $('[id^="passengerFormInfant"] .row').length;
-
-            $('[id^="passengerFormInfant"] .row').each(function (index) {
-                var title = $(this).find('select[name$=".Title"]').val();
-                var firstName = $(this).find('input[name$=".First"]').val();
-                var lastName = $(this).find('input[name$=".Last"]').val();
-                var Passengertypecode = $(this).find('input[name$=".passengertypecode"]').val();
-                alert(Passengertypecode);
-                var code = $(this).find('input[name$=".code"]').val();
-
-                if (Passengertypecode == "ADT") { Passengertypecode = "Adult"; }
-                if (Passengertypecode == "CHD") { Passengertypecode = "Child"; }
-                if (code == "INFT") { code = "Infant"; }
-                if (Passengertypecode == undefined) {
-                    modalContent += "<p>Passenger " + (index + 1) + ": (" + code + ")<br>";
-                }
-                else {
-                    modalContent += "<p>Passenger " + (index + 1) + ": (" + Passengertypecode + ")<br>";
-                }
-                modalContent += "Title: <span class='editable'>" + title + "</span><br>";
-                modalContent += "First Name: <span class='editable'>" + firstName + "</span><br>";
-                modalContent += "Last Name: <span class='editable'>" + lastName + "</span></p>";
-            });
-
-            $("#modalBodyContent").html(modalContent);
-            // $('#dataModalLabel').text("Passenger Details (" + passengerCount + " Passengers)");
-            $('#dataModal').modal('show');
-        });
-
-        // Edit button click event (if needed)
-        $('#editData').click(function () {
-            $('.editable').attr('contenteditable', true); // Enable editing of spans
-            $('#editData').hide(); // Hide the Edit button
-            $('#saveChanges').show(); // Show the Save changes button
-        });
-
-        // Save changes button click event (if needed)
-        $('#saveChanges').click(function () {
-            $('.editable').attr('contenteditable', false); // Disable editing of spans
-            $('#editData').show(); // Show the Edit button
-            $('#saveChanges').hide(); // Hide the Save changes button
-        });
-
-        // Additional logic or AJAX calls...
-        $("#ContinueId").click(function () {
-            $('#passengers_id').hide(); //Contact Details Div Hide
-            var formData = new FormData($("#passengerFormInfant")[0]);
-            $.ajax({
-                url: "/AATripsell/Travllerdetails",
-                type: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (result) {
-                    // Handle the response from the server if needed
-                },
-                error: function (error) {
-                    // Handle any errors here
-                }
-            });
-        });
-
         function showForm() {
             $('#passengerForm').show();
         }
         $("#editData").click(function () {
-            debugger;
             $("#dataPopup").hide();
         });
-
-        $("#showReviewPopupAsia01").click(function (e) {
+        $("#showReviewPopup").click(function (e) {
             e.preventDefault();
             var enteredData = "";
-            debugger;
             for (var i = 0; i < @Model.passeengerlist.passengers.Count; i++) {
                 var firstName = $("input[name='passengerdetails[" + i + "].First']").val();
                 var lastName = $("input[name='passengerdetails[" + i + "].Last']").val();
                 var title = $("select[name='passengerdetails[" + i + "].Title']").val();
                 var Passengertypecode = $("input[name='passengerdetails[" + i + "].passengertypecode']").val();
-
                 if (Passengertypecode == "ADT") { Passengertypecode = "Adult"; }
                 if (Passengertypecode == "CHD") { Passengertypecode = "Child"; }
                 enteredData += "<p><strong>Passenger " + (i + 1) + ": (" + Passengertypecode + ")</strong><br>";
@@ -248,10 +191,10 @@
                 enteredData += "First Name: " + firstName + "<br>";
                 enteredData += "Last Name: " + lastName + "</p>";
             }
+            // Display the entered data in the popup
             $("#enteredData").html(enteredData);
             // Show the popup
             $('#dataPopup').modal('show');
-
             // Hide the form
             //$('#passengerForm').hide();
         });
@@ -259,7 +202,7 @@
             $('#passengers_id').hide(); //Contact Details Div Hide
             var formData = new FormData($("#passengerForm")[0]);
             $.ajax({
-                url: "/AATripsell/Travllerdetails",
+                url: "/AATripsell/TravllerDetails",
                 type: "POST",
                 data: formData,
                 processData: false,
@@ -273,9 +216,11 @@
             });
         });
 
+
     });
 
 </script>
+
 
 <div class="modal fade" id="dataPopup" tabindex="-1" role="dialog" aria-labelledby="dataPopupLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -295,11 +240,58 @@
                     <button type="button" data-dismiss="modal" class="btn btn-primary w-20" id="editData">Edit</button>
                 </div>
                 <div class="countibtn me-3">
-                    <button type="button" class="btn btn-primary w-20" id="ContinueData">Continue</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary w-20" id="ContinueData">Continue</button>
                 </div>
             </div>
 
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

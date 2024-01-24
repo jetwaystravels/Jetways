@@ -159,11 +159,13 @@
                                                     <ul id="airportSuggestions"></ul>
                                                 </div> *@
                                             </div>
-
+                                            <div class="rplc-btn">
+                                                <img src="~/img/direction-arrows.png" />
+                                            </div>
                                             <div class="col-12 col-md-10 col-lg-3 space autocomplete">
                                                 <label>Flying To</label>
                                                 <span class="input-group-text" id="basic-addon1">
-                                                    <img src="~/img/location-icon.png" alt="icon">&nbsp;
+                                                    <img src="~/img/location-icon.png" alt="icon" style="left:15px;">&nbsp;
                                                     @* <input id="myInput1" type="" placeholder="Mumbai BOM" class="form-control fisrt">
                                                     <select class="form-control fisrt" id="ToCity" asp-for="destination"
                                                     asp-items="@(new SelectList(@ViewBag.ListofCountry,"CityCode", "CityName"))">
@@ -827,8 +829,41 @@
                   100% {background-color:red; left:0px; top:0px;}  */
                 }
          .iconanimate img{transform: rotate(45deg);}
-        </style>
 
+            .rplc-btn {
+                width: 34px;
+                position: absolute;
+                left: 246px;
+                background: #ffffffc2;
+                margin-top: 52px;
+                /* margin-left: -2px; */
+                padding: 3px;
+                border-radius: 50%;
+                z-index: 999;
+            }
+
+                .rplc-btn img {
+                    transform: rotate(90deg);
+                }
+
+
+
+        </style>
+        <script>
+            $(document).ready(function () {
+                $('.rplc-btn').on('click', function () {
+                    // Get values from the first input box
+                    var flyingFromValue = $('#myInput').val();
+
+                    // Get values from the second input box
+                    var flyingToValue = $('#myInput1').val();
+
+                    // Swap values between the two input boxes
+                    $('#myInput').val(flyingToValue);
+                    $('#myInput1').val(flyingFromValue);
+                });
+            });
+        </script>
 
     }
 </body>

@@ -198,12 +198,6 @@
                                         <p>No passenger segments found.</p>
                                     }
                                 }
-                                @* <div class="tseat5d d-flex align-items-center">
-                                <span><img src="~/img/pseat.png"></span>
-                                <div class="seat5d ps-2">
-                                <span class="fw-bold-600"> Seat  5D</span>
-                                </div>
-                                </div> *@
 
                                 <div class="tseat5d d-flex align-items-center">
                                     <span><img src="~/img/pmeal.png"></span>
@@ -237,44 +231,44 @@
 
                 <!-----GST-DETAILS-------->
                 @{
-                    if (@Model.AirlinePNR[0].customerNumber!= null)
+                    if (@Model.AirlinePNR[0].customerNumber != null)
                     {
-                       <div class="row mt-2">
-                       <div class="col-12">
-                        <span class="fw-bold-600">GST Details</span>
-                    </div>
-                       <div class="col-12 border-dot">
-                        <div class="row">
-                            <div class="col-auto">
-                                <div class="T-ID ">
-                                    GST Number
-                                </div>
-                                <div class="T-ID fw-bold-600">
-                                    <span>@Model.AirlinePNR[0].customerNumber</span>
-                                </div>
+                        <div class="row mt-2">
+                            <div class="col-12">
+                                <span class="fw-bold-600">GST Details</span>
                             </div>
-                            <div class="col-auto border-right"></div>
-                            <div class="col-auto">
-                                <div class="T-ID ">
-                                    GST Name
-                                </div>
-                                <div class="T-ID fw-bold-600">
-                                    <span> @Model.AirlinePNR[0].companyName</span>
-                                </div>
-                            </div>
-                            <div class="col-auto border-right"></div>
-                            <div class="col-auto">
-                                <div class="T-ID ">
-                                    GST Email
-                                </div>
-                                <div class="T-ID fw-bold-600">
-                                    <span>@Model.AirlinePNR[0].emailAddress</span>
-                                </div>
-                            </div>
+                            <div class="col-12 border-dot">
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <div class="T-ID ">
+                                            GST Number
+                                        </div>
+                                        <div class="T-ID fw-bold-600">
+                                            <span>@Model.AirlinePNR[0].customerNumber</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto border-right"></div>
+                                    <div class="col-auto">
+                                        <div class="T-ID ">
+                                            GST Name
+                                        </div>
+                                        <div class="T-ID fw-bold-600">
+                                            <span> @Model.AirlinePNR[0].companyName</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto border-right"></div>
+                                    <div class="col-auto">
+                                        <div class="T-ID ">
+                                            GST Email
+                                        </div>
+                                        <div class="T-ID fw-bold-600">
+                                            <span>@Model.AirlinePNR[0].emailAddress</span>
+                                        </div>
+                                    </div>
 
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
                     }
                 }
 
@@ -363,7 +357,11 @@
                                         <div class="row">
                                             <div class="col-9">
                                                 <span>Meal/Seat/Baggage/Misc Charges</span> <br>
-                                                <span>(Meal:0, Seat:0, Baggage:0, Misc Charges: 0)</span>
+                                                <span>(Meal:0)</span><br>
+                                                <span>(Seat:@Model.AirlinePNR[0].breakdown.passengerTotals.seats.total)</span><br>
+                                                <span>(Seat Tax:@Model.AirlinePNR[0].breakdown.passengerTotals.seats.taxes)</span><br>
+                                                <span>(Baggage:0)</span><br>
+                                                <span>(Misc Charges: 0)</span>
                                             </div>
                                             <div class="col-3">
                                                 <span class="fw-bold-600">0</span>

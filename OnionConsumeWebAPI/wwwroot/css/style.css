@@ -1552,7 +1552,7 @@ Flight Search AREA
             }
 
             .search-area .search-box input.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-                color: #000000;
+                color: #000;
                 opacity: 1; /* Firefox */
             }
 
@@ -1594,11 +1594,11 @@ Flight Search AREA
         }
 
         .search-area .search-box input.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
-            color: #000000;
+            color: #000;
         }
 
         .search-area .search-box input.form-control::-ms-input-placeholder { /* Microsoft Edge */
-            color: #000000;
+            color: #000;
         }
 
         .search-area .search-box .searchMenu-guests__field {
@@ -2232,25 +2232,6 @@ Flight Search AREA
     background: #fff !important;
     color: #ffffff;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @media (max-width: 991px) {
     .search-area {
@@ -2955,7 +2936,11 @@ FOOTER AREA CSS
 .inner-search {
     background: linear-gradient(-47deg, #0A3854 0%, #03304C 100%);
     height: auto;
-    padding: 93px 0 38px 0;
+    padding: 35px 0 10px 0;
+}
+
+.layout-pt-md {
+    padding-top: 220px !important;
 }
 
 .bg-light-2 {
@@ -2968,17 +2953,24 @@ FOOTER AREA CSS
 
     .inner-search .search-area .search-box {
         border-radius: 0.4rem;
-        box-shadow: inset 0 0 124px #9EBED2;
-        -moz-box-shadow: inset 0 0 124px #9EBED2;
-        -webkit-box-shadow: inset 0 0 124px #9EBED2;
+        background: transparent;
+        box-shadow: none;
+        padding: 2rem 0 0;
     }
 
         .inner-search .search-area .search-box .autocomplete {
             background: transparent;
+            flex: 0 0 19%;
+            max-width: 19%;
         }
 
 .inner-search .search-area {
     background: none;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: 99;
+    background: #000;
 }
 
 .search-result .sidebar.bg-white {
@@ -3039,6 +3031,99 @@ FOOTER AREA CSS
     color: #EF0000;
 }
 
+.inner-search .search-area .search-box .form-control {
+    font-size: 1rem;
+    height: 40px;
+    border-radius: 4px;
+    font-weight: 600;
+    background: #0E4D74;
+    border: none;
+    color: #fff;
+}
+
+.inner-search .search-area .search-box input.form-control.fisrt {
+    font-size: 1rem;
+    font-weight: 600;
+    background: #0E4D74;
+    border: none;
+    color: #fff;
+}
+
+.inner-search .search-area .search-box .text-light-1 {
+    color: #fff;
+}
+
+.inner-search .search-area .search-box .searchMenu-guests {
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 4px;
+    height: 40px;
+    padding: 0.4rem 0.75rem;
+    background: #084166;
+    border: none;
+}
+
+.inner-search .search-area .search-box .col-lg-2.travellers {
+    flex: 22.666667%;
+    max-width: 20.666667%;
+}
+
+.inner-search .search-area .search-box .text-15 {
+    color: #111111;
+}
+
+.inner-search .search-area .search-box .bg-white .text-14 {
+    color: #111111 !important;
+    margin-top: 2px !important;
+    font-weight: 400;
+}
+
+.inner-search .search-area .search-box .text-light-1 {
+    color: #fff !important;
+}
+
+.inner-search .search-area .search-box label {
+    color: #fff;
+    margin-bottom: 0.1rem;
+    font-size: 0.9rem;
+}
+
+.inner-search .search-area .search-box .S-option {
+    border-bottom: #084166 1px solid;
+    padding-bottom: 4px;
+    margin-bottom: 5px;
+    margin-top: 37px;
+}
+
+.inner-search .search-area .search-box .search-bottom {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0;
+}
+
+.inner-search .search-area .search-box input.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #fff;
+    opacity: 1; /* Firefox */
+}
+
+.inner-search .search-area .search-box input.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #fff;
+}
+
+.inner-search .search-area .search-box input.form-control::-ms-input-placeholder { /* Microsoft Edge */
+    color: #fff;
+}
+
+.inner-search .search-area .search-box .btn {
+    font-size: 0.8rem;
+    padding: 13px 7px;
+    border-radius: 4px;
+    margin-top: 32px;
+}
+
+.inner-search .search-area .search-box .items-center {
+    color: #fff;
+}
 /*End inner search */
 
 /*Start flight listing */
@@ -3092,3 +3177,484 @@ FOOTER AREA CSS
 
 
 /*End flight listing */
+
+
+/*Start round trip domestic flight listing */
+
+.search-result .col-xl-6.col-md-6.bx-m {
+    padding-right: 6px;
+    padding-left: 6px;
+}
+
+.search-result .shorting-bg-white {
+    background-color: #fff;
+    border: 1px solid rgba(156,170,179,.28);
+    box-shadow: 0 0 9px 0 rgba(0,0,0,.05);
+    border-radius: 8px;
+    padding: 15px;
+}
+
+    .search-result .shorting-bg-white p {
+        border-bottom: #D1DEE6 1px dashed;
+        padding-bottom: 7px;
+        color: #111111;
+    }
+
+    .search-result .shorting-bg-white ul.shorting-tab {
+        margin: 0;
+        padding: 0;
+    }
+
+        .search-result .shorting-bg-white ul.shorting-tab li {
+            display: inline-block;
+        }
+
+            .search-result .shorting-bg-white ul.shorting-tab li a {
+                font-size: 14px;
+                color: #565656;
+                text-decoration: none;
+                display: inline-block;
+                padding: 13px 30px 0 0;
+                font-weight: 500;
+            }
+
+                .search-result .shorting-bg-white ul.shorting-tab li a.active {
+                    font-weight: 600;
+                }
+
+                .search-result .shorting-bg-white ul.shorting-tab li a:hover {
+                    color: #565656;
+                }
+
+.search-result .bg-white.round-trip .airlind-hd {
+    padding: 3px 35px 4px 7px;
+    font-size: 16px;
+    font-weight: 600;
+    background: linear-gradient(to right, #FEEEEE, #ffffff);
+    display: inline-block;
+    border-radius: 5px 0 0 0;
+    position: relative;
+    top: -15px;
+    left: -10px;
+    margin-left: 5px;
+}
+
+
+.search-result .bg-white.round-trip .price {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #EF0000;
+}
+
+.search-result .bg-white.round-trip .stop-info {
+    font-size: 0.7rem;
+    padding: 0;
+}
+
+.search-result .bg-white.round-trip .radio {
+    position: relative;
+    top: 4px;
+}
+
+    .search-result .bg-white.round-trip .radio input[type=checkbox], input[type=radio] {
+        height: 17px;
+        width: 17px;
+    }
+
+.search-result .bg-white.round-trip .tabs__controls .col-auto {
+    padding: 0;
+    width: 23%;
+}
+
+.search-result .bg-white.round-trip .text-w {
+    width: 52px;
+    display: block;
+}
+
+.search-result .bg-white.round-trip .tabs.-underline-2 .tabs__controls .tabs__button {
+    font-weight: 600;
+}
+
+.search-result .bg-white.round-trip .tabs__controls {
+    border-bottom: #ddd 1px solid;
+    background: #F6F6F6;
+    padding: 15px 0 0 0;
+    text-wrap: wrap;
+    font-size: 0.8rem;
+}
+
+.search-result .bg-white.round-trip .tabs__content .col .stop-info {
+    font-size: 0.7rem;
+    padding-right: 15px;
+    padding-left: 15px;
+    position: relative;
+    top: -43px;
+}
+
+.search-result .bg-white.round-trip .tabs__content .col span.sml-text {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+
+.tabs.-underline-2 .tabs__controls .tabs__button:focus {
+    outline: none;
+}
+
+.search-result .bg-white.round-trip .tabs__content .airlind-hd {
+    background: linear-gradient(to right, #FBF1F1, #ffffff);
+    padding: 0;
+    top: 0;
+    left: 0;
+    margin: 2px 2px 5px 2px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.search-result .bg-white.round-trip .flight-dtl .svg-inline--fa {
+    vertical-align: middle;
+}
+
+.flightLayoverOuter {
+    text-align: center;
+    position: relative;
+    margin: 25px 0;
+}
+
+.flightLayover {
+    border-radius: 4px;
+    background-color: #f4f4f4;
+    padding: 5px 10px;
+    display: inline-block;
+    position: relative;
+    color: #ff4d2a;
+    font-size: calc(var(--font-scale, 1)*12px);
+}
+
+.round-trip .flightLayover:before {
+    width: 20px;
+    left: -20px;
+}
+
+
+.round-trip .flightLayover:after {
+    width: 20px;
+    right: -20px;
+}
+
+.flightLayover:before {
+    position: absolute;
+    background: #dfdfdf;
+    height: 1px;
+    content: "";
+    width: 100px;
+    top: 49%;
+}
+
+.flightLayover:after {
+    position: absolute;
+    background: #dfdfdf;
+    height: 1px;
+    content: "";
+    width: 100px;
+    top: 49%;
+}
+
+
+
+.search-result .bg-white.round-trip .hideme table.table td {
+    padding: 8px 10px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--color-light-5);
+}
+
+    .search-result .bg-white.round-trip .hideme table.table td p {
+        font-size: 13px;
+        padding-left: 5px;
+    }
+
+.search-result .bg-white.round-trip .hideme table.table th {
+    padding: 8px 10px;
+    line-height: 1;
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.search-result .bg-white.round-trip .list-disc li {
+    font-size: 13px;
+}
+
+.search-result .col-btm {
+    margin-bottom: 37px;
+}
+
+
+.booking-bottom {
+    box-shadow: #757575 0px 0px 12px;
+    padding: 1% 2% 2% 0;
+    position: fixed;
+    bottom: -14px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: #0a223d;
+    color: #fff;
+    z-index: 10;
+}
+
+    .booking-bottom .fl {
+        float: left;
+        padding: 6px 8px;
+    }
+
+    .booking-bottom .left {
+        float: left;
+        padding: 24px 0 22px 25px;
+        width: 10%;
+    }
+
+    .booking-bottom .fl.book-price {
+        font-size: 22px;
+        font-weight: 700;
+        margin-right: 5px;
+    }
+
+        .booking-bottom .fl.book-price span {
+            font-size: 14px;
+            display: block;
+            font-weight: 400;
+            margin-top: -13px;
+            text-align: right;
+        }
+
+    .booking-bottom .fr {
+        float: left;
+        padding: 0;
+    }
+
+    .booking-bottom .right {
+        float: left;
+        padding: 0;
+        width: 87%;
+    }
+
+    .booking-bottom .fr.btn {
+        margin: 3px 0 0 40px;
+    }
+
+    .booking-bottom .fr span {
+        display: block;
+    }
+
+    .booking-bottom .right-bdr {
+        border-right: #888889 1px solid;
+        display: flex;
+    }
+
+    .booking-bottom .content {
+        padding: 0 30px 0 30px;
+        margin-right: auto;
+        margin-left: auto;
+        min-height: auto;
+    }
+
+    .booking-bottom .carousel-control-prev {
+        left: -51px;
+    }
+
+    .booking-bottom .carousel-control-next {
+        right: -47px;
+    }
+
+    .booking-bottom svg {
+        font-size: 12px;
+        margin-right: 6px;
+        margin-left: 6px;
+    }
+
+    .booking-bottom .book-sml-price {
+        font-size: 18px;
+        font-weight: 700;
+        margin: 25px 41px 0;
+    }
+
+/*End round trip domestic flight listing */
+
+/*Start more fare option */
+
+.modal-mfareBlock {
+    box-shadow: 0 0 10px 0 rgb(0 0 0 / 9%);
+    border: 1px solid #E4E3E1;
+    background: #fff;
+    border-radius: 4px;
+    width: 80%;
+    margin: auto;
+}
+
+    .modal-mfareBlock h2 {
+        background: #366480;
+        color: #fff;
+        border-radius: 4px 4px 0 0;
+        padding: 10px 0 10px 25px;
+    }
+
+    .modal-mfareBlock .pd {
+        padding: 15px;
+    }
+
+    .modal-mfareBlock .fl-part {
+        border-right: 4px solid #e4e4e4;
+        padding-right: 13px;
+    }
+
+    .modal-mfareBlock .fr-part {
+        padding-left: 13px;
+    }
+
+    .modal-mfareBlock .departbx {
+        font-size: 12px;
+        padding: 3px 5px;
+        color: #000;
+        background-color: #DEF2D7;
+        width: 13%;
+        text-align: center;
+        font-weight: 700;
+        margin-bottom: 12px;
+        text-transform: capitalize;
+    }
+
+    .modal-mfareBlock .dst-top {
+        text-transform: uppercase;
+        font-weight: 600;
+        border-bottom: #D1DEE6 1px solid;
+        padding-bottom: 10px;
+        margin-bottom: 12px;
+    }
+
+        .modal-mfareBlock .dst-top svg {
+            margin: 0 7px 0 7px;
+        }
+
+        .modal-mfareBlock .dst-top .price {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #EF0000;
+            float: right;
+        }
+
+        .modal-mfareBlock .dst-top .dprtdt {
+            margin-left: auto;
+            font-size: 13px;
+            color: #000;
+            float: right;
+        }
+
+    .modal-mfareBlock .text-w {
+        width: 52px;
+        display: block;
+    }
+
+    .modal-mfareBlock .stop-info {
+        font-size: 0.7rem;
+        padding: 0
+    }
+
+    .modal-mfareBlock .flightLine {
+        margin-top: 8px;
+        background: #D1DEE6;
+    }
+
+    .modal-mfareBlock .airline-L {
+        font-size: 12px;
+        font-weight: 600;
+        padding-left: 0;
+    }
+
+        .modal-mfareBlock .airline-L .name {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+
+            .modal-mfareBlock .airline-L .name span {
+                display: block;
+            }
+
+    .modal-mfareBlock .corboxmain {
+        margin: 0px auto;
+        padding: 0;
+        width: 100%;
+        overflow: auto;
+        max-height: 320px;
+    }
+
+    .modal-mfareBlock .corbox {
+        border: 1px solid #dedede;
+        display: table;
+        border-radius: 5px;
+        padding: 8px;
+        width: 99%;
+        cursor: pointer;
+    }
+
+        .modal-mfareBlock .corbox input {
+            margin: 5px 11px 3px;
+            vertical-align: bottom;
+        }
+
+        .modal-mfareBlock .corbox ul {
+            margin: 0;
+            padding: 0;
+            line-height: normal;
+        }
+
+            .modal-mfareBlock .corbox ul li {
+                padding: 10px;
+                display: inline-block;
+                font-size: 12px;
+                font-weight: 600;
+                margin-bottom: 5px;
+                border-bottom: #DBEAE9 1px solid;
+            }
+
+                .modal-mfareBlock .corbox ul li img {
+                    height: 20px;
+                    margin-right: 12px;
+                }
+
+    .modal-mfareBlock .active-bx {
+        background: #FFF6F6;
+        border: #F5BDBD 1px solid;
+    }
+
+    .modal-mfareBlock .col-xl-6.col-lg-6.lf-p {
+        padding-right: 0;
+    }
+
+    .modal-mfareBlock .col-xl-6.col-lg-6.rf-p {
+        padding-left: 0;
+    }
+
+    .modal-mfareBlock .btm-price-bx {
+        box-shadow: 0 0 9px 0 rgba(0,0,0,.20);
+        padding: 10px;
+        text-align: right;
+    }
+
+        .modal-mfareBlock .btm-price-bx .book-price {
+            font-size: 22px;
+            font-weight: 700;
+            margin-right: 8px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+            .modal-mfareBlock .btm-price-bx .book-price span {
+                font-size: 14px;
+                display: block;
+                font-weight: 500;
+                margin-top: -13px;
+                text-align: right;
+            }
+
+/*End more fare option */

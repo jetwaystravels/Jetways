@@ -24,17 +24,12 @@ namespace OnionConsumeWebAPI.Controllers
 
     public class CommitBookingController : Controller
     {
-
-
         // string BaseURL = "https://dotrezapi.test.I5.navitaire.com";
-
-
         string token = string.Empty;
         string ssrKey = string.Empty;
         string journeyKey = string.Empty;
         string uniquekey = string.Empty;
         string AirLinePNR = string.Empty;
-
         ApiResponseModel responseModel;
         public async Task<IActionResult> booking()
         {
@@ -91,11 +86,27 @@ namespace OnionConsumeWebAPI.Controllers
                     // string BaseURL1 = "http://localhost:5225/";
                     var _responcePNRBooking = responcepnrBooking.Content.ReadAsStringAsync().Result;
                     var JsonObjPNRBooking = JsonConvert.DeserializeObject<dynamic>(_responcePNRBooking);
-
                     ReturnTicketBooking returnTicketBooking = new ReturnTicketBooking();
                     returnTicketBooking.recordLocator = JsonObjPNRBooking.data.recordLocator;
                     returnTicketBooking.bookingKey = JsonObjPNRBooking.data.bookingKey;
 
+                    Breakdown breakdown = new Breakdown();
+                    PassengerTotals passengerTotals = new PassengerTotals();
+                    ReturnSeats returnSeats = new ReturnSeats();
+                    if (JsonObjPNRBooking.data.breakdown.passengerTotals.seats != null)
+                    {
+                        returnSeats.total = JsonObjPNRBooking.data.breakdown.passengerTotals.seats.total;
+                        returnSeats.taxes = JsonObjPNRBooking.data.breakdown.passengerTotals.seats.taxes;
+                    }
+                    SpecialServices specialServices = new SpecialServices();
+                    if (JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices != null)
+                    {
+                        specialServices.total = (decimal)JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.total;
+                        specialServices.taxes = (decimal)JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes;
+                    }
+                    breakdown.passengerTotals = passengerTotals;
+                    passengerTotals.seats = returnSeats;
+                    passengerTotals.specialServices = specialServices;
                     if (JsonObjPNRBooking.data.contacts.G != null)
                     {
                         returnTicketBooking.customerNumber = JsonObjPNRBooking.data.contacts.G.customerNumber;
@@ -246,6 +257,7 @@ namespace OnionConsumeWebAPI.Controllers
                         ReturnpassengersList.Add(returnPassengersobj);
                     }
                     //returnTicketBooking.contacts= phoneNumberList;
+                    returnTicketBooking.breakdown = breakdown;
                     returnTicketBooking.journeys = journeysreturnList;
                     returnTicketBooking.passengers = ReturnpassengersList;
                     returnTicketBooking.passengerscount = Returnpassengercount;

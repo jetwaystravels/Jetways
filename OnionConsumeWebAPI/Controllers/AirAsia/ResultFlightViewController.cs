@@ -49,7 +49,6 @@ namespace OnionConsumeWebAPI.Controllers
         public async Task<ActionResult> Tripsell(string fareKey, string journeyKey)
         {
             string token = string.Empty;
-
             List<_credentials> credentialslist = new List<_credentials>();
             using (HttpClient client = new HttpClient())
             {
@@ -87,6 +86,40 @@ namespace OnionConsumeWebAPI.Controllers
                 _keylist.Add(key);
                 AirAsiaTripSellRequestobj.keys = _keylist;
 
+                //Passengers passengers = new Passengers();
+                //List<_Types> _typeslist = new List<_Types>();
+                //for (int i = 0; i < _SimpleAvailabilityobj.passengers.types.Count; i++)
+                //{
+                //    _Types _Types = new _Types();
+
+                //    if (_SimpleAvailabilityobj.passengers.types[i].type == "ADT")
+                //    {
+                //        AdtType = _SimpleAvailabilityobj.passengers.types[i].type;
+                //        _Types.type = AdtType;
+                //        _Types.count = _SimpleAvailabilityobj.passengers.types[i].count;
+                //    }
+                //    else if (_SimpleAvailabilityobj.passengers.types[i].type == "CHD")
+                //    {
+                //        chdtype = _SimpleAvailabilityobj.passengers.types[i].type;
+                //        _Types.type = chdtype;
+                //        _Types.count = _SimpleAvailabilityobj.passengers.types[i].count;
+                //    }
+                //    else if (_SimpleAvailabilityobj.passengers.types[i].type == "INFT")
+                //    {
+                //        infanttype = _SimpleAvailabilityobj.passengers.types[i].type;
+                //        continue;
+                //    }
+                //    //	
+                //    _typeslist.Add(_Types);
+                //}
+                //List<_Types> _typeslistsell = new List<_Types>();
+                //for (int i = 0; i < _typeslist.Count; i++)
+                //{
+                //    if (_typeslist[i].type == "INFT")
+                //        continue;
+                //    _typeslistsell.Add(_typeslist[i]);
+
+                //}
                 Passengers passengers = new Passengers();
                 List<_Types> _typeslist = new List<_Types>();
 
@@ -109,12 +142,22 @@ namespace OnionConsumeWebAPI.Controllers
                     else if (_SimpleAvailabilityobj.passengers.types[i].type == "INFT")
                     {
                         infanttype = _SimpleAvailabilityobj.passengers.types[i].type;
-                        continue;
+                        _Types.type = infanttype;
+                        _Types.count = _SimpleAvailabilityobj.passengers.types[i].count;
                     }
                     //	
                     _typeslist.Add(_Types);
                 }
-                passengers.types = _typeslist;
+                List<_Types> _typeslistsell = new List<_Types>();
+                for (int i = 0; i < _typeslist.Count; i++)
+                {
+                    if (_typeslist[i].type == "INFT")
+                        continue;
+                    _typeslistsell.Add(_typeslist[i]);
+
+                }
+                passengers.types = _typeslistsell;
+                //passengers.types = _typeslist;
                 AirAsiaTripSellRequestobj.passengers = passengers;
                 AirAsiaTripSellRequestobj.currencyCode = "INR";
                 AirAsiaTripSellRequestobj.preventOverlap = true;
@@ -258,6 +301,22 @@ namespace OnionConsumeWebAPI.Controllers
                         passkeylist.Add(passkeytypeobj);
                         passengerkey12 = passkeytypeobj.passengerKey;
                     }
+                    #region  for passenger view list
+                    for (int i = 0; i < _typeslist.Count; i++)
+                    {
+                        if (_typeslist[i].type == "INFT")
+                        {
+                            for (int i1 = 0; i1 < _typeslist[i].count; i1++)
+                            {
+                                AAPassengers passkeytypeobj = new AAPassengers();
+                                passkeytypeobj.passengerKey = "";
+                                passkeytypeobj.passengerTypeCode = "INFT";
+                                passkeylist.Add(passkeytypeobj);
+                            }
+
+                        }
+                    }
+                    #endregion
 
                     AirAsiaTripResponceobj.journeys = AAJourneyList;
                     AirAsiaTripResponceobj.passengers = passkeylist;

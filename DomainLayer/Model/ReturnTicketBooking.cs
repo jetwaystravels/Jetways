@@ -34,12 +34,12 @@ namespace DomainLayer.Model
         public List<Payment> payments { get; set; }
         public List<object> orders { get; set; }
 
-		public string customerNumber { get; set; }
-		public string companyName { get; set; }
-		public string emailAddress { get; set; }
+        public string customerNumber { get; set; }
+        public string companyName { get; set; }
+        public string emailAddress { get; set; }
 
 
-		public class Address
+        public class Address
         {
             public string lineOne { get; set; }
             public string lineTwo { get; set; }
@@ -566,8 +566,8 @@ namespace DomainLayer.Model
             public string unitKey { get; set; }
             public object crossReferenceSeatingPreference { get; set; }
             public bool isPending { get; set; }
-            public double total { get; set; }
-            public double taxes { get; set; }
+            public int total { get; set; }
+            public int taxes { get; set; }
             public object adjustments { get; set; }
             public List<Charge> charges { get; set; }
         }
@@ -719,8 +719,8 @@ namespace DomainLayer.Model
         }
         public class SpecialServices
         {
-            public double total { get; set; }
-            public double taxes { get; set; }
+            public decimal total { get; set; }
+            public decimal taxes { get; set; }
             public object adjustments { get; set; }
             public List<Charge> charges { get; set; }
         }

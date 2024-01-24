@@ -20,7 +20,9 @@
     <link rel="stylesheet" href="~/css/vendors.css">
     <link rel="stylesheet" href="~/css/main.css">
     <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/daterangepicker.css">
     <link href="~/css/roundviewpage.css" rel="stylesheet" />
+    @* <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> *@
     <style type="text/css">
         .custom-flex p {
             font-size: 12px;
@@ -37,6 +39,26 @@
             display: none;
         }
 
+        .rplc-btn {
+            width: 34px;
+            position: absolute;
+            left: 167px;
+            background: #ffffffc2;
+            margin-top: 35px;
+            margin-left: 20px;
+            padding: 3px;
+            border-radius: 50%;
+            z-index: 999;
+        }
+
+            .rplc-btn img {
+                transform: rotate(90deg);
+            }
+
+        .service-section .swiper-slide.active {
+            border: none !important;
+            background: #EBEDF8;
+        }
     </style>
 
 </head>
@@ -124,8 +146,201 @@
         <!-- ***** Header End ***** -->
         <!-- ***** Start inner search ***** -->
         <div class="inner-search">
+            <!-- ***** Flight Search Area Start ***** -->
+            <section class="section search-area bg-overlay  d-flex align-items-center">
+                <div class="container">
+                    <div class="row ">
+                        <div class="col-12 col-md-7 col-lg-12">
+                            <div class="row justify-content-center">
+                                <div class="search-box">
+                                    <div class="S-option">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="Radio" value="option1" checked>
+                                            <label class="form-check-label">One way</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="Radio" value="option2">
+                                            <label class="form-check-label">Round Trip</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="Radio" value="option2">
+                                            <label class="form-check-label">Multi City</label>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-12 col-md-10 col-lg-2 space autocomplete">
+                                                <label>Flying From</label>
+                                                <span class="input-group-text">
+                                                    <img src="~/img/location-icon.png" alt="icon">
+                                                    <input id="myInput" type="" value="Delhi-DEL" class="form-control fisrt">
+                                                </span>
+                                            </div>
+
+                                            <div class="rplc-btn">
+                                                <img src="~/img/direction-arrows.png" />
+                                            </div>
+
+                                            <div class="col-12 col-md-10 col-lg-2 space autocomplete">
+                                                <label>Flying To</label>
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <img src="~/img/location-icon.png" alt="icon">
+                                                    <input id="myInput1" type="" value="Mumbai-BOM" class="form-control fisrt">
+                                                </span>
+                                            </div>
+                                            <div class="col-12 col-md-10 col-lg-2 space">
+                                                <label>Departure</label>
+                                                <span class="input-group-text">
+                                                    <img src="~/img/calender-icon.png" alt="icon">
+                                                    <input id="start-date" type="" placeholder="Mon May 15" class="form-control">
+                                                </span>
+                                            </div>
+                                            <div class="col-12 col-md-10 col-lg-2 space">
+                                                <label>Return</label>
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <img src="~/img/calender-icon.png" alt="icon">
+                                                    <input id="end-date" type="" placeholder="Fri Jun 2" class="form-control">
+                                                </span>
+                                            </div>
+                                            <div class="col-12 col-md-10 col-lg-2 space travellers">
+                                                <label>Travellers </label>
+                                                <div class="searchMenu-guests js-form-dd js-form-counters">
+                                                    <div data-x-dd-click="searchMenu-guests">
+
+                                                        <div class="text-15 text-light-1 ls-2 lh-16">
+                                                            <span class="js-count-adult">1</span> adults
+                                                            -
+                                                            <span class="js-count-child">0</span> childeren
+                                                            -
+                                                            <span class="js-count-infents">0</span> Infents
+                                                        </div>
+                                                    </div>
+                                                    <div class="searchMenu-guests__field shadow-2" data-x-dd="searchMenu-guests" data-x-dd-toggle="-is-active">
+                                                        <div class="bg-white px-30 py-30 rounded-4">
+
+                                                            <div class="row y-gap-10 justify-between items-center">
+                                                                <div class="col-auto">
+                                                                    <div class="text-15 fw-500">Adults</div>
+                                                                </div>
+
+                                                                <div class="col-auto">
+                                                                    <div class="d-flex items-center js-counter" data-value-change=".js-count-adult">
+                                                                        <button class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-down">
+                                                                            <i class="fa fa-minus" aria-hidden="true"></i>
+                                                                        </button>
+
+                                                                        <div class="flex-center size-20 ml-15 mr-15">
+                                                                            <div class="text-15 js-count">1</div>
+                                                                        </div>
+
+                                                                        <button class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-up">
+                                                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="border-top-light mt-24 mb-24"></div>
+
+                                                            <div class="row y-gap-10 justify-between items-center">
+                                                                <div class="col-auto">
+                                                                    <div class="text-15 lh-12 fw-500">Children</div>
+                                                                    <div class="text-14 lh-12 text-light-1 mt-5">Ages 0 - 17</div>
+                                                                </div>
+
+                                                                <div class="col-auto">
+                                                                    <div class="d-flex items-center js-counter" data-value-change=".js-count-child">
+                                                                        <button class="button -outline-blue-1 text-blue-1 size-38 rounded-5 js-down">
+                                                                            <i class="fa fa-minus" aria-hidden="true"></i>
+                                                                        </button>
+
+                                                                        <div class="flex-center size-20 ml-15 mr-15">
+                                                                            <div class="text-15 js-count">0</div>
+                                                                        </div>
+
+                                                                        <button class="button -outline-blue-1 text-blue-1 size-38 rounded-5 js-up">
+                                                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="border-top-light mt-24 mb-24"></div>
+
+                                                            <div class="row y-gap-10 justify-between items-center">
+                                                                <div class="col-auto">
+                                                                    <div class="text-15 fw-500">Infants</div>
+                                                                </div>
+
+                                                                <div class="col-auto">
+                                                                    <div class="d-flex items-center js-counter" data-value-change=".js-count-infents">
+                                                                        <button class="button -outline-blue-1 text-blue-1 size-38 rounded-5 js-down">
+                                                                            <i class="fa fa-minus" aria-hidden="true"></i>
+                                                                        </button>
+
+                                                                        <div class="flex-center size-20 ml-15 mr-15">
+                                                                            <div class="text-15 js-count">0</div>
+                                                                        </div>
+
+                                                                        <button class="button -outline-blue-1 text-blue-1 size-38 rounded-5 js-up">
+                                                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-10 col-lg-2"><button type="submit" class="btn btn-lg btn-block"><i class="fa fa-search mr-10" aria-hidden="true"></i>Modify Search</button></div>
+                                            <div class="col-12 col-md-12 col-lg-12 search-bottom"></div>
+                                            <div class="col-12 col-md-10 col-lg-9 pl-0">
+                                                <div class="form-group pt-2">
+                                                    <div class="dropdown js-dropdown js-economy-active" style="display:inline-block;">
+                                                        <div class="dropdown__button d-flex items-center  text-15" data-el-toggle=".js-economy-toggle" data-el-toggle-active=".js-economy-active">
+                                                            <span class="js-dropdown-title">Show Class </span>
+                                                            <i class="fa fa-angle-down ml-1 icon icon-chevron-sm-down" aria-hidden="true"></i>
+                                                        </div>
+                                                        <div class="toggle-element -dropdown  js-click-dropdown js-economy-toggle">
+                                                            <div class="text-14 y-gap-8 js-dropdown-list">
+
+                                                                <div><a href="#" class="d-block js-dropdown-link">Economic</a></div>
+                                                                <div><a href="#" class="d-block js-dropdown-link">Premium</a></div>
+                                                                <div><a href="#" class="d-block js-dropdown-link">Business</a></div>
+                                                                <div><a href="#" class="d-block js-dropdown-link">First</a></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="custom-control custom-checkbox custom-control-inline">
+                                                        <input type="checkbox" class="custom-control-input" id="defaultInline3">
+                                                        <label class="custom-control-label" for="defaultInline3">Direct Flights</label>
+                                                    </div>
+                                                    <div class="custom-control custom-checkbox custom-control-inline">
+                                                        <input type="checkbox" class="custom-control-input" id="defaultInline4">
+                                                        <label class="custom-control-label" for="defaultInline4">Defence Fare</label>
+                                                    </div>
+                                                    <div class="custom-control custom-checkbox custom-control-inline">
+                                                        <input type="checkbox" class="custom-control-input" id="defaultInline5">
+                                                        <label class="custom-control-label" for="defaultInline5">Student Fare </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- ***** Flight Search Area End ***** -->
+
         </div>
-        <!-- ***** End inner seaaaarch ***** -->
+        <!-- ***** End inner search ***** -->
 
         <section class="layout-pt-md layout-pb-md bg-light-2 search-result mb-5">
             <div class="container">
@@ -162,19 +377,20 @@
                                         <div class="py-10 px-20 bg-white mt-20">
                                             <div class="d-flex y-gap-30 justify-between">
                                                 <div class="fare-round">
-
-
                                                     @if (Model.SimpleAvailibilityaAddResponcelist[j].Airline.ToString().ToLower().Equals("spicejet"))
                                                     {
-                                                        <img class="size-40 clickable-image" src="~/img/flight-logo-icon/SG.png" alt="SpiceJet" data-index="@j">
+
+                                                        <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
                                                     }
                                                     else
                                                     {
-                                                        <img class="size-40 clickable-image" src="~/img/flight-logo-icon/1.webp" alt="Default" data-index="@j">
+                                                        <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
                                                     }
-
-
+                                                    @* <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image"> *@
                                                     <input type="hidden" value="@Model.SimpleAvailibilityaAddResponcelist[j].uniqueId" />
+                                                    @*<input type="hidden" class="carrierCode" name="carrierCode" value="@Model.SimpleAvailibilityaAddResponcelist[j].segments[i].identifier.carrierCode" />
+                                                <input type="hidden" class="identifier" name="identifier" value="@Model.SimpleAvailibilityaAddResponcelist[j].segments[i].identifier.identifier" />
+                                                <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[i].identifier.carrierCode  - @Model.SimpleAvailibilityaAddResponcelist[j].segments[i].identifier.identifier </div>*@
                                                     <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode  - @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.identifier </div>
 
                                                 </div>
@@ -220,6 +436,7 @@
                                                     <input type="hidden" class="arrival" value="@arrivalfinal" />
                                                     <input type="hidden" class="destination" value="@Model.SimpleAvailibilityaAddResponcelist[j].designator.destination" />
                                                 </div>
+
                                                 <div class="fare-round mt-3">
                                                     <div class="rtprice">₹ @Model.SimpleAvailibilityaAddResponcelist[j].fareTotalsum</div>
                                                     <input type="hidden" class="fareTotalsum" value="@Model.SimpleAvailibilityaAddResponcelist[j].fareTotalsum" />
@@ -227,10 +444,11 @@
                                                 </div>
 
                                                 <div class="fare-round mt-3">
-                                                    <input type="radio" id="uniqueId" name="dynamicRadio" value="@Model.SimpleAvailibilityaAddResponcelist[j].uniqueId" onclick="RenderData()" data-index="@j">
-
+                                                    <input type="radio" id="uniqueId" name="dynamicRadio" value="@Model.SimpleAvailibilityaAddResponcelist[j].uniqueId" onclick="RenderData()">
+                                                    @* <input class="farebtniddd" type="radio" name="radiosL" onclick="RenderData(@j)">*@
                                                 </div>
                                             </div>
+
                                             <div class="rtflight-dtl showBtn"><a href="#">Flight Details <i class="fa fa-angle-down" data-unicode="f107"></i></a></div>
                                             <div class="hideme" style="display:none;">
                                                 <div class="tabs -underline-2 pt-30 lg:pt-30 sm:pt-30 js-tabs">
@@ -486,13 +704,14 @@
                                                 <div class="fare-round">
                                                     @if (Model.SimpleAvailibilityaAddResponcelistR[j].Airline.ToString().ToLower().Equals("spicejet"))
                                                     {
-                                                        <img class="size-40 clickable-image" src="~/img/flight-logo-icon/SG.png" alt="SpiceJet" data-index="@j">
+
+                                                        <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
                                                     }
                                                     else
                                                     {
-                                                        <img class="size-40 clickable-image" src="~/img/flight-logo-icon/1.webp" alt="Default" data-index="@j">
+                                                        <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
                                                     }
-
+                                                    @* <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image"> *@
                                                     @*  <input type="hidden" class="carrierreturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].segments[i].identifier.carrierCode" />
                                                 <input type="hidden" class="identifierreturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].segments[i].identifier.identifier" />
                                                 <div class="fliCode"><div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelistR[j].segments[i].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelistR[j].segments[i].identifier.identifier</div></div>*@
@@ -547,7 +766,10 @@
 
                                                 </div>
                                                 <div class="fare-round mt-3">
-                                                    <input type="radio" id="uniqueIdR" name="dynamicRadioR" value="@Model.SimpleAvailibilityaAddResponcelistR[j].uniqueId" onclick="RenderDataR()" data-index="@j">
+                                                    <input type="radio" id="uniqueId" name="dynamicRadioR" value="@Model.SimpleAvailibilityaAddResponcelistR[j].uniqueId" onclick="RenderDataR()">
+                                                    @* <input type="radio" name="ReturnRadioGroup" class="OnewayRadio" onclick="RenderData('fareReturnway', @j)"> *@
+                                                    @*<input class="farebtn" type="radio" name="RadiosR" onclick="RenderDataReturn(@j)">*@
+
                                                 </div>
                                             </div>
 
@@ -789,11 +1011,7 @@
                     <div class="col-auto">
                         <div class="d-flex y-gap-30 justify-between align-items-center">
                             <div class="fare-round d-flex align-items-center">
-                                @* <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">  *@
-                                <div id="selectedImageContainer">
-                                    <img id="selectedImage" class="size-40" src="" alt="Selected Image">
-                                </div>
-
+                                <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
                                 <div class="text-12 ms-2"><span id="carierCodedata"></span>-<span id="IdentifierData"></span></div>
                             </div>
                             <div class="fare-round ms-2">
@@ -824,10 +1042,7 @@
                     <div class="col-auto">
                         <div class="d-flex y-gap-30 justify-between align-items-center">
                             <div class="fare-round d-flex align-items-center">
-                                @*  <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image"> *@
-                                <div id="selectedImageContainer">
-                                    <img id="selectedImageR" class="size-40" src="" alt="Selected Image">
-                                </div>
+                                <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
                                 <div class="text-12 ms-2"><span id="carrierreturndata"></span>-<span id="identifierreturndata"></span></div>
                             </div>
                             <div class="fare-round ms-2">
@@ -2334,19 +2549,103 @@
     <script src="~/js/active.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script type="text/javascript">
-        var uniqueId, uniqueIdR;
 
-        $('input[type=radio][name=dynamicRadio]').change(function () {
-            debugger;
-            uniqueId = $(this).val();
-            alert(uniqueId);
-            var dataIndex = $(this).attr('data-index');
-            alert(dataIndex);
-            var selectedImageSrc = $('.clickable-image[data-index="' + dataIndex + '"]').attr('src');
-            alert(selectedImageSrc);
-            // Update the source of the selected image in the other div
-            $('#selectedImage').attr('src', selectedImageSrc);
+    <script>
+        $(document).ready(function () {
+            $('.rplc-btn').on('click', function () {
+                // Get values from the first input box
+                var flyingFromValue = $('#myInput').val();
+
+                // Get values from the second input box
+                var flyingToValue = $('#myInput1').val();
+
+                // Swap values between the two input boxes
+                $('#myInput').val(flyingToValue);
+                $('#myInput1').val(flyingFromValue);
+            });
+
+            ///END Ready
+        });
+
+
+    </script>
+
+    <script type="text/javascript">
+        // var uniqueId, uniqueIdR;
+        // $('input[type=radio][name=dynamicRadio]').change(function () {
+        //     uniqueId = $(this).val();
+        //     // Retrieve values from hidden input fields
+        //     var departureTime = $('.departuretime').eq(uniqueId).val();
+        //     var origin = $('.origin').eq(uniqueId).val();
+        //     var destination = $('.destination').eq(uniqueId).val();
+        //     var diffL = $('.diff').eq(uniqueId).val();
+        //     var stopsL = $('.stops').eq(uniqueId).val();
+        //     var arrivalL = $('.arrival').eq(uniqueId).val();
+        //     var fareTotalsumL = $('.fareTotalsum').eq(uniqueId).val();
+        //     // Display the retrieved values
+        //     $('#departureData').text(departureTime);
+        //     $('#originData').text(origin);
+        //     $('#diffData').text(diffL);
+        //     $('#stopsData').text(stopsL);
+        //     $('#arrivalData').text(arrivalL);
+        //     $('#destinationData').text(destination);
+        //     $('#fareTotalsumData').text(fareTotalsumL);
+        //     // Store in session Total Fare Left
+        //     localStorage.setItem('TotalfareL', fareTotalsumL);
+        // });
+
+        // $('input[type=radio][name=dynamicRadioR]').change(function () {
+        //     debugger;
+        //     uniqueIdR = $(this).val();
+        //     // Retrieve values from hidden input fields
+        //     var departureTimeR = $('.departurereturn').eq(uniqueIdR).val();
+        //     var originR = $('.originreturn').eq(uniqueIdR).val();
+        //     var diffR = $('.diffreturn').eq(uniqueIdR).val();
+        //     var stopsR = $('.stopsreturn').eq(uniqueIdR).val();
+        //     var arrivalR = $('.arrivalreturn').eq(uniqueIdR).val();
+        //     var destinationR = $('.destinationreturn').eq(uniqueIdR).val();
+        //     var fareTotalsumR = $('.faretotalsumreturn').eq(uniqueIdR).val();
+        //     // Display the retrieved values
+        //     $('#departurereturndata').text(departureTimeR);
+        //     $('#originreturndata').text(originR);
+        //     $('#diffreturndata').text(diffR);
+        //     $('#stopsreturndata').text(stopsR);
+        //     $('#arrivalreturndata').text(arrivalR);
+        //     $('#destinationreturndata').text(destinationR);
+        //     $('#faretotalsumreturndata').text(fareTotalsumR);
+        //     //Sum Of Total fare left and right
+        //     var totalL = localStorage.getItem('TotalfareL');
+        //     var TotalfareLR = parseInt(totalL) + parseInt(fareTotalsumR, 10);
+        //     $('#totalfaretotalround').text(TotalfareLR);
+
+        // });
+        // $('#ReturnButtonId').click(function () {
+        //     debugger;
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: '/RoundTrip/PostReturnAATripsellView',
+        //         data: {
+        //             uniqueId: uniqueId,
+        //             uniqueIdR: uniqueIdR
+        //         },
+        //         success: function (response) {
+
+        //             console.log('POST request successful');
+        //             $('#rtexampleModal .modal-body').html(response);
+        //             $('#rtexampleModal').modal('show');
+        //         },
+        //         error: function (xhr, status, error) {
+        //             console.error('Error occurred:', error);
+        //         }
+        //     });
+        // });
+
+        var uniqueId, uniqueIdR;
+        // Function to handle radio button change and display data
+        function handleRadioChange() {
+            var uniqueId = $('input[type=radio][name=dynamicRadio]:checked').val();
+            //alert(uniqueId);
+            localStorage.setItem('IDLEFT', uniqueId);
             // Retrieve values from hidden input fields
             var departureTime = $('.departuretime').eq(uniqueId).val();
             var origin = $('.origin').eq(uniqueId).val();
@@ -2364,23 +2663,48 @@
             $('#arrivalData').text(arrivalL);
             $('#destinationData').text(destination);
             $('#fareTotalsumData').text(fareTotalsumL);
+
             // Store in session Total Fare Left
             localStorage.setItem('TotalfareL', fareTotalsumL);
-        });
+            handleReturnRadioChange();
+        }
 
-        $('input[type=radio][name=dynamicRadioR]').change(function () {
-            debugger;
-            uniqueIdR = $(this).val();
-            alert(uniqueIdR);
-            var dataIndexR = $(this).attr('data-index');
-            alert(dataIndexR);
-            var selectedImageSrcR = $('.clickable-image[data-index="' + dataIndexR + '"]').attr('src');
-            alert(selectedImageSrcR);
+        // Trigger change event on radio button selection
+        $('input[type=radio][name=dynamicRadio]').change(handleRadioChange);
 
-            // Update the source of the selected image in the other div
-            $('#selectedImageR').attr('src', selectedImageSrcR);
+        // Auto-select the first radio button and trigger its change event
+        $('input[type=radio][name=dynamicRadio]').first().prop('checked', true).trigger('change');
 
-            // Retrieve values from hidden input fields
+        // $('input[type=radio][name=dynamicRadio]').change(function () {
+        //     uniqueId = $(this).val();
+        //     var uniqueId = $('input[type=radio][name=dynamicRadio]:checked').val();
+        //     // Retrieve values from hidden input fields
+        //     var departureTime = $('.departuretime').eq(uniqueId).val();
+        //     var origin = $('.origin').eq(uniqueId).val();
+        //     var destination = $('.destination').eq(uniqueId).val();
+        //     var diffL = $('.diff').eq(uniqueId).val();
+        //     var stopsL = $('.stops').eq(uniqueId).val();
+        //     var arrivalL = $('.arrival').eq(uniqueId).val();
+        //     var fareTotalsumL = $('.fareTotalsum').eq(uniqueId).val();
+        //     // Display the retrieved values
+        //     $('#departureData').text(departureTime);
+        //     $('#originData').text(origin);
+        //     $('#diffData').text(diffL);
+        //     $('#stopsData').text(stopsL);
+        //     $('#arrivalData').text(arrivalL);
+        //     $('#destinationData').text(destination);
+        //     $('#fareTotalsumData').text(fareTotalsumL);
+        //     // Store in session Total Fare Left
+        //     localStorage.setItem('TotalfareL', fareTotalsumL);
+        // });
+
+
+        // Function to handle return radio button change and display data
+        function handleReturnRadioChange() {
+            var uniqueIdR = $('input[type=radio][name=dynamicRadioR]:checked').val();
+            //alert(uniqueIdR);
+            localStorage.setItem('IDRIGHT', uniqueIdR);
+            // Retrieve values from hidden input fields for return radio buttons
             var departureTimeR = $('.departurereturn').eq(uniqueIdR).val();
             var originR = $('.originreturn').eq(uniqueIdR).val();
             var diffR = $('.diffreturn').eq(uniqueIdR).val();
@@ -2388,7 +2712,8 @@
             var arrivalR = $('.arrivalreturn').eq(uniqueIdR).val();
             var destinationR = $('.destinationreturn').eq(uniqueIdR).val();
             var fareTotalsumR = $('.faretotalsumreturn').eq(uniqueIdR).val();
-            // Display the retrieved values
+
+            // Display the retrieved values for return radio buttons
             $('#departurereturndata').text(departureTimeR);
             $('#originreturndata').text(originR);
             $('#diffreturndata').text(diffR);
@@ -2396,13 +2721,56 @@
             $('#arrivalreturndata').text(arrivalR);
             $('#destinationreturndata').text(destinationR);
             $('#faretotalsumreturndata').text(fareTotalsumR);
-            //Sum Of Total fare left and right
+
+            // Sum Of Total fare left and right
             var totalL = localStorage.getItem('TotalfareL');
             var TotalfareLR = parseInt(totalL) + parseInt(fareTotalsumR, 10);
             $('#totalfaretotalround').text(TotalfareLR);
+        }
 
-        });
+        // Trigger change event on return radio button selection
+        $('input[type=radio][name=dynamicRadioR]').change(handleReturnRadioChange);
+
+        // Auto-select the first return radio button and trigger its change event
+        $('input[type=radio][name=dynamicRadioR]').first().prop('checked', true).trigger('change');
+
+
+
+        // $('input[type=radio][name=dynamicRadioR]').first().prop('checked', true).trigger('change');
+        // $('input[type=radio][name=dynamicRadioR]').change(function () {
+        //     debugger;
+
+        //     uniqueIdR = $(this).val();
+
+        //     // Retrieve values from hidden input fields
+        //     var departureTimeR = $('.departurereturn').eq(uniqueIdR).val();
+        //     var originR = $('.originreturn').eq(uniqueIdR).val();
+        //     var diffR = $('.diffreturn').eq(uniqueIdR).val();
+        //     var stopsR = $('.stopsreturn').eq(uniqueIdR).val();
+        //     var arrivalR = $('.arrivalreturn').eq(uniqueIdR).val();
+        //     var destinationR = $('.destinationreturn').eq(uniqueIdR).val();
+        //     var fareTotalsumR = $('.faretotalsumreturn').eq(uniqueIdR).val();
+
+        //     // Display the retrieved values
+        //     $('#departurereturndata').text(departureTimeR);
+        //     $('#originreturndata').text(originR);
+        //     $('#diffreturndata').text(diffR);
+        //     $('#stopsreturndata').text(stopsR);
+        //     $('#arrivalreturndata').text(arrivalR);
+        //     $('#destinationreturndata').text(destinationR);
+        //     $('#faretotalsumreturndata').text(fareTotalsumR);
+
+        //     //Sum Of Total fare left and right
+        //     var totalL = localStorage.getItem('TotalfareL');
+        //     var TotalfareLR = parseInt(totalL) + parseInt(fareTotalsumR, 10);
+        //     $('#totalfaretotalround').text(TotalfareLR);
+        // });
+
         $('#ReturnButtonId').click(function () {
+            let uniqueId = localStorage.getItem('IDLEFT');
+            let uniqueIdR = localStorage.getItem('IDRIGHT');
+
+            //alert("hello");
             debugger;
             $.ajax({
                 type: 'POST',
@@ -2422,6 +2790,12 @@
                 }
             });
         });
+
+
+
+
+
+
         $('.showBtn').click(function () {
             //$('.hideme').hide();
             if ($(this).hasClass('active')) {
