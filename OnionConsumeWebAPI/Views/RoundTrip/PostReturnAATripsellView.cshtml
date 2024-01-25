@@ -16,10 +16,290 @@
 </div>
 <div class="row">
     <div class="col-lg-12">
-        <div class="row">
 
-            <div class="col-5">
-                <div class=""><span class="rtbg">DEPART</span></div>
+        <div class="row">
+            <div class="modal-mfareBlock">
+
+                <div class="row pd">
+                    <div class="col-xl-6 col-lg-6 lf-p">
+                        <form id="reconnectingFlightOneway">
+
+                            @for (var j = 0; j < Model.SimpleAvailibilityaAddResponcelist.Count; j++)
+                            {
+                                <div class="fl-part">
+                                    <div class="departbx">Depart</div>
+                                    <div class="dst-top pl-0">
+                                        <span>@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin <i class="fa fa-angle-double-right" aria-hidden="true"></i>@Model.SimpleAvailibilityaAddResponcelist[j].designator.destination</span>
+                                        <span class="dprtdt">@Model.SimpleAvailibilityaAddResponcelist[j].designator.departure</span>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="row y-gap-10 items-center">
+                                            <div class="col">
+                                                <div class="row x-gap-20 mb-3">
+                                                    <div class="col airline-L">
+
+                                                        <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
+                                                        <div class="name">
+                                                            <span class="lh-15">@Model.SimpleAvailibilityaAddResponcelist[j].Airline </span>
+                                                            <span class="text-light-1">@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode | @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.identifier</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        @{
+                                                            var departuretime = Model.SimpleAvailibilityaAddResponcelistR[j].designator.departure;
+                                                            string departuretimestr = departuretime.ToString();
+                                                            var departuretimefinal = departuretimestr.Substring(11, 5);
+                                                        }
+                                                        <div class="text-20 fw-700">@departuretimefinal</div>
+                                                        <div class="text-12 lh-12"><span class="text-w">@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin</span></div>
+                                                    </div>
+
+                                                    <div class="col-auto text-center stop-info">
+                                                        @{
+                                                            var arrivalDate = Model.SimpleAvailibilityaAddResponcelist[j].designator.arrival;
+                                                            var departureDate = Model.SimpleAvailibilityaAddResponcelist[j].designator.departure;
+                                                            var diff = (arrivalDate - departureDate);
+                                                        }
+                                                        <div class="px-20 md:px-0">@diff</div>
+                                                        <div class="flightLine">
+                                                            <div></div>
+                                                            <div></div>
+                                                        </div>
+                                                        @* <div class="mt-1">1-stop</div> *@
+                                                        @{
+                                                            var stops = @Model.SimpleAvailibilityaAddResponcelist[j].stops;
+                                                            if (stops == 0)
+                                                            {
+                                                                <div class="mt-1">NonStop</div>
+                                                            }
+                                                            if (stops == 1)
+                                                            {
+                                                                <div class="mt-1">1Stop via @Model.SimpleAvailibilityaAddResponcelist[j].designator.destination </div>
+                                                            }
+                                                            if (stops == 2)
+                                                            {
+                                                                <div class="mt-1">2Stop</div>
+                                                            }
+                                                        }
+                                                    </div>
+
+                                                    <div class="col">
+                                                        @{
+                                                            var arrivaltime = Model.SimpleAvailibilityaAddResponcelist[j].designator.arrival;
+                                                            string arrivaltimestr = arrivaltime.ToString();
+                                                            var arrivalfinal = arrivaltimestr.Substring(11, 5);
+                                                        }
+                                                        <div class="text-20 fw-700 lh-15">@arrivalfinal</div>
+                                                        <div class="text-12 lh-12 text-light-1"><span class="text-w">@Model.SimpleAvailibilityaAddResponcelist[j].designator.destination</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="corboxmain">
+                                        @for (var k = 0; k < Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual.Count; k++)
+                                        {
+                                            <div class="corbox active-bx">
+                                                <div class="dst-top pl-0">
+                                                    <input type="hidden" class="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
+                                                    <input type="hidden" class="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
+                                                    <input type="hidden" class="Airline" value="@Model.SimpleAvailibilityaAddResponcelist[j].Airline" />
+                                                    <input type="radio" name="fareRadioGroup" class="fareRadio" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal" onclick="collectData('fare', @k)">
+
+                                                    @*  <input type="radio" name="name"> *@
+
+                                                    <span> Saver Fare @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass </span>
+                                                    <span class="price">
+                                                        ₹  @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal
+                                                        <div class="rtfare-1">
+                                                            <input type="hidden" id="IdPOPL" class="farekeyIDL" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal" />
+
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                                <ul>
+                                                    <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                    <li><img src="~/img/included.png" alt="icon">check in 25 Kgs</li>
+                                                    <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs As per airlines policy onwards</li>
+                                                    <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs As per airlines policy onwards</li>
+                                                </ul>
+                                            </div>
+                                        }
+
+                                        @*  <div class="corbox">
+                                    <div class="dst-top pl-0">
+                                    <input type="radio" name="name">
+                                    <span>Standard </span>
+                                    <span class="price">₹ 36000</span>
+                                    </div>
+                                    <ul>
+                                    <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                    <li><img src="~/img/included.png" alt="icon">check in 25 Kgs</li>
+                                    <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs As per airlines policy onwards</li>
+                                    <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs As per airlines policy onwards</li>
+                                    </ul>
+                                    </div>
+
+                                    <div class="corbox">
+                                    <div class="dst-top pl-0">
+                                    <input type="radio" name="name">
+                                    <span>Economy Flexi </span>
+                                    <span class="price">₹ 39000</span>
+                                    </div>
+                                    <ul>
+                                    <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                    <li><img src="~/img/included.png" alt="icon">check in 25 Kgs</li>
+                                    <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs As per airlines policy onwards</li>
+                                    <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs As per airlines policy onwards</li>
+                                    </ul>
+                                    </div>  *@
+                                    </div>
+                                </div>
+                            }
+                        </form>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 rf-p">
+                        <form id="reconnectingFlight">
+
+                            @for (var j = 0; j < Model.SimpleAvailibilityaAddResponcelistR.Count; j++)
+                            {
+                                <div class="fr-part">
+                                    <div class="departbx">Return</div>
+                                    <div class="dst-top pl-0">
+                                        <span>@Model.SimpleAvailibilityaAddResponcelistR[j].designator.origin<i class="fa fa-angle-double-right" aria-hidden="true"></i>@Model.SimpleAvailibilityaAddResponcelistR[j].designator.destination</span>
+                                        <span class="dprtdt">@Model.SimpleAvailibilityaAddResponcelistR[j].designator.arrival</span>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="row y-gap-10 items-center">
+                                            <div class="col">
+                                                <div class="row x-gap-20 mb-3">
+                                                    <div class="col airline-L">
+                                                        <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
+                                                        <div class="name">
+                                                            <span class="lh-15">@Model.SimpleAvailibilityaAddResponcelistR[j].Airline</span>
+                                                            <span class="text-light-1">@Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.carrierCode | @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.identifier</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        @{
+                                                            var departuretime = Model.SimpleAvailibilityaAddResponcelistR[j].designator.departure;
+                                                            string departuretimestr = departuretime.ToString();
+                                                            var departuretimefinal = departuretimestr.Substring(11, 5);
+                                                        }
+                                                        <div class="text-20 fw-700">@departuretimefinal</div>
+                                                        <div class="text-12 lh-12"><span class="text-w">@Model.SimpleAvailibilityaAddResponcelistR[j].designator.origin</span></div>
+                                                    </div>
+
+                                                    <div class="col-auto text-center stop-info">
+                                                        @{
+                                                            var arrivalDate = Model.SimpleAvailibilityaAddResponcelistR[j].designator.arrival;
+                                                            var departureDate = Model.SimpleAvailibilityaAddResponcelistR[j].designator.departure;
+                                                            var diff = (arrivalDate - departureDate);
+                                                        }
+                                                        <div class="px-20 md:px-0">@diff</div>
+                                                        <div class="flightLine">
+                                                            <div></div>
+                                                            <div></div>
+                                                        </div>
+                                                        @{
+                                                            var stops = @Model.SimpleAvailibilityaAddResponcelistR[j].stops;
+                                                            if (stops == 0)
+                                                            {
+                                                                <div class="mt-1">NonStop</div>
+                                                            }
+                                                            if (stops == 1)
+                                                            {
+                                                                <div class="mt-1">1Stop via @Model.SimpleAvailibilityaAddResponcelistR[j].designator.destination </div>
+                                                            }
+                                                            if (stops == 2)
+                                                            {
+                                                                <div class="mt-1">2Stop</div>
+                                                            }
+                                                        }
+                                                        @* <div class="mt-1">1-stop</div> *@
+                                                    </div>
+
+                                                    <div class="col">
+                                                        @{
+                                                            var arrivaltime = Model.SimpleAvailibilityaAddResponcelistR[j].designator.arrival;
+                                                            string arrivaltimestr = arrivaltime.ToString();
+                                                            var arrivalfinal = arrivaltimestr.Substring(11, 5);
+                                                        }
+                                                        <div class="text-20 fw-700 lh-15">@arrivalfinal</div>
+                                                        <div class="text-12 lh-12 text-light-1"><span class="text-w">@Model.SimpleAvailibilityaAddResponcelistR[j].designator.destination</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="corboxmain">
+                                        @for (var k = 0; k < Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual.Count; k++)
+                                        {
+                                            <div class="corbox active-bx">
+                                                <div class="dst-top pl-0">
+                                                    <input type="hidden" class="fareKeyReturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].fareKey" />
+                                                    <input type="hidden" class="journeyKeyReturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].journeyKey" />
+                                                    <input type="hidden" class="AirlineReturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].Airline" />
+                                                    <input type="radio" name="renderRadioGroup" class="renderRadio" value="@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal" onclick="collectData('render', @k)">
+
+                                                    <div class="rtfare-1">
+                                                        <input type="hidden" id="IdPOPR" class="farekeyIDR" value="@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal" />
+
+                                                    </div>
+                                                    @* <input type="radio" name="name"> *@
+                                                    <span>Saver Fare @Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass </span>
+                                                    <span class="price">₹ @Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal</span>
+                                                </div>
+                                                <ul>
+                                                    <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                    <li><img src="~/img/included.png" alt="icon">check in 25 Kgs</li>
+                                                    <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs As per airlines policy onwards</li>
+                                                    <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs As per airlines policy onwards</li>
+                                                </ul>
+                                            </div>
+                                        }
+                                        @*       <div class="corbox">
+                                    <div class="dst-top pl-0">
+                                    <input type="radio" name="name">
+                                    <span>Standard </span>
+                                    <span class="price">₹ 36000</span>
+                                    </div>
+                                    <ul>
+                                    <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                    <li><img src="~/img/included.png" alt="icon">check in 25 Kgs</li>
+                                    <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs As per airlines policy onwards</li>
+                                    <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs As per airlines policy onwards</li>
+                                    </ul>
+                                    </div>
+
+                                    <div class="corbox">
+                                    <div class="dst-top pl-0">
+                                    <input type="radio" name="name">
+                                    <span>Economy Flexi </span>
+                                    <span class="price">₹ 39000</span>
+                                    </div>
+                                    <ul>
+                                    <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                    <li><img src="~/img/included.png" alt="icon">check in 25 Kgs</li>
+                                    <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs As per airlines policy onwards</li>
+                                    <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs As per airlines policy onwards</li>
+                                    </ul>
+                                    </div> *@
+
+                                    </div>
+                                </div>
+                            }
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!---------Old Data Bind---------->
+            <div class="col-5 d-none">
+                <div class=""><span class="rtbg">DEPART</span><span id="resultLeft"></span></div>
 
                 <form id="reconnectingFlightOneway">
 
@@ -51,7 +331,7 @@
                             </div>
                             <div class="fare-round">
                                 @{
-                                    var departuretime = Model.SimpleAvailibilityaAddResponcelist[j].designator.departure;
+                                    var departuretime = Model.SimpleAvailibilityaAddResponcelistR[j].designator.departure;
                                     string departuretimestr = departuretime.ToString();
                                     var departuretimefinal = departuretimestr.Substring(11, 5);
                                 }
@@ -108,10 +388,11 @@
                                         <input type="hidden" class="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
                                         <input type="hidden" class="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
                                         <input type="hidden" class="Airline" value="@Model.SimpleAvailibilityaAddResponcelist[j].Airline" />
-                                        <input type="radio" name="fareRadioGroup" class="fareRadio" onclick="collectData('fare', @k)">
+                                        <input type="radio" name="fareRadioGroup" class="fareRadio" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal" onclick="collectData('fare', @k)">
                                         <div class="ms-2">Saver Fare @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass</div>
                                     </div>
                                     <div class="rtfare-1">
+                                        <input type="hidden" id="IdPOPL" class="farekeyIDL" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal" />
                                         <span> ₹@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal</span>
                                     </div>
                                 </div>
@@ -154,17 +435,15 @@
 
 
                             </div>
-
-
                         }
                     }
                 </form>
             </div>
 
-            <div class="col-auto rtborder-right me-3"></div>
+            <div class="col-auto d-none rtborder-right me-3"></div>
 
-            <div class="col-5">
-                <div class=""><span class="rtbg">RETURN</span></div>
+            <div class="col-5 d-none">
+                <div class=""><span class="rtbg">RETURN</span><span id="resultright"></span></div>
 
                 <form id="reconnectingFlight">
 
@@ -183,16 +462,7 @@
 
                         <div class="d-flex y-gap-30 justify-between">
                             <div class="fare-round d-flex align-items-center">
-                                @if (Model.SimpleAvailibilityaAddResponcelistR[j].Airline.ToString().ToLower().Equals("spicejet"))
-                                {
-
-                                    <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
-                                }
-                                else
-                                {
-                                    <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
-                                }
-                                @* <img class="size-40" src="~/img/flight-logo-icon/1.webp"> *@
+                                <img class="size-40" src="~/img/flight-logo-icon/1.webp">
                             </div>
 
                             <div class="fare-round">
@@ -254,10 +524,11 @@
                                         <input type="hidden" class="fareKeyReturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].fareKey" />
                                         <input type="hidden" class="journeyKeyReturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].journeyKey" />
                                         <input type="hidden" class="AirlineReturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].Airline" />
-                                        <input type="radio" name="renderRadioGroup" class="renderRadio" onclick="collectData('render', @k)">
+                                        <input type="radio" name="renderRadioGroup" class="renderRadio" value="@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal" onclick="collectData('render', @k)">
                                         <div class="ms-2">Saver Fare @Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass</div>
                                     </div>
                                     <div class="rtfare-1">
+                                        <input type="hidden" id="IdPOPR" class="farekeyIDR" value="@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal" />
                                         <span> ₹@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal</span>
                                     </div>
                                 </div>
@@ -355,7 +626,7 @@
         /* position: absolute; */
         border-radius: 50%;
         padding: 10px;
-        background-color: red;
+        /* background-color: red; */
         position: relative;
         top: 50%;
         animation-name: example;
@@ -371,15 +642,16 @@
             left: calc(100% - 100px); /* Move to the right edge (100% - width) */
         }
         /* 0%   {background-color:red; left:0px; right:0px;}
-                          25%  {background-color:yellow; left:80%; top:10%;}
-                          50%  {background-color:blue; left:200px; top:200px;}
-                          75%  {background-color:green; left:0px; top:200px;}
-                          100% {background-color:red; left:0px; top:0px;}  */
+                              25%  {background-color:yellow; left:80%; top:10%;}
+                              50%  {background-color:blue; left:200px; top:200px;}
+                              75%  {background-color:green; left:0px; top:200px;}
+                              100% {background-color:red; left:0px; top:0px;}  */
     }
 
     .iconanimate img {
         transform: rotate(45deg);
-    }</style>
+    }
+</style>
 <script>
     let fareKey = [];
     let journeyKey = [];
@@ -393,6 +665,48 @@
             fareKey.push(document.getElementsByClassName('fareKeyReturn')[index].value + "@@1f" + "@@" + document.getElementsByClassName('AirlineReturn')[index].value);
             journeyKey.push(document.getElementsByClassName('journeyKeyReturn')[index].value + "@@1j" + "@@" + document.getElementsByClassName('AirlineReturn')[index].value);
         }
+        //Get value Pop up Radio Button
+
+        $('input[type=radio][name=fareRadioGroup]').change(function () {
+            var ele = document.getElementsByName('fareRadioGroup');
+
+            for (i = 0; i < ele.length; i++) {
+                if (ele[i].checked)
+                    document.getElementById("resultLeft").innerHTML
+                        = ele[i].value;
+
+            }
+            var resultLeftElement = document.getElementById("resultLeft");
+            alert(resultLeftElement.textContent);
+            var leftpopupfare = resultLeftElement.textContent;
+
+            localStorage.setItem('LEFTFARE', leftpopupfare);
+
+        });
+
+
+        $('input[type=radio][name=renderRadioGroup]').change(function () {
+
+            var eler = document.getElementsByName('renderRadioGroup');
+
+            for (j = 0; j < eler.length; j++) {
+                if (eler[j].checked)
+                    document.getElementById("resultright").innerHTML
+                        = + eler[j].value;
+                var resultrightElement = document.getElementById("resultright");
+
+                var rightpopupfare = resultrightElement.textContent;
+                localStorage.setItem('RIGHTFARE', rightpopupfare);
+            }
+            var popupfare1 = localStorage.getItem('LEFTFARE');
+            var popupfare2 = localStorage.getItem('RIGHTFARE');
+            var totalfarepopup = parseInt(popupfare1) + parseInt(popupfare2);
+            alert("vny" + totalfarepopup);
+            localStorage.setItem('basetotalfare', totalfarepopup);
+            localStorage.setItem('basetotalprice', totalfarepopup);
+
+        });
+
 
     }
     function PostdataReturnTripsell() {

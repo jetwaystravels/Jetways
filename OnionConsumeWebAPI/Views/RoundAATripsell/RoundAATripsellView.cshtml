@@ -424,7 +424,9 @@
 
 
     <script type="text/javascript">
-
+        var totalfarepopup = localStorage.getItem('basetotalfare');
+        document.getElementById("TotalamountN").innerHTML = totalfarepopup;
+        document.getElementById("Totalamount").value = totalfarepopup;
 
         $(document).ready(function () {
 

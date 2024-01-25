@@ -5,44 +5,21 @@
     var data01 = Model;
 
 }
-<script src="~/js/custom.js/SGCustom.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script>
-    $(document).ready(function () {
-        debugger;
-        $('input[type="checkbox"]').on('change', function () {
-            var selectedIds = [];
-            debugger;
-            $('input[type="checkbox"]:checked').each(function () {
 
-                //selectedIds.push($(this).attr('id'));
-                selectedIds.push($(this).val());
-
-            });
-
-            localStorage.setItem('selectedIds', selectedIds);
-
-            var input = document.getElementsByName("unitKey");
-            var total = 0;
-            for (var i = 0; i < input.length; i++) {
-                if (input[i].checked) {
-                    total += parseInt(input[i].value);
-                }
-            }
-            document.getElementById("total").value = total.toFixed(2);
-            var one = document.getElementById("Totalamount").value;
-            var two = document.getElementById("total").value;
-            //SSRMeal();
-
-        });
-    });
-</script>
 <style>
     .chkbox {
         background: #b1abab;
         text-align: center;
         cursor: not-allowed;
         padding: 3px 0;
+    }
+
+    .activeblue {
+        background-color: #d1c3c4 !important;
+        height: 40px !important;
+        padding: 5px 10px !important;
+        border-radius: 30px !important;
+        margin-top: 10px;
     }
 </style>
 
@@ -114,7 +91,7 @@
                         int count = Model.SeatmaplistRT[0].datalist[k].seatMap.decks.units.Count;
                         for (int j = 0; j < count; j++)
                         {
-                        // if (Model.Seatmaplist.datalist[k].seatMap.decks.units[j].assignable == true)
+                            // if (Model.Seatmaplist.datalist[k].seatMap.decks.units[j].assignable == true)
                             // {
                             //     if (!ht0.Contains(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator))
                             //         ht0.Add(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator, Model.Seatmaplist.datalist[k].seatMap.decks.units[j].servicechargefeeAmount);
@@ -189,7 +166,7 @@
                                                         {
                                                             string[] feessplit = ht0[data].ToString().Split("_@");
                                                             string feeamountF1 = feessplit[0];
-                                                           // string feeamountF1 = ht0[data].ToString();
+                                                            // string feeamountF1 = ht0[data].ToString();
                                                             if (feeamountF1 == "0")
                                                             {
                                                                 <li class="seat-li free-seat tooltip">
@@ -307,7 +284,7 @@
                         int count = Model.SeatmaplistRT[1].datalist[k].seatMap.decks.units.Count;
                         for (int j = 0; j < count; j++)
                         {
-                        // if (Model.Seatmaplist.datalist[k].seatMap.decks.units[j].assignable == true)
+                            // if (Model.Seatmaplist.datalist[k].seatMap.decks.units[j].assignable == true)
                             // {
                             //     if (!ht0.Contains(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator))
                             //         ht0.Add(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator, Model.Seatmaplist.datalist[k].seatMap.decks.units[j].servicechargefeeAmount);
@@ -386,7 +363,7 @@
                                                             {
                                                                 <li class="seat-li free-seat tooltip">
                                                                     <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlistRT[1].passengers[0].passengerKey" />
-                                                                    <input type="checkbox" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2] _RT0" id="unitKey" />
+                                                                    <input type="checkbox" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2]" id="unitKey" />
                                                                     <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
                                                                 </li>
                                                             }
@@ -394,7 +371,7 @@
                                                             {
                                                                 <li class="seat-li midcomfort tooltip">
                                                                     <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlistRT[1].passengers[0].passengerKey" />
-                                                                    <input type="checkbox" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2] _RT0" id="unitKey" />
+                                                                    <input type="checkbox" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2]" id="unitKey" />
                                                                     <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
                                                                 </li>
                                                             }
@@ -461,7 +438,7 @@
                                                             {
                                                                 <li class="seat-li free-seat tooltip">
                                                                     <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlistRT[1].passengers[0].passengerKey" />
-                                                                    <input type="checkbox" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2] _RT1" id="unitKey" />
+                                                                    <input type="checkbox" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2]" id="unitKey" />
                                                                     <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
                                                                 </li>
                                                             }
@@ -469,7 +446,7 @@
                                                             {
                                                                 <li class="seat-li midcomfort tooltip">
                                                                     <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlistRT[0].passengers[0].passengerKey" />
-                                                                    <input type="checkbox" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2] _RT1" id="unitKey" />
+                                                                    <input type="checkbox" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2]" id="unitKey" />
                                                                     <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
                                                                 </li>
                                                             }
@@ -578,15 +555,43 @@
 <script src="~/js/custom.js/customnew.js"></script>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/jquery/dist/jquery.js"></script>
-<style type="text/css">
-    .activeblue {
-        background-color: #d1c3c4 !important;
-        height: 40px !important;
-        padding: 5px 10px !important;
-        border-radius: 30px !important;
-        margin-top: 10px;
-    }
-</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="~/js/custom.js/SGCustom.js"></script>
+
+<script>
+    $(document).ready(function () {
+        debugger;
+        $('input[type="checkbox"]').on('change', function () {
+            var selectedIds = [];
+            debugger;
+            $('input[type="checkbox"]:checked').each(function () {
+
+                //selectedIds.push($(this).attr('id'));
+                selectedIds.push($(this).val());
+
+            });
+
+            localStorage.setItem('selectedIds', selectedIds);
+
+            var input = document.getElementsByName("unitKey");
+            var total = 0;
+            for (var i = 0; i < input.length; i++) {
+                if (input[i].checked) {
+                    total += parseInt(input[i].value);
+                }
+            }
+            document.getElementById("total").value = total.toFixed(2);
+            var one = document.getElementById("Totalamount").value;
+            var two = document.getElementById("total").value;
+            //SSRMeal();
+
+        });
+    });
+
+    var totalpricepopup = localStorage.getItem('basetotalprice');
+    document.getElementById("Totalamount").innerHTML = totalpricepopup;
+
+</script>
 <script type="text/javascript">
     /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
     $(document).ready(function () {

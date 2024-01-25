@@ -25,7 +25,6 @@
     /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
     $(document).ready(function () {
 
-
         $("#seattab3").addClass('active');
         $("#tabshow4").hide();
         $("#seattab3").click(function () {
@@ -54,7 +53,7 @@
     {
         if (r == 0)
         {
-            <div id="tabshow3" class="seat-section1">
+            <div id="tabshow3" class="Meal-1">
                 A
                 <div class="swiper-wrapper">
                     @{
@@ -79,7 +78,7 @@
                                                                                       
                                            
                                         }
-                                       
+                                        
                                         <img src="~/img/images/@MealImagelist" title="image" alt="image" />
                                         <h5 class="text-16 fw-700 mt-6">meal</h5>
                                         <h5 class="text-16 fw-700 mt-6">@Model.Meals.legSsrs[0].legssrs[s].name</h5>
@@ -99,8 +98,10 @@
         }
         else
         {
-            <div id="tabshow4" class="seat-section2">
+                       
+            <div id="tabshow4" class="Meal-2">
                 B
+
                 <div class="swiper-wrapper">
                     @{
 
@@ -110,7 +111,22 @@
                             {
                                 <div class="swiper-slide active">
                                     <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
-                                        <img src="~/img/images/non-veg-img-1.png" title="image" alt="image">
+
+                                        @{
+                                            // Assuming you have a variable named mealImage dynamically assigned based on some condition
+                                            string MealImagelist = string.Empty;
+                                            string querymeal = @Model.Meals.legSsrs[1].legssrs[s].ssrCode;
+                                            var Mealdata = DomainLayer.Model.MealImageList.GetAllmeal().Where(x => x.MealCode == querymeal).SingleOrDefault();
+
+                                            if (Mealdata != null)
+                                            {
+                                                MealImagelist = DomainLayer.Model.MealImageList.GetAllmeal().Where(x => x.MealCode == querymeal).SingleOrDefault().MealImage;
+                                            }
+
+
+
+                                        }
+                                        <img src="~/img/images/@MealImagelist" title="image" alt="image">
                                         <h5 class="text-16 fw-700 mt-6">@Model.Meals.legSsrs[1].legssrs[s].name</h5>
                                         <p class="text-14 fw-600 mt-2 text-center">&#8377; @Model.Meals.legSsrs[1].legssrs[s].legpassengers[q].price</p>
                                         <div class="d-flex justify-content-center">

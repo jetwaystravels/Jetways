@@ -24,5 +24,6 @@ namespace DomainLayer.ViewModel
         public List<AirAsiaTripResponceModel> passeengerlistRT { set; get; }
         public List<SeatMapResponceModel> SeatmaplistRT { set; get; }
         public List<SSRAvailabiltyResponceModel> MealslistRT { set; get; }
+        public SimpleAvailabilityRequestModel MyProperty { get; set; }
     }
 }

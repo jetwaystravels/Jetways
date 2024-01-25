@@ -3484,10 +3484,10 @@ FOOTER AREA CSS
 
 .modal-mfareBlock {
     box-shadow: 0 0 10px 0 rgb(0 0 0 / 9%);
-    border: 1px solid #E4E3E1;
+    /*border: 1px solid #E4E3E1;*/
     background: #fff;
     border-radius: 4px;
-    width: 80%;
+    width: 100%;
     margin: auto;
 }
 
@@ -3498,163 +3498,174 @@ FOOTER AREA CSS
         padding: 10px 0 10px 25px;
     }
 
-    .modal-mfareBlock .pd {
-        padding: 15px;
+.modal-mfareheader h2 {
+    background: #366480;
+    color: #fff;
+    border-radius: 4px 4px 0 0;
+    padding: 10px 0 10px 25px;
+}
+
+.modal-mfareheader {
+    background: #366480;
+}
+
+.modal-mfareBlock .pd {
+    padding: 15px;
+}
+
+.modal-mfareBlock .fl-part {
+    border-right: 4px solid #e4e4e4;
+    padding-right: 13px;
+}
+
+.modal-mfareBlock .fr-part {
+    padding-left: 13px;
+}
+
+.modal-mfareBlock .departbx {
+    font-size: 12px;
+    padding: 3px 5px;
+    color: #000;
+    background-color: #DEF2D7;
+    width: 13%;
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 12px;
+    text-transform: capitalize;
+}
+
+.modal-mfareBlock .dst-top {
+    text-transform: uppercase;
+    font-weight: 600;
+    border-bottom: #D1DEE6 1px solid;
+    padding-bottom: 10px;
+    margin-bottom: 12px;
+}
+
+    .modal-mfareBlock .dst-top svg {
+        margin: 0 7px 0 7px;
     }
 
-    .modal-mfareBlock .fl-part {
-        border-right: 4px solid #e4e4e4;
-        padding-right: 13px;
-    }
-
-    .modal-mfareBlock .fr-part {
-        padding-left: 13px;
-    }
-
-    .modal-mfareBlock .departbx {
-        font-size: 12px;
-        padding: 3px 5px;
-        color: #000;
-        background-color: #DEF2D7;
-        width: 13%;
-        text-align: center;
+    .modal-mfareBlock .dst-top .price {
+        font-size: 1rem;
         font-weight: 700;
-        margin-bottom: 12px;
-        text-transform: capitalize;
+        color: #EF0000;
+        float: right;
     }
 
-    .modal-mfareBlock .dst-top {
-        text-transform: uppercase;
-        font-weight: 600;
-        border-bottom: #D1DEE6 1px solid;
-        padding-bottom: 10px;
-        margin-bottom: 12px;
+    .modal-mfareBlock .dst-top .dprtdt {
+        margin-left: auto;
+        font-size: 13px;
+        color: #000;
+        float: right;
     }
 
-        .modal-mfareBlock .dst-top svg {
-            margin: 0 7px 0 7px;
+.modal-mfareBlock .text-w {
+    width: 52px;
+    display: block;
+}
+
+.modal-mfareBlock .stop-info {
+    font-size: 0.7rem;
+    padding: 0
+}
+
+.modal-mfareBlock .flightLine {
+    margin-top: 8px;
+    background: #D1DEE6;
+}
+
+.modal-mfareBlock .airline-L {
+    font-size: 12px;
+    font-weight: 600;
+    padding-left: 0;
+}
+
+    .modal-mfareBlock .airline-L .name {
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 5px;
+    }
+
+        .modal-mfareBlock .airline-L .name span {
+            display: block;
         }
 
-        .modal-mfareBlock .dst-top .price {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #EF0000;
-            float: right;
-        }
+.modal-mfareBlock .corboxmain {
+    margin: 0px auto;
+    padding: 0;
+    width: 100%;
+    overflow: auto;
+    max-height: 320px;
+}
 
-        .modal-mfareBlock .dst-top .dprtdt {
-            margin-left: auto;
-            font-size: 13px;
-            color: #000;
-            float: right;
-        }
+.modal-mfareBlock .corbox {
+    border: 1px solid #dedede;
+    display: table;
+    border-radius: 5px;
+    padding: 8px;
+    width: 99%;
+    cursor: pointer;
+}
 
-    .modal-mfareBlock .text-w {
-        width: 52px;
-        display: block;
+    .modal-mfareBlock .corbox input {
+        margin: 5px 11px 3px;
+        vertical-align: bottom;
     }
 
-    .modal-mfareBlock .stop-info {
-        font-size: 0.7rem;
-        padding: 0
-    }
-
-    .modal-mfareBlock .flightLine {
-        margin-top: 8px;
-        background: #D1DEE6;
-    }
-
-    .modal-mfareBlock .airline-L {
-        font-size: 12px;
-        font-weight: 600;
-        padding-left: 0;
-    }
-
-        .modal-mfareBlock .airline-L .name {
-            display: inline-block;
-            vertical-align: middle;
-            margin-left: 5px;
-        }
-
-            .modal-mfareBlock .airline-L .name span {
-                display: block;
-            }
-
-    .modal-mfareBlock .corboxmain {
-        margin: 0px auto;
+    .modal-mfareBlock .corbox ul {
+        margin: 0;
         padding: 0;
-        width: 100%;
-        overflow: auto;
-        max-height: 320px;
+        line-height: normal;
     }
 
-    .modal-mfareBlock .corbox {
-        border: 1px solid #dedede;
-        display: table;
-        border-radius: 5px;
-        padding: 8px;
-        width: 99%;
-        cursor: pointer;
-    }
-
-        .modal-mfareBlock .corbox input {
-            margin: 5px 11px 3px;
-            vertical-align: bottom;
-        }
-
-        .modal-mfareBlock .corbox ul {
-            margin: 0;
-            padding: 0;
-            line-height: normal;
-        }
-
-            .modal-mfareBlock .corbox ul li {
-                padding: 10px;
-                display: inline-block;
-                font-size: 12px;
-                font-weight: 600;
-                margin-bottom: 5px;
-                border-bottom: #DBEAE9 1px solid;
-            }
-
-                .modal-mfareBlock .corbox ul li img {
-                    height: 20px;
-                    margin-right: 12px;
-                }
-
-    .modal-mfareBlock .active-bx {
-        background: #FFF6F6;
-        border: #F5BDBD 1px solid;
-    }
-
-    .modal-mfareBlock .col-xl-6.col-lg-6.lf-p {
-        padding-right: 0;
-    }
-
-    .modal-mfareBlock .col-xl-6.col-lg-6.rf-p {
-        padding-left: 0;
-    }
-
-    .modal-mfareBlock .btm-price-bx {
-        box-shadow: 0 0 9px 0 rgba(0,0,0,.20);
-        padding: 10px;
-        text-align: right;
-    }
-
-        .modal-mfareBlock .btm-price-bx .book-price {
-            font-size: 22px;
-            font-weight: 700;
-            margin-right: 8px;
+        .modal-mfareBlock .corbox ul li {
+            padding: 10px;
             display: inline-block;
-            vertical-align: middle;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            border-bottom: #DBEAE9 1px solid;
         }
 
-            .modal-mfareBlock .btm-price-bx .book-price span {
-                font-size: 14px;
-                display: block;
-                font-weight: 500;
-                margin-top: -13px;
-                text-align: right;
+            .modal-mfareBlock .corbox ul li img {
+                height: 20px;
+                margin-right: 12px;
             }
+
+.modal-mfareBlock .active-bx {
+    background: #FFF6F6;
+    border: #F5BDBD 1px solid;
+}
+
+.modal-mfareBlock .col-xl-6.col-lg-6.lf-p {
+    padding-right: 0;
+}
+
+.modal-mfareBlock .col-xl-6.col-lg-6.rf-p {
+    padding-left: 0;
+}
+
+.modal-mfareBlock .btm-price-bx {
+    box-shadow: 0 0 9px 0 rgba(0,0,0,.20);
+    padding: 10px;
+    text-align: right;
+}
+
+    .modal-mfareBlock .btm-price-bx .book-price {
+        font-size: 22px;
+        font-weight: 700;
+        margin-right: 8px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+        .modal-mfareBlock .btm-price-bx .book-price span {
+            font-size: 14px;
+            display: block;
+            font-weight: 500;
+            margin-top: -13px;
+            text-align: right;
+        }
 
 /*End more fare option */
