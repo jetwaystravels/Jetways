@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="bin\**" />
+    <Content Remove="bin\**" />
+    <EmbeddedResource Remove="bin\**" />
+    <None Remove="bin\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="wwwroot\css\bootstrap-theme.css" />
     <Content Remove="wwwroot\css\bootstrap-theme.css.map" />
     <Content Remove="wwwroot\css\bootstrap-theme.min.css" />

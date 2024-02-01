@@ -62,13 +62,13 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
         public async Task<IActionResult> SearchResultFlight(SimpleAvailabilityRequestModel _GetfligthModel)
         {
             //start:- for testing 
-            _GetfligthModel.passengercount = new passengercount();
-            _GetfligthModel.passengercount.adulttype = "ADT";
-            _GetfligthModel.passengercount.adultcount = 1;
-            _GetfligthModel.passengercount.childtype = "CHD";
-            _GetfligthModel.passengercount.childcount = 1;
-            _GetfligthModel.passengercount.infanttype = "INFT";
-            _GetfligthModel.passengercount.infantcount = 1;
+            //_GetfligthModel.passengercount = new passengercount();
+            //_GetfligthModel.passengercount.adulttype = "ADT";
+            //_GetfligthModel.passengercount.adultcount = 1;
+            //_GetfligthModel.passengercount.childtype = "CHD";
+            //_GetfligthModel.passengercount.childcount = 1;
+            //_GetfligthModel.passengercount.infanttype = "INFT";
+            //_GetfligthModel.passengercount.infantcount = 1;
 
             //end:
 

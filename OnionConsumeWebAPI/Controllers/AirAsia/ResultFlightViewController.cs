@@ -695,11 +695,12 @@ namespace OnionConsumeWebAPI.Controllers
 
                                 if (compartmentsunitobj.group == Convert.ToInt32(farearraygroupid))
                                 {
-                                    for (int l = 0; l < feesgroupserviceChargescount; l++)
-                                    {
-                                        compartmentsunitobj.servicechargefeeAmount += Convert.ToInt32(JsonObjSeatmap.data[x].fees[passengerkey12].groups[farearraygroupid].fees[0].serviceCharges[l].amount);
-                                    }
-                                    break;
+                                    compartmentsunitobj.servicechargefeeAmount = Convert.ToInt32(JsonObjSeatmap.data[x].fees[passengerkey12].groups[farearraygroupid].fees[0].serviceCharges[0].amount);
+                                    //for (int l = 0; l < feesgroupserviceChargescount; l++)
+                                    //{
+                                    //    compartmentsunitobj.servicechargefeeAmount += Convert.ToInt32(JsonObjSeatmap.data[x].fees[passengerkey12].groups[farearraygroupid].fees[0].serviceCharges[l].amount);
+                                    //}
+                                    //break;
                                 }
                             }
                             compartmentsunitlist.Add(compartmentsunitobj);
