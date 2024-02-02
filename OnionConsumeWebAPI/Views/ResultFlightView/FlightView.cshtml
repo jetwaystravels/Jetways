@@ -1,12 +1,10 @@
-﻿@model IEnumerable<DomainLayer.Model.SimpleAvailibilityaAddResponce>
+﻿@model DomainLayer.ViewModel.ViewModel
 @{
     Layout = null;
-
-
+    var data = Model;
 }
 
 <!DOCTYPE html>
-<html class="no-js" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="">
@@ -20,23 +18,11 @@
     <link rel="stylesheet" href="~/css/vendors.css">
     <link rel="stylesheet" href="~/css/main.css">
     <link rel="stylesheet" href="~/css/style.css">
-    <style>
-        .rplc-btn {
-            width: 34px;
-            position: absolute;
-            left: 169px;
-            background: #ffffffc2;
-            margin-top: 35px;
-            margin-left: 20px;
-            padding: 3px;
-            border-radius: 50%;
-            z-index: 999;
-        }
+    <link rel="stylesheet" href="~/css/daterangepicker.css">
+    <link href="~/css/roundviewpage.css" rel="stylesheet" />
+    <link href="~/css/indexvny.css" rel="stylesheet" />
+    <script src="~/js/custom.js/indexpage.js"></script>
 
-            .rplc-btn img {
-                transform: rotate(90deg);
-            }
-    </style>
 
 </head>
 <body>
@@ -145,179 +131,168 @@
 
                                     </div>
 
-                                    <div class="col-lg-12">
-                                        <div class="row">
-                                            <div class="col-12 col-md-10 col-lg-3 space autocomplete">
-                                                <label>Flying From</label>
-                                                <span class="input-group-text">
-                                                    <img src="~/img/location-icon.png" alt="icon">
-                                                    <input id="myInput" type="" value="Delhi-DEL" class="form-control fisrt">
-                                                </span>
-                                            </div>
+                                    <form asp-action="SearchResultFlight" asp-controller="FlightSearchIndex" method="post" id="multipleValuesForm">
+                                        <div class="col-lg-12">
+                                            <div class="row">
+                                                <div class="col-12 col-md-10 col-lg-2 space autocomplete">
+                                                    <label>Flying From</label>
+                                                    <span class="input-group-text">
+                                                        <img src="~/img/location-icon.png" alt="icon">
+                                                        <input id="myInput" name="origin" type="text" value="@Model.simpleAvailabilityRequestModelEdit.origin" class="form-control fisrt">
+                                                    </span>
+                                                </div>
 
-                                            <div class="rplc-btn">
-                                                <img src="~/img/direction-arrows.png" />
-                                            </div>
+                                                <div class="rplc-btn">
+                                                    <img src="~/img/direction-arrows.png" />
+                                                </div>
 
-                                            <div class="col-12 col-md-10 col-lg-3 space autocomplete">
-                                                <label>Flying To</label>
-                                                <span class="input-group-text" id="basic-addon1">
-                                                    <img src="~/img/location-icon.png" alt="icon">
-                                                    <input id="myInput1" type="" value="Mumbai-BOM" class="form-control fisrt">
-                                                </span>
-                                            </div>
-                                            <div class="col-12 col-md-10 col-lg-2 space">
-                                                <label>Departure</label>
-                                                <span class="input-group-text">
-                                                    <img src="~/img/calender-icon.png" alt="icon">
-                                                    <input id="start-date" type="" placeholder="Mon May 15" class="form-control">
-                                                </span>
-                                            </div>
-                                            <div class="col-12 col-md-10 col-lg-2 space">
-                                                <label>Return</label>
-                                                <span class="input-group-text" id="basic-addon1">
-                                                    <img src="~/img/calender-icon.png" alt="icon">
-                                                    <input id="end-date" type="" placeholder="Fri Jun 2" class="form-control">
-                                                </span>
-                                            </div>
-                                            <div class="col-12 col-md-10 col-lg-2 space travellers">
-                                                <label>Travellers </label>
-                                                <div class="searchMenu-guests js-form-dd js-form-counters">
-                                                    <div data-x-dd-click="searchMenu-guests">
+                                                <div class="col-12 col-md-10 col-lg-2 space autocomplete">
+                                                    <label>Flying To</label>
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <img src="~/img/location-icon.png" alt="icon">
+                                                        <input id="myInput1" name="destination" type="text" value="@Model.simpleAvailabilityRequestModelEdit.destination" class="form-control fisrt">
+                                                    </span>
+                                                </div>
+                                                <div class="col-12 col-md-10 col-lg-2 space">
+                                                    <label>Departure</label>
+                                                    <span class="input-group-text">
+                                                        <img src="~/img/calender-icon.png" alt="icon">
+                                                        <input id="start-date" name="beginDate" type="date" value="@Model.simpleAvailabilityRequestModelEdit.beginDate" class="form-control">
+                                                    </span>
+                                                </div>
+                                                <div class="col-12 col-md-10 col-lg-2 space">
+                                                    <label>Return</label>
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <img src="~/img/calender-icon.png" alt="icon">
+                                                        <input id="end-date" name="endDate" type="date" value="@Model.simpleAvailabilityRequestModelEdit.endDate" class="form-control" disabled>
+                                                    </span>
+                                                </div>
+                                                <div class="col-12 col-md-10 col-lg-2 space travellers">
+                                                    <label>Travellers </label>
+                                                    <div class="searchMenu-guests js-form-dd js-form-counters">
+                                                        <div data-x-dd-click="searchMenu-guests">
 
-                                                        <div class="text-15 text-light-1 ls-2 lh-16">
-                                                            <span class="js-count-adult">2</span> adults
-                                                            -
-                                                            <span class="js-count-child">1</span> childeren
-                                                            -
-                                                            <span class="js-count-infents">1</span> Infents
+                                                            <div class="text-15 text-light-1 ls-2 lh-16">
+                                                                <span class="js-count-adult" id="count_adult">@Model.simpleAvailabilityRequestModelEdit.passengers.types[0].count</span> adults
+                                                                -
+                                                                <span class="js-count-child" id="count_child">0</span> childeren
+                                                                -
+                                                                <span class="js-count-infents" id="count_infant">0</span> Infants
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="searchMenu-guests__field shadow-2" data-x-dd="searchMenu-guests" data-x-dd-toggle="-is-active">
-                                                        <div class="bg-white px-30 py-30 rounded-4">
-                                                            <div class="row y-gap-10 justify-between items-center">
-                                                                <div class="col-auto">
-                                                                    <div class="text-15 fw-500">Adults</div>
-                                                                </div>
 
-                                                                <div class="col-auto">
-                                                                    <div class="d-flex items-center js-counter" data-value-change=".js-count-adult">
-                                                                        <button class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-down">
-                                                                            <i class="fa fa-minus" aria-hidden="true"></i>
-                                                                        </button>
+                                                        <div class="searchMenu-guests__field shadow-2" data-x-dd="searchMenu-guests" data-x-dd-toggle="-is-active">
 
-                                                                        <div class="flex-center size-20 ml-15 mr-15">
-                                                                            <div class="text-15 js-count">2</div>
-                                                                        </div>
+                                                            <div class="bg-white px-30 py-30 rounded-4">
 
-                                                                        <button class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-up">
-                                                                            <i class="fa fa-plus" aria-hidden="true"></i>
-                                                                        </button>
+                                                                @*  ------------------------ *@
+                                                                <div class="d-flex y-gap-10 justify-between items-center">
+                                                                    <div class="btn-incr-adult">
+                                                                        <div class="text-15 fw-500">Adults</div>
+
+                                                                        <input type="hidden" value="ADT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.adulttype" />
+                                                                        <div class="text-15 fw-500">Aged 12+ yrs</div>
+                                                                    </div>
+                                                                    <div class="btn-increase">
+                                                                        <div class="decrement sub btn_sub">-</div>
+
+                                                                        <input type="number" id="field_adult" class="input-field" value="1" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.adultcount" min="1" max="9">
+                                                                        <div class="increment add btn_sub">+</div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-
-                                                            <div class="border-top-light mt-24 mb-24"></div>
-
-                                                            <div class="row y-gap-10 justify-between items-center">
-                                                                <div class="col-auto">
-                                                                    <div class="text-15 lh-12 fw-500">Children</div>
-                                                                    <div class="text-14 lh-12 text-light-1 mt-5">Ages 0 - 17</div>
-                                                                </div>
-
-                                                                <div class="col-auto">
-                                                                    <div class="d-flex items-center js-counter" data-value-change=".js-count-child">
-                                                                        <button class="button -outline-blue-1 text-blue-1 size-38 rounded-5 js-down">
-                                                                            <i class="fa fa-minus" aria-hidden="true"></i>
-                                                                        </button>
-
-                                                                        <div class="flex-center size-20 ml-15 mr-15">
-                                                                            <div class="text-15 js-count">1</div>
+                                                                <div class="border-top-light mt-24 mb-24"></div>
+                                                                <div class="d-flex y-gap-10 justify-between items-center">
+                                                                    <div class="btn-incr-chld">
+                                                                        <div class="text-15 fw-500">
+                                                                            Children
                                                                         </div>
+                                                                        <input type="hidden" value="CHD" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childtype" />
+                                                                        <div class="text-15 fw-500">
+                                                                            Aged 2-12 yrs
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="btn-increase">
+                                                                        <div class="decrement1 sub btn_sub">-</div>
+                                                                        <input type="number" id="field_child" class="input-field" value="0" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childcount" min="0" max="6">
+                                                                        <div class="increment1 add btn_sub">+</div>
 
-                                                                        <button class="button -outline-blue-1 text-blue-1 size-38 rounded-5 js-up">
-                                                                            <i class="fa fa-plus" aria-hidden="true"></i>
-                                                                        </button>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-
-                                                            <div class="border-top-light mt-24 mb-24"></div>
-
-                                                            <div class="row y-gap-10 justify-between items-center">
-                                                                <div class="col-auto">
-                                                                    <div class="text-15 fw-500">Infents</div>
-                                                                </div>
-
-                                                                <div class="col-auto">
-                                                                    <div class="d-flex items-center js-counter" data-value-change=".js-count-infents">
-                                                                        <button class="button -outline-blue-1 text-blue-1 size-38 rounded-5 js-down">
-                                                                            <i class="fa fa-minus" aria-hidden="true"></i>
-                                                                        </button>
-
-                                                                        <div class="flex-center size-20 ml-15 mr-15">
-                                                                            <div class="text-15 js-count">1</div>
+                                                                <div class="border-top-light mt-24 mb-24"></div>
+                                                                <div class="d-flex y-gap-10 justify-between items-center">
+                                                                    <div class="infant-area">
+                                                                        <div class="text-15 fw-500">Infants</div>
+                                                                        <input type="hidden" value="INFT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infanttype" />
+                                                                        <div class="text-15 fw-500">
+                                                                            Below 2 yrs
                                                                         </div>
+                                                                    </div>
+                                                                    <div class="btn-increase">
+                                                                        <div class="decrement2 sub btn_sub">-</div>
 
-                                                                        <button class="button -outline-blue-1 text-blue-1 size-38 rounded-5 js-up">
-                                                                            <i class="fa fa-plus" aria-hidden="true"></i>
-                                                                        </button>
+                                                                        <input type="number" id="field_infant" class="input-field" value="0" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infantcount" min="0" max="6">
+                                                                        <div class="increment2 add btn_sub">+</div>
+
                                                                     </div>
                                                                 </div>
-                                                            </div>
 
+                                                                <div class="border-top-light mt-24 mb-24"></div>
+
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-12 col-md-10 col-lg-2"><button type="submit" class="btn btn-lg btn-block"><i class="fa fa-search mr-10" aria-hidden="true"></i>Modify Search</button></div>
-                                            <div class="col-12 col-md-12 col-lg-12 search-bottom"></div>
-                                            <div class="col-12 col-md-10 col-lg-9 pl-0">
-                                                <div class="form-group pt-2">
-                                                    <div class="dropdown js-dropdown js-economy-active" style="display:inline-block;">
-                                                        <div class="dropdown__button d-flex items-center  text-15" data-el-toggle=".js-economy-toggle" data-el-toggle-active=".js-economy-active">
-                                                            <span class="js-dropdown-title">Show Class </span>
-                                                            <i class="fa fa-angle-down ml-1 icon icon-chevron-sm-down" aria-hidden="true"></i>
-                                                        </div>
-                                                        <div class="toggle-element -dropdown  js-click-dropdown js-economy-toggle">
-                                                            <div class="text-14 y-gap-8 js-dropdown-list">
+                                                <div class="col-12 col-md-10 col-lg-2"><button type="submit" class="btn btn-lg btn-block"><i class="fa fa-search mr-10" aria-hidden="true"></i>Modify Search</button></div>
+                                                <div class="col-12 col-md-12 col-lg-12 search-bottom"></div>
+                                                <div class="col-12 col-md-10 col-lg-9 pl-0">
+                                                    <div class="form-group pt-2">
+                                                        <div class="dropdown js-dropdown js-economy-active" style="display:inline-block;">
+                                                            <div class="dropdown__button d-flex items-center  text-15" data-el-toggle=".js-economy-toggle" data-el-toggle-active=".js-economy-active">
+                                                                <span class="js-dropdown-title">Show Class </span>
+                                                                <i class="fa fa-angle-down ml-1 icon icon-chevron-sm-down" aria-hidden="true"></i>
+                                                            </div>
+                                                            <div class="toggle-element -dropdown  js-click-dropdown js-economy-toggle">
+                                                                <div class="text-14 y-gap-8 js-dropdown-list">
 
-                                                                <div><a href="#" class="d-block js-dropdown-link">Economic</a></div>
-                                                                <div><a href="#" class="d-block js-dropdown-link">Premium</a></div>
-                                                                <div><a href="#" class="d-block js-dropdown-link">Business</a></div>
-                                                                <div><a href="#" class="d-block js-dropdown-link">First</a></div>
+                                                                    <div><a href="#" class="d-block js-dropdown-link">Economic</a></div>
+                                                                    <div><a href="#" class="d-block js-dropdown-link">Premium</a></div>
+                                                                    <div><a href="#" class="d-block js-dropdown-link">Business</a></div>
+                                                                    <div><a href="#" class="d-block js-dropdown-link">First</a></div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="custom-control custom-checkbox custom-control-inline">
-                                                        <input type="checkbox" class="custom-control-input" id="defaultInline3">
-                                                        <label class="custom-control-label" for="defaultInline3">Direct Flights</label>
-                                                    </div>
-                                                    <div class="custom-control custom-checkbox custom-control-inline">
-                                                        <input type="checkbox" class="custom-control-input" id="defaultInline4">
-                                                        <label class="custom-control-label" for="defaultInline4">Defence Fare</label>
-                                                    </div>
-                                                    <div class="custom-control custom-checkbox custom-control-inline">
-                                                        <input type="checkbox" class="custom-control-input" id="defaultInline5">
-                                                        <label class="custom-control-label" for="defaultInline5">Student Fare </label>
+                                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                                            <input type="checkbox" class="custom-control-input" id="defaultInline3">
+                                                            <label class="custom-control-label" for="defaultInline3">Direct Flights</label>
+                                                        </div>
+                                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                                            <input type="checkbox" class="custom-control-input" id="defaultInline4">
+                                                            <label class="custom-control-label" for="defaultInline4">Defence Fare</label>
+                                                        </div>
+                                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                                            <input type="checkbox" class="custom-control-input" id="defaultInline5">
+                                                            <label class="custom-control-label" for="defaultInline5">Student Fare </label>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
+                                            </div>
                                         </div>
-                                    </div>
+                                    </form>
+
                                 </div>
+
                             </div>
+
                         </div>
                     </div>
                 </div>
             </section>
+
             <!-- ***** Flight Search Area End ***** -->
-
         </div>
+
         <!-- ***** End inner search ***** -->
-
-
         <section class="layout-pt-md layout-pb-md bg-light-2 search-result">
             <div class="container">
                 <div class="row y-gap-30">
@@ -340,9 +315,10 @@
                             </div>
                         </div>
                         <form asp-controller="FlightSearchIndex" method="post">
-                            @foreach (var flightResult in Model)
+                            @for (var j = 0; j < Model.SimpleAvailibilityaAddResponcelist.Count; j++)
                             {
-                                var collapseId = "ViewPriceCollapse" + @flightResult.segments[0].identifier.identifier;
+
+                                var collapseId = "ViewPriceCollapse" + Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.identifier;
                                 var CompanyName = "";
                                 <div class="py-20 px-20 bg-white mt-20">
                                     <div class="row y-gap-30 justify-between">
@@ -356,14 +332,14 @@
                                                 <img class="size-40" src=@imagePath height="100px" width="100px" alt="image" />
                                                 </td>
                                                 } *@
-                                                    @if (flightResult.segments[0].identifier.carrierCode.Equals("SG"))
+                                                    @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("SG"))
                                                     {
 
                                                         <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
                                                     }
                                                     else
                                                     {
-                                                        <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
+                                                        <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
                                                     }
 
                                                 </div>
@@ -374,8 +350,7 @@
                                                             @*  <div class="lh-15 fw-500">AirAsia</div> *@
 
                                                             @{
-
-                                                                @if (flightResult.segments[0].identifier.carrierCode.Equals("SG"))
+                                                                @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("SG"))
                                                                 {
                                                                     CompanyName = "SpiceJet";
                                                                 }
@@ -385,26 +360,51 @@
                                                                 }
 
 
-
                                                             }
-                                                            <div class="lh-15 fw-500">@CompanyName</div>
 
-                                                            <div class="fliCode"> @flightResult.segments[0].identifier.carrierCode - @flightResult.segments[0].identifier.identifier</div>
+                                                            <div class="lh-15 fw-500">@CompanyName</div>
+                                                            @{
+                                                                var SegmentDatacount = Model.SimpleAvailibilityaAddResponcelist[j].segments.Count;
+
+                                                                if (SegmentDatacount == 1)
+                                                                {
+                                                                    <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.identifier </div>
+                                                                }
+
+                                                                if (SegmentDatacount == 2)
+                                                                {
+                                                                    @for (var x = 0; x < SegmentDatacount; x++)
+                                                                    {
+                                                                        if (x == 0)
+                                                                        {
+
+                                                                            <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier <b>,</b></div>
+
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier</div>
+
+                                                                        }
+
+                                                                    }
+                                                                }
+                                                            }
                                                         </div>
 
                                                         <div class="col-auto">
 
                                                             @{
-                                                                var departuretime = @flightResult.segments[0].designator.departure;
+                                                                var departuretime = @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].designator.departure;
                                                                 string departuretimestr = departuretime.ToString();
                                                                 var departuretimefinal = departuretimestr.Substring(11, 5);
                                                             }
                                                             <div class="">@departuretimefinal</div>
-                                                            <div class="">@flightResult.designator.origin</div>
+                                                            <div class="">@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin</div>
                                                         </div>
                                                         @{
-                                                            var arrivalDate = flightResult.designator.arrival;
-                                                            var departureDate = flightResult.designator.departure;
+                                                            var arrivalDate = Model.SimpleAvailibilityaAddResponcelist[j].designator.arrival;
+                                                            var departureDate = Model.SimpleAvailibilityaAddResponcelist[j].designator.departure;
                                                             var diff = (arrivalDate - departureDate);
                                                         }
                                                         <div class="col text-center">
@@ -414,14 +414,14 @@
                                                                 <div></div>
                                                             </div>
                                                             @{
-                                                                var stops = @flightResult.stops;
+                                                                var stops = Model.SimpleAvailibilityaAddResponcelist[j].stops;
                                                                 if (stops == 0)
                                                                 {
                                                                     <div class="mt-1">NonStop</div>
                                                                 }
                                                                 if (stops == 1)
                                                                 {
-                                                                    <div class="mt-1">1Stop via @flightResult.segments[0].designator.destination </div>
+                                                                    <div class="mt-1">1Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].designator.destination </div>
                                                                 }
                                                                 if (stops == 2)
                                                                 {
@@ -434,13 +434,13 @@
                                                         <div class="col-auto">
 
                                                             @{
-                                                                var arrivaltime = @flightResult.designator.arrival;
+                                                                var arrivaltime = Model.SimpleAvailibilityaAddResponcelist[j].designator.arrival;
                                                                 string arrivaltimestr = arrivaltime.ToString();
                                                                 var arrivalfinal = arrivaltimestr.Substring(11, 5);
                                                             }
 
                                                             <div class="lh-15 fw-500">@arrivalfinal</div>
-                                                            <div class="text-15 lh-15 text-light-1">@flightResult.designator.destination</div>
+                                                            <div class="text-15 lh-15 text-light-1">@Model.SimpleAvailibilityaAddResponcelist[j].designator.destination</div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -453,7 +453,8 @@
                                                 <div>
 
                                                     <div class="text-center md:text-left mb-10">
-                                                        <div class="price">@flightResult.fareTotalsum</div>
+
+                                                        <div class="price">@Model.SimpleAvailibilityaAddResponcelist[j].fareTotalsum</div>
                                                     </div>
 
                                                     <div>
@@ -480,11 +481,11 @@
                                             </thead>
                                             <tbody>
                                                 @{
-                                                    foreach (var faresInd in flightResult.faresIndividual)
+                                                    @for (var k = 0; k < Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual.Count; k++)
                                                     {
                                                         <tr>
                                                             <td>
-                                                                <div><strong>Saver Fare @faresInd.procuctclass</strong></div>
+                                                                <div><strong>Saver Fare @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass</strong></div>
                                                                 <div>offered by airline.</div>
                                                             </td>
                                                             <td>7 Kgs</td>
@@ -505,16 +506,16 @@
                                                             <td>...</td>
                                                             <td>
                                                                 <div class="text-center md:text-left mb-10">
-                                                                    <div class="price">₹ @faresInd.faretotal</div>
+                                                                    <div class="price">₹ @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal</div>
 
                                                                 </div>
 
                                                                 @{
-                                                                    if (flightResult.segments[0].identifier.carrierCode.Equals("SG"))
+                                                                    if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("SG"))
                                                                     {
                                                                         <form asp-action="SpicejetTripsell" asp-controller="SpiceJetResultFlightView">
-                                                                            <input type="hidden" id="fareKey" name="fareKey" value="@faresInd.fareKey" />
-                                                                            <input type="hidden" id="journeyKey" name="journeyKey" value="@flightResult.journeyKey" />
+                                                                            <input type="hidden" id="fareKey" name="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
+                                                                            <input type="hidden" id="journeyKey" name="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
                                                                             <button class="button -md -outline-blue-1 text-blue-1">Lock Price</button>
                                                                             <input type="submit" value="Book Now" class="button small-btn">
                                                                         </form>
@@ -522,8 +523,8 @@
                                                                     else
                                                                     {
                                                                         <form asp-controller="FlightSearchIndex" asp-action="Tripsell">
-                                                                            <input type="hidden" id="fareKey" name="fareKey" value="@faresInd.fareKey" />
-                                                                            <input type="hidden" id="journeyKey" name="journeyKey" value="@flightResult.journeyKey" />
+                                                                            <input type="hidden" id="fareKey" name="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
+                                                                            <input type="hidden" id="journeyKey" name="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
                                                                             <button class="button -md -outline-blue-1 text-blue-1">Lock Price</button>
                                                                             <input type="submit" asp-action="Tripsell" value="Book Now" class="button small-btn">
                                                                         </form>
@@ -569,23 +570,23 @@
                                                 <div class="tabs__pane -tab-item-1 is-tab-el-active">
                                                     <div class="col">
                                                         <div class="row y-gap-10 items-center">
-                                                            <div class="dst-top">@flightResult.designator.origin<i class="fa fa-angle-double-right" aria-hidden="true"></i>@flightResult.designator.destination</div>
+                                                            <div class="dst-top">@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin<i class="fa fa-angle-double-right" aria-hidden="true"></i>@Model.SimpleAvailibilityaAddResponcelist[j].designator.destination</div>
                                                             <div class="col-sm-auto">
-                                                                <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
+                                                                <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
                                                             </div>
                                                             <div class="col">
                                                                 <div class="row x-gap-20 items-end">
                                                                     <div class="col-auto">
                                                                         <div class="inside-col">
                                                                             <div class="lh-15 fw-500">AirAsia</div>
-                                                                            <div class="fliCode">@flightResult.carriercode -@flightResult.Identifier</div>
+                                                                            <div class="fliCode">@Model.SimpleAvailibilityaAddResponcelist[j].carriercode -@Model.SimpleAvailibilityaAddResponcelist[j].Identifier</div>
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="col-auto">
                                                                         <div class="">@departuretimefinal</div>
-                                                                        <div class="">@flightResult.designator.origin</div>
-                                                                        <span>Terminal-@flightResult.departureTerminal </span>
+                                                                        <div class="">@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin</div>
+                                                                        <span>Terminal-@Model.SimpleAvailibilityaAddResponcelist[j].departureTerminal </span>
                                                                     </div>
 
                                                                     <div class="col text-center">
@@ -599,8 +600,8 @@
 
                                                                     <div class="col-auto">
                                                                         <div class="lh-15 fw-500">@arrivalfinal</div>
-                                                                        <div class="text-15 lh-15 text-light-1">@flightResult.designator.destination</div>
-                                                                        <span>Terminal-@flightResult.arrivalTerminal</span>
+                                                                        <div class="text-15 lh-15 text-light-1">@Model.SimpleAvailibilityaAddResponcelist[j].designator.destination</div>
+                                                                        <span>Terminal-@Model.SimpleAvailibilityaAddResponcelist[j].arrivalTerminal</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -610,11 +611,11 @@
 
                                                 <div class="tabs__pane -tab-item-2">
                                                     <div class="row y-gap-30">
-                                                        <div class="dst-top">@flightResult.designator.origin - @flightResult.designator.destination (@flightResult.bookingdate) </div>
+                                                        <div class="dst-top">@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin - @Model.SimpleAvailibilityaAddResponcelist[j].designator.destination (@Model.SimpleAvailibilityaAddResponcelist[j].bookingdate) </div>
                                                         <div class="col-lg-7">
                                                             <div class="text-19 fw-600">Fare baeakup (Include all taxes)</div>
                                                             @{
-                                                                foreach (var faresbasic in flightResult.faresIndividual)
+                                                                @for (var l = 0; l < Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual.Count; l++)
                                                                 {
                                                                     <table class="table mt-20">
                                                                         <thead class="bg-light-2">
@@ -630,12 +631,12 @@
                                                                         </thead>
                                                                         <tbody>
                                                                             <tr>
-                                                                                <td>@faresbasic.passengertype</td>
+                                                                                <td>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[l].passengertype</td>
                                                                                 <td>1</td>
-                                                                                <td>@faresbasic.discountamount</td>
-                                                                                <td>@faresbasic.taxamount</td>
+                                                                                <td>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[l].discountamount</td>
+                                                                                <td>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[l].taxamount</td>
                                                                                 <td>0</td>
-                                                                                <td>@faresbasic.faretotal</td>
+                                                                                <td>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[l].faretotal</td>
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>
@@ -646,7 +647,7 @@
                                                         <div class="col-lg-5">
                                                             <div class="text-19 fw-600">Fare Rule</div>
                                                             @{
-                                                                foreach (var faresrule in flightResult.faresIndividual)
+                                                                @for (var k = 0; k < Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual.Count; k++)
                                                                 {
                                                                     <table class="table mt-20">
                                                                         <thead class="bg-light-2">
@@ -659,12 +660,12 @@
 
                                                                             <tr>
                                                                                 <td>Basic(+)</td>
-                                                                                <td>@faresrule.discountamount</td>
+                                                                                <td>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].discountamount</td>
                                                                             </tr>
 
                                                                             <tr>
                                                                                 <td>Taxes(+)</td>
-                                                                                <td>@faresrule.taxamount</td>
+                                                                                <td>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].taxamount</td>
                                                                             </tr>
 
                                                                             <tr>
@@ -687,7 +688,7 @@
                                                                             </tr>
                                                                             <tr>
                                                                                 <td>Total</td>
-                                                                                <td>@faresrule.faretotal</td>
+                                                                                <td>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal</td>
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>
@@ -709,7 +710,7 @@
                                                         </thead>
                                                         <tbody>
                                                             <tr>
-                                                                <td><img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image"> AirAsia <span> @flightResult.carriercode -@flightResult.Identifier</span></td>
+                                                                <td><img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image"> AirAsia <span> @Model.SimpleAvailibilityaAddResponcelist[j].carriercode -@Model.SimpleAvailibilityaAddResponcelist[j].Identifier</span></td>
                                                                 <td>Adult</td>
                                                                 <td>15 Kg</td>
                                                                 <td>7 Kg</td>
@@ -725,7 +726,7 @@
                                                     </ul>
                                                 </div>
                                                 <div class="tabs__pane -tab-item-4">
-                                                    <div class="dst-top">@flightResult.designator.origin - @flightResult.designator.destination (@flightResult.bookingdate)  </div>
+                                                    <div class="dst-top">@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin - @Model.SimpleAvailibilityaAddResponcelist[j].designator.destination (@Model.SimpleAvailibilityaAddResponcelist[j].bookingdate)  </div>
                                                     <table class="table mt-20">
                                                         <tbody>
                                                             <tr>
@@ -771,7 +772,10 @@
 
                         </form>
 
-                        
+
+
+
+
                     </div>
                 </div>
             </div>
@@ -2312,9 +2316,11 @@
     <script src="~/js/active.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+
     <script>
         $(document).ready(function () {
             $('.rplc-btn').on('click', function () {
+                debugger;
                 // Get values from the first input box
                 var flyingFromValue = $('#myInput').val();
 
@@ -2325,23 +2331,81 @@
                 $('#myInput').val(flyingToValue);
                 $('#myInput1').val(flyingFromValue);
             });
-        });
-    </script>
-    <script>
 
-        $('.showBtn').click(function () {
-            //$('.hideme').hide();
-            if ($(this).hasClass('active')) {
-                $(this).removeClass('active');
-                $('.hideme').slideUp(1);
-            } else {
-                $('.hideme').slideUp(1);
-                $('.showBtn').removeClass('active');
-                $(this).addClass('active');
-                $(this).next().filter('.hideme').slideDown(1);
-            }
+
+
+
+            $('.showBtn').click(function () {
+                //$('.hideme').hide();
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                    $('.hideme').slideUp(1);
+                } else {
+                    $('.hideme').slideUp(1);
+                    $('.showBtn').removeClass('active');
+                    $(this).addClass('active');
+                    $(this).next().filter('.hideme').slideDown(1);
+                }
+            });
         });
     </script>
+    <style type="text/css">
+        .custom-flex p {
+            font-size: 12px;
+        }
+
+        #myAnimation1 {
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            bottom: 0px;
+            border-radius: 50%;
+            padding: 10px;
+            background-color: red;
+            display: none;
+        }
+
+        .rplc-btn {
+            width: 34px;
+            position: absolute;
+            left: 167px;
+            background: #ffffffc2;
+            margin-top: 35px;
+            margin-left: 20px;
+            padding: 3px;
+            border-radius: 50%;
+            z-index: 999;
+        }
+
+            .rplc-btn img {
+                transform: rotate(90deg);
+            }
+
+        .service-section .swiper-slide.active {
+            border: none !important;
+            background: #EBEDF8;
+        }
+
+        .btn-close {
+            background-color: #fff !important;
+            color: #000 !important;
+            padding: 7px 9px;
+            margin: 9px;
+            border-radius: 8px;
+        }
+
+        .mbody-padding {
+            padding: 8px 16px !important;
+        }
+
+        .fbody-padding {
+            padding: 8px 16px !important;
+        }
+
+        .modal-mfareBlock .pd {
+            padding: 8px 15px !important;
+        }
+    </style>
 
 </body>
 

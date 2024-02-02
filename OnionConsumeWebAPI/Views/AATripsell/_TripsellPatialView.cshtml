@@ -1,4 +1,8 @@
 ﻿@model DomainLayer.ViewModel.ViewModel
+@{
+    var data = Model;
+
+}
 <div class="flight-box-content rounded-4">
     <div class="py-10 px-30">
         <div class="row d-flex justify-content-end">
@@ -25,7 +29,7 @@
                             {
                                 <div class="d-flex items-center mb-15">
                                     <div class="w-28 d-flex justify-center mr-15">
-                                        <img class="size-30" src="~/img/flight-logo-icon/1.webp" alt="image">
+                                        <img class="size-30" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
                                     </div>
 
                                     <div class="text-14 text-light-1"> Air Asia @item.segments[i].identifier.identifier @item.segments[i].identifier.carrierCode</div>
@@ -51,7 +55,7 @@
                                                 <div class="lh-14 fw-500">@departuretimefinal</div>
                                             </div>
                                             <div class="col-auto">
-                                                <div class="lh-14 fw-500">@item.segments[i].legs[j].designator.origin <span class="text-13 ml-2 fw-600">( Tue, 13 Jun 2023<span class="text-13 text-light-1 ml-2"> Indira Gandhi, T-3 </span> )</span></div>
+                                                <div class="lh-14 fw-500">@item.segments[i].legs[j].designator.origin <span class="text-13 ml-2 fw-600">(@item.segments[i].legs[j].designator.departure <span class="text-13 text-light-1 ml-2"> Indira Gandhi,@item.segments[i].legs[j].legInfo.departureTerminal </span> )</span></div>
 
                                             </div>
                                         </div>
@@ -82,7 +86,7 @@
                                                 <div class="lh-14 fw-500">@arrivalfinal</div>
                                             </div>
                                             <div class="col-auto">
-                                                <div class="lh-14 fw-500">@item.segments[i].legs[j].designator.destination<span class="text-13 ml-2 fw-600">( Tue, 13 Jun 2023<span class="text-13 text-light-1 ml-2"> Sanganeer, T-2 </span> )</span></div>
+                                                <div class="lh-14 fw-500">@item.segments[i].legs[j].designator.destination<span class="text-13 ml-2 fw-600">(@item.segments[i].legs[j].designator.arrival<span class="text-13 text-light-1 ml-2"> Sanganeer, @item.segments[i].legs[j].legInfo.arrivalTerminal </span> )</span></div>
 
                                             </div>
                                         </div>

@@ -110,17 +110,17 @@ namespace OnionConsumeWebAPI.Controllers
                 _ContactModel.contactTypeCode = "P";
 
                 _Address Address = new _Address();
-                Address.lineOne = "123 Main Street";
+                Address.lineOne = contactobject.lineOne;
                 Address.countryCode = "IN";
                 Address.provinceState = "TN";
-                Address.city = "Chennai";
-                Address.postalCode = "600028";
+                Address.city = contactobject.city;
+                Address.postalCode = contactobject.postalCode;
                 _ContactModel.address = Address;
 
                 _Name Name = new _Name();
-                Name.first = "Vadivel";
-                Name.middle = "raja";
-                Name.last = "VR";
+                Name.first = contactobject.first;
+                Name.middle = contactobject.middle;
+                Name.last = contactobject.last;
                 Name.title = "MR";
                 _ContactModel.name = Name;
 
@@ -597,8 +597,8 @@ namespace OnionConsumeWebAPI.Controllers
                 }
                 #endregion
             }
-            return RedirectToAction("booking", "CommitBooking");
-            //return RedirectToAction("Payment", "PaymentGateway");
+            //return RedirectToAction("booking", "CommitBooking");
+            return RedirectToAction("OnewayPaymentView", "OnewayPayment");
         }
 
     }
