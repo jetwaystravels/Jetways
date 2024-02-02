@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>968b5957-d455-44df-8b05-afc4d5b9ab9b</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -187,6 +188,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DomainLayer\DomainLayer.csproj" />
+    <ProjectReference Include="..\OnionArchitectureAPI\OnionArchitectureAPI.csproj" />
     <ProjectReference Include="..\Utility\Utility.csproj" />
   </ItemGroup>
 

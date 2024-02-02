@@ -2318,6 +2318,73 @@
 
 
     <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Select the increment and decrement buttons for adults
+            const adultIncrement = document.querySelector('.increment.add.btn_sub');
+            const adultDecrement = document.querySelector('.decrement.sub.btn_sub');
+            const adultInputField = document.getElementById('field_adult');
+
+            // Add event listener for adult increment button
+            adultIncrement.addEventListener('click', function () {
+                incrementValue(adultInputField);
+            });
+
+            // Add event listener for adult decrement button
+            adultDecrement.addEventListener('click', function () {
+                decrementValue(adultInputField);
+            });
+
+            // Select the increment and decrement buttons for children
+            const childIncrement = document.querySelector('.increment1.add.btn_sub');
+            const childDecrement = document.querySelector('.decrement1.sub.btn_sub');
+            const childInputField = document.getElementById('field_child');
+
+            // Add event listener for child increment button
+            childIncrement.addEventListener('click', function () {
+                incrementValue(childInputField);
+            });
+
+            // Add event listener for child decrement button
+            childDecrement.addEventListener('click', function () {
+                decrementValue(childInputField);
+            });
+
+            // Select the increment and decrement buttons for infants
+            const infantIncrement = document.querySelector('.increment2.add.btn_sub');
+            const infantDecrement = document.querySelector('.decrement2.sub.btn_sub');
+            const infantInputField = document.getElementById('field_infant');
+
+            // Add event listener for infant increment button
+            infantIncrement.addEventListener('click', function () {
+                incrementValue(infantInputField);
+            });
+
+            // Add event listener for infant decrement button
+            infantDecrement.addEventListener('click', function () {
+                decrementValue(infantInputField);
+            });
+
+            // Function to increment the input value
+            function incrementValue(inputField) {
+                const currentValue = parseInt(inputField.value);
+                if (currentValue < parseInt(inputField.max)) {
+                    inputField.value = currentValue + 1;
+                }
+            }
+
+            // Function to decrement the input value
+            function decrementValue(inputField) {
+                const currentValue = parseInt(inputField.value);
+                if (currentValue > parseInt(inputField.min)) {
+                    inputField.value = currentValue - 1;
+                }
+            }
+        });
+
+
+
+
         $(document).ready(function () {
             $('.rplc-btn').on('click', function () {
                 debugger;

@@ -442,53 +442,63 @@ img {
     z-index: 1;
 }
 
-    .btn:hover, .btn:focus, .btn:active {
+.btncnt {
+    padding: 8px 10px !important;
+}
+
+.btnclose {
+    margin-right: 10px;
+    color: #ffffff;
+    opacity: 1;
+}
+
+.btn:hover, .btn:focus, .btn:active {
+    color: var(--white-color);
+    -webkit-box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.btn.sApp-btn {
+    background: transparent none repeat scroll 0 0;
+    color: var(--nav-item-color);
+    border-radius: 100px;
+    letter-spacing: 1px;
+}
+
+    .btn.sApp-btn:hover, .btn.sApp-btn:focus {
         color: var(--white-color);
-        -webkit-box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     }
 
-    .btn.sApp-btn {
-        background: transparent none repeat scroll 0 0;
-        color: var(--nav-item-color);
+        .btn.sApp-btn:hover:after, .btn.sApp-btn:focus:after {
+            opacity: 0;
+        }
+
+    .btn.sApp-btn:before {
+        position: absolute;
+        content: "";
+        height: calc(100% + 4px);
+        width: calc(100% + 4px);
+        top: -2px;
+        left: -2px;
         border-radius: 100px;
-        letter-spacing: 1px;
+        -webkit-transition: all 0.3s ease 0s;
+        transition: all 0.3s ease 0s;
+        z-index: -2;
     }
 
-        .btn.sApp-btn:hover, .btn.sApp-btn:focus {
-            color: var(--white-color);
-        }
-
-            .btn.sApp-btn:hover:after, .btn.sApp-btn:focus:after {
-                opacity: 0;
-            }
-
-        .btn.sApp-btn:before {
-            position: absolute;
-            content: "";
-            height: calc(100% + 4px);
-            width: calc(100% + 4px);
-            top: -2px;
-            left: -2px;
-            border-radius: 100px;
-            -webkit-transition: all 0.3s ease 0s;
-            transition: all 0.3s ease 0s;
-            z-index: -2;
-        }
-
-        .btn.sApp-btn:after {
-            position: absolute;
-            content: "";
-            height: 100%;
-            width: 100%;
-            top: 0;
-            left: 0;
-            border-radius: 100px;
-            background: var(--white-color) none repeat scroll 0 0;
-            -webkit-transition: all 0.3s ease 0s;
-            transition: all 0.3s ease 0s;
-            z-index: -1;
-        }
+    .btn.sApp-btn:after {
+        position: absolute;
+        content: "";
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        border-radius: 100px;
+        background: var(--white-color) none repeat scroll 0 0;
+        -webkit-transition: all 0.3s ease 0s;
+        transition: all 0.3s ease 0s;
+        z-index: -1;
+    }
 
 .btn-success {
     background: var(--valid-color) !important;
@@ -3538,8 +3548,8 @@ FOOTER AREA CSS
     text-transform: uppercase;
     font-weight: 600;
     border-bottom: #D1DEE6 1px solid;
-    padding-bottom: 10px;
-    margin-bottom: 12px;
+    padding-bottom: 2px;
+    margin-bottom: 4px;
 }
 
     .modal-mfareBlock .dst-top svg {
@@ -3584,7 +3594,7 @@ FOOTER AREA CSS
     .modal-mfareBlock .airline-L .name {
         display: inline-block;
         vertical-align: middle;
-        margin-left: 5px;
+        margin-left: 2px;
     }
 
         .modal-mfareBlock .airline-L .name span {
@@ -3603,7 +3613,7 @@ FOOTER AREA CSS
     border: 1px solid #dedede;
     display: table;
     border-radius: 5px;
-    padding: 8px;
+    padding: 4px 8px;
     width: 99%;
     cursor: pointer;
 }

@@ -23,6 +23,7 @@ using Utility;
 using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using OnionConsumeWebAPI.Extensions;
+using OnionConsumeWebAPI.Controllers.Indigo;
 
 namespace OnionConsumeWebAPI.Controllers.AirAsia
 {
@@ -71,6 +72,9 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
             //_GetfligthModel.passengercount.infantcount = 1;
 
             //end:
+            _login obj_ = new _login();
+            var test = await obj_.Login(_GetfligthModel);
+
 
 
             Logs logs = new Logs();

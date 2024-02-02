@@ -37,12 +37,12 @@
                                         <div class="row y-gap-10 items-center">
                                             <div class="col">
                                                 <div class="row x-gap-20 mb-3">
-                                                    <div class="col airline-L">
+                                                    <div class="col d-flex airline-L">
 
                                                         <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
                                                         <div class="name">
                                                             <span class="lh-15">@Model.SimpleAvailibilityaAddResponcelist[j].Airline </span>
-                                                            <span class="text-light-1">@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode | @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.identifier</span>
+                                                            <span class="text-light-1">@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode|@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.identifier</span>
                                                         </div>
                                                     </div>
                                                     <div class="col-auto">
@@ -102,6 +102,7 @@
                                         @for (var k = 0; k < Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual.Count; k++)
                                         {
                                             <div class="corbox active-bx">
+
                                                 <div class="dst-top pl-0">
                                                     <input type="hidden" class="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
                                                     <input type="hidden" class="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
@@ -119,6 +120,7 @@
                                                         </div>
                                                     </span>
                                                 </div>
+
                                                 <ul>
                                                     <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
                                                     <li><img src="~/img/included.png" alt="icon">check in 25 Kgs</li>
@@ -176,11 +178,11 @@
                                         <div class="row y-gap-10 items-center">
                                             <div class="col">
                                                 <div class="row x-gap-20 mb-3">
-                                                    <div class="col airline-L">
+                                                    <div class="col d-flex airline-L">
                                                         <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
                                                         <div class="name">
                                                             <span class="lh-15">@Model.SimpleAvailibilityaAddResponcelistR[j].Airline</span>
-                                                            <span class="text-light-1">@Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.carrierCode | @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.identifier</span>
+                                                            <span class="text-light-1">@Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.carrierCode|@Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.identifier</span>
                                                         </div>
                                                     </div>
                                                     <div class="col-auto">
@@ -245,15 +247,18 @@
                                                     <input type="hidden" class="journeyKeyReturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].journeyKey" />
                                                     <input type="hidden" class="AirlineReturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].Airline" />
                                                     <input type="radio" name="renderRadioGroup" class="renderRadio" value="@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal" onclick="collectData('render', @k)">
+                                                    @*  <input type="radio" name="name"> *@
 
-                                                    <div class="rtfare-1">
-                                                        <input type="hidden" id="IdPOPR" class="farekeyIDR" value="@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal" />
+                                                    <span> Saver Fare @Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass  </span>
+                                                    <span class="price">
+                                                        ₹  @Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal
+                                                        <div class="rtfare-1">
+                                                            <input type="hidden" id="IdPOPR" class="farekeyIDR" value="@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal" />
 
-                                                    </div>
-                                                    @* <input type="radio" name="name"> *@
-                                                    <span>Saver Fare @Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass </span>
-                                                    <span class="price">₹ @Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal</span>
+                                                        </div>
+                                                    </span>
                                                 </div>
+
                                                 <ul>
                                                     <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
                                                     <li><img src="~/img/included.png" alt="icon">check in 25 Kgs</li>
@@ -642,16 +647,17 @@
             left: calc(100% - 100px); /* Move to the right edge (100% - width) */
         }
         /* 0%   {background-color:red; left:0px; right:0px;}
-                              25%  {background-color:yellow; left:80%; top:10%;}
-                              50%  {background-color:blue; left:200px; top:200px;}
-                              75%  {background-color:green; left:0px; top:200px;}
-                              100% {background-color:red; left:0px; top:0px;}  */
+                                  25%  {background-color:yellow; left:80%; top:10%;}
+                                  50%  {background-color:blue; left:200px; top:200px;}
+                                  75%  {background-color:green; left:0px; top:200px;}
+                                  100% {background-color:red; left:0px; top:0px;}  */
     }
 
     .iconanimate img {
         transform: rotate(45deg);
     }
 </style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     let fareKey = [];
     let journeyKey = [];
@@ -702,6 +708,7 @@
             var popupfare2 = localStorage.getItem('RIGHTFARE');
             var totalfarepopup = parseInt(popupfare1) + parseInt(popupfare2);
             alert("vny" + totalfarepopup);
+            document.getElementById("popuptatalfare").innerHTML = totalfarepopup;
             localStorage.setItem('basetotalfare', totalfarepopup);
             localStorage.setItem('basetotalprice', totalfarepopup);
 
@@ -761,7 +768,20 @@
         });
         $('#flighticon').hide();
     }
+
+
+
+    $(document).ready(function () {
+        $('.corbox').each(function (index) {
+            if (index === 0) {
+                $(this).addClass('active-bx');
+            } else {
+                $(this).addClass('corbox');
+            }
+        });
+    });
 </script>
+
 
 
 

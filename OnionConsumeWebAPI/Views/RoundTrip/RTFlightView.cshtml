@@ -44,7 +44,7 @@
         .rplc-btn {
             width: 34px;
             position: absolute;
-            left: 167px;
+            left: 177px;
             background: #ffffffc2;
             margin-top: 35px;
             margin-left: 20px;
@@ -81,6 +81,12 @@
         .modal-mfareBlock .pd {
             padding: 8px 15px !important;
         }
+
+        .model-wd80 {
+            width: 90% !important;
+            margin: auto;
+        }
+
     </style>
 
 </head>
@@ -288,7 +294,6 @@
                                                                     </div>
                                                                     <div class="btn-increase">
                                                                         <div class="decrement2 sub btn_sub">-</div>
-
                                                                         <input type="number" id="field_infant" class="input-field" value="0" asp-for="@Model.MyProperty.passengercount.infantcount" min="0" max="6">
                                                                         <div class="increment2 add btn_sub">+</div>
 
@@ -1113,22 +1118,22 @@
                         <!-- Modal -->
                         <div class="modal fade" id="rtexampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog rtwidth-modal" role="document">
-                                <div class="modal-content">
+                                <div class="modal-content model-wd80">
                                     <div class="modal-mfareheader d-flex justify-between">
                                         <h2 class="text-22 fw-600">More Fare Options Available</h2>
-                                        <button type="button" class="btn-close" data-dismiss="modal">Close</button>
+                                        @*<button type="button" class="btn-close" data-dismiss="modal">Close</button>*@
                                         @* <h5 class="modal-title" id="exampleModalLabel">More Fare Options Available</h5> *@
-                                        @*  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                        </button> *@
+                                        <button type="button" class="close btnclose" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
                                     <div class="modal-body mbody-padding">
                                     </div>
                                     <div class="modal-footer fbody-padding">
                                         @*  <button type="submit" id="flighticon" onclick="PostdataReturnTripsell()" class="btn btn-primary">Continue</button> *@
                                         <div class="btm-price-bx d-flex align-items-center">
-                                            <div class="book-price me-3"><label class="mr-1 fw-600">₹</label>24,025<span>FOR 1 ADULT</span></div>
-                                            <button type="submit" id="flighticon" onclick="PostdataReturnTripsell()" class="btn btn-lg" data-x-click="flight-item-1">Continue</button>
+                                            <div class="book-price me-3"><label class="mr-1 fw-600">₹</label><span id="popuptatalfare"></span></div>
+                                            <button type="submit" id="flighticon" onclick="PostdataReturnTripsell()" class="btn btncnt btn-lg" data-x-click="flight-item-1">Continue</button>
                                         </div>
                                     </div>
 
@@ -2583,75 +2588,72 @@
     </script>
 
     <script type="text/javascript">
-        // var uniqueId, uniqueIdR;
-        // $('input[type=radio][name=dynamicRadio]').change(function () {
-        //     uniqueId = $(this).val();
-        //     // Retrieve values from hidden input fields
-        //     var departureTime = $('.departuretime').eq(uniqueId).val();
-        //     var origin = $('.origin').eq(uniqueId).val();
-        //     var destination = $('.destination').eq(uniqueId).val();
-        //     var diffL = $('.diff').eq(uniqueId).val();
-        //     var stopsL = $('.stops').eq(uniqueId).val();
-        //     var arrivalL = $('.arrival').eq(uniqueId).val();
-        //     var fareTotalsumL = $('.fareTotalsum').eq(uniqueId).val();
-        //     // Display the retrieved values
-        //     $('#departureData').text(departureTime);
-        //     $('#originData').text(origin);
-        //     $('#diffData').text(diffL);
-        //     $('#stopsData').text(stopsL);
-        //     $('#arrivalData').text(arrivalL);
-        //     $('#destinationData').text(destination);
-        //     $('#fareTotalsumData').text(fareTotalsumL);
-        //     // Store in session Total Fare Left
-        //     localStorage.setItem('TotalfareL', fareTotalsumL);
-        // });
 
-        // $('input[type=radio][name=dynamicRadioR]').change(function () {
-        //     debugger;
-        //     uniqueIdR = $(this).val();
-        //     // Retrieve values from hidden input fields
-        //     var departureTimeR = $('.departurereturn').eq(uniqueIdR).val();
-        //     var originR = $('.originreturn').eq(uniqueIdR).val();
-        //     var diffR = $('.diffreturn').eq(uniqueIdR).val();
-        //     var stopsR = $('.stopsreturn').eq(uniqueIdR).val();
-        //     var arrivalR = $('.arrivalreturn').eq(uniqueIdR).val();
-        //     var destinationR = $('.destinationreturn').eq(uniqueIdR).val();
-        //     var fareTotalsumR = $('.faretotalsumreturn').eq(uniqueIdR).val();
-        //     // Display the retrieved values
-        //     $('#departurereturndata').text(departureTimeR);
-        //     $('#originreturndata').text(originR);
-        //     $('#diffreturndata').text(diffR);
-        //     $('#stopsreturndata').text(stopsR);
-        //     $('#arrivalreturndata').text(arrivalR);
-        //     $('#destinationreturndata').text(destinationR);
-        //     $('#faretotalsumreturndata').text(fareTotalsumR);
-        //     //Sum Of Total fare left and right
-        //     var totalL = localStorage.getItem('TotalfareL');
-        //     var TotalfareLR = parseInt(totalL) + parseInt(fareTotalsumR, 10);
-        //     $('#totalfaretotalround').text(TotalfareLR);
+        //js Code for increment and decrement button
+        document.addEventListener('DOMContentLoaded', function () {
+            // Select the increment and decrement buttons for adults
+            const adultIncrement = document.querySelector('.increment.add.btn_sub');
+            const adultDecrement = document.querySelector('.decrement.sub.btn_sub');
+            const adultInputField = document.getElementById('field_adult');
 
-        // });
-        // $('#ReturnButtonId').click(function () {
-        //     debugger;
-        //     $.ajax({
-        //         type: 'POST',
-        //         url: '/RoundTrip/PostReturnAATripsellView',
-        //         data: {
-        //             uniqueId: uniqueId,
-        //             uniqueIdR: uniqueIdR
-        //         },
-        //         success: function (response) {
+            // Add event listener for adult increment button
+            adultIncrement.addEventListener('click', function () {
+                incrementValue(adultInputField);
+            });
 
-        //             console.log('POST request successful');
-        //             $('#rtexampleModal .modal-body').html(response);
-        //             $('#rtexampleModal').modal('show');
-        //         },
-        //         error: function (xhr, status, error) {
-        //             console.error('Error occurred:', error);
-        //         }
-        //     });
-        // });
+            // Add event listener for adult decrement button
+            adultDecrement.addEventListener('click', function () {
+                decrementValue(adultInputField);
+            });
 
+            // Select the increment and decrement buttons for children
+            const childIncrement = document.querySelector('.increment1.add.btn_sub');
+            const childDecrement = document.querySelector('.decrement1.sub.btn_sub');
+            const childInputField = document.getElementById('field_child');
+
+            // Add event listener for child increment button
+            childIncrement.addEventListener('click', function () {
+                incrementValue(childInputField);
+            });
+
+            // Add event listener for child decrement button
+            childDecrement.addEventListener('click', function () {
+                decrementValue(childInputField);
+            });
+
+            // Select the increment and decrement buttons for infants
+            const infantIncrement = document.querySelector('.increment2.add.btn_sub');
+            const infantDecrement = document.querySelector('.decrement2.sub.btn_sub');
+            const infantInputField = document.getElementById('field_infant');
+
+            // Add event listener for infant increment button
+            infantIncrement.addEventListener('click', function () {
+                incrementValue(infantInputField);
+            });
+
+            // Add event listener for infant decrement button
+            infantDecrement.addEventListener('click', function () {
+                decrementValue(infantInputField);
+            });
+
+            // Function to increment the input value
+            function incrementValue(inputField) {
+                const currentValue = parseInt(inputField.value);
+                if (currentValue < parseInt(inputField.max)) {
+                    inputField.value = currentValue + 1;
+                }
+            }
+
+            // Function to decrement the input value
+            function decrementValue(inputField) {
+                const currentValue = parseInt(inputField.value);
+                if (currentValue > parseInt(inputField.min)) {
+                    inputField.value = currentValue - 1;
+                }
+            }
+        });
+
+        /////////Pop ID
         var uniqueId, uniqueIdR;
         // Function to handle radio button change and display data
         function handleRadioChange() {
