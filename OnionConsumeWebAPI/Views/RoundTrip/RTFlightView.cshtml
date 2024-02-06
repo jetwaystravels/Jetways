@@ -183,11 +183,11 @@
                                 <div class="search-box">
                                     <div class="S-option">
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="Radio" value="option1" checked>
+                                            <input class="form-check-input" type="radio" name="Radio" value="option1">
                                             <label class="form-check-label">One way</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="Radio" value="option2">
+                                            <input class="form-check-input" type="radio" name="Radio" value="option2" checked>
                                             <label class="form-check-label">Round Trip</label>
                                         </div>
                                         <div class="form-check form-check-inline">
@@ -221,15 +221,15 @@
                                                 <div class="col-12 col-md-10 col-lg-2 space">
                                                     <label>Departure</label>
                                                     <span class="input-group-text">
-                                                        <img src="~/img/calender-icon.png" alt="icon">
-                                                        <input id="start-date" name="beginDate" type="date" placeholder="Date" class="form-control">
+                                                        <img src="~/img/calender-icon.png" alt="icon" style="background-color:#fff">
+                                                        <input id="Rway-date" name="beginDate" type="text" placeholder="Date" class="form-control">
                                                     </span>
                                                 </div>
                                                 <div class="col-12 col-md-10 col-lg-2 space">
                                                     <label>Return</label>
                                                     <span class="input-group-text" id="basic-addon1">
-                                                        <img src="~/img/calender-icon.png" alt="icon">
-                                                        <input id="end-date" name="endDate" type="date" placeholder="Date" class="form-control">
+                                                        <img src="~/img/calender-icon.png" alt="icon" style="background-color:#fff">
+                                                        <input id="Rway-endDate" name="endDate" type="text" placeholder="Date" class="form-control">
                                                     </span>
                                                 </div>
                                                 <div class="col-12 col-md-10 col-lg-2 space travellers">
@@ -2539,7 +2539,7 @@
             <div class="map js-map"></div>
         </div>
     </div>
-    </div>
+
 
 
 
@@ -2563,7 +2563,50 @@
     <script src="~/js/main.js"></script>
     <!-- Active js -->
     <script src="~/js/active.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        $(function () {
+            var today = new Date();
+            var dd = String(today.getDate() + 1).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+            var yyyy = today.getFullYear();
+            var currentDate = yyyy + '-' + mm + '-' + dd;
+
+            // Set the current date as the default value in the input field
+            $("#Rway-date").val(currentDate);
+            $("#Rway-date").datepicker({
+                dateFormat: 'yy-mm-dd',
+                numberOfMonths: 2,
+                maxDate: '+2m',
+                minDate: '0'
+            });
+        });
+
+
+        //////**********End Date DatePicker**********
+        $(function () {
+            var today = new Date();
+            var dd = String(today.getDate() + 1).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+            var yyyy = today.getFullYear();
+            var currentDate = yyyy + '-' + mm + '-' + dd;
+
+            // Set the current date as the default value in the input field
+            $("#Rway-endDate").val(currentDate);
+            $("#Rway-endDate").datepicker({
+                dateFormat: 'yy-mm-dd',
+                numberOfMonths: 2,
+                maxDate: '+2m',
+                minDate: '0'
+            });
+        });
+
+    </script>
+
+
+
 
 
     <script>
@@ -2591,67 +2634,66 @@
 
         //js Code for increment and decrement button
         document.addEventListener('DOMContentLoaded', function () {
-            // Select the increment and decrement buttons for adults
-            const adultIncrement = document.querySelector('.increment.add.btn_sub');
-            const adultDecrement = document.querySelector('.decrement.sub.btn_sub');
+            // Select the input fields for adults, children, and infants
             const adultInputField = document.getElementById('field_adult');
+            const childInputField = document.getElementById('field_child');
+            const infantInputField = document.getElementById('field_infant');
+
+            // Select the elements to update the selected values
+            const adultCountElement = document.getElementById('count_adult');
+            const childCountElement = document.getElementById('count_child');
+            const infantCountElement = document.getElementById('count_infant');
 
             // Add event listener for adult increment button
-            adultIncrement.addEventListener('click', function () {
-                incrementValue(adultInputField);
+            document.querySelector('.increment.add.btn_sub').addEventListener('click', function () {
+                incrementValue(adultInputField, adultCountElement);
             });
 
             // Add event listener for adult decrement button
-            adultDecrement.addEventListener('click', function () {
-                decrementValue(adultInputField);
+            document.querySelector('.decrement.sub.btn_sub').addEventListener('click', function () {
+                decrementValue(adultInputField, adultCountElement);
             });
 
-            // Select the increment and decrement buttons for children
-            const childIncrement = document.querySelector('.increment1.add.btn_sub');
-            const childDecrement = document.querySelector('.decrement1.sub.btn_sub');
-            const childInputField = document.getElementById('field_child');
-
             // Add event listener for child increment button
-            childIncrement.addEventListener('click', function () {
-                incrementValue(childInputField);
+            document.querySelector('.increment1.add.btn_sub').addEventListener('click', function () {
+                incrementValue(childInputField, childCountElement);
             });
 
             // Add event listener for child decrement button
-            childDecrement.addEventListener('click', function () {
-                decrementValue(childInputField);
+            document.querySelector('.decrement1.sub.btn_sub').addEventListener('click', function () {
+                decrementValue(childInputField, childCountElement);
             });
 
-            // Select the increment and decrement buttons for infants
-            const infantIncrement = document.querySelector('.increment2.add.btn_sub');
-            const infantDecrement = document.querySelector('.decrement2.sub.btn_sub');
-            const infantInputField = document.getElementById('field_infant');
-
             // Add event listener for infant increment button
-            infantIncrement.addEventListener('click', function () {
-                incrementValue(infantInputField);
+            document.querySelector('.increment2.add.btn_sub').addEventListener('click', function () {
+                incrementValue(infantInputField, infantCountElement);
             });
 
             // Add event listener for infant decrement button
-            infantDecrement.addEventListener('click', function () {
-                decrementValue(infantInputField);
+            document.querySelector('.decrement2.sub.btn_sub').addEventListener('click', function () {
+                decrementValue(infantInputField, infantCountElement);
             });
 
-            // Function to increment the input value
-            function incrementValue(inputField) {
+            // Function to increment the input value and update the count element
+            function incrementValue(inputField, countElement) {
                 const currentValue = parseInt(inputField.value);
                 if (currentValue < parseInt(inputField.max)) {
                     inputField.value = currentValue + 1;
+                    countElement.textContent = currentValue + 1;
                 }
             }
 
-            // Function to decrement the input value
-            function decrementValue(inputField) {
+            // Function to decrement the input value and update the count element
+            function decrementValue(inputField, countElement) {
                 const currentValue = parseInt(inputField.value);
                 if (currentValue > parseInt(inputField.min)) {
                     inputField.value = currentValue - 1;
+                    countElement.textContent = currentValue - 1;
                 }
             }
         });
+
+
 
         /////////Pop ID
         var uniqueId, uniqueIdR;
