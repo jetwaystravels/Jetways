@@ -17,6 +17,14 @@ using OnionConsumeWebAPI.Extensions;
 using OnionConsumeWebAPI.ApiService;
 using OnionConsumeWebAPI.Models;
 using static DomainLayer.Model.ReturnTicketBooking;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using ZXing.Common;
+using ZXing;
+//using ZXing.Windows.Compatibility;
+
+
 
 
 namespace OnionConsumeWebAPI.Controllers
@@ -257,6 +265,31 @@ namespace OnionConsumeWebAPI.Controllers
                         ReturnpassengersList.Add(returnPassengersobj);
                     }
                     //returnTicketBooking.contacts= phoneNumberList;
+                    //STATRT CODE FOR BAR CODE
+                    string barcode = "ashokkumar";
+                   
+                    //BarcodeWriter barcodeWriter = new BarcodeWriter
+                    //{
+                    //    Format = BarcodeFormat.PDF_417,
+                    //    Options = new EncodingOptions
+                    //    {
+                    //        Width = 300,
+                    //        Height = 100
+                    //    }
+                    //};
+
+                    //Bitmap barcodeBitmap = barcodeWriter.Write(barcode);
+                    //using (MemoryStream stream = new MemoryStream())
+                    //{
+                        
+                    //    barcodeBitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                    //    byte[] bytes = stream.ToArray();
+                    //    Convert.ToBase64String(bytes);
+                    //    ViewData["ImageBytes"] = "data:image/png;base64," + Convert.ToBase64String(bytes);
+                    //    ViewData["Barcode"] = barcode;
+
+
+                    //}
                     returnTicketBooking.breakdown = breakdown;
                     returnTicketBooking.journeys = journeysreturnList;
                     returnTicketBooking.passengers = ReturnpassengersList;

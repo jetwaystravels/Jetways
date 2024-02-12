@@ -455,10 +455,11 @@
                                         for (int q = 0; q < Model.Baggage.journeySsrsBaggage[r].baggageSsr[s].passengersAvailabilityBaggage.Count; q++)
                                         {
                                             <div class="swiper-slide active">
-                                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                                <div class="tourTypeCard__content text-center pt-10 pb-15 px-10 bg-blue-1-05 rounded-4">
                                                     <img src="~/img/images/travel-bag.png" title="image" alt="image">
-                                                    @* <h6 class="text-14 fw-600 mt-10">Additional</h6>*@
-                                                    <h5 class="text-16 fw-700 mt-6">@Model.Baggage.journeySsrsBaggage[r].baggageSsr[s].name</h5>
+                                                    <h6 class="text-14 fw-600 mt-10">Additional</h6>
+                                                    @* <h5 class="text-13 fw-600 mt-10">@Model.Baggage.journeySsrsBaggage[r].baggageSsr[s].name</h5>*@
+                                                    <h5 class="text-14 fw-700 mt-6">3 Kg</h5>
                                                     <p class="text-14 fw-600 mt-2 text-center">&#8377; @Model.Baggage.journeySsrsBaggage[r].baggageSsr[s].passengersAvailabilityBaggage[q].price</p>
                                                     <div class="d-flex justify-content-center">
                                                         <input type="checkbox" id="ssrKeyBaggage" name="ssrKey" value="@Model.Baggage.journeySsrsBaggage[r].baggageSsr[s].passengersAvailabilityBaggage[q].ssrKey" />

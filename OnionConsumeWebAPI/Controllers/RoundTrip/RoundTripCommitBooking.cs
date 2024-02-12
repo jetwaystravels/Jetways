@@ -11,7 +11,7 @@ using Utility;
 using static DomainLayer.Model.ReturnAirLineTicketBooking;
 using static DomainLayer.Model.ReturnTicketBooking;
 
-namespace OnionConsumeWebAPI.Controllers.AirAsia
+namespace OnionConsumeWebAPI.Controllers.RoundTrip
 {
     public class RoundTripCommitBooking : Controller
     {
@@ -54,7 +54,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     //ApiRequests apiRequests = new ApiRequests();
                     //   responseModel = await apiRequests.OnPostAsync(AppUrlConstant.AirasiaCommitBooking, _Commit_BookingModel);
 
-                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                     HttpResponseMessage responceCommit_Booking = await client.PostAsJsonAsync(AppUrlConstant.AirasiaCommitBooking, _Commit_BookingModel);
 
@@ -69,7 +69,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     #endregion
 
                     #region Booking GET
-                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                     HttpResponseMessage responceGetBooking = await client.GetAsync(AppUrlConstant.AirasiaGetBoking);
 
@@ -87,7 +87,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
                 #endregion
                 #region AirLinePNR
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 HttpResponseMessage responcepnrBooking = await client.GetAsync(AppUrlConstant.AirasiaPNRBooking + AirLinePNR);
                 if (responcepnrBooking.IsSuccessStatusCode)
@@ -436,7 +436,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
                             #endregion
                             string stravailibitilityrequest = HttpContext.Session.GetString("SpicejetAvailibilityRequest");
-                            GetAvailabilityRequest availibiltyRQ = Newtonsoft.Json.JsonConvert.DeserializeObject<GetAvailabilityRequest>(stravailibitilityrequest);
+                            GetAvailabilityRequest availibiltyRQ = JsonConvert.DeserializeObject<GetAvailabilityRequest>(stravailibitilityrequest);
 
                             var passanger = _getBookingResponse.Booking.Passengers;
                             int passengercount = availibiltyRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxCount;
@@ -492,7 +492,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
             try
             {
                 SourcePOS = new PointOfSale();
-                SourcePOS.State = Bookingmanager_.MessageState.New;
+                SourcePOS.State = MessageState.New;
                 SourcePOS.OrganizationCode = "APITESTID";
                 SourcePOS.AgentCode = "AG";
                 SourcePOS.LocationCode = "";

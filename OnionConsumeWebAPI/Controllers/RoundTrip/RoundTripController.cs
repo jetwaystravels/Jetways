@@ -15,7 +15,7 @@ using NuGet.Common;
 using NuGet.Packaging.Signing;
 using static DomainLayer.Model.SeatMapResponceModel;
 
-namespace OnionConsumeWebAPI.Controllers.AirAsia
+namespace OnionConsumeWebAPI.Controllers.RoundTrip
 {
     public class RoundTripController : Controller
     {

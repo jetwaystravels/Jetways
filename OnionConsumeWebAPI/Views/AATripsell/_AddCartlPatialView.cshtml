@@ -55,11 +55,13 @@
     .meal-decr {
         color: #1685e7;
         font-weight: 700;
+        cursor: pointer;
     }
 
     .meal-incr {
         color: #1685e7;
         font-weight: 700;
+        cursor: pointer;
     }
 
     .mealinput {
@@ -124,7 +126,7 @@
 
                                                         if (Mealdata != null)
                                                         {
-                                                            MealImagelist =MealImageList.GetAllmeal().Where(x => x.MealCode == querymeal).SingleOrDefault().MealImage;
+                                                            MealImagelist = MealImageList.GetAllmeal().Where(x => x.MealCode == querymeal).SingleOrDefault().MealImage;
                                                         }
 
 
@@ -360,7 +362,7 @@
                 data: { unitKey: unitKey, ssrKey: ssrKey },
                 success: function (data) {
                     alert(data);
-                    window.location.href ='/OnewayPayment/OnewayPaymentView';
+                    window.location.href = '/OnewayPayment/OnewayPaymentView';
                 },
                 error: function (err) {
                     console.error(err);

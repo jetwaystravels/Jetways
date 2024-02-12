@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace OnionConsumeWebAPI.Controllers.AirAsia
+namespace OnionConsumeWebAPI.Controllers.RoundTrip
 {
     public class RoundTripPaymentGateway : Controller
     {

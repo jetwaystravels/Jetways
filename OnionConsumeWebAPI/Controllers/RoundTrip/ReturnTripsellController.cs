@@ -17,7 +17,7 @@ using NuGet.Packaging.Signing;
 using OnionConsumeWebAPI.Extensions;
 using Utility;
 using static DomainLayer.Model.SeatMapResponceModel;
-namespace OnionConsumeWebAPI.Controllers
+namespace OnionConsumeWebAPI.Controllers.RoundTrip
 {
     public class ReturnTripsellController : Controller
     {
@@ -150,7 +150,7 @@ namespace OnionConsumeWebAPI.Controllers
                         AirAsiaTripSellRequestobj.preventOverlap = true;
                         AirAsiaTripSellRequestobj.suppressPassengerAgeValidation = true;
                         var AirasiaTripSellRequest = JsonConvert.SerializeObject(AirAsiaTripSellRequestobj, Formatting.Indented);
-                        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                         HttpResponseMessage responseTripsell = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v4/trip/sell", AirAsiaTripSellRequestobj);
 
@@ -434,7 +434,7 @@ namespace OnionConsumeWebAPI.Controllers
                                 itenaryInfant.currencyCode = "INR";
 
                                 var jsonPassengers = JsonConvert.SerializeObject(itenaryInfant, Formatting.Indented);
-                                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                                 HttpResponseMessage responsePassengers = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/bookings/quote", itenaryInfant);
                                 if (responsePassengers.IsSuccessStatusCode)
@@ -657,7 +657,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                         #region SpiceJet ItenaryRequest
                         string stravailibitilityrequest = HttpContext.Session.GetString("SpicejetAvailibilityRequest");
-                        GetAvailabilityRequest availibiltyRQ = Newtonsoft.Json.JsonConvert.DeserializeObject<GetAvailabilityRequest>(stravailibitilityrequest);
+                        GetAvailabilityRequest availibiltyRQ = JsonConvert.DeserializeObject<GetAvailabilityRequest>(stravailibitilityrequest);
                         PriceItineraryResponse _getPriceItineraryRS = null;
                         PriceItineraryRequest _getPriceItineraryRQ = null;
                         _getPriceItineraryRQ = new PriceItineraryRequest();
@@ -926,7 +926,7 @@ namespace OnionConsumeWebAPI.Controllers
                                         compartmentsunitobj.x = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].x;
                                         compartmentsunitobj.y = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].y;
                                         compartmentsunitobj.Airline = Airlines.Airasia;
-                                       // compartmentsunitlist.Add(compartmentsunitobj);
+                                        // compartmentsunitlist.Add(compartmentsunitobj);
                                         string a = JsonObjSeatmap.data[x].fees["MCFBRFQ-"].groups["1"].fees[0].serviceCharges[0].amount;
                                         string strTextdata = Regex.Match(_responseSeatmap, @"data""[\s\S]*?fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup",
                                         RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups["data"].Value;
@@ -1288,7 +1288,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                         var jsonSSRAvailabiltyRequest = JsonConvert.SerializeObject(_SSRAvailabilty, Formatting.Indented);
                         SSRAvailabiltyResponceModel SSRAvailabiltyResponceobj = new SSRAvailabiltyResponceModel();
-                        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                         HttpResponseMessage responseSSRAvailabilty = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/ssrs/availability", _SSRAvailabilty);
                         if (responseSSRAvailabilty.IsSuccessStatusCode)
@@ -1480,7 +1480,7 @@ namespace OnionConsumeWebAPI.Controllers
                                                         {
                                                             legssrs.feeCode = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].PaxSSRPriceList[0].PaxFee.FeeCode;
                                                             List<legpassengers> legpassengerslist = new List<legpassengers>();
-                                                            Decimal Amount = decimal.Zero;
+                                                            decimal Amount = decimal.Zero;
                                                             legpassengers passengersdetail = new legpassengers();
                                                             foreach (var items in _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].PaxSSRPriceList[0].PaxFee.ServiceCharges)
                                                             {
@@ -1599,7 +1599,7 @@ namespace OnionConsumeWebAPI.Controllers
             try
             {
                 SourcePOS = new PointOfSale();
-                SourcePOS.State = Bookingmanager_.MessageState.New;
+                SourcePOS.State = MessageState.New;
                 SourcePOS.OrganizationCode = "APITESTID";
                 SourcePOS.AgentCode = "AG";
                 SourcePOS.LocationCode = "";

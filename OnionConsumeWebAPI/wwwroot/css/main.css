@@ -3203,15 +3203,18 @@ input.text-white::placeholder {
 
 .tabs.-pills-3 .tabs__controls .tabs__button {
     transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+    cursor: pointer;
 }
 
     .tabs.-pills-3 .tabs__controls .tabs__button:hover {
         color: var(--color-dark-3) !important;
+        cursor: pointer;
     }
 
     .tabs.-pills-3 .tabs__controls .tabs__button.is-tab-el-active {
         color: var(--color-white) !important;
         background-color: var(--color-dark-3) !important;
+        cursor: pointer;
     }
 
 .tabs__controls {
@@ -13574,7 +13577,10 @@ check out section
         padding: 10px 0 0;
     }
 
-    .checkout .tl-ince .flight-box-content .ins-provider span {font-size: 13px;margin-left: 5px;}
+    .checkout .tl-ince .flight-box-content .ins-provider span {
+        font-size: 13px;
+        margin-left: 5px;
+    }
 
 
 
@@ -13640,8 +13646,3 @@ booking review popup section
         font-size: 0.9rem;
         color: #111111;
     }
-
-
-
-
-

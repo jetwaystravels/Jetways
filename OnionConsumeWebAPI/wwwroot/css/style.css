@@ -434,7 +434,7 @@ img {
     color: var(--white-color);
     line-height: 1;
     text-align: center;
-    padding: 18px 30px;
+    padding: 10px 25px;
     border: 0 none;
     border-radius: 6px;
     outline: 0 none;
@@ -3182,7 +3182,13 @@ FOOTER AREA CSS
 .search-result .tabs__controls {
     border-bottom: #ddd 1px solid;
     background: #F6F6F6;
-    padding: 15px 15px 0;
+    padding: 5px 10px 0;
+    margin: 0 -10px 0;
+}
+
+.note {
+    font-size: 13px;
+    font-weight: 500;
 }
 
 
@@ -3646,6 +3652,7 @@ FOOTER AREA CSS
 .modal-mfareBlock .active-bx {
     background: #FFF6F6;
     border: #F5BDBD 1px solid;
+    margin-bottom: 10px;
 }
 
 .modal-mfareBlock .col-xl-6.col-lg-6.lf-p {
