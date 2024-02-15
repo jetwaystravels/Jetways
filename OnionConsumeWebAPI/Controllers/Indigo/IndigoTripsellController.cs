@@ -1,0 +1,547 @@
+﻿using System.Drawing;
+using System.Globalization;
+using System.Net;
+using System.Net.Http.Headers;
+using System.Security.Cryptography;
+using System.Text.RegularExpressions;
+using DomainLayer.Model;
+using DomainLayer.ViewModel;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
+using OnionArchitectureAPI.Services.Indigo;
+using Utility;
+using static DomainLayer.Model.ReturnTicketBooking;
+
+
+namespace OnionConsumeWebAPI.Controllers
+{
+    public class IndigoTripsellController : Controller
+    {
+        Logs logs = new Logs();
+        string BaseURL = "https://dotrezapi.test.I5.navitaire.com";
+        string token = string.Empty;
+        string ssrKey = string.Empty;
+        string journeyKey = string.Empty;
+        string uniquekey = string.Empty;
+        AirAsiaTripResponceModel passeengerlist = null;
+        IHttpContextAccessor httpContextAccessorInstance = new HttpContextAccessor();
+        public IActionResult IndigoSaverTripsell()
+        {
+
+            List<SelectListItem> Title = new()
+            {
+                new SelectListItem { Text = "Mr", Value = "Mr" },
+                new SelectListItem { Text = "Ms" ,Value = "Ms" },
+                new SelectListItem { Text = "Mrs", Value = "Mrs"},
+
+            };
+
+            ViewBag.Title = Title;
+            //spicejet
+            string passenger = HttpContext.Session.GetString("SGkeypassenger"); //From Itenary Response
+
+            string Seatmap = HttpContext.Session.GetString("Seatmap");
+            string Meals = HttpContext.Session.GetString("Meals");
+            ViewModel vm = new ViewModel();
+
+            passeengerlist = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
+            SeatMapResponceModel Seatmaplist = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
+            SSRAvailabiltyResponceModel Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
+            vm.passeengerlist = passeengerlist;
+            vm.Seatmaplist = Seatmaplist;
+            vm.Meals = Mealslist;
+            return View(vm);
+
+        }
+        [HttpPost] //Contact Mapping on trip page
+        public async Task<IActionResult> IndigoContactDetails(ContactModel contactobject)
+        {
+
+            string Signature = HttpContext.Session.GetString("IndigoSignature");
+            if (!string.IsNullOrEmpty(Signature))
+            {
+                Signature = Signature.Replace(@"""", string.Empty);
+                _updateContact obj = new _updateContact(httpContextAccessorInstance);
+                IndigoBookingManager_.UpdateContactsResponse _responseAddContact6E = await obj.GetUpdateContacts(Signature, contactobject.emailAddress, "OneWay");
+                string Str1 = JsonConvert.SerializeObject(_responseAddContact6E);
+            }
+            return RedirectToAction("IndigoSaverTripsell", "IndigoTripsell");
+        }
+
+        //Passenger Data on Trip Page
+        [HttpPost]
+        public async Task<IActionResult> IndigoTravllerDetails(List<passkeytype> passengerdetails)
+        {
+            HttpContext.Session.SetString("PassengerNameDetails", JsonConvert.SerializeObject(passengerdetails));
+
+            string Signature = HttpContext.Session.GetString("IndigoSignature");
+
+            if (!string.IsNullOrEmpty(Signature))
+            {
+                Signature = Signature.Replace(@"""", string.Empty);
+                _updateContact obj = new _updateContact(httpContextAccessorInstance);
+                IndigoBookingManager_.UpdatePassengersResponse updatePaxResp = await obj.UpdatePassengers(Signature, passengerdetails, "OneWay");
+                string Str2 = JsonConvert.SerializeObject(updatePaxResp);
+            }
+            return RedirectToAction("IndigoSaverTripsell", "IndigoTripsell", passengerdetails);
+        }
+        public async Task<IActionResult> GetGstDetails(AddGSTInformation addGSTInformation, string lineOne, string lineTwo, string city, string number, string postalCode)
+        {
+            string tokenview = HttpContext.Session.GetString("AirasiaTokan");
+            token = tokenview.Replace(@"""", string.Empty);
+
+            using (HttpClient client = new HttpClient())
+            {
+                AddGSTInformation addinformation = new AddGSTInformation();
+
+
+                addinformation.contactTypeCode = "G";
+
+                GSTPhonenumber Phonenumber = new GSTPhonenumber();
+                List<GSTPhonenumber> Phonenumberlist = new List<GSTPhonenumber>();
+                Phonenumber.type = "Other";
+                Phonenumber.number = number;
+                Phonenumberlist.Add(Phonenumber);
+
+                foreach (var item in Phonenumberlist)
+                {
+                    addinformation.phoneNumbers = Phonenumberlist;
+                }
+                addinformation.cultureCode = "";
+                GSTAddress Address = new GSTAddress();
+                Address.lineOne = lineOne;
+                Address.lineTwo = lineTwo;
+                Address.lineThree = "";
+                Address.countryCode = "IN";
+                Address.provinceState = "TN";
+                Address.city = city;
+                Address.postalCode = postalCode;
+                addinformation.Address = Address;
+
+                addinformation.emailAddress = addGSTInformation.emailAddress;
+                addinformation.customerNumber = addGSTInformation.customerNumber;
+                addinformation.sourceOrganization = "";
+                addinformation.distributionOption = "None";
+                addinformation.notificationPreference = "None";
+                addinformation.companyName = addGSTInformation.companyName;
+
+                GSTName Name = new GSTName();
+                Name.first = "Vadivel";
+                Name.middle = "raja";
+                Name.last = "VR";
+                Name.title = "MR";
+                Name.suffix = "";
+                addinformation.Name = Name;
+
+                var jsonContactRequest = JsonConvert.SerializeObject(addinformation, Formatting.Indented);
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                HttpResponseMessage responseAddContact = await client.PostAsJsonAsync(BaseURL + "/api/nsk/v1/booking/contacts", addinformation);
+                if (responseAddContact.IsSuccessStatusCode)
+                {
+                    var _responseAddContact = responseAddContact.Content.ReadAsStringAsync().Result;
+                    var JsonObjAddContact = JsonConvert.DeserializeObject<dynamic>(_responseAddContact);
+                }
+
+            }
+
+            return RedirectToAction("Tripsell", "AATripsell");
+        }
+        public async Task<IActionResult> PostUnitkey(List<string> unitKey, List<string> ssrKey)
+        {
+            string tokenview = HttpContext.Session.GetString("IndigoSignature");
+            token = tokenview.Replace(@"""", string.Empty);
+            if (token == "" || token == null)
+            {
+                return RedirectToAction("Index");
+            }
+            string passenger = HttpContext.Session.GetString("SGkeypassenger");
+            AirAsiaTripResponceModel passeengerKeyList = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
+            int passengerscount = passeengerKeyList.passengerscount;
+            using (HttpClient client = new HttpClient())
+            {
+                if (ssrKey.Count >= 0)
+                {
+
+                    #region SellSSr
+                    _SellSSR obj_ = new _SellSSR(httpContextAccessorInstance);
+                    IndigoBookingManager_.SellResponse sellSsrResponse = await obj_.sellssr(token, passeengerKeyList, ssrKey,0,"OneWay");
+                    #endregion
+
+                }
+                if (unitKey.Count > 0)
+                {
+                    try
+                    {
+                        var unitKey_1 = unitKey;// selectedIds;
+                        string[] unitKey2 = null;
+                        string[] unitsubKey2 = null;
+                        string pas_unitKey = string.Empty;
+
+                        int journeyscount = passeengerKeyList.journeys.Count;
+
+                        _SellSSR obj_ = new _SellSSR(httpContextAccessorInstance);
+                        IndigoBookingManager_.AssignSeatsResponse _AssignseatRes = await obj_.AssignSeat(token, passeengerKeyList, unitKey, 0, unitKey.Count, 0,"OneWay");
+
+                        string Str2 = JsonConvert.SerializeObject(_AssignseatRes);
+
+                        if (_AssignseatRes != null)
+                        {
+                            var JsonObjSeatAssignment = _AssignseatRes;
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+            }
+
+            return RedirectToAction("IndigoPayment", "IndigoPaymentGateway");
+        }
+
+        public async Task<IActionResult> PostMeal(legpassengers legpassengers)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                //legpassengers obj = new legpassengers();
+                //obj.passengerKey = legpassengers.passengerKey;
+                //obj.ssrKey = legpassengers.ssrKey;
+
+                #region SellSSR
+                SellSSRModel _sellSSRModel = new SellSSRModel();
+                _sellSSRModel.count = 1;
+                _sellSSRModel.note = "DevTest";
+                _sellSSRModel.forceWaveOnSell = false;
+                _sellSSRModel.currencyCode = "INR";
+
+
+                var jsonSellSSR = JsonConvert.SerializeObject(_sellSSRModel, Formatting.Indented);
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+
+
+                HttpResponseMessage responseSellSSR = await client.PostAsJsonAsync(BaseURL + "/api/nsk/v2/booking/ssrs/" + legpassengers.ssrKey, _sellSSRModel);
+                if (responseSellSSR.IsSuccessStatusCode)
+                {
+                    var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
+                    var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
+                }
+            }
+
+            #endregion
+            return View();
+        }
+
+        public class ssrsegmentwise
+        {
+            public List<ssrsKey> SSRcode0 { get; set; }
+            public List<ssrsKey> SSRcode1 { get; set; }
+            public List<ssrsKey> SSRcodeOneWayI { get; set; }
+            public List<ssrsKey> SSRcodeOneWayII { get; set; }
+            public List<ssrsKey> SSRcodeRTI { get; set; }
+            public List<ssrsKey> SSRcodeRTII { get; set; }
+        }
+
+        public class ssrsKey
+        {
+            public string key { get; set; }
+        }
+
+        public class Paxes
+        {
+            public List<passkeytype> Adults_ { get; set; }
+            public List<passkeytype> Childs_ { get; set; }
+
+            public List<passkeytype> Infant_ { get; set; }
+        }
+        Paxes _paxes = new Paxes();
+        //public Passenger[] GetPassenger(List<passkeytype> travellers_)
+        //{
+
+        //    _paxes.Adults_ = new List<passkeytype>();
+        //    _paxes.Childs_ = new List<passkeytype>();
+        //    _paxes.Infant_ = new List<passkeytype>();
+        //    for (int i = 0; i < travellers_.Count; i++)
+        //    {
+        //        if (travellers_[i].passengertypecode == "ADT")
+        //            _paxes.Adults_.Add(travellers_[i]);
+        //        else if (travellers_[i].passengertypecode == "CHD")
+        //            _paxes.Childs_.Add(travellers_[i]);
+        //        else if (travellers_[i].passengertypecode == "INFT")
+        //            _paxes.Infant_.Add(travellers_[i]);
+
+        //    }
+
+        //    HttpContext.Session.SetString("PaxArray", JsonConvert.SerializeObject(_paxes));
+
+        //    Passenger[] passengers = null;
+        //    try
+        //    {
+        //        #region
+        //        //int chdPax = 0;
+        //        //int infFax = 0;
+        //        //passengers = new Passenger[travellers_.Count]; //Assign Passenger Information 
+        //        //Passenger p1 = null;
+        //        //int PassCnt = 0;
+        //        //for (int cntAdt = 0; cntAdt < travellers_.Count; cntAdt++)
+        //        //{
+        //        //    if (travellers_[cntAdt].passengertypecode.ToString().ToUpper() == "ADT")
+        //        //    {
+
+        //        //        p1 = new Passenger();
+        //        //        p1.PassengerNumberSpecified = true;
+        //        //        p1.PassengerNumber = Convert.ToInt16(PassCnt);
+        //        //        p1.Names = new BookingName[1];
+        //        //        p1.Names[0] = new BookingName();
+        //        //        if (!string.IsNullOrEmpty(travellers_[cntAdt].first))
+        //        //        {
+        //        //            p1.Names[0].FirstName = Convert.ToString(travellers_[cntAdt].first.Trim()).ToUpper();
+        //        //        }
+        //        //        if (!string.IsNullOrEmpty(travellers_[cntAdt].middle))
+        //        //        {
+        //        //            p1.Names[0].MiddleName = Convert.ToString(travellers_[cntAdt].middle.Trim()).ToUpper();
+        //        //        }
+        //        //        if (!string.IsNullOrEmpty(travellers_[cntAdt].last))
+        //        //        {
+        //        //            p1.Names[0].LastName = Convert.ToString(travellers_[cntAdt].last.Trim()).ToUpper();
+        //        //        }
+        //        //        p1.Names[0].Title = travellers_[cntAdt].title.ToUpper().Replace(".", "");
+        //        //        p1.PassengerInfo = new PassengerInfo();
+        //        //        p1.PassengerInfo.Gender = Gender.Male;
+        //        //        p1.PassengerInfo.WeightCategory = WeightCategory.Male;
+
+        //        //        p1.PassengerTypeInfos = new PassengerTypeInfo[1];
+        //        //        p1.PassengerTypeInfos[0] = new PassengerTypeInfo();
+        //        //        p1.PassengerTypeInfos[0].PaxType = travellers_[cntAdt].passengertypecode.ToString().ToUpper();
+        //        //        p1.PassengerTypeInfos[0].DOBSpecified = true;
+        //        //        p1.PassengerTypeInfos[0].DOB = Convert.ToDateTime("0001-01-01T00:00:00");
+        //        //    }
+
+        //        //    if(travellers_[cntAdt].passengertypecode.ToString().ToUpper() == "CHD")
+        //        //    {
+
+        //        //        p1 = new Passenger();
+        //        //        p1.PassengerNumberSpecified = true;
+        //        //        p1.PassengerNumber = Convert.ToInt16(PassCnt);
+        //        //        p1.Names = new BookingName[1];
+        //        //        p1.Names[0] = new BookingName();
+        //        //        if (!string.IsNullOrEmpty(travellers_[cntAdt].first))
+        //        //        {
+        //        //            p1.Names[0].FirstName = Convert.ToString(travellers_[cntAdt].first.Trim()).ToUpper();
+        //        //        }
+        //        //        if (!string.IsNullOrEmpty(travellers_[cntAdt].middle))
+        //        //        {
+        //        //            p1.Names[0].MiddleName = Convert.ToString(travellers_[cntAdt].middle.Trim()).ToUpper();
+        //        //        }
+        //        //        if (!string.IsNullOrEmpty(travellers_[cntAdt].last))
+        //        //        {
+        //        //            p1.Names[0].LastName = Convert.ToString(travellers_[cntAdt].last.Trim()).ToUpper();
+        //        //        }
+        //        //        p1.Names[0].Title = travellers_[cntAdt].title.ToUpper().Replace(".", "");
+        //        //        p1.PassengerInfo = new PassengerInfo();
+        //        //        p1.PassengerInfo.Gender = Gender.Male;
+        //        //        p1.PassengerInfo.WeightCategory = WeightCategory.Male;
+
+        //        //        p1.PassengerTypeInfos = new PassengerTypeInfo[1];
+        //        //        p1.PassengerTypeInfos[0] = new PassengerTypeInfo();
+        //        //        p1.PassengerTypeInfos[0].PaxType = travellers_[cntAdt].passengertypecode.ToString().ToUpper();
+        //        //        p1.PassengerTypeInfos[0].DOBSpecified = true;
+        //        //        p1.PassengerTypeInfos[0].DOB = Convert.ToDateTime("0001-01-01T00:00:00");
+
+
+        //        //        //if (cntAdt < travellers_.InfantTraveller.Count)
+        //        //        //{
+        //        //        //    p1.Infant = new PassengerInfant();
+        //        //        //    p1.Infant.DOB = travellers_.InfantTraveller[cntAdt].DOB;
+        //        //        //    //p1.Infant.Gender = Gender.Male;
+        //        //        //    if (GetGender(travellers_.InfantTraveller[cntAdt].Title.Replace(".", "")) == AirService.GENDER.MALE)
+        //        //        //    {
+        //        //        //        p1.Infant.Gender = Gender.Male;
+        //        //        //    }
+        //        //        //    else
+        //        //        //    {
+        //        //        //        p1.Infant.Gender = Gender.Female;
+        //        //        //    }
+        //        //        //    p1.Infant.Names = new BookingName[1];
+        //        //        //    p1.Infant.Names[0] = new BookingName();
+        //        //        //    if (!string.IsNullOrEmpty(travellers_.InfantTraveller[cntAdt].FirstName))
+        //        //        //    {
+        //        //        //        p1.Infant.Names[0].FirstName = Convert.ToString(travellers_.InfantTraveller[cntAdt].FirstName.Trim());
+        //        //        //    }
+        //        //        //    if (!string.IsNullOrEmpty(travellers_.InfantTraveller[cntAdt].MiddleName))
+        //        //        //    {
+        //        //        //        p1.Infant.Names[0].MiddleName = Convert.ToString(travellers_.InfantTraveller[cntAdt].MiddleName.Trim());
+        //        //        //    }
+        //        //        //    if (!string.IsNullOrEmpty(travellers_.InfantTraveller[cntAdt].LastName))
+        //        //        //    {
+        //        //        //        p1.Infant.Names[0].LastName = Convert.ToString(travellers_.InfantTraveller[cntAdt].LastName.Trim());
+        //        //        //    }
+        //        //        //    p1.Infant.Names[0].Title = travellers_.InfantTraveller[cntAdt].Title.Replace(".", "");
+        //        //        //    p1.Infant.Nationality = travellers_.InfantTraveller[cntAdt].Nationality;
+        //        //        //    p1.Infant.ResidentCountry = travellers_.InfantTraveller[cntAdt].ResidentCountry;
+        //        //        //    p1.State = MessageState.New;
+        //        //        //}
+
+        //        //    }
+
+
+
+        //        //    passengers[PassCnt] = p1;
+        //        //    PassCnt++;
+        //        //}
+        //        #endregion
+
+        //        int chdPax = 0;
+        //        int infFax = 0;
+        //        if (_paxes.Childs_ != null)
+        //        {
+        //            chdPax = _paxes.Childs_.Count;
+        //        }
+        //        if (_paxes.Infant_ != null)
+        //        {
+        //            infFax = _paxes.Infant_.Count;
+        //        }
+        //        passengers = new Passenger[_paxes.Adults_.Count + chdPax]; //Assign Passenger Information 
+        //        Passenger p1 = null;
+        //        int PassCnt = 0;
+        //        for (int cntAdt = 0; cntAdt < _paxes.Adults_.Count; cntAdt++)
+        //        {
+        //            p1 = new Passenger();
+        //            p1.PassengerNumberSpecified = true;
+        //            p1.PassengerNumber = Convert.ToInt16(PassCnt);
+        //            p1.Names = new BookingName[1];
+        //            p1.Names[0] = new BookingName();
+        //            if (!string.IsNullOrEmpty(_paxes.Adults_[cntAdt].first))
+        //            {
+        //                p1.Names[0].FirstName = Convert.ToString(_paxes.Adults_[cntAdt].first.Trim()).ToUpper();
+        //            }
+        //            if (!string.IsNullOrEmpty(_paxes.Adults_[cntAdt].middle))
+        //            {
+        //                p1.Names[0].MiddleName = Convert.ToString(_paxes.Adults_[cntAdt].middle.Trim()).ToUpper();
+        //            }
+        //            if (!string.IsNullOrEmpty(_paxes.Adults_[cntAdt].last))
+        //            {
+        //                p1.Names[0].LastName = Convert.ToString(_paxes.Adults_[cntAdt].last.Trim()).ToUpper();
+        //            }
+        //            p1.Names[0].Title = _paxes.Adults_[cntAdt].title.ToUpper().Replace(".", "");
+        //            p1.PassengerInfo = new PassengerInfo();
+        //            if (_paxes.Adults_[cntAdt].title.ToUpper().Replace(".", "") == "MR")
+        //            {
+        //                p1.PassengerInfo.Gender = Gender.Male;
+        //                p1.PassengerInfo.WeightCategory = WeightCategory.Male;
+        //            }
+        //            else
+        //            {
+        //                p1.PassengerInfo.Gender = Gender.Female;
+        //                p1.PassengerInfo.WeightCategory = WeightCategory.Female;
+        //            }
+        //            p1.PassengerTypeInfos = new PassengerTypeInfo[1];
+        //            p1.PassengerTypeInfos[0] = new PassengerTypeInfo();
+        //            p1.PassengerTypeInfos[0].DOBSpecified = true;
+        //            p1.PassengerTypeInfos[0].PaxType = _paxes.Adults_[cntAdt].passengertypecode.ToString().ToUpper();
+        //            if (_paxes.Infant_ != null && _paxes.Infant_.Count > 0)
+        //            {
+        //                if (cntAdt < _paxes.Infant_.Count)
+        //                {
+        //                    p1.Infant = new PassengerInfant();
+        //                    p1.Infant.DOBSpecified = true;
+        //                    p1.Infant.DOB = Convert.ToDateTime("2023-08-01") ;//Convert.ToDateTime(_paxes.Infant_[cntAdt].dateOfBirth);
+        //                                                                       //p1.Infant.Gender = Gender.Male;
+        //                    if (_paxes.Infant_[cntAdt].title.ToUpper().Replace(".", "") == "MR")
+        //                    {
+        //                        p1.Infant.Gender = Gender.Male;
+        //                    }
+        //                    else
+        //                    {
+        //                        p1.Infant.Gender = Gender.Female;
+        //                    }
+        //                    p1.Infant.Names = new BookingName[1];
+        //                    p1.Infant.Names[0] = new BookingName();
+        //                    if (!string.IsNullOrEmpty(_paxes.Infant_[cntAdt].first))
+        //                    {
+        //                        p1.Infant.Names[0].FirstName = Convert.ToString(_paxes.Infant_[cntAdt].first.Trim());
+        //                    }
+        //                    if (!string.IsNullOrEmpty(_paxes.Infant_[cntAdt].middle))
+        //                    {
+        //                        p1.Infant.Names[0].MiddleName = Convert.ToString(_paxes.Infant_[cntAdt].middle.Trim());
+        //                    }
+        //                    if (!string.IsNullOrEmpty(_paxes.Infant_[cntAdt].last))
+        //                    {
+        //                        p1.Infant.Names[0].LastName = Convert.ToString(_paxes.Infant_[cntAdt].last.Trim());
+        //                    }
+        //                    p1.Infant.Names[0].Title = _paxes.Infant_[cntAdt].title.Replace(".", "");
+        //                    p1.Infant.Nationality = _paxes.Infant_[cntAdt].nationality;
+        //                    p1.Infant.ResidentCountry = _paxes.Infant_[cntAdt].residentCountry;
+        //                    p1.State = MessageState.New;
+        //                }
+
+        //            }
+
+        //            passengers[PassCnt] = p1;
+        //            PassCnt++;
+        //        }
+        //        if (_paxes.Childs_ != null)
+        //        {
+        //            for (int cntChd = 0; cntChd < _paxes.Childs_.Count; cntChd++)
+        //            {
+        //                p1 = new Passenger();
+
+        //                p1.PassengerNumberSpecified = true;
+        //                p1.PassengerNumber = Convert.ToInt16(PassCnt);
+        //                p1.Names = new BookingName[1];
+        //                p1.Names[0] = new BookingName();
+
+        //                if (!string.IsNullOrEmpty(_paxes.Childs_[cntChd].first))
+        //                {
+        //                    p1.Names[0].FirstName = Convert.ToString(_paxes.Childs_[cntChd].first).ToUpper();
+        //                }
+        //                if (!string.IsNullOrEmpty(_paxes.Childs_[cntChd].middle))
+        //                {
+        //                    p1.Names[0].MiddleName = Convert.ToString(_paxes.Childs_[cntChd].middle).ToUpper();
+        //                }
+        //                if (!string.IsNullOrEmpty(_paxes.Childs_[cntChd].last))
+        //                {
+        //                    p1.Names[0].LastName = Convert.ToString(_paxes.Childs_[cntChd].last).ToUpper();
+        //                }
+        //                p1.Names[0].Title = _paxes.Childs_[cntChd].title.ToUpper().Replace(".", "");
+        //                p1.PassengerInfo = new PassengerInfo();
+        //                if (_paxes.Childs_[cntChd].title.ToUpper().Replace(".", "") == "Mr")
+        //                {
+        //                    p1.PassengerInfo.Gender = Gender.Male;
+        //                    p1.PassengerInfo.WeightCategory = WeightCategory.Male;
+        //                }
+        //                else
+        //                {
+        //                    p1.PassengerInfo.Gender = Gender.Female;
+        //                    p1.PassengerInfo.WeightCategory = WeightCategory.Female;
+        //                }
+        //                p1.PassengerTypeInfos = new PassengerTypeInfo[1];
+        //                p1.PassengerTypeInfos[0] = new PassengerTypeInfo();
+        //                p1.PassengerTypeInfos[0].DOBSpecified = true;
+        //                p1.PassengerTypeInfos[0].PaxType = _paxes.Childs_[cntChd].passengertypecode.ToString().ToUpper();
+        //                passengers[PassCnt] = p1;
+        //                PassCnt++;
+        //            }
+        //        }
+        //    }
+        //    catch (SystemException sex_)
+        //    {
+        //    }
+        //    return passengers;
+        //}
+
+
+    }
+
+
+
+}
+
+
+
+
+

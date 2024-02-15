@@ -18,16 +18,18 @@ using Nancy.Session;
 using Newtonsoft.Json;
 using NuGet.Common;
 using NuGet.Packaging.Signing;
+using OnionArchitectureAPI.Services.Indigo;
 using OnionConsumeWebAPI.Extensions;
 using Utility;
 using static DomainLayer.Model.PassengersModel;
 using static DomainLayer.Model.SeatMapResponceModel;
-using static OnionConsumeWebAPI.Controllers.SGTripsellController;
+using static OnionConsumeWebAPI.Controllers.IndigoTripsellController;
 
 namespace OnionConsumeWebAPI.Controllers.RoundTrip
 {
     public class RoundAATripsellController : Controller
     {
+        IHttpContextAccessor httpContextAccessorInstance = new HttpContextAccessor();
         string token = string.Empty;
         string ssrKey = string.Empty;
         string journeyKey = string.Empty;
@@ -321,6 +323,15 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
                 logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_ContactModelSG) + "\n\n Response: " + JsonConvert.SerializeObject(responseAddContactSG), "UpdateContact", "SpiceJetRT");
             }
+
+            Signature = HttpContext.Session.GetString("IndigoSignature");
+            if (!string.IsNullOrEmpty(Signature))
+            {
+                Signature = Signature.Replace(@"""", string.Empty);
+                _updateContact obj = new _updateContact(httpContextAccessorInstance);
+                IndigoBookingManager_.UpdateContactsResponse _responseAddContact6E = await obj.GetUpdateContacts(Signature, contactobject.emailAddress);
+                string Str1 = JsonConvert.SerializeObject(_responseAddContact6E);
+            }
             return RedirectToAction("RoundAATripsellView", "RoundAATripsell");
         }
 
@@ -485,10 +496,15 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     HttpContext.Session.SetString("PassengerNameDetails", JsonConvert.SerializeObject(passengerdetails));
                 }
 
-
-
+                Signature = HttpContext.Session.GetString("IndigoSignature");
+               if (!string.IsNullOrEmpty(Signature))
+                {
+                    Signature = Signature.Replace(@"""", string.Empty);
+                    _updateContact obj = new _updateContact(httpContextAccessorInstance);
+                    IndigoBookingManager_.UpdatePassengersResponse updatePaxResp = await obj.UpdatePassengers(Signature, passengerdetails);
+                    string Str2 = JsonConvert.SerializeObject(updatePaxResp);
+                }
                 return RedirectToAction("RoundAATripsellView", "RoundAATripsell");
-
             }
         }
 
@@ -573,90 +589,6 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
                     int journeyscount = 0;// passeengerKeyList.journeys.Count;
                     int mealid = 0;
-                    //for (int i1 = 0; i1 < passeengerKeyListRT.Count; i1++)
-                    //{
-                    //if (i1 == 0)
-                    //{
-                    //    journeyscount = passeengerKeyListRT[0].journeys.Count;
-
-                    //    for (int i = 0; i < journeyscount; i++)
-                    //    {
-                    //        //int segmentscount = passeengerKeyListRT[0].journeys[i].segments.Count;
-                    //        //for (int k1 = 0; k1 < segmentscount; k1++)
-                    //        //{
-                    //        for (int l1 = 0; l1 < ssrKey.Count; l1++)
-                    //        {
-                    //            int l = 0;
-                    //            int m = 0;
-                    //            int idx = 0;
-                    //            int paxnum = 0;
-                    //            //if (passeengerKeyListRT[0].passengers[l1].passengerTypeCode == "INFT")
-                    //            //    continue;
-                    //            if (ssrKey[l1].ToLower().Contains("airasia"))
-                    //            {
-                    //                if (ssrKey[l1].Length > 1)
-                    //                {
-
-                    //                    ssrsubKey2 = ssrKey[l1].Split('_');
-                    //                    pas_ssrKey = ssrsubKey2[0].Trim();
-                    //                    //idx = int.Parse(ssrsubKey2[3]);
-                    //                    //if (idx == 0) paxnum = l++;
-                    //                    //else
-                    //                    //paxnum = m++;
-
-                    //                }
-
-                    //                //string passengerkey = string.Empty;
-                    //                // passengerkey = passeengerKeyListRT[0].passengers[l1].passengerKey;
-                    //                string mealskey = pas_ssrKey;
-                    //                mealskey = mealskey.Replace(@"""", string.Empty);
-                    //                if (!string.IsNullOrEmpty(token))
-                    //                {
-                    //                    using (HttpClient client = new HttpClient())
-                    //                    {
-                    //                        SellSSRModel _sellSSRModel = new SellSSRModel();
-                    //                        _sellSSRModel.count = 1;
-                    //                        _sellSSRModel.note = "DevTest";
-                    //                        _sellSSRModel.forceWaveOnSell = false;
-                    //                        _sellSSRModel.currencyCode = "INR";
-                    //                        var jsonSellSSR = JsonConvert.SerializeObject(_sellSSRModel, Formatting.Indented);
-                    //                        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                    //                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                    //                        HttpResponseMessage responseSellSSR = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/ssrs/" + mealskey, _sellSSRModel);
-                    //                        if (responseSellSSR.IsSuccessStatusCode)
-                    //                        {
-                    //                            var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
-                    //                            var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
-                    //                        }
-
-                    //                    }
-                    //                }
-                    //            }
-                    //            else
-                    //            {
-                    //                continue;
-                    //            }
-                    //            //continue;
-                    //            mealid++;
-                    //        }
-                    //        //seatid++;
-                    //        //}
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //
-                    //tokenview = HttpContext.Session.GetString("SpicejetSignautre");//spelling 
-                    ////if (!string.IsNullOrEmpty(tokenview))
-                    ////{
-                    //    token = tokenview.Replace(@"""", string.Empty);
-                    //    if (token == "" || token == null)
-                    //    {
-                    //        return RedirectToAction("Index");
-                    //    }
-
-                    //int journeyscount = passeengerlist.journeys.Count;
-
                     if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Mainpassengervm")))
                     {
                         passenger = HttpContext.Session.GetString("Mainpassengervm");
@@ -1160,15 +1092,17 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     }
 
                                 }
+                                else if (passeengerKeyList.journeys[0].Airlinename.ToLower() == "indigo")
+                                {
+                                    string tokenview = HttpContext.Session.GetString("IndigoSignature");//spelling 
+                                    token = tokenview.Replace(@"""", string.Empty);
+                                    _SellSSR obj_ = new _SellSSR(httpContextAccessorInstance);
+                                    IndigoBookingManager_.SellResponse sellSsrResponse = await obj_.sellssr(token, passeengerKeyList, ssrKey, _a);
+                                }
                                 _a++;
                             }
                         }
                     }
-                    //}
-                    //end of spicejet code
-
-                    //}
-                    //}
                 }
                 catch (Exception ex)
                 {
@@ -1278,9 +1212,9 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     string pas_unitKey = string.Empty;
                     for (int k = 0; k < unitKey.Count; k++)
                     {
-                        if (unitKey[k].ToLower().Contains("spicejet") && (unitKey[k].ToString().Contains("OneWay0") || unitKey[k].ToString().Contains("OneWay1")))
+                        if ((unitKey[k].ToLower().Contains("spicejet") || unitKey[k].ToLower().Contains("indigo")) && (unitKey[k].ToString().Contains("OneWay0") || unitKey[k].ToString().Contains("OneWay1")))
                             keycount0++;
-                        if (unitKey[k].ToLower().Contains("spicejet") && (unitKey[k].ToString().Contains("RT0") || unitKey[k].ToString().Contains("RT1")))
+                        if ((unitKey[k].ToLower().Contains("spicejet") || unitKey[k].ToLower().Contains("indigo")) && (unitKey[k].ToString().Contains("RT0") || unitKey[k].ToString().Contains("RT1")))
                             keycount1++;
 
                     }
@@ -1679,6 +1613,16 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     //}
                                     //}
 
+
+                                }
+                                else if (passeengerKeyList.journeys[0].Airlinename.ToLower() == "indigo")
+                                {
+                                    seatid = 0;
+                                    _index = 0;
+                                    string Signature = HttpContext.Session.GetString("IndigoSignature"); 
+                                    Signature = Signature.Replace(@"""", string.Empty);
+                                    _SellSSR obj_ = new _SellSSR(httpContextAccessorInstance);
+                                    IndigoBookingManager_.AssignSeatsResponse _AssignseatRes = await obj_.AssignSeat(Signature, passeengerKeyList, unitKey, p, keycount0, keycount1);
 
                                 }
                                 p++;

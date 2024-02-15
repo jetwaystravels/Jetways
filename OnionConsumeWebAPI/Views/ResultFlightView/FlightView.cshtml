@@ -337,6 +337,11 @@
 
                                                         <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
                                                     }
+                                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("6E"))
+                                                    {
+
+                                                        <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
+                                                    }
                                                     else
                                                     {
                                                         <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
@@ -353,6 +358,11 @@
                                                                 @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("SG"))
                                                                 {
                                                                     CompanyName = "SpiceJet";
+                                                                }
+                                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("6E"))
+                                                                {
+
+                                                                   CompanyName = "Indigo";
                                                                 }
                                                                 else
                                                                 {
@@ -514,6 +524,15 @@
                                                                     if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("SG"))
                                                                     {
                                                                         <form asp-action="SpicejetTripsell" asp-controller="SpiceJetResultFlightView">
+                                                                            <input type="hidden" id="fareKey" name="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
+                                                                            <input type="hidden" id="journeyKey" name="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
+                                                                            <button class="button -md -outline-blue-1 text-blue-1">Lock Price</button>
+                                                                            <input type="submit" value="Book Now" class="button small-btn">
+                                                                        </form>
+                                                                    }
+                                                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("6E"))
+                                                                    {
+                                                                        <form asp-action="IndigoTripsell" asp-controller="IndigoResultFlightView">
                                                                             <input type="hidden" id="fareKey" name="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
                                                                             <input type="hidden" id="journeyKey" name="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
                                                                             <button class="button -md -outline-blue-1 text-blue-1">Lock Price</button>

@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Indigo\Indigo.csproj" />
     <ProjectReference Include="..\ServiceLayer\ServiceLayer.csproj" />
+    <ProjectReference Include="..\Utility\Utility.csproj" />
   </ItemGroup>
 
 </Project>

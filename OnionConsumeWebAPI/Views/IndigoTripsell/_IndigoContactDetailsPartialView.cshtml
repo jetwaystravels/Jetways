@@ -1,0 +1,41 @@
+﻿
+<form asp-action="IndigoContactDetails" asp-controller="IndigoTripsell" method="post">
+    @* @Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+    <div class="row  row mt-2 py-3 mb-3">
+        
+        <div class="col-12">
+            <label class="text-18 fw-600">Contact Details</label>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-input ">
+
+                <input type="text" name="emailAddress" id="emailAddress">
+                <label class="lh-1 text-16 text-light-1">Email ID</label>
+            </div>
+        </div>
+
+        <div class="col-md-2 phone-code">
+            <select class="form-control form-control-lg">
+                <option>+91</option>
+            </select>
+        </div>
+        <div class="col-md-4 phone-number">
+            <div class="form-input">
+                <input type="text" name="number" id="number">
+                <label class="lh-1 text-16 text-light-1">Phone Number</label>
+            </div>
+        </div>
+        <div class="d-flex justify-content-end mt-3">
+            <input type="submit" class="btn btn-primary pagelaod" value="Save" />
+        </div>
+
+</div>
+</form>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".pagelaod").click(function (e) {
+            e.preventDefault();
+       
+    });
+</script> 

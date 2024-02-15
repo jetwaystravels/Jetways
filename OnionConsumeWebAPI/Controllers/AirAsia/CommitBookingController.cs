@@ -22,7 +22,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using ZXing.Common;
 using ZXing;
-//using ZXing.Windows.Compatibility;
+using ZXing.Windows.Compatibility;
 
 
 
@@ -38,6 +38,13 @@ namespace OnionConsumeWebAPI.Controllers
         string journeyKey = string.Empty;
         string uniquekey = string.Empty;
         string AirLinePNR = string.Empty;
+        string BarcodeString= string.Empty;
+        String BarcodePNR = string.Empty;
+        string orides= string.Empty;
+        string carriercode= string.Empty;
+        string flightnumber = string.Empty;
+        string seatnumber = string.Empty;
+        string sequencenumber= string.Empty;
         ApiResponseModel responseModel;
         public async Task<IActionResult> booking()
         {
@@ -96,6 +103,11 @@ namespace OnionConsumeWebAPI.Controllers
                     var JsonObjPNRBooking = JsonConvert.DeserializeObject<dynamic>(_responcePNRBooking);
                     ReturnTicketBooking returnTicketBooking = new ReturnTicketBooking();
                     returnTicketBooking.recordLocator = JsonObjPNRBooking.data.recordLocator;
+                    BarcodePNR= JsonObjPNRBooking.data.recordLocator;
+                    if (BarcodePNR.Length < 7)
+                    {
+                        BarcodePNR = BarcodePNR.PadRight(7);
+                    }
                     returnTicketBooking.bookingKey = JsonObjPNRBooking.data.bookingKey;
 
                     Breakdown breakdown = new Breakdown();
@@ -140,6 +152,7 @@ namespace OnionConsumeWebAPI.Controllers
                         DesignatorReturn ReturnDesignatorobject = new DesignatorReturn();
                         ReturnDesignatorobject.origin = JsonObjPNRBooking.data.journeys[0].designator.origin;
                         ReturnDesignatorobject.destination = JsonObjPNRBooking.data.journeys[0].designator.destination;
+                        orides= JsonObjPNRBooking.data.journeys[0].designator.origin + JsonObjPNRBooking.data.journeys[0].designator.destination;
                         ReturnDesignatorobject.departure = JsonObjPNRBooking.data.journeys[0].designator.departure;
                         ReturnDesignatorobject.arrival = JsonObjPNRBooking.data.journeys[0].designator.arrival;
                         journeysReturnObj.designator = ReturnDesignatorobject;
@@ -173,6 +186,16 @@ namespace OnionConsumeWebAPI.Controllers
                                     ReturnSeats returnSeatsObj = new ReturnSeats();
 
                                     returnSeatsObj.unitDesignator = item.Value.seats[q].unitDesignator;
+                                    seatnumber= item.Value.seats[q].unitDesignator;
+                                    if (string.IsNullOrEmpty(seatnumber))
+                                    {
+                                        seatnumber= "0000"; // Set to "0000" if not available
+                                    }
+                                    else
+                                    {
+                                        seatnumber= seatnumber.PadRight(4, '0'); // Right-pad with zeros if less than 4 characters
+                                    }
+
                                     returnSeatsList.Add(returnSeatsObj);
                                 }
                                 passengerSegmentobj.seats = returnSeatsList;
@@ -217,6 +240,16 @@ namespace OnionConsumeWebAPI.Controllers
 
                             IdentifierReturn identifierReturn = new IdentifierReturn();
                             identifierReturn.identifier = JsonObjPNRBooking.data.journeys[i].segments[j].identifier.identifier;
+                            flightnumber= JsonObjPNRBooking.data.journeys[i].segments[j].identifier.identifier;
+                            if (flightnumber.Length < 5)
+                            {
+                                flightnumber = flightnumber.PadRight(5);
+                            }
+                            carriercode = JsonObjPNRBooking.data.journeys[i].segments[j].identifier.identifier;
+                            if (carriercode.Length < 3)
+                            {
+                                carriercode = carriercode.PadRight(3);
+                            }
                             identifierReturn.carrierCode = JsonObjPNRBooking.data.journeys[i].segments[j].identifier.carrierCode;
                             segmentReturnobj.identifier = identifierReturn;
 
@@ -262,34 +295,55 @@ namespace OnionConsumeWebAPI.Controllers
                         //  passkeytypeobj.passengertypecount = items.Count;
                         returnPassengersobj.name = new Name();
                         returnPassengersobj.name.first = items.Value.name.first;
+                        returnPassengersobj.name.last = items.Value.name.last;
+                        //julian date
+                        int year = 2024;
+                        int month = 2;
+                        int day = 20;
+
+                        // Calculate the number of days from January 1st to the given date
+                        DateTime currentDate = new DateTime(year, month, day);
+                        DateTime startOfYear = new DateTime(year, 1, 1);
+                        int julianDate = (currentDate - startOfYear).Days + 1;
+                        if (string.IsNullOrEmpty(sequencenumber))
+                        {
+                            sequencenumber= "0000"; // Set to "0000" if not available
+                        }
+                        else
+                        {
+                             sequencenumber = sequencenumber.PadRight(5, '0'); // Right-pad with zeros if less than 4 characters
+                        }
+
+
+                        BarcodeString = "M"+"1"+ items.Value.name.last +"/" + items.Value.name.first +""+ BarcodePNR +""+ orides+ carriercode +""+ flightnumber +""+ julianDate +"Y" + sequencenumber +"1"+"00";
                         ReturnpassengersList.Add(returnPassengersobj);
                     }
                     //returnTicketBooking.contacts= phoneNumberList;
                     //STATRT CODE FOR BAR CODE
-                    string barcode = "ashokkumar";
-                   
-                    //BarcodeWriter barcodeWriter = new BarcodeWriter
-                    //{
-                    //    Format = BarcodeFormat.PDF_417,
-                    //    Options = new EncodingOptions
-                    //    {
-                    //        Width = 300,
-                    //        Height = 100
-                    //    }
-                    //};
+                  //  string barcode = "ashokkumar";
 
-                    //Bitmap barcodeBitmap = barcodeWriter.Write(barcode);
-                    //using (MemoryStream stream = new MemoryStream())
-                    //{
-                        
-                    //    barcodeBitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-                    //    byte[] bytes = stream.ToArray();
-                    //    Convert.ToBase64String(bytes);
-                    //    ViewData["ImageBytes"] = "data:image/png;base64," + Convert.ToBase64String(bytes);
-                    //    ViewData["Barcode"] = barcode;
+                    BarcodeWriter barcodeWriter = new BarcodeWriter
+                    {
+                        Format = BarcodeFormat.PDF_417,
+                        Options = new EncodingOptions
+                        {
+                            Width = 300,
+                            Height = 100
+                        }
+                    };
+
+                    Bitmap barcodeBitmap = barcodeWriter.Write(BarcodeString);
+                    using (MemoryStream stream = new MemoryStream())
+                    {
+
+                        barcodeBitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                        byte[] bytes = stream.ToArray();
+                        Convert.ToBase64String(bytes);
+                        ViewData["ImageBytes"] = "data:image/png;base64," + Convert.ToBase64String(bytes);
+                        ViewData["Barcode"] = BarcodeString;
 
 
-                    //}
+                    }
                     returnTicketBooking.breakdown = breakdown;
                     returnTicketBooking.journeys = journeysreturnList;
                     returnTicketBooking.passengers = ReturnpassengersList;

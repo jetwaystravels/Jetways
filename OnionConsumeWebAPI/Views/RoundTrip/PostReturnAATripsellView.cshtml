@@ -38,8 +38,20 @@
                                             <div class="col">
                                                 <div class="row x-gap-20 mb-3">
                                                     <div class="col d-flex airline-L">
+                                                        @if (Model.SimpleAvailibilityaAddResponcelist[j].Airline.ToString().ToLower().Equals("spicejet"))
+                                                        {
 
-                                                        <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
+                                                            <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
+                                                        }
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline.ToString().ToLower().Equals("indigo"))
+                                                        {
+
+                                                            <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
+                                                        }
+                                                        else
+                                                        {
+                                                            <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
+                                                        }
                                                         <div class="name">
                                                             <span class="lh-15">@Model.SimpleAvailibilityaAddResponcelist[j].Airline </span>
                                                             <span class="text-light-1">@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode|@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.identifier</span>
@@ -179,7 +191,22 @@
                                             <div class="col">
                                                 <div class="row x-gap-20 mb-3">
                                                     <div class="col d-flex airline-L">
-                                                        <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
+                                                        @if (Model.SimpleAvailibilityaAddResponcelistR[j].Airline.ToString().ToLower().Equals("spicejet"))
+                                                        {
+
+                                                            <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
+                                                        }
+                                                        else if (Model.SimpleAvailibilityaAddResponcelistR[j].Airline.ToString().ToLower().Equals("indigo"))
+                                                        {
+
+                                                            <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
+                                                        }
+                                                        else
+                                                        {
+                                                            <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
+                                                        }
+                                                        @* <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image"> *@
+
                                                         <div class="name">
                                                             <span class="lh-15">@Model.SimpleAvailibilityaAddResponcelistR[j].Airline</span>
                                                             <span class="text-light-1">@Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.carrierCode|@Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.identifier</span>
@@ -327,6 +354,11 @@
                                 {
 
                                     <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline.ToString().ToLower().Equals("indigo"))
+                                {
+
+                                    <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
                                 }
                                 else
                                 {

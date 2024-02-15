@@ -1,0 +1,627 @@
+﻿@model DomainLayer.ViewModel.ViewModel
+@using System.Collections;
+@{
+    Layout = null;
+
+}
+<script src="~/js/custom.js/SGCustom.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        debugger;
+        $('input[type="checkbox"]').on('change', function () {
+            var selectedIds = [];
+            debugger;
+            $('input[type="checkbox"]:checked').each(function () {
+
+                //selectedIds.push($(this).attr('id'));
+                selectedIds.push($(this).val());
+
+            });
+
+            localStorage.setItem('selectedIds', selectedIds);
+
+            var input = document.getElementsByName("unitKey");
+            var total = 0;
+            for (var i = 0; i < input.length; i++) {
+                if (input[i].checked) {
+                    total += parseInt(input[i].value);
+                }
+            }
+            document.getElementById("total").value = total.toFixed(2);
+            var one = document.getElementById("Totalamount").value;
+            var two = document.getElementById("total").value;
+            //SSRMeal();
+
+        });
+    });
+</script>
+<style>
+    .chkbox {
+        background: #b1abab;
+        text-align: center;
+        cursor: not-allowed;
+        padding: 3px 0;
+    }
+</style>
+
+<div class="flight-box-content rounded-4">
+    <div class="tabs -pills-3 js-tabs">
+        <div class="tabs__controls row x-gap-10 y-gap-10 js-tabs-controls bdr-btm">
+            <div class="col-auto">
+                <div class="tabs__button text-14 fw-600 px-20 py-10  js-tabs-button is-tab-el-active" data-tab-target=".-tab-item-1">Select Seat</div>
+            </div>
+
+            <div class="col-auto">
+                <div class="tabs__button text-14 fw-600 px-20 py-10  js-tabs-button " data-tab-target=".-tab-item-2">Add Meals</div>
+
+            </div>
+
+            <div class="col-auto">
+                <div class="tabs__button text-14 fw-600 px-20 py-10 js-tabs-button " data-tab-target=".-tab-item-3">Add Baggage</div>
+            </div>
+        </div>
+
+        <div class="tabs__content pt-0 js-tabs-content">
+            <div class="tabs__pane -tab-item-1 is-tab-el-active">
+                <div class="journey-box">
+                    <ul class="nav nav-pills mb-3">
+                        @{
+                            var seatmaap2 = @Model.passeengerlist.journeys[0].segments.Count;
+                            if (seatmaap2 == 1)
+                            {
+                                <li class="nav-item">
+                                    <button class="nav-link active">@Model.passeengerlist.journeys[0].segments[0].designator.origin-@Model.passeengerlist.journeys[0].segments[0].designator.destination</button>
+                                </li>
+                            }
+                            else
+                            {
+                                @for (int i = 0; i < seatmaap2; i++)
+                                {
+                                    <li class="nav-item d-flex">
+                                        @if(i==0)
+                                        {
+                                        <div id="seattab1" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
+
+                                        }
+                                        else
+                                        {
+                                        <div id="seattab2" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
+                                        }
+                                    </li>
+
+
+                                }
+                            }
+                        }
+
+                       @*  <li class="nav-item" role="presentation">
+                            <button class="nav-link">Return:BOM-DEL</button>
+                        </li> *@
+                    </ul>
+                </div>
+
+
+                <div class="flight-protip">Pro Tip Grab your favourite seat before it gets sold.</div>
+                <div class="wing-left">&nbsp;</div>
+
+                @{
+                    var seatmaap = Model.passeengerlist.journeys[0].segments.Count;
+
+                    Hashtable ht0 = new Hashtable();
+                    Hashtable ht1 = new Hashtable();
+                    for (int k = 0; k < Model.Seatmaplist.datalist.Count; k++)
+                    {
+                        int count = Model.Seatmaplist.datalist[k].seatMap.decks.units.Count;
+                        for (int j = 0; j < count; j++)
+                        {
+                            // if (Model.Seatmaplist.datalist[k].seatMap.decks.units[j].assignable == true)
+                            // {
+                            //     if (!ht0.Contains(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator))
+                            //         ht0.Add(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator, Model.Seatmaplist.datalist[k].seatMap.decks.units[j].servicechargefeeAmount);
+                            // }
+
+                            if (k == 0)
+                            {
+                                if (!ht0.Contains(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator))
+                                {
+                                    ht0.Add(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator, Model.Seatmaplist.datalist[k].seatMap.decks.units[j].servicechargefeeAmount);
+
+                                }
+
+                            }
+                            else
+                            {
+                                if (!ht1.Contains(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator))
+                                {
+                                    ht1.Add(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator, Model.Seatmaplist.datalist[k].seatMap.decks.units[j].servicechargefeeAmount);
+                                }
+
+                            }
+
+                        }
+                    }
+
+                    //if (seatmaap == 2)
+                    //{
+                        for (int l = 0; l < Model.Seatmaplist.datalist.Count; l++)
+                        {
+                            if (l == 0)
+                            {
+                                <div id="tabshow1" class="seat-section">
+
+                                    <div class="inner-section">
+                                        <ul class="column">
+                                            <li class="seat-li row-no">F</li>
+                                            <li class="seat-li row-no">E</li>
+                                            <li class="seat-li row-no">D</li>
+                                            <li class="seat-li row-no"></li>
+                                            <li class="seat-li row-no">C</li>
+                                            <li class="seat-li row-no">B</li>
+                                            <li class="seat-li row-no">A</li>
+                                        </ul>
+
+                                        @{
+                                            @for (int i = 1; i <= 30; i++)
+                                            {
+
+                                                <ul class="column" id="itemList">
+                                                    @{
+                                                        for (int k = 6; k >= 1; k--)
+                                                        {
+                                                            string data = string.Empty;
+                                                            if (k == 6) { data = i.ToString() + "F"; }
+                                                            else if (k == 5) { data = i.ToString() + "E"; }
+                                                            else if (k == 4) { data = i.ToString() + "D"; }
+                                                            else if (k == 3) { data = i.ToString() + "C"; }
+                                                            else if (k == 2) { data = i.ToString() + "B"; }
+                                                            else if (k == 1) { data = i.ToString() + "A"; }
+                                                            var designation = data;
+                                                            if (!ht0.Contains(data))
+                                                            {
+                                                                <li class="seat-li chkbox">
+                                                                    <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
+                                                                </li>
+                                                            }
+                                                            else
+                                                            {
+                                                                string feeamountF1 = ht0[data].ToString();
+                                                                if (feeamountF1 == "0")
+                                                                {
+                                                                    <li class="seat-li free-seat tooltip">
+                                                                        <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+                                                                    <input type="checkbox" name="unitKey" value="@feeamountF1 _@data _OneWay0 _@l" id="unitKey" />
+                                                                        <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                                    </li>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <li class="seat-li midcomfort tooltip">
+                                                                        <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+                                                                    <input type="checkbox" name="unitKey" value="@feeamountF1 _@data _OneWay0 _@l" id="unitKey" />
+                                                                        <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                                    </li>
+                                                                }
+                                                            }
+
+                                                            if (k == 4)
+                                                            {
+                                                                <li class="seat-li"></li>
+                                                            }
+
+                                                            <li class="seat-li colNo left">@i</li>
+                                                        }
+                                                    }
+
+                                                </ul>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div id="tabshow2" class="seat-section">
+
+                                    <div class="inner-section">
+                                        <ul class="column">
+                                            <li class="seat-li row-no">F</li>
+                                            <li class="seat-li row-no">E</li>
+                                            <li class="seat-li row-no">D</li>
+                                            <li class="seat-li row-no"></li>
+                                            <li class="seat-li row-no">C</li>
+                                            <li class="seat-li row-no">B</li>
+                                            <li class="seat-li row-no">A</li>
+                                        </ul>
+
+                                        @{
+                                            @for (int i = 1; i <= 30; i++)
+                                            {
+
+                                                <ul class="column" id="itemList">
+                                                    @{
+                                                        for (int k = 6; k >= 1; k--)
+                                                        {
+                                                            string data = string.Empty;
+                                                            if (k == 6) { data = i.ToString() + "F"; }
+                                                            else if (k == 5) { data = i.ToString() + "E"; }
+                                                            else if (k == 4) { data = i.ToString() + "D"; }
+                                                            else if (k == 3) { data = i.ToString() + "C"; }
+                                                            else if (k == 2) { data = i.ToString() + "B"; }
+                                                            else if (k == 1) { data = i.ToString() + "A"; }
+                                                            var designation = data;
+                                                            if (!ht1.Contains(data))
+                                                            {
+                                                                <li class="seat-li chkbox">
+                                                                    <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
+                                                                </li>
+                                                            }
+                                                            else
+                                                            {
+                                                                string feeamountF1 = ht1[data].ToString();
+                                                                if (feeamountF1 == "0")
+                                                                {
+                                                                    <li class="seat-li free-seat tooltip">
+                                                                        <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+                                                                    <input type="checkbox" name="unitKey" value="@feeamountF1 _@data _OneWay1 _@l" id="unitKey" />
+                                                                        <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                                    </li>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <li class="seat-li midcomfort tooltip">
+                                                                        <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+                                                                    <input type="checkbox" name="unitKey" value="@feeamountF1 _@data _OneWay1 _@l" id="unitKey" />
+                                                                        <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                                    </li>
+                                                                }
+                                                            }
+
+                                                            if (k == 4)
+                                                            {
+                                                                <li class="seat-li"></li>
+                                                            }
+
+                                                            <li class="seat-li colNo left">@i</li>
+                                                        }
+                                                    }
+
+                                                </ul>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        }
+                    //}
+                }
+
+                @*<--Tab2start----->*@
+
+                @*@{
+                // int count1 = Model.Seatmaplist.datalist[1].seatMap.decks.units.Count;
+                // Hashtable ht1 = new Hashtable();
+                // for (int i = 0; i < count; i++)
+                // {
+                // if (Model.Seatmaplist.datalist[1].seatMap.decks.units[i].assignable == true)
+                // {
+                // if (!ht1.Contains(Model.Seatmaplist.datalist[1].seatMap.decks.units[i].designator))
+                // ht1.Add(Model.Seatmaplist.datalist[1].seatMap.decks.units[i].designator, Model.Seatmaplist.datalist[1].seatMap.decks.units[i].servicechargefeeAmount);
+                // }
+
+                // }
+                // }*@
+                @*<div id="tabshow2" class="seat-section">
+                <div class="inner-section">
+                <ul class="column">
+                <li class="seat-li row-no">F</li>
+                <li class="seat-li row-no">E</li>
+                <li class="seat-li row-no">D</li>
+                <li class="seat-li row-no"></li>
+                <li class="seat-li row-no">C</li>
+                <li class="seat-li row-no">B</li>
+                <li class="seat-li row-no">A</li>
+                </ul>
+                <h6>Seat 2 Map Here</h6>
+
+                @{
+                @for (int i = 1; i <= 30; i++)
+                {
+
+                <ul class="column" id="itemList">
+                @{
+                for (int k = 6; k >= 1; k--)
+                {
+                string data = string.Empty;
+                if (k == 6) { data = i.ToString() + "F"; }
+                else if (k == 5) { data = i.ToString() + "E"; }
+                else if (k == 4) { data = i.ToString() + "D"; }
+                else if (k == 3) { data = i.ToString() + "C"; }
+                else if (k == 2) { data = i.ToString() + "B"; }
+                else if (k == 1) { data = i.ToString() + "A"; }
+                var designation = data;
+                if (!ht.Contains(data))
+                {
+                <li class="seat-li chkbox">
+                <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
+                </li>
+                }
+                else
+                {
+                string feeamountF1 = ht[data].ToString();
+                if (feeamountF1 == "0")
+                {
+                <li class="seat-li free-seat tooltip">
+                <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+                <input type="checkbox" name="unitKey" value="@feeamountF1 _@data" id="unitKey" onchange="myfun()" />
+                <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                </li>
+                }
+                else
+                {
+                <li class="seat-li midcomfort tooltip">
+                <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+                <input type="checkbox" name="unitKey" value="@feeamountF1 _@data" id="unitKey" onchange="myfun()" />
+                <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                </li>
+                }
+                }
+
+                if (k == 4)
+                {
+                <li class="seat-li"></li>
+                }
+
+                <li class="seat-li colNo left">@i</li>
+                }
+                }
+
+                </ul>
+                }
+                }
+
+
+
+                @*--------------------
+                </div>
+                </div>*@
+
+
+
+                @* ----------End--------- *@
+                <div class="wing-right">&nbsp;</div>
+                <div class="legendHolder-box">
+                    <ul>
+
+                        <li style="padding:0;"><strong>Legend:</strong></li>
+                        <li><span class="free"></span>Free Seats</li>
+                        <li><span class="midcomfort"></span>&#8377; 150 - &#8377; 350</li>
+                        <li><span class="comfort"></span>&#8377; 400 - &#8377; 800</li>
+                        <li><span class="booked"></span>Occupied</li>
+
+                    </ul>
+                    <p><strong>Disclaimer:</strong> Seat allotment is the sole prerogative of the airline and can't be guaranteed by Yatra.com</p>
+                </div>
+            </div>
+
+
+
+
+            <div class="tabs__pane -tab-item-2">
+                <div class="journey-box">
+                    <ul class="nav nav-pills mb-3">
+                        <li class="nav-item">
+
+                            @for (int i = 0; i < seatmaap2; i++)
+                            {
+                            <li class="nav-item d-flex">
+                                    @if (i == 0)
+                                    {
+                                    <div id="seattab3" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
+
+                                    }
+                                    else
+                                    {
+                                    <div id="seattab4" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
+                                    }
+                            </li>
+
+
+                            }
+
+                            @*<button class="nav-link active">Departure:DEL-BOM</button>*@
+                      
+                        @* <li class="nav-item" role="presentation">
+                            <button class="nav-link">Return:BOM-DEL</button>
+                        </li> *@
+                    </ul>
+                </div>
+                <div class="flight-protip" style="margin-bottom:0;">Pre-booked meal is up to 25% cheaper than on-board price.</div>
+                <div>
+                    <div class="d-flex x-gap-15 mt-25 items-end justify-end">
+                        <div class="d-flex x-gap-15 items-end mt-10 mb-10">
+                            <div class="col-auto">
+                                <button class="d-flex items-end text-18 arrow-left-hover js-tour-prev-one">
+                                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="col-auto">
+                                <button class="d-flex items-end text-15 arrow-right-hover js-tour-next-one">
+                                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <partial name="_IndigoAddCartlPatialView.cshtml" />
+                </div>
+            </div>
+
+            <div class="tabs__pane -tab-item-3">
+                <div class="journey-box">
+                    <ul class="nav nav-pills mb-3">
+                        <li class="nav-item">
+                            <button class="nav-link active">Departure:DEL-BOM</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link">Return:BOM-DEL</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="flight-protip" style="margin-bottom:0;">Pre-booked baggage is up to 25% cheaper than on-board price.</div>
+                <div>
+                    <div class="d-flex x-gap-15 mt-25 items-end justify-end">
+                        <div class="d-flex x-gap-15 items-end mt-10 mb-10">
+                            <div class="col-auto">
+                                <button class="d-flex items-end text-18 arrow-left-hover js-tour-prev">
+                                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="col-auto">
+                                <button class="d-flex items-end text-15 arrow-right-hover js-tour-next">
+                                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative overflow-hidden js-section-slider pt-10 sm:pt-20" data-gap="30" data-scrollbar data-slider-cols="xl-5 lg-4 md-3 sm-2 base-2" data-nav-prev="js-tour-prev" data-pagination="js-tour-pag" data-nav-next="js-tour-next">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide active">
+                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                    <img src="~/img/images/travel-bag.png" title="image" alt="image">
+                                    <h6 class="text-14 fw-600 mt-10">Additional</h6>
+                                    <h5 class="text-16 fw-700 mt-6">3 Kg</h5>
+                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; 1,350</p>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="button -md -outline-blue-1 text-blue-1">Select</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="swiper-slide">
+                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                    <img src="~/img/images/travel-bag.png" title="image" alt="image">
+                                    <h6 class="text-14 fw-600 mt-10">Additional</h6>
+                                    <h5 class="text-16 fw-700 mt-6">5 Kg</h5>
+                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; 2,250</p>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="button -md -outline-blue-1 text-blue-1">Select</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="swiper-slide">
+                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                    <img src="~/img/images/travel-bag.png" title="image" alt="image">
+                                    <h6 class="text-14 fw-600 mt-10">Additional</h6>
+                                    <h5 class="text-16 fw-700 mt-6">10 Kg</h5>
+                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; 4,500</p>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="button -md -outline-blue-1 text-blue-1">Select</button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="swiper-slide">
+                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                    <img src="~/img/images/travel-bag.png" title="image" alt="image">
+                                    <h6 class="text-14 fw-600 mt-10">Additional</h6>
+                                    <h5 class="text-16 fw-700 mt-6">15 Kg</h5>
+                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; 6,750</p>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="button -md -outline-blue-1 text-blue-1">Select</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="swiper-slide">
+                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                    <img src="~/img/images/travel-bag.png" title="image" alt="image">
+                                    <h6 class="text-14 fw-600 mt-10">Additional</h6>
+                                    <h5 class="text-16 fw-700 mt-6">25 Kg</h5>
+                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; 11,250</p>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="button -md -outline-blue-1 text-blue-1">Select</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="tabs__pane -tab-item-4">
+                <div class="journey-box">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active">Return:BOM-DEL</button>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="d-flex x-gap-15 mt-25 items-end justify-end">
+                        <div class="d-flex x-gap-15 items-end mt-10 mb-10">
+                            <div class="col-auto">
+                                <button class="d-flex items-end text-18 arrow-left-hover js-tour-prev-two">
+                                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="col-auto">
+                                <button class="d-flex items-end text-15 arrow-right-hover js-tour-next-two">
+                                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative overflow-hidden js-section-slider pt-10 sm:pt-20" data-gap="30" data-scrollbar data-slider-cols="xl-5 lg-4 md-3 sm-2 base-2" data-nav-prev="js-tour-prev-two" data-pagination="js-tour-pag" data-nav-next="js-tour-next-two">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                    <img src="~/img/images/check-bag-icon.png" title="image" alt="image">
+                                    <h6 class="text-14 fw-700 mt-10">Fast forward</h6>
+                                    <h5 class="text-12 fw-600 pt-1">Check-in first and get your bag(s) before anyone else</h5>
+                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; 530</p>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="button -md -outline-blue-1 text-blue-1">Select</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="~/js/custom.js/customnew.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<script type="text/javascript">
+    /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
+    $(document).ready(function () {
+        $("#seattab1").addClass('active');
+        $("#tabshow2").hide();
+        $("#seattab1").click(function () {
+            $("#tabshow1").show();
+            $("#tabshow2").hide();
+            $("#seattab1").addClass('active');
+            $("#seattab2").removeClass('active');
+
+        });
+
+        $("#seattab2").click(function () {
+            $("#tabshow2").css("display", "block");
+            $("#seattab2").addClass('active');
+            $("#seattab1").removeClass('active');
+            $("#tabshow1").hide();
+        });
+    });
+</script>

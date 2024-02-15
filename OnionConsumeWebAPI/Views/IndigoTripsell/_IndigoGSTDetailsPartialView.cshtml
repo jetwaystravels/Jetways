@@ -1,0 +1,94 @@
+﻿@model DomainLayer.ViewModel.ViewModel
+<div class="hideme row y-gap-20 pt-20" style="display:none; margin-left:0; margin-right:0;">
+    <form asp-action="GetGstDetails" asp-controller="AATripsell" method="post">
+   <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="form-input">
+                    <input type="text" name="customerNumber" id="customerNumber" required>
+
+                    <label class="lh-1 text-16 text-light-1">GST Number</label>
+                </div>
+
+            </div>
+            <div class="col-md-6 mb-3">
+
+                <div class="form-input ">
+                    <input type="text" name="companyName" id="companyName" required>
+                    <label class="lh-1 text-16 text-light-1">Company Name</label>
+                </div>
+
+            </div>
+
+            <div class="col-md-6 mb-3">
+
+                <div class="form-input ">
+                    <input type="text" name="emailAddress" id="emailAddress" required>
+                    <label class="lh-1 text-16 text-light-1">Email Id</label>
+                </div>
+
+            </div>
+            <div class="col-md-6 mb-3">
+
+                <div class="form-input ">
+                    <input type="text" name="number" id="number" required>
+                    <label class="lh-1 text-16 text-light-1">Mobile Number</label>
+                </div>
+
+            </div>
+            <div class="col-md-6 mb-3">
+
+                <div class="form-input ">
+                    <input type="text" name="lineOne" id="lineOne" required>
+                    <label class="lh-1 text-16 text-light-1">Address</label>
+                </div>
+
+            </div>
+            <div class="col-md-6 mb-3">
+
+                <div class="form-input ">
+                    <input type="text" name="lineTwo" id="lineTwo" required>
+                    <label class="lh-1 text-16 text-light-1">Address2</label>
+                </div>
+
+            </div>
+            <div class="col-md-6 mb-3">
+
+                <div class="form-input ">
+                    <input type="text" name="city" id="city" required>
+                    <label class="lh-1 text-16 text-light-1">City</label>
+                </div>
+
+            </div>
+            <div class="col-md-6 mb-3">
+
+                <div class="form-input ">
+                    <input type="text" name="postalCode" id="postalCode" required>
+                    <label class="lh-1 text-16 text-light-1">Pincode</label>
+                </div>
+
+            </div>
+            <div class="col-md-6 mb-3">
+
+                <div class="form-input ">
+                    <input type="text" name="provinceState" id="provinceState" required>
+                    <label class="lh-1 text-16 text-light-1">State</label>
+                </div>
+
+            </div>
+   </div>
+
+    <div class="col-12">
+        <div class="row y-gap-18 items-center justify-between">
+            <div class="col-auto">
+                <div class="text-14 text-danger">
+                    Disclaimer: Please ensure that all the details filled by you are correct. In case the details are incorrect, you will not be able to claim input tax credit. Details cannot be amended later.
+                </div>
+            </div>
+            <div class="d-flex justify-content-end border-bottom-light pb-3">
+                    <button type="submit" class="button -md -outline-blue-1 text-blue-1 px-50 py-15">Add GST</button>
+               
+            </div>
+        </div>
+    </div>
+    </form>
+</div>

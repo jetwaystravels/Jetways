@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,7 +41,8 @@ namespace DomainLayer.Model
     public enum Airlines
     {
         Airasia = 0,
-        Spicejet = 1
+        Spicejet = 1,
+        Indigo=2
     }
 
     // Root myDeserializedClass = JsonConvert.DeserializeObject<List<Root>>(myJsonResponse);
@@ -64,8 +66,7 @@ namespace DomainLayer.Model
 
     public class FareIndividual
     {
-       
-        public decimal faretotal { get; set; }
+        public decimal faretotal { get; set; } 
         public string procuctclass { get; set; }
         public string fareKey { get; set; }
         public string passengertype { get; set; }
@@ -75,6 +76,16 @@ namespace DomainLayer.Model
        
 
     }
+
+    public class Total
+    {
+
+        public int? faretotalfinal { get; set; }
+        
+
+
+    }
+
     public class Fare
     {
         public string fareAvailabilityKey { get; set; }

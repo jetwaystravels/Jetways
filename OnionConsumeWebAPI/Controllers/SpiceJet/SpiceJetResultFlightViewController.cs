@@ -191,7 +191,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                 string str = JsonConvert.SerializeObject(_getPriceItineraryRS);
 
-                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getPriceItineraryRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getPriceItineraryRS), "PriceIteniry");
+                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getPriceItineraryRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getPriceItineraryRS), "PriceIteniry", "SpicejetOneWay");
 
 
                 #endregion
@@ -436,7 +436,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                     str = JsonConvert.SerializeObject(_getSellRS);
 
-                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getSellRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getSellRS), "SellRequest");
+                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getSellRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getSellRS), "SellRequest", "SpicejetOneWay");
 
 
                     #endregion
@@ -519,7 +519,7 @@ namespace OnionConsumeWebAPI.Controllers
                         _res = await objSpiceJet.GetSSRAvailabilityForBooking(_req);
 
                         string Str2 = JsonConvert.SerializeObject(_res);  //GetSSRAvailibility Response
-                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_req) + "\n\n Response: " + JsonConvert.SerializeObject(_res), "GetSSRAvailabilityForBooking");
+                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_req) + "\n\n Response: " + JsonConvert.SerializeObject(_res), "GetSSRAvailabilityForBooking", "SpicejetOneWay");
 
 
                         //******Vinay***********//
@@ -670,7 +670,7 @@ namespace OnionConsumeWebAPI.Controllers
 
 
                     str = JsonConvert.SerializeObject(SeatGroup);
-                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getseatAvailabilityRequest) + "\n\n Response: " + JsonConvert.SerializeObject(SeatGroup), "GetSeatAvailability");
+                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getseatAvailabilityRequest) + "\n\n Response: " + JsonConvert.SerializeObject(SeatGroup), "GetSeatAvailability", "SpicejetOneWay");
 
 
 

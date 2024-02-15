@@ -24,6 +24,9 @@ using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using OnionConsumeWebAPI.Extensions;
 using OnionConsumeWebAPI.Controllers.Indigo;
+using OnionArchitectureAPI.Services.Indigo;
+using IndigoSessionmanager_;
+using System.Diagnostics.Metrics;
 
 namespace OnionConsumeWebAPI.Controllers.AirAsia
 {
@@ -72,10 +75,6 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
             //_GetfligthModel.passengercount.infantcount = 1;
 
             //end:
-            _login obj_ = new _login();
-            var test = await obj_.Login(_GetfligthModel);
-
-
 
             Logs logs = new Logs();
             string destination1 = string.Empty;
@@ -132,7 +131,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     AirasiaTokan.idleTimeoutInMinutes = JsonObj.data.idleTimeoutInMinutes;
                     //token = ((Newtonsoft.Json.Linq.JValue)value).Value.ToString();
                 }
-                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(AirasialoginRequest) + "\n Response: " + JsonConvert.SerializeObject(AirasiaTokan.token), "Logon");
+                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(AirasialoginRequest) + "\n Response: " + JsonConvert.SerializeObject(AirasiaTokan.token), "Logon", "AirAsiaOneWay");
 
 
                 HttpContext.Session.SetString("AirasiaTokan", JsonConvert.SerializeObject(AirasiaTokan.token));
@@ -263,7 +262,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                 if (responce1.IsSuccessStatusCode)
                 {
                     var results = responce1.Content.ReadAsStringAsync().Result;
-                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_SimpleAvailabilityobj) + "\n Response: " + JsonConvert.SerializeObject(results), "GetAvailability");
+                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_SimpleAvailabilityobj) + "\n Response: " + JsonConvert.SerializeObject(results), "GetAvailability", "AirAsiaOneWay");
                     var JsonObj = JsonConvert.DeserializeObject<dynamic>(results);
                     // var value = JsonObj.data.token;
                     //var value = JsonObj.data.results[0].trips[0].date;
@@ -362,18 +361,28 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
 
                                 FareIndividual fareIndividual = new FareIndividual();
+                               
 
                                 string fareAvailabilityKey = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].fares[j].fareAvailabilityKey;
+                                //fareIndividual.faretotal = JsonObj.data.faresAvailable[fareAvailabilityKey].faretotal;
+                                Total total = new Total();
+                                var bookingamount = JsonObj.data.faresAvailable[fareAvailabilityKey].totals.fareTotal;
+                                                              
                                 string fareAvailabilityKeyhead = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].fares[0].fareAvailabilityKey;
                                 var fareAvilableCount = JsonObj.data.faresAvailable[fareAvailabilityKey].fares.Count;
                                 var isGoverning = JsonObj.data.faresAvailable[fareAvailabilityKey].fares[0].isGoverning;
+                                 
                                 var procuctclass = JsonObj.data.faresAvailable[fareAvailabilityKey].fares[0].productClass;
+                               
                                 var passengertype = JsonObj.data.faresAvailable[fareAvailabilityKey].fares[0].passengerFares[0].passengerType;
-                                var fareAmount = JsonObj.data.faresAvailable[fareAvailabilityKey].fares[0].passengerFares[0].fareAmount;
-                                fareTotalsum = JsonObj.data.faresAvailable[fareAvailabilityKeyhead].fares[0].passengerFares[0].fareAmount;
-
-
-
+                                //Start :comment booking amount not correct
+                                // var fareAmount = JsonObj.data.faresAvailable[fareAvailabilityKey].fares[0].passengerFares[0].fareAmount;
+                                // fareTotalsum = JsonObj.data.faresAvailable[fareAvailabilityKeyhead].fares[0].passengerFares[0].fareAmount;
+                                //End:
+                                //ADD New Start
+                                 var fareAmount = JsonObj.data.faresAvailable[fareAvailabilityKey].totals.fareTotal;
+                                 fareTotalsum = JsonObj.data.faresAvailable[fareAvailabilityKey].totals.fareTotal;
+                                //END
                                 decimal discountamount = JsonObj.data.faresAvailable[fareAvailabilityKey].fares[0].passengerFares[0].discountedFare;
 
                                 int servicecharge = JsonObj.data.faresAvailable[fareAvailabilityKey].fares[0].passengerFares[0].serviceCharges.Count;
@@ -386,7 +395,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
                                 }
                                 //TempData["fareTotalsum"] = fareTotalsum;
-
+                                
                                 decimal taxamount = finalamount;
                                 fareIndividual.taxamount = taxamount;
                                 fareIndividual.faretotal = fareAmount;
@@ -426,18 +435,18 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                 List<SimpleAvailibilityaAddResponce> SpiceJetAvailibilityaAddResponcelist = new List<SimpleAvailibilityaAddResponce>();
                 //Logon 
                 #region Logon
-                LogonRequest _logonRequestobj = new LogonRequest();
+                Sessionmanager.LogonRequest _logonRequestobj = new Sessionmanager.LogonRequest();
                 _logonRequestobj.ContractVersion = 420;
-                LogonRequestData LogonRequestDataobj = new LogonRequestData();
+                Sessionmanager.LogonRequestData LogonRequestDataobj = new Sessionmanager.LogonRequestData();
                 LogonRequestDataobj.AgentName = "APITESTID";
                 LogonRequestDataobj.DomainCode = "WWW";
                 LogonRequestDataobj.Password = "Spice@123";
                 _logonRequestobj.logonRequestData = LogonRequestDataobj;
 
                 SpiceJetApiController objSpiceJet = new SpiceJetApiController();
-                LogonResponse _logonResponseobj = await objSpiceJet.Signature(_logonRequestobj);
+                Sessionmanager.LogonResponse _logonResponseobj = await objSpiceJet.Signature(_logonRequestobj);
 
-                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_logonRequestobj) + "\n Response: " + JsonConvert.SerializeObject(_logonResponseobj), "Logon");
+                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_logonRequestobj) + "\n Response: " + JsonConvert.SerializeObject(_logonResponseobj), "Logon","SpicejetOneWay");
 
 
                 #endregion
@@ -506,7 +515,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
                 GetAvailabilityVer2Response _getAvailabilityVer2Response = await objSpiceJet.GetAvailabilityVer2Async(_getAvailabilityRQ);
 
-                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getAvailabilityRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getAvailabilityVer2Response), "GetAvailability");
+                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getAvailabilityRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getAvailabilityVer2Response), "GetAvailability","SpicejetOneWay");
 
                 //list of spicejet flights
                 int count1 = 0;
@@ -687,7 +696,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
                                     SCAmount += fareIndividualsList[i3].faretotal;
                                 }
-                                else if (fareIndividualsList[i3].procuctclass == "RS")
+                                else if (fareIndividualsList[i3].procuctclass == "RS" || fareIndividualsList[i3].procuctclass == "R")
                                 {
                                     if (string.IsNullOrEmpty(MXfarekey))
                                     {
@@ -710,7 +719,12 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             FareIndividual MXfare = new FareIndividual();
                             MXfare.fareKey = MXfarekey;
                             MXfare.faretotal = MXAmount;
-                            SCfare.procuctclass = "RS";
+                            if(MXfarekey.Contains("6E"))
+                            {
+                                MXfare.procuctclass = "RS";
+                            }
+                            else if (MXfarekey.Contains("SG"))
+                                MXfare.procuctclass = "RS";
 
 
                             fareIndividualsconnectedList.Add(SCfare);
@@ -748,6 +762,255 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     SimpleAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
                 }
                 string str1 = JsonConvert.SerializeObject(_getAvailabilityVer2Response);
+                logs.WriteLogs("RequestSpicejetBind: " + JsonConvert.SerializeObject(_getAvailabilityRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getAvailabilityVer2Response), "GetAvailability", "SpicejetOneWay");
+                #endregion
+                #endregion
+                #region Indigo
+                List<SimpleAvailibilityaAddResponce> IndigoAvailibilityaAddResponcelist = new List<SimpleAvailibilityaAddResponce>();
+                //Logon 
+                #region Logon
+                _login obj_ = new _login();
+                IndigoSessionmanager_.LogonResponse _IndigologonResponseobj = await obj_.Login("IndigooneWay");
+                #endregion
+                //.GetAvailability
+                #region GetAvailability
+                IHttpContextAccessor httpContextAccessorInstance = new HttpContextAccessor();
+                _GetAvailability objgetAvail_ = new _GetAvailability(httpContextAccessorInstance);
+                IndigoBookingManager_.GetAvailabilityVer2Response _IndigoAvailabilityResponseobj = await objgetAvail_.GetTripAvailability(_GetfligthModel, _IndigologonResponseobj, TotalCount, adultcount, childcount, infantcount,"IndigoOneWay");
+                int count2 = 0;
+                if (_IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0].Length > 0)
+                {
+                    count2 = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys.Length;
+                }
+                for (int i = 0; i < count2; i++)
+                {
+                    string _journeysellkey = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].JourneySellKey;
+                    _SimpleAvailibilityaAddResponceobj = new SimpleAvailibilityaAddResponce();
+                    string journeyKey = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].JourneySellKey;
+                    Designator Designatorobj = new Designator();
+                    Designatorobj.origin = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].DepartureStation;
+                    Designatorobj.destination = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].ArrivalStation;
+                    string journeykey = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].JourneySellKey.ToString();
+                    string departureTime = Regex.Match(journeykey, @Designatorobj.origin + @"[\s\S]*?\s(?<STD>[\s\S]*?)~").Groups["STD"].Value.Trim();
+                    string arrivalTime = Regex.Match(journeykey, @Designatorobj.destination + @"[\s\S]*?\s(?<STA>[\s\S]*?)~").Groups["STA"].Value.Trim();
+                    Designatorobj.departure = Convert.ToDateTime(departureTime);
+                    Designatorobj.arrival = Convert.ToDateTime(arrivalTime);
+                    var segmentscount = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment.Length;
+                    List<DomainLayer.Model.Segment> Segmentobjlist = new List<DomainLayer.Model.Segment>();
+                    List<FareIndividual> fareIndividualsList = new List<FareIndividual>();
+                    List<FareIndividual> fareIndividualsconnectedList = new List<FareIndividual>();
+                    for (int l = 0; l < segmentscount; l++)
+                    {
+                        DomainLayer.Model.Segment Segmentobj = new DomainLayer.Model.Segment();
+                        Designator SegmentDesignatorobj = new Designator();
+                        SegmentDesignatorobj.origin = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].DepartureStation;
+                        SegmentDesignatorobj.destination = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].ArrivalStation; ;
+                        SegmentDesignatorobj.departure = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].STD;
+                        SegmentDesignatorobj.arrival = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].STA;
+                        Segmentobj.designator = SegmentDesignatorobj;
+                        Identifier Identifier = new Identifier();
+                        Identifier.identifier = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].FlightDesignator.FlightNumber; ;
+                        Identifier.carrierCode = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].FlightDesignator.CarrierCode;
+                        Segmentobj.identifier = Identifier;
+                        int legscount = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs.Length;
+                        List<DomainLayer.Model.Leg> Leglist = new List<DomainLayer.Model.Leg>();
+                        for (int m = 0; m < legscount; m++)
+                        {
+                            DomainLayer.Model.Leg Legobj = new DomainLayer.Model.Leg();
+                            Designator legdesignatorobj = new Designator();
+                            legdesignatorobj.origin = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].DepartureStation; ;
+                            legdesignatorobj.destination = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].ArrivalStation;
+                            legdesignatorobj.departure = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].STD;
+                            legdesignatorobj.arrival = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].STA;
+                            Legobj.designator = legdesignatorobj;
+                            Leglist.Add(Legobj);
+                            DomainLayer.Model.LegInfo LegInfo = new DomainLayer.Model.LegInfo();
+                            LegInfo.arrivalTerminal = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].LegInfo.ArrivalTerminal;
+                            LegInfo.departureTerminal = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].LegInfo.DepartureTerminal;
+                            LegInfo.arrivalTime = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].LegInfo.PaxSTA;
+                            LegInfo.departureTime = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].LegInfo.PaxSTD;
+                            var arrivalTerminal = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].LegInfo.ArrivalTerminal;
+                            var departureTerminal = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].LegInfo.DepartureTerminal;
+                            Legobj.legInfo = LegInfo;
+                            _SimpleAvailibilityaAddResponceobj.arrivalTerminal = arrivalTerminal;
+                            _SimpleAvailibilityaAddResponceobj.departureTerminal = departureTerminal;
+                        }
+                        Segmentobj.legs = Leglist;
+                        Segmentobjlist.Add(Segmentobj); 
+                        FareIndividual fareIndividual = new FareIndividual();
+                        for (int k2 = 0; k2 < _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].AvailableFares.Length; k2++)
+                        {
+                            string fareindex = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].AvailableFares[k2].FareIndex.ToString();
+                            #region fare
+                            int FareCount = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Fares.Length;
+                            if (FareCount > 0)
+                            {
+                                try
+                                {
+                                    for (int j = 0; j < FareCount; j++)
+                                    {
+                                        if (fareindex == j.ToString())
+                                        {
+                                            fareIndividual = new FareIndividual();
+                                            string _fareSellkey = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Fares[j].FareSellKey;
+                                            string fareAvailabilityKey = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Fares[j].FareSellKey;
+                                            string fareAvailabilityKeyhead = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Fares[j].FareSellKey;
+                                            var procuctclass = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Fares[j].ProductClass;
+                                            var passengertype = "";
+                                            decimal fareAmount = 0.0M;
+                                            int servicecharge = 0;
+                                            servicecharge = 0;
+                                            if (_IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Fares[j].PaxFares.Length > 0)
+                                            {
+                                                passengertype = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Fares[j].PaxFares[0].PaxType;
+                                                fareAmount = Math.Round(_IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Fares[j].PaxFares[0].ServiceCharges[0].Amount);
+                                                fareTotalsum = Math.Round(_IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Fares[j].PaxFares[0].ServiceCharges[0].Amount);
+                                                servicecharge = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Fares[j].PaxFares[0].ServiceCharges.Length;
+                                            }
+                                            else
+                                            {
+                                            }
+                                            decimal discountamount = 0M;// JsonObj.data.faresAvailable[fareAvailabilityKey].fares[0].passengerFares[0].discountedFare;
+                                            decimal finalamount = 0;
+                                            for (int k = 0; k < servicecharge; k++)
+                                            {
+                                                decimal amount = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Fares[j].PaxFares[0].ServiceCharges[k].Amount;
+                                                finalamount += amount;
+                                            }
+                                            decimal taxamount = finalamount;
+                                            fareIndividual.taxamount = taxamount;
+                                            fareIndividual.faretotal = fareAmount;
+                                            fareIndividual.discountamount = discountamount;
+                                            fareIndividual.passengertype = passengertype;
+                                            fareIndividual.fareKey = fareAvailabilityKey;
+                                            fareIndividual.procuctclass = procuctclass;
+                                            fareIndividualsList.Add(fareIndividual);
+                                        }
+                                        else
+                                            continue;
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                }
+                            }
+                        }
+                        fareIndividualsconnectedList = new List<FareIndividual>();
+                        if (segmentscount > 1)
+                        {
+                            fareIndividualsconnectedList = new List<FareIndividual>();
+                            string SCfarekey = string.Empty;
+                            decimal SCAmount = decimal.Zero;
+                            string MXfarekey = string.Empty;
+                            decimal MXAmount = decimal.Zero;
+                            string Otherfarekey = string.Empty;
+                            decimal OtherAmount = decimal.Zero;
+                            FareIndividual Otherfare = new FareIndividual();
+                            for (int i3 = 0; i3 < fareIndividualsList.Count; i3++)
+                            {
+
+                                //if (fareIndividualsList[i3].procuctclass == "SC")
+                                //{
+                                //    if (string.IsNullOrEmpty(SCfarekey))
+                                //    {
+                                //        SCfarekey += fareIndividualsList[i3].fareKey;
+                                //    }
+                                //    else
+                                //    {
+                                //        SCfarekey += "^" + fareIndividualsList[i3].fareKey;
+                                //    }
+
+                                //    SCAmount += fareIndividualsList[i3].faretotal;
+                                //}
+                                //else if (fareIndividualsList[i3].procuctclass == "RS")
+                                //{
+                                //    if (string.IsNullOrEmpty(MXfarekey))
+                                //    {
+                                //        MXfarekey += fareIndividualsList[i3].fareKey;
+                                //    }
+                                //    else
+                                //    {
+                                //        MXfarekey += "^" + fareIndividualsList[i3].fareKey;
+                                //    }
+
+                                //    MXAmount += fareIndividualsList[i3].faretotal;
+                                //}
+                                //else //if(fareIndividualsList[i3].fareKey.Contains("6E"))
+                                //{
+                                //    FareIndividual Otherfare = new FareIndividual();
+                                //    if (string.IsNullOrEmpty(Otherfarekey))
+                                //    {
+                                //        Otherfarekey += fareIndividualsList[i3].fareKey;
+                                //    }
+                                //    else
+                                //    {
+                                //        Otherfarekey += "^" + fareIndividualsList[i3].fareKey;
+                                //    }
+
+                                //    OtherAmount += fareIndividualsList[i3].faretotal;
+
+                                //    Otherfare.fareKey = Otherfarekey;
+                                //    Otherfare.faretotal = OtherAmount;
+                                //    Otherfare.procuctclass = fareIndividualsList[i3].procuctclass;
+
+                                //}
+
+                                 Otherfare = new FareIndividual();
+                                if (string.IsNullOrEmpty(Otherfarekey))
+                                {
+                                    Otherfarekey += fareIndividualsList[i3].fareKey;
+                                }
+                                else
+                                {
+                                    Otherfarekey += "^" + fareIndividualsList[i3].fareKey;
+                                }
+
+                                OtherAmount += fareIndividualsList[i3].faretotal;
+
+                                Otherfare.fareKey = Otherfarekey;
+                                Otherfare.faretotal = OtherAmount;
+                                Otherfare.procuctclass = fareIndividualsList[i3].procuctclass;
+
+                            }
+                            
+                            //FareIndividual MXfare = new FareIndividual();
+                            //MXfare.fareKey = MXfarekey;
+                            //MXfare.faretotal = MXAmount;
+                            //SCfare.procuctclass = "RS";
+
+
+                            //fareIndividualsconnectedList.Add(SCfare);
+                            //fareIndividualsconnectedList.Add(MXfare);
+
+                            fareIndividualsconnectedList.Add(Otherfare);
+
+                        }
+                        else
+                        {
+                            fareIndividualsconnectedList = fareIndividualsList;
+                        }
+                        //fareIndividualsList.Add(fareIndividual);
+
+                        //}
+                        #endregion
+
+                    }
+                    _SimpleAvailibilityaAddResponceobj.designator = Designatorobj;
+                    _SimpleAvailibilityaAddResponceobj.segments = Segmentobjlist;
+                    _SimpleAvailibilityaAddResponceobj.stops = Segmentobjlist.Count - 1;
+                    DateTime currentDate = DateTime.Now;
+                    var bookingdate1 = currentDate; //"2023-12-10T00:00:00";
+                    _SimpleAvailibilityaAddResponceobj.bookingdate = Convert.ToDateTime(bookingdate1).ToString("dddd, dd MMM yyyy");
+                    _SimpleAvailibilityaAddResponceobj.fareTotalsum = fareTotalsum;
+                    _SimpleAvailibilityaAddResponceobj.journeyKey = journeyKey;
+                    _SimpleAvailibilityaAddResponceobj.faresIndividual = fareIndividualsconnectedList;// fareIndividualsList;
+                    _SimpleAvailibilityaAddResponceobj.uniqueId = uniqueidx;
+                    _SimpleAvailibilityaAddResponceobj.Airline = Airlines.Indigo;
+                    uniqueidx++;
+                    SpiceJetAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
+                    SimpleAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
+                }
+                string str2Return = JsonConvert.SerializeObject(_IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response);
 
                 #endregion
 
@@ -765,7 +1028,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     _SimpleAvailabilityobjR.origin = _GetfligthModel.destination;
                     _SimpleAvailabilityobjR.destination = _GetfligthModel.origin;
                     _SimpleAvailabilityobjR.beginDate = _GetfligthModel.endDate;
-                    //_SimpleAvailabilityobj.endDate = "2023-12-20";//_GetfligthModel.endDate;
+                    _SimpleAvailabilityobj.endDate = _GetfligthModel.endDate; //"2023-12-20";//_GetfligthModel.endDate;
                     Codessimple _codesR = new Codessimple();
 
 
@@ -1001,16 +1264,16 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     List<SimpleAvailibilityaAddResponce> SpiceJetAvailibilityaAddResponcelistR = new List<SimpleAvailibilityaAddResponce>();
                     //Logon 
                     #region Logon
-                    LogonRequest _logonRequestobjR = new LogonRequest();
+                    Sessionmanager.LogonRequest _logonRequestobjR = new Sessionmanager.LogonRequest();
                     _logonRequestobjR.ContractVersion = 420;
-                    LogonRequestData LogonRequestDataobjR = new LogonRequestData();
+                    Sessionmanager.LogonRequestData LogonRequestDataobjR = new Sessionmanager.LogonRequestData();
                     LogonRequestDataobjR.AgentName = "APITESTID";
                     LogonRequestDataobjR.DomainCode = "WWW";
                     LogonRequestDataobjR.Password = "Spice@123";
                     _logonRequestobjR.logonRequestData = LogonRequestDataobjR;
 
                     SpiceJetApiController objSpiceJetR = new SpiceJetApiController();
-                    LogonResponse _logonResponseobjR = await objSpiceJet.Signature(_logonRequestobjR);
+                    Sessionmanager.LogonResponse _logonResponseobjR = await objSpiceJet.Signature(_logonRequestobjR);
 
                     logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_logonRequestobjR) + "\n Response: " + JsonConvert.SerializeObject(_logonResponseobjR), "Logon", "SpiceJetRT");
 
@@ -1041,7 +1304,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
                     _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].EndDateSpecified = true;
                     //_getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].EndDate = Convert.ToDateTime("2024-01-18");
-                    //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].EndDate = Convert.ToDateTime(_GetfligthModel.beginDate);
+                    _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].EndDate = Convert.ToDateTime(_GetfligthModel.endDate);
 
                     _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].FlightTypeSpecified = true;
                     _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].FlightType = FlightType.All;
@@ -1085,7 +1348,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getAvailabilityReturnRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getAvailabilityVer2ReturnResponse), "GetAvailability", "SpiceJetRT");
 
 
-                    int count2 = 0;
+                    count2 = 0;
                     if (_getAvailabilityVer2ReturnResponse.GetTripAvailabilityVer2Response.Schedules[0].Length > 0)
                     {
 
@@ -1331,6 +1594,213 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     #endregion
 
                     #endregion
+
+                    #region Indigo
+                    List<SimpleAvailibilityaAddResponce> IndigoAvailibilityaAddResponcelistR = new List<SimpleAvailibilityaAddResponce>();
+                    //Logon 
+                    #region Logon
+                    obj_ = new _login();
+                    IndigoSessionmanager_.LogonResponse _IndigologonResponseobjR = await obj_.Login();
+                    #endregion
+                    //.GetAvailability
+                    #region GetAvailability
+
+                    httpContextAccessorInstance = new HttpContextAccessor();
+                    objgetAvail_ = new _GetAvailability(httpContextAccessorInstance);
+                    string _origin= _GetfligthModel.origin;
+                    string _destination= _GetfligthModel.destination;
+                    _GetfligthModel.destination = _origin;
+                    _GetfligthModel.origin = _destination;
+                    _GetfligthModel.beginDate = _GetfligthModel.endDate;
+                    IndigoBookingManager_.GetAvailabilityVer2Response _IndigoAvailabilityResponseobjR = await objgetAvail_.GetTripAvailability(_GetfligthModel, _IndigologonResponseobjR, TotalCount,adultcount,childcount,infantcount);
+                    count2 = 0;
+                    if (_IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0].Length > 0)
+                    {
+                        count2 = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys.Length;
+                    }
+                    for (int i = 0; i < count2; i++)
+                    {
+                        string _journeysellkey = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].JourneySellKey;
+                        _SimpleAvailibilityaAddResponceobjR = new SimpleAvailibilityaAddResponce();
+                        string journeyKey = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].JourneySellKey;
+                        Designator Designatorobj = new Designator();
+                        Designatorobj.origin = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].DepartureStation;
+                        Designatorobj.destination = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].ArrivalStation;
+                        string journeykey = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].JourneySellKey.ToString();
+                        string departureTime = Regex.Match(journeykey, @Designatorobj.origin + @"[\s\S]*?\s(?<STD>[\s\S]*?)~").Groups["STD"].Value.Trim();
+                        string arrivalTime = Regex.Match(journeykey, @Designatorobj.destination + @"[\s\S]*?\s(?<STA>[\s\S]*?)~").Groups["STA"].Value.Trim();
+                        Designatorobj.departure = Convert.ToDateTime(departureTime);
+                        Designatorobj.arrival = Convert.ToDateTime(arrivalTime);
+                        var segmentscount = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment.Length;
+                        List<DomainLayer.Model.Segment> Segmentobjlist = new List<DomainLayer.Model.Segment>();
+                        List<FareIndividual> fareIndividualsList = new List<FareIndividual>();
+                        List<FareIndividual> fareIndividualsconnectedList = new List<FareIndividual>();
+                        for (int l = 0; l < segmentscount; l++)
+                        {
+                            DomainLayer.Model.Segment Segmentobj = new DomainLayer.Model.Segment();
+                            Designator SegmentDesignatorobj = new Designator();
+                            SegmentDesignatorobj.origin = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].DepartureStation;
+                            SegmentDesignatorobj.destination = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].ArrivalStation; ;
+                            SegmentDesignatorobj.departure = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].STD;
+                            SegmentDesignatorobj.arrival = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].STA;
+                            Segmentobj.designator = SegmentDesignatorobj;
+                            Identifier Identifier = new Identifier();
+                            Identifier.identifier = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].FlightDesignator.FlightNumber; ;
+                            Identifier.carrierCode = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].FlightDesignator.CarrierCode;
+                            Segmentobj.identifier = Identifier;
+                            int legscount = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs.Length;
+                            List<DomainLayer.Model.Leg> Leglist = new List<DomainLayer.Model.Leg>();
+                            for (int m = 0; m < legscount; m++)
+                            {
+                                DomainLayer.Model.Leg Legobj = new DomainLayer.Model.Leg();
+                                Designator legdesignatorobj = new Designator();
+                                legdesignatorobj.origin = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].DepartureStation; ;
+                                legdesignatorobj.destination = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].ArrivalStation;
+                                legdesignatorobj.departure = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].STD;
+                                legdesignatorobj.arrival = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].STA;
+                                Legobj.designator = legdesignatorobj;
+                                Leglist.Add(Legobj);
+                                DomainLayer.Model.LegInfo LegInfo = new DomainLayer.Model.LegInfo();
+                                LegInfo.arrivalTerminal = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].LegInfo.ArrivalTerminal;
+                                LegInfo.departureTerminal = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].LegInfo.DepartureTerminal;
+                                LegInfo.arrivalTime = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].LegInfo.PaxSTA;
+                                LegInfo.departureTime = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].LegInfo.PaxSTD;
+                                var arrivalTerminal = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].LegInfo.ArrivalTerminal;
+                                var departureTerminal = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs[m].LegInfo.DepartureTerminal;
+                                Legobj.legInfo = LegInfo;
+                                _SimpleAvailibilityaAddResponceobjR.arrivalTerminal = arrivalTerminal;
+                                _SimpleAvailibilityaAddResponceobjR.departureTerminal = departureTerminal;
+                            }
+                            Segmentobj.legs = Leglist;
+                            Segmentobjlist.Add(Segmentobj);
+                            FareIndividual fareIndividual = new FareIndividual();
+                            for (int k2 = 0; k2 < _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].AvailableFares.Length; k2++)
+                            {
+                                string fareindex = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].AvailableFares[k2].FareIndex.ToString();
+                                #region fare
+                                int FareCount = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Fares.Length;
+                                if (FareCount > 0)
+                                {
+                                    try
+                                    {
+                                        for (int j = 0; j < FareCount; j++)
+                                        {
+                                            if (fareindex == j.ToString())
+                                            {
+                                                fareIndividual = new FareIndividual();
+                                                string _fareSellkey = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Fares[j].FareSellKey;
+                                                string fareAvailabilityKey = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Fares[j].FareSellKey;
+                                                string fareAvailabilityKeyhead = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Fares[j].FareSellKey;
+                                                var procuctclass = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Fares[j].ProductClass;
+                                                var passengertype = "";
+                                                decimal fareAmount = 0.0M;
+                                                int servicecharge = 0;
+                                                servicecharge = 0;
+                                                if (_IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Fares[j].PaxFares.Length > 0)
+                                                {
+                                                    passengertype = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Fares[j].PaxFares[0].PaxType;
+                                                    fareAmount = Math.Round(_IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Fares[j].PaxFares[0].ServiceCharges[0].Amount);
+                                                    fareTotalsum = Math.Round(_IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Fares[j].PaxFares[0].ServiceCharges[0].Amount);
+                                                    servicecharge = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Fares[j].PaxFares[0].ServiceCharges.Length;
+                                                }
+                                                else
+                                                {
+                                                }
+                                                decimal discountamount = 0M;// JsonObj.data.faresAvailable[fareAvailabilityKey].fares[0].passengerFares[0].discountedFare;
+                                                decimal finalamount = 0;
+                                                for (int k = 0; k < servicecharge; k++)
+                                                {
+                                                    decimal amount = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Fares[j].PaxFares[0].ServiceCharges[k].Amount;
+                                                    finalamount += amount;
+                                                }
+                                                decimal taxamount = finalamount;
+                                                fareIndividual.taxamount = taxamount;
+                                                fareIndividual.faretotal = fareAmount;
+                                                fareIndividual.discountamount = discountamount;
+                                                fareIndividual.passengertype = passengertype;
+                                                fareIndividual.fareKey = fareAvailabilityKey;
+                                                fareIndividual.procuctclass = procuctclass;
+                                                fareIndividualsList.Add(fareIndividual);
+                                            }
+                                            else
+                                                continue;
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                    }
+                                }
+                            }
+                            fareIndividualsconnectedList = new List<FareIndividual>();
+                            if (segmentscount > 1)
+                            {
+                                fareIndividualsconnectedList = new List<FareIndividual>();
+                                string SCfarekey = string.Empty;
+                                decimal SCAmount = decimal.Zero;
+                                string MXfarekey = string.Empty;
+                                decimal MXAmount = decimal.Zero;
+                                for (int i3 = 0; i3 < fareIndividualsList.Count; i3++)
+                                {
+                                    if (fareIndividualsList[i3].procuctclass == "SC")
+                                    {
+                                        if (string.IsNullOrEmpty(SCfarekey))
+                                        {
+                                            SCfarekey += fareIndividualsList[i3].fareKey;
+                                        }
+                                        else
+                                        {
+                                            SCfarekey += "^" + fareIndividualsList[i3].fareKey;
+                                        }
+                                        SCAmount += fareIndividualsList[i3].faretotal;
+                                    }
+                                    else if (fareIndividualsList[i3].procuctclass == "RS")
+                                    {
+                                        if (string.IsNullOrEmpty(MXfarekey))
+                                        {
+                                            MXfarekey += fareIndividualsList[i3].fareKey;
+                                        }
+                                        else
+                                        {
+                                            MXfarekey += "^" + fareIndividualsList[i3].fareKey;
+                                        }
+                                        MXAmount += fareIndividualsList[i3].faretotal;
+                                    }
+                                }
+                                FareIndividual SCfare = new FareIndividual();
+                                SCfare.fareKey = SCfarekey;
+                                SCfare.faretotal = SCAmount;
+                                SCfare.procuctclass = "SC";
+                                FareIndividual MXfare = new FareIndividual();
+                                MXfare.fareKey = MXfarekey;
+                                MXfare.faretotal = MXAmount;
+                                SCfare.procuctclass = "RS";
+                                fareIndividualsconnectedList.Add(SCfare);
+                                fareIndividualsconnectedList.Add(MXfare);
+                            }
+                            else
+                            {
+                                fareIndividualsconnectedList = fareIndividualsList;
+                            }
+                            #endregion
+                        }
+                        _SimpleAvailibilityaAddResponceobjR.designator = Designatorobj;
+                        _SimpleAvailibilityaAddResponceobjR.segments = Segmentobjlist;
+                        _SimpleAvailibilityaAddResponceobjR.stops = Segmentobjlist.Count - 1;
+                        DateTime currentDate = DateTime.Now;
+                        var bookingdate = currentDate; //"2023-12-10T00:00:00";
+                        _SimpleAvailibilityaAddResponceobjR.bookingdate = Convert.ToDateTime(bookingdate).ToString("dddd, dd MMM yyyy");
+                        _SimpleAvailibilityaAddResponceobjR.fareTotalsum = fareTotalsum;
+                        _SimpleAvailibilityaAddResponceobjR.journeyKey = journeyKey;
+                        _SimpleAvailibilityaAddResponceobjR.faresIndividual = fareIndividualsconnectedList;// fareIndividualsList;
+                        _SimpleAvailibilityaAddResponceobjR.uniqueId = uniqueidx;
+                        _SimpleAvailibilityaAddResponceobjR.Airline = Airlines.Indigo;
+                        uniqueidx++;
+                        SpiceJetAvailibilityaAddResponcelistR.Add(_SimpleAvailibilityaAddResponceobjR);
+                        SimpleAvailibilityaAddResponcelistR.Add(_SimpleAvailibilityaAddResponceobjR);
+                    }
+                     str2Return = JsonConvert.SerializeObject(_IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response);
+                    #endregion
+                    #endregion
                     //end
                     HttpContext.Session.SetString("LeftReturnViewFlightView", JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist));
                     HttpContext.Session.SetString("PassengerModel", JsonConvert.SerializeObject(_SimpleAvailabilityobj));
@@ -1348,6 +1818,11 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     HttpContext.Session.SetString("PassengerModelR", JsonConvert.SerializeObject(_SimpleAvailabilityobj));
                     HttpContext.Session.SetString("SpicejetSignautre", JsonConvert.SerializeObject(_logonResponseobjR.Signature));
 
+                    //Indigo
+
+                    //RoundTrip
+                    HttpContext.Session.SetString("IndigoSignature", JsonConvert.SerializeObject(_IndigologonResponseobjR.Signature));
+
                     ////SpiceJet
                     TempData["SpiceJetmodel"] = JsonConvert.SerializeObject(SpiceJetAvailibilityaAddResponcelist);
                     TempData["SpiceJetPassengerModel"] = JsonConvert.SerializeObject(_getAvailabilityRQ);
@@ -1356,6 +1831,11 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                 }
                 else
                 {
+                    //Indigo
+
+                    //OneWayTrip
+                    HttpContext.Session.SetString("IndigoSignature", JsonConvert.SerializeObject(_IndigologonResponseobj.Signature));
+
                     HttpContext.Session.SetString("OneWayFlightView", JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist));
                     HttpContext.Session.SetString("OneWayPassengerModel", JsonConvert.SerializeObject(_SimpleAvailabilityobj));
                     TempData["Mymodel"] = JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist);

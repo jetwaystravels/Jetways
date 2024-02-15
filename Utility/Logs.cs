@@ -4,11 +4,11 @@ namespace Utility
 {
     public class Logs
     {
-        public void WriteLogs( string logs, string name)
+        public void WriteLogs(string logs, string name, string AirLine)
         {
             try
             {
-                string _path = @"D:\SpiceJet\" + DateTime.Now.ToString("ddMMMyyyy");
+                string _path = @"D:\" + AirLine + @"\" + DateTime.Now.ToString("ddMMMyyyy");
                 if (!Directory.Exists(_path) || !File.Exists(_path))
                 {
                     System.IO.Directory.CreateDirectory(_path);
@@ -21,11 +21,11 @@ namespace Utility
 
         }
 
-        public void WriteLogsR(string logs, string name,string AirLine)
+        public void WriteLogsR(string logs, string name, string AirLine)
         {
             try
             {
-                string _path = @"D:\"+ AirLine + @"\" + DateTime.Now.ToString("ddMMMyyyy");
+                string _path = @"D:\" + AirLine + @"\" + DateTime.Now.ToString("ddMMMyyyy");
                 if (!Directory.Exists(_path) || !File.Exists(_path))
                 {
                     System.IO.Directory.CreateDirectory(_path);
@@ -38,5 +38,9 @@ namespace Utility
 
         }
 
+    }
+    public class Airlinenameforcommit
+    {
+        public List<string> Airline { get; set; }
     }
 }
