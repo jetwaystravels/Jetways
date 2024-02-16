@@ -50,6 +50,8 @@ namespace OnionConsumeWebAPI.Controllers
             };
 
             ViewBag.Title = Title;
+            var AirlineName = TempData["AirLineName"];
+            ViewData["name"] = AirlineName;
 
             string passenger = HttpContext.Session.GetString("keypassenger");
             string passengerInfant = HttpContext.Session.GetString("keypassengerItanary");

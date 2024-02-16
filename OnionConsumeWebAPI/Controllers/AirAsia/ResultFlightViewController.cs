@@ -622,7 +622,8 @@ namespace OnionConsumeWebAPI.Controllers
 						Fees Fees = new Fees();
 						Seatmap Seatmapobj = new Seatmap();
 						Seatmapobj.name = JsonObjSeatmap.data[x].seatMap.name;
-						Seatmapobj.arrivalStation = JsonObjSeatmap.data[x].seatMap.arrivalStation;
+                        TempData["AirLineName"] = Seatmapobj.name;
+                        Seatmapobj.arrivalStation = JsonObjSeatmap.data[x].seatMap.arrivalStation;
 						Seatmapobj.departureStation = JsonObjSeatmap.data[x].seatMap.departureStation;
 						Seatmapobj.marketingCode = JsonObjSeatmap.data[x].seatMap.marketingCode;
 						Seatmapobj.equipmentType = JsonObjSeatmap.data[x].seatMap.equipmentType;

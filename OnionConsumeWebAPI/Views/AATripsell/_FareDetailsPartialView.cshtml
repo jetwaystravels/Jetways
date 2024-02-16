@@ -1,7 +1,12 @@
 ﻿@model DomainLayer.ViewModel.ViewModel
 
+
+
 <style>
-    .input-ammount {border:none;width:120px;}
+    .input-ammount {
+        border: none;
+        width: 62px;
+    }
 </style>
 <div class="ml-20 lg:ml-40 md:ml-0">
     <h2 class="text-20 fw-600 mt-14" style="padding:12px;">Fare Details</h2>
@@ -11,28 +16,30 @@
                 <div class="text-15">Base Fare<span class="text-13 text-light-1 ml-1">(1 Traveller)</span><i class="fa fa-angle-down ml-2" aria-hidden="true"></i> </div>
             </div>
             <div class="col-auto">
-                @{
-                    int passengercountbase = @Model.passeengerlist.passengerscount;
-                    int amount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[0].amount;
-                    int finalbasefare = passengercountbase * amount;
-                    <div class="text-15">&#8377; @finalbasefare </div>
-                }
+                @*   @{
+                int passengercountbase = @Model.passeengerlist.passengerscount;
+                int amount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[0].amount;
+                int finalbasefare = passengercountbase * amount;
+                } *@
+                <div class="text-15">&#8377; 1000 </div>
+
 
             </div>
         </div>
 
         <div class="row y-gap-3 justify-between bg-light-2 hideme" style="display:none;">
             <div class="col-auto">
-                <div class="text-14"> @Model.passeengerlist.passengers[0].passengerTypeCode X @Model.passeengerlist.passengerscount</div>
+                <div class="text-14"> ADT X 4</div>
                 <div> </div>
             </div>
             <div class="col-auto">
-                @{
-                    int passengercount = @Model.passeengerlist.passengerscount;
-                    int amount1 = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[0].amount;
-                    int totalamount = amount1 * passengercount;
-                    <div class="text-15">&#8377;@totalamount </div>
-                }
+                @*  @{
+                int passengercount = @Model.passeengerlist.passengerscount;
+                int amount1 = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[0].amount;
+                int totalamount = amount1 * passengercount;
+                } *@
+                <div class="text-15">&#8377; 5000 </div>
+
 
             </div>
         </div>
@@ -42,22 +49,23 @@
                 <div class="text-15">Fee &amp; Surcharges<i class="fa fa-angle-down ml-2" aria-hidden="true"></i> </div>
             </div>
             <div class="col-auto">
-                @{
+                @*   @{
 
-                    foreach (var item in Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares)
-                    {
-                        int servicecharge = item.serviceCharges.Count;
-                        int finalamount = 0;
-                        for (int i = 1; i < servicecharge; i++)
-                        {
-                            int amounttax = item.serviceCharges[i].amount;
-                            finalamount += amounttax;
-                        }
-
-
-                        <div class="text-15">&#8377;@finalamount</div>
-                    }
+                foreach (var item in Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares)
+                {
+                int servicecharge = item.serviceCharges.Count;
+                int finalamount = 0;
+                for (int i = 1; i < servicecharge; i++)
+                {
+                int amounttax = item.serviceCharges[i].amount;
+                finalamount += amounttax;
                 }
+
+
+                }
+                } *@
+                <div class="text-15">&#8377; 5000</div>
+
             </div>
         </div>
         <div class="hideme" style="display:none;">
@@ -102,9 +110,9 @@
             </div>
         </div>
 
-        <div class="d-flex y-gap-2 justify-start pt-2 border-top-light">
-                <div class="text-18">Total Fare &#8377</div>
-            <div class="total_ammount">
+        <div class="row y-gap-2  pt-2 border-top-light">
+            <div class="text-18 col-9">Total Fare </div>
+            <div class="total_ammount d-flex col-3">
                 @{
                     foreach (var item in Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares)
                     {
@@ -117,53 +125,59 @@
                             int amounttax = item.serviceCharges[i].amount;
                             Totalamount += amounttax;
                         }
-
-                         <input class="input-ammount" type="text" name="Totalamount" value="@Totalamount" id="Totalamount"/>
-                        // <div id="Totalamount" class="text-15">&#8377 @Totalamount</div>
-                        
+                        <span>&#8377</span>
+                        <input class="input-ammount" type="text" name="Totalamount" value="@Totalamount" id="Totalamount" />
+                        @* <div id="Totalamount" class="text-15">&#8377 6000</div>*@
 
 
                     }
                 }
 
+                @* <input class="input-ammount" type="hidden" name="Totalamount" value="0" id="Totalamount" /> *@
+                <span id="TotalamountN"></span>
             </div>
         </div>
-        
-            <div class="flex-row y-gap-2 justify-between flex-wrap d-flex pt-2" >
-                <div class="damount">
-                  <ul class="list-inline mt-0">
-                    <li class="d-inline tmt-r"><span class="text-15">Other service</span></li>
-                    <li class="d-inline"><span>&#8377</span></li>
-                    <li class="d-inline"><span><input style="border:none" class="sum_item" value="0" name="amount" type="text" id="total" /></span></li>
-                  </ul>
-               </div>
+
+        <div class="row y-gap-2 pt-2">
+            <div class="damount col-9">
+                Add Seat
             </div>
+            <div class="damount d-flex col-3">
+                <span>&#8377</span>
+                <span><input style="border:none" class="sum_item input-ammount" value="0" name="amount" type="text" id="total" /></span>
+            </div>
+        </div>
 
-                <div class="flex-row y-gap-2 justify-between flex-wrap d-flex pt-2" >
-                    <div class="damount">
-                        <ul class="list-inline mt-0">
-                             <li class="d-inline tmt-r"><span class="text-15">Add Meal</span></li>
-                             <li class="d-inline"><span>&#8377</span></li>
-                             <li class="d-inline"> <span id="AddMeal"></span></li>
-                        </ul>
-                    </div>
-               </div>
+        <div class="row y-gap-2  pt-2">
 
-                    <div class="flex-row y-gap-2 justify-between flex-wrap d-flex pt-2" >
-                    <div class="damount fw-600">
-                        <ul class="list-inline mt-0">
-                          <li class="d-inline tmt-r"><span class="text-15">Total Amount</span></li>
-                            <li class="d-inline"><span>&#8377</span></li>
-                            <li class="d-inline">  <span id="amount"></span></li>
-                        <li class="d-inline">  <span id="totalservice"></span></li>
-                        <li class="d-inline">  <span id="totalMeal"></span></li>
-                        </ul>
-                    </div>
-               </div>
+            <div class="damount col-9">
+                <span class="text-15">Add Meal</span>
+            </div>
+            <div class="damount col-3 d-flex width-132">
+                <span>&#8377</span>
+                <span id="AddMeal"></span>
+            </div>
+        </div>
+
+        <div class="row y-gap-2  pt-2">
+
+            <div class="damount fw-600 col-9">
+                <span class="text-15">Total Amount</span>
+
+            </div>
+            <div class="damount width-132 d-flex col-3 fw-600">
+                <span>&#8377</span>
+                <span class="input-ammount" id="amount"></span>
+                <span class="input-ammount" id="totalservice"></span>
+                <span class="input-ammount" id="seattotal1"></span>
+                <span class="input-ammount" id="totalMeal"></span>
 
 
-        
-     
+            </div>
+        </div>
+
+
+
 
 
 
@@ -171,8 +185,8 @@
             <div class="col-auto">
                 <div class="text-14">Add-Ons</div>
             </div>
-            <div class="col-auto">
-                <div class="text-15">&#8377; 10</div>
+            <div class="col-auto" style="width:74px">
+                <div class="text-15">&#8377; 100</div>
             </div>
         </div>
 
@@ -188,7 +202,7 @@
                 <div> </div>
             </div>
             <div class="col-auto">
-                <div class="text-15">&#8377; 10</div>
+                <div class="text-15">&#8377; 100</div>
             </div>
         </div>
 
@@ -197,23 +211,29 @@
                 <div class="col-auto">
                     <div class="text-20 lh-13 fw-600">You Pay</div>
                 </div>
-                <div class="col-auto">
-                    @{
-                        foreach (var item in Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares)
-                        {
-                            int servicecharge = item.serviceCharges.Count;
-                            int Totalamount = 0;
-                            for (int i = 0; i < servicecharge; i++)
-                            {
-                                int amounttax = item.serviceCharges[i].amount;
-                                Totalamount += amounttax;
-                            }
-                            int takeoffCharge = 10;
-                            int Totalamountpay = @Totalamount + takeoffCharge;
-                            <div class="text-20 lh-13 fw-600">&#8377; @Totalamountpay </div>
-                        }
-                    }
-
+                @*   <div class="col-auto">
+                @* @{
+                foreach (var item in Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares)
+                {
+                int servicecharge = item.serviceCharges.Count;
+                int Totalamount = 0;
+                for (int i = 0; i < servicecharge; i++)
+                {
+                int amounttax = item.serviceCharges[i].amount;
+                Totalamount += amounttax;
+                }
+                int takeoffCharge = 10;
+                int Totalamountpay = @Totalamount + takeoffCharge;
+                <div class="text-20 lh-13 fw-600">&#8377; @Totalamountpay </div>
+                }
+                }
+                <div class="text-20 lh-13 fw-600">&#8377; 4000 </div>
+                </div> *@
+                <div class="col-auto d-flex">
+                    <span class="text-20 lh-13 fw-600">&#8377</span>
+                    <div class="text-20 lh-13 fw-600" id="TotalMealPayID"></div>
+                    <div class="text-20 lh-13 fw-600" id="TotalSeatPayID"></div>
+                    <div class="text-20 lh-13 fw-600" id="amountPay"></div>
                 </div>
             </div>
 

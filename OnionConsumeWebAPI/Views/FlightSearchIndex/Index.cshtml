@@ -93,7 +93,7 @@
                 <div class="row ">
                     <div class="col-12 col-md-7 col-lg-12">
                         <div class="row justify-content-center">
-                            <div class="nav-bar col-12 col-md-7 col-lg-11">
+                            <div class="nav-bar col-12 col-md-7 col-lg-9">
                                 <ul class="nav nav-pills" id="pills-tab" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link" id="pills-Flight-tab" data-toggle="pill" href="#pills-Flight" role="tab" aria-controls="pills-Flight" aria-selected="true"><img class="mr-2" src="~/img/nav-icon-1.png">Flight</a>
@@ -121,6 +121,7 @@
                                     </li>
                                 </ul>
                             </div>
+
                             <div class="search-box">
                                 <div class="S-option">
                                     <div class="form-check form-check-inline">
@@ -152,6 +153,7 @@
 
                                                     @* <input type="text" id="airportInput" asp-for="origin" class="form-control text-15 first" value="Delhi-DEL" placeholder="Enter AirportName"> *@
                                                     <input type="text" id="myInput" asp-for="origin" class="form-control text-15 first" value="Delhi-DEL" placeholder="Enter AirportName">
+                                                    <span>[DEL] Indira Gandhi International Airport</span>
                                                 </span>
                                                 <div id="errororigin" class="errorbox" style="display:none;">Enter Origin Name*</div>
                                                 @* <div id="airportname"></div>
@@ -172,6 +174,7 @@
                                                     </select>*@
                                                     @* <input type="text" id="airportdestinationInput" asp-for="destination" class="form-control text-15 first" value="Mumbai-BOM" placeholder="Enter AirportName"> *@
                                                     <input type="text" id="myInput1" asp-for="destination" class="form-control text-15 first" value="Mumbai-BOM" placeholder="Enter AirportName">
+                                                    <span>[BOM] Mumbai Airport</span>
                                                 </span>
                                                 <div id="errordestinaton" class="errorbox" style="display:none;">Enter Destination Name*</div>
                                                 @*  <div id="airportdestination"></div>
@@ -184,13 +187,14 @@
                                                 <span class="input-group-text">
                                                     <img src="~/img/calender-icon.png" alt="icon">
                                                     <input id="start-date" asp-for="beginDate" type="" placeholder="Date" class="form-control">
+
                                                     <span asp-validation-for="beginDate"></span>
                                                 </span>
 
                                             </div>
                                             <div class="col-12 col-md-10 col-lg-2 space">
                                                 <label>Return</label>
-                                                <span class="input-group-text">
+                                                <span class="input-group-text" id="bgEnddate">
                                                     <img src="~/img/calender-icon.png" alt="icon">
                                                     <input id="end-date" asp-for="endDate" type="" placeholder="" class="form-control" disabled>
 
@@ -274,40 +278,46 @@
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-12 col-lg-12 search-bottom"></div>
-                                            <div class="col-12 col-md-10 col-lg-9 pl-0">
-                                                <div class="form-group pt-2">
-                                                    <div class="dropdown js-dropdown js-economy-active" style="display:inline-block;">
-                                                        <div class="dropdown__button d-flex items-center  text-15" data-el-toggle=".js-economy-toggle" data-el-toggle-active=".js-economy-active">
-                                                            <span class="js-dropdown-title">Show Class </span>
-                                                            <i class="fa fa-angle-down icon icon-chevron-sm-down" aria-hidden="true"></i>
-                                                        </div>
-                                                        <div class="toggle-element -dropdown  js-click-dropdown js-economy-toggle">
-                                                            <div class="text-14 y-gap-8 js-dropdown-list">
 
-                                                                <div><a href="#" class="d-block js-dropdown-link">Economic</a></div>
-                                                                <div><a href="#" class="d-block js-dropdown-link">Premium</a></div>
-                                                                <div><a href="#" class="d-block js-dropdown-link">Business</a></div>
-                                                                <div><a href="#" class="d-block js-dropdown-link">First</a></div>
+
+                                            <div class="col-lg-12">
+                                                <div class="row d-flex justify-content-end">
+                                                    <div class="col-12 col-md-10 col-lg-10 pl-0">
+                                                        <div class="form-group pt-2">
+                                                            <div class="dropdown js-dropdown js-economy-active" style="display:inline-block;">
+                                                                <div class="dropdown__button d-flex items-center  text-15" data-el-toggle=".js-economy-toggle" data-el-toggle-active=".js-economy-active">
+                                                                    <span class="js-dropdown-title">Show Class </span>
+                                                                    <i class="fa fa-angle-down icon icon-chevron-sm-down" aria-hidden="true"></i>
+                                                                </div>
+                                                                <div class="toggle-element -dropdown  js-click-dropdown js-economy-toggle">
+                                                                    <div class="text-14 y-gap-8 js-dropdown-list">
+
+                                                                        <div><a href="#" class="d-block js-dropdown-link">Economic</a></div>
+                                                                        <div><a href="#" class="d-block js-dropdown-link">Premium</a></div>
+                                                                        <div><a href="#" class="d-block js-dropdown-link">Business</a></div>
+                                                                        <div><a href="#" class="d-block js-dropdown-link">First</a></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox custom-control-inline">
+                                                                <input type="checkbox" class="custom-control-input" id="defaultInline3">
+                                                                <label class="custom-control-label" for="defaultInline3">Direct Flights</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox custom-control-inline">
+                                                                <input type="checkbox" class="custom-control-input" id="defaultInline4">
+                                                                <label class="custom-control-label" for="defaultInline4">Defence Fare</label>
+                                                            </div>
+                                                            <div class="custom-control custom-checkbox custom-control-inline">
+                                                                <input type="checkbox" class="custom-control-input" id="defaultInline4">
+                                                                <label class="custom-control-label" for="defaultInline4">Student Fare </label>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="custom-control custom-checkbox custom-control-inline">
-                                                        <input type="checkbox" class="custom-control-input" id="defaultInline3">
-                                                        <label class="custom-control-label" for="defaultInline3">Direct Flights</label>
+                                                    <div class="col-12 col-md-10 col-lg-2 pr-0 mt-2">
+
+                                                        <button type="submit" id="searchbtn" class="btn btn-lg btn-block">Search</button>
+
                                                     </div>
-                                                    <div class="custom-control custom-checkbox custom-control-inline">
-                                                        <input type="checkbox" class="custom-control-input" id="defaultInline4">
-                                                        <label class="custom-control-label" for="defaultInline4">Defence Fare</label>
-                                                    </div>
-                                                    <div class="custom-control custom-checkbox custom-control-inline">
-                                                        <input type="checkbox" class="custom-control-input" id="defaultInline4">
-                                                        <label class="custom-control-label" for="defaultInline4">Student Fare </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-10 col-lg-3">
-                                                <div class="form-group">
-                                                    <button type="submit" id="searchbtn" class="btn btn-lg btn-block">Search</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -457,7 +467,7 @@
                     </div>
                     <div class="col-5 col-sm-4">
                         <div class="slideItem">
-                            <img src="assets/img/refund-icon.png" alt="#" class="mr-2">
+                            <img src="~/img/refund-icon.png" alt="#" class="mr-2">
                             <span><h4>Check Refund</h4>Call +155 666 888 for check refund</span>
                         </div>
                     </div>
@@ -658,15 +668,15 @@
                             <div class="social-icons d-flex">
                                 <a class="facebook" href="#">
                                     <i class="fab fa-facebook-f"></i>
-                                    <i class="fab fa-facebook-f"></i>
+                                   
                                 </a>
                                 <a class="twitter" href="#">
                                     <i class="fab fa-twitter"></i>
-                                    <i class="fab fa-twitter"></i>
+                                  
                                 </a>
                                 <a class="google-plus" href="#">
                                     <i class="fab fa-google-plus-g"></i>
-                                    <i class="fab fa-google-plus-g"></i>
+                                   
                                 </a>
                             </div>
                         </div>
@@ -759,15 +769,15 @@
 
 
             /*   #myAnimation {
-                            width:60px;
-                            height:60px;
-                            /* position: absolute;
-                            bottom: 0px;
-                            border-radius:50%;
-                            padding:10px;
-                           background-color: red;
+                                        width:60px;
+                                        height:60px;
+                                        /* position: absolute;
+                                        bottom: 0px;
+                                        border-radius:50%;
+                                        padding:10px;
+                                       background-color: red;
 
-                        } */
+                                    } */
 
 
             /* Overlay styles */
@@ -829,10 +839,10 @@
                     left: calc(100% - 100px); /* Move to the right edge (100% - width) */
                 }
                 /* 0%   {background-color:red; left:0px; right:0px;}
-                              25%  {background-color:yellow; left:80%; top:10%;}
-                              50%  {background-color:blue; left:200px; top:200px;}
-                              75%  {background-color:green; left:0px; top:200px;}
-                              100% {background-color:red; left:0px; top:0px;}  */
+                                          25%  {background-color:yellow; left:80%; top:10%;}
+                                          50%  {background-color:blue; left:200px; top:200px;}
+                                          75%  {background-color:green; left:0px; top:200px;}
+                                          100% {background-color:red; left:0px; top:0px;}  */
             }
 
             .iconanimate img {
@@ -842,7 +852,7 @@
             .rplc-btn {
                 width: 34px;
                 position: absolute;
-                left: 246px;
+                left: 279px;
                 background: #ffffffc2;
                 margin-top: 52px;
                 /* margin-left: -2px; */

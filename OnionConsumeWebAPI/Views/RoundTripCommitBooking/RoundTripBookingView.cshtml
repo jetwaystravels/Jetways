@@ -125,10 +125,14 @@
                                         {
                                             <img src="~/img/clogo.png">
                                         }
-                                        else if (@Model.AirlinePNR[1].airLines == "Spicejet")
+                                        else if (@Model.AirlinePNR[0].airLines == "Spicejet")
                                         {
                                             <img src="~/img/flight-logo-icon/SG.png" style="max-width:15%;">
                                         }
+                                    else if (@Model.AirlinePNR[0].airLines == "Indigo")
+                                    {
+                                        <img src="~/img/flight-logo-icon/6E.png" style="max-width:15%;">
+                                    }
                                     </div><span id="CName" class="fw-bold-600"> @Model.AirlinePNR[0].airLines</span> |
                                     <span id="Cnomer" class="fw-bold-600">@Model.AirlinePNR[0].journeys[0].segments[0].identifier.identifier</span>
                                 </div>
@@ -405,7 +409,9 @@
         
     </form>
 
-    <div id="scissors"></div>
+    @if(Model.AirlinePNR.Count > 1)
+    {
+        <div id="scissors"></div>
 
     <form asp-action="PostTicketBooking" asp-controller="AirLinesTicket" method="post">
        @*  @foreach (var item in Model) *@
@@ -777,6 +783,7 @@
             </div>
        
     </form>
+    }
 
     <div class="container">
         <div class="row mb-5">

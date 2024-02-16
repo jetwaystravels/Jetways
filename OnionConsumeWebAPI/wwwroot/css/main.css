@@ -13197,6 +13197,7 @@ check out section
 
 .service-section .tabs.-pills-3 .tabs__controls .tabs__button.is-tab-el-active {
     border-radius: 6px 6px 0 0;
+    cursor: pointer;
 }
 
 .service-section .journey-box .nav-link {
@@ -13477,7 +13478,7 @@ check out section
 
 
     .service-section .swiper-slide.active {
-        border: #526DD8 2px dotted;
+        /*border: #526DD8 2px dotted;*/
         background: #EBEDF8;
     }
 
@@ -13503,8 +13504,8 @@ check out section
 .service-section span.nveg-food {
     width: 14px;
     height: 14px;
-    right: 10px;
-    top: 14px;
+    right: 30px;
+    top: 21px;
     position: absolute;
     display: inline-block;
     border: 1px solid #ff2641;

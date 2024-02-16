@@ -78,12 +78,14 @@ $(document).ready(function () {
         $('.S-option input[type="radio"]').not(this).prop('checked', false);
     });
     $('#end-date').prop('disabled', true);
+    $('#bgEnddate').css('background-color', '#e9ecef');
 
     // Event handler for radio button change
     $('input[type="radio"]').on('change', function () {
         if ($('#round-tripid').is(':checked')) {
 
             $('#end-date').prop('disabled', false);
+            $('#bgEnddate').css('background-color', '#fff');
             //Date Picker end date
             var returndate = new Date();
             var returndd = String(returndate.getDate() + 2).padStart(2, '0');
@@ -108,6 +110,7 @@ $(document).ready(function () {
         } else {
             // Disable the end date input field for other options
             $('#end-date').prop('disabled', true);
+            $('#bgEnddate').css('background-color', '#e9ecef');
         }
 
     });
@@ -220,7 +223,6 @@ $(document).ready(function () {
 
 
 });
-
 
 
 

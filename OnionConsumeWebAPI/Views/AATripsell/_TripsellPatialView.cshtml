@@ -3,6 +3,14 @@
     var data = Model;
 
 }
+<style>
+    .airliname {
+        background-color: #e3d7d8;
+        border-radius: 20px;
+        margin-left: 8px;
+        padding: 7px 12px;
+    }
+</style>
 <div class="flight-box-content rounded-4">
     <div class="py-10 px-30">
         <div class="row d-flex justify-content-end">
@@ -32,7 +40,7 @@
                                         <img class="size-30" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
                                     </div>
 
-                                    <div class="text-14 text-light-1"> Air Asia @item.segments[i].identifier.identifier @item.segments[i].identifier.carrierCode</div>
+                                    <div class="text-14 text-light-1"> Air Asia @item.segments[i].identifier.identifier @item.segments[i].identifier.carrierCode</div><span class="airliname">@ViewData["name"]</span>
                                 </div>
 
                                 <div class="relative z-0">

@@ -117,9 +117,10 @@
 
                                             </div>
                                             <div class="d-flex justify-content-center">
-                                                <input type="checkbox" id="ssrkey+@i" name="ssrKey" value='"@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].ssrKey _@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].price  _@l _@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].Airline _OneWay0"' />
-                                                <input type="checkbox" class="meal-ammount" value="@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].price" />
+                                                <input type="hidden" id="ssrkey+@i" name="ssrKey" value='"@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].ssrKey _@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].price  _@l _@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].Airline"' />
+                                                <input type="hidden" name="meal-price" class="meal-ammount" value="@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].price" />
 
+                                                <input type="hidden" id="mealprice+@i" name="inputFieldmeal" value="@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].price" />
                                                 <input type="hidden" id="mealprice+@i" name="inputFieldmeal" value="@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].price" />
                                                 <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlistRT[0].passengers[0].passengerKey" />
 
@@ -129,6 +130,8 @@
 
                                             <div class="mealbtn">
                                                 <div class="mealAddFareBtn btnnew" id="mealAddID">Add</div>
+                                                <input type="hidden" name="meal-btn" class="addbtn" value="@i" />
+
                                                 <div id="incrSign" class="incrSignCls" style="display:none">
                                                     <div class="d-flex mealbtn-increase">
                                                         <div class="meal-decr">-</div>
@@ -200,7 +203,7 @@
 
                                             </div>
                                             <div class="d-flex justify-content-center">
-                                                <input type="checkbox" id="ssrkey+@i" name="ssrKey" value='"@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].ssrKey _@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].price _@l _@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].Airline _OneWay1"' />
+                                                <input type="checkbox" id="ssrkey+@i" name="ssrKey" value='"@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].ssrKey _@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].price _@l _@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].Airline"' />
                                                 <input type="checkbox" class="meal-ammount" value="@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].price" />
 
                                                 <input type="hidden" id="mealprice+@i" name="inputFieldmeal" value="@Model.MealslistRT[0].legSsrs[l].legssrs[i].legpassengers[0].price" />
@@ -264,7 +267,7 @@
 
                                             </div>
                                             <div class="d-flex justify-content-center">
-                                                <input type="checkbox" id="ssrkey+@i" name="ssrKey" value='"@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].ssrKey _@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].price _@l _@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].Airline _RT0"' />
+                                                <input type="checkbox" id="ssrkey+@i" name="ssrKey" value='"@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].ssrKey _@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].price _@l _@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].Airline"' />
                                                 <input type="checkbox" class="meal-ammount" value="@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].price" />
                                                 <input type="hidden" id="mealprice+@i" name="inputFieldmeal" value="@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].price" />
                                                 <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlistRT[1].passengers[0].passengerKey" />
@@ -327,7 +330,7 @@
 
                                             </div>
                                             <div class="d-flex justify-content-center">
-                                                <input type="checkbox" id="ssrkey+@i" name="ssrKey" value='"@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].ssrKey _@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].price _@l _@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].Airline _RT1"' />
+                                                <input type="checkbox" id="ssrkey+@i" name="ssrKey" value='"@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].ssrKey _@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].price _@l _@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].Airline"' />
                                                 <input type="checkbox" class="meal-ammount" value="@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].price" />
                                                 <input type="hidden" id="mealprice+@i" name="inputFieldmeal" value="@Model.MealslistRT[1].legSsrs[l].legssrs[i].legpassengers[0].price" />
                                                 <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlistRT[1].passengers[0].passengerKey" />
@@ -411,23 +414,27 @@
 
     /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
     // Extract the meal code (ssrCode) from your HTML structure
-
+    var MealpriceCount = [];
     var mlC = 3; //***********Total Number of Passenger Count
+
     var totalIncrementCount = 0;
     const mealAddButtons = document.querySelectorAll('.mealbtn .mealAddFareBtn');
     mealAddButtons.forEach(function (mealAddButton) {
         mealAddButton.addEventListener('click', function () {
+
             const parentFlexElement = this.closest('.d-flex');
             parentFlexElement.querySelector('.incrSignCls').style.display = "block";
             parentFlexElement.querySelector('.mealAddFareBtn').style.display = "none";
             const incrButton = parentFlexElement.querySelector('.meal-incr');
             const decrButton = parentFlexElement.querySelector('.meal-decr');
             const mealInput = parentFlexElement.querySelector('.mealinput');
-
+            var Mealpricedata = parentFlexElement.querySelector('.meal-ammount');
+            var AddbtnCount = parentFlexElement.querySelector('.addbtn').value;
 
 
             //************Increament Button Click Function**************
             incrButton.addEventListener('click', function () {
+
 
                 // Retrieve the value from the first hidden input with class "meal-ammount"
                 if (totalIncrementCount >= mlC) {
@@ -439,12 +446,41 @@
                     totalIncrementCount += 1;
 
                 }
+                debugger;
                 var Mealcount = mealInput.value;
                 localStorage.setItem("Mealcount", Mealcount);
+                alert("Count:" + Mealcount);
 
+                var MealPrice = Mealpricedata.value;
+                alert("Price" + MealPrice);
 
-                // var MealAddCount = localStorage.getItem("Mealcount");
-                // document.querySelector('.passenger-count').value = MealAddCount;
+                alert("add Btn Count:" + AddbtnCount);
+
+                if (AddbtnCount == 1) {
+                    alert("btn 1");
+                    MealpriceCount.push(MealPrice);
+                    alert("Count: " + MealpriceCount.length);
+                    var MealtotalCountFareLength = MealPrice * MealpriceCount.length;
+                    alert("Meal Count 1: " + MealtotalCountFareLength);
+                    localStorage.setItem("Mealfarecnt", MealtotalCountFareLength);
+
+                }
+                else {
+                    alert("btn 2");
+                    //var MealtotalCountFare = MealPrice * Mealcount;
+                    var Mealll = localStorage.getItem("Mealfarecnt");
+                    var MealtotalCountFare = parseInt(MealPrice) + parseInt(Mealll);
+                    MealpriceCount.push(MealtotalCountFare);
+                    //var totalAmount = MealpriceCount.reduce((a, b) => a + b, 0); // Calculate the total amount
+                    var totalAmount = MealtotalCountFare; // Calculate the total amount
+                    alert("Total Amount: " + totalAmount);
+                    localStorage.setItem("Mealfarecnt", totalAmount);
+                }
+
+                // AddMealMultiple();
+
+                AddMeal();
+
 
                 if (parseInt(mealInput.value) > 0) {
                     parentFlexElement.querySelector('.incrSignCls').style.display = "block";
@@ -453,44 +489,41 @@
                 }
             });
 
+
+
+
+            // //************Decreament Button Click Function**************
+            // decrButton.addEventListener('click', function () {
+            //     if (parseInt(mealInput.value) > 1) {
+            //         mealInput.value = parseInt(mealInput.value) - 1;
+            //         totalIncrementCount -= 1;
+            //     } else {
+            //         parentFlexElement.querySelector('.mealAddFareBtn').style.display = "none";
+            //     }
+            // });
+
             //************Decreament Button Click Function**************
             decrButton.addEventListener('click', function () {
                 if (parseInt(mealInput.value) > 1) {
                     mealInput.value = parseInt(mealInput.value) - 1;
                     totalIncrementCount -= 1;
+
+                    // Update the meal amount
+                    var MealPrice = Mealpricedata.value;
+                    var Mealcount = mealInput.value;
+                    var MealtotalCountFare = MealPrice * Mealcount;
+
+                    localStorage.setItem("Mealfarecnt", MealtotalCountFare);
+
+                    AddMeal(); // Update the meal display
                 } else {
                     parentFlexElement.querySelector('.mealAddFareBtn').style.display = "none";
                 }
             });
 
+
         });
     });
-
-
-
-    // const mealAddButton = document.getElementById('Continuebtn');
-    // mealAddButton.onclick = function () {
-    //     alert("Button Clicked!");
-    //     var MealAddCount = localStorage.getItem("Mealcount");
-
-    //     var mealInputValue = MealAddCount; // Get the value of mealInput
-    //     debugger;
-    //     $.ajax({
-    //         url: "/RoundAATripsell/PostUnitkey",
-    //         type: "POST",
-    //         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-    //         data: {
-    //             mealInputValue: mealInputValue // Pass the value of mealInput
-    //         },
-    //         success: function (data) {
-    //             console.log(data);
-    //             alert("Ajax Test ");
-    //         },
-    //         error: function (err) {
-    //             console.error(err);
-    //         }
-    //     });
-    // };
 
 
     /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
@@ -569,6 +602,83 @@
 
 
     });
+
+
+    function AddMeal() {
+        const seatmap = document.getElementById("total").value || 0;
+        var meal = localStorage.getItem("Mealfarecnt");
+        document.getElementById('AddMeal').innerText = meal;
+        alert("Meal Window.fare :-" + meal)
+        var TotalAmmount = document.getElementById("Totalamount").value;
+        var TotalMeal = parseInt(TotalAmmount) + parseInt(meal);
+        var TotalSeat = parseInt(TotalAmmount) + parseInt(seatmap);
+        alert("Seat Total:" + TotalSeat);
+        var Totalprice1 = parseInt(seatmap) + parseInt(meal) + parseInt(TotalAmmount);
+
+        if (Totalprice1 != null) {
+            alert("Totalprice1:" + Totalprice1);
+            document.getElementById("amount").innerHTML = Totalprice1;
+            document.getElementById("seattotal1").style.display = "none";
+            document.getElementById("amountPay").innerHTML = Totalprice1 + 100;
+            document.getElementById("TotalSeatPayID").style.display = "none";
+        }
+
+        //*******Finay Pay Ammount********
+        var TotalMealPay = parseInt(TotalAmmount) + parseInt(meal) + 100;
+
+        var Totalprice1Pay = parseInt(seatmap) + parseInt(meal) + parseInt(TotalAmmount) + 100;
+        //meal and seat total ammount
+        if (TotalMealPay != null && TotalSeatPay == "") {
+            document.getElementById("TotalMealPayID").innerHTML = TotalMealPay;
+
+
+            alert(TotalMealPay);
+        }
+
+        //else if (TotalMealPay != null && TotalSeatPay != null) {
+        else if (Totalprice1 != null) {
+            // document.getElementById("amountPay").innerHTML = Totalprice1Pay;
+            document.getElementById("amountPay").innerHTML = Totalprice1 + 100;
+            document.getElementById("TotalMealPayID").style.display = "none";
+            document.getElementById("TotalSeatPayID").style.display = "none";
+
+            // Store the value in localStorage
+            //localStorage.setItem('myValue', totalprice1.toFixed(2));
+        }
+        //***********Finay Pay Ammount End***************8 */
+
+        if (meal != null && seatmap == "") {
+            document.getElementById("totalMeal").innerHTML = TotalMeal;
+
+        }
+        else if (seatmap != null && meal == "") {
+            document.getElementById("totalservice").innerHTML = TotalSeat;
+        }
+        else if (meal != null && seatmap != null) {
+            const totalprice1 = parseFloat(seatmap) + parseFloat(meal);
+
+            document.getElementById("amount").innerHTML = Totalprice1;
+            document.getElementById("totalservice").style.display = "none";
+            document.getElementById("totalMeal").style.display = "none";
+            document.getElementById("seattotal1").style.display = "none";
+            // Store the value in localStorage
+            localStorage.setItem('myValue', totalprice1.toFixed(2));
+        }
+
+    }
+
+            // function AddMealMultiple ()
+            //                 {
+            //     //var MealtotalCountFare = MealPrice * Mealcount;
+            //     var Mealll=localStorage.getItem("Mealfarecnt");
+            //     var MealtotalCountFare = parseInt(MealPrice) + parseInt(Mealll);
+            //     MealpriceCount.push(MealtotalCountFare);
+            //     alert("Count: " + MealpriceCount.length);
+            //     var totalAmount = MealpriceCount.reduce((a, b) => a + b, 0); // Calculate the total amount
+            //     alert("Total Amount: " + totalAmount);
+            //     localStorage.setItem("Mealfarecnt", totalAmount);
+            // };
+
 </script>
 
 
