@@ -2,13 +2,30 @@
 @using System.Collections;
 @{
     Layout = null;
+   // var data1 = Model;
 
 }
 <script src="~/js/custom.js/SGCustom.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script>
+@* <script>
     $(document).ready(function () {
         debugger;
+
+        var count = $("#passengercountid").val();
+            $('.mycheck').on('change', function () {
+            if ($('.mycheck:checked').length > count) {
+                alert('You can only ' + count + ' select checkboxes.');
+                this.checked = false;
+            }
+        });
+
+        $('.mycheck2').on('change', function () {
+            if ($('.mycheck2:checked').length > count) {
+                alert('You can only ' + count + ' select checkboxes.');
+                this.checked = false;
+            }
+        });
+
         $('input[type="checkbox"]').on('change', function () {
             var selectedIds = [];
             debugger;
@@ -35,7 +52,7 @@
 
         });
     });
-</script>
+</script> *@
 <style>
     .chkbox {
         background: #b1abab;
@@ -67,11 +84,14 @@
                 <div class="journey-box">
                     <ul class="nav nav-pills mb-3">
                         @{
+                           
+                            <input type="hidden" value="@Model.passeengerlist.passengerscount" id="passengercountid">
                             var seatmaap2 = @Model.passeengerlist.journeys[0].segments.Count;
                             if (seatmaap2 == 1)
                             {
                                 <li class="nav-item">
                                     <button class="nav-link active">@Model.passeengerlist.journeys[0].segments[0].designator.origin-@Model.passeengerlist.journeys[0].segments[0].designator.destination</button>
+                                  
                                 </li>
                             }
                             else
@@ -225,7 +245,7 @@
                                                             {
                                                                 <li class="seat-li free-seat tooltip">
                                                                     <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                    <input type="checkbox" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2]" id="unitKey" />
+                                                                    <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2]" id="unitKey" />
                                                                     <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
                                                                 </li>
                                                             }
@@ -233,7 +253,7 @@
                                                             {
                                                                 <li class="seat-li midcomfort tooltip">
                                                                     <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                    <input type="checkbox" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2] " id="unitKey" />
+                                                                    <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2] " id="unitKey" />
                                                                     <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
                                                                 </li>
                                                             }
@@ -322,7 +342,7 @@
                                                             {
                                                                 <li class="seat-li free-seat tooltip">
                                                                     <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                    <input type="checkbox" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2] " id="unitKey" />
+                                                                    <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2] " id="unitKey" />
                                                                     <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
                                                                 </li>
                                                             }
@@ -330,7 +350,7 @@
                                                             {
                                                                 <li class="seat-li midcomfort tooltip">
                                                                     <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                    <input type="checkbox" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2] " id="unitKey" />
+                                                                    <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2] " id="unitKey" />
                                                                     <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
                                                                 </li>
                                                             }

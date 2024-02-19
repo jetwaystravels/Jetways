@@ -532,6 +532,7 @@ namespace DomainLayer.Model
         }
         public class ReturnPassengers
         {
+           public string barcodestring { get; set; }
             public string passengerKey { get; set; }
             public object passengerAlternateKey { get; set; }
             public object customerNumber { get; set; }

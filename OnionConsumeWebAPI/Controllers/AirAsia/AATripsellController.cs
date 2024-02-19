@@ -600,7 +600,7 @@ namespace OnionConsumeWebAPI.Controllers
                 #endregion
             }
             //return RedirectToAction("booking", "CommitBooking");
-            return RedirectToAction("OnewayPaymentView", "OnewayPayment");
+            return RedirectToAction("AirAsiaOneWayPaymentView","AirAsiaOneWayPayment");
         }
 
     }

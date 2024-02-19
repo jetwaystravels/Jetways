@@ -23,9 +23,7 @@ using System.IO;
 using ZXing.Common;
 using ZXing;
 using ZXing.Windows.Compatibility;
-
-
-
+using OnionArchitectureAPI.Services.Barcode;
 
 namespace OnionConsumeWebAPI.Controllers
 {
@@ -48,6 +46,8 @@ namespace OnionConsumeWebAPI.Controllers
         ApiResponseModel responseModel;
         public async Task<IActionResult> booking()
         {
+
+
             AirLinePNRTicket _AirLinePNRTicket = new AirLinePNRTicket();
             _AirLinePNRTicket.AirlinePNR = new List<ReturnTicketBooking>();
 
@@ -314,36 +314,20 @@ namespace OnionConsumeWebAPI.Controllers
                              sequencenumber = sequencenumber.PadRight(5, '0'); // Right-pad with zeros if less than 4 characters
                         }
 
+                        BarcodeString = "M" + "1" + items.Value.name.last + "/" + items.Value.name.first + "" + BarcodePNR + "" + orides + carriercode + "" + flightnumber + "" + julianDate + "Y" + sequencenumber + "1" + "00";
+                        BarcodeUtility BarcodeUtility = new BarcodeUtility();
+                        var barcodeImage = BarcodeUtility.BarcodereadUtility(BarcodeString);
+                        returnPassengersobj.barcodestring = barcodeImage;
 
-                        BarcodeString = "M"+"1"+ items.Value.name.last +"/" + items.Value.name.first +""+ BarcodePNR +""+ orides+ carriercode +""+ flightnumber +""+ julianDate +"Y" + sequencenumber +"1"+"00";
+
                         ReturnpassengersList.Add(returnPassengersobj);
                     }
                     //returnTicketBooking.contacts= phoneNumberList;
                     //STATRT CODE FOR BAR CODE
-                  //  string barcode = "ashokkumar";
-
-                    BarcodeWriter barcodeWriter = new BarcodeWriter
-                    {
-                        Format = BarcodeFormat.PDF_417,
-                        Options = new EncodingOptions
-                        {
-                            Width = 300,
-                            Height = 100
-                        }
-                    };
-
-                    Bitmap barcodeBitmap = barcodeWriter.Write(BarcodeString);
-                    using (MemoryStream stream = new MemoryStream())
-                    {
-
-                        barcodeBitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-                        byte[] bytes = stream.ToArray();
-                        Convert.ToBase64String(bytes);
-                        ViewData["ImageBytes"] = "data:image/png;base64," + Convert.ToBase64String(bytes);
-                        ViewData["Barcode"] = BarcodeString;
-
-
-                    }
+                    //  string barcode = "ashokkumar";
+                    
+                   
+                    
                     returnTicketBooking.breakdown = breakdown;
                     returnTicketBooking.journeys = journeysreturnList;
                     returnTicketBooking.passengers = ReturnpassengersList;

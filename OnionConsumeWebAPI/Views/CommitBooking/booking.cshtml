@@ -109,9 +109,9 @@
                                 <div class="Pdetail1">
                                     <ul class="td-inline">
                                         @{
-                                            //string ticketbarcode = "M"+ @Model.AirlinePNR[0].passengers[i].name.first + "" + @Model.AirlinePNR[0].passengers[i].name.last ;
-                                            string imageUrl1 = ViewData["ImageBytes"] as string;
-                                            string barcode = ViewData["Barcode"] as string;
+                                            var imageUrl1 = @Model.AirlinePNR[0].passengers[i].barcodestring;
+                                            // string imageUrl1 = ViewData["ImageBytes"] as string;
+                                               string barcode = ViewData["Barcode"] as string;
                                            
 
                                         }

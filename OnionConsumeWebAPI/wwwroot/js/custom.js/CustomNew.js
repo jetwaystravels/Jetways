@@ -1,6 +1,20 @@
 ﻿
 $(document).ready(function () {
     debugger;
+    var count = $("#passengercountid").val();
+    $('.mycheck').on('change', function () {
+        if ($('.mycheck:checked').length > count) {
+            alert('You can only ' + count + ' select checkboxes.');
+            this.checked = false;
+        }
+    });
+
+    $('.mycheck2').on('change', function () {
+        if ($('.mycheck2:checked').length > count) {
+            alert('You can only ' + count + ' select checkboxes.');
+            this.checked = false;
+        }
+    });
     $('input[type="checkbox"]').on('change', function () {
         var selectedIds = [];
         debugger;
@@ -20,7 +34,7 @@ $(document).ready(function () {
         const seatmap1 = document.getElementById("total").value;
 
         var TotalAmmount = document.getElementById("Totalamount").value;
-        alert(TotalAmmount);
+       
         var Totalseat1 = parseInt(TotalAmmount) + parseInt(seatmap1);
         if (seatmap1 != null) {
             document.getElementById("seattotal1").innerHTML = Totalseat1;
@@ -29,25 +43,30 @@ $(document).ready(function () {
         if (TotalSeatPay != null) {
             document.getElementById("TotalSeatPayID").innerHTML = TotalSeatPay;
         }
-        //AddMeal();
-        //document.getElementById("seattotal1").style.display = "none";
-        //document.getElementById("TotalSeatPayID").style.display = "none";
-        //***-----Total Fare Show----*********88*/
+       
+        localStorage.setItem("selectedIds", JSON.stringify(selectedIds));
+
+
+    });
+
+    $("#Continuebtn").click(function(){
+
+        var unitKey = JSON.parse(localStorage.getItem("selectedIds"));       
         $.ajax({
             url: "/AATripsell/PostUnitkey",
             type: "POST",
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-            data: { selectedIds: selectedIds },
+            data: { unitKey: unitKey},
             success: function (data) {
-                console.log(data);
+                window.location.href = '/AirAsiaOneWayPayment/AirAsiaOneWayPaymentView';
             },
             error: function (err) {
                 console.error(err);
             }
         });
-
-
     });
+
+   
 
 });
 
