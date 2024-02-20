@@ -53,70 +53,6 @@
                     </div>
                 </div>
                 @{
-                    if (@Model.passeengerlistRT[0].passengers[0].passengerTypeCode == "ADT")
-                    {
-                        <div class="col-md-4">
-                            <div class="form-input dobinput d-flex">
-                                <div class="dob-picker">
-                                    <select class="brd-none day-select" required>
-                                        <option value="" disabled selected>Day</option>
-                                    </select>
-                                    <select class="brd-none month-select" required>
-                                        <option value="" disabled selected>Month</option>
-                                        <option value="1">January</option>
-                                        <option value="2">February</option>
-                                        <option value="3">March</option>
-                                        <option value="4">April</option>
-                                        <option value="5">May</option>
-                                        <option value="6">June</option>
-                                        <option value="7">July</option>
-                                        <option value="8">August</option>
-                                        <option value="9">September</option>
-                                        <option value="10">October</option>
-                                        <option value="11">November</option>
-                                        <option value="12">December</option>
-                                    </select>
-                                    <select class="brd-none year-select" required>
-                                        <option value="" disabled selected>Year</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                    }
-
-                    else if (@Model.passeengerlistRT[0].passengers[0].passengerTypeCode == "CHD")
-                    {
-                        <div class="col-md-4">
-                            <div class="form-input dobinput d-flex">
-                                <div class="dob-picker">
-                                    <select class="brd-none day-select" required>
-                                        <option value="" disabled selected>Day</option>
-                                    </select>
-                                    <select class="brd-none month-select" required>
-                                        <option value="" disabled selected>Month</option>
-                                        <option value="1">January</option>
-                                        <option value="2">February</option>
-                                        <option value="3">March</option>
-                                        <option value="4">April</option>
-                                        <option value="5">May</option>
-                                        <option value="6">June</option>
-                                        <option value="7">July</option>
-                                        <option value="8">August</option>
-                                        <option value="9">September</option>
-                                        <option value="10">October</option>
-                                        <option value="11">November</option>
-                                        <option value="12">December</option>
-                                    </select>
-                                    <select class="brd-none year-select" required>
-                                        <option value="" disabled selected>Year</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                    }
-
                     if (@Model.passeengerlistRT[0].passengers[0].passengerTypeCode == "INFT")
                     {
                         <div class="col-md-4">
@@ -146,9 +82,7 @@
                                 </div>
                             </div>
                         </div>
-
-                    }
-
+                    }                 
 
                 }
             </div>
@@ -247,33 +181,16 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-
-        function showForm() {
-            // Show the form
+        function showForm() {            
             $('#passengerForm').show();
-
-            // Hide the modal
-            //$('#dataPopup').modal('hide');
-        }
-
-        // $("#enteredData").on("click", "#editData", function () {
-        //     // Show the form and hide the modal
-        //     showForm();
-        // });
+            
+        }       
         $("#editData").click(function () {
-            $("#dataPopup").hide();
-            //$('#passengerForm').show();
-            //$("#contactfocus").focus();
-            //$("#dataPopup").fadeOut();
+            $("#dataPopup").hide();            
         });
-
-
-
-
         $("#showReviewPopup").click(function (e) {
             e.preventDefault(); // Prevent the form from submitting
-            //alert("A");
-            // Collect the entered data from the form
+             // Collect the entered data from the form
             var enteredData = "";
             for (var i = 0; i < @Model.passeengerlistRT[0].passengers.Count; i++) {
                 var firstName = $("input[name='passengerdetails[" + i + "].First']").val();
@@ -289,21 +206,12 @@
                 enteredData += "First Name: " + firstName + "<br>";
                 enteredData += "Last Name: " + lastName + "</p>";
 
-            }
-            //alert(enteredData);
-
-            // Display the entered data in the popup
+            }         
+          
             $("#enteredData").html(enteredData);
-
-            // Show the popup
+            
             $('#dataPopup').modal('show');
-
-            // Hide the form
-            //$('#passengerForm').hide();
-        });
-
-        //Ajax
-        //Contact Details Send data  //url: "/SGTripsell/SGTravllerDetails",
+        });        
         $("#ContinueData").click(function () {
             $('#passengers_id').hide(); //Contact Details Div Hide
             var formData = new FormData($("#passengerForm")[0]);
@@ -313,11 +221,10 @@
                 data: formData,
                 processData: false,
                 contentType: false,
-                success: function (result) {
-                    // Handle the response from the server if needed
+                success: function (result) {                    
                 },
                 error: function (error) {
-                    // Handle any errors here
+                   
                 }
             });
         });

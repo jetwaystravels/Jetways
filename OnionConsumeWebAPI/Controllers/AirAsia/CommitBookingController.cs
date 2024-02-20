@@ -36,13 +36,13 @@ namespace OnionConsumeWebAPI.Controllers
         string journeyKey = string.Empty;
         string uniquekey = string.Empty;
         string AirLinePNR = string.Empty;
-        string BarcodeString= string.Empty;
+        string BarcodeString = string.Empty;
         String BarcodePNR = string.Empty;
-        string orides= string.Empty;
-        string carriercode= string.Empty;
+        string orides = string.Empty;
+        string carriercode = string.Empty;
         string flightnumber = string.Empty;
         string seatnumber = string.Empty;
-        string sequencenumber= string.Empty;
+        string sequencenumber = string.Empty;
         ApiResponseModel responseModel;
         public async Task<IActionResult> booking()
         {
@@ -103,14 +103,19 @@ namespace OnionConsumeWebAPI.Controllers
                     var JsonObjPNRBooking = JsonConvert.DeserializeObject<dynamic>(_responcePNRBooking);
                     ReturnTicketBooking returnTicketBooking = new ReturnTicketBooking();
                     returnTicketBooking.recordLocator = JsonObjPNRBooking.data.recordLocator;
-                    BarcodePNR= JsonObjPNRBooking.data.recordLocator;
+                    BarcodePNR = JsonObjPNRBooking.data.recordLocator;
                     if (BarcodePNR.Length < 7)
                     {
                         BarcodePNR = BarcodePNR.PadRight(7);
                     }
                     returnTicketBooking.bookingKey = JsonObjPNRBooking.data.bookingKey;
-
+                    // var zxvx= JsonObjPNRBooking.data.breakdown.journeyTotals.totalAmount;
                     Breakdown breakdown = new Breakdown();
+                    JourneyTotals journeyTotalsobj = new JourneyTotals();
+                    journeyTotalsobj.totalAmount = JsonObjPNRBooking.data.breakdown.journeyTotals.totalAmount;
+                    journeyTotalsobj.totalTax = JsonObjPNRBooking.data.breakdown.journeyTotals.totalTax;
+                    var ToatalBasePrice = journeyTotalsobj.totalAmount + journeyTotalsobj.totalTax;
+
                     PassengerTotals passengerTotals = new PassengerTotals();
                     ReturnSeats returnSeats = new ReturnSeats();
                     if (JsonObjPNRBooking.data.breakdown.passengerTotals.seats != null)
@@ -124,6 +129,8 @@ namespace OnionConsumeWebAPI.Controllers
                         specialServices.total = (decimal)JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.total;
                         specialServices.taxes = (decimal)JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes;
                     }
+                    //breakdown.journeyTotals = (int)ToatalBasePrice;
+                    breakdown.journeyTotals = journeyTotalsobj;
                     breakdown.passengerTotals = passengerTotals;
                     passengerTotals.seats = returnSeats;
                     passengerTotals.specialServices = specialServices;
@@ -152,7 +159,7 @@ namespace OnionConsumeWebAPI.Controllers
                         DesignatorReturn ReturnDesignatorobject = new DesignatorReturn();
                         ReturnDesignatorobject.origin = JsonObjPNRBooking.data.journeys[0].designator.origin;
                         ReturnDesignatorobject.destination = JsonObjPNRBooking.data.journeys[0].designator.destination;
-                        orides= JsonObjPNRBooking.data.journeys[0].designator.origin + JsonObjPNRBooking.data.journeys[0].designator.destination;
+                        orides = JsonObjPNRBooking.data.journeys[0].designator.origin + JsonObjPNRBooking.data.journeys[0].designator.destination;
                         ReturnDesignatorobject.departure = JsonObjPNRBooking.data.journeys[0].designator.departure;
                         ReturnDesignatorobject.arrival = JsonObjPNRBooking.data.journeys[0].designator.arrival;
                         journeysReturnObj.designator = ReturnDesignatorobject;
@@ -170,6 +177,7 @@ namespace OnionConsumeWebAPI.Controllers
                             designatorReturn.departure = JsonObjPNRBooking.data.journeys[i].segments[j].designator.departure;
                             designatorReturn.arrival = JsonObjPNRBooking.data.journeys[i].segments[j].designator.arrival;
                             segmentReturnobj.designator = designatorReturn;
+
                             var passengersegmentCount = JsonObjPNRBooking.data.journeys[i].segments[j].passengerSegment;
                             int passengerReturnCount = ((Newtonsoft.Json.Linq.JContainer)passengersegmentCount).Count;
                             List<PassengerSegment> passengerSegmentsList = new List<PassengerSegment>();
@@ -186,14 +194,14 @@ namespace OnionConsumeWebAPI.Controllers
                                     ReturnSeats returnSeatsObj = new ReturnSeats();
 
                                     returnSeatsObj.unitDesignator = item.Value.seats[q].unitDesignator;
-                                    seatnumber= item.Value.seats[q].unitDesignator;
+                                    seatnumber = item.Value.seats[q].unitDesignator;
                                     if (string.IsNullOrEmpty(seatnumber))
                                     {
-                                        seatnumber= "0000"; // Set to "0000" if not available
+                                        seatnumber = "0000"; // Set to "0000" if not available
                                     }
                                     else
                                     {
-                                        seatnumber= seatnumber.PadRight(4, '0'); // Right-pad with zeros if less than 4 characters
+                                        seatnumber = seatnumber.PadRight(4, '0'); // Right-pad with zeros if less than 4 characters
                                     }
 
                                     returnSeatsList.Add(returnSeatsObj);
@@ -223,7 +231,7 @@ namespace OnionConsumeWebAPI.Controllers
                                     {
                                         ServiceChargeReturn serviceChargeReturnobj = new ServiceChargeReturn();
 
-                                        serviceChargeReturnobj.amount = JsonObjPNRBooking.data.journeys[i].segments[0].fares[j].passengerFares[k].serviceCharges[l].amount;
+                                        serviceChargeReturnobj.amount = JsonObjPNRBooking.data.journeys[i].segments[j].fares[k].passengerFares[l].serviceCharges[m].amount;
                                         serviceChargeReturnList.Add(serviceChargeReturnobj);
 
 
@@ -240,7 +248,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                             IdentifierReturn identifierReturn = new IdentifierReturn();
                             identifierReturn.identifier = JsonObjPNRBooking.data.journeys[i].segments[j].identifier.identifier;
-                            flightnumber= JsonObjPNRBooking.data.journeys[i].segments[j].identifier.identifier;
+                            flightnumber = JsonObjPNRBooking.data.journeys[i].segments[j].identifier.identifier;
                             if (flightnumber.Length < 5)
                             {
                                 flightnumber = flightnumber.PadRight(5);
@@ -307,11 +315,11 @@ namespace OnionConsumeWebAPI.Controllers
                         int julianDate = (currentDate - startOfYear).Days + 1;
                         if (string.IsNullOrEmpty(sequencenumber))
                         {
-                            sequencenumber= "0000"; // Set to "0000" if not available
+                            sequencenumber = "0000"; // Set to "0000" if not available
                         }
                         else
                         {
-                             sequencenumber = sequencenumber.PadRight(5, '0'); // Right-pad with zeros if less than 4 characters
+                            sequencenumber = sequencenumber.PadRight(5, '0'); // Right-pad with zeros if less than 4 characters
                         }
 
                         BarcodeString = "M" + "1" + items.Value.name.last + "/" + items.Value.name.first + "" + BarcodePNR + "" + orides + carriercode + "" + flightnumber + "" + julianDate + "Y" + sequencenumber + "1" + "00";
@@ -325,9 +333,9 @@ namespace OnionConsumeWebAPI.Controllers
                     //returnTicketBooking.contacts= phoneNumberList;
                     //STATRT CODE FOR BAR CODE
                     //  string barcode = "ashokkumar";
-                    
-                   
-                    
+
+
+
                     returnTicketBooking.breakdown = breakdown;
                     returnTicketBooking.journeys = journeysreturnList;
                     returnTicketBooking.passengers = ReturnpassengersList;

@@ -35,7 +35,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
             bool flagSpicejet = true;
             bool flagIndigo = true;
             string json = HttpContext.Session.GetString("AirlineSelectedRT");
-           Airlinenameforcommit data = JsonConvert.DeserializeObject<Airlinenameforcommit>(json);
+            Airlinenameforcommit data = JsonConvert.DeserializeObject<Airlinenameforcommit>(json);
 
             using (HttpClient client = new HttpClient())
             {
@@ -111,6 +111,47 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             returnTicketBooking.recordLocator = JsonObjPNRBooking.data.recordLocator;
                             returnTicketBooking.bookingKey = JsonObjPNRBooking.data.bookingKey;
                             int JourneysReturnCount = JsonObjPNRBooking.data.journeys.Count;
+
+                            Breakdown breakdown = new Breakdown();
+                            JourneyTotals journeyTotalsobj = new JourneyTotals();
+                            journeyTotalsobj.totalAmount = JsonObjPNRBooking.data.breakdown.journeyTotals.totalAmount;
+                            journeyTotalsobj.totalTax = JsonObjPNRBooking.data.breakdown.journeyTotals.totalTax;
+                            var ToatalBasePrice = journeyTotalsobj.totalAmount + journeyTotalsobj.totalTax;
+
+                            PassengerTotals passengerTotals = new PassengerTotals();
+                            ReturnSeats returnSeats = new ReturnSeats();
+                            if (JsonObjPNRBooking.data.breakdown.passengerTotals.seats != null)
+                            {
+                                returnSeats.total = JsonObjPNRBooking.data.breakdown.passengerTotals.seats.total;
+                                returnSeats.taxes = JsonObjPNRBooking.data.breakdown.passengerTotals.seats.taxes;
+                            }
+                            SpecialServices specialServices = new SpecialServices();
+                            if (JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices != null)
+                            {
+                                specialServices.total = (decimal)JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.total;
+                                specialServices.taxes = (decimal)JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes;
+                            }
+                            //breakdown.journeyTotals = (int)ToatalBasePrice;
+                            breakdown.journeyTotals = journeyTotalsobj;
+                            breakdown.passengerTotals = passengerTotals;
+                            passengerTotals.seats = returnSeats;
+                            passengerTotals.specialServices = specialServices;
+                            if (JsonObjPNRBooking.data.contacts.G != null)
+                            {
+                                returnTicketBooking.customerNumber = JsonObjPNRBooking.data.contacts.G.customerNumber;
+                                returnTicketBooking.companyName = JsonObjPNRBooking.data.contacts.G.companyName;
+                                returnTicketBooking.emailAddress = JsonObjPNRBooking.data.contacts.G.emailAddress;
+                            }
+                            Contacts _contactobj = new Contacts();
+                            int PhoneNumberCount = JsonObjPNRBooking.data.contacts.P.phoneNumbers.Count;
+                            List<PhoneNumber> phoneNumberList = new List<PhoneNumber>();
+                            for (int p = 0; p < PhoneNumberCount; p++)
+                            {
+                                PhoneNumber phoneobject = new PhoneNumber();
+                                phoneobject.number = JsonObjPNRBooking.data.contacts.P.phoneNumbers[p].number;
+                                phoneNumberList.Add(phoneobject);
+                            }
+
                             List<JourneysReturn> journeysreturnList = new List<JourneysReturn>();
                             for (int i = 0; i < JourneysReturnCount; i++)
                             {
@@ -141,6 +182,40 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     designatorReturn.departure = JsonObjPNRBooking.data.journeys[i].segments[j].designator.departure;
                                     designatorReturn.arrival = JsonObjPNRBooking.data.journeys[i].segments[j].designator.arrival;
                                     segmentReturnobj.designator = designatorReturn;
+
+                                    var passengersegmentCount = JsonObjPNRBooking.data.journeys[i].segments[j].passengerSegment;
+                                    int passengerReturnCount = ((Newtonsoft.Json.Linq.JContainer)passengersegmentCount).Count;
+                                    List<PassengerSegment> passengerSegmentsList = new List<PassengerSegment>();
+                                    foreach (var item in JsonObjPNRBooking.data.journeys[i].segments[j].passengerSegment)
+                                    {
+                                        PassengerSegment passengerSegmentobj = new PassengerSegment();
+                                        passengerSegmentobj.passengerKey = item.Value.passengerKey;
+
+                                        passengerSegmentsList.Add(passengerSegmentobj);
+                                        int seatCount = item.Value.seats.Count;
+                                        List<ReturnSeats> returnSeatsList = new List<ReturnSeats>();
+                                        for (int q = 0; q < seatCount; q++)
+                                        {
+                                            ReturnSeats returnSeatsObj = new ReturnSeats();
+
+                                            returnSeatsObj.unitDesignator = item.Value.seats[q].unitDesignator;
+                                            //seatnumber = item.Value.seats[q].unitDesignator;
+                                            //if (string.IsNullOrEmpty(seatnumber))
+                                            //{
+                                            //    seatnumber = "0000"; // Set to "0000" if not available
+                                            //}
+                                            //else
+                                            //{
+                                            //    seatnumber = seatnumber.PadRight(4, '0'); // Right-pad with zeros if less than 4 characters
+                                            //}
+
+                                            returnSeatsList.Add(returnSeatsObj);
+                                        }
+                                        passengerSegmentobj.seats = returnSeatsList;
+                                        //passengerSegmentsList.Add(passengerSegmentobj);
+                                    }
+                                    segmentReturnobj.passengerSegment = passengerSegmentsList;
+
 
                                     //IdentifierReturn identifierReturn = new IdentifierReturn();
                                     //identifierReturn.identifier = JsonObjPNRBooking.data.journeys[i].segments[j].identifier.identifier;
@@ -234,9 +309,15 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
 
                             }
+                            returnTicketBooking.breakdown = breakdown;
                             returnTicketBooking.journeys = journeysreturnList;
                             returnTicketBooking.passengers = ReturnpassengersList;
                             returnTicketBooking.passengerscount = Returnpassengercount;
+                            returnTicketBooking.PhoneNumbers = phoneNumberList;
+                            //returnTicketBooking.breakdown = breakdown;
+                            //returnTicketBooking.journeys = journeysreturnList;
+                            //returnTicketBooking.passengers = ReturnpassengersList;
+                            //returnTicketBooking.passengerscount = Returnpassengercount;
 
                             // HttpContext.Session.SetString("PNRTicketBooking", JsonConvert.SerializeObject(returnTicketBooking));
                             _AirLinePNRTicket.AirlinePNR.Add(returnTicketBooking);
@@ -329,6 +410,46 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     var totalTax = "";// _getPriceItineraryRS.data.breakdown.journeys[journeyKey].totalTax;
 
                                     #region Itenary segment and legs
+
+                                    //Breakdown breakdown = new Breakdown();
+                                    //JourneyTotals journeyTotalsobj = new JourneyTotals();
+                                    //journeyTotalsobj.totalAmount = _getBookingResponse.Booking.breakdown.journeyTotals.totalAmount;
+                                    //journeyTotalsobj.totalTax = _getBookingResponse.data.breakdown.journeyTotals.totalTax;
+                                    //var ToatalBasePrice = journeyTotalsobj.totalAmount + journeyTotalsobj.totalTax;
+
+                                    //PassengerTotals passengerTotals = new PassengerTotals();
+                                    //ReturnSeats returnSeats = new ReturnSeats();
+                                    //if (JsonObjPNRBooking.data.breakdown.passengerTotals.seats != null)
+                                    //{
+                                    //    returnSeats.total = JsonObjPNRBooking.data.breakdown.passengerTotals.seats.total;
+                                    //    returnSeats.taxes = JsonObjPNRBooking.data.breakdown.passengerTotals.seats.taxes;
+                                    //}
+                                    //SpecialServices specialServices = new SpecialServices();
+                                    //if (JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices != null)
+                                    //{
+                                    //    specialServices.total = (decimal)JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.total;
+                                    //    specialServices.taxes = (decimal)JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes;
+                                    //}
+                                    ////breakdown.journeyTotals = (int)ToatalBasePrice;
+                                    //breakdown.journeyTotals = journeyTotalsobj;
+                                    //breakdown.passengerTotals = passengerTotals;
+                                    //passengerTotals.seats = returnSeats;
+                                    //passengerTotals.specialServices = specialServices;
+                                    //if (JsonObjPNRBooking.data.contacts.G != null)
+                                    //{
+                                    //    returnTicketBooking.customerNumber = JsonObjPNRBooking.data.contacts.G.customerNumber;
+                                    //    returnTicketBooking.companyName = JsonObjPNRBooking.data.contacts.G.companyName;
+                                    //    returnTicketBooking.emailAddress = JsonObjPNRBooking.data.contacts.G.emailAddress;
+                                    //}
+                                    //Contacts _contactobj = new Contacts();
+                                    //int PhoneNumberCount = JsonObjPNRBooking.data.contacts.P.phoneNumbers.Count;
+                                    //List<PhoneNumber> phoneNumberList = new List<PhoneNumber>();
+                                    //for (int p = 0; p < PhoneNumberCount; p++)
+                                    //{
+                                    //    PhoneNumber phoneobject = new PhoneNumber();
+                                    //    phoneobject.number = JsonObjPNRBooking.data.contacts.P.phoneNumbers[p].number;
+                                    //    phoneNumberList.Add(phoneobject);
+                                    //}
                                     int journeyscount = _getBookingResponse.Booking.Journeys.Length;
                                     List<JourneysReturn> AAJourneyList = new List<JourneysReturn>();
                                     for (int i = 0; i < journeyscount; i++)

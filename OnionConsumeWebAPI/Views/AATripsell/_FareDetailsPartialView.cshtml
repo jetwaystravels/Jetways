@@ -21,11 +21,53 @@
 
                 <div class="col-auto">
                     @{
-                        int passengercountbase = @Model.passeengerlist.passengers.Count;
-                        int amount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[0].amount;
-                        //int amount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[0].amount;
-                        int finalbasefare = passengercountbase * amount;
+                        int passengercountbase = @Model.passeengerlist.passengers.Count();
+                        int adtcount = 0;
+                        int chdcount = 0;
+                        int infcount = 0;
+                        int finalbasefare = 0;
+                        int amount = 0;
                     }
+                       
+                        @for (int i = 0; i < passengercountbase; i++)
+                        {
+                            var passengertypecount = @Model.passeengerlist.passengers[i].passengerTypeCode;
+                            var child = ""; // Assuming you meant 'child' instead of 'chd'
+                            var infant = ""; // Assuming you meant 'infant' instead of 'inf'
+
+                            if (passengertypecount == "ADT")
+                            {
+                                adtcount = adtcount + 1;
+
+
+
+                                // Do something for adult passengers
+                            }
+                            else if (passengertypecount == "CHD")
+                            {
+
+                                chdcount = chdcount + 1;
+
+
+                                // Do something for child passengers
+                            }
+                            else if (passengertypecount == "INF")
+                            {
+                                infcount = infcount + 1;
+
+                                // Do something for infant passengers
+                            }
+                           
+                        }
+                       
+                        
+                        @*int amount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[0].amount;
+                        
+                        int finalbasefare = passengercountbase * amount;*@
+                        <div class="text-14">Adult x @adtcount </div>
+                        <div class="text-14">Child x @chdcount </div>
+                        <div class="text-14">Infant x @infcount </div>
+                    
                     <div class="text-15">&#8377; @finalbasefare </div>
 
 

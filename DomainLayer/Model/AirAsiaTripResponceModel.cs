@@ -462,6 +462,7 @@ namespace DomainLayer.Model
     public class AAPassengerfare
     {
         public List<AAServicecharge> serviceCharges { get; set; }
+       
         public object discountCode { get; set; }
         public object fareDiscountCode { get; set; }
         public string passengerType { get; set; }

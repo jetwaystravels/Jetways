@@ -50,7 +50,7 @@
                 <div class="row mt-5">
                     <div class="d-flex flex-row justify-content-end">
                         <div class="Tlogo">
-                            <img src="~/img/logo.png">
+                            @*  <img src="~/img/logo.png"> *@
                             <!--<img class="crazyFrog"></img>-->
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                 <div class="row border-dot pt-2">
                     <div class="d-flex flex-row justify-content-between flex-wrap">
                         <div class="TPNR">
-                            <span class="mb-0 fw-bold-600"><span id="depart"> @Model.AirlinePNR[0].journeys[0].segments[0].designator.origin</span><span> to</span><span id="tarrive"> @Model.AirlinePNR[0].journeys[0].segments[0].designator.destination</span></span>
+                            <span class="mb-0 fw-bold-600"><span id="depart">@Model.AirlinePNR[0].journeys[0].segments[0].designator.origin</span><span> to</span><span id="tarrive"> @Model.AirlinePNR[0].journeys[0].segments[0].designator.destination</span></span>
                         </div>
                     </div>
                     <div class="col-12 border-width"></div>
@@ -111,8 +111,8 @@
                                         @{
                                             var imageUrl1 = @Model.AirlinePNR[0].passengers[i].barcodestring;
                                             // string imageUrl1 = ViewData["ImageBytes"] as string;
-                                               string barcode = ViewData["Barcode"] as string;
-                                           
+                                            string barcode = ViewData["Barcode"] as string;
+
 
                                         }
 
@@ -123,7 +123,7 @@
                                     </ul>
                                 </div>
 
-                                 
+
                             </div>
                         </div>
                     }
@@ -182,33 +182,36 @@
                             <div class="col-12 border-width"></div>
                             <div class="d-flex flex-row justify-content-between px-2 py-1">
                                 @{
+                                    var passengersegment = Model.AirlinePNR[0].journeys[0].segments.Count;
 
-                                    var passengerSegmentsList = Model.AirlinePNR[0].journeys[0].segments[0]?.passengerSegment;
-
-                                    if (passengerSegmentsList != null)
+                                    for (var s = 0; s < passengersegment; s++)
                                     {
-                                        foreach (var passengerSegment in passengerSegmentsList)
+                                        var passengerSegmentsList = Model.AirlinePNR[0].journeys[0].segments[s]?.passengerSegment;
+                                        if (passengerSegmentsList != null)
                                         {
-                                            // <h3>Passenger Key: @passengerSegment.passengerKey</h3>
-
-
-                                            @foreach (var seat in passengerSegment.seats)
+                                            foreach (var passengerSegment in passengerSegmentsList)
                                             {
-                                                <div class="tseat5d d-flex align-items-center">
-                                                    <span><img src="~/img/pseat.png"></span>
-                                                    <div class="seat5d ps-2">
-                                                        <span class="fw-bold-600"> Seat  @seat.unitDesignator</span>
+                                                // <h3>Passenger Key: @passengerSegment.passengerKey</h3>
+
+
+                                                @foreach (var seat in passengerSegment.seats)
+                                                {
+                                                    <div class="tseat5d d-flex align-items-center">
+                                                        <span><img src="~/img/pseat.png"></span>
+                                                        <div class="seat5d ps-2">
+                                                            <span class="fw-bold-600"> Seat  @seat.unitDesignator</span>
+                                                        </div>
                                                     </div>
-                                                </div>
+
+                                                }
+
 
                                             }
-
-
                                         }
-                                    }
-                                    else
-                                    {
-                                        <p>No passenger segments found.</p>
+                                        else
+                                        {
+                                            <p>No passenger segments found.</p>
+                                        }
                                     }
                                 }
 
@@ -311,7 +314,7 @@
                                         <span>Base Price</span>
                                     </div>
                                     <div class="col-5">
-                                        <span class="fw-bold-600">5,747</span>
+                                        <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.journeyTotals.totalAmount</span>
                                     </div>
                                 </div>
                                 <div class="row mt-2">
@@ -319,7 +322,7 @@
                                         <span>Airline taxes and Fees</span>
                                     </div>
                                     <div class="col-5">
-                                        <span class="fw-bold-600">15,62</span>
+                                        <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.journeyTotals.totalTax</span>
                                     </div>
                                 </div>
                                 <div class="row mt-2">
@@ -370,11 +373,41 @@
                                         <div class="row">
                                             <div class="col-9">
                                                 <span>Meal/Seat/Baggage/Misc Charges</span> <br>
-                                                <span>(Meal:0)</span><br>
-                                                <span>(Seat:@Model.AirlinePNR[0].breakdown.passengerTotals.seats.total)</span><br>
-                                                <span>(Seat Tax:@Model.AirlinePNR[0].breakdown.passengerTotals.seats.taxes)</span><br>
-                                                <span>(Baggage:0)</span><br>
-                                                <span>(Misc Charges: 0)</span>
+                                                @*  <span>Meal:0</span><br>
+                                                <span>Seat:@Model.AirlinePNR[0].breakdown.passengerTotals.seats.total</span><br>
+                                                <span>Seat Tax:@Model.AirlinePNR[0].breakdown.passengerTotals.seats.taxes</span><br>
+                                                <span>Baggage:0</span><br>
+                                                <span>Misc Charges: 0</span>*@
+                                            </div>
+                                            <div class="col-3">
+                                                <span class="fw-bold-600">0</span>
+                                            </div>
+                                            <div class="col-9">
+                                                <span class="fw-bold-600">Meal:</span>
+                                            </div>
+                                            <div class="col-3">
+                                                <span class="fw-bold-600">0</span>
+                                            </div>
+                                            <div class="col-9">
+                                                <span class="fw-bold-600">Seat :</span>
+                                            </div>
+                                            <div class="col-3">
+                                                <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.passengerTotals.seats.total</span>
+                                            </div>
+                                            <div class="col-9">
+                                                <span class="fw-bold-600">Seat Tax :</span>
+                                            </div>
+                                            <div class="col-3">
+                                                <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.passengerTotals.seats.taxes</span>
+                                            </div>
+                                            <div class="col-9">
+                                                <span class="fw-bold-600">Baggage:</span>
+                                            </div>
+                                            <div class="col-3">
+                                                <span class="fw-bold-600">0</span>
+                                            </div>
+                                            <div class="col-9">
+                                                <span class="fw-bold-600">Misc Charges:</span>
                                             </div>
                                             <div class="col-3">
                                                 <span class="fw-bold-600">0</span>
@@ -406,7 +439,7 @@
                                         <span class="fw-bold-600">Total Fare</span>
                                     </div>
                                     <div class="col-3">
-                                        <span class="fw-bold-600">XXXX</span>
+                                        <span class="fw-bold-600">xxxx</span>
                                     </div>
                                 </div>
                             </div>
@@ -468,7 +501,7 @@
 </html>
 
 
-@* <script type="text/javascript">
+<script type="text/javascript">
 
     //JsBarcode("#barcode", "1234", {
     //format: "pharmacode",
@@ -478,12 +511,12 @@
     //displayValue: false
     //});
 
-    JsBarcode("#barcode", "Vinay", {
-        width: 1,
-        height: 30,
-        displayValue: false
+    // JsBarcode("#barcode", "Vinay", {
+    //     width: 1,
+    //     height: 30,
+    //     displayValue: false
 
-    });
+    // });
 
     //-----PDF-Filegenrate-Code-----------
     //var testDivElement = document.getElementById('someHtml');
@@ -519,6 +552,6 @@
 
     }
 
-</script> *@
+</script>
 
 
