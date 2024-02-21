@@ -156,7 +156,8 @@
                     <div class="col-auto">
                         <div class="d-flex items-center">
                             <div class="form-checkbox ">
-                                <input type="checkbox" name="name">
+                                <input type="checkbox" class="selectCheckbox" value="0" name="stopsCheckbox" onclick="OnewayFunction()">
+                                @*  <input type="checkbox" name="name"> *@
                                 <div class="form-checkbox__mark">
                                     <svg class="svg-inline--fa fa-check fa-w-16 form-checkbox__icon" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="check" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg><!-- <div class="form-checkbox__icon fa fa-check"></div> -->
                                 </div>
@@ -178,7 +179,8 @@
 
                         <div class="d-flex items-center">
                             <div class="form-checkbox ">
-                                <input type="checkbox" name="name">
+                                <input type="checkbox" class="selectCheckbox" value="1" name="stopsCheckbox" onclick="OnewayFunction()">
+                                @*   <input type="checkbox" name="name"> *@
                                 <div class="form-checkbox__mark">
                                     <svg class="svg-inline--fa fa-check fa-w-16 form-checkbox__icon" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="check" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg><!-- <div class="form-checkbox__icon fa fa-check"></div> -->
                                 </div>
@@ -200,7 +202,8 @@
 
                         <div class="d-flex items-center">
                             <div class="form-checkbox ">
-                                <input type="checkbox" name="name">
+                                <input type="checkbox" class="selectCheckbox" value="2" name="stopsCheckbox" onclick="OnewayFunction()">
+                                @*   <input type="checkbox" name="name"> *@
                                 <div class="form-checkbox__mark">
                                     <svg class="svg-inline--fa fa-check fa-w-16 form-checkbox__icon" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="check" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg><!-- <div class="form-checkbox__icon fa fa-check"></div> -->
                                 </div>
@@ -501,7 +504,7 @@
                                 </div>
                             </div>
 
-                            <div class="text-15 ml-10">Air France</div>
+                            <div class="text-15 ml-10">Air India Express</div>
 
                         </div>
 
@@ -523,7 +526,7 @@
                                 </div>
                             </div>
 
-                            <div class="text-15 ml-10">Aer Lingus</div>
+                            <div class="text-15 ml-10">Indigo</div>
 
                         </div>
 
@@ -545,7 +548,7 @@
                                 </div>
                             </div>
 
-                            <div class="text-15 ml-10">Air Canada</div>
+                            <div class="text-15 ml-10">Spicejet</div>
 
                         </div>
 
@@ -1265,6 +1268,8 @@
                 success: function (response) {
                     $('#filternonstopWay').html(response);
                     restoreCheckboxData(FilterId);
+
+
                 },
                 error: function (xhr, status, error) {
                     console.error('Error occurred:', error);

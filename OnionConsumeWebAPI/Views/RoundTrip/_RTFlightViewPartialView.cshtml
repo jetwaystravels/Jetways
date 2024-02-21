@@ -1,5 +1,4 @@
-﻿
-<div class="row y-gap-40">
+﻿<div class="row y-gap-40">
 
     <div class="sidebar__item">
         <h5 class="text-18 fw-600 mb-10">Popular Filters</h5>
@@ -152,7 +151,8 @@
                 <div class="col-auto">
                     <div class="d-flex items-center">
                         <div class="form-checkbox ">
-                            <input type="checkbox" name="name">
+                            <input type="checkbox" class="selectionCheckbox" value="0" name="stopsCheckbox" onclick="nonStopFunction()">
+                            @*  <input type="checkbox" name="name"> *@
                             <div class="form-checkbox__mark">
                                 <div class="form-checkbox__icon fa fa-check"></div>
                             </div>
@@ -174,7 +174,7 @@
 
                     <div class="d-flex items-center">
                         <div class="form-checkbox ">
-                            <input type="checkbox" name="name">
+                            <input type="checkbox" class="selectionCheckbox" name="stopsCheckbox" value="1" onclick="nonStopFunction()">
                             <div class="form-checkbox__mark">
                                 <div class="form-checkbox__icon fa fa-check"></div>
                             </div>
@@ -196,7 +196,7 @@
 
                     <div class="d-flex items-center">
                         <div class="form-checkbox ">
-                            <input type="checkbox" name="name">
+                            <input type="checkbox" class="selectionCheckbox" name="stopsCheckbox" value="2" onclick="nonStopFunction()">
                             <div class="form-checkbox__mark">
                                 <div class="form-checkbox__icon fa fa-check"></div>
                             </div>
@@ -338,9 +338,6 @@
 
         </div>
     </div>
-
-
-
     <div class="sidebar__item">
         <h5 class="text-18 fw-600 mb-10">Airlines</h5>
         <div class="sidebar-checkbox">
@@ -460,6 +457,40 @@
 
 
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    function nonStopFunction() {
+        $('.selectionCheckbox').on('change', function () {
+            updateFilter();
+        });
+        function updateFilter() {
+            var selectedIds = [];
+            $('input.selectionCheckbox:checked').each(function () {
+                selectedIds.push($(this).val());
+            });
+            $.ajax({
+                url: '/RoundTrip/RTFlightView',
+                type: 'POST',
+                traditional: true,
+                data: { selectedIds: selectedIds },
+                success: function (response) {
+                    $('#filternonstop').html(response);
+                    restoreCheckboxState(selectedIds);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error occurred:', error);
+                }
+            });
+        }
+        function restoreCheckboxState(selectedIds) {
+            $('.selectionCheckbox').each(function () {
+                var checkboxValue = $(this).val();
+                $(this).prop('checked', selectedIds.includes(checkboxValue));
+            });
+        }
+    }
+</script>
 
 
 
@@ -986,37 +1017,3 @@
     </div>
 </div> *@
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-
-    function nonStopFunction() {
-        $('.selectionCheckbox').on('change', function () {
-            updateFilter();
-        });
-        function updateFilter() {
-            var selectedIds = [];
-            $('input.selectionCheckbox:checked').each(function () {
-                selectedIds.push($(this).val());
-            });
-            $.ajax({
-                url: '/RoundTrip/RTFlightView',
-                type: 'POST',
-                traditional: true,
-                data: { selectedIds: selectedIds },
-                success: function (response) {
-                    $('#filternonstop').html(response);
-                    restoreCheckboxState(selectedIds);
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error occurred:', error);
-                }
-            });
-        }
-        function restoreCheckboxState(selectedIds) {
-            $('.selectionCheckbox').each(function () {
-                var checkboxValue = $(this).val();
-                $(this).prop('checked', selectedIds.includes(checkboxValue));
-            });
-        }
-    }
-</script>

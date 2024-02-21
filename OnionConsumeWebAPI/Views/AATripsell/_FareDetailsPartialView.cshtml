@@ -26,27 +26,37 @@
                         int chdcount = 0;
                         int infcount = 0;
                         int finalbasefare = 0;
+                        int adtamount = 0;
+                        int chdtamount = 0;
                         int amount = 0;
+                        int basefare = 0;
+                        int peradtamount = 0;
+                        int perchdtamount = 0;
                     }
+                  
                        
                         @for (int i = 0; i < passengercountbase; i++)
                         {
-                            var passengertypecount = @Model.passeengerlist.passengers[i].passengerTypeCode;
-                            var child = ""; // Assuming you meant 'child' instead of 'chd'
+                         var passengertypecount = @Model.passeengerlist.passengers[i].passengerTypeCode;
+                       // var passengertypecount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[i].passengerType;
+                        var child = ""; // Assuming you meant 'child' instead of 'chd'
                             var infant = ""; // Assuming you meant 'infant' instead of 'inf'
 
                             if (passengertypecount == "ADT")
                             {
-                                adtcount = adtcount + 1;
-
-
-
-                                // Do something for adult passengers
+                             peradtamount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[0].amount;
+                             adtcount = adtcount + 1;
+                           
+                            adtamount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[0].amount;
+                            adtamount = adtamount * adtcount;
+                            // Do something for adult passengers
                             }
                             else if (passengertypecount == "CHD")
                             {
-
-                                chdcount = chdcount + 1;
+                            perchdtamount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[1].serviceCharges[0].amount;
+                            chdcount = chdcount + 1;
+                                chdtamount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[1].serviceCharges[0].amount;
+                                chdtamount = chdtamount * chdcount;
 
 
                                 // Do something for child passengers
@@ -64,10 +74,17 @@
                         @*int amount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[0].amount;
                         
                         int finalbasefare = passengercountbase * amount;*@
-                        <div class="text-14">Adult x @adtcount </div>
-                        <div class="text-14">Child x @chdcount </div>
-                        <div class="text-14">Infant x @infcount </div>
-                    
+                   
+                    @{
+                        basefare=@adtamount + @chdtamount ;
+                        
+                    }
+                    <div class="text-14">Base Fare  @basefare  </div>
+                    <div class="text-14">Adult ( @adtcount X @peradtamount) @adtamount  </div>
+                    <div class="text-14">Child ( @chdcount x @perchdtamount)  @chdtamount </div>
+                     <div class="text-14">Infant x @infcount </div>
+
+                    <div class="text-15">&#8377;TAX FARE @Model.passeengerlist.basefaretax </div>
                     <div class="text-15">&#8377; @finalbasefare </div>
 
 

@@ -430,10 +430,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         }
                     }
 
-
                 }
-
-
                 #region spicejet
                 List<SimpleAvailibilityaAddResponce> SpiceJetAvailibilityaAddResponcelist = new List<SimpleAvailibilityaAddResponce>();
                 //Logon 
@@ -1865,11 +1862,14 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
                     //OneWayTrip
                     HttpContext.Session.SetString("IndigoSignature", JsonConvert.SerializeObject(_IndigologonResponseobj.Signature));
-
                     HttpContext.Session.SetString("OneWayFlightView", JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist));
                     HttpContext.Session.SetString("OneWayPassengerModel", JsonConvert.SerializeObject(_SimpleAvailabilityobj));
-                    TempData["Mymodel"] = JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist);
-                    TempData["PassengerModel"] = JsonConvert.SerializeObject(_SimpleAvailabilityobj);
+
+                    // TempData["Mymodel"] = JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist);
+                    //TempData["PassengerModel"] = JsonConvert.SerializeObject(_SimpleAvailabilityobj);
+                    HttpContext.Session.SetString("Mymodel", JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist));
+                    HttpContext.Session.SetString("PassengerModel", JsonConvert.SerializeObject(_SimpleAvailabilityobj));
+
                     ////SpiceJet
                     TempData["SpiceJetmodel"] = JsonConvert.SerializeObject(SpiceJetAvailibilityaAddResponcelist);
                     TempData["SpiceJetPassengerModel"] = JsonConvert.SerializeObject(_getAvailabilityRQ);

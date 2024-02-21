@@ -79,29 +79,51 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
         [HttpPost]
         public IActionResult RTFlightView(List<int> selectedIds)
         {
+            if (selectedIds.Count > 0 && selectedIds.Count >= 0)
+            {
 
-            string LeftshowpopupdataStops = HttpContext.Session.GetString("LeftReturnViewFlightView");
-            string RightshowpopupdataStops = HttpContext.Session.GetString("RightReturnFlightView");
+                string LeftshowpopupdataStops = HttpContext.Session.GetString("LeftReturnViewFlightView");
+                string RightshowpopupdataStops = HttpContext.Session.GetString("RightReturnFlightView");
 
-            ViewModel vmobj = new ViewModel();
-            List<SimpleAvailibilityaAddResponce> RightdeserializedStops = null;
-            List<SimpleAvailibilityaAddResponce> LeftdeserializedStops = null;
-
-
-            LeftdeserializedStops = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(LeftshowpopupdataStops);
-            RightdeserializedStops = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(RightshowpopupdataStops);
+                ViewModel vmobj = new ViewModel();
+                List<SimpleAvailibilityaAddResponce> RightdeserializedStops = null;
+                List<SimpleAvailibilityaAddResponce> LeftdeserializedStops = null;
 
 
-            var FilterStopData = LeftdeserializedStops.Where(x => selectedIds.Contains(x.stops)).ToList();
+                LeftdeserializedStops = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(LeftshowpopupdataStops);
+                RightdeserializedStops = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(RightshowpopupdataStops);
 
-            var FilterStopDataRight = RightdeserializedStops.Where(x => selectedIds.Contains(x.stops)).ToList();
 
-            //var FilterStopData = LeftdeserializedStops.Where(x=>x.stops== selectedIds).ToList();
-            //var FilterStopDataRight = RightdeserializedStops.Where(x => x.stops == selectedIds).ToList();
+                var FilterStopData = LeftdeserializedStops.Where(x => selectedIds.Contains(x.stops)).ToList();
 
-            vmobj.SimpleAvailibilityaAddResponcelist = FilterStopData;
-            vmobj.SimpleAvailibilityaAddResponcelistR = FilterStopDataRight;
-            return View(vmobj);
+                var FilterStopDataRight = RightdeserializedStops.Where(x => selectedIds.Contains(x.stops)).ToList();
+
+                //var FilterStopData = LeftdeserializedStops.Where(x=>x.stops== selectedIds).ToList();
+                //var FilterStopDataRight = RightdeserializedStops.Where(x => x.stops == selectedIds).ToList();
+
+                vmobj.SimpleAvailibilityaAddResponcelist = FilterStopData;
+                vmobj.SimpleAvailibilityaAddResponcelistR = FilterStopDataRight;
+                return View(vmobj);
+            }
+            else
+            {
+                ViewModel vmobj = new ViewModel();
+                string Leftshowpopupdata = HttpContext.Session.GetString("LeftReturnViewFlightView");
+                string Rightshowpopupdata = HttpContext.Session.GetString("RightReturnFlightView");
+
+                List<SimpleAvailibilityaAddResponce> LeftdeserializedObjects = null;
+                List<SimpleAvailibilityaAddResponce> RightdeserializedObjects = null;
+
+                LeftdeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(Leftshowpopupdata);
+                RightdeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(Rightshowpopupdata);
+
+                vmobj.SimpleAvailibilityaAddResponcelist = LeftdeserializedObjects;
+                vmobj.SimpleAvailibilityaAddResponcelistR = RightdeserializedObjects;
+
+                // HttpContext.Session.SetString("FlightDetail", JsonConvert.SerializeObject(vmobj));
+                return View(vmobj);
+
+            }
         }
 
 
