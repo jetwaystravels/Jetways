@@ -9,7 +9,8 @@ namespace DomainLayer.Model
 {
     public class AirAsiaTripResponceModel
     {
-
+        public int inftcount { get; set; }
+        public int inftbasefare { get; set; }
         public int basefaretax {  get; set; }
         public bool selfServiceMoveAvailable { get; set; }
         public object bookingKey { get; set; }

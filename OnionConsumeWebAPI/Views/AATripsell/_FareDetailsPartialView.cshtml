@@ -9,7 +9,7 @@
 <div class="ml-20 lg:ml-40 md:ml-0">
 
     @{
-        int totalBaseFare_tax = 0;
+     
 
         <h2 class="text-20 fw-600 mt-14" style="padding:12px;">Fare Details</h2>
         <div class="px-30 py-30 border-light rounded-0 bg-white">
@@ -32,60 +32,64 @@
                         int basefare = 0;
                         int peradtamount = 0;
                         int perchdtamount = 0;
+                        int inftbasefare = 0;
+                        int toatlinftbasefare = 0;
+                        int totalBaseFareamount = 0;
+                        int basefaretax = 0;
                     }
-                  
-                       
-                        @for (int i = 0; i < passengercountbase; i++)
-                        {
-                         var passengertypecount = @Model.passeengerlist.passengers[i].passengerTypeCode;
-                       // var passengertypecount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[i].passengerType;
-                        var child = ""; // Assuming you meant 'child' instead of 'chd'
-                            var infant = ""; // Assuming you meant 'infant' instead of 'inf'
 
-                            if (passengertypecount == "ADT")
-                            {
-                             peradtamount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[0].amount;
-                             adtcount = adtcount + 1;
-                           
+
+                    @for (int i = 0; i < passengercountbase; i++)
+                    {
+                        var passengertypecount = @Model.passeengerlist.passengers[i].passengerTypeCode;
+                        // var passengertypecount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[i].passengerType;
+                        var child = ""; // Assuming you meant 'child' instead of 'chd'
+                        var infant = ""; // Assuming you meant 'infant' instead of 'inf'
+
+                        if (passengertypecount == "ADT")
+                        {
+                            peradtamount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[0].amount;
+                            adtcount = adtcount + 1;
+
                             adtamount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[0].amount;
                             adtamount = adtamount * adtcount;
                             // Do something for adult passengers
-                            }
-                            else if (passengertypecount == "CHD")
-                            {
+                        }
+                        else if (passengertypecount == "CHD")
+                        {
                             perchdtamount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[1].serviceCharges[0].amount;
                             chdcount = chdcount + 1;
-                                chdtamount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[1].serviceCharges[0].amount;
-                                chdtamount = chdtamount * chdcount;
+                            chdtamount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[1].serviceCharges[0].amount;
+                            chdtamount = chdtamount * chdcount;
 
 
-                                // Do something for child passengers
-                            }
-                            else if (passengertypecount == "INF")
-                            {
-                                infcount = infcount + 1;
-
-                                // Do something for infant passengers
-                            }
-                           
+                            // Do something for child passengers
                         }
-                       
-                        
-                        @*int amount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[0].amount;
-                        
-                        int finalbasefare = passengercountbase * amount;*@
-                   
-                    @{
-                        basefare=@adtamount + @chdtamount ;
-                        
-                    }
-                    <div class="text-14">Base Fare  @basefare  </div>
-                    <div class="text-14">Adult ( @adtcount X @peradtamount) @adtamount  </div>
-                    <div class="text-14">Child ( @chdcount x @perchdtamount)  @chdtamount </div>
-                     <div class="text-14">Infant x @infcount </div>
+                        else if (passengertypecount == "INF")
+                        {
+                            infcount = infcount + 1;
 
-                    <div class="text-15">&#8377;TAX FARE @Model.passeengerlist.basefaretax </div>
-                    <div class="text-15">&#8377; @finalbasefare </div>
+                            // Do something for infant passengers
+                        }
+
+                    }
+
+
+                    @*int amount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[0].amount;
+
+                int finalbasefare = passengercountbase * amount;*@
+
+                    @{
+
+                        infcount = Model.passeengerlistItanary.inftcount;
+                        inftbasefare = Model.passeengerlistItanary.inftbasefare;
+                        toatlinftbasefare = infcount * inftbasefare;
+                        basefare = @adtamount + @chdtamount + @toatlinftbasefare;
+
+                    }
+                    <div class="text-15 fw-600">&#8377; @basefare  </div>
+
+                    
 
 
                 </div>
@@ -93,50 +97,44 @@
 
             <div class="row y-gap-3 justify-between bg-light-2 hideme" style="display:none;">
                 <div class="col-auto">
-                    <div class="text-14">
-                        Traveller (
-                        @{
-                            int paxCount = @Model.passeengerlist.passengers.Count;
-                        }
-                        @paxCount X &#8377 @amount)
-                    </div>
-                    <div>
-                    </div>
+
+                    <div class="text-14">Adult ( @adtcount X &#8377;@peradtamount)</div>
+                    <div class="text-14">Child ( @chdcount X &#8377;@perchdtamount)</div>
+                    <div class="text-14">Infant ( @infcount X &#8377;@inftbasefare) </div>
+
+                    @*Traveller (
+                @{
+                int paxCount = @Model.passeengerlist.passengers.Count;
+                }
+                @paxCount X &#8377 @amount)*@
+
+
                 </div>
                 <div class="col-auto">
-                    @{
-                        int passengercount = @Model.passeengerlist.passengerscount;
-                        int amount1 = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[0].amount;
-                        int totalamount = amount1 * passengercount;
-                    }
-                    <div class="text-15">&#8377; @totalamount </div>
-
-
+                    <div class="text-15">&#8377; @adtamount </div>
+                    <div class="text-15">&#8377; @chdtamount </div>
+                    <div class="text-15">&#8377; @toatlinftbasefare </div>
                 </div>
+
+                
+
+
+
+
             </div>
 
             <div class="row y-gap-2 justify-between pt-2 pb-1 showBtn" style="cursor: pointer;">
                 <div class="col-auto">
-                    <div class="text-15">Fee &amp; Surcharges<i class="fa fa-angle-down ml-2" aria-hidden="true"></i> </div>
+                    <div class="text-15">Taxes &amp; Surcharges</div>
                 </div>
                 <div class="col-auto">
-                    @{
+                @{
+                        basefaretax = @Model.passeengerlist.basefaretax;
+                 }
 
-                        foreach (var item in Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares)
-                        {
-                            int servicecharge = item.serviceCharges.Count;
-                            int finalamount = 0;
-                            for (int i = 1; i < servicecharge; i++)
-                            {
-                                int amounttax = item.serviceCharges[i].amount;
-                                finalamount += amounttax;
-                            }
+                    <div class="text-15 fw-600">&#8377;@Model.passeengerlist.basefaretax</div>
 
-                            <div class="text-15">&#8377; @finalamount</div>
-                            totalBaseFare_tax = totalamount + finalamount;
-
-                        }
-                    }
+                    
 
 
                 </div>
@@ -179,7 +177,7 @@
                     <div> </div>
                 </div>
                 <div class="col-auto">
-                    <div class="text-15 text-success"> (-) &#8377;  50 </div>
+                    <div class="text-15 text-success"> (-) &#8377;  0.0 </div>
                 </div>
             </div>
 
@@ -187,38 +185,22 @@
                 <div class="text-18 col-9">Total Fare </div>
                 <div class="total_ammount d-flex col-3">
                     @{
-                        foreach (var item in Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares)
-                        {
-                            int servicecharge = item.serviceCharges.Count;
-                            int Totalamount = 0;
+                        int totalBaseFare_tax = 0;
+                        totalBaseFare_tax = @basefare + @basefaretax;
 
-
-                            for (int i = 0; i < servicecharge; i++)
-                            {
-                                int amounttax = item.serviceCharges[i].amount;
-                                Totalamount += amounttax;
-                            }
-                            <span>&#8377</span>
-                // <input class="input-ammount" type="text" name="Totalamount" value="@Totalamount" id="Totalamount" />
-                            <input class="input-ammount" type="text" name="Totalamount" value="@totalBaseFare_tax" id="Totalamount" />
-
-
-                            @* <div id="Totalamount" class="text-15">&#8377 6000</div>*@
-
-
-                        }
-
+                        <span>&#8377</span>
+                        <input class="input-ammount fw-600" type="text" name="Totalamount" value="@totalBaseFare_tax" id="Totalamount" />
                     }
 
                     @* <input class="input-ammount" type="hidden" name="Totalamount" value="0" id="Totalamount" /> *@
-                    <span id="TotalamountN"></span>
+                    @*<span id="TotalamountN"></span>*@
                 </div>
             </div>
 
 
             <div class="row y-gap-2 pt-2">
                 <div class="damount col-9">
-                    Add Seat
+                    Seat
                 </div>
                 <div class="damount d-flex col-3">
                     <span>&#8377</span>
@@ -229,7 +211,7 @@
             <div class="row y-gap-2  pt-2">
 
                 <div class="damount col-9">
-                    <span class="text-15">Add Meal</span>
+                    <span class="text-15">Meal</span>
                 </div>
                 <div class="damount col-3 d-flex width-132">
                     <span>&#8377</span>

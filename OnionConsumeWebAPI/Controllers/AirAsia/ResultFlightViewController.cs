@@ -469,10 +469,15 @@ namespace OnionConsumeWebAPI.Controllers
                             var TotalAmount = JsonObjPassengers.data.breakdown.journeys[journeyKey].totalAmount;
                             var TotalTax = JsonObjPassengers.data.breakdown.journeys[journeyKey].totalTax;
                             int Journeyscount = JsonObjPassengers.data.journeys.Count;
+                            int Inftcount = 0;
+                            int Inftbasefare = 0;
+
                             List<AAJourney> AAJourneyList = new List<AAJourney>();
                             for (int i = 0; i < Journeyscount; i++)
                             {
                                 AAJourney AAJourneyobject = new AAJourney();
+
+                                
                                 AAJourneyobject.flightType = JsonObjPassengers.data.journeys[i].flightType;
                                 AAJourneyobject.stops = JsonObjPassengers.data.journeys[i].stops;
                                 AAJourneyobject.journeyKey = JsonObjPassengers.data.journeys[i].journeyKey;
@@ -591,6 +596,7 @@ namespace OnionConsumeWebAPI.Controllers
                             List<AAPassengers> passkeyList = new List<AAPassengers>();
                             Infant infantobject = null;
                             Fee feeobject = null;
+                            
                             foreach (var items in JsonObjPassengers.data.passengers)
                             {
                                 AAPassengers passkeytypeobject = new AAPassengers();
@@ -599,12 +605,15 @@ namespace OnionConsumeWebAPI.Controllers
                                 passkeyList.Add(passkeytypeobject);
                                 passengerkey12 = passkeytypeobject.passengerKey;
                                 //infant
+                                
                                 if (passkeytypeobject.passengerTypeCode != "CHD")
                                 {
-
+                                   
                                     if (JsonObjPassengers.data.passengers[passkeytypeobject.passengerKey].infant != null)
                                     {
                                         int Feecount = JsonObjPassengers.data.passengers[passkeytypeobject.passengerKey].infant.fees.Count;
+                                        Inftcount += Feecount;
+                                        Inftbasefare = JsonObjPassengers.data.passengers[passkeytypeobject.passengerKey].infant.fees[0].serviceCharges[0].amount;
                                         List<Fee> feeList = new List<Fee>();
                                         for (int i = 0; i < Feecount; i++)
                                         {
@@ -632,6 +641,8 @@ namespace OnionConsumeWebAPI.Controllers
                                     }
                                 }
 
+                                AirAsiaTripResponceobject.inftcount = Inftcount;
+                                AirAsiaTripResponceobject.inftbasefare = Inftbasefare;
 
                                 AirAsiaTripResponceobject.journeys = AAJourneyList;
                                 AirAsiaTripResponceobject.passengers = passkeyList;

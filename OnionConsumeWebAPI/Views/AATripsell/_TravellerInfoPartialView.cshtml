@@ -25,6 +25,7 @@
                     <select name="passengerdetails[@i].Title" class="form-control" asp-items="@ViewBag.Title"></select>
                 </div>
                 <div class="col-md-3">
+                    <div id="error-Fname" class="error-message" style="display:none">Type your first name</div>
                     <div class="form-input">
                         @{
                             if (Model.passeengerlist.passengers[i].passengerKey == "0")
@@ -36,13 +37,14 @@
                                 <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlist.passengers[i].passengerKey" required />
                             }
                         }
-                        <input type="text" name="passengerdetails[@i].First" required />
+                        <input type="text" class="contactFname" name="passengerdetails[@i].First" required />
                         <label class="lh-1 text-16 text-light-1">First & middle name</label>
                     </div>
                 </div>
                 <div class="col-md-3">
+                    <div id="error-Lname" class="error-message" style="display:none">Type your last name</div>
                     <div class="form-input">
-                        <input type="text" name="passengerdetails[@i].Last" required />
+                        <input type="text" class="contactLname" name="passengerdetails[@i].Last" required />
                         <label class="lh-1 text-16 text-light-1">Last name</label>
                     </div>
                 </div>
@@ -178,6 +180,28 @@
         });
         $("#showReviewPopup").click(function (e) {
             e.preventDefault();
+
+            /*******Validation Start*********/
+
+            var firstName = document.querySelector(".contactFname").value;
+            if (firstName == "") {
+                //alert("Enter Origin Name");
+                var firstnameToDisplay = document.getElementById("error-Fname");
+                firstnameToDisplay.style.display = "block";
+                document.querySelector(".contactFname").focus();
+                return false;
+            }
+            var lastName = document.querySelector(".contactLname").value;
+            if (lastName == "") {
+                //alert("Enter Origin Name");
+                var lastnameToDisplay = document.getElementById("error-Lname");
+                lastnameToDisplay.style.display = "block";
+                document.querySelector(".contactLname").focus();
+                return false;
+            }
+            /*******Validation End*********/
+
+
             var enteredData = "";
             for (var i = 0; i < @Model.passeengerlist.passengers.Count; i++) {
                 var firstName = $("input[name='passengerdetails[" + i + "].First']").val();
@@ -200,6 +224,17 @@
         });
         $("#ContinueData").click(function () {
             $('#passengers_id').hide(); //Contact Details Div Hide
+            //*************Validation effect Start**********
+            var contentToDisplay = document.getElementById("content");
+            contentToDisplay.style.display = "none";
+            var content2To = document.getElementById("content2");
+            content2To.style.display = "none";
+            var toggleButton3To = document.getElementById("toggleButton3");
+            toggleButton3To.style.opacity = "1.0";
+            var content3To = document.getElementById("content3");
+            content3To.style.display = "block";
+
+
             var formData = new FormData($("#passengerForm")[0]);
             $.ajax({
                 url: "/AATripsell/TravllerDetails",

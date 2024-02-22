@@ -1,4 +1,5 @@
-﻿<form asp-action="ContectDetails" asp-controller="AATripsell" method="post">
+﻿@* <form asp-action="ContectDetails" asp-controller="AATripsell" method="post"> *@
+<form id="contactForm">
     @* @Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
     <div class="row y-gap-10 row mt-2 py-3 mb-3">
 
@@ -6,13 +7,14 @@
             <label class="text-18 fw-600">Contact Details</label>
         </div>
         <div class="col-md-6">
+            <div id="error-message1" class="error-message" style="display:none">Type your First name</div>
             <div class="form-input ">
-
                 <input type="text" name="first" id="first">
                 <label class="lh-1 text-16 text-light-1">First Name</label>
             </div>
         </div>
         <div class="col-md-6">
+            <div id="error-message4" class="error-message" style="display:none">Type your middle name</div>
             <div class="form-input ">
 
                 <input type="text" name="middle" id="middle">
@@ -20,6 +22,7 @@
             </div>
         </div>
         <div class="col-md-6">
+            <div id="error-message2" class="error-message" style="display:none">Type your Last name</div>
             <div class="form-input ">
 
                 <input type="text" name="last" id="last">
@@ -27,6 +30,7 @@
             </div>
         </div>
         <div class="col-md-6">
+            <div id="error-message3" class="error-message" style="display:none">Type your address</div>
             <div class="form-input ">
 
                 <input type="text" name="lineOne" id="lineOne">
@@ -34,6 +38,7 @@
             </div>
         </div>
         <div class="col-md-6">
+            <div id="error-message5" class="error-message" style="display:none">Type your City Name</div>
             <div class="form-input ">
 
                 <input type="text" name="city" id="city">
@@ -41,14 +46,16 @@
             </div>
         </div>
         <div class="col-md-6">
+            <div id="error-message6" class="error-message" style="display:none">Type your Postal Code</div>
             <div class="form-input ">
 
-                <input type="text" name="postalCode" id="postalCode">
+                <input type="number" name="postalCode" id="postalCode">
                 <label class="lh-1 text-16 text-light-1">Postal Code</label>
             </div>
         </div>
 
         <div class="col-md-6">
+            <div id="error-message7" class="error-message" style="display:none">Type your emai ID</div>
             <div class="form-input ">
 
                 <input type="text" name="emailAddress" id="emailAddress">
@@ -63,9 +70,10 @@
         </div>
         <div class="col-md-4 phone-number">
             <div class="form-input">
-                <input type="text" name="number" id="number">
+                <input type="number" name="number" id="number">
                 <label class="lh-1 text-16 text-light-1">Phone Number</label>
             </div>
+            <div id="error-message8" class="error-message" style="display:none">Type your Phone Number</div>
         </div>
         <div class="d-flex justify-content-end mt-3">
             <input type="submit" class="btn btn-primary pagelaod" value="Save" />
@@ -73,12 +81,127 @@
 
     </div>
 </form>
+<style>
+    .error-message {
+        color: red;
+        font-size: 13px;
+    }
+</style>
 <script type="text/javascript">
     $(document).ready(function () {
         $(".pagelaod").click(function (e) {
             e.preventDefault();
+            //alert("Test");
+            var firstfocus = document.getElementById("first").value;
+            if (firstfocus == "") {
+                //alert("Enter Origin Name");
+                var firstToDisplay = document.getElementById("error-message1");
+                firstToDisplay.style.display = "block";
+                document.getElementById("first").focus();
+                return false;
+            }
+
+            var middelfocus = document.getElementById("middle").value;
+            if (middelfocus == "") {
+                //alert("Enter Origin Name");
+                var middelToDisplay = document.getElementById("error-message4");
+                middelToDisplay.style.display = "block";
+                document.getElementById("middle").focus();
+                return false;
+            }
+            var lastfocus = document.getElementById("last").value;
+            if (lastfocus == "") {
+                //alert("Enter Origin Name");
+                var firstToDisplay = document.getElementById("error-message2");
+                firstToDisplay.style.display = "block";
+                document.getElementById("last").focus();
+                return false;
+            }
+            var addrresfocus = document.getElementById("lineOne").value;
+            if (addrresfocus == "") {
+                //alert("Enter Origin Name");
+                var firstToDisplay = document.getElementById("error-message3");
+                firstToDisplay.style.display = "block";
+                document.getElementById("lineOne").focus();
+                return false;
+            }
+            let cityfocus = document.getElementById("city").value;
+            if (cityfocus == "") {
+                //alert("Enter Origin Name");
+                let cityToDisplay = document.getElementById("error-message5");
+                cityToDisplay.style.display = "block";
+                document.getElementById("city").focus();
+                return false;
+            }
+
+            let postalfocus = document.getElementById("postalCode").value;
+            if (postalfocus == "") {
+                //alert("Enter Origin Name");
+                let postalCodeToDisplay = document.getElementById("error-message6");
+                postalCodeToDisplay.style.display = "block";
+                document.getElementById("postalCode").focus();
+                return false;
+            }
+
+
+            let emailfocus = document.getElementById("emailAddress").value;
+
+            if (emailfocus == "") {
+                //alert("Enter Origin Name");
+                let emailToDisplay = document.getElementById("error-message7");
+                emailToDisplay.style.display = "block";
+                document.getElementById("emailAddress").focus();
+                return false;
+            }
+
+            let phonefocus = document.getElementById("number").value;
+            if (phonefocus == "") {
+
+                let phoneToDisplay = document.getElementById("error-message8");
+                phoneToDisplay.textContent = "Please enter your phone number";
+                phoneToDisplay.style.display = "block";
+                document.getElementById("number").focus();
+                return false;
+            }
+            var mobileNumberPattern = /^\d{10}$/; // Assumes a 10-digit number
+
+            if (!mobileNumberPattern.test(phonefocus)) {
+                alert("Please enter a valid 10-digit mobile number.");
+                return false;
+            }
+
+
+
+            var contactFormData = new FormData($("#contactForm")[0]);
+            //alert("form data:"+ contactFormData);
+            $.ajax({
+                url: "/AATripsell/ContectDetails",
+                type: "POST",
+                data: contactFormData,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    // Handle the response from the server if needed
+                    var contentToDisplay = document.getElementById("content");
+                    contentToDisplay.style.display = "none";
+                    var content2ToDisplay = document.getElementById("content2");
+                    content2ToDisplay.style.display = "block";
+
+                    var toggleButton2 = document.getElementById("toggleButton2");
+                    //toggleButton2.disabled = false;
+                    toggleButton2.style.opacity = "1.0";
+
+                },
+                error: function (error) {
+                    // Handle any errors here
+                }
+            });
+            //return true;
+
+
 
         });
+    });
 </script>
 
 
