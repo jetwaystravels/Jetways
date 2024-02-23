@@ -377,7 +377,21 @@ namespace DomainLayer.Model
         public object note { get; set; }
         public DateTime createdDate { get; set; }
         public bool isProtected { get; set; }
+        public ServicechargeInfant ServicechargeInfant { get; set; }
         //public Servicecharge[] serviceCharges { get; set; }
+    }
+    public class ServicechargeInfant
+    {
+        public int amount { get; set; }
+        public int ServiceTaxCount { get; set; }
+        public string code { get; set; }
+        public string detail { get; set; }
+        public int type { get; set; }
+        public int collectType { get; set; }
+        public string currencyCode { get; set; }
+        public string foreignCurrencyCode { get; set; }
+        public int foreignAmount { get; set; }
+        public string ticketCode { get; set; }
     }
 
     public class AAInfo1

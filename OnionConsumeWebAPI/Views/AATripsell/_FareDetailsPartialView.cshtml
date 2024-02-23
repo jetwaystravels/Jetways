@@ -81,8 +81,8 @@
 
                     @{
 
-                        infcount = Model.passeengerlistItanary.inftcount;
-                        inftbasefare = Model.passeengerlistItanary.inftbasefare;
+                       // infcount = Model.passeengerlistItanary.inftcount;
+                      //  inftbasefare = Model.passeengerlistItanary.inftbasefare;
                         toatlinftbasefare = infcount * inftbasefare;
                         basefare = @adtamount + @chdtamount + @toatlinftbasefare;
 
@@ -182,7 +182,7 @@
             </div>
 
             <div class="row y-gap-2  pt-2 border-top-light">
-                <div class="text-18 col-9">Total Fare </div>
+                <div class="text-15 fw-600 col-9">Total Fare </div>
                 <div class="total_ammount d-flex col-3">
                     @{
                         int totalBaseFare_tax = 0;

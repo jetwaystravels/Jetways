@@ -316,11 +316,75 @@
                     <div class="col-xl-9 col-lg-8">
                         <div class="shorting-bg-white" style="padding: 0px 15px 15px 15px;">
                             <ul class="shorting-tab">
-                                <li><a href="#">Airlines </a></li>
-                                <li><a href="#">Depart</a></li>
+                                <li>
+                                    <a asp-controller="ResultFlightView" asp-action="FlightView" asp-route-sortOrder="@ViewBag.NameSortParam">
+                                        Airlines
+                                        @if (ViewBag.NameSortParam == "name_desc")
+                                        {
+                                            <span class="oi oi-sort-descending"></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="oi oi-sort-ascending"></span>
+                                        }
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-controller="ResultFlightView" asp-action="FlightView" asp-route-sortOrder="@ViewBag.DepartSortParam">
+                                        Depart
+                                        @if (ViewBag.PriceSortParam == "price_desc")
+                                        {
+                                            <span class="oi oi-sort-descending"></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="oi oi-sort-ascending"></span>
+                                        }
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-controller="ResultFlightView" asp-action="FlightView" asp-route-sortOrder="@ViewBag.durationSortParam">
+                                        Duration
+                                        @if (ViewBag.PriceSortParam == "duration_desc")
+                                        {
+                                            <span class="oi oi-sort-descending"></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="oi oi-sort-ascending"></span>
+                                        }
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-controller="ResultFlightView" asp-action="FlightView" asp-route-sortOrder="@ViewBag.arriveSortParam">
+                                        Arrive
+                                        @if (ViewBag.PriceSortParam == "arrive_desc")
+                                        {
+                                            <span class="oi oi-sort-descending"></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="oi oi-sort-ascending"></span>
+                                        }
+                                    </a>
+                                </li>
+                                @*  <li><a href="#">Airlines </a></li> *@
+                                @*  <li><a href="#">Depart</a></li>
                                 <li><a href="#">Duration</a></li>
-                                <li><a href="#">Arrive</a></li>
-                                <li><a href="#" class="active">Price</a></li>
+                                <li><a href="#">Arrive</a></li> *@
+                                <li>
+                                    <a asp-controller="ResultFlightView" asp-action="FlightView" asp-route-sortOrder="@ViewBag.PriceSortParam">
+                                        Price
+                                        @if (ViewBag.PriceSortParam == "price_desc")
+                                        {
+                                            <span class="oi oi-sort-descending"></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="oi oi-sort-ascending"></span>
+                                        }
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                         <form asp-controller="FlightSearchIndex" method="post">
@@ -375,7 +439,7 @@
                                                                 }
                                                                 else
                                                                 {
-                                                                    CompanyName = "AirAsia";
+                                                                    CompanyName = "Air India Expr...";
                                                                 }
 
 
