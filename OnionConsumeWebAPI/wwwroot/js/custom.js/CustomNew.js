@@ -34,6 +34,8 @@ $(document).ready(function () {
         const seatmap1 = document.getElementById("total").value;
 
         var TotalAmmount = document.getElementById("Totalamount").value;
+        localStorage.setItem('seatPayment', seatmap1);
+        localStorage.setItem('basePayment', TotalAmmount);
        
         var Totalseat1 = parseInt(TotalAmmount) + parseInt(seatmap1);
         if (seatmap1 != null) {

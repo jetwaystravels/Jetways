@@ -80,9 +80,13 @@
                 int finalbasefare = passengercountbase * amount;*@
 
                     @{
-
-                       // infcount = Model.passeengerlistItanary.inftcount;
-                      //  inftbasefare = Model.passeengerlistItanary.inftbasefare;
+                        if (@Model.passeengerlistItanary != null)
+                        {
+                            infcount = Model.passeengerlistItanary.inftcount;
+                            inftbasefare = Model.passeengerlistItanary.inftbasefare;
+                        }
+                       
+                       
                         toatlinftbasefare = infcount * inftbasefare;
                         basefare = @adtamount + @chdtamount + @toatlinftbasefare;
 
@@ -97,10 +101,19 @@
 
             <div class="row y-gap-3 justify-between bg-light-2 hideme" style="display:none;">
                 <div class="col-auto">
-
-                    <div class="text-14">Adult ( @adtcount X &#8377;@peradtamount)</div>
-                    <div class="text-14">Child ( @chdcount X &#8377;@perchdtamount)</div>
-                    <div class="text-14">Infant ( @infcount X &#8377;@inftbasefare) </div>
+                @{
+                        <div class="text-14">Adult ( @adtcount X &#8377;@peradtamount)</div>
+                        if (@chdtamount !=0)
+                        {
+                            <div class="text-14">Child ( @chdcount X &#8377;@perchdtamount)</div>
+                        }
+                        if (toatlinftbasefare!=0)
+                        {
+                            <div class="text-14">Infant ( @infcount X &#8377;@inftbasefare) </div>
+                        }
+                       
+                }
+                    
 
                     @*Traveller (
                 @{
@@ -112,8 +125,19 @@
                 </div>
                 <div class="col-auto">
                     <div class="text-15">&#8377; @adtamount </div>
-                    <div class="text-15">&#8377; @chdtamount </div>
-                    <div class="text-15">&#8377; @toatlinftbasefare </div>
+                    @{
+                        if (@chdtamount!=0)
+                        {
+                            <div class="text-15">&#8377; @chdtamount </div>
+                        }
+                        if (toatlinftbasefare != 0)
+                        {
+                            <div class="text-15">&#8377; @toatlinftbasefare </div>
+                        }
+
+                        
+                    }
+                    
                 </div>
 
                 

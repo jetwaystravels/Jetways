@@ -2,20 +2,6 @@
 	Layout = null;
 }
 
-@*<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Payment</title>
-    <h2>Wecome Payment page</h2>
-
-</head>
-<body>
-    <form>
-        <input type="submit" asp-controller="CommitBooking" asp-action="booking" value="Continue" class="button small-btn">
-    </form>
-</body>
-</html>*@
-
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head>
@@ -264,7 +250,7 @@
 												</div>
 												<div class="pt-20">
 													<div class="d-flex justify-content-between">
-														<span class="text-20 lh-13 fw-700 pt-3">&#8377; 7,219</span>
+														<span class="text-20 lh-13 fw-700 pt-3">&#8377; <span class="text-20 lh-13 fw-700 pt-3" id="Totalpayment"></span></span>
 														@*<button class="btn btn-lg">Pay Now</button>*@
 														<form>
 															<input type="submit" asp-controller="CommitBooking" asp-action="booking" value="Pay Now" class="btn btn-lg">
@@ -665,24 +651,40 @@
 									<div class="text-15">Total Flight Price</div>
 								</div>
 								<div class="col-auto">
-									<div class="text-15">&#8377; <span id="value-output"></span></div>
+									<div class="text-15">&#8377; <span id="basevalue"></span></div>
 								</div>
 							</div>
-							<div class="row y-gap-3 justify-between pb-1">
-								<div class="col-auto">
-									<div class="text-14">(-) ICB Discount </div>
-									<div> </div>
-								</div>
-								<div class="col-auto">
-									<div class="text-15 text-success">&#8377;  100</div>
-								</div>
+							@* <div class="row y-gap-3 justify-between pb-1">
+							<div class="col-auto">
+							<div class="text-14">(-) ICB Discount </div>
+							<div> </div>
 							</div>
+							<div class="col-auto">
+							<div class="text-15 text-success">&#8377;  100</div>
+							</div>
+							</div> *@
 							<div class="row y-gap-2 justify-between pb-1">
 								<div class="col-auto">
 									<div class="text-15">Convenience Fee</div>
 								</div>
 								<div class="col-auto">
-									<div class="text-15">&#8377; 415</div>
+									<div class="text-15">&#8377; <span><input style="border:none;width:30px;" class="sum_item input-ammount" value="350" name="convie" type="text" id="convinfare" /></span></div>
+								</div>
+							</div>
+							<div class="row y-gap-2 justify-between pb-1">
+								<div class="col-auto">
+									<div class="text-15">Seat</div>
+								</div>
+								<div class="col-auto">
+									<div class="text-15">&#8377; <span id="seattotal"></span></div>
+								</div>
+							</div>
+							<div class="row y-gap-2 justify-between pb-1">
+								<div class="col-auto">
+									<div class="text-15">Meal</div>
+								</div>
+								<div class="col-auto">
+									<div class="text-15">&#8377; <span id="mealtatal">00.0</span></div>
 								</div>
 							</div>
 							<div class="row y-gap-2 justify-between pt-2 border-top-light">
@@ -690,7 +692,7 @@
 									<div class="text-20 fw-600">You Pay</div>
 								</div>
 								<div class="col-auto">
-									<div class="text-20 fw-600">&#8377; 4,224</div>
+									<div class="text-20 fw-600">&#8377; <span id="totalpayment"></span></div>
 								</div>
 							</div>
 
@@ -879,9 +881,18 @@
 		window.onload = function () {
 			debugger;
 			// Get the value from localStorage
-			var value = localStorage.getItem('myValue');
+			//var value = localStorage.getItem('myValue');
 			// Display the value on the page
-			document.getElementById("value-output").innerHTML = value;
+			//document.getElementById("value-output").innerHTML = value;
+			var seatFare = localStorage.getItem('seatPayment');
+			var baseFare = localStorage.getItem('basePayment');
+			document.getElementById("seattotal").innerHTML = seatFare;
+			document.getElementById("basevalue").innerHTML = baseFare;
+			var conviniencefare = document.querySelector('#convinfare').value;
+			let Totalpaymnet = parseInt(seatFare) + parseInt(baseFare) + parseInt(conviniencefare);
+			document.getElementById("totalpayment").innerHTML = Totalpaymnet;
+			document.getElementById("Totalpayment").innerHTML = Totalpaymnet;
+
 		};
 	</script>
 </body>
