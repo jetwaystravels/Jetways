@@ -144,7 +144,7 @@
                                             <div class="col-12 col-md-10 col-lg-3 space autocomplete">
                                                 <label>Flying From</label>
                                                 <span class="input-group-text flightdepr">
-                                                    <img src="~/img/location-icon.png" alt="icon">&nbsp;
+                                                    @* <img src="~/img/location-icon.png" alt="icon">&nbsp; *@
                                                     @* <input id="myInput" type="" placeholder="Delhi DL" class="form-control fisrt">*@
                                                     @* <select class="form-control fisrt" id="ToCity" asp-for="origin"
                                                     asp-items="@(new SelectList(@ViewBag.ListofCountry,"CityCode", "CityName"))">
@@ -167,7 +167,7 @@
                                             <div class="col-12 col-md-10 col-lg-3 space autocomplete">
                                                 <label>Flying To</label>
                                                 <span class="input-group-text" id="basic-addon1">
-                                                    <img src="~/img/location-icon.png" alt="icon" style="left:15px;">&nbsp;
+                                                   @*  <img src="~/img/location-icon.png" alt="icon" style="left:15px;">&nbsp; *@
                                                     @* <input id="myInput1" type="" placeholder="Mumbai BOM" class="form-control fisrt">
                                                     <select class="form-control fisrt" id="ToCity" asp-for="destination"
                                                     asp-items="@(new SelectList(@ViewBag.ListofCountry,"CityCode", "CityName"))">
@@ -185,7 +185,7 @@
                                             <div class="col-12 col-md-10 col-lg-2 space">
                                                 <label>Departure</label>
                                                 <span class="input-group-text">
-                                                    <img src="~/img/calender-icon.png" alt="icon">
+                                                    @* <img src="~/img/calender-icon.png" alt="icon"> *@
                                                     <input id="start-date" asp-for="beginDate" type="" placeholder="Date" class="form-control">
 
                                                     <span asp-validation-for="beginDate"></span>
@@ -195,7 +195,7 @@
                                             <div class="col-12 col-md-10 col-lg-2 space">
                                                 <label>Return</label>
                                                 <span class="input-group-text" id="bgEnddate">
-                                                    <img src="~/img/calender-icon.png" alt="icon">
+                                                    @* <img src="~/img/calender-icon.png" alt="icon"> *@
                                                     <input id="end-date" asp-for="endDate" type="" placeholder="" class="form-control" disabled>
 
                                                     <span asp-validation-for="endDate"></span>
@@ -208,11 +208,11 @@
                                                     <div data-x-dd-click="searchMenu-guests">
 
                                                         <div class="text-15 text-light-1 ls-2 lh-16">
-                                                            <span class="js-count-adult" id="count_adult">1</span> adults
+                                                            <span class="js-count-adult text-22 fw-600" id="count_adult">1</span> adults
                                                             -
-                                                            <span class="js-count-child" id="count_child">0</span> childeren
+                                                            <span class="js-count-child text-22 fw-600" id="count_child">0</span> childeren
                                                             -
-                                                            <span class="js-count-infents" id="count_infant">0</span> Infants
+                                                            <span class="js-count-infents text-22 fw-600" id="count_infant">0</span> Infants
                                                         </div>
                                                     </div>
 

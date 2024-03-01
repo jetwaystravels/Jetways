@@ -684,7 +684,7 @@
 									<div class="text-15">Meal</div>
 								</div>
 								<div class="col-auto">
-									<div class="text-15">&#8377; <span id="mealtatal">00.0</span></div>
+									<div class="text-15">&#8377; <span id="mealtatal"></span></div>
 								</div>
 							</div>
 							<div class="row y-gap-2 justify-between pt-2 border-top-light">
@@ -886,10 +886,12 @@
 			//document.getElementById("value-output").innerHTML = value;
 			var seatFare = localStorage.getItem('seatPayment');
 			var baseFare = localStorage.getItem('basePayment');
+			var basemeal = localStorage.getItem("Mealfarecnt");
 			document.getElementById("seattotal").innerHTML = seatFare;
+			document.getElementById("mealtatal").innerHTML = basemeal;
 			document.getElementById("basevalue").innerHTML = baseFare;
 			var conviniencefare = document.querySelector('#convinfare').value;
-			let Totalpaymnet = parseInt(seatFare) + parseInt(baseFare) + parseInt(conviniencefare);
+			let Totalpaymnet = parseInt(basemeal) + parseInt(seatFare) + parseInt(baseFare) + parseInt(conviniencefare);
 			document.getElementById("totalpayment").innerHTML = Totalpaymnet;
 			document.getElementById("Totalpayment").innerHTML = Totalpaymnet;
 

@@ -391,7 +391,7 @@
                             @for (var j = 0; j < Model.SimpleAvailibilityaAddResponcelist.Count; j++)
                             {
 
-                                var collapseId = "ViewPriceCollapse" + Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.identifier;
+                                var collapseId = "ViewPriceCollapse" + Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.identifier.Trim();
                                 var CompanyName = "";
                                 <div class="py-20 px-20 bg-white mt-20">
                                     <div class="row y-gap-30 justify-between">
@@ -537,7 +537,8 @@
 
                                                     <div class="text-center md:text-left mb-10">
 
-                                                        <div class="price">@Model.SimpleAvailibilityaAddResponcelist[j].fareTotalsum</div>
+                                                        <div class="price">₹ @Model.SimpleAvailibilityaAddResponcelist[j].fareTotalsum</div>
+                                                        <p class="text-8 text-center" style="margin-top:-6px;">per adult</p>
                                                     </div>
 
                                                     <div>
@@ -590,7 +591,7 @@
                                                             <td>
                                                                 <div class="text-center md:text-left mb-10">
                                                                     <div class="price">₹ @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal</div>
-
+                                                                    <p class="text-8 text-center">per adult</p>
                                                                 </div>
 
                                                                 @{
@@ -599,7 +600,7 @@
                                                                         <form asp-action="SpicejetTripsell" asp-controller="SpiceJetResultFlightView">
                                                                             <input type="hidden" id="fareKey" name="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
                                                                             <input type="hidden" id="journeyKey" name="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
-                                                                            <button class="button -md -outline-blue-1 text-blue-1">Lock Price</button>
+                                                                            
                                                                             <input type="submit" value="Book Now" class="button small-btn">
                                                                         </form>
                                                                     }
@@ -608,7 +609,7 @@
                                                                         <form asp-action="IndigoTripsell" asp-controller="IndigoResultFlightView">
                                                                             <input type="hidden" id="fareKey" name="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
                                                                             <input type="hidden" id="journeyKey" name="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
-                                                                            <button class="button -md -outline-blue-1 text-blue-1">Lock Price</button>
+                                                                            
                                                                             <input type="submit" value="Book Now" class="button small-btn">
                                                                         </form>
                                                                     }
@@ -617,7 +618,7 @@
                                                                         <form asp-controller="FlightSearchIndex" asp-action="Tripsell">
                                                                             <input type="hidden" id="fareKey" name="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
                                                                             <input type="hidden" id="journeyKey" name="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
-                                                                            <button class="button -md -outline-blue-1 text-blue-1">Lock Price</button>
+                                                                            
                                                                             <input type="submit" asp-action="Tripsell" value="Book Now" class="button small-btn">
                                                                         </form>
                                                                     }

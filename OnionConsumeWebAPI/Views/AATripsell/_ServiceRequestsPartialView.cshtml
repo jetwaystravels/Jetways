@@ -2,7 +2,7 @@
 @using System.Collections;
 @{
     Layout = null;
-   // var data1 = Model;
+            // var data1 = Model;
 
 }
 <script src="~/js/custom.js/SGCustom.js"></script>
@@ -53,6 +53,84 @@
         });
     });
 </script> *@
+<script>
+
+    $(document).ready(function () {
+        debugger;
+        var count = $("#passengercountid").val();
+        $('.mycheck').on('change', function () {
+            if ($('.mycheck:checked').length > count) {
+                alert('You can only ' + count + ' select checkboxes.');
+                this.checked = false;
+            }
+        });
+
+        $('.mycheck2').on('change', function () {
+            if ($('.mycheck2:checked').length > count) {
+                alert('You can only ' + count + ' select checkboxes.');
+                this.checked = false;
+            }
+        });
+        $('input[type="checkbox"]').on('change', function () {
+            var selectedIds = [];
+            debugger;
+            $('input[type="checkbox"]:checked').each(function () {
+
+                //selectedIds.push($(this).attr('id'));
+                selectedIds.push($(this).val());
+            });
+            var input = document.getElementsByName("unitKey");
+            var total = 0;
+            for (var i = 0; i < input.length; i++) {
+                if (input[i].checked) {
+                    total += parseInt(input[i].value);
+                }
+            }
+            document.getElementById("total").value = total.toFixed(2);
+            const seatmap1 = document.getElementById("total").value;
+
+            var TotalAmmount = document.getElementById("Totalamount").value;
+            localStorage.setItem('seatPayment', seatmap1);
+            localStorage.setItem('basePayment', TotalAmmount);
+
+            var Totalseat1 = parseInt(TotalAmmount) + parseInt(seatmap1);
+            if (seatmap1 != null) {
+                document.getElementById("seattotal1").innerHTML = Totalseat1;
+            }
+            var TotalSeatPay = parseInt(TotalAmmount) + parseInt(seatmap1) + 100;
+            if (TotalSeatPay != null) {
+                document.getElementById("TotalSeatPayID").innerHTML = TotalSeatPay;
+            }
+            //document.getElementById("seattotal1").style.display = "none";
+            //document.getElementById("TotalSeatPayID").style.display = "none";
+
+            localStorage.setItem("selectedIds", JSON.stringify(selectedIds));
+
+
+        });
+
+        $("#Continuebtn").click(function () {
+
+            var unitKey = JSON.parse(localStorage.getItem("selectedIds"));
+            $.ajax({
+                url: "/AATripsell/PostUnitkey",
+                type: "POST",
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                data: { unitKey: unitKey },
+                success: function (data) {
+                    window.location.href = '/AirAsiaOneWayPayment/AirAsiaOneWayPaymentView';
+                },
+                error: function (err) {
+                    console.error(err);
+                }
+            });
+        });
+
+
+
+    });
+
+</script>
 <style>
     .chkbox {
         background: #b1abab;
@@ -84,14 +162,14 @@
                 <div class="journey-box">
                     <ul class="nav nav-pills mb-3">
                         @{
-                           
+
                             <input type="hidden" value="@Model.passeengerlist.passengerscount" id="passengercountid">
                             var seatmaap2 = @Model.passeengerlist.journeys[0].segments.Count;
                             if (seatmaap2 == 1)
                             {
                                 <li class="nav-item">
                                     <button class="nav-link active">@Model.passeengerlist.journeys[0].segments[0].designator.origin-@Model.passeengerlist.journeys[0].segments[0].designator.destination</button>
-                                  
+
                                 </li>
                             }
                             else

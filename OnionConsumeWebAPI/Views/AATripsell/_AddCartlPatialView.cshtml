@@ -260,7 +260,7 @@
 /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
     // Extract the meal code (ssrCode) from your HTML structure
     var MealpriceCount = [];
-    var mlC = 3; //***********Total Number of Passenger Count
+    var mlC = $("#passengercountid").val(); //***********Total Number of Passenger Count
    
     var totalIncrementCount = 0;
     const mealAddButtons = document.querySelectorAll('.mealbtn .mealAddFareBtn');
@@ -294,31 +294,31 @@
                 debugger;
                 var Mealcount = mealInput.value;
                 localStorage.setItem("Mealcount", Mealcount);
-                alert("Count:" + Mealcount);
+               // alert("Count:" + Mealcount);
 
                 var MealPrice = Mealpricedata.value;
-                alert("Price" + MealPrice);
+               // alert("Price" + MealPrice);
 
-                alert("add Btn Count:" + AddbtnCount);
+               // alert("add Btn Count:" + AddbtnCount);
 
-                if (AddbtnCount == 1 ) {
-                    alert("btn 1");
+                if (AddbtnCount == 0 ) {
+                   // alert("btn 1");
                     MealpriceCount.push(MealPrice);
-                    alert("Count: " + MealpriceCount.length);
+                    //alert("Count: " + MealpriceCount.length);
                     var MealtotalCountFareLength = MealPrice * MealpriceCount.length;
-                    alert("Meal Count 1: " + MealtotalCountFareLength);
+                  //  alert("Meal Count 1: " + MealtotalCountFareLength);
                     localStorage.setItem("Mealfarecnt", MealtotalCountFareLength);
 
                 }
-                else {
-                    alert("btn 2");
+                else if (AddbtnCount > 0 ){
+                   // alert("btn 2");
                     //var MealtotalCountFare = MealPrice * Mealcount;
                     var Mealll = localStorage.getItem("Mealfarecnt");
                     var MealtotalCountFare = parseInt(MealPrice) + parseInt(Mealll);
                     MealpriceCount.push(MealtotalCountFare);
                     //var totalAmount = MealpriceCount.reduce((a, b) => a + b, 0); // Calculate the total amount
                     var totalAmount = MealtotalCountFare; // Calculate the total amount
-                    alert("Total Amount: " + totalAmount);
+                   // alert("Total Amount: " + totalAmount);
                     localStorage.setItem("Mealfarecnt", totalAmount);
                 }
 
@@ -376,14 +376,14 @@
      
         /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page**********/
         $("#mealtab1way").click(function () {
-            alert("A");
+          //  alert("A");
             $("#tabshowRTmealA").show();
             $("#tabshowRTmealC").hide();
             $("#mealtab1way").addClass('activeblue');
             $("#mealtabRT1way").removeClass('activeblue');
         });
         $("#mealtabRT1way").click(function () {
-            alert("C");
+           // alert("C");
             $("#tabshowRTmealA").hide();
             $("#tabshowRTmealC").show();
             $("#mealtabRT1way").addClass('activeblue');
@@ -394,7 +394,7 @@
         $("#tabshowRTmealC").hide();
         $("#tabshowRTmealD").hide();
         $("#mealtab1").click(function () {
-            alert("A");
+           // alert("A");
             $("#tabshowRTmealA").show();
             $("#tabshowRTmealB").hide();
             $("#tabshowRTmealC").hide();
@@ -406,7 +406,7 @@
 
         });
         $("#mealtab2").click(function () {
-            alert("B");
+            //alert("B");
             $("#tabshowRTmealB").show();
             $("#tabshowRTmealA").hide();
             $("#tabshowRTmealC").hide();
@@ -418,7 +418,7 @@
 
         });
         $("#mealtabRT1").click(function () {
-            alert("C");
+            //alert("C");
             $("#tabshowRTmealC").show();
             $("#tabshowRTmealA").hide();
             $("#tabshowRTmealB").hide();
@@ -431,7 +431,7 @@
 
         });
         $("#mealtabRT2").click(function () {
-            alert("D");
+           // alert("D");
             $("#tabshowRTmealD").show();
             $("#tabshowRTmealA").hide();
             $("#tabshowRTmealB").hide();
@@ -476,15 +476,15 @@
         const seatmap = document.getElementById("total").value || 0;
         var meal = localStorage.getItem("Mealfarecnt");
         document.getElementById('AddMeal').innerText = meal;
-        alert("Meal Window.fare :-" + meal);
+       // alert("Meal Window.fare :-" + meal);
         var TotalAmmount = document.getElementById("Totalamount").value;
         var TotalMeal = parseInt(TotalAmmount) + parseInt(meal);
         var TotalSeat = parseInt(TotalAmmount) + parseInt(seatmap);
-        alert("Seat Total:" + TotalSeat);
+       // alert("Seat Total:" + TotalSeat);
         var Totalprice1 = parseInt(seatmap) + parseInt(meal) + parseInt(TotalAmmount);
 
         if (Totalprice1 != null) {
-            alert("Totalprice1:" + Totalprice1);
+           // alert("Totalprice1:" + Totalprice1);
             document.getElementById("amount").innerHTML = Totalprice1;
             document.getElementById("seattotal1").style.display = "none";
             document.getElementById("amountPay").innerHTML = Totalprice1 + 100;
@@ -500,7 +500,7 @@
             document.getElementById("TotalMealPayID").innerHTML = TotalMealPay;
 
 
-            alert(TotalMealPay);
+            //alert(TotalMealPay);
         }
 
         //else if (TotalMealPay != null && TotalSeatPay != null) {
