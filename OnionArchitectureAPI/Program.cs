@@ -14,6 +14,7 @@ builder.Services.AddScoped<IEmployee, EmployeeService>();
 builder.Services.AddScoped<Ilogin, LoginService>();
 builder.Services.AddScoped<ICredential, CredentialServices>();
 builder.Services.AddScoped<ITicketBooking, TicketBookingServices>();
+builder.Services.AddScoped<Itb_Booking, tb_BookingServices>();
 builder.Services.AddScoped<IGSTDetails, GSTDetailsServices>();
 builder.Services.BuildServiceProvider();
 builder.Services.AddHttpContextAccessor();

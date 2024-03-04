@@ -292,6 +292,7 @@ namespace OnionConsumeWebAPI.Controllers
                         journeysReturnObj.segments = segmentReturnsList;
                         journeysreturnList.Add(journeysReturnObj);
                     }
+
                     var Returnpassanger = JsonObjPNRBooking.data.passengers;
                     int Returnpassengercount = ((Newtonsoft.Json.Linq.JContainer)Returnpassanger).Count;
                     List<ReturnPassengers> ReturnpassengersList = new List<ReturnPassengers>();
@@ -342,11 +343,155 @@ namespace OnionConsumeWebAPI.Controllers
                     returnTicketBooking.passengerscount = Returnpassengercount;
                     returnTicketBooking.PhoneNumbers = phoneNumberList;
                     _AirLinePNRTicket.AirlinePNR.Add(returnTicketBooking);
+
+                    AirLineFlightTicketBooking airLineFlightTicketBooking = new AirLineFlightTicketBooking();
+                    airLineFlightTicketBooking.BookingID = JsonObjPNRBooking.data.bookingKey;
+                    tb_Booking tb_Booking = new tb_Booking();
+                    tb_Booking.AirLineID = 1;
+                    tb_Booking.BookingID = JsonObjPNRBooking.data.bookingKey;
+                    tb_Booking.RecordLocator = JsonObjPNRBooking.data.recordLocator;
+                    tb_Booking.CurrencyCode = JsonObjPNRBooking.data.currencyCode;
+                    tb_Booking.Origin = JsonObjPNRBooking.data.journeys[0].designator.origin;
+                    tb_Booking.Destination = JsonObjPNRBooking.data.journeys[0].designator.destination;
+                    tb_Booking.BookedDate = DateTime.Now;//JsonObjPNRBooking.data.journeys[0].designator.departure;                    
+                    tb_Booking.TotalAmount = JsonObjPNRBooking.data.breakdown.journeyTotals.totalAmount;
+                    tb_Booking.SpecialServicesTotal = (decimal)1000.00;//(decimal)JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.total;
+                    tb_Booking.SpecialServicesTotal_Tax = (decimal)100.0;//JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes;
+                    tb_Booking.SeatTotalAmount = (decimal)2000.00;//JsonObjPNRBooking.data.breakdown.passengerTotalsls.seats.total;
+                    tb_Booking.SeatTotalAmount_Tax = (decimal)200.00;//JsonObjPNRBooking.data.breakdown.passengerTotalsls.seats.taxes;
+                    tb_Booking.ExpirationDate = DateTime.Now;//JsonObjPNRBooking.data.hold.expiration;
+                    tb_Booking.ArrivalDate = JsonObjPNRBooking.data.journeys[0].designator.arrival;//DateTime.Now;
+                    tb_Booking.DepartureDate = JsonObjPNRBooking.data.journeys[0].designator.departure;//DateTime.Now;
+                    tb_Booking.CreatedDate = DateTime.Now;
+                    tb_Booking.Createdby = "Online";
+                    tb_Booking.ModifiedDate = DateTime.Now;
+                    tb_Booking.ModifyBy = "Online";
+                    tb_Booking.BookingDoc = _responcePNRBooking;
+                    tb_Booking.Status = "0";
+                    tb_Airlines tb_Airlines = new tb_Airlines();
+                    tb_Airlines.AirlineID = 1;
+                    tb_Airlines.AirlneName = "Boing";
+                    tb_Airlines.AirlineDescription = "Indra Gandhi airport";
+                    tb_Airlines.CreatedDate = DateTime.Now;
+                    tb_Airlines.Createdby = "Online";
+                    tb_Airlines.Modifieddate = DateTime.Now;
+                    tb_Airlines.Modifyby = "Online";
+                    tb_Airlines.Status = "0";
+                    tb_AirCraft tb_AirCraft = new tb_AirCraft();
+                    tb_AirCraft.Id = 1;
+                    tb_AirCraft.AirlineID = 1;
+                    tb_AirCraft.AirCraftName = "Airbus";
+                    tb_AirCraft.AirCraftDescription = " City Squares Worldwide";
+                    tb_AirCraft.CreatedDate = DateTime.Now;
+                    tb_AirCraft.Modifieddate = DateTime.Now;
+                    tb_AirCraft.Createdby = "Online";
+                    tb_AirCraft.Modifyby = "Online";
+                    tb_AirCraft.Status = "0";
+
+                    var passangerCount = JsonObjPNRBooking.data.passengers;
+                    int PassengerDataCount = ((Newtonsoft.Json.Linq.JContainer)passangerCount).Count;
+                    List<tb_PassengerDetails> tb_PassengerDetailsList = new List<tb_PassengerDetails>();
+                    foreach (var items in JsonObjPNRBooking.data.passengers)
+                    {
+                        tb_PassengerDetails tb_Passengerobj = new tb_PassengerDetails();
+                        tb_Passengerobj.BookingID = "NTEwODkzMDYzIVBCNEZTUiFmYWxzZQ--";
+                        tb_Passengerobj.PassengerKey = items.Value.passengerKey;
+                        tb_Passengerobj.TypeCode = items.Value.passengerTypeCode;
+                        tb_Passengerobj.FirstName = items.Value.name.first;
+                        tb_Passengerobj.Title = items.Value.name.title;
+                        tb_Passengerobj.LastName = items.Value.name.last;
+                        tb_Passengerobj.TotalAmount = JsonObjPNRBooking.data.breakdown.journeyTotals.totalAmount;
+                        tb_Passengerobj.TotalAmount_tax = JsonObjPNRBooking.data.breakdown.journeyTotals.totalTax;
+                        tb_Passengerobj.CreatedDate = DateTime.Now;
+                        tb_Passengerobj.Createdby = "Online";
+                        tb_Passengerobj.ModifiedDate = DateTime.Now;
+                        tb_Passengerobj.ModifyBy = "Online";
+                        tb_Passengerobj.Status = "0";
+                        tb_PassengerDetailsList.Add(tb_Passengerobj);
+                    }
+
+                    tb_PassengerTotal tb_PassengerTotalobj = new tb_PassengerTotal();
+                    tb_PassengerTotalobj.BookingID = JsonObjPNRBooking.data.bookingKey;
+                    tb_PassengerTotalobj.TotalMealsAmount = (decimal)1000.00;//JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.total;
+                    tb_PassengerTotalobj.TotalMealsAmount_Tax = (decimal)100.00; //JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes;
+                    tb_PassengerTotalobj.TotalSeatAmount = (decimal)2000.00;//JsonObjPNRBooking.data.breakdown.passengerTotals.seats.total;
+                    tb_PassengerTotalobj.TotalSeatAmount_Tax = (decimal)200.00;//JsonObjPNRBooking.data.breakdown.passengerTotals.seats.taxes;
+                    tb_PassengerTotalobj.TotalBookingAmount = (decimal)1000.00;//JsonObjPNRBooking.data.breakdown.journeyTotals.totalAmount;
+                    tb_PassengerTotalobj.totalBookingAmount_Tax = (decimal)100.00;// JsonObjPNRBooking.data.breakdown.journeyTotals.totalTax;
+                    tb_PassengerTotalobj.Modifyby = "Online";
+                    tb_PassengerTotalobj.Createdby = "Online";
+                    tb_PassengerTotalobj.Status = "0";
+                    tb_PassengerTotalobj.CreatedDate = DateTime.Now;
+                    tb_PassengerTotalobj.ModifiedDate = DateTime.Now;
+
+
+                    int JourneysCount = JsonObjPNRBooking.data.journeys.Count;
+                    List<tb_journeys> tb_JourneysList = new List<tb_journeys>();
+                    for (int i = 0; i < JourneysCount; i++)
+                    {
+                        tb_journeys tb_JourneysObj = new tb_journeys();
+                        tb_JourneysObj.BookingID = JsonObjPNRBooking.data.bookingKey;
+                        tb_JourneysObj.JourneyKey = JsonObjPNRBooking.data.journeys[i].journeyKey;
+                        tb_JourneysObj.Stops = JsonObjPNRBooking.data.journeys[i].stops;
+                        tb_JourneysObj.JourneyKeyCount = i;
+                        tb_JourneysObj.FlightType = JsonObjPNRBooking.data.journeys[i].flightType;
+                        tb_JourneysObj.Origin = JsonObjPNRBooking.data.journeys[i].designator.origin;
+                        tb_JourneysObj.Destination = JsonObjPNRBooking.data.journeys[i].designator.destination;
+                        tb_JourneysObj.DepartureDate = JsonObjPNRBooking.data.journeys[i].designator.departure;
+                        tb_JourneysObj.ArrivalDate = JsonObjPNRBooking.data.journeys[i].designator.arrival;
+                        tb_JourneysObj.CreatedDate = DateTime.Now;
+                        tb_JourneysObj.Createdby = "Online";
+                        tb_JourneysObj.ModifiedDate = DateTime.Now;
+                        tb_JourneysObj.Modifyby = "Online";
+                        tb_JourneysObj.Status = "0";
+                        tb_JourneysList.Add(tb_JourneysObj);
+                    }
+
+                    int SegmentReturnCountt = JsonObjPNRBooking.data.journeys[0].segments.Count;
+                    List<tb_Segments> segmentReturnsListt = new List<tb_Segments>();
+                    for (int j = 0; j < SegmentReturnCountt; j++)
+                    {
+                        tb_Segments segmentReturnobj = new tb_Segments();
+                        segmentReturnobj.BookingID = JsonObjPNRBooking.data.bookingKey;
+                        segmentReturnobj.journeyKey = JsonObjPNRBooking.data.journeys[0].journeyKey;
+                        segmentReturnobj.SegmentKey = JsonObjPNRBooking.data.journeys[0].segments[j].segmentKey;
+                        segmentReturnobj.SegmentCount = j;
+                        segmentReturnobj.Origin = JsonObjPNRBooking.data.journeys[0].segments[j].designator.origin;
+                        segmentReturnobj.Destination = JsonObjPNRBooking.data.journeys[0].segments[j].designator.destination;
+                        segmentReturnobj.DepartureDate = JsonObjPNRBooking.data.journeys[0].segments[j].designator.departure;
+                        segmentReturnobj.ArrivalDate = JsonObjPNRBooking.data.journeys[0].segments[j].designator.arrival;
+                        segmentReturnobj.Identifier = JsonObjPNRBooking.data.journeys[0].segments[j].identifier.identifier;
+                        segmentReturnobj.CarrierCode = JsonObjPNRBooking.data.journeys[0].segments[j].identifier.carrierCode;
+                        segmentReturnobj.Seatnumber = "2";
+                        segmentReturnobj.MealCode = "VScODE";
+                        segmentReturnobj.MealDiscription = "it is a coffe";
+                        segmentReturnobj.DepartureTerminal = 2;
+                        segmentReturnobj.ArrivalTerminal = 1;
+                        segmentReturnobj.CreatedDate = DateTime.Now;
+                        segmentReturnobj.ModifiedDate = DateTime.Now;
+                        segmentReturnobj.Createdby = "Online";
+                        segmentReturnobj.Modifyby = "Online";
+                        segmentReturnobj.Status = "0";
+                        segmentReturnsListt.Add(segmentReturnobj);
+                    }
+
+                    airLineFlightTicketBooking.tb_Booking = tb_Booking;
+                    airLineFlightTicketBooking.tb_Segments = segmentReturnsListt;
+                    airLineFlightTicketBooking.tb_AirCraft = tb_AirCraft;
+                    airLineFlightTicketBooking.tb_journeys = tb_JourneysList;
+                    airLineFlightTicketBooking.tb_PassengerTotal = tb_PassengerTotalobj;
+                    airLineFlightTicketBooking.tb_PassengerDetails = tb_PassengerDetailsList;
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    HttpResponseMessage responsePassengers = await client.PostAsJsonAsync(AppUrlConstant.BaseURL + "api/AirLineTicketBooking/PostairlineTicketData", airLineFlightTicketBooking);
+                    if (responsePassengers.IsSuccessStatusCode)
+                    {
+                        var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
+                    }
                 }
                 #endregion
             }
             return View(_AirLinePNRTicket);
-            //return RedirectToAction("GetTicketBooking", "AirLinesTicket");
+
         }
     }
 }
@@ -399,4 +544,47 @@ namespace OnionConsumeWebAPI.Controllers
 //    {
 //        var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
 //    }
+//}
+
+
+
+
+//AirLineFlightTicketBooking airLineFlightTicketBooking = new AirLineFlightTicketBooking();
+//tb_Booking tb_Booking = new tb_Booking();
+//tb_Booking.AirLineID = 1;
+//tb_Booking.BookingID = JsonObjPNRBooking.data.bookingKey;
+//tb_Booking.RecordLocator = JsonObjPNRBooking.data.recordLocator;
+//tb_Booking.CurrencyCode = JsonObjPNRBooking.data.currencyCode;
+//tb_Booking.Origin = JsonObjPNRBooking.data.journeys[0].designator.origin;
+//tb_Booking.Destination = JsonObjPNRBooking.data.journeys[0].designator.destination;
+//tb_Booking.BookedDate = JsonObjPNRBooking.data.journeys[0].designator.departure;
+//tb_Booking.Destination = JsonObjPNRBooking.data.journeys[0].designator.arrival;
+//tb_Booking.TotalAmount = JsonObjPNRBooking.data.breakdown.journeyTotals.totalAmount;
+//tb_Booking.SpecialServicesTotal = 1000;//JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.total;
+//tb_Booking.SpecialServicesTotal_Tax = 10;//JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes;
+//tb_Booking.SeatTotalAmount = 20000;//JsonObjPNRBooking.data.breakdown.passengerTotals.seats.total;
+//tb_Booking.SeatTotalAmount_Tax = 200;//JsonObjPNRBooking.data.breakdown.passengerTotals.seats.taxes;
+//tb_Booking.CreatedDate = DateTime.Now;
+//tb_Booking.Createdby = "xyz";
+//tb_Booking.ModifiedDate = DateTime.Now;
+//tb_Booking.ModifyBy = "abc";
+//tb_Booking.BookingDoc = "BookingDoc";
+//tb_Booking.Status = "0";
+//tb_Airlines tb_Airlines = new tb_Airlines();
+//tb_Airlines.Id = 1;
+//tb_Airlines.AirlneName = "Boing";
+//tb_Airlines.AirlineDescription = "Indra Gandhi airport";
+//tb_Airlines.CreatedDate = DateTime.Now;
+//tb_Airlines.Createdby = "xyz";
+//tb_Airlines.Modifieddate = DateTime.Now;
+//tb_Airlines.Modifyby = "abc";
+//tb_Airlines.Status = "0";
+//airLineFlightTicketBooking.tb_Booking = tb_Booking;
+//airLineFlightTicketBooking.tb_Airlines = tb_Airlines;                   
+
+//client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+//HttpResponseMessage responsePassengers = await client.PostAsJsonAsync(AppUrlConstant.BaseURL + "api/AirLineTicketBooking/PostairlineTicketData", airLineFlightTicketBooking);
+//if (responsePassengers.IsSuccessStatusCode)
+//{
+//    var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
 //}

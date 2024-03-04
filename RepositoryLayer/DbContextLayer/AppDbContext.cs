@@ -27,8 +27,15 @@ namespace RepositoryLayer.DbContextLayer
         public DbSet<_credentials> tblflightlogin { get; set; }
         public DbSet<TicketBooking> TicketBooking { get; set; }
         public DbSet<GSTDetails> GSTDetails { get; set; }
-       
+        public DbSet<tb_Booking> tb_Booking { get; set; }
+        public DbSet<tb_Airlines> tb_Airlines { get; set; }
+        public DbSet<tb_AirCraft> tb_AirCraft { get; set; }
+        public DbSet<tb_Segments> tb_Segments { get; set; }
+        public DbSet<tb_journeys> tb_journeys { get; set; }
+        public DbSet<tb_PassengerTotal> tb_PassengerTotal { get; set; }
+        public DbSet<tb_PassengerDetails> tb_PassengerDetails { get; set; }
 
 
-	}
+
+    }
 }
