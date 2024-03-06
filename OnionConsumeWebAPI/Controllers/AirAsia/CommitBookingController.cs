@@ -43,6 +43,7 @@ namespace OnionConsumeWebAPI.Controllers
         string flightnumber = string.Empty;
         string seatnumber = string.Empty;
         string sequencenumber = string.Empty;
+        string bookingKey = string.Empty;
         ApiResponseModel responseModel;
         public async Task<IActionResult> booking()
         {
@@ -388,13 +389,31 @@ namespace OnionConsumeWebAPI.Controllers
                     tb_AirCraft.Modifyby = "Online";
                     tb_AirCraft.Status = "0";
 
+
+
+                    tb_PassengerTotal tb_PassengerTotalobj = new tb_PassengerTotal();
+                    bookingKey = JsonObjPNRBooking.data.bookingKey;
+                    tb_PassengerTotalobj.BookingID = JsonObjPNRBooking.data.bookingKey;
+                    tb_PassengerTotalobj.TotalMealsAmount = (decimal)1000.00;//JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.total;
+                    tb_PassengerTotalobj.TotalMealsAmount_Tax = (decimal)100.00; //JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes;
+                    tb_PassengerTotalobj.TotalSeatAmount = (decimal)2000.00;//JsonObjPNRBooking.data.breakdown.passengerTotals.seats.total;
+                    tb_PassengerTotalobj.TotalSeatAmount_Tax = (decimal)200.00;//JsonObjPNRBooking.data.breakdown.passengerTotals.seats.taxes;
+                    tb_PassengerTotalobj.TotalBookingAmount = (decimal)1000.00;//JsonObjPNRBooking.data.breakdown.journeyTotals.totalAmount;
+                    tb_PassengerTotalobj.totalBookingAmount_Tax = (decimal)100.00;// JsonObjPNRBooking.data.breakdown.journeyTotals.totalTax;
+                    tb_PassengerTotalobj.Modifyby = "Online";
+                    tb_PassengerTotalobj.Createdby = "Online";
+                    tb_PassengerTotalobj.Status = "0";
+                    tb_PassengerTotalobj.CreatedDate = DateTime.Now;
+                    tb_PassengerTotalobj.ModifiedDate = DateTime.Now;
+
+
                     var passangerCount = JsonObjPNRBooking.data.passengers;
                     int PassengerDataCount = ((Newtonsoft.Json.Linq.JContainer)passangerCount).Count;
                     List<tb_PassengerDetails> tb_PassengerDetailsList = new List<tb_PassengerDetails>();
                     foreach (var items in JsonObjPNRBooking.data.passengers)
                     {
                         tb_PassengerDetails tb_Passengerobj = new tb_PassengerDetails();
-                        tb_Passengerobj.BookingID = "NTEwODkzMDYzIVBCNEZTUiFmYWxzZQ--";
+                        tb_Passengerobj.BookingID = bookingKey;
                         tb_Passengerobj.PassengerKey = items.Value.passengerKey;
                         tb_Passengerobj.TypeCode = items.Value.passengerTypeCode;
                         tb_Passengerobj.FirstName = items.Value.name.first;
@@ -410,20 +429,7 @@ namespace OnionConsumeWebAPI.Controllers
                         tb_PassengerDetailsList.Add(tb_Passengerobj);
                     }
 
-                    tb_PassengerTotal tb_PassengerTotalobj = new tb_PassengerTotal();
-                    tb_PassengerTotalobj.BookingID = JsonObjPNRBooking.data.bookingKey;
-                    tb_PassengerTotalobj.TotalMealsAmount = (decimal)1000.00;//JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.total;
-                    tb_PassengerTotalobj.TotalMealsAmount_Tax = (decimal)100.00; //JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes;
-                    tb_PassengerTotalobj.TotalSeatAmount = (decimal)2000.00;//JsonObjPNRBooking.data.breakdown.passengerTotals.seats.total;
-                    tb_PassengerTotalobj.TotalSeatAmount_Tax = (decimal)200.00;//JsonObjPNRBooking.data.breakdown.passengerTotals.seats.taxes;
-                    tb_PassengerTotalobj.TotalBookingAmount = (decimal)1000.00;//JsonObjPNRBooking.data.breakdown.journeyTotals.totalAmount;
-                    tb_PassengerTotalobj.totalBookingAmount_Tax = (decimal)100.00;// JsonObjPNRBooking.data.breakdown.journeyTotals.totalTax;
-                    tb_PassengerTotalobj.Modifyby = "Online";
-                    tb_PassengerTotalobj.Createdby = "Online";
-                    tb_PassengerTotalobj.Status = "0";
-                    tb_PassengerTotalobj.CreatedDate = DateTime.Now;
-                    tb_PassengerTotalobj.ModifiedDate = DateTime.Now;
-
+                  
 
                     int JourneysCount = JsonObjPNRBooking.data.journeys.Count;
                     List<tb_journeys> tb_JourneysList = new List<tb_journeys>();

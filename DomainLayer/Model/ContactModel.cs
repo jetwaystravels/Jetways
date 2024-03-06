@@ -17,16 +17,19 @@ namespace DomainLayer.Model
         public _Address address { get; set; }
         public string emailAddress { get; set; }
         public string distributionOption { get; set; } = "Email";
+        public string sourceOrganization { get; set; } = "";
+        public string companyName { get; set; }
+        public string customerNumber { get; set; }
         public _Name name { get; set; }
         public string first { get; set; }
-        public string middle { get; set; }
+        //public string middle { get; set; }
         public string last { get; set; }
         public string title { get; set; }
-        public string lineOne { get; set; }
+        //public string lineOne { get; set; }
         //public string countryCode { get; set; }
         // public string provinceState { get; set; }
-        public string city { get; set; }
-        public string postalCode { get; set; }
+        //public string city { get; set; }
+        //public string postalCode { get; set; }
 
 
     }

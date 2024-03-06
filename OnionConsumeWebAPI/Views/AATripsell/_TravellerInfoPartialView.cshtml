@@ -319,11 +319,16 @@
             contentToDisplay.style.display = "none";
             var content2To = document.getElementById("content2");
             content2To.style.display = "none";
-            var toggleButton3To = document.getElementById("toggleButton3");
-            toggleButton3To.style.opacity = "1.0";
-            var content3To = document.getElementById("content3");
-            content3To.style.display = "block";
+            // var toggleButton3To = document.getElementById("toggleButton3");
+            // toggleButton3To.style.opacity = "1.0";
+            // var content3To = document.getElementById("content3");
+            // content3To.style.display = "block";
+            var GSTcontent5To = document.getElementById("content4");
+            GSTcontent5To.style.display = "block";
 
+            var GSTContinuebtn1 = document.querySelector("#Continuebtn");
+            GSTContinuebtn1.disabled = false;
+            GSTContinuebtn1.style.opacity = "1.0";
 
             var formData = new FormData($("#passengerForm")[0]);
             $.ajax({

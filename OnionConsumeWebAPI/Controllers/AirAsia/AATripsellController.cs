@@ -20,6 +20,7 @@ using Newtonsoft.Json.Linq;
 using NuGet.Common;
 using OnionConsumeWebAPI.Extensions;
 using OnionConsumeWebAPI.Models;
+using ServiceLayer.Service.Interface;
 using Utility;
 using static DomainLayer.Model.PassengersModel;
 using static DomainLayer.Model.SeatMapResponceModel;
@@ -93,13 +94,11 @@ namespace OnionConsumeWebAPI.Controllers
             using (HttpClient client = new HttpClient())
             {
                 ContactModel _ContactModel = new ContactModel();
-                //  _ContactModel.emailAddress = passengerdetails.Email;
                 _ContactModel.emailAddress = contactobject.emailAddress;
                 _Phonenumber Phonenumber = new _Phonenumber();
                 List<_Phonenumber> Phonenumberlist = new List<_Phonenumber>();
                 Phonenumber.type = "Home";
                 Phonenumber.number = contactobject.number;
-                //Phonenumber.number = passengerdetails.mobile;
                 Phonenumberlist.Add(Phonenumber);
                 _Phonenumber Phonenumber1 = new _Phonenumber();
                 Phonenumber1.type = "Other";
@@ -110,22 +109,13 @@ namespace OnionConsumeWebAPI.Controllers
                     _ContactModel.phoneNumbers = Phonenumberlist;
                 }
                 _ContactModel.contactTypeCode = "P";
-
                 _Address Address = new _Address();
-                Address.lineOne = contactobject.lineOne;
-                Address.countryCode = "IN";
-                Address.provinceState = "TN";
-                Address.city = contactobject.city;
-                Address.postalCode = contactobject.postalCode;
                 _ContactModel.address = Address;
-
                 _Name Name = new _Name();
                 Name.first = contactobject.first;
-                Name.middle = contactobject.middle;
                 Name.last = contactobject.last;
                 Name.title = "MR";
                 _ContactModel.name = Name;
-
                 var jsonContactRequest = JsonConvert.SerializeObject(_ContactModel, Formatting.Indented);
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -137,8 +127,62 @@ namespace OnionConsumeWebAPI.Controllers
                 }
 
             }
+            return RedirectToAction("GetGstDetails", "AATripsell", contactobject);
+        }
+        public async Task<IActionResult> GetGstDetails(ContactModel contactobject, AddGSTInformation addGSTInformation)
+        {
+            string tokenview = HttpContext.Session.GetString("AirasiaTokan");
+            token = tokenview.Replace(@"""", string.Empty);
+
+            using (HttpClient client = new HttpClient())
+            {
+                AddGSTInformation addinformation = new AddGSTInformation();
+                addinformation.contactTypeCode = "G";
+                GSTPhonenumber Phonenumber = new GSTPhonenumber();
+                List<GSTPhonenumber> Phonenumberlist = new List<GSTPhonenumber>();
+                Phonenumber.type = "Other";
+                Phonenumber.number = contactobject.number; ;
+                Phonenumberlist.Add(Phonenumber);
+
+                foreach (var item in Phonenumberlist)
+                {
+                    addinformation.phoneNumbers = Phonenumberlist;
+                }
+                addinformation.cultureCode = "";
+                GSTAddress Address = new GSTAddress();
+                addinformation.Address = Address;
+                addinformation.emailAddress = contactobject.emailAddress;
+                addinformation.customerNumber = contactobject.customerNumber;
+                addinformation.sourceOrganization = "";
+                addinformation.distributionOption = "None";
+                addinformation.notificationPreference = "None";
+                addinformation.companyName = contactobject.companyName;
+                GSTName Name = new GSTName();
+                Name.first = contactobject.first;
+                Name.last = contactobject.last;
+                Name.title = "MR";
+                Name.suffix = "";
+                addinformation.Name = Name;
+                if (contactobject.companyName != null)
+                {
+                    var jsonContactRequest = JsonConvert.SerializeObject(addinformation, Formatting.Indented);
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    HttpResponseMessage responseAddContact = await client.PostAsJsonAsync(AppUrlConstant.AirasiaGstDetail, addinformation);
+                    if (responseAddContact.IsSuccessStatusCode)
+                    {
+                        var _responseAddContact = responseAddContact.Content.ReadAsStringAsync().Result;
+                        var JsonObjAddContact = JsonConvert.DeserializeObject<dynamic>(_responseAddContact);
+                    }
+                }
+
+            }
+
             return RedirectToAction("Tripsell", "AATripsell");
         }
+
+
+
         public async Task<IActionResult> TravllerDetails(List<passkeytype> passengerdetails, List<Infanttype> infanttype)
         {
             string tokenview = HttpContext.Session.GetString("AirasiaTokan");
@@ -156,6 +200,7 @@ namespace OnionConsumeWebAPI.Controllers
                             continue;
                         if (passengerdetails[i].passengertypecode != null)
                         {
+
                             Name name = new Name();
                             _Info Info = new _Info();
                             if (passengerdetails[i].title == "Mr")
@@ -367,7 +412,7 @@ namespace OnionConsumeWebAPI.Controllers
 
             return RedirectToAction("Tripsell", "AATripsell");
         }
-        public async Task<IActionResult> GetGstDetails(AddGSTInformation addGSTInformation, string lineOne, string lineTwo, string city, string number, string postalCode)
+        public async Task<IActionResult> GetGstDetails01(AddGSTInformation addGSTInformation, string lineOne, string lineTwo, string city, string number, string postalCode)
         {
             string tokenview = HttpContext.Session.GetString("AirasiaTokan");
             token = tokenview.Replace(@"""", string.Empty);
@@ -424,6 +469,7 @@ namespace OnionConsumeWebAPI.Controllers
                     var _responseAddContact = responseAddContact.Content.ReadAsStringAsync().Result;
                     var JsonObjAddContact = JsonConvert.DeserializeObject<dynamic>(_responseAddContact);
                 }
+
 
             }
 
@@ -552,8 +598,8 @@ namespace OnionConsumeWebAPI.Controllers
                                 mealid++;
 
                             }
-                            
-                           
+
+
                         }
                         //if (baggagecount > 0)
                         //{
@@ -593,14 +639,14 @@ namespace OnionConsumeWebAPI.Controllers
                 {
                     // string BaseURL1 = "http://localhost:5225/";
                     var _responceGetBooking = responceGetBooking01.Content.ReadAsStringAsync().Result;
-                    
-                      var JsonObjGetBooking = JsonConvert.DeserializeObject<dynamic>(_responceGetBooking);
+
+                    var JsonObjGetBooking = JsonConvert.DeserializeObject<dynamic>(_responceGetBooking);
 
                 }
                 #endregion
             }
             //return RedirectToAction("booking", "CommitBooking");
-            return RedirectToAction("AirAsiaOneWayPaymentView","AirAsiaOneWayPayment");
+            return RedirectToAction("AirAsiaOneWayPaymentView", "AirAsiaOneWayPayment");
         }
 
     }
