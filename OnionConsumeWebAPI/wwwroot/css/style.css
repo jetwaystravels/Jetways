@@ -1544,9 +1544,13 @@ Flight Search AREA
             .search-area .search-box .input-group-text span {
                 font-size: 14px;
                 font-weight: 400;
-                padding-left: 33px;
+                padding-left: 20px;
                 position: absolute;
                 bottom: 11px;
+                max-width: 100%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
         .search-area .search-box .btn {
@@ -1564,7 +1568,7 @@ Flight Search AREA
         }
 
         .search-area .search-box input.form-control {
-            padding-left: 33px;
+            padding-left: 15px;
             padding-top: 5px;
         }
 
@@ -1606,7 +1610,8 @@ Flight Search AREA
         }
 
         .search-area .search-box .text-light-1 {
-            color: #111111;
+            /*color: #111111;*/
+            color: #485057;
         }
 
         .search-area .search-box .text-15 {

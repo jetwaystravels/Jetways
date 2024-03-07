@@ -1,5 +1,112 @@
 ﻿
-/*Vinay_New_CSS*/
+/*Drop Down CSS START AUTO SELECT*/
+.autoarrival {
+    position: absolute;
+    z-index: 999;
+    /* background: white;*/
+    width: 330px;
+    padding: 4px;
+}
+
+    .autoarrival > select {
+        width: 330px;
+    }
+
+    .autoarrival .chosen-drop {
+        border: 1px solid #d4d4d4;
+        box-shadow: 0 4px 5px 0 rgb(0 0 0 / 22%);
+        margin-top: -60px;
+        background: #fff;
+        padding: 10px;
+    }
+
+    .autoarrival input {
+        border-bottom: 1px solid #e9eff4 !important;
+        color: #808080;
+        font-weight: 400;
+        width: 300px;
+        height: 40px;
+    }
+
+    .autoarrival .chosen-single {
+        display: none;
+    }
+
+    .autoarrival .chosen-results {
+        cursor: pointer;
+        overflow-y: scroll;
+        height: 230px;
+    }
+
+
+
+/* Departure Dropdown CSS**/
+.autodropdown {
+    position: absolute;
+    z-index: 999;
+    /* background: white;*/
+    width: 330px;
+    padding: 4px;
+}
+
+    .autodropdown > select {
+        width: 330px;
+    }
+
+
+.chosen-drop {
+    border: 1px solid #d4d4d4;
+    box-shadow: 0 4px 5px 0 rgb(0 0 0 / 22%);
+    margin-top: -60px;
+    background: #fff;
+    padding: 2px 10px;
+}
+
+.autodropdown input {
+    border-bottom: 1px solid #e9eff4 !important;
+    color: #808080;
+    font-weight: 400;
+    width: 300px;
+    height: 40px;
+}
+
+.autodropdown .chosen-single {
+    display: none;
+}
+
+.autodropdown .chosen-results {
+    cursor: pointer;
+    overflow-y: scroll;
+    height: 230px;
+}
+
+.chosen-drop ul li {
+    background-image: url('../img/nav-icon-1.png');
+    background-repeat: no-repeat;
+    background-position: left 4px center;
+    padding: 2px 4px 8px 38px;
+    border-bottom: 1px solid #d4d4d4;
+}
+
+
+
+.chosen-search input {
+    background-image: url('../img/from.png');
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: 5px center;
+    padding-left: 40px;
+}
+
+
+
+
+/*.chosen-results li:first-child {
+    display: none;
+}*/
+
+
+/*Drop Down CSS END AUTO SELECT*/
 .btn-increase, input {
     border: none !important;
     font-size: 15px;
@@ -44,34 +151,6 @@
     border: 1px solid #ccd3d8 !important;
 }
 
-.auto-suggest {
-    position: absolute;
-    z-index: 99;
-    background-color: #f6fbff;
-    padding-left: 10px;
-    border-radius: 6px;
-    max-height: 210px;
-    overflow-y: scroll;
-    top: 80px;
-}
-
-#airportSuggestions {
-    width: 256px;
-}
-
-#airportname {
-    position: absolute;
-    bottom: 9px;
-    left: 40px;
-    font-size: 14px;
-}
-
-#airportdestination {
-    position: absolute;
-    bottom: 9px;
-    left: 40px;
-    font-size: 14px;
-}
 
 #myInput {
     font-size: 20px !important;
@@ -83,14 +162,12 @@
     font-weight: 600;
 }
 
-#myInput1::placeholder {
-    font-size: 15px;
-    font-weight: 400;
-}
+    #myInput1::placeholder {
+        font-size: 15px;
+        font-weight: 400;
+    }
 
-.flightdepr img {
-    padding-left: 10px;
-}
+
 
 #myInput::placeholder {
     font-size: 15px;
@@ -98,8 +175,8 @@
 }
 
 .auto-suggest li::before {
-    content: url('../img/plane-icn.png'); /* Replace 'flight-icon.png' with the path to your flight icon */
-    margin-right: 5px;
+    content: url('../img/plane-icn.png');
+    Replace 'flight-icon.png' with the path to your flight icon margin-right: 5px;
 }
 
 .rounddateinput {
@@ -108,3 +185,45 @@
     bottom: 16px;
     left: 34px;
 }
+
+
+.errorbox {
+    position: relative;
+    margin-left: 40px;
+    padding: 4px 10px;
+    font-size: 13px;
+    color: #fff;
+    margin-top: -4px;
+    width: 68%;
+    font-weight: 700;
+    background: red;
+    border-radius: 2px;
+}
+
+    .errorbox::before {
+        content: "";
+        position: absolute;
+        transform: rotate(180deg);
+        bottom: 28px;
+        border-width: 8px;
+        border-style: solid;
+        border-color: red transparent transparent transparent;
+    }
+
+
+
+.rplc-btn {
+    width: 34px;
+    position: absolute;
+    left: 279px;
+    background: #ffffffc2;
+    margin-top: 52px;
+    /* margin-left: -2px; */
+    padding: 3px;
+    border-radius: 50%;
+    z-index: 111;
+}
+
+    .rplc-btn img {
+        transform: rotate(90deg);
+    }

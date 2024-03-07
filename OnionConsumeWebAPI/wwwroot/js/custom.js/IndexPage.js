@@ -1,5 +1,139 @@
-﻿function validateForm() {
+﻿//**********Chosen Arrival Code Start ****************//
+//*****************************************************//
+$(document).ready(function () {
+    $('#arrivalItemId').chosen();
+    $('#arrivalItemId').trigger('chosen:open');
+    $('#myInput1').on('click', function (event) {
+        event.stopPropagation();
+        $('.chosen-drop').show();
+        $('.autoarrival input').attr('placeholder', 'To');
+        $('.autoarrival').show();
+        $('.autodropdown').hide();
+        var chosenInput2 = document.querySelector('.autoarrival input');
+        chosenInput2.focus();
+    });
 
+    $(document.body).on('click', function (event) {
+        if (!$(event.target).closest('.chosen-drop').length && !$(event.target).is('#myInput1')) {
+            $('.chosen-drop').hide();
+        }
+    });
+
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    $('.chosen-drop').css('display', 'none');
+    var CityName = "Mumbai";
+    var CityCode = "BOM";
+    var AirportName = "Chhatrapati Shivaji Maharaj International Airport";
+    document.getElementById("myInput1").value = CityName + "-" + CityCode;
+    document.getElementById("airportArval").innerHTML = AirportName;
+});
+
+function toggleDropdownArrival() {
+    //$('.chosen-drop').toggle();
+    var chosenInputA = document.querySelector('.autoarrival input');
+    chosenInputA.focus();
+    if ($('.chosen-drop').is(':visible')) {
+        $('.autoarrival input').focus();
+        $('.chosen-drop').show();
+    }
+}
+
+
+function arrivalSelection() {
+    $('.autoarrival input').focus();
+    //alert("Hello Test");
+    var dropdown = document.getElementById("arrivalItemId");
+    var selectedValue = dropdown.value;
+    var selectedOption = dropdown.options[dropdown.selectedIndex];
+    var cityDetails = selectedOption.text.split('-');
+    var cityName = cityDetails[0].trim();
+    var cityCode = cityDetails[1].trim();
+    var airportName = cityDetails[2].trim();
+
+    //alert("Selected City Name: " + cityName);
+    //alert("Selected City Code: " + cityCode);
+    //alert("Selected Airport Name: " + airportName);
+    document.getElementById("myInput1").value = cityName + "-" + cityCode;
+    document.getElementById("airportArval").innerHTML = airportName;
+    $('.chosen-drop').hide();
+    dropdown.selectedIndex = -1;
+}
+
+
+
+//**********Chosen Departure Code Start ****************//
+//*****************************************************//
+$(document).ready(function () {
+    $('#selectedItemId').chosen();
+    $('.chosen-drop').hide();
+    $('#selectedItemId').trigger('chosen:open');
+
+    $('#myInput').on('click', function (event) {
+        event.stopPropagation();
+        $('.chosen-drop').show();
+        $('.chosen-search input').attr('placeholder', ' From');
+        $('.autoarrival').hide();
+        $('.autodropdown').show();
+        var chosenInput = document.querySelector('.chosen-search input');
+        chosenInput.focus();
+    });
+
+
+    $(document.body).on('click', function (event) {
+        if (!$(event.target).closest('.chosen-drop').length && !$(event.target).is('#myInput')) {
+            $('.chosen-drop').hide();
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    $('.chosen-drop').css('display', 'none');
+    var defaultCityName = "New Delhi";
+    var defaultCityCode = "DEL";
+    var defaultAirportName = "Indira Gandhi International Airport";
+    document.getElementById("myInput").value = defaultCityName + "-" + defaultCityCode;
+    document.getElementById("airportName").innerHTML = defaultAirportName;
+});
+
+
+function toggleDropdown() {
+    //$('.chosen-drop').toggle();
+    var chosenInput = document.querySelector('.chosen-search input');
+    chosenInput.focus();
+    if ($('.chosen-drop').is(':visible')) {
+        $('.chosen-search input').focus();
+        $('.chosen-drop').show();
+    }
+}
+
+function handleSelection() {
+    $('.chosen-search input').focus();
+    //alert("Hello Test");
+    var dropdown = document.getElementById("selectedItemId");
+    var selectedValue = dropdown.value;
+    var selectedOption = dropdown.options[dropdown.selectedIndex];
+    var cityDetails = selectedOption.text.split('-');
+    var cityName = cityDetails[0].trim();
+    var cityCode = cityDetails[1].trim();
+    var airportName = cityDetails[2].trim();
+
+    //alert("Selected City Name: " + cityName);
+    //alert("Selected City Code: " + cityCode);
+    //alert("Selected Airport Name: " + airportName);
+    document.getElementById("myInput").value = cityName + "-" + cityCode;
+    document.getElementById("airportName").innerHTML = airportName;
+    $('.chosen-drop').hide();
+    dropdown.selectedIndex = -1;
+}
+//***********From Cityname DropDown end********************//
+
+
+
+//**********Validation home page  Code Start ****************//
+//*****************************************************//
+function validateForm() {
     var originfocus = document.getElementById("myInput").value;
     if (originfocus == "") {
         //alert("Enter Origin Name");
@@ -17,62 +151,20 @@
         return false;
     }
 
-
-    //var sdate = document.getElementById("start-date").value;
-    //if (sdate == "") {
-    //    //alert("Enter Start Date");
-    //    var originToDisplay = document.getElementById("errorbegindate");
-    //    originToDisplay.style.display = "block";
-    //    document.getElementById("start-date").focus();
-    //    return false;
-
-    //}
-
-
-    //var radioButton = document.getElementById("round-tripid"); // Replace "option1" with your radio button's ID
-
-    //if (radioButton.checked) {
-    //    var enddate = document.getElementById("end-date").value;
-    //    if (enddate == "") {
-    //        alert("Enter End Date");
-    //        return false;
-    //    }
-    //}
-
-    
-    var flhticonDisplay = document.getElementById("flightImage");
-    flhticonDisplay.style.display = "block";
-    var flhticonDisplay1 = document.getElementById("animationOverlay");
-    flhticonDisplay1.style.display = "block";
-    $('#animationOverlay').fadeIn(6000);
-
-    // Your existing AJAX code
-    var formData = $('#multipleValuesForm').serialize();
-    $.ajax({
-        url: '/FlightSearchIndex/SearchResultFlight',
-        type: 'POST',
-        data: formData,
-        success: function (response) {
-            alert(response);
-            $('#animationOverlay').fadeOut(3000);
-        },
-        error: function (xhr, status, error) {
-            // Handle error
-            console.error(xhr.responseText); // Log the error response
-            // Hide the animation overlay on error
-            $('#animationOverlay').fadeOut();
-        }
-    });
-
-
-
 };
-
-
 
 
 ////*****-----------RoundTrip end date disabled--********------//
 $(document).ready(function () {
+
+    //****  Replace Icon JS Start*/
+    $('.rplc-btn').on('click', function () {
+        var flyingFromValue = $('#myInput').val();
+        var flyingToValue = $('#myInput1').val();
+        $('#myInput').val(flyingToValue);
+        $('#myInput1').val(flyingFromValue);
+    });
+    //**********Replace Icon JS End**********/
     $('.S-option input[type="radio"]').on('change', function () {
         // Uncheck all radio buttons in the same group except the currently selected one
         $('.S-option input[type="radio"]').not(this).prop('checked', false);
@@ -220,141 +312,4 @@ $(document).ready(function () {
             $('#field_infant').val(count_infant);
         }
     });
-
-
 });
-
-
-
-
-
-
-
-
-//*****-----------Auto Suggest City Name , Airport Name and Airport Code----********----------//
-const airportInput = document.getElementById('airportInput');
-const airportSuggestions = document.getElementById('airportSuggestions');
-
-// Function to filter and display suggestions
-function showSuggestions(event) {
-    const userInput = event.target.value.toLowerCase();
-    airportSuggestions.innerHTML = '';
-
-    const filteredAirports = airportData.filter(airport => {
-        return (
-            airport.city.toLowerCase().includes(userInput) ||
-            airport.code.toLowerCase().includes(userInput) ||
-            airport.name.toLowerCase().includes(userInput)
-        );
-    });
-
-    filteredAirports.forEach(airport => {
-        const li = document.createElement('li');
-        //li.textContent = `${airport.city} -  ${airport.code},${airport.name}`;
-        const cityCodeText = document.createTextNode(`${airport.city} -  ${airport.code},`);
-        const nameText = document.createTextNode(airport.name);
-
-        li.appendChild(cityCodeText);
-        li.appendChild(document.createElement('br')); // Line break between city/code and name
-        li.appendChild(nameText);
-
-        li.addEventListener('click', () => {
-            airportInput.value = `${airport.city} - ${airport.code}`;
-            airportSuggestions.innerHTML = '';
-            document.getElementById("airportname").innerHTML = nameText.textContent;
-
-        });
-
-        airportSuggestions.appendChild(li);
-
-    });
-}
-
-// Attach event listener to input field for showing suggestions
-airportInput.addEventListener('input', showSuggestions);
-document.addEventListener('click', function (event) {
-
-    const airportSuggestions = document.getElementById('airportSuggestions');
-    const airportInput = document.getElementById('airportInput');
-    const airportName = document.getElementById('airportname');
-
-    // Check if the clicked target is not within airportInput or airportSuggestions
-    if (!airportInput.contains(event.target) && !airportSuggestions.contains(event.target)) {
-        airportSuggestions.style.display = 'none';
-        //airportName.style.display = 'none';
-        // Additional logic or actions to perform when hiding the suggestions and name
-    } else {
-        airportSuggestions.style.display = 'block';
-        airportName.style.display = 'block';
-        var originToDisplay = document.getElementById("errororigin");
-        originToDisplay.style.display = "none";
-
-
-    }
-
-});
-
-
-
-//*****-----------Auto Suggest City Name , Airport Name and Airport Code----********----------//
-const airportdestinationInput = document.getElementById('airportdestinationInput');
-const airportSuggestionsDestination = document.getElementById('airportSuggestionsDestination');
-// Function to filter and display suggestions
-function showSuggestionsData(event) {
-    const userInput = event.target.value.toLowerCase();
-    airportSuggestionsDestination.innerHTML = '';
-
-    const filteredAirports = airportData.filter(airport => {
-        return (
-
-            airport.city.toLowerCase().includes(userInput) ||
-            airport.code.toLowerCase().includes(userInput) ||
-            airport.name.toLowerCase().includes(userInput)
-        );
-    });
-
-    filteredAirports.forEach(airport => {
-        const li = document.createElement('li');
-        //li.textContent = `${airport.city} -  ${airport.code},${airport.name}`;
-        const cityCodeText = document.createTextNode(`${airport.city} -  ${airport.code},`);
-        const nameText = document.createTextNode(airport.name);
-
-        li.appendChild(cityCodeText);
-        li.appendChild(document.createElement('br')); // Line break between city/code and name
-        li.appendChild(nameText);
-
-        li.addEventListener('click', () => {
-            airportdestinationInput.value = `${airport.city} - ${airport.code}`;
-            airportSuggestionsDestination.innerHTML = '';
-            document.getElementById("airportdestination").innerHTML = nameText.textContent;
-
-        });
-
-        airportSuggestionsDestination.appendChild(li);
-
-    });
-}
-
-// Attach event listener to input field for showing suggestions
-airportdestinationInput.addEventListener('input', showSuggestionsData);
-document.addEventListener('click', function (event) {
-
-    const airportSuggestionsDestination = document.getElementById('airportSuggestionsDestination');
-    const airportdestinationInput = document.getElementById('airportdestinationInput');
-    const airportName = document.getElementById('airportname');
-
-    // Check if the clicked target is not within airportInput or airportSuggestions
-    if (!airportdestinationInput.contains(event.target) && !airportSuggestionsDestination.contains(event.target)) {
-        airportSuggestionsDestination.style.display = 'none';
-        //airportName.style.display = 'none';
-        // Additional logic or actions to perform when hiding the suggestions and name
-    } else {
-        airportSuggestionsDestination.style.display = 'block';
-        airportName.style.display = 'block';
-        var destiToDisplay = document.getElementById("errordestinaton");
-        destiToDisplay.style.display = "none";
-    }
-});
-
-
-

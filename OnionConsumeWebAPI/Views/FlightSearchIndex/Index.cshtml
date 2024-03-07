@@ -144,22 +144,24 @@
                                             <div class="col-12 col-md-10 col-lg-3 space autocomplete">
                                                 <label>Flying From</label>
                                                 <span class="input-group-text flightdepr">
-                                                    @* <img src="~/img/location-icon.png" alt="icon">&nbsp; *@
-                                                    @* <input id="myInput" type="" placeholder="Delhi DL" class="form-control fisrt">*@
-                                                    @* <select class="form-control fisrt" id="ToCity" asp-for="origin"
-                                                    asp-items="@(new SelectList(@ViewBag.ListofCountry,"CityCode", "CityName"))">
-                                                    </select> *@
-                                                    @*AutoSuggest Code For Airport*@
-
-                                                    @* <input type="text" id="airportInput" asp-for="origin" class="form-control text-15 first" value="Delhi-DEL" placeholder="Enter AirportName"> *@
-                                                    <input type="text" id="myInput" asp-for="origin" class="form-control text-15 first" value="Delhi-DEL" placeholder="Enter AirportName">
-                                                    <span>[DEL] Indira Gandhi International Airport</span>
+                                                    <input type="text" id="myInput" asp-for="origin" class="form-control text-15 " value="Delhi-DEL" placeholder="Enter AirportName" onclick="toggleDropdown()">
+                                                    <span id="airportName"></span>
                                                 </span>
                                                 <div id="errororigin" class="errorbox" style="display:none;">Enter Origin Name*</div>
-                                                @* <div id="airportname"></div>
-                                                <div class="auto-suggest">
-                                                <ul id="airportSuggestions"></ul>
-                                                </div> *@
+
+                                                <span class="autodropdown">
+                                                    <select id="selectedItemId" name="selectedItemId" onchange="handleSelection()">
+                                                        @* <option value="">Please select</option> *@
+
+                                                        @foreach (var item in Citynamelist.GetAllCityData())
+                                                        {
+                                                            <option value="@item.citycode">@item.cityname - @item.citycode -<br>@item.airportname </option>
+
+                                                        }
+
+                                                    </select>
+                                                </span>
+
                                             </div>
                                             <div class="rplc-btn">
                                                 <img src="~/img/direction-arrows.png" />
@@ -167,26 +169,29 @@
                                             <div class="col-12 col-md-10 col-lg-3 space autocomplete">
                                                 <label>Flying To</label>
                                                 <span class="input-group-text" id="basic-addon1">
-                                                   @*  <img src="~/img/location-icon.png" alt="icon" style="left:15px;">&nbsp; *@
-                                                    @* <input id="myInput1" type="" placeholder="Mumbai BOM" class="form-control fisrt">
-                                                    <select class="form-control fisrt" id="ToCity" asp-for="destination"
-                                                    asp-items="@(new SelectList(@ViewBag.ListofCountry,"CityCode", "CityName"))">
-                                                    </select>*@
-                                                    @* <input type="text" id="airportdestinationInput" asp-for="destination" class="form-control text-15 first" value="Mumbai-BOM" placeholder="Enter AirportName"> *@
-                                                    <input type="text" id="myInput1" asp-for="destination" class="form-control text-15 first" value="Mumbai-BOM" placeholder="Enter AirportName">
-                                                    <span>[BOM] Mumbai Airport</span>
+                                                    <input type="text" id="myInput1" asp-for="destination" class="form-control text-15 " value="" placeholder="Enter AirportName" onclick="toggleDropdownArrival()">
+                                                    <span id="airportArval"></span>
                                                 </span>
                                                 <div id="errordestinaton" class="errorbox" style="display:none;">Enter Destination Name*</div>
-                                                @*  <div id="airportdestination"></div>
-                                                <div class="auto-suggest">
-                                                <ul id="airportSuggestionsDestination"></ul>
-                                                </div> *@
+                                                <span class="autoarrival">
+                                                    <select id="arrivalItemId" name="arrivalItemId" onchange="arrivalSelection()">
+                                                        @* <option value="">Please select</option> *@
+
+                                                        @foreach (var item in Citynamelist.GetAllCityData())
+                                                        {
+                                                            <option value="@item.citycode">@item.cityname - @item.citycode -<br>@item.airportname </option>
+
+                                                        }
+
+                                                    </select>
+                                                </span>
+
                                             </div>
                                             <div class="col-12 col-md-10 col-lg-2 space">
                                                 <label>Departure</label>
                                                 <span class="input-group-text">
                                                     @* <img src="~/img/calender-icon.png" alt="icon"> *@
-                                                    <input id="start-date" asp-for="beginDate" type="" placeholder="Date" class="form-control">
+                                                    <input id="start-date" asp-for="beginDate" type="" placeholder="Date" class="form-control text-20 fw-600">
 
                                                     <span asp-validation-for="beginDate"></span>
                                                 </span>
@@ -208,11 +213,11 @@
                                                     <div data-x-dd-click="searchMenu-guests">
 
                                                         <div class="text-15 text-light-1 ls-2 lh-16">
-                                                            <span class="js-count-adult text-22 fw-600" id="count_adult">1</span> adults
+                                                            <span class="js-count-adult text-22 text-light-1 fw-600" id="count_adult">1</span> adults
                                                             -
-                                                            <span class="js-count-child text-22 fw-600" id="count_child">0</span> childeren
+                                                            <span class="js-count-child text-22 text-light-1 fw-600" id="count_child">0</span> childeren
                                                             -
-                                                            <span class="js-count-infents text-22 fw-600" id="count_infant">0</span> Infants
+                                                            <span class="js-count-infents text-22 text-light-1 fw-600" id="count_infant">0</span> Infants
                                                         </div>
                                                     </div>
 
@@ -668,15 +673,15 @@
                             <div class="social-icons d-flex">
                                 <a class="facebook" href="#">
                                     <i class="fab fa-facebook-f"></i>
-                                   
+
                                 </a>
                                 <a class="twitter" href="#">
                                     <i class="fab fa-twitter"></i>
-                                  
+
                                 </a>
                                 <a class="google-plus" href="#">
                                     <i class="fab fa-google-plus-g"></i>
-                                   
+
                                 </a>
                             </div>
                         </div>
@@ -717,8 +722,6 @@
         <link rel="stylesheet" href="/resources/demos/style.css">
         <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
         <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-
-
         <!-- Bootstrap js -->
         <script src="~/js/bootstrap/popper.min.js"></script>
         <script src="~/js/bootstrap/bootstrap.min.js"></script>
@@ -726,161 +729,12 @@
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAz77U5XQuEME6TpftaMdX0bBelQxXRlM"></script>
         <script src="~/js/vendors.js"></script>
         <script src="~/js/main.js"></script>
-
         <!-- Active js -->
-        <script src="assets/js/active.js"></script>
-        <script src="~/js/custom.js/airportcode.js"></script>
         <script src="~/js/custom.js/indexpage.js"></script>
-        <style type="text/css">
-            /*     .errorbox {
-                                        margin-left: 40px;
-                                        padding: 4px 10px;
-                                        font-size: 13px;
-                                        color: #fff;
-                                        margin-top: -4px;
-                                        width: auto;
-                                        font-weight: 700;
-                                        background: red;
-                                        border-radius: 2px;
-                                    } */
-            .errorbox {
-                position: relative;
-                margin-left: 40px;
-                padding: 4px 10px;
-                font-size: 13px;
-                color: #fff;
-                margin-top: -4px;
-                width: 68%;
-                font-weight: 700;
-                background: red;
-                border-radius: 2px;
-            }
-
-                .errorbox::before {
-                    content: "";
-                    position: absolute;
-                    transform: rotate(180deg);
-                    bottom: 28px;
-                    border-width: 8px;
-                    border-style: solid;
-                    border-color: red transparent transparent transparent;
-                }
+        <script src="~/lib/jquery/chosen.jquery.js"></script>
+        <script src="~/lib/jquery/chosen.jquery.min.js"></script>
 
 
-
-            /*   #myAnimation {
-                                        width:60px;
-                                        height:60px;
-                                        /* position: absolute;
-                                        bottom: 0px;
-                                        border-radius:50%;
-                                        padding:10px;
-                                       background-color: red;
-
-                                    } */
-
-
-            /* Overlay styles */
-            .overlay {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
-                z-index: 9999;
-            }
-
-            /* Loader animation styles */
-            .loader {
-                border: 5px solid #f3f3f3;
-                border-top: 5px solid #3498db;
-                border-radius: 50%;
-                width: 50px;
-                height: 50px;
-                animation: spin 2s linear infinite;
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                margin-top: -25px;
-                margin-left: -25px;
-            }
-
-            @@keyframes spin {
-                0% {
-                    transform: rotate(0deg);
-                }
-
-                100% {
-                    transform: rotate(360deg);
-                }
-            }
-
-            .iconanimate {
-                width: 60px;
-                height: 60px;
-                /* position: absolute; */
-                border-radius: 50%;
-                padding: 10px;
-                background-color: red;
-                position: relative;
-                top: 50%;
-                animation-name: example;
-                animation-duration: 10s;
-            }
-
-            @@keyframes example {
-                0% {
-                    left: 0; /* Starting position */
-                }
-
-                100% {
-                    left: calc(100% - 100px); /* Move to the right edge (100% - width) */
-                }
-                /* 0%   {background-color:red; left:0px; right:0px;}
-                                          25%  {background-color:yellow; left:80%; top:10%;}
-                                          50%  {background-color:blue; left:200px; top:200px;}
-                                          75%  {background-color:green; left:0px; top:200px;}
-                                          100% {background-color:red; left:0px; top:0px;}  */
-            }
-
-            .iconanimate img {
-                transform: rotate(45deg);
-            }
-
-            .rplc-btn {
-                width: 34px;
-                position: absolute;
-                left: 279px;
-                background: #ffffffc2;
-                margin-top: 52px;
-                /* margin-left: -2px; */
-                padding: 3px;
-                border-radius: 50%;
-                z-index: 999;
-            }
-
-                .rplc-btn img {
-                    transform: rotate(90deg);
-                }
-
-        </style>
-        <script>
-            $(document).ready(function () {
-                $('.rplc-btn').on('click', function () {
-                    // Get values from the first input box
-                    var flyingFromValue = $('#myInput').val();
-
-                    // Get values from the second input box
-                    var flyingToValue = $('#myInput1').val();
-
-                    // Swap values between the two input boxes
-                    $('#myInput').val(flyingToValue);
-                    $('#myInput1').val(flyingFromValue);
-                });
-            });
-        </script>
 
     }
 </body>
