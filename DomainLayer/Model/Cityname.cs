@@ -42,7 +42,7 @@ namespace DomainLayer.Model
             new { citycode = "BHO", cityname = "Bhopal", airportname = "Raja Bhoj Airport India"},
             new { citycode = "JLR", cityname = "Jabalpur", airportname = "Jabalpur Airport India"},
             new { citycode = "TNI", cityname = "Satna", airportname = "Satna Airport India"},
-            new { citycode = "HJR", cityname = "Khajuraho", airportname = "Khajuraho Airport India"}
+            new { citycode = "HJR", cityname = "Khajuraho", airportname = "Khajurah Airport India"}
           
     
             // Add more data as needed...
