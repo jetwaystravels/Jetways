@@ -166,6 +166,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="bootstrap.chosen" Version="1.0.0" />
     <PackageReference Include="Bootstrap.Datepicker" Version="1.8.0.1" />
     <PackageReference Include="Bootstrap.v3.Datetimepicker.CSS" Version="4.17.49" />
     <PackageReference Include="jQuery.UI.Combined" Version="1.13.2" />
