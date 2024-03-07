@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility", "Utility\Utility.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Airlines", "Airlines", "{A6BA223B-6785-492E-A349-B906AE76F6C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Indigo", "Indigo\Indigo.csproj", "{00E6BDC4-FAD3-4C68-96F7-FD67576A36B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Indigo", "Indigo\Indigo.csproj", "{00E6BDC4-FAD3-4C68-96F7-FD67576A36B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
