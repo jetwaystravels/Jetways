@@ -1,5 +1,6 @@
 ﻿using DomainLayer.Model;
 using DomainLayer.ViewModel;
+using Microsoft.EntityFrameworkCore;
 using RepositoryLayer.DbContextLayer;
 using ServiceLayer.Service.Interface;
 using System;
@@ -23,7 +24,15 @@ namespace ServiceLayer.Service.Implementation
         {
             try
             {
-                 tb_Booking tbobj =  new tb_Booking();
+                
+
+                var outputParameter = new Microsoft.Data.SqlClient.SqlParameter("@OutputParameter", System.Data.SqlDbType.NVarChar, 30);
+                outputParameter.Direction = System.Data.ParameterDirection.Output;
+
+                // Execute  output stored procedure retrieve jetwaysId
+                var jetid= _dbContext.tb_DailyNumber.FromSqlRaw<tb_DailyNumber>("EXECUTE sp_jetwaysIdGenerate @OutputParameter OUTPUT", outputParameter).ToList();
+                var jetwaysId = jetid[0].Autogenratednumber;
+                tb_Booking tbobj =  new tb_Booking();
                     tbobj.BookingID = ticketObject.BookingID;
                     //tbobj.BookingID = ticketObject.tb_Booking.BookingID;
                     tbobj.AirLineID = ticketObject.tb_Booking.AirLineID;

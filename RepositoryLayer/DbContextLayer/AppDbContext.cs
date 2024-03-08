@@ -35,6 +35,8 @@ namespace RepositoryLayer.DbContextLayer
         public DbSet<tb_PassengerTotal> tb_PassengerTotal { get; set; }
         public DbSet<tb_PassengerDetails> tb_PassengerDetails { get; set; }
 
+        public DbSet<tb_DailyNumber> tb_DailyNumber { get; set; }
+
 
 
     }

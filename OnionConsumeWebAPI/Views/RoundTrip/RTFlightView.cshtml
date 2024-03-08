@@ -22,77 +22,10 @@
     <link rel="stylesheet" href="~/css/style.css">
     <link rel="stylesheet" href="~/css/daterangepicker.css">
     <link href="~/css/roundviewpage.css" rel="stylesheet" />
-    <link href="~/css/indexvny.css" rel="stylesheet" />
-    <script src="~/js/custom.js/indexpage.js"></script>
-    @* <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> *@
-    <style type="text/css">
-        .custom-flex p {
-            font-size: 12px;
-        }
-
-        #myAnimation1 {
-            width: 60px;
-            height: 60px;
-            position: absolute;
-            bottom: 0px;
-            border-radius: 50%;
-            padding: 10px;
-            background-color: red;
-            display: none;
-        }
-
-        .rplc-btn {
-            width: 34px;
-            position: absolute;
-            left: 193px;
-            background: #ffffffc2;
-            margin-top: 1px;
-            margin-left: 20px;
-            padding: 3px;
-            border-radius: 50%;
-            z-index: 999;
-        }
-
-            .rplc-btn img {
-                transform: rotate(90deg);
-            }
-
-        .service-section .swiper-slide.active {
-            border: none !important;
-            background: #EBEDF8;
-        }
-
-        .btn-close {
-            background-color: #fff !important;
-            color: #000 !important;
-            padding: 7px 9px;
-            margin: 9px;
-            border-radius: 8px;
-        }
-
-        .mbody-padding {
-            padding: 8px 16px !important;
-        }
-
-        .fbody-padding {
-            padding: 8px 16px !important;
-        }
-
-        .modal-mfareBlock .pd {
-            padding: 8px 15px !important;
-        }
-
-        .model-wd80 {
-            width: 90% !important;
-            margin: auto;
-        }
-
-    </style>
 
 </head>
 <body>
     <main id="filternonstop">
-
         <!-- ***** Header Start ***** -->
         <header class="navbar navbar-sticky navbar-expand-lg inner-bg">
             <div class="container position-relative">
@@ -201,10 +134,24 @@
                                             <div class="row">
                                                 <div class="col-12 col-md-10 col-lg-2 space autocomplete">
                                                     <label class=""></label>
+
                                                     <span class="input-group-text">
-                                                        <img src="~/img/location-icon.png" alt="icon">
-                                                        <input id="myInput" name="origin" type="" value="Delhi-DEL" class="form-control">
+                                                        <input id="myInput" name="origin" type="text" value="DEL" class="form-control" onclick="RTDropdown()">
+                                                        @* <span id="airportName"></span> *@
                                                     </span>
+                                                    <span class="autodropdownRT">
+                                                        <select id="autodropdownRTId" name="autodropdownRTId" onchange="RTSelection()">
+                                                            @* <option value="">Please select</option> *@
+
+                                                            @foreach (var item in Citynamelist.GetAllCityData())
+                                                            {
+                                                                <option value="@item.citycode">@item.cityname - @item.citycode -<br>@item.airportname </option>
+
+                                                            }
+
+                                                        </select>
+                                                    </span>
+
                                                 </div>
 
                                                 <div class="rplc-btn">
@@ -213,22 +160,38 @@
 
                                                 <div class="col-12 col-md-10 col-lg-2 space autocomplete">
                                                     <label class=""></label>
+
                                                     <span class="input-group-text" id="basic-addon1">
-                                                        <img src="~/img/location-icon.png" alt="icon">
-                                                        <input id="myInput1" name="destination" type="" value="Mumbai-BOM" class="form-control">
+                                                        <input type="text" id="myInput1" name="destination" class="form-control" value="BOM" onclick="toggleArrivalRT()">
+                                                        @* <span id="airportArval"></span> *@
                                                     </span>
+                                                    <div id="errordestinaton" class="errorbox" style="display:none;">Enter Destination Name*</div>
+
+                                                    <span class="autoarrivalRT">
+                                                        <select id="arrivalItemRTId" name="arrivalItemRTId" onchange="arrivalRT()">
+                                                            @* <option value="">Please select</option> *@
+
+                                                            @foreach (var item in Citynamelist.GetAllCityData())
+                                                            {
+                                                                <option value="@item.citycode">@item.cityname - @item.citycode -<br>@item.airportname </option>
+
+                                                            }
+
+                                                        </select>
+                                                    </span>
+
                                                 </div>
                                                 <div class="col-12 col-md-10 col-lg-2 space">
                                                     <label style="margin-bottom: 0.1rem;">Departure</label>
                                                     <span class="input-group-text">
-                                                        <img src="~/img/calender-icon.png" alt="icon" style="background-color:#fff">
+
                                                         <input id="Rway-date" name="beginDate" type="text" placeholder="Date" class="form-control">
                                                     </span>
                                                 </div>
                                                 <div class="col-12 col-md-10 col-lg-2 space">
                                                     <label style="margin-bottom: 0.1rem;">Return</label>
                                                     <span class="input-group-text" id="basic-addon1">
-                                                        <img src="~/img/calender-icon.png" alt="icon" style="background-color:#fff">
+
                                                         <input id="Rway-endDate" name="endDate" type="text" placeholder="Date" class="form-control">
                                                     </span>
                                                 </div>
@@ -2564,6 +2527,176 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="~/lib/jquery/chosen.jquery.js"></script>
+    <script src="~/lib/jquery/chosen.jquery.min.js"></script>
+
+    <style type="text/css">
+        .custom-flex p {
+            font-size: 12px;
+        }
+
+        .rplc-btn {
+            width: 34px;
+            position: absolute;
+            left: 193px;
+            background: #ffffffc2;
+            margin-top: 1px;
+            margin-left: 20px;
+            padding: 3px;
+            border-radius: 50%;
+            z-index: 111;
+        }
+
+            .rplc-btn img {
+                transform: rotate(90deg);
+            }
+
+        .service-section .swiper-slide.active {
+            border: none !important;
+            background: #EBEDF8;
+        }
+
+        .btn-close {
+            background-color: #fff !important;
+            color: #000 !important;
+            padding: 7px 9px;
+            margin: 9px;
+            border-radius: 8px;
+        }
+
+        .mbody-padding {
+            padding: 8px 16px !important;
+        }
+
+        .fbody-padding {
+            padding: 8px 16px !important;
+        }
+
+        .modal-mfareBlock .pd {
+            padding: 8px 15px !important;
+        }
+
+        .model-wd80 {
+            width: 90% !important;
+            margin: auto;
+        }
+
+
+        /* Departure Dropdown CSS**/
+        .autodropdownRT {
+            position: absolute;
+            z-index: 999;
+            /* background: white;*/
+            width: 330px;
+            padding: 4px;
+        }
+
+            .autodropdownRT > select {
+                width: 330px;
+            }
+
+
+        .chosen-drop {
+            border: 1px solid #d4d4d4;
+            box-shadow: 0 4px 5px 0 rgb(0 0 0 / 22%);
+            margin-top: -32px;
+            background: #fff;
+            padding: 2px 10px;
+        }
+
+        .autodropdownRT input {
+            border-bottom: 1px solid #e9eff4 !important;
+            color: #808080;
+            font-weight: 400;
+            width: 300px;
+            height: 40px;
+            border: none;
+        }
+
+        .autodropdownRT .chosen-single {
+            display: none;
+        }
+
+        .autodropdownRT .chosen-results {
+            cursor: pointer;
+            overflow-y: scroll;
+            height: 230px;
+        }
+
+        .chosen-drop ul li {
+            background-image: url('../img/nav-icon-1.png');
+            background-repeat: no-repeat;
+            background-position: left 4px center;
+            padding: 2px 4px 8px 38px;
+            border-bottom: 1px solid #d4d4d4;
+        }
+
+
+
+        .chosen-search input {
+            background-image: url('../img/from.png');
+            background-repeat: no-repeat;
+            background-size: 20px 20px;
+            background-position: 5px center;
+            padding-left: 40px;
+            border: none;
+        }
+
+
+        /* Arrival Dropdown CSS**/
+        .autoarrivalRT {
+            position: absolute;
+            z-index: 999;
+            /* background: white;*/
+            width: 330px;
+            padding: 4px;
+        }
+
+            .autoarrivalRT > select {
+                width: 330px;
+            }
+
+
+            .autoarrivalRT .chosen-drop {
+                border: 1px solid #d4d4d4;
+                box-shadow: 0 4px 5px 0 rgb(0 0 0 / 22%);
+                margin-top: -32px;
+                background: #fff;
+                padding: 2px 10px;
+            }
+
+            .autoarrivalRT input {
+                border-bottom: 1px solid #e9eff4 !important;
+                color: #808080;
+                font-weight: 400;
+                width: 300px;
+                height: 40px;
+                border: none;
+            }
+
+            .autoarrivalRT .chosen-single {
+                display: none;
+            }
+
+            .autoarrivalRT .chosen-results {
+                cursor: pointer;
+                overflow-y: scroll;
+                height: 230px;
+            }
+
+        .chosen-drop, input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .chosen-drop, textarea:focus, input:focus {
+            outline: none;
+        }
+
+    </style>
+
+
+
     <script>
         $(function () {
             var today = new Date();
@@ -2862,6 +2995,125 @@
                 $(this).next().filter('.hideme').slideDown(1);
             }
         });
+
+
+        //**********Chosen Departure Code Start ****************//
+        //*****************************************************//
+        $(document).ready(function () {
+            $('#autodropdownRTId').chosen();
+            $('.chosen-drop').hide();
+            $('#autodropdownRTId').trigger('chosen:open');
+
+            $('#myInput').on('click', function (event) {
+                event.stopPropagation();
+                $('.chosen-drop').show();
+                $('.autodropdownRT input').attr('placeholder', ' From');
+                $('.autodropdownRT').show();
+                $('.autoarrivalRT').hide();
+                var chosenInput = document.querySelector('.chosen-search input');
+                chosenInput.focus();
+                chosenInput.style.border = 'none';
+            });
+
+
+            $(document.body).on('click', function (event) {
+                if (!$(event.target).closest('.chosen-drop').length && !$(event.target).is('#myInput')) {
+                    $('.chosen-drop').hide();
+                }
+            });
+        });
+
+
+
+
+        function RTDropdown() {
+            //$('.chosen-drop').toggle();
+            var chosenInput = document.querySelector('.chosen-search input');
+            chosenInput.focus();
+            chosenInput.style.border = 'none';
+            if ($('.chosen-drop').is(':visible')) {
+                $('.chosen-search input').focus();
+                $('.chosen-drop').show();
+            }
+        }
+
+        function RTSelection() {
+            $('.chosen-search input').focus();
+            //alert("Hello Test");
+            var dropdown = document.getElementById("autodropdownRTId");
+            var selectedValue = dropdown.value;
+            var selectedOption = dropdown.options[dropdown.selectedIndex];
+            var cityDetails = selectedOption.text.split('-');
+            var cityName = cityDetails[0].trim();
+            var cityCode = cityDetails[1].trim();
+            var airportName = cityDetails[2].trim();
+
+            //alert("Selected City Name: " + cityName);
+            //alert("Selected City Code: " + cityCode);
+            //alert("Selected Airport Name: " + airportName);
+            document.getElementById("myInput").value = cityCode;
+            //document.getElementById("airportName").innerHTML = airportName;
+            $('.chosen-drop').hide();
+            //$('.autodropdownOneWay').hide();
+            dropdown.selectedIndex = -1;
+        }
+
+
+        // *********Arrival Dropdown Js Code Strat*********////
+        $(document).ready(function () {
+            $('#arrivalItemRTId').chosen();
+            $('.chosen-drop').hide();
+            $('#arrivalItemRTId').trigger('chosen:open');
+
+            $('#myInput1').on('click', function (event) {
+                event.stopPropagation();
+                $('.chosen-drop').show();
+                $('.autoarrivalRT input').attr('placeholder', 'To');
+                $('.autoarrivalRT').show();
+                $('.autodropdownRT').hide();
+                var chosenInputA = document.querySelector('.autoarrivalRT input');
+                chosenInputA.focus();
+                chosenInputA.style.border = 'none';
+            });
+            $(document.body).on('click', function (event) {
+                if (!$(event.target).closest('.chosen-drop').length && !$(event.target).is('#myInput1')) {
+                    $('.chosen-drop').hide();
+                }
+            });
+
+        });
+
+        function toggleArrivalRT() {
+            //$('.chosen-drop').toggle();
+            var chosenInput4 = document.querySelector('.autoarrivalRT input');
+            chosenInput4.focus();
+            chosenInput4.style.border = 'none';
+            if ($('.chosen-drop').is(':visible')) {
+                $('.chosen-search input').focus();
+                $('.chosen-drop').show();
+            }
+        }
+
+        function arrivalRT() {
+            $('.chosen-search input').focus();
+            //alert("Hello Test");
+            var dropdown = document.getElementById("arrivalItemRTId");
+            var selectedValue = dropdown.value;
+            var selectedOption = dropdown.options[dropdown.selectedIndex];
+            var cityDetails = selectedOption.text.split('-');
+            var cityName = cityDetails[0].trim();
+            var cityCode = cityDetails[1].trim();
+            var airportName = cityDetails[2].trim();
+
+            //alert("Selected City Name: " + cityName);
+            //alert("Selected City Code: " + cityCode);
+            //alert("Selected Airport Name: " + airportName);
+            document.getElementById("myInput1").value = cityCode;
+            //document.getElementById("airportName").innerHTML = airportName;
+            $('.chosen-drop').hide();
+            //$('.autodropdownOneWay').hide();
+            dropdown.selectedIndex = -1;
+        }
 
     </script>
 
