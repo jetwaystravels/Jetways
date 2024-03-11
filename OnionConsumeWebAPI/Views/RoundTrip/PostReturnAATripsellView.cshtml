@@ -715,7 +715,7 @@
 
             }
             var resultLeftElement = document.getElementById("resultLeft");
-            alert(resultLeftElement.textContent);
+            //alert(resultLeftElement.textContent);
             var leftpopupfare = resultLeftElement.textContent;
 
             localStorage.setItem('LEFTFARE', leftpopupfare);
@@ -739,7 +739,7 @@
             var popupfare1 = localStorage.getItem('LEFTFARE');
             var popupfare2 = localStorage.getItem('RIGHTFARE');
             var totalfarepopup = parseInt(popupfare1) + parseInt(popupfare2);
-            alert("vny" + totalfarepopup);
+            //alert("vny" + totalfarepopup);
             document.getElementById("popuptatalfare").innerHTML = totalfarepopup;
             localStorage.setItem('basetotalfare', totalfarepopup);
             localStorage.setItem('basetotalprice', totalfarepopup);

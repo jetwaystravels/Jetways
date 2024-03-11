@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="~/css/daterangepicker.css">
     <link href="~/css/roundviewpage.css" rel="stylesheet" />
     <link href="~/css/indexvny.css" rel="stylesheet" />
-
+    <script src="~/js/custom.js/indexpage.js"></script>
 
 
 </head>
@@ -74,6 +74,9 @@
                             <li class="nav-item">
                                 <a class="nav-link"><img class="mr-2" src="~/img/nav-icon-8.png">Login</a>
                             </li>
+                             <li>
+                             <p class="nav-link"  id="demo"  ></p>
+                             </li>
                         </ul>
                     </div>
                     <nav id="mobile-nav">
@@ -281,6 +284,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-10 col-lg-2"><button style="margin-top:0px;" type="submit" class="btn btn-lg btn-block"><i class="fa fa-search mr-10" aria-hidden="true"></i>Modify Search</button></div>
+                                               
                                                 <div class="col-12 col-md-12 col-lg-12 search-bottom"></div>
                                                 <div class="col-12 col-md-10 col-lg-9 pl-0">
                                                     <div class="form-group pt-2">
@@ -514,12 +518,19 @@
                                                             <div class="">@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin</div>
                                                         </div>
                                                         @{
+                                                            string formattedTime = string.Empty;
                                                             var arrivalDate = Model.SimpleAvailibilityaAddResponcelist[j].designator.arrival;
                                                             var departureDate = Model.SimpleAvailibilityaAddResponcelist[j].designator.departure;
                                                             var diff = (arrivalDate - departureDate);
+                                                            TimeSpan timeSpan = TimeSpan.Parse(diff.ToString());
+                                                            if ((int)timeSpan.Minutes == 0)
+                                                                formattedTime = $"{(int)timeSpan.TotalHours} h";
+                                                            else
+                                                                formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
+
                                                         }
                                                         <div class="col text-center">
-                                                            <div class="px-20 md:px-0">@diff</div>
+                                                            <div class="px-20 md:px-0">@formattedTime</div>
                                                             <div class="flightLine">
                                                                 <div></div>
                                                                 <div></div>
@@ -2850,6 +2861,40 @@
 
 
 
+    </script>
+
+    <script>
+        // Set the date we're counting down to
+        var countDownDate = new Date().getTime();
+        countDownDate += 15 * 60 * 1000;
+        // var countDownDate = new Date().getTime();
+        // var countDownDate += 15 * 60 * 1000;
+        // Update the count down every 1 second
+        var x = setInterval(function () {
+
+            // Get today's date and time
+            var now = new Date().getTime();
+            //now += 15 * 60 * 1000;
+            // Find the distance between now and the count down date
+            var distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result in the element with id="demo"
+            // document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+            //     + minutes + "m " + seconds + "s ";
+            document.getElementById("demo").innerHTML = minutes + "m " + seconds + "s ";
+
+            // If the count down is finished, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "EXPIRED";
+            }
+        }, 1000);
     </script>
 
 </body>

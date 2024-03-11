@@ -12,6 +12,8 @@ namespace DomainLayer.Model
         [Key]
         public int Id { get; set; }
         public string BookingID { get; set; }
+
+        public string ? jetwaysId { get; set; }
         public int AirLineID { get; set; }
         public string RecordLocator { get; set; }
         public string CurrencyCode { get; set; }

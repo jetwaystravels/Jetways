@@ -309,6 +309,25 @@ namespace OnionConsumeWebAPI.Controllers
                                 AALeg AALeg = new AALeg();
                                 //AALeg.legKey = JsonObjTripsell.data.journeys[i].segments[j].legs[n].legKey;
                                 AADesignator AAlegDesignatorobj = new AADesignator();
+                                // queryorigin = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].Legs[n].DepartureStation;
+                                // querydestination = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].Legs[n].ArrivalStation;
+                                //if (Citydata.GetAllcity().Where(x => x.cityCode == queryorigin).SingleOrDefault() != null)
+                                //{
+                                //    string origin = Citydata.GetAllcity().Where(x => x.cityCode == queryorigin).SingleOrDefault().cityName;
+                                //    AAlegDesignatorobj.origin = origin;
+                                //}
+                                //else
+                                //{
+                                //    AAlegDesignatorobj.origin = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].Legs[n].DepartureStation;
+                                //}
+                                //if (Citydata.GetAllcity().Where(x => x.cityCode == querydestination).SingleOrDefault() != null)
+                                //{
+                                //    string destination1 = Citydata.GetAllcity().Where(x => x.cityCode == querydestination).SingleOrDefault().cityName;
+                                //    AAlegDesignatorobj.destination = destination1;
+                                //}
+                                //else
+                                //    AAlegDesignatorobj.destination = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].Legs[n].ArrivalStation;
+
                                 AAlegDesignatorobj.origin = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].Legs[n].DepartureStation;
                                 AAlegDesignatorobj.destination = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].Legs[n].ArrivalStation;
                                 AAlegDesignatorobj.departure = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].Legs[n].STD;
@@ -585,10 +604,19 @@ namespace OnionConsumeWebAPI.Controllers
                                                         List<legpassengers> legpassengerslist = new List<legpassengers>();
                                                         Decimal Amount = decimal.Zero;
                                                         legpassengers passengersdetail = new legpassengers();
+                                                        int a1 = 0;
                                                         foreach (var items in _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].PaxSSRPriceList[0].PaxFee.ServiceCharges)
                                                         {
-                                                            Amount += items.Amount;
-                                                            passengersdetail.price = Math.Round(Amount).ToString(); //Ammount
+                                                            if (a1 > 0)
+                                                            {
+                                                                break;
+                                                            }
+                                                            else
+                                                            {
+                                                                Amount += items.Amount;
+                                                                passengersdetail.price = Math.Round(Amount).ToString(); //Ammount
+                                                            }
+                                                            a1++;
 
                                                         }
                                                         passengersdetail.passengerKey = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].PaxSSRPriceList[0].PassengerNumberList.ToString();
@@ -693,7 +721,8 @@ namespace OnionConsumeWebAPI.Controllers
                             SeatMapResponceModellist = new List<SeatMapResponceModel>();
                             Fees Fees = new Fees();
                             Seatmap Seatmapobj = new Seatmap();
-                            //Seatmapobj.name = _getSeatAvailabilityResponse.SeatAvailabilityResponse.EquipmentInfos[x].Compartments[0].Seats[x].SeatDesignator;
+                            Seatmapobj.name = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Name;
+                            TempData["AirCraftName"] = Seatmapobj.name;
                             Seatmapobj.arrivalStation = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].ArrivalStation;
                             Seatmapobj.departureStation = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].DepartureStation;
                             Seatmapobj.marketingCode = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].MarketingCode;
@@ -745,8 +774,15 @@ namespace OnionConsumeWebAPI.Controllers
                                         List<Servicecharge> feesgroupserviceChargeslist = new List<Servicecharge>();
                                         for (int l = 0; l < feesgroupserviceChargescount; l++)
                                         {
-                                            Servicecharge feesgroupserviceChargesobj = new Servicecharge();
-                                            compartmentsunitobj.servicechargefeeAmount += Convert.ToInt32(SeatGroup[x].SeatAvailabilityResponse.SeatGroupPassengerFees[k].PassengerFee.ServiceCharges[l].Amount);
+                                            //Servicecharge feesgroupserviceChargesobj = new Servicecharge();
+                                            if (l > 0)
+                                            {
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                compartmentsunitobj.servicechargefeeAmount += Convert.ToInt32(SeatGroup[x].SeatAvailabilityResponse.SeatGroupPassengerFees[k].PassengerFee.ServiceCharges[l].Amount);
+                                            }
                                         }
                                     }
                                 }

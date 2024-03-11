@@ -134,11 +134,20 @@
 
                             <div class="Clogo">
                                 <div class="Clogo2">
-                                    @if (@Model.AirlinePNR[0].airLines == "Air Asia")
+                                    @if (Model.AirlinePNR[0].airLines.ToString().ToLower().Equals("spicejet"))
                                     {
-                                        <img src="~/img/clogo.png">
-                                    }
 
+                                        <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
+                                    }
+                                    else if (Model.AirlinePNR[0].airLines.ToString().ToLower().Equals("indigo"))
+                                    {
+
+                                        <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
+                                    }
+                                    else
+                                    {
+                                        <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
+                                    }
                                 </div><span id="CName" class="fw-bold-600"> @Model.AirlinePNR[0].journeys[0].segments[0].identifier.carrierCode</span> |
                                 <span id="Cnomer" class="fw-bold-600">@Model.AirlinePNR[0].journeys[0].segments[0].identifier.identifier</span>
                             </div>
@@ -439,7 +448,7 @@
                                         <span class="fw-bold-600">Total Fare</span>
                                     </div>
                                     <div class="col-3">
-                                        <span class="fw-bold-600">xxxx</span>
+                                        <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.totalAmount</span>
                                     </div>
                                 </div>
                             </div>
@@ -579,13 +588,24 @@
 
                                 <div class="Clogo">
                                     <div class="Clogo2">
-                                        @if (@Model.AirlinePNR[0].airLines == "Air Asia")
+                                        
+                                        @if (Model.AirlinePNR[0].airLines.ToString().ToLower().Equals("spicejet"))
                                         {
-                                            <img src="~/img/clogo.png">
+
+                                            <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
+                                        }
+                                        else if (Model.AirlinePNR[0].airLines.ToString().ToLower().Equals("indigo"))
+                                        {
+
+                                            <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
+                                        }
+                                        else
+                                        {
+                                            <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
                                         }
 
                                     </div><span id="CName" class="fw-bold-600"> @Model.AirlinePNR[0].journeys[1].segments[0].identifier.carrierCode</span> |
-                                    <span id="Cnomer" class="fw-bold-600">@Model.AirlinePNR[0].journeys[0].segments[0].identifier.identifier</span>
+                                    <span id="Cnomer" class="fw-bold-600">@Model.AirlinePNR[0].journeys[1].segments[0].identifier.identifier</span>
                                 </div>
                                 <div class="TEconomy">
                                     <span id="eco-class">Corpate Fare : </span>
@@ -885,7 +905,7 @@
                                             <span class="fw-bold-600">Total Fare</span>
                                         </div>
                                         <div class="col-3">
-                                            <span class="fw-bold-600">xxxx</span>
+                                            <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.totalAmount</span>
                                         </div>
                                     </div>
                                 </div>

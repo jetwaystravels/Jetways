@@ -121,9 +121,19 @@
 
                             <div class="Clogo">
                                 <div class="Clogo2">
-                                    @if (@Model.AirlinePNR[0].airLines == "Air Asia")
+                                    @if (Model.AirlinePNR[0].airLines.ToString().ToLower().Equals("spicejet"))
                                     {
-                                        <img src="~/img/clogo.png">
+
+                                        <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
+                                    }
+                                    else if (Model.AirlinePNR[0].airLines.ToString().ToLower().Equals("indigo"))
+                                    {
+
+                                        <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
+                                    }
+                                    else
+                                    {
+                                        <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
                                     }
 
                                 </div><span id="CName" class="fw-bold-600"> @Model.AirlinePNR[0].journeys[0].segments[0].identifier.carrierCode</span> |
@@ -298,7 +308,7 @@
                                         <span>Base Price</span>
                                     </div>
                                     <div class="col-5">
-                                        <span class="fw-bold-600">5,747</span>
+                                        <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.journeyTotals.totalAmount</span>
                                     </div>
                                 </div>
                                 <div class="row mt-2">
@@ -306,7 +316,7 @@
                                         <span>Airline taxes and Fees</span>
                                     </div>
                                     <div class="col-5">
-                                        <span class="fw-bold-600">15,62</span>
+                                        <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.journeyTotals.totalTax</span>
                                     </div>
                                 </div>
                                 <div class="row mt-2">
@@ -357,11 +367,41 @@
                                         <div class="row">
                                             <div class="col-9">
                                                 <span>Meal/Seat/Baggage/Misc Charges</span> <br>
-                                                <span>(Meal:0)</span><br>
-                                               @*  <span>(Seat:@Model.AirlinePNR[0].breakdown.passengerTotals.seats.total)</span><br>
-                                                <span>(Seat Tax:@Model.AirlinePNR[0].breakdown.passengerTotals.seats.taxes)</span><br> *@
+                                               @* <span>(Meal:0)</span><br>
+                                                 <span>(Seat:@Model.AirlinePNR[0].breakdown.passengerTotals.seats.total)</span><br>
+                                                <span>(Seat Tax:@Model.AirlinePNR[0].breakdown.passengerTotals.seats.taxes)</span><br> 
                                                 <span>(Baggage:0)</span><br>
-                                                <span>(Misc Charges: 0)</span>
+                                                <span>(Misc Charges: 0)</span>*@
+                                            </div>
+                                            <div class="col-3">
+                                                <span class="fw-bold-600">0</span>
+                                            </div>
+                                            <div class="col-9">
+                                                <span class="fw-bold-600">Meal:</span>
+                                            </div>
+                                            <div class="col-3">
+                                                <span class="fw-bold-600">0</span>
+                                            </div>
+                                            <div class="col-9">
+                                                <span class="fw-bold-600">Seat :</span>
+                                            </div>
+                                            <div class="col-3">
+                                                <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.passengerTotals.seats.total</span>
+                                            </div>
+                                            <div class="col-9">
+                                                <span class="fw-bold-600">Seat Tax :</span>
+                                            </div>
+                                            <div class="col-3">
+                                                <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.passengerTotals.seats.taxes</span>
+                                            </div>
+                                            <div class="col-9">
+                                                <span class="fw-bold-600">Baggage:</span>
+                                            </div>
+                                            <div class="col-3">
+                                                <span class="fw-bold-600">0</span>
+                                            </div>
+                                            <div class="col-9">
+                                                <span class="fw-bold-600">Misc Charges:</span>
                                             </div>
                                             <div class="col-3">
                                                 <span class="fw-bold-600">0</span>
@@ -393,7 +433,7 @@
                                         <span class="fw-bold-600">Total Fare</span>
                                     </div>
                                     <div class="col-3">
-                                        <span class="fw-bold-600">XXXX</span>
+                                        <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.totalAmount</span>
                                     </div>
                                 </div>
                             </div>

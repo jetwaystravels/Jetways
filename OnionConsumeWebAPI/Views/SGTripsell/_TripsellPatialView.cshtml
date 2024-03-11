@@ -1,9 +1,21 @@
 ﻿@model DomainLayer.ViewModel.ViewModel
+@{
+
+    string formattedTime = string.Empty;
+    var arrivalDate = Model.passeengerlist.journeys[0].designator.arrival;
+    var departureDate = Model.passeengerlist.journeys[0].designator.departure;
+    var diff = (arrivalDate - departureDate);
+    TimeSpan timeSpan = TimeSpan.Parse(diff.ToString());
+    if ((int)timeSpan.Minutes == 0)
+        formattedTime = $"{(int)timeSpan.TotalHours} h";
+    else
+        formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
+}
 <div class="flight-box-content rounded-4">
     <div class="py-10 px-30">
         <div class="row d-flex justify-content-end">
             <div class="col-auto">
-                <div class="text-14 text-light-1 fw-600">Total Time: 4h 35m</div>
+                <div class="text-14 text-light-1 fw-600">Total Time: @formattedTime</div>
             </div>
         </div>
     </div>
@@ -14,6 +26,22 @@
         {
             for (int i = 0; i < item.segments.Count; i++)
             {
+                if (i == 1)
+                {
+                    formattedTime = string.Empty;
+                    arrivalDate = item.segments[i - 1].designator.arrival;
+                    departureDate = item.segments[i].designator.departure;
+                    diff = (departureDate - arrivalDate);
+                    timeSpan = TimeSpan.Parse(diff.ToString());
+                    if ((int)timeSpan.Minutes == 0)
+                        formattedTime = $"{(int)timeSpan.TotalHours} h";
+                    else
+                        formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
+
+                    <div class="py-15 px-20 rounded-4 text-15 bg-green-1 flex-center">
+                        Change planes at <span class="fw-600"> <div></div> (@item.segments[i].designator.origin),</span> Connecting Time: <span class="fw-600">@formattedTime</span>
+                    </div>
+                }
 
                 <div class="py-30 px-30 border-top-light">
                     <div class="row y-gap-10 justify-between">
@@ -28,7 +56,7 @@
                                         <img class="size-30" src="~/img/flight-logo-icon/SG.png" alt="image">
                                     </div>
 
-                                    <div class="text-14 text-light-1"> SpiceJet @item.segments[i].identifier.identifier @item.segments[i].identifier.carrierCode</div>
+                                    <div class="text-14 text-light-1"> SpiceJet @item.segments[i].identifier.carrierCode @item.segments[i].identifier.identifier <span class="airliname">@ViewData["name"]</span></div>
                                 </div>
 
                                 <div class="relative z-0">
@@ -45,13 +73,32 @@
                                                 var departuretime = @item.segments[i].legs[j].designator.departure;
                                                 string departuretimestr = departuretime.ToString();
                                                 var departuretimefinal = departuretimestr.Substring(11, 5);
+                                                string queryorigin = item.segments[i].legs[j].designator.origin;
+                                                string querydestination = item.segments[i].legs[j].designator.destination;
+                                                if (Citydata.GetAllcity().Where(x => x.cityCode == queryorigin).SingleOrDefault() != null)
+                                                {
+                                                    string origin = Citydata.GetAllcity().Where(x => x.cityCode == queryorigin).SingleOrDefault().cityName;
+                                                    item.segments[i].legs[j].designator.origin = origin;
+                                                }
+
+                                                if (Citydata.GetAllcity().Where(x => x.cityCode == querydestination).SingleOrDefault() != null)
+                                                {
+                                                    string destination1 = Citydata.GetAllcity().Where(x => x.cityCode == querydestination).SingleOrDefault().cityName;
+                                                    item.segments[i].legs[j].designator.destination = destination1;
+                                                }
+
+                                                //formatted date
+                                                DateTime date = DateTime.ParseExact(departuretimestr, "yyyy-MM-dd HH:mm:ss", null);
+
+                                                string formatteddepartureDate = date.ToString("ddd, dd MMM yyyy");
+
                                             }
 
                                             <div class="col-auto">
                                                 <div class="lh-14 fw-500">@departuretimefinal</div>
                                             </div>
                                             <div class="col-auto">
-                                                <div class="lh-14 fw-500">@item.segments[i].legs[j].designator.origin <span class="text-13 ml-2 fw-600">( Tue, 13 Jun 2023<span class="text-13 text-light-1 ml-2"> Indira Gandhi, T-3 </span> )</span></div>
+                                                <div class="lh-14 fw-500">@item.segments[i].legs[j].designator.origin <span class="text-13 ml-2 fw-600">(@formatteddepartureDate <span class="text-13 text-light-1 ml-2"> Indira Gandhi, @item.segments[i].legs[j].legInfo.departureTerminal </span> )</span></div>
 
                                             </div>
                                         </div>
@@ -76,13 +123,17 @@
                                                     var arrivaltime = @item.segments[i].legs[j].designator.arrival;
                                                     string arrivaltimestr = arrivaltime.ToString();
                                                     var arrivalfinal = arrivaltimestr.Substring(11, 5);
+                                                    //formatted date
+                                                    date = DateTime.ParseExact(arrivaltimestr, "yyyy-MM-dd HH:mm:ss", null);
+
+                                                    string formattedarrivalDate = date.ToString("ddd, dd MMM yyyy");
 
                                                 }
 
                                                 <div class="lh-14 fw-500">@arrivalfinal</div>
                                             </div>
                                             <div class="col-auto">
-                                                <div class="lh-14 fw-500">@item.segments[i].legs[j].designator.destination<span class="text-13 ml-2 fw-600">( Tue, 13 Jun 2023<span class="text-13 text-light-1 ml-2"> Sanganeer, T-2 </span> )</span></div>
+                                                <div class="lh-14 fw-500">@item.segments[i].legs[j].designator.destination<span class="text-13 ml-2 fw-600">(@formattedarrivalDate<span class="text-13 text-light-1 ml-2"> Sanganeer, @item.segments[i].legs[j].legInfo.arrivalTerminal </span> )</span></div>
 
                                             </div>
                                         </div>
@@ -105,9 +156,7 @@
 
 
 
-    <div class="py-15 px-20 rounded-4 text-15 bg-green-1 flex-center">
-        Change planes at <span class="fw-600">Jaipur (JAI),</span> Connecting Time: <span class="fw-600">1h 25m</span>
-    </div>
+
 
 
 </div>

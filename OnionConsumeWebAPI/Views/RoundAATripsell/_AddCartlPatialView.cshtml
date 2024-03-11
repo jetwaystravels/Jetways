@@ -449,31 +449,31 @@
                 debugger;
                 var Mealcount = mealInput.value;
                 localStorage.setItem("Mealcount", Mealcount);
-                alert("Count:" + Mealcount);
+                //alert("Count:" + Mealcount);
 
                 var MealPrice = Mealpricedata.value;
-                alert("Price" + MealPrice);
+                //alert("Price" + MealPrice);
 
-                alert("add Btn Count:" + AddbtnCount);
+                //alert("add Btn Count:" + AddbtnCount);
 
                 if (AddbtnCount == 1) {
                     alert("btn 1");
                     MealpriceCount.push(MealPrice);
-                    alert("Count: " + MealpriceCount.length);
+                    //alert("Count: " + MealpriceCount.length);
                     var MealtotalCountFareLength = MealPrice * MealpriceCount.length;
-                    alert("Meal Count 1: " + MealtotalCountFareLength);
+                    //alert("Meal Count 1: " + MealtotalCountFareLength);
                     localStorage.setItem("Mealfarecnt", MealtotalCountFareLength);
 
                 }
                 else {
-                    alert("btn 2");
+                    //alert("btn 2");
                     //var MealtotalCountFare = MealPrice * Mealcount;
                     var Mealll = localStorage.getItem("Mealfarecnt");
                     var MealtotalCountFare = parseInt(MealPrice) + parseInt(Mealll);
                     MealpriceCount.push(MealtotalCountFare);
                     //var totalAmount = MealpriceCount.reduce((a, b) => a + b, 0); // Calculate the total amount
                     var totalAmount = MealtotalCountFare; // Calculate the total amount
-                    alert("Total Amount: " + totalAmount);
+                   // alert("Total Amount: " + totalAmount);
                     localStorage.setItem("Mealfarecnt", totalAmount);
                 }
 

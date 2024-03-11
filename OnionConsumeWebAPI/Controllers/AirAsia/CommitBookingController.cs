@@ -389,8 +389,6 @@ namespace OnionConsumeWebAPI.Controllers
                     tb_AirCraft.Modifyby = "Online";
                     tb_AirCraft.Status = "0";
 
-
-
                     tb_PassengerTotal tb_PassengerTotalobj = new tb_PassengerTotal();
                     bookingKey = JsonObjPNRBooking.data.bookingKey;
                     tb_PassengerTotalobj.BookingID = JsonObjPNRBooking.data.bookingKey;

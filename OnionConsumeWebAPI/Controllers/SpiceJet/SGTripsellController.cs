@@ -36,7 +36,8 @@ namespace OnionConsumeWebAPI.Controllers
             };
 
             ViewBag.Title = Title;
-
+            var AirCraftName = TempData["AirCraftName"];
+            ViewData["name"] = AirCraftName;
             //string passenger = HttpContext.Session.GetString("keypassenger");
             //spicejet
             string passenger = HttpContext.Session.GetString("SGkeypassenger"); //From Itenary Response

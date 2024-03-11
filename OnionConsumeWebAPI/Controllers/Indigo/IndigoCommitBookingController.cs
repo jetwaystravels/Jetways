@@ -76,6 +76,12 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                             returnTicketBooking.airLines = "Indigo";
                             returnTicketBooking.recordLocator = _getBookingResponse.Booking.RecordLocator;
 
+                            Breakdown breakdown = new Breakdown();
+                            JourneyTotals journeyTotalsobj = new JourneyTotals();
+
+
+                            PassengerTotals passengerTotals = new PassengerTotals();
+                            ReturnSeats returnSeats = new ReturnSeats();
                             var totalTax = "";// _getPriceItineraryRS.data.breakdown.journeys[journeyKey].totalTax;
 
                             #region Itenary segment and legs
@@ -138,7 +144,15 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                                             {
                                                 ServiceChargeReturn AAServicechargeobj = new ServiceChargeReturn();
                                                 AAServicechargeobj.amount = Convert.ToInt32(_getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges[m].Amount);
-
+                                                string data = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges[m].ChargeType.ToString();
+                                                if (data.ToLower() == "fareprice")
+                                                {
+                                                    journeyTotalsobj.totalAmount = Convert.ToInt32(_getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges[m].Amount);
+                                                }
+                                                else
+                                                {
+                                                    journeyTotalsobj.totalTax += Convert.ToInt32(_getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges[m].Amount);
+                                                }
 
 
                                                 AAServicechargelist.Add(AAServicechargeobj);
@@ -159,6 +173,8 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
 
 
                                     }
+                                    breakdown.journeyTotals = journeyTotalsobj;
+                                    breakdown.passengerTotals = passengerTotals;
                                     AASegmentobj.fares = AAFarelist;
                                     IdentifierReturn AAIdentifierobj = new IdentifierReturn();
 
@@ -209,7 +225,34 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                             passkeytypeobj.name = new Name();
                             passkeytypeobj.name.first = _getBookingResponse.Booking.Passengers[0].Names[0].FirstName;
 
+                            foreach (var item in _getBookingResponse.Booking.Passengers)
+                            {
+                                foreach (var item1 in item.PassengerFees)
+                                {
+                                    if (item1.FeeCode.Equals("SEAT"))
+                                    {
+                                        foreach (var item2 in item1.ServiceCharges)
+                                        {
+                                            if (item2.ChargeCode.Equals("SEAT"))
+                                            {
+                                                returnSeats.total += Convert.ToInt32(item2.Amount);
+                                                //breakdown.passengerTotals.seats.total += Convert.ToInt32(item2.Amount);
+                                            }
+                                            else
+                                            {
+                                                returnSeats.taxes += Convert.ToInt32(item2.Amount);
+                                                //breakdown.passengerTotals.seats.taxes += Convert.ToInt32(item2.Amount);
+                                            }
+                                        }
 
+                                    }
+
+                                }
+
+
+                            }
+
+                            passengerTotals.seats = returnSeats;
 
 
                             List<ReturnPassengers> passkeylist = new List<ReturnPassengers>();
@@ -233,7 +276,8 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
 
 
                             }
-
+                            breakdown.totalAmount = Convert.ToDouble(totalAmount);
+                            returnTicketBooking.breakdown = breakdown;
                             returnTicketBooking.journeys = AAJourneyList;
                             returnTicketBooking.passengers = passkeylist;
                             returnTicketBooking.passengerscount = passengercount;
