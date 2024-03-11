@@ -16,7 +16,7 @@
         <!-- ***** Header Start ***** -->
         <header class="navbar navbar-sticky navbar-expand-lg navbar-dark">
             <div class="container position-relative">
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" asp-controller="FlightSearchIndex" asp-action="Index">
                     <img class="navbar-brand-regular" src="~/img/logo/logo-white.png" alt="brand-logo">
                     <img class="navbar-brand-sticky" src="~/img/logo/logo.png" alt="sticky brand-logo">
                 </a>
@@ -54,9 +54,6 @@
                             </li>
                             <li>
                                 <a class="nav-link" href="#">Login</a>
-                            </li>
-                            <li>
-                                <p class="nav-link" id="demo"></p>
                             </li>
                         </ul>
                     </nav>
@@ -99,7 +96,8 @@
                             <div class="nav-bar col-12 col-md-7 col-lg-9">
                                 <ul class="nav nav-pills" id="pills-tab" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link" id="pills-Flight-tab" data-toggle="pill" href="#pills-Flight" role="tab" aria-controls="pills-Flight" aria-selected="true"><img class="mr-2" src="~/img/nav-icon-1.png">Flight</a>
+
+                                        <a class="nav-link" id="pills-Flight-tab" data-toggle="pill" asp-controller="FlightSearchIndex" asp-action="Index" role="tab" aria-controls="pills-Flight" aria-selected="true"><img class="mr-2" src="~/img/nav-icon-1.png">Flight</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" id="pills-Hotel-tab" data-toggle="pill" href="#pills-Hotel" role="tab" aria-controls="pills-Hotel" aria-selected="false"><img class="mr-2" src="~/img/nav-icon-2.png">Hotel</a>
@@ -147,7 +145,7 @@
                                             <div class="col-12 col-md-10 col-lg-3 space autocomplete">
                                                 <label>Flying From</label>
                                                 <span class="input-group-text flightdepr">
-                                                    <input type="text" id="myInput" asp-for="origin" class="form-control text-15 " value="Delhi-DEL" placeholder="Enter AirportName" onclick="toggleDropdown()">
+                                                    <input type="text" id="myInput" maxlength="40" asp-for="origin" class="form-control text-15 " value="Delhi-DEL" placeholder="Enter AirportName" onclick="toggleDropdown()">
                                                     <span id="airportName"></span>
                                                 </span>
                                                 <div id="errororigin" class="errorbox" style="display:none;">Enter Origin Name*</div>
@@ -172,7 +170,7 @@
                                             <div class="col-12 col-md-10 col-lg-3 space autocomplete">
                                                 <label>Flying To</label>
                                                 <span class="input-group-text" id="basic-addon1">
-                                                    <input type="text" id="myInput1" asp-for="destination" class="form-control text-15 " value="" placeholder="Enter AirportName" onclick="toggleDropdownArrival()">
+                                                    <input type="text" maxlength="40" id="myInput1" asp-for="destination" class="form-control text-15 " value="" placeholder="Enter AirportName" onclick="toggleDropdownArrival()">
                                                     <span id="airportArval"></span>
                                                 </span>
                                                 <div id="errordestinaton" class="errorbox" style="display:none;">Enter Destination Name*</div>
@@ -194,12 +192,13 @@
                                                 <label>Departure</label>
                                                 <span class="input-group-text">
                                                     @* <img src="~/img/calender-icon.png" alt="icon"> *@
-                                                    <input id="start-date" asp-for="beginDate" type="" placeholder="Date" class="form-control text-20 fw-600">
+                                                    <input id="start-date" asp-for="beginDate" value="" type="" placeholder="Enter Date" class="form-control text-20 fw-600">
 
                                                     <span asp-validation-for="beginDate"></span>
                                                 </span>
-
+                                                <span id="startDate" class="errorbox" style="display:none;">Enter Start Date*</span>
                                             </div>
+
                                             <div class="col-12 col-md-10 col-lg-2 space">
                                                 <label>Return</label>
                                                 <span class="input-group-text" id="bgEnddate">
@@ -208,6 +207,7 @@
 
                                                     <span asp-validation-for="endDate"></span>
                                                 </span>
+                                                <span id="endDate" class="errorbox" style="display:none;">Enter End Date*</span>
                                                 <p class="rounddateinput">Book a round trip <br> to save more</p>
                                             </div>
                                             <div class="col-12 col-md-10 col-lg-2 space travellers">
@@ -322,8 +322,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-md-10 col-lg-2 pr-0 mt-2">
-
-                                                        <button type="submit" id="searchbtn" class="btn btn-lg btn-block">Search</button>
+                                                        <button type="submit" id="searchbtn" class="btn btn-lg btn-block" onclick="validateForm()">Search</button>
 
                                                     </div>
                                                 </div>
@@ -335,20 +334,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="overlay" id="animationOverlay">
-                            <div class="loader"></div>
-                            <div class="iconanimate">
-                                <img id="flightImage" src="~/img/flytk.png" alt="Flight" style="display:none">
-                            </div>
 
-                        </div>
-
-
-
-                    </div>
-                </div>
             </div>
         </section>
         <!-- ***** Flight Search Area End ***** -->
@@ -734,9 +720,10 @@
         <script src="~/js/main.js"></script>
         <!-- Active js -->
         <script src="~/js/custom.js/indexpage.js"></script>
+        <script src="~/lib/jquery/chosen.jquery.js"></script>
         <script src="~/lib/jquery/chosen.jquery.min.js"></script>
 
-        
+
 
     }
 </body>

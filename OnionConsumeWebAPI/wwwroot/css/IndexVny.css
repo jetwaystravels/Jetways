@@ -227,3 +227,12 @@
     .rplc-btn img {
         transform: rotate(90deg);
     }
+
+.ui-datepicker {
+    position: absolute;
+    top: 280px !important;
+    left: 814px;
+    z-index: 2;
+    display: block;
+    width: 34em;
+}

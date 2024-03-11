@@ -1,4 +1,59 @@
-﻿//**********Chosen Arrival Code Start ****************//
+﻿//**********Validation home page  Code Start ****************//
+//*****************************************************//
+function validateForm() {
+    $('#multipleValuesForm').submit(function (event) {
+        var originfocus = document.getElementById("myInput").value;
+        if (originfocus == "") {
+            //alert("Enter Origin Name");
+            var originToDisplay = document.getElementById("errororigin");
+            originToDisplay.style.display = "block";
+            document.getElementById("myInput").focus();
+            return false;
+            event.preventDefault(); // Stop the form submission
+        }
+        var destinationfocus = document.getElementById("myInput1").value;
+        if (destinationfocus == "") {
+            //alert("Enter Origin Name");
+            var originToDisplay = document.getElementById("errordestinaton");
+            originToDisplay.style.display = "block";
+            document.getElementById("myInput1").focus();
+            return false;
+        }
+
+        if (originfocus == destinationfocus) {
+            alert("Departure and Arrival Airport are same please change it..")
+            return false;
+            event.preventDefault(); // Stop the form submission
+
+        }
+
+        var startdate = document.getElementById("start-date").value;
+        if (startdate == "") {
+            //alert("Enter Origin Name");
+            var starterror = document.getElementById("startDate");
+            starterror.style.display = "block";
+            document.getElementById("start-date").focus();
+            return false;
+            event.preventDefault(); // Stop the form submission
+        }
+
+        if ($('#round-tripid').is(':checked')) {
+            var endtdate = document.getElementById("end-date").value;
+            if (endtdate == "") {
+                //alert("Enter Origin Name");
+                var enderror = document.getElementById("endDate");
+                enderror.style.display = "block";
+                document.getElementById("end-date").focus();
+                return false;
+                event.preventDefault(); // Stop the form submission
+            }
+        }
+    });
+};
+
+
+
+//**********Chosen Arrival Code Start ****************//
 //*****************************************************//
 $(document).ready(function () {
     $('#arrivalItemId').chosen();
@@ -131,27 +186,7 @@ function handleSelection() {
 
 
 
-//**********Validation home page  Code Start ****************//
-//*****************************************************//
-function validateForm() {
-    var originfocus = document.getElementById("myInput").value;
-    if (originfocus == "") {
-        //alert("Enter Origin Name");
-        var originToDisplay = document.getElementById("errororigin");
-        originToDisplay.style.display = "block";
-        document.getElementById("myInput").focus();
-        return false;
-    }
-    var destinationfocus = document.getElementById("myInput1").value;
-    if (destinationfocus == "") {
-        //alert("Enter Origin Name");
-        var originToDisplay = document.getElementById("errordestinaton");
-        originToDisplay.style.display = "block"; flightImage
-        document.getElementById("myInput1").focus();
-        return false;
-    }
 
-};
 
 
 ////*****-----------RoundTrip end date disabled--********------//
@@ -163,14 +198,20 @@ $(document).ready(function () {
         var flyingToValue = $('#myInput1').val();
         $('#myInput').val(flyingToValue);
         $('#myInput1').val(flyingFromValue);
+        if (flyingFromValue == flyingToValue) {
+            alert("Departure and Arrival Airport are same please change it.")
+            return false;
+        }
     });
     //**********Replace Icon JS End**********/
     $('.S-option input[type="radio"]').on('change', function () {
         // Uncheck all radio buttons in the same group except the currently selected one
         $('.S-option input[type="radio"]').not(this).prop('checked', false);
     });
+
     $('#end-date').prop('disabled', true);
     $('#bgEnddate').css('background-color', '#e9ecef');
+
 
     // Event handler for radio button change
     $('input[type="radio"]').on('change', function () {
@@ -178,6 +219,7 @@ $(document).ready(function () {
 
             $('#end-date').prop('disabled', false);
             $('#bgEnddate').css('background-color', '#fff');
+            $('#end-date').css('visibility', 'visible');
             //Date Picker end date
             var returndate = new Date();
             var returndd = String(returndate.getDate() + 2).padStart(2, '0');
@@ -203,9 +245,11 @@ $(document).ready(function () {
             // Disable the end date input field for other options
             $('#end-date').prop('disabled', true);
             $('#bgEnddate').css('background-color', '#e9ecef');
+            $('#end-date').css('visibility', 'hidden');
         }
 
     });
+
 
     ////*****-----------DatePicker Start*****-----------//
     $(function () {
@@ -250,7 +294,7 @@ $(document).ready(function () {
     });
 
     $('.decrement').on('click', function () {
-        if (count > 0) {
+        if (count > 1) {
             count--;
             $('#count_adult').text(count);
             $('#field_adult').val(count);
