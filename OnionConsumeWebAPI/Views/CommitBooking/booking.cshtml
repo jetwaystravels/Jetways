@@ -89,8 +89,9 @@
 
                     <!------Passengers-Detail-Section--------->
                     @for (int i = 0; i < Model.AirlinePNR[0].passengerscount; i++)
-                    {
+                    {                         
                         <div class="col-12 PDetail">
+                            
                             <div class="d-flex flex-row justify-content-between">
                                 <div class="Pdetail1">
 
@@ -99,12 +100,7 @@
                                         <li class="tlist-none"><span id="Pname1" class="fw-bold-600">@Model.AirlinePNR[0].passengers[i].name.first</span></li>
                                         @* <li class="tlist-none"><span>(Adult)</span></li> *@
                                     </ul>
-                                </div>
-                                <div class="Pdetail1">
-                                    <ul class="td-inline">
-                                        <li class="tlist-none"> <span>Mobile No:</span><span class="fw-bold-600">@Model.AirlinePNR[0].PhoneNumbers[0].number</span></li>
-                                    </ul>
-                                </div>
+                                </div>                             
 
                                 <div class="Pdetail1">
                                     <ul class="td-inline">
@@ -112,10 +108,7 @@
                                             var imageUrl1 = @Model.AirlinePNR[0].passengers[i].barcodestring;
                                             // string imageUrl1 = ViewData["ImageBytes"] as string;
                                             string barcode = ViewData["Barcode"] as string;
-
-
                                         }
-
                                         @if (!string.IsNullOrEmpty(imageUrl1))
                                         {
                                             <img src="@imageUrl1" alt="barcode" />
@@ -125,6 +118,38 @@
 
 
                             </div>
+                          
+                            @if (Model.AirlinePNR[0].passengers[i].infant!=null)
+                            {
+                                @if (Model.AirlinePNR[0].passengers[i].infant.name != null)
+                                {
+                                    <div class="d-flex flex-row justify-content-between">
+                                        <div class="Pdetail1">
+
+                                            <ul class="td-inline">
+                                                <li class="tlist-none"><span id="Adult1"></span></li>
+                                                <li class="tlist-none"><span id="Pname1" class="fw-bold-600">@Model.AirlinePNR[0].passengers[i].infant.name.first</span></li>
+                                                @* <li class="tlist-none"><span>(Adult)</span></li> *@
+                                            </ul>
+                                        </div>                                      
+                                        <div class="Pdetail1">
+                                            <ul class="td-inline">
+                                                @{
+                                                    imageUrl1 = @Model.AirlinePNR[0].passengers[i].barcodestring;
+                                                    // string imageUrl1 = ViewData["ImageBytes"] as string;
+                                                    barcode = ViewData["Barcode"] as string;
+                                                }
+                                                @if (!string.IsNullOrEmpty(imageUrl1))
+                                                {
+                                                    <img src="@imageUrl1" alt="barcode" />
+                                                }
+                                            </ul>
+                                        </div>
+
+
+                                    </div>
+                                }
+                            }
                         </div>
                     }
                     <div class="col-12 border-width mt-1"></div>

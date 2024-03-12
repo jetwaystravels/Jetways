@@ -86,18 +86,38 @@ namespace OnionConsumeWebAPI.Controllers
 
         //    return View(viewModelobject);
         //}
+
         [HttpPost]
-        public IActionResult FlightView(List<int> FilterId, List<string> FilterIdAirLine)
+        public IActionResult FlightView(List<int> stops, List<string> Airline)
         {
-            if (FilterId.Count > 0 && FilterId.Count >= 0)
+            ViewModel viewModelobject = new ViewModel();
+            string OnewayFlightData = HttpContext.Session.GetString("OneWayFlightView");
+            List<SimpleAvailibilityaAddResponce> OnewaydeserializedObjects = null;
+            OnewaydeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(OnewayFlightData);
+            // Process the filter values
+            if (stops != null && stops.Count > 0)
             {
-                var searchcount = TempData["count"];
-                ViewData["count"] = searchcount;
-                ViewModel viewModelobject = new ViewModel();
-                string OnewayFlightData = HttpContext.Session.GetString("OneWayFlightView");
-                List<SimpleAvailibilityaAddResponce> OnewaydeserializedObjects = null;
-                OnewaydeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(OnewayFlightData);
-                var FilterStopsData = OnewaydeserializedObjects.Where(x => FilterId.Contains(x.stops)).ToList();
+                foreach (int value in stops)
+                {
+                    switch (value)
+                    {
+                        case 0:
+
+                            OnewaydeserializedObjects = OnewaydeserializedObjects.Where(x => stops.Contains(x.stops)).ToList();
+                            break;
+                        case 1:
+
+                            OnewaydeserializedObjects = OnewaydeserializedObjects.Where(x => stops.Contains(x.stops)).ToList();
+                            break;
+                        case 2:
+
+                            OnewaydeserializedObjects = OnewaydeserializedObjects.Where(x => stops.Contains(x.stops)).ToList();
+                            break;
+                        default:
+                            OnewaydeserializedObjects = OnewaydeserializedObjects.Where(x => stops.Contains(x.stops)).ToList();
+                            break;
+                    }
+                }
                 string OneWayFlightEditData = HttpContext.Session.GetString("OneWayPassengerModel");
                 SimpleAvailabilityRequestModel simpleAvailabilityRequestModel = null;
                 if (!string.IsNullOrEmpty(OneWayFlightEditData))
@@ -105,37 +125,37 @@ namespace OnionConsumeWebAPI.Controllers
                     simpleAvailabilityRequestModel = JsonConvert.DeserializeObject<SimpleAvailabilityRequestModel>(OneWayFlightEditData);
                 }
                 viewModelobject.simpleAvailabilityRequestModelEdit = simpleAvailabilityRequestModel;
-                viewModelobject.SimpleAvailibilityaAddResponcelist = FilterStopsData;
-
+                viewModelobject.SimpleAvailibilityaAddResponcelist = OnewaydeserializedObjects;
                 return View(viewModelobject);
             }
-            else if (FilterIdAirLine.Count > 0 && FilterIdAirLine.Count >= 0)
+            else if (Airline.Count > 0 && Airline.Count >= 0)
             {
 
-                ViewModel viewModelobject = new ViewModel();
-                string OnewayFlightData = HttpContext.Session.GetString("OneWayFlightView");
-                List<SimpleAvailibilityaAddResponce> OnewaydeserializedObjects = null;
-                OnewaydeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(OnewayFlightData);
-                var FilterAirLineData = OnewaydeserializedObjects.Where(x => FilterIdAirLine.Contains(x.Airline.ToString())).ToList();
+                ViewModel viewModelobjectt = new ViewModel();
+                string OnewayFlightDataa = HttpContext.Session.GetString("OneWayFlightView");
+                List<SimpleAvailibilityaAddResponce> OnewaydeserializedObjectss = null;
+                OnewaydeserializedObjectss = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(OnewayFlightDataa);
+                var FilterAirLineData = OnewaydeserializedObjectss.Where(x => Airline.Contains(x.Airline.ToString())).ToList();
+
+
                 string OneWayFlightEditData = HttpContext.Session.GetString("OneWayPassengerModel");
                 SimpleAvailabilityRequestModel simpleAvailabilityRequestModel = null;
                 if (!string.IsNullOrEmpty(OneWayFlightEditData))
                 {
                     simpleAvailabilityRequestModel = JsonConvert.DeserializeObject<SimpleAvailabilityRequestModel>(OneWayFlightEditData);
                 }
-                viewModelobject.simpleAvailabilityRequestModelEdit = simpleAvailabilityRequestModel;
-                viewModelobject.SimpleAvailibilityaAddResponcelist = FilterAirLineData;
-                return View(viewModelobject);
+                viewModelobjectt.simpleAvailabilityRequestModelEdit = simpleAvailabilityRequestModel;
+                viewModelobjectt.SimpleAvailibilityaAddResponcelist = FilterAirLineData;
+                return View(viewModelobjectt);
             }
             else
             {
-                var searchcount = TempData["count"];
-                ViewData["count"] = searchcount;
-                ViewModel viewModelobject = new ViewModel();
-                string OnewayFlightData = HttpContext.Session.GetString("OneWayFlightView");
-                List<SimpleAvailibilityaAddResponce> OnewaydeserializedObjects = null;
-                OnewaydeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(OnewayFlightData);
-                viewModelobject.SimpleAvailibilityaAddResponcelist = OnewaydeserializedObjects;
+
+                ViewModel viewModelobj = new ViewModel();
+                string OnewayData = HttpContext.Session.GetString("OneWayFlightView");
+                List<SimpleAvailibilityaAddResponce> OnewaydeserializedObject = null;
+                OnewaydeserializedObject = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(OnewayData);
+                viewModelobj.SimpleAvailibilityaAddResponcelist = OnewaydeserializedObject;
 
 
                 string OneWayFlightEditData = HttpContext.Session.GetString("OneWayPassengerModel");
@@ -144,13 +164,14 @@ namespace OnionConsumeWebAPI.Controllers
                 {
                     simpleAvailabilityRequestModel = JsonConvert.DeserializeObject<SimpleAvailabilityRequestModel>(OneWayFlightEditData);
                 }
-                viewModelobject.simpleAvailabilityRequestModelEdit = simpleAvailabilityRequestModel;
+                viewModelobj.simpleAvailabilityRequestModelEdit = simpleAvailabilityRequestModel;
 
-                return View(viewModelobject);
+                return View(viewModelobj);
             }
+            //return View();
+
 
         }
-
         [HttpPost]
         public async Task<ActionResult> Tripsell(string fareKey, string journeyKey)
         {
@@ -873,7 +894,6 @@ namespace OnionConsumeWebAPI.Controllers
                     }
                 }
                 #endregion
-
                 #region Meals
 
                 string passengerdata = HttpContext.Session.GetString("keypassenger");
@@ -1015,5 +1035,7 @@ namespace OnionConsumeWebAPI.Controllers
             }
             return RedirectToAction("Tripsell", "AATripsell");
         }
+
     }
 }
+

@@ -177,7 +177,7 @@ namespace DomainLayer.Model
             public string carrierCode { get; set; }
             public object opSuffix { get; set; }
         }
-        public class Infant
+        public class InfantReturn
         {
             public double total { get; set; }
             public double taxes { get; set; }
@@ -542,7 +542,7 @@ namespace DomainLayer.Model
             public object discountCode { get; set; }
             public object[] bags { get; set; }
             public object program { get; set; }
-            public Infant infant { get; set; }
+            public InfantReturn infant { get; set; }
             public AAInfo1 info { get; set; }
             public object[] travelDocuments { get; set; }
             public object[] addresses { get; set; }

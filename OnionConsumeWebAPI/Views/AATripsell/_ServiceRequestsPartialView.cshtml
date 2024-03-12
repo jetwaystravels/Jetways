@@ -1,62 +1,15 @@
 ﻿@model DomainLayer.ViewModel.ViewModel
 @using System.Collections;
 @{
-    Layout = null;
-            // var data1 = Model;
+    Layout = null;          
 
 }
 <script src="~/js/custom.js/SGCustom.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-@* <script>
-    $(document).ready(function () {
-        debugger;
-
-        var count = $("#passengercountid").val();
-            $('.mycheck').on('change', function () {
-            if ($('.mycheck:checked').length > count) {
-                alert('You can only ' + count + ' select checkboxes.');
-                this.checked = false;
-            }
-        });
-
-        $('.mycheck2').on('change', function () {
-            if ($('.mycheck2:checked').length > count) {
-                alert('You can only ' + count + ' select checkboxes.');
-                this.checked = false;
-            }
-        });
-
-        $('input[type="checkbox"]').on('change', function () {
-            var selectedIds = [];
-            debugger;
-            $('input[type="checkbox"]:checked').each(function () {
-
-                //selectedIds.push($(this).attr('id'));
-                selectedIds.push($(this).val());
-
-            });
-
-            localStorage.setItem('selectedIds', selectedIds);
-
-            var input = document.getElementsByName("unitKey");
-            var total = 0;
-            for (var i = 0; i < input.length; i++) {
-                if (input[i].checked) {
-                    total += parseInt(input[i].value);
-                }
-            }
-            document.getElementById("total").value = total.toFixed(2);
-            var one = document.getElementById("Totalamount").value;
-            var two = document.getElementById("total").value;
-            //SSRMeal();
-
-        });
-    });
-</script> *@
 <script>
 
     $(document).ready(function () {
-        debugger;
+   
         var count = $("#passengercountid").val();
         $('.mycheck').on('change', function () {
             if ($('.mycheck:checked').length > count) {
@@ -71,21 +24,17 @@
                 this.checked = false;
             }
         });
-        $('input[type="checkbox"]').on('change', function () {
+        // Function for handling seat checkboxes
+        $('input[name="unitKey"]').on('change', function () {
             var selectedIds = [];
             debugger;
-            $('input[type="checkbox"]:checked').each(function () {
-
-                //selectedIds.push($(this).attr('id'));
+            $('input[name="unitKey"]:checked').each(function () {
                 selectedIds.push($(this).val());
             });
-            var input = document.getElementsByName("unitKey");
             var total = 0;
-            for (var i = 0; i < input.length; i++) {
-                if (input[i].checked) {
-                    total += parseInt(input[i].value);
-                }
-            }
+            $('input[name="unitKey"]:checked').each(function () {
+                total += parseInt($(this).val());
+            });
             document.getElementById("total").value = total.toFixed(2);
             const seatmap1 = document.getElementById("total").value;
 
@@ -101,22 +50,38 @@
             if (TotalSeatPay != null) {
                 document.getElementById("TotalSeatPayID").innerHTML = TotalSeatPay;
             }
-            //document.getElementById("seattotal1").style.display = "none";
-            //document.getElementById("TotalSeatPayID").style.display = "none";
 
             localStorage.setItem("selectedIds", JSON.stringify(selectedIds));
+        });     
 
+        var count = $("#passengercountid").val();
+        $('.ssrKeyBaggage').on('change', function () {
+            if ($('.ssrKeyBaggage:checked').length > count) {
+                alert('You can only ' + count + ' select checkboxes.');
+                this.checked = false;
+            }
+        });        
+        // Function for handling baggage checkboxes
+        $('input[name="ssrKey"]').on('change', function () {
+            var BaggageIds = [];
+            debugger;
+            $('input[name="ssrKey"]:checked').each(function () {
+                BaggageIds.push($(this).val());
+            });
 
-        });
+            localStorage.setItem("BaggageIds", JSON.stringify(BaggageIds));
+        });        
 
         $("#Continuebtn").click(function () {
 
-            var unitKey = JSON.parse(localStorage.getItem("selectedIds"));
+            var unitKey = JSON.parse(localStorage.getItem("selectedIds"));           
+            var ssrKey = JSON.parse(localStorage.getItem("MealssrKeyCount"));            
+            var BaggageSSrkey = JSON.parse(localStorage.getItem("BaggageIds"));            
             $.ajax({
                 url: "/AATripsell/PostUnitkey",
                 type: "POST",
                 contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                data: { unitKey: unitKey },
+                data: { unitKey: unitKey, ssrKey: ssrKey, BaggageSSrkey: BaggageSSrkey },
                 success: function (data) {
                     window.location.href = '/AirAsiaOneWayPayment/AirAsiaOneWayPaymentView';
                 },
@@ -193,9 +158,7 @@
                             }
                         }
 
-                        @*  <li class="nav-item" role="presentation">
-                        <button class="nav-link">Return:BOM-DEL</button>
-                        </li> *@
+                       
                     </ul>
                 </div>
 
@@ -248,10 +211,7 @@
                             }
 
                         }
-                    }
-
-                    //if (seatmaap == 2)
-                    //{
+                    }                   
                     for (int l = 0; l < Model.Seatmaplist.datalist.Count; l++)
                     {
                         if (l == 0)
@@ -517,13 +477,47 @@
             <div class="tabs__pane -tab-item-3">
                 <div class="journey-box">
                     <ul class="nav nav-pills mb-3">
+                        @{
+                            <input type="hidden" value="@Model.passeengerlist.passengerscount" id="passengercountid">
+                            var Baggagemap = @Model.passeengerlist.journeys[0].segments.Count;
+                            if (Baggagemap == 1)
+                            {
+                                <li class="nav-item">
+                                    <button class="nav-link active">@Model.passeengerlist.journeys[0].segments[0].designator.origin-@Model.passeengerlist.journeys[0].segments[0].designator.destination</button>
+
+                                </li>
+                            }
+                            else
+                            {
+                                @for (int i = 0; i < Baggagemap; i++)
+                                {
+                                    <li class="nav-item d-flex">
+                                        @if (i == 0)
+                                        {
+                                            <div id="seattab1" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
+
+                                        }
+                                        else
+                                        {
+                                            <div id="seattab2" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
+                                        }
+                                    </li>
+
+
+                                }
+                            }
+                        }
+
+
+                    </ul>
+                   @*  <ul class="nav nav-pills mb-3">
                         <li class="nav-item">
                             <button class="nav-link active">Departure:DEL-BOM</button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link">Return:BOM-DEL</button>
                         </li>
-                    </ul>
+                    </ul> *@
                 </div>
                 <div class="flight-protip" style="margin-bottom:0;">Pre-booked baggage is up to 25% cheaper than on-board price.</div>
                 <div>
@@ -546,28 +540,54 @@
 
                         <div class="swiper-wrapper">
                             @{
-                                for (int r = 0; r < Model.Baggage.journeySsrsBaggage.Count; r++)
+                                @foreach (var journeySsrsBaggage in Model.Baggage.journeySsrsBaggage)
                                 {
-                                    for (int s = 0; s < Model.Baggage.journeySsrsBaggage[r].baggageSsr.Count; s++)
+                                    @foreach (var baggageSsr in journeySsrsBaggage.baggageSsr)
                                     {
-                                        for (int q = 0; q < Model.Baggage.journeySsrsBaggage[r].baggageSsr[s].passengersAvailabilityBaggage.Count; q++)
+                                        foreach (var passengersAvailabilityBaggage in baggageSsr.passengersAvailabilityBaggage)
                                         {
-                                            <div class="swiper-slide active">
-                                                <div class="tourTypeCard__content text-center pt-10 pb-15 px-10 bg-blue-1-05 rounded-4">
-                                                    <img src="~/img/images/travel-bag.png" title="image" alt="image">
-                                                    <h6 class="text-14 fw-600 mt-10">Additional</h6>
-                                                    @* <h5 class="text-13 fw-600 mt-10">@Model.Baggage.journeySsrsBaggage[r].baggageSsr[s].name</h5>*@
-                                                    <h5 class="text-14 fw-700 mt-6">3 Kg</h5>
-                                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; @Model.Baggage.journeySsrsBaggage[r].baggageSsr[s].passengersAvailabilityBaggage[q].price</p>
-                                                    <div class="d-flex justify-content-center">
-                                                        <input type="checkbox" id="ssrKeyBaggage" name="ssrKey" value="@Model.Baggage.journeySsrsBaggage[r].baggageSsr[s].passengersAvailabilityBaggage[q].ssrKey" />
-                                                        @* <button class="button -md -outline-blue-1 text-blue-1">Select</button>*@
+                                            if (baggageSsr.ssrCode.StartsWith("P"))
+                                            {
+                                                <div class="swiper-slide active">
+                                                    <div class="tourTypeCard__content text-center pt-10 pb-15 px-10 bg-blue-1-05 rounded-4">
+                                                        <img src="~/img/images/travel-bag.png" title="image" alt="image">
+                                                        @* <h6 class="text-14 fw-600 mt-10">Additional</h6>
+                                                        <h5 class="text-13 fw-600 mt-10">@baggageSsr.ssrCode</h5>*@
+                                                        <h5 class="text-14 fw-700 mt-6">@baggageSsr.name</h5>
+                                                        <p class="text-14 fw-600 mt-2 text-center">&#8377; @passengersAvailabilityBaggage.price</p>
+                                                        <div class="d-flex justify-content-center">
+                                                            <input type="checkbox" id="baggageId" class="ssrKeyBaggage" name="ssrKey" value="@passengersAvailabilityBaggage.ssrKey" />
+                                                            <!-- <button class="button -md -outline-blue-1 text-blue-1">Select</button> -->
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            }
                                         }
                                     }
                                 }
+
+                                // for (int r = 0; r < Model.Baggage.journeySsrsBaggage.Count; r++)
+                                // {
+                                //     for (int s = 0; s < Model.Baggage.journeySsrsBaggage[r].baggageSsr.Count; s++)
+                                //     {
+                                //         for (int q = 0; q < Model.Baggage.journeySsrsBaggage[r].baggageSsr[s].passengersAvailabilityBaggage.Count; q++)
+                                //         {
+                                //             <div class="swiper-slide active">
+                                //                 <div class="tourTypeCard__content text-center pt-10 pb-15 px-10 bg-blue-1-05 rounded-4">
+                                //                     <img src="~/img/images/travel-bag.png" title="image" alt="image">
+                                //                     <h6 class="text-14 fw-600 mt-10">Additional</h6>
+                                //                      <h5 class="text-13 fw-600 mt-10">@Model.Baggage.journeySsrsBaggage[r].baggageSsr[s].name</h5>
+                                //                     <h5 class="text-14 fw-700 mt-6">3 Kg</h5>
+                                //                     <p class="text-14 fw-600 mt-2 text-center">&#8377; @Model.Baggage.journeySsrsBaggage[r].baggageSsr[s].passengersAvailabilityBaggage[q].price</p>
+                                //                     <div class="d-flex justify-content-center">
+                                //                         <input type="checkbox" id="baggageId" class="ssrKeyBaggage" name="ssrKey" value="@Model.Baggage.journeySsrsBaggage[r].baggageSsr[s].passengersAvailabilityBaggage[q].ssrKey _@s" />
+                                //                         @* <button class="button -md -outline-blue-1 text-blue-1">Select</button>*@
+                                //                     </div>
+                                //                 </div>
+                                //             </div>
+                                //         }
+                                //     }
+                                // }
                             }
                         </div>
                     </div>

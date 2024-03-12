@@ -37,6 +37,7 @@ namespace OnionConsumeWebAPI.Controllers
         string uniquekey = string.Empty;
         string AirLinePNR = string.Empty;
         string BarcodeString = string.Empty;
+        string BarcodeInfantString = string.Empty;
         String BarcodePNR = string.Empty;
         string orides = string.Empty;
         string carriercode = string.Empty;
@@ -328,13 +329,40 @@ namespace OnionConsumeWebAPI.Controllers
                         BarcodeUtility BarcodeUtility = new BarcodeUtility();
                         var barcodeImage = BarcodeUtility.BarcodereadUtility(BarcodeString);
                         returnPassengersobj.barcodestring = barcodeImage;
+                        InfantReturn infantsObject = new InfantReturn();
+                        Name name = new Name();
+                        if (items.Value.infant != null)
+                        {
+                            name.first = items.Value.infant.name.first;
+                            name.last = items.Value.infant.name.last;
+                            //x.data.passengers["MCFBRFQ-"].infant.fees[0].code
+                            infantsObject.name = name;
+                            //julian date
+                            int  Infantyear = 2024;
+                            int  Infantmonth = 2;
+                            int Infantday = 20;
+                            // Calculate the number of days from January 1st to the given date
+                            DateTime currentDatee = new DateTime(year, month, day);
+                            DateTime startOfYeare = new DateTime(year, 1, 1);
+                            int julianDatee = (currentDate - startOfYear).Days + 1;
+                            if (string.IsNullOrEmpty(sequencenumber))
+                            {
+                                sequencenumber = "0000"; // Set to "0000" if not available
+                            }
+                            else
+                            {
+                                sequencenumber = sequencenumber.PadRight(5, '0'); // Right-pad with zeros if less than 4 characters
+                            }
+                            BarcodeInfantString = "M" + "1" + items.Value.infant.name.last + "/" + items.Value.infant.name.first + "" + BarcodePNR + "" + orides + carriercode + "" + flightnumber + "" + julianDatee + "Y" + sequencenumber + "1" + "00";
+                            var barcodeInfantImage = BarcodeUtility.BarcodereadUtility(BarcodeInfantString);
+                            returnPassengersobj.barcodestring = barcodeInfantImage;
 
-
+                        }
+                        returnPassengersobj.infant = infantsObject;
                         ReturnpassengersList.Add(returnPassengersobj);
                     }
-                    //returnTicketBooking.contacts= phoneNumberList;
-                    //STATRT CODE FOR BAR CODE
-                    //  string barcode = "ashokkumar";
+
+                  
 
 
 
@@ -388,6 +416,8 @@ namespace OnionConsumeWebAPI.Controllers
                     tb_AirCraft.Createdby = "Online";
                     tb_AirCraft.Modifyby = "Online";
                     tb_AirCraft.Status = "0";
+
+
 
                     tb_PassengerTotal tb_PassengerTotalobj = new tb_PassengerTotal();
                     bookingKey = JsonObjPNRBooking.data.bookingKey;
