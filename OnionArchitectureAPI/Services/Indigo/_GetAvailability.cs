@@ -109,7 +109,7 @@ namespace OnionArchitectureAPI.Services.Indigo
             _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareTypes = faretypesreturn;
 
             //string[] productclassesreturn = { "R", "S", "A","N","J","B","T","O" };
-            string[] productclassesreturn = { "R" };
+            string[] productclassesreturn = { "R", "J", "A", "O" };
             _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].ProductClasses = productclassesreturn;
             _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].MaximumConnectingFlights = 20;
             _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].MaximumConnectingFlightsSpecified = true;

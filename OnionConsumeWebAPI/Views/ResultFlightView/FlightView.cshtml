@@ -607,9 +607,21 @@
                                             @{
                                                 @for (var k = 0; k < Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual.Count; k++)
                                                 {
+                                                    string Faretype = string.Empty;
+
+                                                    if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("J"))
+                                                        Faretype = "Flexi Plus";
+                                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("R"))
+                                                        Faretype = "Saver";
+                                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("O"))
+                                                        Faretype = "Super 6E";
+                                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("A"))
+                                                        Faretype = "Family Fare";
+                                                    else
+                                                        Faretype = "Saver Fare";
                                                     <tr>
                                                         <td>
-                                                            <div><strong>Saver Fare @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass</strong></div>
+                                                            <div><strong>@Faretype @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass</strong></div>
                                                             <div>offered by airline.</div>
                                                         </td>
                                                         <td>7 Kgs</td>
