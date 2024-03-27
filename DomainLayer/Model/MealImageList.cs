@@ -18,7 +18,7 @@ namespace DomainLayer.Model
 
             var mealDataCollection = new[]
             {
-            new { MealCode = "NCBB", MealImage = "Awadhi Chicken Biryani with Mirch Salan NCBB (Chargable meal code).png" },
+            new { MealCode = "NCBB", MealImage = "Awadhi Chicken Biryani with Mirch Salan NCBB (Chargable meal code)" },
             new { MealCode = "NCBF", MealImage = "Awadhi Chicken Biryani with Mirch Salan NCBF(Free meal code).png" },
             new { MealCode = "VBKB", MealImage = "Bajra Khichdi with Matar Bhaji (Diabetic-friendly) VBKB (Chargable meal code).png" },
             new { MealCode = "VBKF", MealImage = "Bajra Khichdi with Matar Bhaji (Diabetic-friendly) VBKF (Free meal code).png" },
