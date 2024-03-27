@@ -69,9 +69,11 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                             var totalAmount = _getBookingResponse.Booking.BookingSum.TotalCost;
                             returnTicketBooking.bookingKey = _getBookingResponse.Booking.BookingID.ToString();
                             ReturnPaxSeats _unitdesinator = new ReturnPaxSeats();
-                            _unitdesinator.unitDesignatorPax = _getBookingResponse.Booking.Journeys[0].Segments[0].PaxSeats[0].UnitDesignator;
+                            if (_getBookingResponse.Booking.Journeys[0].Segments[0].PaxSeats.Length > 0)
+                                _unitdesinator.unitDesignatorPax = _getBookingResponse.Booking.Journeys[0].Segments[0].PaxSeats[0].UnitDesignator;
                             Contacts _contact = new Contacts();
-                            _contact.phoneNumbers = _getBookingResponse.Booking.BookingContacts[1].HomePhone.ToString();
+                            _contact.phoneNumbers = _getBookingResponse.Booking.BookingContacts[0].HomePhone.ToString();
+                            if(_unitdesinator.unitDesignatorPax!=null)
                             _contact.ReturnPaxSeats = _unitdesinator.unitDesignatorPax.ToString();
                             returnTicketBooking.airLines = "Indigo";
                             returnTicketBooking.recordLocator = _getBookingResponse.Booking.RecordLocator;

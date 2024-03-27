@@ -1,4 +1,8 @@
 ﻿@model DomainLayer.ViewModel.ViewModel
+@{
+    var data = Model;
+
+}
 
 <style>
     .input-ammount {
@@ -9,7 +13,7 @@
 <div class="ml-20 lg:ml-40 md:ml-0">
 
     @{
-     
+
 
         <h2 class="text-20 fw-600 mt-14" style="padding:12px;">Fare Details</h2>
         <div class="px-30 py-30 border-light rounded-0 bg-white">
@@ -37,24 +41,24 @@
                         int totalBaseFareamount = 0;
                         int basefaretax = 0;
                         int peradtamounsegment = 0;
-                        int segmentcount= @Model.passeengerlist.journeys[0].segments.Count;
+                        int segmentcount = @Model.passeengerlist.journeys[0].segments.Count;
                         int perchdamounsegment = 0;
 
                     }
-                    
-                     @for ( int j=0; j< segmentcount; j++)
-                            {
 
-                                peradtamounsegment = @Model.passeengerlist.journeys[0].segments[j].fares[0].passengerFares[0].serviceCharges[0].amount;
-                                peradtamount += peradtamounsegment;
-                        if    (  @Model.passeengerlist.journeys[0].segments[j].fares[0].passengerFares.Count == 2)
-                                {
-                                 perchdamounsegment = @Model.passeengerlist.journeys[0].segments[j].fares[0].passengerFares[1].serviceCharges[0].amount;
-                                 perchdtamount += perchdamounsegment;
-                                }
+                    @for (int j = 0; j < segmentcount; j++)
+                    {
 
-                            }
-                    
+                        peradtamounsegment = @Model.passeengerlist.journeys[0].segments[j].fares[0].passengerFares[0].serviceCharges[0].amount;
+                        peradtamount += peradtamounsegment;
+                        if (@Model.passeengerlist.journeys[0].segments[j].fares[0].passengerFares.Count == 2)
+                        {
+                            perchdamounsegment = @Model.passeengerlist.journeys[0].segments[j].fares[0].passengerFares[1].serviceCharges[0].amount;
+                            perchdtamount += perchdamounsegment;
+                        }
+
+                    }
+
 
                     @for (int i = 0; i < passengercountbase; i++)
                     {
@@ -68,8 +72,8 @@
                         if (passengertypecount == "ADT")
                         {
                             //int segmentcount = @Model.passeengerlist.journeys[0].segments.Count;
-                           
-                         //   peradtamount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[0].amount;
+
+                            //   peradtamount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[0].amount;
                             adtcount = adtcount + 1;
 
                             //adtamount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[0].amount;
@@ -78,9 +82,9 @@
                         }
                         else if (passengertypecount == "CHD")
                         {
-                           // perchdtamount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[0].amount;
+                            // perchdtamount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[0].amount;
                             chdcount = chdcount + 1;
-                           // chdtamount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[1].serviceCharges[0].amount;
+                            // chdtamount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[1].serviceCharges[0].amount;
                             chdtamount = perchdtamount * chdcount;
 
 
@@ -103,18 +107,18 @@
                     @{
                         if (@Model.passeengerlistItanary != null)
                         {
-                           // infcount = Model.passeengerlistItanary.inftcount;
+                            // infcount = Model.passeengerlistItanary.inftcount;
                             inftbasefare = Model.passeengerlistItanary.inftbasefare;
                         }
-                       
-                       
+
+
                         toatlinftbasefare = infcount * inftbasefare;
                         basefare = (peradtamount * adtcount) + (perchdtamount * chdcount) + (toatlinftbasefare);
 
                     }
                     <div class="text-15 fw-600">&#8377; @basefare  </div>
 
-                    
+
 
 
                 </div>
@@ -122,9 +126,9 @@
 
             <div class="row y-gap-3 justify-between bg-light-2 hideme" style="display:none;">
                 <div class="col-auto">
-                @{
+                    @{
                         <div class="text-14">Adult ( @adtcount X &#8377;@peradtamount)</div>
-                        if (@chdtamount !=0)
+                        if (@chdtamount != 0)
                         {
                             <div class="text-14">Child ( @chdcount X &#8377;@perchdtamount)</div>
                         }
@@ -132,9 +136,9 @@
                         {
                             <div class="text-14">Infant ( @infcount X &#8377;@inftbasefare) </div>
                         }
-                       
-                }
-                    
+
+                    }
+
 
                     @*Traveller (
                 @{
@@ -147,7 +151,7 @@
                 <div class="col-auto">
                     <div class="text-15">&#8377; @adtamount </div>
                     @{
-                        if (@chdtamount!=0)
+                        if (@chdtamount != 0)
                         {
                             <div class="text-15">&#8377; @chdtamount </div>
                         }
@@ -156,12 +160,12 @@
                             <div class="text-15">&#8377; @toatlinftbasefare </div>
                         }
 
-                        
+
                     }
-                    
+
                 </div>
 
-                
+
 
 
 
@@ -173,13 +177,13 @@
                     <div class="text-15">Taxes &amp; Surcharges</div>
                 </div>
                 <div class="col-auto">
-                @{
+                    @{
                         basefaretax = @Model.passeengerlist.basefaretax;
-                 }
+                    }
 
                     <div class="text-15 fw-600">&#8377;@Model.passeengerlist.basefaretax</div>
 
-                    
+
 
 
                 </div>

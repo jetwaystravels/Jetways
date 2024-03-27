@@ -64,6 +64,36 @@ namespace OnionArchitectureAPI.Services.Indigo
             return (SellResponse)_getSellRS;
         }
 
+        public async Task<GetBookingFromStateResponse> GetBookingFromState(string Signature, string _AirlineWay = "")
+        {
+            GetBookingFromStateResponse _GetBookingFromStateRS1 = null;
+            GetBookingFromStateRequest _GetBookingFromStateRQ1 = null;
+            _GetBookingFromStateRQ1 = new GetBookingFromStateRequest();
+            _GetBookingFromStateRQ1.Signature = Signature;
+            _GetBookingFromStateRQ1.ContractVersion = 420;
+
+            IBookingManager bookingManager = null;
+            GetBookingFromStateResponse _getBookingFromStateResponse = null;
+            bookingManager = new BookingManagerClient();
+            try
+            {
+                _getBookingFromStateResponse = await bookingManager.GetBookingFromStateAsync(_GetBookingFromStateRQ1);
+            }
+            catch (Exception ex)
+            {
+                //return Ok(session);
+            }
+            if (_AirlineWay.ToLower() == "oneway")
+            {
+                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_GetBookingFromStateRQ1) + "\n\n Response: " + JsonConvert.SerializeObject(_getBookingFromStateResponse), "GetBookingFromStateAftersellInfantrequest", "IndigoOneWay");
+
+            }
+            else
+                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_GetBookingFromStateRQ1) + "\n\n Response: " + JsonConvert.SerializeObject(_getBookingFromStateResponse), "GetBookingFromStateAftersellInfantrequest", "IndigoRT");
+
+            return _getBookingFromStateResponse;
+        }
+
         public async Task<PriceItineraryResponse> GetItineraryPrice(string Signature, string _JourneykeyData, string _FareKeyData, string _Jparts, string fareKey, int TotalCount, int adultcount, int childcount, int infantcount, string _AirlineWay = "")
         {
             PriceItineraryResponse _getPriceItineraryRS = null;
@@ -172,6 +202,98 @@ namespace OnionArchitectureAPI.Services.Indigo
             }
 
             return paxPriceTypes;
+        }
+
+        public async Task<SellResponse> sellssrInft(string Signature, PriceItineraryResponse _getPriceItineraryRS, int infantcount, int _a, string _Airline = "")
+        {
+            var passanger = _getPriceItineraryRS.Booking.Passengers;
+            string passenger = string.Empty;
+            using (HttpClient client = new HttpClient())
+            {
+                #region SellSSrInfant
+                SellResponse sellSsrResponse = null;
+                SellRequest sellSsrRequest = new SellRequest();
+                SellRequestData sellreqd = new SellRequestData();
+                sellSsrRequest.Signature = Signature;
+                sellSsrRequest.ContractVersion = 420;
+                sellreqd.SellBy = SellBy.SSR;
+                sellreqd.SellBySpecified = true;
+                sellreqd.SellSSR = new SellSSR();
+                sellreqd.SellSSR.SSRRequest = new SSRRequest();
+                int journeyscount = _getPriceItineraryRS.Booking.Journeys.Length;
+                for (int i = 0; i < journeyscount; i++)
+                {
+                    int segmentscount = _getPriceItineraryRS.Booking.Journeys[i].Segments.Length;
+                    sellreqd.SellSSR.SSRRequest.SegmentSSRRequests = new SegmentSSRRequest[segmentscount];
+                    for (int j = 0; j < segmentscount; j++)
+                    {
+                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j] = new SegmentSSRRequest();
+                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].DepartureStation = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].DepartureStation;
+                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].ArrivalStation = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].ArrivalStation;
+                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].STD = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].STD;
+                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].STDSpecified = true;
+                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].FlightDesignator = new FlightDesignator();
+                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].FlightDesignator.CarrierCode = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].FlightDesignator.CarrierCode; ;
+                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].FlightDesignator.FlightNumber = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].FlightDesignator.FlightNumber;
+                        //GetPassenger(passengerdetails);
+                        int numinfant = 0;
+                        if (infantcount > 0)
+                        {
+                            numinfant = infantcount;
+                        }
+                        //infantcount = Convert.ToInt32(HttpContext.Session.GetString("infantCount"));
+                        //Paxes PaxNum = (Paxes)JsonConvert.DeserializeObject(numinfant, typeof(Paxes));
+                        bool infant = false;
+                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[numinfant];
+
+                        for (int j1 = 0; j1 < numinfant; j1++)
+                        {
+
+                            if (j1 < numinfant)
+                            {
+                                for (int i1 = 0; i1 < numinfant; i1++)
+                                {
+                                    infantcount = numinfant;
+                                    if (infantcount > 0 && i1 + 1 <= infantcount)
+                                    {
+                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1] = new PaxSSR();
+                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].ActionStatusCode = "NN";
+                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].SSRCode = "INFT";
+                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].PassengerNumberSpecified = true;
+                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].PassengerNumber = Convert.ToInt16(i1);
+                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].SSRNumber = Convert.ToInt16(0);
+                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].DepartureStation = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].DepartureStation;
+                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].ArrivalStation = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].ArrivalStation;
+                                        j1 = numinfant - 1;
+                                    }
+                                }
+                            }
+                        }
+                        sellSsrRequest.SellRequestData = sellreqd;
+                    }
+                    _getapi _objIndigo = new _getapi();
+                    sellSsrResponse = await _objIndigo._sellssR(sellSsrRequest);
+
+                    
+                    #endregion
+                    //}
+                }
+                string str3 = JsonConvert.SerializeObject(sellSsrResponse);
+                if (_Airline.ToLower() == "oneway")
+                {
+                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSRInft", "IndigoOneWay");
+                }
+                else
+                {
+                    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSRInft", "IndigoRT");
+                }
+                if (sellSsrResponse != null)
+                {
+                    var JsonObjSeatAssignment = sellSsrResponse;
+                }
+                return (SellResponse)sellSsrResponse;
+            }
+
         }
     }
 }

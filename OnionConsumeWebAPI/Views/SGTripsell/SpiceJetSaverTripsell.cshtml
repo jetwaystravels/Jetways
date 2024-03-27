@@ -133,15 +133,15 @@
                 <div class="row">
                     <div class="col-xl-8 col-lg-8">
                         <div class="row x-gap-20 y-gap-20 pt-9">
-                            <h2 class="text-22 fw-600 mt-10 md:mt-24">Review Your Booking</h2>
+                            <h2 class="text-18 fw-600 mt-10 md:mt-24">Review Your Booking</h2>
                             <partial name="_TripsellPatialView.cshtml" />
                         </div>
                         <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
-                            <div id="toggleButton" class="bg-h2"><h2 class="text-22 fw-600 md:mt-20 ">Enter Contact Details |  <span class="text-18">Sign in  to book faster and use eCash</span></h2></div>
+                            <div id="toggleButton" class="bg-h2"><h2 class="text-18 fw-600 md:mt-20 ">Enter Contact Details</h2></div>
                         </div>
-                        <div id="content" class="hidden row bg-white mt-2">
-                            <partial name="_ContactDetailsPartialView.cshtml" />  <br> <br>
-                            <div style="margin-top:-10px;">
+                        <div id="content" class="row bg-white mt-2">
+                            <partial name="_ContactDetailsPartialView.cshtml" />
+              @*               <div style="margin-top:-10px;">
 
                                 <div class="col-12">
                                     Your booking details will be sent to this email address and mobile number.
@@ -155,28 +155,28 @@
                                     </label>
                                 </div>
 
-                            </div>
+                            </div> *@
                         </div>
 
 
                         <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
-                            <div id="toggleButton2" class="bg-h2"><h2 class="text-22 fw-600 md:mt-20 ">Enter Traveller Details |  <span class="text-18">Name</span></h2></div>
+                            <div id="toggleButton2" class="bg-h2" style="opacity:0.2"><h2 class="text-18 fw-600 md:mt-20 ">Enter Traveller Details</h2></div>
                         </div>
                         <div id="content2" class="row hidden">
                             <partial name="_TravellerInfoPartialView.cshtml" />
                         </div>
 
-                        <div class="row x-gap-20 y-gap-20 mt-3 pt-10">
-                            <div id="toggleButton3" class="bg-h2"><h2 class="text-22 fw-600 md:mt-20 ">Add your GST Details (Optional)</h2></div>
-                        </div>
+                        @* <div class="row x-gap-20 y-gap-20 mt-3 pt-10">
+                            <div id="toggleButton3" class="bg-h2" style="opacity:0.2"><h2 class="text-22 fw-600 md:mt-20 ">Add your GST Details (Optional)</h2></div>
+                        </div> *@
                         <div id="content3" class="hidden">
                             <div id="gst_hide" class="row mt-5">
-                                <div class="col-md-10 border-bottom-light">
+                               @*  <div class="col-md-10 border-bottom-light">
                                     <!----<div class="text-18 fw-600">Add your GST Details (Optional)</div>-->
                                     <div class="text-14">Claim credit of GST charges. Your taxes may get updated post submitting your GST details.</div>
                                 </div>
                                 <div class="col-md-2 showBtn border-bottom-light"><button class="button mb-3 -md -outline-blue-1 text-blue-1">Add</button></div>
-                                <partial name="_GSTDetailsPartialView.cshtml" />
+                                <partial name="_GSTDetailsPartialView.cshtml" /> *@
                                 <div class="col-md-12 border-bottom-light showBtn">
                                     <div class="text-18 fw-600">Travelling for work?</div>
                                     <div class="text-14">
@@ -192,10 +192,10 @@
 
 
 
-                        <form asp-action="PostUnitkey" asp-controller="SGTripsell" method="post">
+                         <form asp-action="PostUnitkey" asp-controller="SGTripsell" method="post"> 
 
                             <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
-                                <div id="toggleButton4" class="bg-h2"><h2 class="text-22 fw-600 md:mt-20 ">Service Requests <span class="text-18">(Optional)</span></h2></div>
+                                <div id="toggleButton4" class="bg-h2" style="opacity:0.2"><h2 class="text-18  fw-600 md:mt-20 ">Seat, Meal & Baggage</h2></div>
                             </div>
                             <div id="content4" class="hidden">
                                 <div id="show" class="row x-gap-20 y-gap-20 mt-10 bg-white service-section">
@@ -206,13 +206,13 @@
                             </div>
 
                             <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
-                                <div id="toggleButton5" class="bg-h2"><h2 class="text-22 fw-600 md:mt-20 ">Travel Insurance  <span class="text-18">(Recommended)</span></h2></div>
+                                <div id="toggleButton5" class="bg-h2" style="opacity:0.2"><h2 class="text-18 fw-600 md:mt-20 ">Travel Insurance  <span class="text-18">(Recommended)</span></h2></div>
                             </div>
                             <div id="content5" class="row hidden mt-2">
                                 <partial name="_TravelInsurancePatialView.cshtml" />
                             </div>
                             <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
-                                <div id="toggleButton6" class="bg-h2"><h2 class="text-22 fw-600 md:mt-20 ">Add-ons <span class="text-18">(Recommended)</span></h2></div>
+                                <div id="toggleButton6" class="bg-h2" style="opacity:0.2"><h2 class="text-18 fw-600 fw-600 md:mt-20 ">Add-ons <span class="text-18">(Recommended)</span></h2></div>
                             </div>
                             <div id="content6" class="row hidden mt-2">
                                 Add-Ons
@@ -229,9 +229,15 @@
 
 
                             <div class="flex-center x-gap-20 y-gap-20 mt-30">
-                                <input type="submit" class="btn btn-btn-primary" value="Continue" />
-                            </div>
-                        </form>
+                                @* <input type="submit" class="btn btn-btn-primary" value="Continue" /> *@
+                            <input type="submit" id="Continuebtn" class="btn btn-btn-primary" value="Continue" style="opacity:0.2" disabled />
+                            </div> 
+
+                       @*  <div class="flex-center x-gap-20 y-gap-20 mt-30">
+                            <input type="submit" id="Continuebtn" class="btn btn-btn-primary" value="Continue" style="opacity:0.2" disabled />
+                        </div> *@
+
+                       </form> 
 
                     </div>
 
@@ -421,6 +427,13 @@
         .hidden {
             display: none;
         }
+
+        .bg-h2 {
+            background: #366480;
+            color: #fff;
+            border-radius: 4px 4px 0 0;
+            padding-left: 0px;
+        }
     </style>
 
 
@@ -429,71 +442,44 @@
 
 
         $(document).ready(function () {
+            $('#show').click(function () {
+                $('.seathide').show(1000);
+            });
+            $('#show1').click(function () {
+                $('#seathide1').show(1000);
+            });
+            $('#show2').click(function () {
+                $('#seathide3').show(1000);
+            });
+
 
             $('#toggleButton').on('click', function () {
-                $('#content').toggleClass('hidden');
+                //$('#content').toggleClass('hidden');
+                $('#content').show();
+                $('#content2').hide();
+                var toggleButton2 = document.getElementById("toggleButton2");
+                toggleButton2.style.opacity = "0.2";
+                var toggleButton3To = document.getElementById("toggleButton3");
+                toggleButton3To.style.opacity = "0.2";
+                var content3To = document.getElementById("content3");
+                content3To.style.display = "none";
+                var SGtoggleButton4To = document.getElementById("toggleButton4");
+                SGtoggleButton4To.style.opacity = "0.2";
+                var SGcontent4To = document.getElementById("content4");
+                SGcontent4To.style.display = "none";
+               
+                var GSTContinuebtn1 = document.querySelector("#Continuebtn");
+                GSTContinuebtn1.disabled = true;
+                GSTContinuebtn1.style.opacity = "0.2";
             });
-            $('#toggleButton2').on('click', function () {
-                $('#content2').toggleClass('hidden');
-            });
-            $('#toggleButton3').on('click', function () {
-                $('#content3').toggleClass('hidden');
-            });
-            $('#toggleButton4').on('click', function () {
-                $('#content4').toggleClass('hidden');
-            });
-            $('#toggleButton5').on('click', function () {
-                $('#content5').toggleClass('hidden');
-            });
-            $('#toggleButton6').on('click', function () {
-                $('#content6').toggleClass('hidden');
-            });
+
+
+
 
         });
-    </script>
 
 
 
-    <script type="text/javascript">
-        $(function () {
-            $("#btnGet").click(function () {
-                var data = $("#studenteForm").serialize();
-                $.ajax({
-                    url: "/AATripsell/Addtravller",
-                    type: "POST",
-                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // when we use .serialize() this generates the data in query string format. this needs the default contentType (default content type is: contentType: 'application/x-www-form-urlencoded; charset=UTF-8') so it is optional, you can remove it
-                    data: data,
-
-                    // data: { "name": $("#txtName").val() },
-                    success: function (data) {
-                        console.log(data);
-                    },
-
-                    error: function (err) {
-                        console.error(err);
-                    }
-                });
-            });
-        });
-        function PostPayment() {
-            debugger;
-            var unitKey = $("#unitKey1").val();
-            $.ajax({
-                url: "/AATripsell/PostUnitkey",
-                type: "POST",
-                contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // when we use .serialize() this generates the data in query string format. this needs the default contentType (default content type is: contentType: 'application/x-www-form-urlencoded; charset=UTF-8') so it is optional, you can remove it
-                data: { unitKey: unitKey },
-
-                // data: { "name": $("#txtName").val() },
-                success: function (data) {
-                    console.log(data);
-                },
-
-                error: function (err) {
-                    console.error(err);
-                }
-            });
-        }
     </script>
 
     <script type="text/javascript">

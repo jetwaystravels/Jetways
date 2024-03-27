@@ -1,9 +1,6 @@
-﻿
-
-@{
+﻿@{
 	Layout = null;
 }
-
 
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -253,7 +250,7 @@
 												</div>
 												<div class="pt-20">
 													<div class="d-flex justify-content-between">
-														<span class="text-20 lh-13 fw-700 pt-3">&#8377; 7,219</span>
+														<span class="text-20 lh-13 fw-700 pt-3">&#8377; <span class="text-20 lh-13 fw-700 pt-3" id="Totalpayment"></span></span>
 														@*<button class="btn btn-lg">Pay Now</button>*@
 														<form>
 															<input type="submit" asp-controller="SGCommitBooking" asp-action="booking" value="Pay Now" class="btn btn-lg">
@@ -349,7 +346,7 @@
 												</div>
 												<div class="pt-20">
 													<div class="d-flex justify-content-between">
-														<span class="text-20 lh-13 fw-700 pt-3">&#8377; 7,219</span>
+														<span class="text-20 lh-13 fw-700 pt-3">&#8377; <span id="totalpayment3"></span></span>
 														<button class="btn btn-lg">Pay Now</button>
 													</div>
 													<p class="text">By clicking on Pay Now, you are agreeing to our Terms & Conditions , Privacy policy, User Agreement and Covid-19 Guidelines.</p>
@@ -450,7 +447,7 @@
 												</div>
 												<div class="pt-20">
 													<div class="d-flex justify-content-between">
-														<span class="text-20 lh-13 fw-700 pt-3">&#8377; 5,269</span>
+														<span class="text-20 lh-13 fw-700 pt-3">&#8377; <span id="totalpayment2"></span></span>
 														<button class="btn btn-lg">Pay Now</button>
 													</div>
 													<p class="text">By clicking on Pay Now, you are agreeing to our Terms & Conditions , Privacy policy, User Agreement and Covid-19 Guidelines.</p>
@@ -633,7 +630,7 @@
 												</div>
 												<div class="pt-20">
 													<div class="d-flex justify-content-between">
-														<span class="text-20 lh-13 fw-700 pt-3">&#8377; 7,219</span>
+														<span class="text-20 lh-13 fw-700 pt-3">&#8377; <span id="totalpayment1"></span></span>
 														<button class="btn btn-lg">Pay Now</button>
 													</div>
 													<p class="text">By clicking on Pay Now, you are agreeing to our Terms & Conditions , Privacy policy, User Agreement and Covid-19 Guidelines.</p>
@@ -654,24 +651,40 @@
 									<div class="text-15">Total Flight Price</div>
 								</div>
 								<div class="col-auto">
-									<div class="text-15">&#8377; <span id="value-output"></span></div>
+									<div class="text-15">&#8377; <span id="basevalue"></span></div>
 								</div>
 							</div>
-							<div class="row y-gap-3 justify-between pb-1">
-								<div class="col-auto">
-									<div class="text-14">(-) ICB Discount </div>
-									<div> </div>
-								</div>
-								<div class="col-auto">
-									<div class="text-15 text-success">&#8377;  100</div>
-								</div>
+							@* <div class="row y-gap-3 justify-between pb-1">
+							<div class="col-auto">
+							<div class="text-14">(-) ICB Discount </div>
+							<div> </div>
 							</div>
+							<div class="col-auto">
+							<div class="text-15 text-success">&#8377;  100</div>
+							</div>
+							</div> *@
 							<div class="row y-gap-2 justify-between pb-1">
 								<div class="col-auto">
 									<div class="text-15">Convenience Fee</div>
 								</div>
 								<div class="col-auto">
-									<div class="text-15">&#8377; 415</div>
+									<div class="text-15">&#8377; <span><input style="border:none;width:30px;" class="sum_item input-ammount" value="350" name="convie" type="text" id="convinfare" /></span></div>
+								</div>
+							</div>
+							<div class="row y-gap-2 justify-between pb-1">
+								<div class="col-auto">
+									<div class="text-15">Seat</div>
+								</div>
+								<div class="col-auto">
+									<div class="text-15">&#8377; <span id="seattotal"></span></div>
+								</div>
+							</div>
+							<div class="row y-gap-2 justify-between pb-1">
+								<div class="col-auto">
+									<div class="text-15">Meal</div>
+								</div>
+								<div class="col-auto">
+									<div class="text-15">&#8377; 0 @* <span id="mealtatal"></span> *@</div>
 								</div>
 							</div>
 							<div class="row y-gap-2 justify-between pt-2 border-top-light">
@@ -679,7 +692,7 @@
 									<div class="text-20 fw-600">You Pay</div>
 								</div>
 								<div class="col-auto">
-									<div class="text-20 fw-600">&#8377; 4,224</div>
+									<div class="text-20 fw-600">&#8377; <span id="totalpayment"></span></div>
 								</div>
 							</div>
 
@@ -690,7 +703,7 @@
 									<div> </div>
 								</div>
 								<div class="col-auto">
-									<div class="text-15">&#8377; 10</div>
+									<div class="text-15">&#8377; 0</div>
 								</div>
 							</div>
 							<div class="row y-gap-3 justify-between mt-2 pt-1 border-top-light">
@@ -698,7 +711,7 @@
 									<div class="text-15">Earn eCash</div>
 								</div>
 								<div class="col-auto">
-									<div class="text-15">&#8377; 250</div>
+									<div class="text-15">&#8377; 0</div>
 								</div>
 							</div>
 						</div>
@@ -868,9 +881,23 @@
 		window.onload = function () {
 			debugger;
 			// Get the value from localStorage
-			var value = localStorage.getItem('myValue');
+			//var value = localStorage.getItem('myValue');
 			// Display the value on the page
-			document.getElementById("value-output").innerHTML = value;
+			//document.getElementById("value-output").innerHTML = value;
+			var seatFare = localStorage.getItem('seatPayment');
+			var baseFare = localStorage.getItem('basePayment');
+			//var basemeal = localStorage.getItem("Mealfarecnt");
+			document.getElementById("seattotal").innerHTML = seatFare;
+			//document.getElementById("mealtatal").innerHTML = basemeal;
+			document.getElementById("basevalue").innerHTML = baseFare;
+			var conviniencefare = document.querySelector('#convinfare').value;
+			let Totalpaymnet =  parseInt(seatFare) + parseInt(baseFare) + parseInt(conviniencefare);
+			document.getElementById("totalpayment").innerHTML = Totalpaymnet;
+			document.getElementById("Totalpayment").innerHTML = Totalpaymnet;
+			document.getElementById("totalpayment1").innerHTML = Totalpaymnet;
+			document.getElementById("totalpayment2").innerHTML = Totalpaymnet;
+			document.getElementById("totalpayment3").innerHTML = Totalpaymnet;
+
 		};
 	</script>
 </body>

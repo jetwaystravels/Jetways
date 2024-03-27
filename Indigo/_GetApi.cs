@@ -203,6 +203,25 @@ namespace Indigo
         }
         #endregion
 
+        #region GetBookingFromState
+        public async Task<GetBookingFromStateResponse> GetBookingFromState(GetBookingFromStateRequest _getBookingFromStateRQ)
+        {
+            IBookingManager bookingManager = null;
+            GetBookingFromStateResponse _getBookingFromStateResponse = null;
+            bookingManager = new BookingManagerClient();
+            try
+            {
+                _getBookingFromStateResponse = await bookingManager.GetBookingFromStateAsync(_getBookingFromStateRQ);
+                return _getBookingFromStateResponse;
+            }
+            catch (Exception ex)
+            {
+                //return Ok(session);
+            }
+            return _getBookingFromStateResponse;
+        }
+        #endregion
+
         #region BookingCommit
         public async Task<BookingCommitResponse> BookingCommit(BookingCommitRequest _bookingCommitRequest)
         {

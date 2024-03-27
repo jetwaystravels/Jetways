@@ -12,6 +12,8 @@ namespace DomainLayer.Model
         public int inftcount { get; set; }
         public int inftbasefare { get; set; }
         public int basefaretax {  get; set; }
+
+        public int infttax { get; set; }
         public bool selfServiceMoveAvailable { get; set; }
         public object bookingKey { get; set; }
         public object recordLocator { get; set; }

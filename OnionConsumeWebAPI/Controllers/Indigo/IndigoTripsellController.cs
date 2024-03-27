@@ -42,201 +42,265 @@ namespace OnionConsumeWebAPI.Controllers
             ViewData["name"] = AirCraftName;
             //spicejet
             string passenger = HttpContext.Session.GetString("SGkeypassenger"); //From Itenary Response
-
+            string passengerInfant = HttpContext.Session.GetString("SGkeypassenger");
             string Seatmap = HttpContext.Session.GetString("Seatmap");
             string Meals = HttpContext.Session.GetString("Meals");
             ViewModel vm = new ViewModel();
-
-            passeengerlist = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
-            SeatMapResponceModel Seatmaplist = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
-            SSRAvailabiltyResponceModel Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
-            vm.passeengerlist = passeengerlist;
-            vm.Seatmaplist = Seatmaplist;
-            vm.Meals = Mealslist;
+            if (passengerInfant != null)
+            {
+                AirAsiaTripResponceModel passeengerlistItanary = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passengerInfant, typeof(AirAsiaTripResponceModel));
+                passeengerlist = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
+                SeatMapResponceModel Seatmaplist = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
+                SSRAvailabiltyResponceModel Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
+                vm.passeengerlist = passeengerlist;
+                vm.passeengerlistItanary = passeengerlistItanary;
+                vm.Seatmaplist = Seatmaplist;
+                vm.Meals = Mealslist;
+            }
+            else
+            {
+                passeengerlist = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
+                SeatMapResponceModel Seatmaplist = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
+                SSRAvailabiltyResponceModel Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
+                //SeatMapResponceModel Seatmaplist = new SeatMapResponceModel();
+                //SSRAvailabiltyResponceModel Mealslist = new SSRAvailabiltyResponceModel();
+                vm.passeengerlist = passeengerlist;
+                vm.Seatmaplist = Seatmaplist;
+                vm.Meals = Mealslist;
+            }
             return View(vm);
 
+            }
+
+        //Seat map meal Pip Up bind Code 
+        public IActionResult PostSeatMapModaldataView()
+        {
+
+            List<SelectListItem> Title = new()
+            {
+                new SelectListItem { Text = "Mr", Value = "Mr" },
+                new SelectListItem { Text = "Ms" ,Value = "Ms" },
+                new SelectListItem { Text = "Mrs", Value = "Mrs"},
+
+            };
+
+            ViewBag.Title = Title;
+            var AirlineName = TempData["AirLineName"];
+            ViewData["name"] = AirlineName;
+
+            string passenger = HttpContext.Session.GetString("SGkeypassenger"); //From Itenary Response
+            string passengerInfant = HttpContext.Session.GetString("SGkeypassenger");
+            string Seatmap = HttpContext.Session.GetString("Seatmap");
+            string Meals = HttpContext.Session.GetString("Meals");
+            ViewModel vm = new ViewModel();
+            if (passengerInfant != null)
+            {
+                AirAsiaTripResponceModel passeengerlistItanary = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passengerInfant, typeof(AirAsiaTripResponceModel));
+                passeengerlist = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
+                SeatMapResponceModel Seatmaplist = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
+                SSRAvailabiltyResponceModel Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
+                //SeatMapResponceModel Seatmaplist = new SeatMapResponceModel();
+                //SSRAvailabiltyResponceModel Mealslist = new SSRAvailabiltyResponceModel();
+                vm.passeengerlist = passeengerlist;
+                vm.passeengerlistItanary = passeengerlistItanary;
+                vm.Seatmaplist = Seatmaplist;
+                vm.Meals = Mealslist;
+            }
+            else
+            {
+                passeengerlist = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
+                SeatMapResponceModel Seatmaplist = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
+                SSRAvailabiltyResponceModel Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
+                //SeatMapResponceModel Seatmaplist = new SeatMapResponceModel();
+                //SSRAvailabiltyResponceModel Mealslist = new SSRAvailabiltyResponceModel();
+                vm.passeengerlist = passeengerlist;
+                vm.Seatmaplist = Seatmaplist;
+                vm.Meals = Mealslist;
+            }
+            return View(vm);
         }
-        [HttpPost] //Contact Mapping on trip page
+
+
         public async Task<IActionResult> IndigoContactDetails(ContactModel contactobject)
-        {
-
-            string Signature = HttpContext.Session.GetString("IndigoSignature");
-            if (!string.IsNullOrEmpty(Signature))
             {
-                Signature = Signature.Replace(@"""", string.Empty);
-                _updateContact obj = new _updateContact(httpContextAccessorInstance);
-                IndigoBookingManager_.UpdateContactsResponse _responseAddContact6E = await obj.GetUpdateContacts(Signature, contactobject.emailAddress, "OneWay");
-                string Str1 = JsonConvert.SerializeObject(_responseAddContact6E);
-            }
-            return RedirectToAction("IndigoSaverTripsell", "IndigoTripsell");
-        }
 
-        //Passenger Data on Trip Page
-        [HttpPost]
-        public async Task<IActionResult> IndigoTravllerDetails(List<passkeytype> passengerdetails)
-        {
-            HttpContext.Session.SetString("PassengerNameDetails", JsonConvert.SerializeObject(passengerdetails));
-
-            string Signature = HttpContext.Session.GetString("IndigoSignature");
-
-            if (!string.IsNullOrEmpty(Signature))
-            {
-                Signature = Signature.Replace(@"""", string.Empty);
-                _updateContact obj = new _updateContact(httpContextAccessorInstance);
-                IndigoBookingManager_.UpdatePassengersResponse updatePaxResp = await obj.UpdatePassengers(Signature, passengerdetails, "OneWay");
-                string Str2 = JsonConvert.SerializeObject(updatePaxResp);
-            }
-            return RedirectToAction("IndigoSaverTripsell", "IndigoTripsell", passengerdetails);
-        }
-        public async Task<IActionResult> GetGstDetails(AddGSTInformation addGSTInformation, string lineOne, string lineTwo, string city, string number, string postalCode)
-        {
-            string tokenview = HttpContext.Session.GetString("AirasiaTokan");
-            token = tokenview.Replace(@"""", string.Empty);
-
-            using (HttpClient client = new HttpClient())
-            {
-                AddGSTInformation addinformation = new AddGSTInformation();
-
-
-                addinformation.contactTypeCode = "G";
-
-                GSTPhonenumber Phonenumber = new GSTPhonenumber();
-                List<GSTPhonenumber> Phonenumberlist = new List<GSTPhonenumber>();
-                Phonenumber.type = "Other";
-                Phonenumber.number = number;
-                Phonenumberlist.Add(Phonenumber);
-
-                foreach (var item in Phonenumberlist)
+                string Signature = HttpContext.Session.GetString("IndigoSignature");
+                if (!string.IsNullOrEmpty(Signature))
                 {
-                    addinformation.phoneNumbers = Phonenumberlist;
+                    Signature = Signature.Replace(@"""", string.Empty);
+                    _updateContact obj = new _updateContact(httpContextAccessorInstance);
+                    IndigoBookingManager_.UpdateContactsResponse _responseAddContact6E = await obj.GetUpdateContacts(Signature, contactobject.emailAddress, contactobject.companyName, contactobject.customerNumber, "OneWay");
+                    string Str1 = JsonConvert.SerializeObject(_responseAddContact6E);
                 }
-                addinformation.cultureCode = "";
-                GSTAddress Address = new GSTAddress();
-                Address.lineOne = lineOne;
-                Address.lineTwo = lineTwo;
-                Address.lineThree = "";
-                Address.countryCode = "IN";
-                Address.provinceState = "TN";
-                Address.city = city;
-                Address.postalCode = postalCode;
-                addinformation.Address = Address;
-
-                addinformation.emailAddress = addGSTInformation.emailAddress;
-                addinformation.customerNumber = addGSTInformation.customerNumber;
-                addinformation.sourceOrganization = "";
-                addinformation.distributionOption = "None";
-                addinformation.notificationPreference = "None";
-                addinformation.companyName = addGSTInformation.companyName;
-
-                GSTName Name = new GSTName();
-                Name.first = "Vadivel";
-                Name.middle = "raja";
-                Name.last = "VR";
-                Name.title = "MR";
-                Name.suffix = "";
-                addinformation.Name = Name;
-
-                var jsonContactRequest = JsonConvert.SerializeObject(addinformation, Formatting.Indented);
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                HttpResponseMessage responseAddContact = await client.PostAsJsonAsync(BaseURL + "/api/nsk/v1/booking/contacts", addinformation);
-                if (responseAddContact.IsSuccessStatusCode)
-                {
-                    var _responseAddContact = responseAddContact.Content.ReadAsStringAsync().Result;
-                    var JsonObjAddContact = JsonConvert.DeserializeObject<dynamic>(_responseAddContact);
-                }
-
+                return RedirectToAction("IndigoSaverTripsell", "IndigoTripsell");
             }
 
-            return RedirectToAction("Tripsell", "AATripsell");
-        }
-        public async Task<IActionResult> PostUnitkey(List<string> unitKey, List<string> ssrKey)
-        {
-            string tokenview = HttpContext.Session.GetString("IndigoSignature");
-            token = tokenview.Replace(@"""", string.Empty);
-            if (token == "" || token == null)
+            //Passenger Data on Trip Page
+
+            public async Task<IActionResult> IndigoTravllerDetails(List<passkeytype> passengerdetails)
             {
-                return RedirectToAction("Index");
-            }
-            string passenger = HttpContext.Session.GetString("SGkeypassenger");
-            AirAsiaTripResponceModel passeengerKeyList = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
-            int passengerscount = passeengerKeyList.passengerscount;
-            using (HttpClient client = new HttpClient())
-            {
-                if (ssrKey.Count >= 0)
+                HttpContext.Session.SetString("PassengerNameDetails", JsonConvert.SerializeObject(passengerdetails));
+
+                string Signature = HttpContext.Session.GetString("IndigoSignature");
+
+                if (!string.IsNullOrEmpty(Signature))
                 {
-
-                    #region SellSSr
-                    _SellSSR obj_ = new _SellSSR(httpContextAccessorInstance);
-                    IndigoBookingManager_.SellResponse sellSsrResponse = await obj_.sellssr(token, passeengerKeyList, ssrKey,0,"OneWay");
-                    #endregion
-
+                    Signature = Signature.Replace(@"""", string.Empty);
+                    _updateContact obj = new _updateContact(httpContextAccessorInstance);
+                    IndigoBookingManager_.UpdatePassengersResponse updatePaxResp = await obj.UpdatePassengers(Signature, passengerdetails, "OneWay");
+                    string Str2 = JsonConvert.SerializeObject(updatePaxResp);
                 }
-                if (unitKey.Count > 0)
+                return RedirectToAction("IndigoSaverTripsell", "IndigoTripsell", passengerdetails);
+            }
+            //public async Task<IActionResult> GetGstDetails(AddGSTInformation addGSTInformation, string lineOne, string lineTwo, string city, string number, string postalCode)
+            //{
+            //    string tokenview = HttpContext.Session.GetString("AirasiaTokan");
+            //    token = tokenview.Replace(@"""", string.Empty);
+
+            //    using (HttpClient client = new HttpClient())
+            //    {
+            //        AddGSTInformation addinformation = new AddGSTInformation();
+
+
+            //        addinformation.contactTypeCode = "G";
+
+            //        GSTPhonenumber Phonenumber = new GSTPhonenumber();
+            //        List<GSTPhonenumber> Phonenumberlist = new List<GSTPhonenumber>();
+            //        Phonenumber.type = "Other";
+            //        Phonenumber.number = number;
+            //        Phonenumberlist.Add(Phonenumber);
+
+            //        foreach (var item in Phonenumberlist)
+            //        {
+            //            addinformation.phoneNumbers = Phonenumberlist;
+            //        }
+            //        addinformation.cultureCode = "";
+            //        GSTAddress Address = new GSTAddress();
+            //        Address.lineOne = lineOne;
+            //        Address.lineTwo = lineTwo;
+            //        Address.lineThree = "";
+            //        Address.countryCode = "IN";
+            //        Address.provinceState = "TN";
+            //        Address.city = city;
+            //        Address.postalCode = postalCode;
+            //        addinformation.Address = Address;
+
+            //        addinformation.emailAddress = addGSTInformation.emailAddress;
+            //        addinformation.customerNumber = addGSTInformation.customerNumber;
+            //        addinformation.sourceOrganization = "";
+            //        addinformation.distributionOption = "None";
+            //        addinformation.notificationPreference = "None";
+            //        addinformation.companyName = addGSTInformation.companyName;
+
+            //        GSTName Name = new GSTName();
+            //        Name.first = "Vadivel";
+            //        Name.middle = "raja";
+            //        Name.last = "VR";
+            //        Name.title = "MR";
+            //        Name.suffix = "";
+            //        addinformation.Name = Name;
+
+            //        var jsonContactRequest = JsonConvert.SerializeObject(addinformation, Formatting.Indented);
+            //        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            //        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            //        HttpResponseMessage responseAddContact = await client.PostAsJsonAsync(BaseURL + "/api/nsk/v1/booking/contacts", addinformation);
+            //        if (responseAddContact.IsSuccessStatusCode)
+            //        {
+            //            var _responseAddContact = responseAddContact.Content.ReadAsStringAsync().Result;
+            //            var JsonObjAddContact = JsonConvert.DeserializeObject<dynamic>(_responseAddContact);
+            //        }
+
+            //    }
+
+            //    return RedirectToAction("Tripsell", "AATripsell");
+            //}
+            public async Task<IActionResult> PostUnitkey(List<string> unitKey, List<string> ssrKey)
+            {
+                string tokenview = HttpContext.Session.GetString("IndigoSignature");
+                token = tokenview.Replace(@"""", string.Empty);
+                if (token == "" || token == null)
                 {
-                    try
+                    return RedirectToAction("Index");
+                }
+                string passenger = HttpContext.Session.GetString("SGkeypassenger");
+                AirAsiaTripResponceModel passeengerKeyList = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
+                int passengerscount = passeengerKeyList.passengerscount;
+                using (HttpClient client = new HttpClient())
+                {
+                    if (ssrKey.Count >= 0)
                     {
-                        var unitKey_1 = unitKey;// selectedIds;
-                        string[] unitKey2 = null;
-                        string[] unitsubKey2 = null;
-                        string pas_unitKey = string.Empty;
 
-                        int journeyscount = passeengerKeyList.journeys.Count;
-
+                        #region SellSSr
                         _SellSSR obj_ = new _SellSSR(httpContextAccessorInstance);
-                        IndigoBookingManager_.AssignSeatsResponse _AssignseatRes = await obj_.AssignSeat(token, passeengerKeyList, unitKey, 0, unitKey.Count, 0,"OneWay");
-
-                        string Str2 = JsonConvert.SerializeObject(_AssignseatRes);
-
-                        if (_AssignseatRes != null)
-                        {
-                            var JsonObjSeatAssignment = _AssignseatRes;
-                        }
+                        IndigoBookingManager_.SellResponse sellSsrResponse = await obj_.sellssr(token, passeengerKeyList, ssrKey, 0, "OneWay");
+                        #endregion
 
                     }
-                    catch (Exception ex)
+                    if (unitKey.Count > 0)
                     {
+                        try
+                        {
+                            var unitKey_1 = unitKey;// selectedIds;
+                            string[] unitKey2 = null;
+                            string[] unitsubKey2 = null;
+                            string pas_unitKey = string.Empty;
 
+                            int journeyscount = passeengerKeyList.journeys.Count;
+
+                            _SellSSR obj_ = new _SellSSR(httpContextAccessorInstance);
+                            IndigoBookingManager_.AssignSeatsResponse _AssignseatRes = await obj_.AssignSeat(token, passeengerKeyList, unitKey, 0, unitKey.Count, 0, "OneWay");
+
+                            string Str2 = JsonConvert.SerializeObject(_AssignseatRes);
+
+                            if (_AssignseatRes != null)
+                            {
+                                var JsonObjSeatAssignment = _AssignseatRes;
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
                     }
                 }
+
+                return RedirectToAction("IndigoPayment", "IndigoPaymentGateway");
             }
 
-            return RedirectToAction("IndigoPayment", "IndigoPaymentGateway");
-        }
-
-        public async Task<IActionResult> PostMeal(legpassengers legpassengers)
-        {
-            using (HttpClient client = new HttpClient())
+            public async Task<IActionResult> PostMeal(legpassengers legpassengers)
             {
-                //legpassengers obj = new legpassengers();
-                //obj.passengerKey = legpassengers.passengerKey;
-                //obj.ssrKey = legpassengers.ssrKey;
-
-                #region SellSSR
-                SellSSRModel _sellSSRModel = new SellSSRModel();
-                _sellSSRModel.count = 1;
-                _sellSSRModel.note = "DevTest";
-                _sellSSRModel.forceWaveOnSell = false;
-                _sellSSRModel.currencyCode = "INR";
-
-
-                var jsonSellSSR = JsonConvert.SerializeObject(_sellSSRModel, Formatting.Indented);
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-
-
-                HttpResponseMessage responseSellSSR = await client.PostAsJsonAsync(BaseURL + "/api/nsk/v2/booking/ssrs/" + legpassengers.ssrKey, _sellSSRModel);
-                if (responseSellSSR.IsSuccessStatusCode)
+                using (HttpClient client = new HttpClient())
                 {
-                    var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
-                    var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
-                }
-            }
+                    //legpassengers obj = new legpassengers();
+                    //obj.passengerKey = legpassengers.passengerKey;
+                    //obj.ssrKey = legpassengers.ssrKey;
 
-            #endregion
-            return View();
-        }
+                    #region SellSSR
+                    SellSSRModel _sellSSRModel = new SellSSRModel();
+                    _sellSSRModel.count = 1;
+                    _sellSSRModel.note = "DevTest";
+                    _sellSSRModel.forceWaveOnSell = false;
+                    _sellSSRModel.currencyCode = "INR";
+
+
+                    var jsonSellSSR = JsonConvert.SerializeObject(_sellSSRModel, Formatting.Indented);
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+
+
+                    HttpResponseMessage responseSellSSR = await client.PostAsJsonAsync(BaseURL + "/api/nsk/v2/booking/ssrs/" + legpassengers.ssrKey, _sellSSRModel);
+                    if (responseSellSSR.IsSuccessStatusCode)
+                    {
+                        var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
+                        var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
+                    }
+                }
+
+                #endregion
+                return View();
+            }
 
         public class ssrsegmentwise
         {

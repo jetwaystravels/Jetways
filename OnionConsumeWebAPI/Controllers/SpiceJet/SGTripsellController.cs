@@ -41,23 +41,89 @@ namespace OnionConsumeWebAPI.Controllers
             //string passenger = HttpContext.Session.GetString("keypassenger");
             //spicejet
             string passenger = HttpContext.Session.GetString("SGkeypassenger"); //From Itenary Response
-
+            string passengerInfant = HttpContext.Session.GetString("SGkeypassenger");
             string Seatmap = HttpContext.Session.GetString("Seatmap");
             string Meals = HttpContext.Session.GetString("Meals");
             ViewModel vm = new ViewModel();
-
-            passeengerlist = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
-            SeatMapResponceModel Seatmaplist = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
-            SSRAvailabiltyResponceModel Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
-            //SeatMapResponceModel Seatmaplist = new SeatMapResponceModel();
-            //SSRAvailabiltyResponceModel Mealslist = new SSRAvailabiltyResponceModel();
-            vm.passeengerlist = passeengerlist;
-            vm.Seatmaplist = Seatmaplist;
-            vm.Meals = Mealslist;
+            if (passengerInfant != null)
+            {
+                AirAsiaTripResponceModel passeengerlistItanary = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passengerInfant, typeof(AirAsiaTripResponceModel));
+                passeengerlist = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
+                SeatMapResponceModel Seatmaplist = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
+                SSRAvailabiltyResponceModel Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
+                //SeatMapResponceModel Seatmaplist = new SeatMapResponceModel();
+                //SSRAvailabiltyResponceModel Mealslist = new SSRAvailabiltyResponceModel();
+                vm.passeengerlist = passeengerlist;
+                vm.passeengerlistItanary = passeengerlistItanary;
+                vm.Seatmaplist = Seatmaplist;
+                vm.Meals = Mealslist;
+            }
+            else
+            {
+                passeengerlist = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
+                SeatMapResponceModel Seatmaplist = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
+                SSRAvailabiltyResponceModel Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
+                //SeatMapResponceModel Seatmaplist = new SeatMapResponceModel();
+                //SSRAvailabiltyResponceModel Mealslist = new SSRAvailabiltyResponceModel();
+                vm.passeengerlist = passeengerlist;
+                vm.Seatmaplist = Seatmaplist;
+                vm.Meals = Mealslist;
+            }
             return View(vm);
 
         }
-        [HttpPost] //Contact Mapping on trip page
+
+        //Seat map meal Pip Up bind Code 
+        public IActionResult PostSeatMapModaldataView()
+        {
+
+            List<SelectListItem> Title = new()
+            {
+                new SelectListItem { Text = "Mr", Value = "Mr" },
+                new SelectListItem { Text = "Ms" ,Value = "Ms" },
+                new SelectListItem { Text = "Mrs", Value = "Mrs"},
+
+            };
+
+            ViewBag.Title = Title;
+            var AirlineName = TempData["AirLineName"];
+            ViewData["name"] = AirlineName;
+
+            string passenger = HttpContext.Session.GetString("SGkeypassenger"); //From Itenary Response
+            string passengerInfant = HttpContext.Session.GetString("SGkeypassenger");
+            string Seatmap = HttpContext.Session.GetString("Seatmap");
+            string Meals = HttpContext.Session.GetString("Meals");
+            ViewModel vm = new ViewModel();
+            if (passengerInfant != null)
+            {
+                AirAsiaTripResponceModel passeengerlistItanary = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passengerInfant, typeof(AirAsiaTripResponceModel));
+                passeengerlist = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
+                SeatMapResponceModel Seatmaplist = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
+                SSRAvailabiltyResponceModel Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
+                //SeatMapResponceModel Seatmaplist = new SeatMapResponceModel();
+                //SSRAvailabiltyResponceModel Mealslist = new SSRAvailabiltyResponceModel();
+                vm.passeengerlist = passeengerlist;
+                vm.passeengerlistItanary = passeengerlistItanary;
+                vm.Seatmaplist = Seatmaplist;
+                vm.Meals = Mealslist;
+            }
+            else
+            {
+                passeengerlist = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
+                SeatMapResponceModel Seatmaplist = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
+                SSRAvailabiltyResponceModel Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
+                //SeatMapResponceModel Seatmaplist = new SeatMapResponceModel();
+                //SSRAvailabiltyResponceModel Mealslist = new SSRAvailabiltyResponceModel();
+                vm.passeengerlist = passeengerlist;
+                vm.Seatmaplist = Seatmaplist;
+                vm.Meals = Mealslist;
+            }
+            return View(vm);
+        }
+
+
+
+
         public async Task<IActionResult> SGContactDetails(ContactModel obj)
         {
             string tokenview = HttpContext.Session.GetString("SpicejetSignature");
@@ -73,9 +139,12 @@ namespace OnionConsumeWebAPI.Controllers
                 _ContactModel.updateContactsRequestData.BookingContactList = new BookingContact[1];
                 _ContactModel.updateContactsRequestData.BookingContactList[0] = new BookingContact();
                 _ContactModel.updateContactsRequestData.BookingContactList[0].EmailAddress = obj.emailAddress;
+                if (obj.customerNumber != "") 
+				{ 
                 _ContactModel.updateContactsRequestData.BookingContactList[0].TypeCode = "G";
-                _ContactModel.updateContactsRequestData.BookingContactList[0].CompanyName = "SpiceJet";
-                _ContactModel.updateContactsRequestData.BookingContactList[0].CustomerNumber = "22AAAAA0000A1Z5"; //GSTNumber Re_ Assistance required for SG API Integration\GST Logs.zip\GST Logs
+                _ContactModel.updateContactsRequestData.BookingContactList[0].CompanyName = obj.companyName;
+                _ContactModel.updateContactsRequestData.BookingContactList[0].CustomerNumber = obj.customerNumber; //"22AAAAA0000A1Z5"; //GSTNumber Re_ Assistance required for SG API Integration\GST Logs.zip\GST Logs
+                }
                 SpiceJetApiController objSpiceJet = new SpiceJetApiController();
                 UpdateContactsResponse responseAddContact = await objSpiceJet.GetUpdateContactsAsync(_ContactModel);
                 HttpContext.Session.SetString("ContactDetails", JsonConvert.SerializeObject(_ContactModel));
@@ -88,7 +157,7 @@ namespace OnionConsumeWebAPI.Controllers
         }
 
         //Passenger Data on Trip Page
-        [HttpPost]
+        //[HttpPost]
         public async Task<IActionResult> SGTravllerDetails(List<passkeytype> passengerdetails)
         {
             HttpContext.Session.SetString("PassengerNameDetails", JsonConvert.SerializeObject(passengerdetails));
@@ -171,69 +240,69 @@ namespace OnionConsumeWebAPI.Controllers
         }
 
 
-        public async Task<IActionResult> GetGstDetails(AddGSTInformation addGSTInformation, string lineOne, string lineTwo, string city, string number, string postalCode)
-        {
-            string tokenview = HttpContext.Session.GetString("AirasiaTokan");
-            token = tokenview.Replace(@"""", string.Empty);
+        //public async Task<IActionResult> GetGstDetails(AddGSTInformation addGSTInformation, string lineOne, string lineTwo, string city, string number, string postalCode)
+        //{
+        //    string tokenview = HttpContext.Session.GetString("AirasiaTokan");
+        //    token = tokenview.Replace(@"""", string.Empty);
 
-            using (HttpClient client = new HttpClient())
-            {
-                AddGSTInformation addinformation = new AddGSTInformation();
+        //    using (HttpClient client = new HttpClient())
+        //    {
+        //        AddGSTInformation addinformation = new AddGSTInformation();
 
 
-                addinformation.contactTypeCode = "G";
+        //        addinformation.contactTypeCode = "G";
 
-                GSTPhonenumber Phonenumber = new GSTPhonenumber();
-                List<GSTPhonenumber> Phonenumberlist = new List<GSTPhonenumber>();
-                Phonenumber.type = "Other";
-                Phonenumber.number = number;
-                Phonenumberlist.Add(Phonenumber);
+        //        GSTPhonenumber Phonenumber = new GSTPhonenumber();
+        //        List<GSTPhonenumber> Phonenumberlist = new List<GSTPhonenumber>();
+        //        Phonenumber.type = "Other";
+        //        Phonenumber.number = number;
+        //        Phonenumberlist.Add(Phonenumber);
 
-                foreach (var item in Phonenumberlist)
-                {
-                    addinformation.phoneNumbers = Phonenumberlist;
-                }
-                addinformation.cultureCode = "";
-                GSTAddress Address = new GSTAddress();
-                Address.lineOne = lineOne;
-                Address.lineTwo = lineTwo;
-                Address.lineThree = "";
-                Address.countryCode = "IN";
-                Address.provinceState = "TN";
-                Address.city = city;
-                Address.postalCode = postalCode;
-                addinformation.Address = Address;
+        //        foreach (var item in Phonenumberlist)
+        //        {
+        //            addinformation.phoneNumbers = Phonenumberlist;
+        //        }
+        //        addinformation.cultureCode = "";
+        //        GSTAddress Address = new GSTAddress();
+        //        Address.lineOne = lineOne;
+        //        Address.lineTwo = lineTwo;
+        //        Address.lineThree = "";
+        //        Address.countryCode = "IN";
+        //        Address.provinceState = "TN";
+        //        Address.city = city;
+        //        Address.postalCode = postalCode;
+        //        addinformation.Address = Address;
 
-                addinformation.emailAddress = addGSTInformation.emailAddress;
-                addinformation.customerNumber = addGSTInformation.customerNumber;
-                addinformation.sourceOrganization = "";
-                addinformation.distributionOption = "None";
-                addinformation.notificationPreference = "None";
-                addinformation.companyName = addGSTInformation.companyName;
+        //        addinformation.emailAddress = addGSTInformation.emailAddress;
+        //        addinformation.customerNumber = addGSTInformation.customerNumber;
+        //        addinformation.sourceOrganization = "";
+        //        addinformation.distributionOption = "None";
+        //        addinformation.notificationPreference = "None";
+        //        addinformation.companyName = addGSTInformation.companyName;
 
-                GSTName Name = new GSTName();
-                Name.first = "Vadivel";
-                Name.middle = "raja";
-                Name.last = "VR";
-                Name.title = "MR";
-                Name.suffix = "";
-                addinformation.Name = Name;
+        //        GSTName Name = new GSTName();
+        //        Name.first = "Vadivel";
+        //        Name.middle = "raja";
+        //        Name.last = "VR";
+        //        Name.title = "MR";
+        //        Name.suffix = "";
+        //        addinformation.Name = Name;
 
-                var jsonContactRequest = JsonConvert.SerializeObject(addinformation, Formatting.Indented);
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                HttpResponseMessage responseAddContact = await client.PostAsJsonAsync(BaseURL + "/api/nsk/v1/booking/contacts", addinformation);
-                if (responseAddContact.IsSuccessStatusCode)
-                {
-                    var _responseAddContact = responseAddContact.Content.ReadAsStringAsync().Result;
-                    var JsonObjAddContact = JsonConvert.DeserializeObject<dynamic>(_responseAddContact);
-                }
+        //        var jsonContactRequest = JsonConvert.SerializeObject(addinformation, Formatting.Indented);
+        //        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+        //        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        //        HttpResponseMessage responseAddContact = await client.PostAsJsonAsync(BaseURL + "/api/nsk/v1/booking/contacts", addinformation);
+        //        if (responseAddContact.IsSuccessStatusCode)
+        //        {
+        //            var _responseAddContact = responseAddContact.Content.ReadAsStringAsync().Result;
+        //            var JsonObjAddContact = JsonConvert.DeserializeObject<dynamic>(_responseAddContact);
+        //        }
 
-            }
+        //    }
 
-            return RedirectToAction("Tripsell", "AATripsell");
-        }
-        //public async Task<IActionResult> PostUnitkey(string selectedIds, List<string> ssrKey)
+        //    return RedirectToAction("Tripsell", "AATripsell");
+        //}
+        ////public async Task<IActionResult> PostUnitkey(string selectedIds, List<string> ssrKey)
         public async Task<IActionResult> PostUnitkey(List<string> unitKey, List<string> ssrKey)
         {
             string tokenview = HttpContext.Session.GetString("SpicejetSignature");

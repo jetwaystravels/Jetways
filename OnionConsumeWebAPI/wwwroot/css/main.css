@@ -12082,8 +12082,9 @@ div[data-slider] > input[type=range]::-ms-tooltip {
         border: 1px solid var(--color-border);
         border-radius: 4px;
         padding: 0 15px;
-        padding-top: 17px;
-        min-height: 53px;
+        padding-top: 0;
+        /*padding-top: 17px;*/
+        min-height: 40px;
         transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
         width: 100%;
         font-size: 14px;
@@ -13150,14 +13151,14 @@ check out section
 }
 
 .checkout .form-control {
-    height: 53px;
+    height: 40px;
     box-shadow: none;
     border-radius: 4px;
-    padding-left: 9px;
+    padding: 0;
 }
 
 .checkout .phone-code {
-    padding-right: 0;
+    padding-right: 0 !important;
 }
 
     .checkout .phone-code select {
@@ -13165,7 +13166,7 @@ check out section
     }
 
 .checkout .phone-number {
-    padding-left: 0
+    padding-left: 0 !important;
 }
 
     .checkout .phone-number input {
@@ -13584,11 +13585,25 @@ check out section
     }
 
 
+.checkout .col-md-3 {
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+.checkout .col-md-2 {
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+.checkout .col-md-1 {
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
 
 /* ******************************
 booking review popup section
 ****************************** */
-
 .checkout .modal-content {
     border: #F1F4F8 3px solid;
 }
