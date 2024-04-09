@@ -342,6 +342,15 @@ namespace OnionConsumeWebAPI.Controllers
             {
                 BaggageSSrkey = new List<string>();
             }
+            if (ssrKey[0] == null)
+            {
+                ssrKey = new List<string>();
+            }
+            if (unitKey[0] == null)
+            {
+                unitKey = new List<string>();
+            }
+
             List<string> ConnetedBaggageSSrkey = new List<string>();
             for (int i = 0; i < BaggageSSrkey.Count; i++)
             {
