@@ -190,6 +190,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                                 passengerSegmentsList.Add(passengerSegmentobj);
                                 int seatCount = item.Value.seats.Count;
+                                int ssrCodeCount = item.Value.ssrs.Count;
                                 List<ReturnSeats> returnSeatsList = new List<ReturnSeats>();
                                 for (int q = 0; q < seatCount; q++)
                                 {
@@ -209,6 +210,19 @@ namespace OnionConsumeWebAPI.Controllers
                                     returnSeatsList.Add(returnSeatsObj);
                                 }
                                 passengerSegmentobj.seats = returnSeatsList;
+                                List<SsrReturn> SrrcodereturnsList = new List<SsrReturn>();
+                                for (int t = 0; t < ssrCodeCount; t++)
+                                {
+                                    SsrReturn ssrReturn = new SsrReturn();
+                                    ssrReturn.ssrCode = item.Value.ssrs[t].ssrCode;
+                                    var meal = MealImageList.GetAllmeal().Where(x => x.MealCode == ssrReturn.ssrCode).SingleOrDefault();
+                                    if (meal != null)
+                                    {
+                                        ssrReturn.MealName = meal.MealImage;
+                                    }
+                                    SrrcodereturnsList.Add(ssrReturn);
+                                }
+                                passengerSegmentobj.SsrReturn = SrrcodereturnsList;
                                 //passengerSegmentsList.Add(passengerSegmentobj);
                             }
                             segmentReturnobj.passengerSegment = passengerSegmentsList;
@@ -338,8 +352,8 @@ namespace OnionConsumeWebAPI.Controllers
                             //x.data.passengers["MCFBRFQ-"].infant.fees[0].code
                             infantsObject.name = name;
                             //julian date
-                            int  Infantyear = 2024;
-                            int  Infantmonth = 2;
+                            int Infantyear = 2024;
+                            int Infantmonth = 2;
                             int Infantday = 20;
                             // Calculate the number of days from January 1st to the given date
                             DateTime currentDatee = new DateTime(year, month, day);
@@ -361,10 +375,6 @@ namespace OnionConsumeWebAPI.Controllers
                         returnPassengersobj.infant = infantsObject;
                         ReturnpassengersList.Add(returnPassengersobj);
                     }
-
-                  
-
-
 
                     returnTicketBooking.breakdown = breakdown;
                     returnTicketBooking.journeys = journeysreturnList;
@@ -457,7 +467,7 @@ namespace OnionConsumeWebAPI.Controllers
                         tb_PassengerDetailsList.Add(tb_Passengerobj);
                     }
 
-                  
+
 
                     int JourneysCount = JsonObjPNRBooking.data.journeys.Count;
                     List<tb_journeys> tb_JourneysList = new List<tb_journeys>();

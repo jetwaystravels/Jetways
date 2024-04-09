@@ -5,134 +5,71 @@
 
 }
 
-<script src="~/js/custom.js/SGCustom.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<div class="journey-box">
+    <ul class="nav nav-pills mb-3">
+        @{
+            int passengerdata = @Model.passeengerlist.passengerscount;
 
-
-
-<script>
-
-    $(document).ready(function () {
-
-        var count = $("#passengercountid").val();
-        $('.mycheck').on('change', function () {
-            if ($('.mycheck:checked').length > count) {
-                alert('You can only ' + count + ' select checkboxes.');
-                this.checked = false;
-            }
-        });
-
-        $('.mycheck2').on('change', function () {
-            if ($('.mycheck2:checked').length > count) {
-                alert('You can only ' + count + ' select checkboxes.');
-                this.checked = false;
-            }
-        });
-
-        var checkedValues = ['', '', '', ''];
-        $('.mycheck').change(function () {
-            if ($(this).is(':checked')) {
-                for (var i = 0; i < 4; i++) {
-                    if (checkedValues[i] === '') {
-                        checkedValues[i] = $(this).val();
-                        break;
-                    }
-                }
-            } else {
-                var index = checkedValues.indexOf($(this).val());
-                console.log(index)
-                if (index !== -1) {
-                    checkedValues[index] = '';
+        }
+        @{
+            int passengerdataValue = 0;
+            for (int i = 0; i < @Model.passeengerlist.passengers.Count; i++)
+            {
+                if (Model.passeengerlist.passengers[i].passengerTypeCode == "ADT" || Model.passeengerlist.passengers[i].passengerTypeCode == "CHD")
+                {
+                    passengerdataValue = passengerdataValue + 1;
                 }
             }
-            $('#input_0').val(checkedValues[0]);
-            $('#input_1').val(checkedValues[1]);
-            $('#input_2').val(checkedValues[2]);
-            $('#input_3').val(checkedValues[3]);
-        });
-        // Function for handling seat checkboxes
-        $('input[name="unitKey"]').on('change', function () {
-            var selectedIds = [];
-            debugger;
-            $('input[name="unitKey"]:checked').each(function () {
-                selectedIds.push($(this).val());
-            });
-            var total = 0;
-            $('input[name="unitKey"]:checked').each(function () {
-                total += parseInt($(this).val());
-            });
-            document.getElementById("total").value = total.toFixed(2);
-            const seatmap1 = document.getElementById("total").value;
-
-            var TotalAmmount = document.getElementById("Totalamount").value;
-            localStorage.setItem('seatPayment', seatmap1);
-            localStorage.setItem('basePayment', TotalAmmount);
-
-            var Totalseat1 = parseInt(TotalAmmount) + parseInt(seatmap1);
-            if (seatmap1 != null) {
-                document.getElementById("seattotal1").innerHTML = Totalseat1;
-            }
-            var TotalSeatPay = parseInt(TotalAmmount) + parseInt(seatmap1) + 100;
-            if (TotalSeatPay != null) {
-                document.getElementById("TotalSeatPayID").innerHTML = TotalSeatPay;
+            passengerdata = passengerdataValue;
+            for (int pas = 0; pas < passengerdata; pas++)
+            {
+                <input type="hidden" value="@passengerdata" id="passengercountid">
             }
 
-            localStorage.setItem("selectedIds", JSON.stringify(selectedIds));
-        });
-
-        var count = $("#passengercountid").val();
-        $('.ssrKeyBaggage').on('change', function () {
-            if ($('.ssrKeyBaggage:checked').length > count) {
-                alert('You can only ' + count + ' select checkboxes.');
-                this.checked = false;
+            var seatmaap2 = @Model.passeengerlist.journeys[0].segments.Count;
+            if (seatmaap2 == 1)
+            {
+                <li class="nav-item">
+                    <button class="nav-link active">@Model.passeengerlist.journeys[0].segments[0].designator.origin-@Model.passeengerlist.journeys[0].segments[0].designator.destination</button>
+                </li>
             }
-        });
-        // Function for handling baggage checkboxes
-        $('input[name="ssrKey"]').on('change', function () {
-            var BaggageIds = [];
-            debugger;
-            $('input[name="ssrKey"]:checked').each(function () {
-                BaggageIds.push($(this).val());
-            });
+            else
+            {
+                @for (int i = 0; i < seatmaap2; i++)
+                {
+                    <li class="nav-item d-flex">
+                        @if (i == 0)
+                        {
+                            <div id="seattab1" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
 
-            localStorage.setItem("BaggageIds", JSON.stringify(BaggageIds));
-        });
+                        }
+                        else
+                        {
+                            <div id="seattab2" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
+                        }
+                    </li>
 
-        $("#Continuebtn").click(function () {
 
-            var unitKey = JSON.parse(localStorage.getItem("selectedIds"));
-            //var ssrKey = JSON.parse(localStorage.getItem("MealssrKeyCount"));
-            //var BaggageSSrkey = JSON.parse(localStorage.getItem("BaggageIds"));
-            $.ajax({
-                url: "/SGTripsell/PostUnitkey",
-                type: "POST",
-                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                data: { unitKey: unitKey/* , ssrKey: ssrKey, BaggageSSrkey: BaggageSSrkey */ },
-                success: function (data) {
-                    window.location.href = '/AirAsiaOneWayPayment/AirAsiaOneWayPaymentView';
-                },
-                error: function (err) {
-                    console.error(err);
                 }
-            });
-        });
+            }
+        }
 
-
-
-    });
-
-</script>
+        @*  <li class="nav-item" role="presentation">
+        <button class="nav-link">Return:BOM-DEL</button>
+        </li> *@
+    </ul>
+</div>
 
 <div class="row">
 
-    <div class="col-lg-12">
-        <section class="d-flex">
+    <div class="col-lg-12" id="passtab1">
+        <section class="d-flex flex-wrap">
             @{
-                int passengerdata = @Model.passeengerlist.passengerscount;
+                passengerdata = @Model.passeengerlist.passengerscount;
             }
 
             @{
-                int passengerdataValue = 0;
+                passengerdataValue = 0;
                 for (int i = 0; i < @Model.passeengerlist.passengers.Count; i++)
                 {
                     if (Model.passeengerlist.passengers[i].passengerTypeCode == "ADT" || Model.passeengerlist.passengers[i].passengerTypeCode == "CHD")
@@ -143,17 +80,57 @@
                 passengerdata = passengerdataValue;
                 for (int pas = 0; pas < passengerdata; pas++)
                 {
-                        <div class="d-flex justify-content-between py-3">
-                            <div class="servc-content">
-                                <label> Passenger @pas</label>
-                            <input type="text" id="input_@pas" class="textInput_@pas">
+                    <div class="">
+                        <div class="servc-content popinput1">
+                            <div>
+                                <label>@Model.passengerNamedetails[pas].first</label>
+                                <input type="text" id="input_@pas" class="textInput_@pas">
+                            </div>
+                            <div>
+                                <span>Price</span>
                                 <span class="feeSpan_@pas"></span>
-                                <div class="print">
-                                    <p class="text">Selected: <span class="value"></span></p>
-                                </div>
                             </div>
 
                         </div>
+
+                    </div>
+                }
+            }
+        </section>
+    </div>
+
+    <div class="col-lg-12" id="passtab2">
+        <section class="d-flex flex-wrap">
+            @{
+                int passengerdata1 = @Model.passeengerlist.passengerscount;
+            }
+
+            @{
+                int passengerdataValue1 = 0;
+                for (int i = 0; i < @Model.passeengerlist.passengers.Count; i++)
+                {
+                    if (Model.passeengerlist.passengers[i].passengerTypeCode == "ADT" || Model.passeengerlist.passengers[i].passengerTypeCode == "CHD")
+                    {
+                        passengerdataValue1 = passengerdataValue1 + 1;
+                    }
+                }
+                passengerdata1 = passengerdataValue1;
+                for (int pas = 0; pas < passengerdata1; pas++)
+                {
+                    <div class="py-3">
+                        <div class="servc-content popinput2">
+                            <div>
+                                <label>@Model.passengerNamedetails[pas].first</label>
+                                <input type="text" id="inputConnect_@pas" class="textInput_@pas">
+                            </div>
+                            <div>
+                                <span>Price</span>
+                                <span class="feeSpanConnect_@pas"></span>
+                            </div>
+
+                        </div>
+
+                    </div>
                 }
             }
         </section>
@@ -163,7 +140,7 @@
 
 <div class="row">
     <div class="col-lg-12">
-      @*   <div class="flight-protip">Pro Tip Grab your favourite seat before it gets sold.</div> *@
+        @*   <div class="flight-protip">Pro Tip Grab your favourite seat before it gets sold.</div> *@
         <div class="wing-left">&nbsp;</div>
 
         @{
@@ -208,8 +185,9 @@
             {
                 if (l == 0)
                 {
+                      <div class="service-section">
                         <div id="tabshow1" class="seat-section">
-                        A
+                            A
                             <div class="inner-section">
                                 <ul class="column">
                                     <li class="seat-li row-no">F</li>
@@ -222,67 +200,69 @@
                                 </ul>
 
                                 @{
-                                        @for (int i = 1; i <= 30; i++)
-                                {
+                                    @for (int i = 1; i <= 30; i++)
+                                    {
 
-                                            <ul class="column" id="itemList">
-                                                @{
-                                            for (int k = 6; k >= 1; k--)
-                                            {
-                                                string data = string.Empty;
-                                                if (k == 6) { data = i.ToString() + "F"; }
-                                                else if (k == 5) { data = i.ToString() + "E"; }
-                                                else if (k == 4) { data = i.ToString() + "D"; }
-                                                else if (k == 3) { data = i.ToString() + "C"; }
-                                                else if (k == 2) { data = i.ToString() + "B"; }
-                                                else if (k == 1) { data = i.ToString() + "A"; }
-                                                var designation = data;
-                                                if (!ht0.Contains(data))
+                                        <ul class="column" id="itemList">
+                                            @{
+                                                for (int k = 6; k >= 1; k--)
                                                 {
-                                                                <li class="seat-li chkbox">
-                                                                    <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
-                                                                </li>
-                                                }
-                                                else
-                                                {
-                                                    string feeamountF1 = ht0[data].ToString();
-                                                    if (feeamountF1 == "0")
+                                                    string data = string.Empty;
+                                                    if (k == 6) { data = i.ToString() + "F"; }
+                                                    else if (k == 5) { data = i.ToString() + "E"; }
+                                                    else if (k == 4) { data = i.ToString() + "D"; }
+                                                    else if (k == 3) { data = i.ToString() + "C"; }
+                                                    else if (k == 2) { data = i.ToString() + "B"; }
+                                                    else if (k == 1) { data = i.ToString() + "A"; }
+                                                    var designation = data;
+                                                    if (!ht0.Contains(data))
                                                     {
-                                                                    <li class="seat-li free-seat tooltip">
-                                                                        <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                        <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@data _@l" id="unitKey" />
-                                                                        <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
-                                                                    </li>
+                                                        <li class="seat-li chkbox">
+                                                            <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
+                                                        </li>
                                                     }
                                                     else
                                                     {
-                                                                    <li class="seat-li midcomfort tooltip">
-                                                                        <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                        <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@data _@l" id="unitKey" />
-                                                                        <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
-                                                                    </li>
+                                                        string feeamountF1 = ht0[data].ToString();
+                                                        if (feeamountF1 == "0")
+                                                        {
+                                                            <li class="seat-li free-seat tooltip">
+                                                                <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+                                                                <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@data _@l" id="unitKey" />
+                                                                <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                            </li>
+                                                        }
+                                                        else
+                                                        {
+                                                            <li class="seat-li midcomfort tooltip">
+                                                                <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+                                                                <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@data _@l" id="unitKey" />
+                                                                <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                            </li>
+                                                        }
                                                     }
-                                                }
 
-                                                if (k == 4)
-                                                {
-                                                                <li class="seat-li"></li>
-                                                }
+                                                    if (k == 4)
+                                                    {
+                                                        <li class="seat-li"></li>
+                                                    }
 
-                                                            <li class="seat-li colNo left">@i</li>
+                                                    <li class="seat-li colNo left">@i</li>
+                                                }
                                             }
-                                                }
 
-                                            </ul>
-                                }
+                                        </ul>
+                                    }
                                 }
                             </div>
                         </div>
+                    </div>
                 }
                 else
                 {
+                    <div class="service-section">
                         <div id="tabshow2" class="seat-section">
-                        B
+                            B
                             <div class="inner-section">
                                 <ul class="column">
                                     <li class="seat-li row-no">F</li>
@@ -295,62 +275,63 @@
                                 </ul>
 
                                 @{
-                                        @for (int i = 1; i <= 30; i++)
-                                {
+                                    @for (int i = 1; i <= 30; i++)
+                                    {
 
-                                            <ul class="column" id="itemList">
-                                                @{
-                                            for (int k = 6; k >= 1; k--)
-                                            {
-                                                string data = string.Empty;
-                                                if (k == 6) { data = i.ToString() + "F"; }
-                                                else if (k == 5) { data = i.ToString() + "E"; }
-                                                else if (k == 4) { data = i.ToString() + "D"; }
-                                                else if (k == 3) { data = i.ToString() + "C"; }
-                                                else if (k == 2) { data = i.ToString() + "B"; }
-                                                else if (k == 1) { data = i.ToString() + "A"; }
-                                                var designation = data;
-                                                if (!ht1.Contains(data))
+                                        <ul class="column" id="itemList">
+                                            @{
+                                                for (int k = 6; k >= 1; k--)
                                                 {
-                                                                <li class="seat-li chkbox">
-                                                                    <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
-                                                                </li>
-                                                }
-                                                else
-                                                {
-                                                    string feeamountF1 = ht1[data].ToString();
-                                                    if (feeamountF1 == "0")
+                                                    string data = string.Empty;
+                                                    if (k == 6) { data = i.ToString() + "F"; }
+                                                    else if (k == 5) { data = i.ToString() + "E"; }
+                                                    else if (k == 4) { data = i.ToString() + "D"; }
+                                                    else if (k == 3) { data = i.ToString() + "C"; }
+                                                    else if (k == 2) { data = i.ToString() + "B"; }
+                                                    else if (k == 1) { data = i.ToString() + "A"; }
+                                                    var designation = data;
+                                                    if (!ht1.Contains(data))
                                                     {
-                                                                    <li class="seat-li free-seat tooltip">
-                                                                        <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                        <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@data _@l" id="unitKey" />
-                                                                        <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
-                                                                    </li>
+                                                        <li class="seat-li chkbox">
+                                                            <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
+                                                        </li>
                                                     }
                                                     else
                                                     {
-                                                                    <li class="seat-li midcomfort tooltip">
-                                                                        <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                        <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@data _@l" id="unitKey" />
-                                                                        <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
-                                                                    </li>
+                                                        string feeamountF1 = ht1[data].ToString();
+                                                        if (feeamountF1 == "0")
+                                                        {
+                                                            <li class="seat-li free-seat tooltip">
+                                                                <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+                                                                <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@data _@l" id="unitKey" />
+                                                                <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                            </li>
+                                                        }
+                                                        else
+                                                        {
+                                                            <li class="seat-li midcomfort tooltip">
+                                                                <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+                                                                <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@data _@l" id="unitKey" />
+                                                                <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                            </li>
+                                                        }
                                                     }
-                                                }
 
-                                                if (k == 4)
-                                                {
-                                                                <li class="seat-li"></li>
-                                                }
+                                                    if (k == 4)
+                                                    {
+                                                        <li class="seat-li"></li>
+                                                    }
 
-                                                            <li class="seat-li colNo left">@i</li>
+                                                    <li class="seat-li colNo left">@i</li>
+                                                }
                                             }
-                                                }
 
-                                            </ul>
-                                }
+                                        </ul>
+                                    }
                                 }
                             </div>
                         </div>
+                    </div>
                 }
             }
             //}
@@ -450,18 +431,232 @@
 
         @* ----------End--------- *@
         <div class="wing-right">&nbsp;</div>
-        <div class="legendHolder-box">
-            <ul>
+        <div class="service-section">
+            <div class="legendHolder-box">
+                <ul>
 
-                <li style="padding:0;"><strong>Legend:</strong></li>
-                <li><span class="free"></span>Free Seats</li>
-                <li><span class="midcomfort"></span>&#8377; 150 - &#8377; 350</li>
-                <li><span class="comfort"></span>&#8377; 400 - &#8377; 800</li>
-                <li><span class="booked"></span>Occupied</li>
+                    <li style="padding:0;"><strong>Legend:</strong></li>
+                    <li><span class="free"></span>Free Seats</li>
+                    <li><span class="midcomfort"></span>&#8377; 150 - &#8377; 350</li>
+                    <li><span class="comfort"></span>&#8377; 400 - &#8377; 800</li>
+                    <li><span class="booked"></span>Occupied</li>
 
-            </ul>
-            <p><strong>Disclaimer:</strong> Seat allotment is the sole prerogative of the airline and can't be guaranteed by Yatra.com</p>
+                </ul>
+                <p><strong>Disclaimer:</strong> Seat allotment is the sole prerogative of the airline and can't be guaranteed by Yatra.com</p>
+            </div>
         </div>
     </div>
 </div>
 
+
+<script src="~/js/custom.js/SGCustom.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<style>
+    .servc-content input {
+        max-width: 40px;
+    }
+
+    .select-option .servc-bordr {
+        width: 200px;
+    }
+</style>
+<style>
+    .popinput1 input {
+        width: 40px;
+        border: 1px solid green;
+        background: green;
+        color: #fff;
+        padding-left: 8px;
+    }
+
+    .popinput1 {
+        padding: 0px 15px 0px 0px;
+    }
+
+    .popinput2 {
+        padding: 0px 15px 0px 0px;
+    }
+
+        .popinput2 input {
+            width: 40px;
+            border: 1px solid green;
+            background: green;
+            color: #fff;
+            padding-left: 8px;
+        }
+
+    .active {
+        color: #E93329 !important;
+        border-bottom: 1px solid #E93329 !important;
+    }
+</style>
+<script type="text/javascript">
+    /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
+    $(document).ready(function () {
+        $("#seattab1").addClass('active');
+        $("#tabshow2").hide();
+        $("#passtab2").hide();
+        $("#popbtnB").hide();
+        $("#seattab1").click(function () {
+            alert("A");
+            $("#tabshow1").show();
+            $("#tabshow2").hide();
+            $("#passtab1").show();
+            $("#passtab2").hide();
+            $("#popbtnB").hide();
+            $("#seattab1").addClass('active');
+            $("#seattab2").removeClass('active');
+
+        });
+
+        $("#seattab2").click(function () {
+            alert("B");
+            $("#tabshow2").css("display", "block");
+            $("#seattab2").addClass('active');
+            $("#seattab1").removeClass('active');
+            $("#tabshow1").hide();
+            $("#passtab2").show();
+            $("#popbtnB").show();
+            $("#passtab1").hide();
+        });
+    });
+</script>
+
+
+<script>
+
+    $(document).ready(function () {
+
+        var count = $("#passengercountid").val();
+        $('.mycheck').on('change', function () {
+            if ($('.mycheck:checked').length > count) {
+                alert('You can only ' + count + ' select checkboxes.');
+                this.checked = false;
+            }
+        });
+
+        $('.mycheck2').on('change', function () {
+            if ($('.mycheck2:checked').length > count) {
+                alert('You can only ' + count + ' select checkboxes.');
+                this.checked = false;
+            }
+        });
+
+
+        var checkedValues = ['', '', '', ''];
+        $('.mycheck').change(function () {
+            if ($(this).is(':checked')) {
+                for (var i = 0; i < 4; i++) {
+                    if (checkedValues[i] === '') {
+                        checkedValues[i] = $(this).val();
+                        break;
+                    }
+                }
+            } else {
+                var index = checkedValues.indexOf($(this).val());
+                console.log(index)
+                if (index !== -1) {
+                    checkedValues[index] = '';
+                }
+            }
+            $('#input_0').val(checkedValues[0]);
+            $('#input_1').val(checkedValues[1]);
+            $('#input_2').val(checkedValues[2]);
+            $('#input_3').val(checkedValues[3]);
+
+            updateInputsAndSpans(checkedValues);
+
+        });
+
+        function updateInputsAndSpans(checkedValues) {
+            for (var i = 0; i < checkedValues.length; i++) {
+                var parts = checkedValues[i].split('_');
+                $('#input_' + i).val(parts[1]);
+                $('.feeSpan_' + i).text(parts[0]);
+                $('#outputDiv_' + i).text(parts[1]);
+            }
+        }
+
+
+
+        //Connceting 2 seat Code js
+        var checkedValues2 = ['', '', '', ''];
+        $('.mycheck2').change(function () {
+            if ($(this).is(':checked')) {
+                for (var i = 0; i < 4; i++) {
+                    if (checkedValues2[i] === '') {
+                        checkedValues2[i] = $(this).val();
+                        break;
+                    }
+                }
+            } else {
+                var index = checkedValues2.indexOf($(this).val());
+                console.log(index)
+                if (index !== -1) {
+                    checkedValues2[index] = '';
+                }
+            }
+            $('#inputConnect_0').val(checkedValues2[0]);
+            $('#inputConnect_1').val(checkedValues2[1]);
+            $('#inputConnect_2').val(checkedValues2[2]);
+            $('#inputConnect_3').val(checkedValues2[3]);
+
+            updateInputsAndSpans2(checkedValues2);
+
+        });
+
+        function updateInputsAndSpans2(checkedValues2) {
+            for (var i = 0; i < checkedValues2.length; i++) {
+                var parts = checkedValues2[i].split('_');
+                $('#inputConnect_' + i).val(parts[1]);
+                $('.feeSpanConnect_' + i).text(parts[0]);
+                $('#outputDivConnect_' + i).text(parts[1]);
+            }
+        }
+
+
+
+
+
+
+        // End connceting second code
+
+        // Function for handling seat checkboxes
+        $('input[name="unitKey"]').on('change', function () {
+            var selectedIds = [];
+            debugger;
+            $('input[name="unitKey"]:checked').each(function () {
+                selectedIds.push($(this).val());
+            });
+            var total = 0;
+            $('input[name="unitKey"]:checked').each(function () {
+                total += parseInt($(this).val());
+            });
+            document.getElementById("total").value = total.toFixed(2);
+            const seatmap1 = document.getElementById("total").value;
+
+            var TotalAmmount = document.getElementById("Totalamount").value;
+            localStorage.setItem('seatPayment', seatmap1);
+            localStorage.setItem('basePayment', TotalAmmount);
+
+            var Totalseat1 = parseInt(TotalAmmount) + parseInt(seatmap1);
+            if (seatmap1 != null) {
+                document.getElementById("seattotal1").innerHTML = Totalseat1;
+            }
+            var TotalSeatPay = parseInt(TotalAmmount) + parseInt(seatmap1) + 100;
+            if (TotalSeatPay != null) {
+                document.getElementById("TotalSeatPayID").innerHTML = TotalSeatPay;
+            }
+
+            localStorage.setItem("selectedIds", JSON.stringify(selectedIds));
+        });
+
+
+
+
+
+    });
+
+
+
+</script>

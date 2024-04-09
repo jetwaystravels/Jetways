@@ -438,21 +438,24 @@ namespace OnionConsumeWebAPI.Controllers
                     {
 
                         #region SellSSrInfant
-                        SellResponse sellSsrResponse = null;
-
-                        sellSsrResponse = await objsell.sellssrInft(Signature, _getPriceItineraryRS, infantcount, 0, "OneWay");
-
-                        str3 = JsonConvert.SerializeObject(sellSsrResponse);
-
-                        if (sellSsrResponse != null)
+                        if (infantcount > 0)
                         {
-                            //var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
-                            var JsonsellSsrResponse = sellSsrResponse;
-                        }
+                            SellResponse sellSsrResponse = null;
 
+                            sellSsrResponse = await objsell.sellssrInft(Signature, _getPriceItineraryRS, infantcount, 0, "OneWay");
+
+                            str3 = JsonConvert.SerializeObject(sellSsrResponse);
+
+                            if (sellSsrResponse != null)
+                            {
+                                //var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
+                                var JsonsellSsrResponse = sellSsrResponse;
+                            }
+                        }
+                        #endregion
                     }
 
-                    #endregion
+
                     #region GetBookingFromState
                     IndigoBookingManager_.GetBookingFromStateResponse _GetBookingFromStateRS = await objsell.GetBookingFromState(Signature, "OneWay");
 
@@ -465,7 +468,7 @@ namespace OnionConsumeWebAPI.Controllers
                         int Inftbasefare = 0;
                         int Inftcount = 0;
                         int infttax = 0;
-                        if (_GetBookingFromStateRS.BookingData.Passengers[0].PassengerFees.Length > 0)
+                        if (_GetBookingFromStateRS.BookingData.Passengers.Length>0 &&_GetBookingFromStateRS.BookingData.Passengers[0].PassengerFees.Length > 0)
                         {
                             for (int i = 0; i < _GetBookingFromStateRS.BookingData.Passengers[0].PassengerFees[0].ServiceCharges.Length; i++)
                             {

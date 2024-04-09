@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Metrics;
 using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.Net.Http.Headers;
@@ -13,6 +14,7 @@ using Newtonsoft.Json;
 using NuGet.Common;
 using NuGet.Packaging.Signing;
 using OnionConsumeWebAPI.Extensions;
+using Utility;
 using static DomainLayer.Model.GetItenaryModel;
 using static DomainLayer.Model.SeatMapResponceModel;
 //using static DomainLayer.Model.testseat;
@@ -748,7 +750,9 @@ namespace OnionConsumeWebAPI.Controllers
                 HttpResponseMessage responseSeatmap = await client.GetAsync(AppUrlConstant.Airasiaseatmap + journeyKey + "?IncludePropertyLookup=true");
                 if (responseSeatmap.IsSuccessStatusCode)
                 {
+                    Logs logs = new Logs();
                     var _responseSeatmap = responseSeatmap.Content.ReadAsStringAsync().Result;
+                    logs.WriteLogs("Url: " + JsonConvert.SerializeObject(AppUrlConstant.Airasiaseatmap + journeyKey + "?IncludePropertyLookup=true") + "\n\n Response: " + JsonConvert.SerializeObject(_responseSeatmap), "SeatMap", "AirAsiaOneWay");
                     var JsonObjSeatmap = JsonConvert.DeserializeObject<dynamic>(_responseSeatmap);
                     var uniquekey1 = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[0].unitKey;
                     var data = JsonObjSeatmap.data.Count;
@@ -780,7 +784,22 @@ namespace OnionConsumeWebAPI.Controllers
                         Seatmapobj.decks = Decksobj;
                         int compartmentsunitCount = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units.Count;
                         List<Unit> compartmentsunitlist = new List<Unit>();
-                        for (int i = 0; i < compartmentsunitCount; i++)
+                       // To do
+					    string strnewText = Regex.Match(_responseSeatmap, @"data""[\s\S]*?fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup"":null}]",
+                            RegexOptions.IgnoreCase | RegexOptions.Multiline).Value.ToString();
+                        int _counter = 0;
+                        foreach (var strTextdata in Regex.Matches(strnewText, @"seatMap"":[\s\S]*?ssrLookup"))
+                        {
+                            if (x == _counter)
+                            {
+                                foreach (Match item in Regex.Matches(strTextdata.ToString(), @"fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup"))
+                                {
+                                }
+                            }
+                        }
+
+
+                                    for (int i = 0; i < compartmentsunitCount; i++)
                         {
                             Unit compartmentsunitobj = new Unit();
                             compartmentsunitobj.unitKey = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].unitKey;
@@ -802,26 +821,35 @@ namespace OnionConsumeWebAPI.Controllers
                             compartmentsunitobj.x = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].x;
                             compartmentsunitobj.y = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].y;
                             string a = JsonObjSeatmap.data[x].fees["MCFBRFQ-"].groups["1"].fees[0].serviceCharges[0].amount;
-                            string strTextdata = Regex.Match(_responseSeatmap, @"data""[\s\S]*?fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup",
-                            RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups["data"].Value;
-
-
-                            foreach (Match item in Regex.Matches(strTextdata, @"group"":(?<key>[\s\S]*?),[\s\S]*?type[\s\S]*?}"))
+                            int counter = 0;
+                            foreach (var strTextdata in Regex.Matches(strnewText, @"seatMap"":[\s\S]*?ssrLookup"))
                             {
-                                string farearraygroupid = Regex.Match(item.ToString(), @"group"":(?<key>[\s\S]*?),", RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups["key"].Value;
-
-                                var feesgroupserviceChargescount = JsonObjSeatmap.data[x].fees[passengerkey12].groups[farearraygroupid].fees[0].serviceCharges.Count;
-
-                                if (compartmentsunitobj.group == Convert.ToInt32(farearraygroupid))
+                                if (x == counter)
                                 {
-                                    compartmentsunitobj.servicechargefeeAmount = Convert.ToInt32(JsonObjSeatmap.data[x].fees[passengerkey12].groups[farearraygroupid].fees[0].serviceCharges[0].amount);
-                                    //for (int l = 0; l < feesgroupserviceChargescount; l++)
-                                    //{
-                                    //    compartmentsunitobj.servicechargefeeAmount += Convert.ToInt32(JsonObjSeatmap.data[x].fees[passengerkey12].groups[farearraygroupid].fees[0].serviceCharges[l].amount);
-                                    //}
-                                    //break;
+                                    foreach (Match item in Regex.Matches(strTextdata.ToString(), @"fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup"))
+                                    {
+                                        foreach (var groupid in Regex.Matches(item.ToString(), @"group"":(?<key>[\s\S]*?),[\s\S]*?type[\s\S]*?}"))
+                                        {
+
+                                            string farearraygroupid = Regex.Match(groupid.ToString(), @"group"":(?<key>[\s\S]*?),", RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups["key"].Value;
+
+                                            var feesgroupserviceChargescount = JsonObjSeatmap.data[x].fees[passengerkey12].groups[farearraygroupid].fees[0].serviceCharges.Count;
+
+                                            if (compartmentsunitobj.group == Convert.ToInt32(farearraygroupid))
+                                            {
+                                                compartmentsunitobj.servicechargefeeAmount = Convert.ToInt32(JsonObjSeatmap.data[x].fees[passengerkey12].groups[farearraygroupid].fees[0].serviceCharges[0].amount);
+                                                //for (int l = 0; l < feesgroupserviceChargescount; l++)
+                                                //{
+                                                //    compartmentsunitobj.servicechargefeeAmount += Convert.ToInt32(JsonObjSeatmap.data[x].fees[passengerkey12].groups[farearraygroupid].fees[0].serviceCharges[l].amount);
+                                                //}
+                                                break;
+                                            }
+                                        }
+                                    }
                                 }
+                                counter++;
                             }
+
                             compartmentsunitlist.Add(compartmentsunitobj);
                             int compartmentypropertiesCount = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].properties.Count;
                             List<Properties> Propertieslist = new List<Properties>();
@@ -836,57 +864,70 @@ namespace OnionConsumeWebAPI.Controllers
                             Decksobj.units = compartmentsunitlist;
                         }
 
-                        var groupscount = JsonObjSeatmap.data[x].fees[passengerkey12].groups;
-                        var feesgroupcount = ((Newtonsoft.Json.Linq.JContainer)groupscount).Count;
-                        string strText = Regex.Match(_responseSeatmap, @"data""[\s\S]*?fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup",
-                        RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups["data"].Value;
-                        List<Groups> GroupsFeelist = new List<Groups>();
-                        foreach (Match item in Regex.Matches(strText, @"group"":(?<key>[\s\S]*?),[\s\S]*?type[\s\S]*?}"))
-                        {
-                            Groups Groupsobj = new Groups();
-                            int myString1 = Convert.ToInt32(item.Groups["key"].Value.Trim());
-                            string myString = myString1.ToString();
-                            var group = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString.ToString()];
 
-                            GroupsFee GroupsFeeobj = new GroupsFee();
-                            GroupsFeeobj.groupid = myString1;
-                            GroupsFeeobj.type = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].type;
-                            GroupsFeeobj.ssrCode = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].ssrCode;
-                            GroupsFeeobj.ssrNumber = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].ssrNumber;
-                            GroupsFeeobj.paymentNumber = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].paymentNumber;
-                            GroupsFeeobj.isConfirmed = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].isConfirmed;
-                            GroupsFeeobj.isConfirming = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].isConfirming;
-                            GroupsFeeobj.isConfirmingExternal = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].isConfirmingExternal;
-                            GroupsFeeobj.code = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].code;
-                            GroupsFeeobj.detail = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].detail;
-                            GroupsFeeobj.passengerFeeKey = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].passengerFeeKey;
-                            GroupsFeeobj.flightReference = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].flightReference;
-                            GroupsFeeobj.note = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].note;
-                            GroupsFeeobj.createdDate = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].createdDate;
-                            GroupsFeeobj.isProtected = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].isProtected;
-                            var feesgroupserviceChargescount = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges.Count;
-                            List<Servicecharge> feesgroupserviceChargeslist = new List<Servicecharge>();
-                            for (int l = 0; l < feesgroupserviceChargescount; l++)
-                            {
-                                Servicecharge feesgroupserviceChargesobj = new Servicecharge();
-                                feesgroupserviceChargesobj.amount = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].amount;
-                                feesgroupserviceChargesobj.code = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].code;
-                                feesgroupserviceChargesobj.detail = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].detail;
-                                feesgroupserviceChargesobj.type = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].type;
-                                feesgroupserviceChargesobj.collectType = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].collectType;
-                                feesgroupserviceChargesobj.currencyCode = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].currencyCode;
-                                feesgroupserviceChargesobj.amount = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].amount;
-                                feesgroupserviceChargesobj.foreignAmount = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].foreignAmount;
-                                feesgroupserviceChargesobj.ticketCode = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].ticketCode;
-                                feesgroupserviceChargeslist.Add(feesgroupserviceChargesobj);
-                            }
-                            GroupsFeeobj.serviceCharges = feesgroupserviceChargeslist;
-                            Groupsobj.groupsFee = GroupsFeeobj;
-                            GroupsFeelist.Add(Groupsobj);
-                            Fees.groups = GroupsFeelist;
-                        }
+                        //var groupscount = JsonObjSeatmap.data[x].fees[passengerkey12].groups;
+                        //var feesgroupcount = ((Newtonsoft.Json.Linq.JContainer)groupscount).Count;
+                        //string strText = Regex.Match(_responseSeatmap, @"data""[\s\S]*?fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup"":null}]",
+                        //RegexOptions.IgnoreCase | RegexOptions.Multiline).Value.ToString();
+                        //List<Groups> GroupsFeelist = new List<Groups>();
+
+                        //int counter1 = 0;
+                        //foreach (var strTextdata in Regex.Matches(strText, @"seatMap"":[\s\S]*?ssrLookup"))
+                        //{
+                        //    if (x == counter1)
+                        //    {
+                        //        foreach (Match strnText in Regex.Matches(strTextdata.ToString(), @"fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup"))
+                        //        {
+                        //            foreach (Match item in Regex.Matches(strnText.ToString(), @"group"":(?<key>[\s\S]*?),[\s\S]*?type[\s\S]*?}"))
+                        //            {
+                        //                Groups Groupsobj = new Groups();
+                        //                int myString1 = Convert.ToInt32(item.Groups["key"].Value.Trim());
+                        //                string myString = myString1.ToString();
+                        //                var group = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString.ToString()];
+
+                        //                GroupsFee GroupsFeeobj = new GroupsFee();
+                        //                GroupsFeeobj.groupid = myString1;
+                        //                GroupsFeeobj.type = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].type;
+                        //                GroupsFeeobj.ssrCode = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].ssrCode;
+                        //                GroupsFeeobj.ssrNumber = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].ssrNumber;
+                        //                GroupsFeeobj.paymentNumber = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].paymentNumber;
+                        //                GroupsFeeobj.isConfirmed = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].isConfirmed;
+                        //                GroupsFeeobj.isConfirming = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].isConfirming;
+                        //                GroupsFeeobj.isConfirmingExternal = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].isConfirmingExternal;
+                        //                GroupsFeeobj.code = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].code;
+                        //                GroupsFeeobj.detail = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].detail;
+                        //                GroupsFeeobj.passengerFeeKey = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].passengerFeeKey;
+                        //                GroupsFeeobj.flightReference = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].flightReference;
+                        //                GroupsFeeobj.note = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].note;
+                        //                GroupsFeeobj.createdDate = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].createdDate;
+                        //                GroupsFeeobj.isProtected = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].isProtected;
+                        //                var feesgroupserviceChargescount = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges.Count;
+                        //                List<Servicecharge> feesgroupserviceChargeslist = new List<Servicecharge>();
+                        //                for (int l = 0; l < feesgroupserviceChargescount; l++)
+                        //                {
+                        //                    Servicecharge feesgroupserviceChargesobj = new Servicecharge();
+                        //                    feesgroupserviceChargesobj.amount = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].amount;
+                        //                    feesgroupserviceChargesobj.code = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].code;
+                        //                    feesgroupserviceChargesobj.detail = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].detail;
+                        //                    feesgroupserviceChargesobj.type = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].type;
+                        //                    feesgroupserviceChargesobj.collectType = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].collectType;
+                        //                    feesgroupserviceChargesobj.currencyCode = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].currencyCode;
+                        //                    feesgroupserviceChargesobj.amount = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].amount;
+                        //                    feesgroupserviceChargesobj.foreignAmount = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].foreignAmount;
+                        //                    feesgroupserviceChargesobj.ticketCode = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].ticketCode;
+                        //                    feesgroupserviceChargeslist.Add(feesgroupserviceChargesobj);
+                        //                }
+                        //                GroupsFeeobj.serviceCharges = feesgroupserviceChargeslist;
+                        //                Groupsobj.groupsFee = GroupsFeeobj;
+                        //                GroupsFeelist.Add(Groupsobj);
+                        //                Fees.groups = GroupsFeelist;
+                        //            }
+                        //        }
+                        //    }
+                        //    counter1++;
+                        //}
                         dataobj.seatMap = Seatmapobj;
-                        dataobj.seatMapfees = Fees;
+                        //dataobj.seatMapfees = Fees;
                         datalist.Add(dataobj);
                         SeatMapResponceModel.datalist = datalist;
                         HttpContext.Session.SetString("Seatmap", JsonConvert.SerializeObject(SeatMapResponceModel));

@@ -233,13 +233,13 @@
                                                     {
 
                                                         string queryMeal = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
-                                                        var mealData = SpicejetMealImageList.GetAllmeal().SingleOrDefault(x => x.MealCode == queryMeal);
+                                                        //var mealData = SpicejetMealImageList.GetAllmeal().SingleOrDefault(x => x.MealCode == queryMeal);
 
-                                                        if (mealData != null)
-                                                        {
-                                                            // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
-                                                            mealOptions.Add(new SelectListItem { Text = mealData.MealImage, Value = mealData.MealCode });
-                                                        }
+                                                        // if (mealData != null)
+                                                        // {
+                                                        //     // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
+                                                        //     mealOptions.Add(new SelectListItem { Text = mealData.MealImage, Value = mealData.MealCode });
+                                                        // }
 
                                                     }
                                                 }

@@ -1,87 +1,160 @@
 ﻿@model DomainLayer.ViewModel.ViewModel
 @using System.Collections;
 @{
-    Layout = null;          
-
+    Layout = null;
+    var paasenger = Model;
 }
-<script src="~/js/custom.js/SGCustom.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    localStorage.clear();
+
+    $(document).ready(function () {
+
+
+
+        // Meals
+        $('.select-option .servc-bordr').change((e) => {
+
+            var selectedMeal = $('.select-option .servc-bordr').map(function () {
+
+                return $(this).find("option:selected").map(function () { return this.value + "_0"; }).get();
+            }).get();
+
+            alert(selectedMeal);
+
+            localStorage.setItem("MealssrKeyCount", JSON.stringify(selectedMeal));
+            document.getElementById("hiddenSsrKey").value = selectedMeal.join(',');  // Joining selected values into a string
+
+        });
+
+
+        $('.select-option2 .servc-bordr').change((e) => {
+
+
+            var selected = $('.select-option2 .servc-bordr').map(function () {
+
+                return $(this).find("option:selected").map(function () { return this.value + "_1"; }).get();
+            }).get();
+
+            alert(selected);
+            localStorage.setItem("MealssrKeyCount2", JSON.stringify(selected));
+            document.getElementById("hiddenSsrKey2").value = selected.join(','); // Joining selected values into a string
+
+        });
+
+
+
+
+
+        //Baggage
+        $('.select-baggage .servc-bordr').change((e) => {
+
+
+            var selected = $('.select-baggage .servc-bordr').map(function () {
+
+                return $(this).find("option:selected").map(function () { return this.value + "_0"; }).get();
+            }).get();
+
+            alert(selected);
+            localStorage.setItem("bagKeyArray", JSON.stringify(selected));
+            document.getElementById("hiddenbagKey").value = selected.join(','); // Joining selected values into a string
+
+        });
+        //Wheel Chair
+        $('.select-others .servc-bordr').change((e) => {
+
+
+            var selected = $('.select-others .servc-bordr').map(function () {
+                return $(this).find("option:selected").map(function () { return this.value + "_0"; }).get();
+            }).get();
+
+            alert(selected);
+            localStorage.setItem("otherbagKeyArray", JSON.stringify(selected));
+            document.getElementById("hiddenotherbagKey").value = selected.join(','); // Joining selected values into a string
+
+        });
+        $('.select-others2 .servc-bordr').change((e) => {
+
+            var selected = $('.select-others .servc-bordr').map(function () {
+                return $(this).find("option:selected").map(function () { return this.value + "_1"; }).get();
+            }).get();
+
+            alert(selected);
+            localStorage.setItem("otherbagKeyArray2", JSON.stringify(selected));
+            document.getElementById("hiddenotherbagKey2").value = selected.join(','); // Joining selected values into a string
+
+        });
+
+
+    });
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script>
 
     $(document).ready(function () {
-   
-        var count = $("#passengercountid").val();
-        $('.mycheck').on('change', function () {
-            if ($('.mycheck:checked').length > count) {
-                alert('You can only ' + count + ' select checkboxes.');
-                this.checked = false;
-            }
+
+        $("#exampleModalSeat").click(function (e) {
+
+            e.preventDefault();
+            $.ajax({
+                url: '@Url.Action("PostSeatMapModaldataView", "AATripsell")',
+                type: "GET",
+                success: function (data) {
+                    //console.log('POST request successful');
+                    $('#rrrtexampleModal .modal-bodyy').html(data);
+                    $('#rrrtexampleModal').modal('show');
+
+                },
+                error: function (error) {
+                    console.log("Error fetching data:", error);
+                }
+            });
         });
-
-        $('.mycheck2').on('change', function () {
-            if ($('.mycheck2:checked').length > count) {
-                alert('You can only ' + count + ' select checkboxes.');
-                this.checked = false;
-            }
-        });
-        // Function for handling seat checkboxes
-        $('input[name="unitKey"]').on('change', function () {
-            var selectedIds = [];
-            debugger;
-            $('input[name="unitKey"]:checked').each(function () {
-                selectedIds.push($(this).val());
-            });
-            var total = 0;
-            $('input[name="unitKey"]:checked').each(function () {
-                total += parseInt($(this).val());
-            });
-            document.getElementById("total").value = total.toFixed(2);
-            const seatmap1 = document.getElementById("total").value;
-
-            var TotalAmmount = document.getElementById("Totalamount").value;
-            localStorage.setItem('seatPayment', seatmap1);
-            localStorage.setItem('basePayment', TotalAmmount);
-
-            var Totalseat1 = parseInt(TotalAmmount) + parseInt(seatmap1);
-            if (seatmap1 != null) {
-                document.getElementById("seattotal1").innerHTML = Totalseat1;
-            }
-            var TotalSeatPay = parseInt(TotalAmmount) + parseInt(seatmap1) + 100;
-            if (TotalSeatPay != null) {
-                document.getElementById("TotalSeatPayID").innerHTML = TotalSeatPay;
-            }
-
-            localStorage.setItem("selectedIds", JSON.stringify(selectedIds));
-        });     
-
-        var count = $("#passengercountid").val();
-        $('.ssrKeyBaggage').on('change', function () {
-            if ($('.ssrKeyBaggage:checked').length > count) {
-                alert('You can only ' + count + ' select checkboxes.');
-                this.checked = false;
-            }
-        });        
-        // Function for handling baggage checkboxes
-        $('input[name="ssrKey"]').on('change', function () {
-            var BaggageIds = [];
-            debugger;
-            $('input[name="ssrKey"]:checked').each(function () {
-                BaggageIds.push($(this).val());
-            });
-
-            localStorage.setItem("BaggageIds", JSON.stringify(BaggageIds));
-        });        
-
         $("#Continuebtn").click(function () {
+            debugger;
 
-            var unitKey = JSON.parse(localStorage.getItem("selectedIds"));           
-            var ssrKey = JSON.parse(localStorage.getItem("MealssrKeyCount"));            
-            var BaggageSSrkey = JSON.parse(localStorage.getItem("BaggageIds"));            
+            var unitKey = JSON.parse(localStorage.getItem("selectedIds"));
+            var BaggageSSrkey = JSON.parse(localStorage.getItem("bagKeyArray"));
+
+            var WheelKeyArray1 = JSON.parse(localStorage.getItem("otherbagKeyArray"));
+            var WheelKeyArray2 = JSON.parse(localStorage.getItem("otherbagKeyArray2"));
+            var wheelSsrkey;
+            if (WheelKeyArray2 && WheelKeyArray2.length > 0) {
+                wheelSsrkey = WheelKeyArray1.concat(WheelKeyArray2);
+            }
+            else {
+                wheelSsrkey = WheelKeyArray1;
+            }
+
+            let mealcode1 = JSON.parse(localStorage.getItem("MealssrKeyCount")) || [];
+            alert(mealcode1);
+            let mealcode2 = JSON.parse(localStorage.getItem("MealssrKeyCount2")) || [];
+            alert(mealcode2);
+            var mealssrKey;
+            if (Array.isArray(mealcode1) && Array.isArray(mealcode2)) {
+
+                if (mealcode2.length > 0) {
+                    mealssrKey = mealcode1.concat(mealcode2);
+                } else {
+                    mealssrKey = mealcode1;
+                }
+            } else {
+
+                mealssrKey = [];
+            }
+
+            // if (mealcode2 && mealcode2.length > 0) {
+            //     mealssrKey = mealcode1.concat(mealcode2);
+            // } else {
+            //     mealssrKey = mealcode1;
+            // }
+
             $.ajax({
                 url: "/AATripsell/PostUnitkey",
                 type: "POST",
                 contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                data: { unitKey: unitKey, ssrKey: ssrKey, BaggageSSrkey: BaggageSSrkey },
+                data: { unitKey: unitKey, mealssrKey: mealssrKey, BaggageSSrkey: BaggageSSrkey, wheelSsrkey: wheelSsrkey },
                 success: function (data) {
                     window.location.href = '/AirAsiaOneWayPayment/AirAsiaOneWayPaymentView';
                 },
@@ -91,11 +164,46 @@
             });
         });
 
-
-
     });
 
+
 </script>
+<script type="text/javascript">
+    /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
+    $(document).ready(function () {
+        $("#seattab1").addClass('active');
+        $("#tabshow2").hide();
+        $("#tabnew2").hide();
+        $("#passtab2").hide();
+        $("#popbtnB").hide();
+        $("#seattab1").click(function () {
+            $("#tabshow1").show();
+            $("#tabnew1").show();
+            $("#tabnew2").hide();
+            $("#tabshow2").hide();
+            $("#popbtnB").hide();
+            $("#passtab1").show();
+            $("#passtab2").hide();
+            $("#seattab1").addClass('active');
+            $("#seattab2").removeClass('active');
+
+        });
+
+        $("#seattab2").click(function () {
+            $("#tabshow2").css("display", "block");
+            $("#seattab2").addClass('active');
+            $("#seattab1").removeClass('active');
+            $("#tabshow1").hide();
+            $("#tabnew1").hide();
+            $("#passtab1").hide();
+            $("#passtab2").show();
+            $("#tabnew2").show();
+            $("#popbtnB").show();
+
+        });
+    });
+</script>
+
 <style>
     .chkbox {
         background: #b1abab;
@@ -103,24 +211,110 @@
         cursor: not-allowed;
         padding: 3px 0;
     }
+
+
+    .border-service {
+        border: 1px solid #a5a2a2;
+        border-radius: 2px;
+    }
+
+    .bg-servc {
+        background-color: #f4f5f7;
+    }
+
+    .servc-bordr {
+        max-width: 150px;
+        border-bottom: 1px solid #000;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+    }
+
+    .servc-bordr, input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+        /*  -webkit-appearance: none; */
+        margin: 0;
+    }
+
+    .servc-bordr, textarea:focus, input:focus {
+        outline: none;
+    }
+
+    .seatmap-btn {
+        border: none;
+        padding: 4px 7px;
+        border-radius: 4px;
+        background: #b5cbe7;
+    }
+
+    .MWidth {
+        width: 1024px;
+        margin-left: -50%;
+    }
+
+    .active {
+        color: #E93329 !important;
+        border-bottom: #E93329 1px solid !important;
+    }
 </style>
 
-<div class="flight-box-content rounded-4">
-    <div class="tabs -pills-3 js-tabs">
-        <div class="tabs__controls row x-gap-10 y-gap-10 js-tabs-controls bdr-btm">
-            <div class="col-auto">
-                <div class="tabs__button text-14 fw-600 px-20 py-10  js-tabs-button is-tab-el-active" data-tab-target=".-tab-item-1">Select Seat</div>
-            </div>
+<section id="myContainer1">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="modal fade" id="rrrtexampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog rtwidth-modal" role="document">
+                        <div class="modal-content MWidth">
+                            <div class="modal-mfareheader d-flex justify-between">
+                                <h2 class="text-22 fw-600">Seat Map</h2>
+                                <button type="button" class="btnclose" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true" style="font-size: 21px;">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-bodyy mbody-padding">
+                            </div>
+                            <div class="modal-footer fbody-padding">
+                                @{
+                                    int segmentcount = Model.passeengerlist.journeys[0].segments.Count;
+                                    @if (segmentcount == 1)
+                                    {
+                                        <div>
+                                            A
+                                            <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
+                                        </div>
+                                    }
+                                    else
+                                    {
 
-            <div class="col-auto">
-                <div class="tabs__button text-14 fw-600 px-20 py-10  js-tabs-button " data-tab-target=".-tab-item-2">Add Meals</div>
+                                        @for (int i = 0; i < segmentcount; i++)
+                                        {
+                                            @if (i == 1)
+                                            {
+                                                <div id="popbtnB" style="display:none;">
+                                                    B
+                                                    <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
+                                                </div>
+                                            }
 
-            </div>
+                                        }
+                                    }
+                                }
+                            </div>
 
-            <div class="col-auto">
-                <div class="tabs__button text-14 fw-600 px-20 py-10 js-tabs-button " data-tab-target=".-tab-item-3">Add Baggage</div>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
             </div>
         </div>
+    </div>
+</section>
+<div class="flight-box-content rounded-4">
+    <div class="tabs -pills-3 js-tabs">
 
         <div class="tabs__content pt-0 js-tabs-content">
             <div class="tabs__pane -tab-item-1 is-tab-el-active">
@@ -158,276 +352,333 @@
                             }
                         }
 
-                       
+
                     </ul>
                 </div>
-
-
-                <div class="flight-protip">Pro Tip Grab your favourite seat before it gets sold.</div>
-                <div class="wing-left">&nbsp;</div>
-
-                @{
-                    var seatmaap = Model.passeengerlist.journeys[0].segments.Count;
-
-                    Hashtable ht0 = new Hashtable();
-                    Hashtable ht1 = new Hashtable();
-                    for (int k = 0; k < Model.Seatmaplist.datalist.Count; k++)
+                @for (int r = 0; r < seatmaap2; r++)
+                {
+                    if (r == 0)
                     {
-                        int count = Model.Seatmaplist.datalist[k].seatMap.decks.units.Count;
-                        for (int j = 0; j < count; j++)
-                        {
-                            if (Model.Seatmaplist.datalist[k].seatMap.decks.units[j].assignable == true)
-                            {
-                                if (!ht0.Contains(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator))
-                                {
-                                    // ht0.Add(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator, Model.Seatmaplist.datalist[k].seatMap.decks.units[j].servicechargefeeAmount);
-                                    ht0.Add(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator, Model.Seatmaplist.datalist[k].seatMap.decks.units[j].servicechargefeeAmount + "_@" + Model.Seatmaplist.datalist[k].seatMap.decks.units[j].unitKey + "_@" + Model.Seatmaplist.datalist[k].seatMap.decks.units[j].Airline);
-                                }
-                            }
+                        <div class="row" id="tabnew1">
+                            <div class="col-lg-12">
+                                <section class="container">
+                                    <div class="row border-service">
 
-                            if (k == 0)
-                            {
-                                if (Model.Seatmaplist.datalist[k].seatMap.decks.units[j].assignable == true)
-                                {
-                                    if (!ht0.Contains(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator))
-                                    {
-                                        // ht0.Add(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator, Model.Seatmaplist.datalist[k].seatMap.decks.units[j].servicechargefeeAmount);
-                                        ht0.Add(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator, Model.Seatmaplist.datalist[k].seatMap.decks.units[j].servicechargefeeAmount + "_@" + Model.Seatmaplist.datalist[k].seatMap.decks.units[j].unitKey + "_@" + Model.Seatmaplist.datalist[k].seatMap.decks.units[j].Airline);
-                                    }
-                                }
+                                        <div class="d-flex justify-content-between bg-servc py-2">
+                                            <div class="serv-header">
+                                                Traveller
+                                            </div>
+                                            <div class="serv-header">
+                                                Meal
+                                            </div>
+                                            <div class="serv-header">
+                                                Seat
+                                            </div>
+                                            <div class="serv-header">
+                                                Baggage
+                                            </div>
+                                            <div class="serv-header">
+                                                Speacial Request
+                                            </div>
+                                        </div>
+                                        @{
+                                            //int passengerdata = Model.passkeytype.Count;
+                                            int passengerdata = Model.passeengerlist.passengerscount;
+                                            int passengerDataValue = 0;
+                                            for (int i = 0; i < Model.passeengerlist.passengerscount; i++)
+                                            {
+                                                if (Model.passeengerlist.passengers[i].passengerTypeCode == "ADT" || Model.passeengerlist.passengers[i].passengerTypeCode == "CHD")
+                                                {
+                                                    if (Model.passkeytype != null)
+                                                    {
+                                                        Model.passeengerlist.passengers[i].name = Model.passkeytype[i].first;
 
-                            }
-                            else
-                            {
-                                if (Model.Seatmaplist.datalist[k].seatMap.decks.units[j].assignable == true)
-                                {
-                                    if (!ht1.Contains(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator))
-                                    {
-                                        // ht1.Add(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator, Model.Seatmaplist.datalist[k].seatMap.decks.units[j].servicechargefeeAmount);
-                                        ht1.Add(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator, Model.Seatmaplist.datalist[k].seatMap.decks.units[j].servicechargefeeAmount + "_@" + Model.Seatmaplist.datalist[k].seatMap.decks.units[j].unitKey + "_@" + Model.Seatmaplist.datalist[k].seatMap.decks.units[j].Airline);
-                                    }
-                                }
+                                                    }
+                                                    passengerDataValue = passengerDataValue + 1;
 
-                            }
+                                                }
+                                            }
+                                            passengerdata = passengerDataValue;
 
-                        }
-                    }                   
-                    for (int l = 0; l < Model.Seatmaplist.datalist.Count; l++)
-                    {
-                        if (l == 0)
-                        {
-                            <div id="tabshow1" class="seat-section">
-
-                                <div class="inner-section">
-                                    <ul class="column">
-                                        <li class="seat-li row-no">F</li>
-                                        <li class="seat-li row-no">E</li>
-                                        <li class="seat-li row-no">D</li>
-                                        <li class="seat-li row-no"></li>
-                                        <li class="seat-li row-no">C</li>
-                                        <li class="seat-li row-no">B</li>
-                                        <li class="seat-li row-no">A</li>
-                                    </ul>
-
-                                    @{
-                                        @for (int i = 1; i <= 30; i++)
+                                        }
+                                        @for (int pa = 0; pa < passengerdata; pa++)
                                         {
 
-                                            <ul class="column" id="itemList">
+                                            string ssrkey = string.Empty;
+                                            string bagkey = string.Empty;
+                                            string otherbagkey = string.Empty;
+                                            <div class="d-flex justify-content-between py-3">
+
+
+                                                <div class="servc-content">
+                                                    @Model.passkeytype[pa].first
+                                                </div>
+
                                                 @{
-                                                    for (int k = 6; k >= 1; k--)
-                                                    {
-                                                        string data = string.Empty;
-                                                        if (k == 6) { data = i.ToString() + "F"; }
-                                                        else if (k == 5) { data = i.ToString() + "E"; }
-                                                        else if (k == 4) { data = i.ToString() + "D"; }
-                                                        else if (k == 3) { data = i.ToString() + "C"; }
-                                                        else if (k == 2) { data = i.ToString() + "B"; }
-                                                        else if (k == 1) { data = i.ToString() + "A"; }
-                                                        var designation = data;
-                                                        if (!ht0.Contains(data))
-                                                        {
-                                                            <li class="seat-li chkbox">
-                                                                <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
-                                                            </li>
-                                                        }
-                                                        else
-                                                        {
+                                                    var legSSrcount = Model.Meals.legSsrs.Count;
 
+                                                    <div class="servc-content select-option">
 
-                                                            // var group1 = @Model.Seatmaplist.datalist[0].seatMap.decks.units[i].group;
-                                                            // var group = Model.Seatmaplist.datalist[0].seatMapfees.groups[i].groupsFee.groupid;
-                                                            // var feeamountF1 = @Model.Seatmaplist.datalist[0].seatMapfees.groups[group].groupsFee.serviceCharges[0].amount;
-
-                                                            // if (feeamountF1 == 0)
-                                                            // {
-                                                            //     <li class="seat-li free-seat tooltip">
-                                                            //         <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                            //         <input type="checkbox" name="unitKey" value="@Model.Seatmaplist.datalist[0].seatMapfees.groups[group].groupsFee.serviceCharges[0].amount _@Model.Seatmaplist.datalist[0].seatMap.decks.units[i].unitKey" id="unitKey" />
-                                                            //         <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
-                                                            //     </li>
-                                                            // }
-                                                            // else
-                                                            // {
-                                                            //     <li class="seat-li midcomfort tooltip">
-                                                            //         <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                            //         <input type="checkbox" name="unitKey" value="@Model.Seatmaplist.datalist[0].seatMapfees.groups[group].groupsFee.serviceCharges[0].amount _@Model.Seatmaplist.datalist[0].seatMap.decks.units[i].unitKey" id="unitKey" />
-                                                            //         <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
-                                                            //     </li>
-                                                            // }
-
-                                                            string[] feessplit = ht0[data].ToString().Split("_@");
-                                                            string feeamountF1 = feessplit[0];
-                                                            // string feeamountF1 = ht0[data].ToString();
-                                                            if (feeamountF1 == "0")
+                                                        @{
+                                                            List<SelectListItem> mealOptions = new List<SelectListItem>();
+                                                            for (int s = 0; s < Model.Meals.legSsrs[0].legssrs.Count; s++)
                                                             {
-                                                                <li class="seat-li free-seat tooltip">
-                                                                    <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                    <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2]" id="unitKey" />
-                                                                    <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
-                                                                </li>
-                                                            }
-                                                            else
-                                                            {
-                                                                <li class="seat-li midcomfort tooltip">
-                                                                    <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                    <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2] " id="unitKey" />
-                                                                    <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
-                                                                </li>
+
+                                                                string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                                string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
+                                                                string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " @" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price; ;
+                                                                ssrkey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].ssrKey;
+                                                                string passengerKey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].passengerKey;
+                                                                if (ssrkey != null)
+                                                                {
+                                                                    mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
+                                                                }
+
                                                             }
 
+                                                            <select id="ddlMealOptions" class="servc-bordr" data-passenger-index="@pa">
+                                                                @foreach (var option in mealOptions)
+                                                                {
+                                                                    <option value="@option.Value ">
+                                                                        @option.Text
+                                                                    </option>
+                                                                }
+                                                            </select>
+                                                            <input type="hidden" id="hiddenSsrKey" name="ssrKey" value="" />
 
                                                         }
+                                                    </div>
 
-                                                        if (k == 4)
-                                                        {
-                                                            <li class="seat-li"></li>
-                                                        }
-
-                                                        <li class="seat-li colNo left">@i</li>
-                                                    }
                                                 }
+                                                <div class="servc-content">
 
-                                            </ul>
-                                        }
-                                    }
-                                </div>
-                            </div>
-                        }
-                        else
-                        {
-                            <div id="tabshow2" class="seat-section">
+                                                    <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn" data-toggle="modal" data-target="#rrrtexampleModal">
 
-                                <div class="inner-section">
-                                    <ul class="column">
-                                        <li class="seat-li row-no">F</li>
-                                        <li class="seat-li row-no">E</li>
-                                        <li class="seat-li row-no">D</li>
-                                        <li class="seat-li row-no"></li>
-                                        <li class="seat-li row-no">C</li>
-                                        <li class="seat-li row-no">B</li>
-                                        <li class="seat-li row-no">A</li>
-                                    </ul>
+                                                    <div class="output-div-input" id="outputDiv_@pa"></div>
+                                                </div>
+                                                <!-- Output div for each passenger -->
+                                                <div class="servc-content select-baggage">
 
-                                    @{
-                                        @for (int i = 1; i <= 30; i++)
-                                        {
+                                                    @{
+                                                        List<SelectListItem> BaggageOptions = new List<SelectListItem>();
 
-                                            <ul class="column" id="itemList">
-                                                @{
-                                                    for (int k = 6; k >= 1; k--)
-                                                    {
-                                                        string data = string.Empty;
-                                                        if (k == 6) { data = i.ToString() + "F"; }
-                                                        else if (k == 5) { data = i.ToString() + "E"; }
-                                                        else if (k == 4) { data = i.ToString() + "D"; }
-                                                        else if (k == 3) { data = i.ToString() + "C"; }
-                                                        else if (k == 2) { data = i.ToString() + "B"; }
-                                                        else if (k == 1) { data = i.ToString() + "A"; }
-                                                        var designation = data;
-                                                        if (!ht1.Contains(data))
+                                                        for (int s = 0; s < Model.Baggage.journeySsrsBaggage[0].baggageSsr.Count; s++)
                                                         {
-                                                            <li class="seat-li chkbox">
-                                                                <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
-                                                            </li>
-                                                        }
-                                                        else
-                                                        {
-                                                            //  string feeamountF1 = ht1[data].ToString();
-                                                            // var group = Model.Seatmaplist.datalist[1].seatMapfees.groups[i].groupsFee.groupid;
-                                                            // var feeamountF1 = @Model.Seatmaplist.datalist[1].seatMapfees.groups[group].groupsFee.serviceCharges[0].amount;
-                                                            // if (feeamountF1 == 0)
-                                                            // {
-                                                            //     <li class="seat-li free-seat tooltip">
-                                                            //         <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                            //         <input type="checkbox" name="unitKey" value="@Model.Seatmaplist.datalist[1].seatMapfees.groups[0].groupsFee.serviceCharges[0].amount _@Model.Seatmaplist.datalist[1].seatMap.decks.units[i].unitKey" id="unitKey" />
-                                                            //         <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
-                                                            //     </li>
+                                                            string Sssrcode = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].ssrCode;
+                                                            string bagcode = Sssrcode.StartsWith("P", StringComparison.OrdinalIgnoreCase).ToString();
+                                                            //var mealData = MealImageList.GetAllmeal().SingleOrDefault(x => x.MealCode == queryMeal);
+                                                            var bagname = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].name;
+                                                            bagkey = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].ssrKey;
 
-
-                                                            // }
-                                                            // else
-                                                            // {
-                                                            //     <li class="seat-li midcomfort tooltip">
-                                                            //         <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                            //         <input type="checkbox" name="unitKey" value="@Model.Seatmaplist.datalist[1].seatMapfees.groups[0].groupsFee.serviceCharges[0].amount _@Model.Seatmaplist.datalist[1].seatMap.decks.units[i].unitKey" id="unitKey" />
-                                                            //         <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
-                                                            //     </li>
-                                                            // }
-                                                            string[] feessplit = ht1[data].ToString().Split("_@");
-                                                            string feeamountF1 = feessplit[0];//ht1[data].ToString();
-                                                            if (feeamountF1 == "0")
+                                                            if (bagcode != "False")
                                                             {
-                                                                <li class="seat-li free-seat tooltip">
-                                                                    <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                    <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2] " id="unitKey" />
-                                                                    <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
-                                                                </li>
-                                                            }
-                                                            else
-                                                            {
-                                                                <li class="seat-li midcomfort tooltip">
-                                                                    <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                    <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2] " id="unitKey" />
-                                                                    <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
-                                                                </li>
+                                                                BaggageOptions.Add(new SelectListItem { Text = bagname, Value = bagkey });
                                                             }
 
-
                                                         }
-
-                                                        if (k == 4)
-                                                        {
-                                                            <li class="seat-li"></li>
-                                                        }
-
-                                                        <li class="seat-li colNo left">@i</li>
                                                     }
-                                                }
+                                                    <select id="ddlbagOptions" class="servc-bordr" data-passenger-index="@pa">
+                                                        @foreach (var option in BaggageOptions)
+                                                        {
+                                                            <option value="@option.Value">
+                                                                @option.Text
+                                                            </option>
+                                                        }
+                                                    </select>
+                                                    <input type="hidden" id="hiddenbagKey" name="bagkey" value="" />
 
-                                            </ul>
+                                                </div>
+                                                <div class="servc-content select-others">
+                                                    @{
+                                                        List<SelectListItem> otherOptions = new List<SelectListItem>();
+
+                                                        for (int s = 0; s < Model.Baggage.journeySsrsBaggage[0].baggageSsr.Count; s++)
+                                                        {
+
+                                                            string Sssrcode = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].ssrCode;
+                                                            string othercode = Sssrcode.StartsWith("P", StringComparison.OrdinalIgnoreCase).ToString();
+                                                            //var mealData = MealImageList.GetAllmeal().SingleOrDefault(x => x.MealCode == queryMeal);
+                                                            var bagname = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].name;
+                                                            otherbagkey = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].ssrKey;
+
+                                                            if (othercode == "False")
+                                                            {
+                                                                otherOptions.Add(new SelectListItem { Text = bagname, Value = otherbagkey });
+                                                            }
+
+                                                        }
+                                                    }
+
+                                                    <select id="otherOptions" class="servc-bordr">
+                                                        @foreach (var option in otherOptions)
+                                                        {
+                                                            <option value="@option.Value">
+                                                                @option.Text
+                                                            </option>
+                                                        }
+                                                    </select>
+
+                                                    <input type="hidden" id="hiddenotherbagKey" name="otherbagkey" value="" />
+                                                </div>
+
+                                            </div>
+
                                         }
-                                    }
-                                </div>
+
+
+                                    </div>
+                                </section>
                             </div>
-                        }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row" id="tabnew2">
+                            Conect B
+                            <div class="col-lg-12">
+                                <section class="container">
+                                    <div class="row border-service">
+
+                                        <div class="d-flex justify-content-between bg-servc py-2">
+                                            <div class="serv-header">
+                                                Traveller
+                                            </div>
+                                            <div class="serv-header">
+                                                Meal
+                                            </div>
+                                            <div class="serv-header">
+                                                Seat
+                                            </div>
+
+                                            <div class="serv-header">
+                                                Speacial Request
+                                            </div>
+                                        </div>
+                                        @{
+                                            int passengerdataConnect = Model.passkeytype.Count;
+                                            int passengerDataValue = 0;
+                                            for (int i = 0; i < Model.passeengerlist.passengerscount; i++)
+                                            {
+                                                if (Model.passeengerlist.passengers[i].passengerTypeCode == "ADT" || Model.passeengerlist.passengers[i].passengerTypeCode == "CHD")
+                                                {
+                                                    if (Model.passkeytype != null)
+                                                    {
+                                                        Model.passeengerlist.passengers[i].name = Model.passkeytype[i].first;
+
+                                                    }
+                                                    passengerDataValue = passengerDataValue + 1;
+
+                                                }
+                                            }
+                                            passengerdataConnect = passengerDataValue;
+                                        }
+
+                                        @{
+                                            for (int pas = 0; pas < passengerdataConnect; pas++)
+                                            {
+
+                                                string ssrkey = string.Empty;
+                                                string bagkey = string.Empty;
+                                                string otherbagkey = string.Empty;
+
+                                                <div class="d-flex justify-content-between py-3">
+
+                                                    <div class="servc-content">
+                                                        @Model.passkeytype[pas].first
+                                                    </div>
+                                                    @{
+                                                        if (Model.Meals.legSsrs.Count == 2)
+                                                        {
+
+                                                            <div class="servc-content select-option2">
+
+                                                                @{
+                                                                    List<SelectListItem> mealOptions = new List<SelectListItem>();
+
+                                                                    for (int s = 0; s < Model.Meals.legSsrs[1].legssrs.Count; s++)
+                                                                    {
+
+                                                                        string ssrprice = Model.Meals.legSsrs[1].legssrs[s].legpassengers[0].price;
+                                                                        string Mealcode = Model.Meals.legSsrs[1].legssrs[s].ssrCode;
+                                                                        string Mealname = Model.Meals.legSsrs[1].legssrs[s].name + " @" + @Model.Meals.legSsrs[1].legssrs[s].legpassengers[0].price; ;
+                                                                        ssrkey = Model.Meals.legSsrs[1].legssrs[s].legpassengers[pas].ssrKey;
+                                                                        string passengerKey = Model.Meals.legSsrs[1].legssrs[s].legpassengers[pas].passengerKey;
+                                                                        if (ssrkey != null)
+                                                                        {
+                                                                            // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
+                                                                            mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
+                                                                        }
+
+                                                                    }
+
+                                                                    <select id="ddlMealOptions" class="servc-bordr" data-passenger-index="@pas">
+                                                                        @foreach (var option in mealOptions)
+                                                                        {
+                                                                            <option value="@option.Value">
+                                                                                @option.Text
+                                                                            </option>
+                                                                        }
+                                                                    </select>
+
+
+                                                                    @* <input type="hidden" id="hiddenSsrKey2" name="ssrKey" value="" />*@
+                                                                }
+
+                                                            </div>
+                                                        }
+
+                                                    }
+                                                    <div class="servc-content">
+
+                                                        <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn" data-toggle="modal" data-target="#rrrtexampleModal">
+
+                                                        <div class="output-div-input" id="outputDivConnect_@pas"></div>
+                                                    </div>
+                                                    <!-- Output div for each passenger -->
+
+                                                    <div class="servc-content select-others2">
+                                                        @{
+                                                            List<SelectListItem> otherOptions = new List<SelectListItem>();
+
+                                                            for (int s = 0; s < Model.Baggage.journeySsrsBaggage[0].baggageSsr.Count; s++)
+                                                            {
+
+                                                                string Sssrcode = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].ssrCode;
+                                                                string othercode = Sssrcode.StartsWith("P", StringComparison.OrdinalIgnoreCase).ToString();
+                                                                var bagname = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].name;
+                                                                otherbagkey = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].ssrKey;
+                                                                if (othercode == "False")
+                                                                {
+                                                                    // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
+                                                                    otherOptions.Add(new SelectListItem { Text = bagname, Value = otherbagkey });
+                                                                }
+
+                                                            }
+                                                        }
+                                                        <select id="otherOptions2" class="servc-bordr">
+                                                            @foreach (var option in otherOptions)
+                                                            {
+                                                                <option value="@option.Value">
+                                                                    @option.Text
+                                                                </option>
+                                                            }
+                                                        </select>
+
+                                                        <input type="hidden" id="hiddenotherbagKey2" name="otherbagkey" value="" />
+                                                    </div>
+
+                                                </div>
+
+                                            }
+
+                                        }
+                                    </div>
+                                </section>
+                            </div>
+
+                        </div>
                     }
                 }
-
-                @* ----------End--------- *@
-                <div class="wing-right">&nbsp;</div>
-                <div class="legendHolder-box">
-                    <ul>
-
-                        <li style="padding:0;"><strong>Legend:</strong></li>
-                        <li><span class="free"></span>Free Seats</li>
-                        <li><span class="midcomfort"></span>&#8377; 150 - &#8377; 350</li>
-                        <li><span class="comfort"></span>&#8377; 400 - &#8377; 800</li>
-                        <li><span class="booked"></span>Occupied</li>
-
-                    </ul>
-                    <p><strong>Disclaimer:</strong> Seat allotment is the sole prerogative of the airline and can't be guaranteed by Yatra.com</p>
-                </div>
             </div>
 
             <div class="tabs__pane -tab-item-2">
@@ -510,13 +761,13 @@
 
 
                     </ul>
-                   @*  <ul class="nav nav-pills mb-3">
-                        <li class="nav-item">
-                            <button class="nav-link active">Departure:DEL-BOM</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link">Return:BOM-DEL</button>
-                        </li>
+                    @*  <ul class="nav nav-pills mb-3">
+                    <li class="nav-item">
+                    <button class="nav-link active">Departure:DEL-BOM</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                    <button class="nav-link">Return:BOM-DEL</button>
+                    </li>
                     </ul> *@
                 </div>
                 <div class="flight-protip" style="margin-bottom:0;">Pre-booked baggage is up to 25% cheaper than on-board price.</div>
@@ -552,7 +803,7 @@
                                                     <div class="tourTypeCard__content text-center pt-10 pb-15 px-10 bg-blue-1-05 rounded-4">
                                                         <img src="~/img/images/travel-bag.png" title="image" alt="image">
                                                         @* <h6 class="text-14 fw-600 mt-10">Additional</h6>
-                                                        <h5 class="text-13 fw-600 mt-10">@baggageSsr.ssrCode</h5>*@
+                                    <h5 class="text-13 fw-600 mt-10">@baggageSsr.ssrCode</h5>*@
                                                         <h5 class="text-14 fw-700 mt-6">@baggageSsr.name</h5>
                                                         <p class="text-14 fw-600 mt-2 text-center">&#8377; @passengersAvailabilityBaggage.price</p>
                                                         <div class="d-flex justify-content-center">
@@ -641,28 +892,5 @@
 
 </div>
 
-<script src="~/js/custom.js/customnew.js"></script>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/jquery/dist/jquery.js"></script>
 
-<script type="text/javascript">
-    /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
-    $(document).ready(function () {
-        $("#seattab1").addClass('active');
-        $("#tabshow2").hide();
-        $("#seattab1").click(function () {
-            $("#tabshow1").show();
-            $("#tabshow2").hide();
-            $("#seattab1").addClass('active');
-            $("#seattab2").removeClass('active');
 
-        });
-
-        $("#seattab2").click(function () {
-            $("#tabshow2").css("display", "block");
-            $("#seattab2").addClass('active');
-            $("#seattab1").removeClass('active');
-            $("#tabshow1").hide();
-        });
-    });
-</script>

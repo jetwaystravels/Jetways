@@ -192,18 +192,21 @@
 
 
 
-                         <form asp-action="PostUnitkey" asp-controller="SGTripsell" method="post"> 
+                         @* <form asp-action="PostUnitkey" asp-controller="SGTripsell" method="post">  *@
 
                             <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
                                 <div id="toggleButton4" class="bg-h2" style="opacity:0.2"><h2 class="text-18  fw-600 md:mt-20 ">Seat, Meal & Baggage</h2></div>
                             </div>
                             <div id="content4" class="hidden">
                                 <div id="show" class="row x-gap-20 y-gap-20 mt-10 bg-white service-section">
-                                    <div class="seathide">
-                                        <partial name="_ServiceRequestsPartialView.cshtml" />
+                                     <div class="seathide">
+                                    <div id="SpiceJetPartialView">
                                     </div>
+                                        @* <partial name="_ServiceRequestsPartialView.cshtml" /> *@
+                                    </div> 
                                 </div>
                             </div>
+                           
 
                             <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
                                 <div id="toggleButton5" class="bg-h2" style="opacity:0.2"><h2 class="text-18 fw-600 md:mt-20 ">Travel Insurance  <span class="text-18">(Recommended)</span></h2></div>
@@ -237,7 +240,7 @@
                             <input type="submit" id="Continuebtn" class="btn btn-btn-primary" value="Continue" style="opacity:0.2" disabled />
                         </div> *@
 
-                       </form> 
+                      @*  </form>  *@
 
                     </div>
 

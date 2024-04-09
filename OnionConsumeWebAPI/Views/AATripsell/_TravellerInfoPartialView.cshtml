@@ -39,28 +39,34 @@
                                 <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlist.passengers[i].passengerKey" required />
                             }
                         }
-                        <input type="text" class="contactFname" id="LeadPass1" placeholder="First & middle name" name="passengerdetails[@i].First" required />
+                        <input type="text" class="contactFname" maxlength="32" oninput="validateInputT(event)" id="LeadPass1" placeholder="First & middle name" name="passengerdetails[@i].First" required />
 
                     </div>
-                    <p id="error-Fname" class="error-message" style="display:none">Type your first name</p>
+                    <p id="error-Fname" class="error-message error-CFname" style="display:none">Enter first name</p>
+                    <p class="errorMessageT1" style="color: red;font-size:13px;"></p>
                 </div>
                 <div class="col-md-3">
 
                     <div class="form-input">
-                        <input type="text" class="contactLname" placeholder="Last name" name="passengerdetails[@i].Last" required />
+                        <input type="text" class="contactLname" oninput="validateInputTr(event)" maxlength="32" placeholder="Last name" name="passengerdetails[@i].Last" required />
 
                     </div>
-                    <p id="error-Lname" class="error-message" style="display:none">Type your last name</p>
+                    <p id="error-Lname" class="error-message error-CLname" style="display:none">Enter last name</p>
+                    <p class="errorMessageT2" style="color: red;font-size:13px;"></p>
                 </div>
                 @{
                     if (@Model.passeengerlist.passengers[i].passengerTypeCode == "ADT" || @Model.passeengerlist.passengers[i].passengerTypeCode == "CHD")
                     {
                         <div class="col-md-3">
-                            <div class="form-input"><input type="text" id="contactemailID" class="contactemail" placeholder="email" name="" required /></div>
-                        </div>
+                            <div class="form-input"><input type="text" maxlength="266" oninput="validateEmailTr(event)" id="contactemailID" class="contactemail" placeholder="email" name="" required /></div>
+                            <p class="emailErrorMessageTr" style="color: red; font-size:13px;"></p>
+                            <p class="error-message error-emailname" style="display:none">Enter your email</p>
+                            </div>
                         <div class="col-md-2">
-                            <div class="form-input"><input type="text" id="contactphoneID" class="contactphone" placeholder="phone" name="" required /></div>
-                        </div>
+                            <div class="form-input"><input type="text" id="contactphoneID" oninput="validatePhoneNumberTr(event)" class="contactphone" placeholder="phone" name="" required /></div>
+                            <p class="error-message error-phoneN" style="display:none">Enter your phone</p>
+                            <p class="phoneErrorMessageTr" style="color: red; font-size:13px;"></p>
+                            </div>
                     }
                 }
 
@@ -168,6 +174,109 @@
 
 </style>
 <script type="text/javascript">
+
+    function validateInputT(event) {
+        const input = event.target.value;
+        const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
+
+        if (!regex.test(input)) {
+            document.querySelectorAll('.errorMessageT1').innerText = "";
+            event.target.value = input.replace(/[^a-zA-Z]/g, '');   //Remove non-alphabetic characters
+        } else {
+            document.querySelectorAll('.errorMessageT1').innerText = "";
+        }
+
+        var firstName = document.querySelector(".contactFname").value;
+        if (firstName == "") {
+            //alert("Enter Origin Name");
+            var firstnameToDisplay = document.querySelector('.error-CFname');
+            firstnameToDisplay.style.display = "block";
+            document.querySelector(".contactFname").focus();
+            return false;
+        }
+        else {
+            var firstnameToDisplay = document.querySelector('.error-CFname');
+            firstnameToDisplay.style.display = "none";
+        }
+    }
+
+
+    function validateInputTr(event) {
+        const input = event.target.value;
+        const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
+
+        if (!regex.test(input)) {
+            document.querySelector('.errorMessageT2').innerText = "";
+            event.target.value = input.replace(/[^a-zA-Z]/g, ''); // Remove non-alphabetic characters
+        } else {
+            document.querySelector('.errorMessageT2').innerText = "";
+        }
+        var lastName = document.querySelector(".contactLname").value;
+        if (lastName == "") {
+            //alert("Enter Origin Name");
+            var lastnameToDisplay = document.querySelector('.error-CLname');
+            lastnameToDisplay.style.display = "block";
+            document.querySelector(".contactLname").focus();
+            return false;
+        }
+        else {
+            var lastnameToDisplay = document.querySelector('.error-CLname');
+            lastnameToDisplay.style.display = "none";
+        }
+
+
+    }
+
+    function validateEmailTr(event) {
+        const email = event.target.value;
+        const regex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/; // Regular expression for basic email validation
+
+        if (!regex.test(email)) {
+            document.querySelector('.emailErrorMessageTr').innerText = "valid email";
+        } else {
+            document.querySelector('.emailErrorMessageTr').innerText = "";
+        }
+
+        var emailName = document.querySelector(".contactemail").value;
+        if (emailName == "") {
+            //alert("Enter Origin Name");
+            var emailNameToDisplay = document.querySelector('.error-emailname');
+            emailNameToDisplay.style.display = "block";
+            document.querySelector(".contactemail").focus();
+            return false;
+        }
+        else {
+            var emailNameToDisplay = document.querySelector('.error-emailname');
+            emailNameToDisplay.style.display = "none";
+        }
+
+    }
+
+    function validatePhoneNumberTr(event) {
+        const phoneNumber = event.target.value;
+        const regex = /^\d{10}$/; // Regular expression for 10-digit phone number validation
+
+        if (!regex.test(phoneNumber)) {
+            document.querySelector('.phoneErrorMessageTr').innerText = "valid number.";
+        } else {
+            document.querySelector('.phoneErrorMessageTr').innerText = "";
+        }
+        let phoneTRfocus = document.querySelector('.contactphone').value;
+        if (phoneTRfocus == "") {
+
+            let phoneTrToDisplay = document.querySelector('.error-phoneN');
+            phoneTrToDisplay.style.display = "block";
+            document.querySelector('.contactphone').focus();
+            return false;
+        }
+        else {
+            let phoneTrToDisplay = document.querySelector('.error-phoneN');
+            phoneTrToDisplay.style.display = "none";
+        }
+    }
+
+
+
     var buttonLead = document.getElementById('checkboxLead');
     buttonLead.addEventListener('click', function (e) {
         e.preventDefault();
@@ -289,6 +398,17 @@
                 document.querySelector(".contactLname").focus();
                 return false;
             }
+
+            // var day = document.querySelector('.day-select').value;
+            // var month = document.querySelector('.month-select').value;
+            // var year = document.querySelector('.year-select').value;
+
+            // // Check if any of the dropdowns have default values
+            // if (day === "" || month === "" || year === "") {
+            //     // Display error message or take necessary action
+            //     alert("Please select a valid date of birth.");
+            //     return false; // Prevent form submission
+            // }
             /*******Validation End*********/
 
 
@@ -337,8 +457,8 @@
                 data: formData,
                 processData: false,
                 contentType: false,
-                success: function (result) {
-                    // Handle the response from the server if needed
+                success: function (data) {
+                    $('#divpartialViewSeat').html(data);
                 },
                 error: function (error) {
                     // Handle any errors here

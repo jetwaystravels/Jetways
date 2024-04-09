@@ -26,5 +26,7 @@ namespace DomainLayer.ViewModel
         public List<SSRAvailabiltyResponceModel> MealslistRT { set; get; }
         public SimpleAvailabilityRequestModel MyProperty { get; set; }
         public SimpleAvailabilityRequestModel simpleAvailabilityRequestModelEdit { get; set; }
+        public List<passkeytype> passkeytype { get; set; }
+        public List<passkeytype> passengerNamedetails { get; set; }
     }
 }

@@ -30,34 +30,38 @@
                 <div class="col-md-1">
                     <select name="passengerdetails[@i].Title" class="form-control" asp-items="@ViewBag.Title"></select>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 inputFirstname">
                     <div class="form-input">
-                       
-                        <input type="text" class="contactFname" id="LeadPass1" placeholder="First & middle name" name="passengerdetails[@i].First" required />
+
+                        <input type="text" class="contactFname" maxlength="32" oninput="validateInputT(event)" id="LeadPass[@i]" placeholder="First & middle name" name="passengerdetails[@i].First" required />
 
                     </div>
-                    <p id="error-Fname" class="error-message" style="display:none">Type your first name</p>
-               
+                    <p id="error-Fname" class="error-message error-CFname" style="display:none">Enter first name</p>
+                    <p class="errorMessageT1" style="color: red;font-size:13px;"></p>
                 </div>
                 <div class="col-md-3">
                     <div class="form-input">
 
-                        <input type="text" class="contactLname" placeholder="Last name" name="passengerdetails[@i].Last" required />
+                        <input type="text" class="contactLname" oninput="validateInputTr(event)" maxlength="32" placeholder="Last name" name="passengerdetails[@i].Last" required />
 
                     </div>
-                    <p id="error-Lname" class="error-message" style="display:none">Type your last name</p>
-
+                    <p id="error-Lname" class="error-message error-CLname" style="display:none">Enter last name</p>
+                    <p class="errorMessageT2" style="color: red;font-size:13px;"></p>
                     
                 </div>
                 @{
                     if (@Model.passeengerlist.passengers[i].passengerTypeCode == "ADT" || @Model.passeengerlist.passengers[i].passengerTypeCode == "CHD")
                     {
-                        <div class="col-md-3">
-                            <div class="form-input"><input type="text" id="contactemailID" class="contactemail" placeholder="email" name="" required /></div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-input"><input type="text" id="contactphoneID" class="contactphone" placeholder="phone" name="" required /></div>
-                        </div>
+                                <div class="col-md-3">
+                            <div class="form-input"><input type="text" maxlength="266" oninput="validateEmailTr(event)" id="contactemailID" class="contactemail" placeholder="email" name="" required /></div>
+                                   <p class="emailErrorMessageTr" style="color: red; font-size:13px;"></p>
+                            <p class="error-message error-emailname" style="display:none">Enter your email</p>
+                                    </div>
+                            <div class="col-md-2">
+                            <div class="form-input"><input type="text" id="contactphoneID" oninput="validatePhoneNumberTr(event)" class="contactphone" placeholder="phone" name="" required /></div>
+                            <p class="error-message error-phoneN" style="display:none">Enter your phone</p>
+                            <p class="phoneErrorMessageTr" style="color: red; font-size:13px;"></p>
+                            </div>
                     }
                 }
 
@@ -67,33 +71,33 @@
 
                     if (@Model.passeengerlist.passengers[i].passengerTypeCode == "INFT")
                     {
-                            <div class="col-md-4">
-                                <div class="form-input dobinput d-flex">
-                                    <div class="dob-picker">
-                                        <select class="brd-none day-select" required>
-                                            <option value="" disabled selected>Day</option>
-                                        </select>
-                                        <select class="brd-none month-select" required>
-                                            <option value="" disabled selected>Month</option>
-                                            <option value="1">January</option>
-                                            <option value="2">February</option>
-                                            <option value="3">March</option>
-                                            <option value="4">April</option>
-                                            <option value="5">May</option>
-                                            <option value="6">June</option>
-                                            <option value="7">July</option>
-                                            <option value="8">August</option>
-                                            <option value="9">September</option>
-                                            <option value="10">October</option>
-                                            <option value="11">November</option>
-                                            <option value="12">December</option>
-                                        </select>
-                                        <select class="brd-none year-select" required>
-                                            <option value="" disabled selected>Year</option>
-                                        </select>
+                                    <div class="col-md-4">
+                                        <div class="form-input dobinput d-flex">
+                                            <div class="dob-picker">
+                                                <select class="brd-none day-select" required>
+                                                    <option value="" disabled selected>Day</option>
+                                                </select>
+                                                <select class="brd-none month-select" required>
+                                                    <option value="" disabled selected>Month</option>
+                                                    <option value="1">January</option>
+                                                    <option value="2">February</option>
+                                                    <option value="3">March</option>
+                                                    <option value="4">April</option>
+                                                    <option value="5">May</option>
+                                                    <option value="6">June</option>
+                                                    <option value="7">July</option>
+                                                    <option value="8">August</option>
+                                                    <option value="9">September</option>
+                                                    <option value="10">October</option>
+                                                    <option value="11">November</option>
+                                                    <option value="12">December</option>
+                                                </select>
+                                                <select class="brd-none year-select" required>
+                                                    <option value="" disabled selected>Year</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
 
                     }
 
@@ -168,6 +172,113 @@
 
 </style>
 <script type="text/javascript">
+   
+
+    function validateInputT(event) {
+        const input = event.target.value;
+        const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
+
+        if (!regex.test(input)) {
+            document.querySelectorAll('.errorMessageT1').innerText = "";
+            event.target.value = input.replace(/[^a-zA-Z]/g, '');   //Remove non-alphabetic characters
+        } else {
+            document.querySelectorAll('.errorMessageT1').innerText = "";
+        }
+
+        var firstName = document.querySelector(".contactFname").value;
+        if (firstName == "") {
+            //alert("Enter Origin Name");
+            var firstnameToDisplay = document.querySelector('.error-CFname');
+            firstnameToDisplay.style.display = "block";
+            document.querySelector(".contactFname").focus();
+            return false;
+        }
+        else{
+            var firstnameToDisplay = document.querySelector('.error-CFname');
+            firstnameToDisplay.style.display = "none";
+        }
+    }
+
+    
+    function validateInputTr(event) {
+        const input = event.target.value;
+        const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
+
+        if (!regex.test(input)) {
+            document.querySelector('.errorMessageT2').innerText = "";
+            event.target.value = input.replace(/[^a-zA-Z]/g, ''); // Remove non-alphabetic characters
+        } else {
+            document.querySelector('.errorMessageT2').innerText = "";
+        }
+        var lastName = document.querySelector(".contactLname").value;
+        if (lastName == "") {
+            //alert("Enter Origin Name");
+            var lastnameToDisplay = document.querySelector('.error-CLname');
+            lastnameToDisplay.style.display = "block";
+            document.querySelector(".contactLname").focus();
+            return false;
+        }
+        else {
+            var lastnameToDisplay = document.querySelector('.error-CLname');
+            lastnameToDisplay.style.display = "none";
+        }
+
+     
+    }
+
+    function validateEmailTr(event) {
+      const email = event.target.value;
+      const regex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/; // Regular expression for basic email validation
+
+      if (!regex.test(email)) {
+            document.querySelector('.emailErrorMessageTr').innerText = "valid email";
+      } else {
+        document.querySelector('.emailErrorMessageTr').innerText = "";
+      }
+
+        var emailName = document.querySelector(".contactemail").value;
+        if (emailName == "") {
+            //alert("Enter Origin Name");
+            var emailNameToDisplay = document.querySelector('.error-emailname');
+            emailNameToDisplay.style.display = "block";
+            document.querySelector(".contactemail").focus();
+            return false;
+        }
+        else {
+            var emailNameToDisplay = document.querySelector('.error-emailname');
+            emailNameToDisplay.style.display = "none";
+        }
+
+    }
+
+    function validatePhoneNumberTr(event) {
+        const phoneNumber = event.target.value;
+        const regex = /^\d{10}$/; // Regular expression for 10-digit phone number validation
+
+        if (!regex.test(phoneNumber)) {
+            document.querySelector('.phoneErrorMessageTr').innerText = "valid number.";
+        } else {
+            document.querySelector('.phoneErrorMessageTr').innerText = "";
+        }
+        let phoneTRfocus = document.querySelector('.contactphone').value;
+        if (phoneTRfocus == "") {
+
+            let phoneTrToDisplay = document.querySelector('.error-phoneN');
+            phoneTrToDisplay.style.display = "block";
+            document.querySelector('.contactphone').focus();
+            return false;
+        }
+        else {
+            let phoneTrToDisplay = document.querySelector('.error-phoneN');
+            phoneTrToDisplay.style.display = "none";
+        }
+    }
+
+
+
+
+
+
     var buttonLead = document.getElementById('checkboxLead');
     buttonLead.addEventListener('click', function (e) {
         e.preventDefault();
@@ -289,6 +400,43 @@
                 document.querySelector(".contactLname").focus();
                 return false;
             }
+
+            var emailName = document.querySelector(".contactemail").value;
+            if (emailName == "") {
+                //alert("Enter Origin Name");
+                var emailNameToDisplay = document.querySelector('.error-emailname');
+                emailNameToDisplay.style.display = "block";
+                document.querySelector(".contactemail").focus();
+                return false;
+            }
+
+            let phonefocus = document.querySelector('.contactphone').value;
+            if (phonefocus == "") {
+
+                let phoneToDisplay = document.querySelector('.error-phoneN');
+                phoneToDisplay.textContent = "Please enter your phone number";
+                phoneToDisplay.style.display = "block";
+                document.querySelector('.contactphone').focus();
+                return false;
+            }
+            var mobileNumberPattern = /^\d{10}$/; // Assumes a 10-digit number
+
+            if (!mobileNumberPattern.test(phonefocus)) {
+                alert("Please enter a valid 10-digit mobile number.");
+                return false;
+            }
+
+            // var day = document.querySelector('.day-select').value;
+            // var month = document.querySelector('.month-select').value;
+            // var year = document.querySelector('.year-select').value;
+
+            // // Check if any of the dropdowns have default values
+            // if (day === "" || month === "" || year === "") {
+            //     // Display error message or take necessary action
+            //     alert("Please select a valid date of birth.");
+            //     return false; // Prevent form submission
+            // }
+            
             /*******Validation End*********/
 
 
@@ -323,6 +471,8 @@
             // toggleButton3To.style.opacity = "1.0";
             // var content3To = document.getElementById("content3");
             // content3To.style.display = "block";
+             var toggleButton4To = document.getElementById("toggleButton4");
+             toggleButton4To.style.opacity = "1.0";
             var GSTcontent5To = document.getElementById("content4");
             GSTcontent5To.style.display = "block";
 
@@ -338,6 +488,8 @@
                 processData: false,
                 contentType: false,
                 success: function (result) {
+                    //alert(result);
+                    $('#SpiceJetPartialView').html(result);
                     // Handle the response from the server if needed
                 },
                 error: function (error) {
@@ -351,175 +503,7 @@
 
 </script>
 
-@* <script type="text/javascript">
-    
-    document.addEventListener('DOMContentLoaded', function (event) {
-        event.preventDefault();
-        const daySelect = document.querySelector('.day-select');
-        const yearSelect = document.querySelector('.year-select');
 
-        function populateDayOptions() {
-            for (let i = 1; i <= 31; i++) {
-                const option = document.createElement('option');
-                option.value = i;
-                option.textContent = i;
-                daySelect.appendChild(option);
-            }
-        }
-
-        function populateYearOptions() {
-            const currentYear = new Date().getFullYear();
-            const maxInfantAge = 100;
-            for (let i = currentYear; i >= currentYear - maxInfantAge; i--) {
-                const option = document.createElement('option');
-                option.value = i;
-                option.textContent = i;
-                yearSelect.appendChild(option);
-            }
-        }
-
-        // Call the functions to populate day and year options
-        populateDayOptions();
-        populateYearOptions();
-    });
-
-    function getSelectedDayValue() {
-        const daySelect = document.querySelector('.day-select');
-        return daySelect.value;
-    }
-
-    function getSelectedYearValue() {
-        const yearSelect = document.querySelector('.year-select');
-        return yearSelect.value;
-    }
-</script>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-       
-        function showForm() {
-            // Show the form
-            $('#passengerForm').show();
-
-            // Hide the modal
-            //$('#dataPopup').modal('hide');
-        }
-
-        // $("#enteredData").on("click", "#editData", function () {
-        //     // Show the form and hide the modal
-        //     showForm();
-        // });
-        $("#editData").click(function () {
-            $("#dataPopup").hide();
-            //$('#passengerForm').show();
-            //$("#contactfocus").focus();
-            //$("#dataPopup").fadeOut();
-        });
-
-
-
-
-        $("#showReviewPopup").click(function (e) {
-            e.preventDefault(); // Prevent the form from submitting
-            //alert("A");
-            // Collect the entered data from the form
-            var enteredData = "";
-            for (var i = 0; i < @Model.passeengerlist.passengers.Count; i++) {
-                var firstName = $("input[name='passengerdetails[" + i + "].First']").val();
-                var lastName = $("input[name='passengerdetails[" + i + "].Last']").val();
-                var title = $("select[name='passengerdetails[" + i + "].Title']").val();
-                var Passengertypecode = $("input[name='passengerdetails[" + i + "].passengertypecode']").val();
-
-                if (Passengertypecode == "ADT") { Passengertypecode = "Adult"; }
-                if (Passengertypecode == "CHD") { Passengertypecode = "Child"; }
-                
-                enteredData += "<p><strong>Passenger " + (i + 1) + ": (" + Passengertypecode + ")</strong><br>";
-                enteredData += "Title: " + title + "<br>";
-                enteredData += "First Name: " + firstName + "<br>";
-                enteredData += "Last Name: " + lastName + "</p>";
-                
-            }
-            //alert(enteredData);
-
-            // Display the entered data in the popup
-            $("#enteredData").html(enteredData);
-
-            // Show the popup
-            $('#dataPopup').modal('show');
-
-            // Hide the form
-            //$('#passengerForm').hide();
-        });
-
-        //Ajax
-        //Contact Details Send data  //url: "/SGTripsell/SGTravllerDetails",
-        $("#ContinueData").click(function () {
-            $('#passengers_id').hide(); //Contact Details Div Hide
-            var formData = new FormData($("#passengerForm")[0]);
-            $.ajax({
-                url: "/SGTripsell/SGTravllerDetails",
-                type: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (result) {
-                    // Handle the response from the server if needed
-                },
-                error: function (error) {
-                    // Handle any errors here
-                }
-            });
-        });
-
-
-    });
-    //*********** TravellerInfoPartialview ************//
-    // function SubmitTravellerInfoo() {
-    //     alert("post data");
-    //     debugger;
-    //     var first = $("#first").val();
-    //     var last = $("#last").val();
-    //     var origin = $("#txtorigin").val();
-    //     var departure = $("#txtodeparture").val();
-    //     var destination = $("#txtdestination").val();
-    //     var identifier = $("#txtidentifier").val();
-    //     var carrierCode = $("#txtcarrierCode").val();
-    //     var passengerkey = $("#txtpassengerkey").val();
-    //     var title = $("#Value").val();
-    //     data =
-    //     {
-    //         first: first,
-    //         last: last,
-    //         origin: origin,
-    //         departure: departure,
-    //         destination: destination,
-    //         identifier: identifier,
-    //         carrierCode: carrierCode,
-    //         passengerkey: passengerkey,
-    //         title: title
-    //     };
-    //     $.ajax({
-    //         url: "/AATripsell/TravllerDetails",
-    //         type: "POST",
-    //         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-    //         data: data,
-    //         success: function (data) {
-    //             if (data) {
-    //                 $('#exampleModalCenter').html(data);
-    //                 $('#exampleModalCenter').modal();
-    //             }
-    //         },
-    //         error: function (err) {
-    //             console.error(err);
-    //         }
-    //     });
-
-
-    // }
-
-
-
-</script> *@
 
 
 <div class="modal fade" id="dataPopup" tabindex="-1" role="dialog" aria-labelledby="dataPopupLabel" aria-hidden="true">

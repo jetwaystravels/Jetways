@@ -48,13 +48,15 @@
 
                     @for (int j = 0; j < segmentcount; j++)
                     {
-
-                        peradtamounsegment = @Model.passeengerlist.journeys[0].segments[j].fares[0].passengerFares[0].serviceCharges[0].amount;
-                        peradtamount += peradtamounsegment;
-                        if (@Model.passeengerlist.journeys[0].segments[j].fares[0].passengerFares.Count == 2)
+                        if (Model.passeengerlist.journeys[0].segments[j].fares[0].passengerFares.Count > 0)
                         {
-                            perchdamounsegment = @Model.passeengerlist.journeys[0].segments[j].fares[0].passengerFares[1].serviceCharges[0].amount;
-                            perchdtamount += perchdamounsegment;
+                            peradtamounsegment = @Model.passeengerlist.journeys[0].segments[j].fares[0].passengerFares[0].serviceCharges[0].amount;
+                            peradtamount += peradtamounsegment;
+                            if (@Model.passeengerlist.journeys[0].segments[j].fares[0].passengerFares.Count == 2)
+                            {
+                                perchdamounsegment = @Model.passeengerlist.journeys[0].segments[j].fares[0].passengerFares[1].serviceCharges[0].amount;
+                                perchdtamount += perchdamounsegment;
+                            }
                         }
 
                     }

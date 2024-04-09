@@ -608,17 +608,34 @@
                                                 @for (var k = 0; k < Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual.Count; k++)
                                                 {
                                                     string Faretype = string.Empty;
+                                                    if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Indigo)
+                                                    {
+                                                        if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("J"))
+                                                            Faretype = "Flexi Plus";
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("R"))
+                                                            Faretype = "Saver";
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("O"))
+                                                            Faretype = "Super 6E";
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("A"))
+                                                            Faretype = "Family Fare";
+                                                        else
+                                                            Faretype = "Saver Fare";
+                                                    }
+                                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Spicejet)
+                                                    {
 
-                                                    if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("J"))
-                                                        Faretype = "Flexi Plus";
-                                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("R"))
-                                                        Faretype = "Saver";
-                                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("O"))
-                                                        Faretype = "Super 6E";
-                                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("A"))
-                                                        Faretype = "Family Fare";
+                                                        if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("RS"))
+                                                            Faretype = "Spice Saver";
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SF"))
+                                                            Faretype = "Spice Flex";
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SC"))
+                                                            Faretype = "Spice max";
+                                                        else
+                                                            Faretype = "Saver Fare";
+                                                    }
                                                     else
-                                                        Faretype = "Saver Fare";
+                                                         Faretype = "Saver Fare";
+
                                                     <tr>
                                                         <td>
                                                             <div><strong>@Faretype @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass</strong></div>
@@ -713,109 +730,144 @@
 
                                         <div class="tabs__content pt-20 js-tabs-content">
 
-                                            <div class="tabs__pane -tab-item-1 is-tab-el-active">
-                                                <div class="col">
-                                                    <div class="row y-gap-10 items-center">
-                                                        <div class="dst-top">@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin<i class="fa fa-angle-double-right" aria-hidden="true"></i>@Model.SimpleAvailibilityaAddResponcelist[j].designator.destination</div>
-                                                        <div class="col-sm-auto">
-                                                            @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("SG"))
-                                                            {
-
-                                                                <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
-                                                            }
-                                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("6E"))
-                                                            {
-
-                                                                <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
-                                                            }
-                                                            else
-                                                            {
-                                                                <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
-                                                            }
-                                                        </div>
+                                            @for (int a = 0; a < Model.SimpleAvailibilityaAddResponcelist[j].segments.Count; a++)
+                                            {
+                                                @for (int b = 0; b < Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs.Count; b++)
+                                                {
+                                                    <div class="tabs__pane -tab-item-1 is-tab-el-active">
                                                         <div class="col">
-                                                            <div class="row x-gap-20 items-end">
-                                                                <div class="col-auto">
-                                                                    <div class="inside-col">
-                                                                        @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("SG"))
-                                                                        {
-                                                                            CompanyName = "SpiceJet";
-                                                                        }
-                                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("6E"))
-                                                                        {
+                                                            <div class="row y-gap-10 items-center">
+                                                                <div class="dst-top">@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.origin<i class="fa fa-angle-double-right" aria-hidden="true"></i>@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.destination</div>
+                                                                <div class="col-sm-auto">
+                                                                    @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("SG"))
+                                                                    {
 
-                                                                            CompanyName = "Indigo";
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            CompanyName = "Air India Expr...";
-                                                                        }
-                                                                        <div class="lh-15 fw-500">@CompanyName</div>
-                                                                        @{
-                                                                            SegmentDatacount = Model.SimpleAvailibilityaAddResponcelist[j].segments.Count;
+                                                                        <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
+                                                                    }
+                                                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("6E"))
+                                                                    {
 
-                                                                            if (SegmentDatacount == 1)
-                                                                            {
-                                                                                <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.identifier </div>
-                                                                            }
-
-                                                                            if (SegmentDatacount == 2)
-                                                                            {
-                                                                                @for (var x = 0; x < SegmentDatacount; x++)
+                                                                        <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
+                                                                    }
+                                                                </div>
+                                                                <div class="col">
+                                                                    <div class="row x-gap-20 items-end">
+                                                                        <div class="col-auto">
+                                                                            <div class="inside-col">
+                                                                                @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("SG"))
                                                                                 {
-                                                                                    if (x == 0)
-                                                                                    {
+                                                                                    CompanyName = "SpiceJet";
+                                                                                }
+                                                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("6E"))
+                                                                                {
 
-                                                                                        <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier <b>,</b></div>
+                                                                                    CompanyName = "Indigo";
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    CompanyName = "Air India Expr...";
+                                                                                }
+                                                                                <div class="lh-15 fw-500">@CompanyName</div>
+                                                                                @{
+                                                                                    SegmentDatacount = Model.SimpleAvailibilityaAddResponcelist[j].segments.Count;
 
-                                                                                    }
-                                                                                    else
-                                                                                    {
-                                                                                        <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier</div>
+                                                                                    //if (SegmentDatacount == 1)
+                                                                                    //{
+                                                                                    <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.identifier </div>
+                                                                                    //}
 
-                                                                                    }
+                                                                                    //if (SegmentDatacount == 2)
+                                                                                    //{
+                                                                                       // @for (var x = 0; x < SegmentDatacount; x++)
+                                                                                        //{
+                                                                                            //if (x == 0)
+                                                                                            //{
 
+                                                                                               // <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier <b>,</b></div>
+
+                                                                                            //}
+                                                                                            //else
+                                                                                            //{
+                                                                                               // <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier</div>
+
+                                                                                            //}
+
+                                                                                        //}
+                                                                                    //}
+                                                                                }
+                                                                            </div>
+                                                                        </div>
+                                                                        @{
+                                                                            departuretimefinal = @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.departureTime.ToString().Substring(11, 5);
+
+                                                                            arrivalfinal = @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.arrivalTime.ToString().Substring(11,5);
+
+                                                                            formattedTime = string.Empty;
+                                                                            arrivalDate = Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.arrival;
+                                                                            departureDate = Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.departure;
+                                                                            diff = (arrivalDate - departureDate);
+                                                                            timeSpan = TimeSpan.Parse(diff.ToString());
+                                                                            if ((int)timeSpan.Minutes == 0)
+                                                                                formattedTime = $"{(int)timeSpan.TotalHours} h";
+                                                                            else
+                                                                            {
+                                                                                if ((int)timeSpan.Hours == 0)
+                                                                                {
+                                                                                    formattedTime = $"{(int)timeSpan.Minutes} m";
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
                                                                                 }
                                                                             }
+
+
                                                                         }
+                                                                        <div class="col-auto">
+                                                                            <div class="">@departuretimefinal</div>
+                                                                            <div class="">@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.origin</div>
+                                                                            <span>Terminal-@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.departureTerminal </span>
+                                                                        </div>
+
+
+
+                                                                        <div class="col text-center">
+                                                                            <div class="px-20 md:px-0">@formattedTime</div>
+                                                                            <div class="flightLine">
+                                                                                <div></div>
+                                                                                <div></div>
+                                                                            </div>
+                                                                            <div class="mt-1">&nbsp;</div>
+                                                                        </div>
+
+                                                                        <div class="col-auto">
+                                                                            <div class="lh-15 fw-500">@arrivalfinal</div>
+                                                                            <div class="text-15 lh-15 text-light-1">@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.destination</div>
+                                                                            <span>Terminal-@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.arrivalTerminal</span>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-
-                                                                <div class="col-auto">
-                                                                    <div class="">@departuretimefinal</div>
-                                                                    <div class="">@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin</div>
-                                                                    <span>Terminal-@Model.SimpleAvailibilityaAddResponcelist[j].departureTerminal </span>
-                                                                </div>
-
-                                                                <div class="col text-center">
-                                                                    <div class="px-20 md:px-0">@formattedTime</div>
-                                                                    <div class="flightLine">
-                                                                        <div></div>
-                                                                        <div></div>
-                                                                    </div>
-                                                                    <div class="mt-1">&nbsp;</div>
-                                                                </div>
-
-                                                                <div class="col-auto">
-                                                                    <div class="lh-15 fw-500">@arrivalfinal</div>
-                                                                    <div class="text-15 lh-15 text-light-1">@Model.SimpleAvailibilityaAddResponcelist[j].designator.destination</div>
-                                                                    <span>Terminal-@Model.SimpleAvailibilityaAddResponcelist[j].arrivalTerminal</span>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
+
+                                                }
+                                            }
+
 
                                             <div class="tabs__pane -tab-item-2">
                                                 <div class="row y-gap-30">
-                                                @{
-                                                    DateTime originalDateTime = DateTime.Parse(@Model.SimpleAvailibilityaAddResponcelist[j].designator.departure.ToString());
-                                                    // Convert to the desired format
-                                                    string formattedDate = originalDateTime.ToString("dddd, dd MMM yyyy").ToUpper();
-                                                }
+                                                    @{
+                                                        DateTime originalDateTime = DateTime.Parse(@Model.SimpleAvailibilityaAddResponcelist[j].designator.departure.ToString());
+                                                        // Convert to the desired format
+                                                        string formattedDate = originalDateTime.ToString("dddd, dd MMM yyyy").ToUpper();
+                                                    }
                                                     <div class="dst-top">@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin - @Model.SimpleAvailibilityaAddResponcelist[j].designator.destination (@formattedDate) </div>
-                                                    <div class="col-lg-7">
+                                                   @* <div class="col-lg-7">
                                                         <div class="text-19 fw-600">Fare baeakup (Include all taxes)</div>
                                                         @{
                                                             @for (var l = 0; l < Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual.Count; l++)
@@ -854,19 +906,22 @@
                                                                 </table>
                                                             }
                                                         }
-                                                    </div>
+                                                    </div>*@
 
-                                                    <div class="col-lg-5">
+                                                    <div class="col-lg-4">
                                                         <div class="text-19 fw-600">Fare Rule</div>
                                                         @{
                                                             @for (var k = 0; k < Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual.Count; k++)
                                                             {
-                                                                    decimal basic = @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal - @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].taxamount;
+                                                                if(k>0){
+                                                                    break;
+                                                                }
+                                                                decimal basic = @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].faretotal - @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].taxamount;
                                                                 <table class="table mt-20">
                                                                     <thead class="bg-light-2">
                                                                         <tr>
-                                                                            <th>Fare</th>
-                                                                            <th>Refundable</th>
+                                                                            <th>Fare Details</th>
+                                                                            
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -878,30 +933,13 @@
 
                                                                         <tr>
                                                                             <td>Taxes(+)</td>
-                                                                            <td>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].taxamount.ToString("N0")</td>
+                                                                            <td>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].taxamount.ToString("N0")</td>
                                                                         </tr>
 
-                                                                        <tr>
-                                                                            <td>MFee(+)</td>
-                                                                            <td>0</td>
-                                                                        </tr>
-
-                                                                        <tr>
-                                                                            <td>GST(+)</td>
-                                                                            <td>0</td>
-                                                                        </tr>
-
-                                                                        <tr>
-                                                                            <td>Disc(-)</td>
-                                                                            <td>0</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>Tds(+)</td>
-                                                                            <td>0</td>
-                                                                        </tr>
+                                
                                                                         <tr>
                                                                             <td>Total</td>
-                                                                            <td>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal.ToString("N0")</td>
+                                                                            <td>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].faretotal.ToString("N0")</td>
                                                                         </tr>
                                                                     </tbody>
                                                                 </table>

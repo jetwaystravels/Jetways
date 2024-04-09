@@ -152,6 +152,8 @@ namespace DomainLayer.Model
         public string ssrKey { get; set; }
         public string passengerKey { get; set; }
         public string price { get; set; }
+
+        public string ssrKeydesc { get; set; }
     }
 
 }

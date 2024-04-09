@@ -34,7 +34,7 @@ namespace ServiceLayer.Service.Implementation
                 var jetwaysId = jetid[0].Autogenratednumber;
                 tb_Booking tbobj =  new tb_Booking();
                     tbobj.BookingID = ticketObject.BookingID;
-                    tbobj.jetwaysId = jetwaysId;
+                    tbobj.FlightID = jetwaysId;
                     tbobj.AirLineID = ticketObject.tb_Booking.AirLineID;
                     tbobj.Origin = ticketObject.tb_Booking.Origin;
                     tbobj.RecordLocator = ticketObject.tb_Booking.RecordLocator;

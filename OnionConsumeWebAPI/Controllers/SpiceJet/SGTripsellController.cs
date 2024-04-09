@@ -44,6 +44,7 @@ namespace OnionConsumeWebAPI.Controllers
             string passengerInfant = HttpContext.Session.GetString("SGkeypassenger");
             string Seatmap = HttpContext.Session.GetString("Seatmap");
             string Meals = HttpContext.Session.GetString("Meals");
+            string passengerNamedetails = HttpContext.Session.GetString("PassengerNameDetails");
             ViewModel vm = new ViewModel();
             if (passengerInfant != null)
             {
@@ -68,6 +69,11 @@ namespace OnionConsumeWebAPI.Controllers
                 vm.passeengerlist = passeengerlist;
                 vm.Seatmaplist = Seatmaplist;
                 vm.Meals = Mealslist;
+            }
+            if (!string.IsNullOrEmpty(passengerNamedetails))
+            {
+                List<passkeytype> passengerNamedetailsdata = (List<passkeytype>)JsonConvert.DeserializeObject(passengerNamedetails, typeof(List<passkeytype>));
+                vm.passengerNamedetails = passengerNamedetailsdata;
             }
             return View(vm);
 
@@ -93,6 +99,7 @@ namespace OnionConsumeWebAPI.Controllers
             string passengerInfant = HttpContext.Session.GetString("SGkeypassenger");
             string Seatmap = HttpContext.Session.GetString("Seatmap");
             string Meals = HttpContext.Session.GetString("Meals");
+            string passengerNamedetails = HttpContext.Session.GetString("PassengerNameDetails");
             ViewModel vm = new ViewModel();
             if (passengerInfant != null)
             {
@@ -102,6 +109,11 @@ namespace OnionConsumeWebAPI.Controllers
                 SSRAvailabiltyResponceModel Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
                 //SeatMapResponceModel Seatmaplist = new SeatMapResponceModel();
                 //SSRAvailabiltyResponceModel Mealslist = new SSRAvailabiltyResponceModel();
+                if (!string.IsNullOrEmpty(passengerNamedetails))
+                {
+                    List<passkeytype> passengerNamedetailsdata = (List<passkeytype>)JsonConvert.DeserializeObject(passengerNamedetails, typeof(List<passkeytype>));
+                    vm.passengerNamedetails = passengerNamedetailsdata;
+                }
                 vm.passeengerlist = passeengerlist;
                 vm.passeengerlistItanary = passeengerlistItanary;
                 vm.Seatmaplist = Seatmaplist;
@@ -114,16 +126,17 @@ namespace OnionConsumeWebAPI.Controllers
                 SSRAvailabiltyResponceModel Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
                 //SeatMapResponceModel Seatmaplist = new SeatMapResponceModel();
                 //SSRAvailabiltyResponceModel Mealslist = new SSRAvailabiltyResponceModel();
+                if (!string.IsNullOrEmpty(passengerNamedetails))
+                {
+                    List<passkeytype> passengerNamedetailsdata = (List<passkeytype>)JsonConvert.DeserializeObject(passengerNamedetails, typeof(List<passkeytype>));
+                    vm.passengerNamedetails = passengerNamedetailsdata;
+                }
                 vm.passeengerlist = passeengerlist;
                 vm.Seatmaplist = Seatmaplist;
                 vm.Meals = Mealslist;
             }
             return View(vm);
         }
-
-
-
-
         public async Task<IActionResult> SGContactDetails(ContactModel obj)
         {
             string tokenview = HttpContext.Session.GetString("SpicejetSignature");
@@ -158,7 +171,7 @@ namespace OnionConsumeWebAPI.Controllers
 
         //Passenger Data on Trip Page
         //[HttpPost]
-        public async Task<IActionResult> SGTravllerDetails(List<passkeytype> passengerdetails)
+        public async Task<PartialViewResult> SGTravllerDetails(List<passkeytype> passengerdetails)
         {
             HttpContext.Session.SetString("PassengerNameDetails", JsonConvert.SerializeObject(passengerdetails));
 
@@ -198,8 +211,28 @@ namespace OnionConsumeWebAPI.Controllers
                 {
 
                 }
+                string passenger = HttpContext.Session.GetString("SGkeypassenger"); //From Itenary Response
+                string passengerInfant = HttpContext.Session.GetString("SGkeypassenger");
+                string Seatmap = HttpContext.Session.GetString("Seatmap");
+                string Meals = HttpContext.Session.GetString("Meals");
+                string passengerNamedetails = HttpContext.Session.GetString("PassengerNameDetails");
+                ViewModel vm = new ViewModel();
+                passeengerlist = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
+                SeatMapResponceModel Seatmaplist = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
+                SSRAvailabiltyResponceModel Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
+                if (!string.IsNullOrEmpty(passengerNamedetails))
+                {
+                    List<passkeytype> passengerNamedetailsdata = (List<passkeytype>)JsonConvert.DeserializeObject(passengerNamedetails, typeof(List<passkeytype>));
+                    vm.passengerNamedetails = passengerNamedetailsdata;
+                }
 
-                return RedirectToAction("SpiceJetSaverTripsell", "SGTripsell", passengerdetails);
+                vm.passeengerlist = passeengerlist;
+                vm.Seatmaplist = Seatmaplist;
+                vm.Meals = Mealslist;
+
+                return PartialView("_ServiceRequestsPartialView", vm);
+
+                //return RedirectToAction("SpiceJetSaverTripsell", "SGTripsell", passengerdetails);
             }
         }
 
@@ -303,8 +336,20 @@ namespace OnionConsumeWebAPI.Controllers
         //    return RedirectToAction("Tripsell", "AATripsell");
         //}
         ////public async Task<IActionResult> PostUnitkey(string selectedIds, List<string> ssrKey)
-        public async Task<IActionResult> PostUnitkey(List<string> unitKey, List<string> ssrKey)
+        public async Task<IActionResult> PostUnitkey(List<string> unitKey, List<string> ssrKey,List<string> BaggageSSrkey)
         {
+            if (BaggageSSrkey[0]==null)
+            {
+                BaggageSSrkey = new List<string>();
+            }
+            List<string> ConnetedBaggageSSrkey = new List<string>();
+            for (int i = 0; i < BaggageSSrkey.Count; i++)
+            {
+                ConnetedBaggageSSrkey.Add(BaggageSSrkey[i].Replace("_0", "_1"));
+            }
+            //ConnetedBaggageSSrkey = BaggageSSrkey;
+            BaggageSSrkey.AddRange(ConnetedBaggageSSrkey);
+
             string tokenview = HttpContext.Session.GetString("SpicejetSignature");
             token = tokenview.Replace(@"""", string.Empty);
             if (token == "" || token == null)
@@ -321,7 +366,6 @@ namespace OnionConsumeWebAPI.Controllers
             {
                 if (ssrKey.Count >= 0)
                 {
-
                     #region SellSSr
                     SellRequest sellSsrRequest = new SellRequest();
                     SellRequestData sellreqd = new SellRequestData();
@@ -349,35 +393,60 @@ namespace OnionConsumeWebAPI.Controllers
                             sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].FlightDesignator.FlightNumber = passeengerKeyList.journeys[i].segments[j].identifier.identifier;
                             string numinfant = HttpContext.Session.GetString("PaxArray");
                             Paxes PaxNum = (Paxes)JsonConvert.DeserializeObject(numinfant, typeof(Paxes));
+                            PaxNum.Infant_ = new List<passkeytype>();
                             bool infant = false;
+
                             ssrsegmentwise _obj = new ssrsegmentwise();
                             _obj.SSRcode0 = new List<ssrsKey>();
                             _obj.SSRcode1 = new List<ssrsKey>();
+                            _obj.SSRbaggagecode0 = new List<ssrsKey>();
+                            _obj.SSRbaggagecode1 = new List<ssrsKey>();
                             for (int k = 0; k < ssrKey.Count; k++)
                             {
-
+                                string[] sskeydata = new string[2];
                                 if (ssrKey[k].Contains("_0"))
                                 {
-
+                                    sskeydata = ssrKey[k].Split("_");
                                     ssrsKey _obj0 = new ssrsKey();
-                                    _obj0.key = ssrKey[k];
+                                    _obj0.key = sskeydata[0];
                                     _obj.SSRcode0.Add(_obj0);
                                 }
                                 else if (ssrKey[k].Contains("_1"))
                                 {
+                                    sskeydata = ssrKey[k].Split("_");
                                     ssrsKey _obj1 = new ssrsKey();
                                     _obj1.key = ssrKey[k];
+                                    _obj1.key = sskeydata[0];
                                     _obj.SSRcode1.Add(_obj1);
+                                }
+
+                            }
+                            for (int k = 0; k < BaggageSSrkey.Count; k++)
+                            {
+                                string[] sskeydata = new string[2];
+                                if (BaggageSSrkey[k].Contains("_0"))
+                                {
+                                    sskeydata = BaggageSSrkey[k].Split("_");
+                                    ssrsKey _objBag0 = new ssrsKey();
+                                    _objBag0.key = sskeydata[0];
+                                    _obj.SSRbaggagecode0.Add(_objBag0);
+                                }
+                                else if (BaggageSSrkey[k].Contains("_1"))
+                                {
+                                    sskeydata = BaggageSSrkey[k].Split("_");
+                                    ssrsKey _objBag1 = new ssrsKey();
+                                    _objBag1.key = sskeydata[0];
+                                    _obj.SSRbaggagecode1.Add(_objBag1);
                                 }
 
                             }
                             if (j == 0)
                             {
-                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[PaxNum.Infant_.Count + _obj.SSRcode0.Count];
+                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[PaxNum.Infant_.Count + _obj.SSRcode0.Count + _obj.SSRbaggagecode0.Count];
                             }
                             else if (j == 1)
                             {
-                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[PaxNum.Infant_.Count + _obj.SSRcode1.Count];
+                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[PaxNum.Infant_.Count + _obj.SSRcode1.Count + _obj.SSRbaggagecode1.Count];
                             }
 
 
@@ -399,7 +468,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                                 if (TotalPaxcount > 0)
                                 {
-                                    for (int j1 = 0; j1 < PaxNum.Infant_.Count + _obj.SSRcode0.Count; j1++)
+                                    for (int j1 = 0; j1 < PaxNum.Infant_.Count + _obj.SSRcode0.Count + _obj.SSRbaggagecode0.Count; j1++)
                                     {
 
                                         if (j1 < PaxNum.Infant_.Count)
@@ -451,6 +520,38 @@ namespace OnionConsumeWebAPI.Controllers
                                                     //j1 = j1 + i1;
 
                                                 }
+                                                if (_obj.SSRbaggagecode0.Count > 0)
+                                                {
+                                                    for (int k = 0; k < PaxNum.Adults_.Count+ PaxNum.Childs_.Count; k++)//Paxnum 1 adult,1 child,1 infant 2 meal
+                                                    {
+                                                        int baggagecount = _obj.SSRbaggagecode0.Count;
+                                                        if (baggagecount > 0 && k + 1 <= baggagecount)
+                                                        {
+                                                            idx++;
+                                                            string[] wordsArray = _obj.SSRbaggagecode0[k].key.ToString().Split(' ');
+                                                            //alert(wordsArray);
+                                                            //var meal = null;
+                                                            string ssrCodeKey = "";
+                                                            if (wordsArray.Length > 1)
+                                                            {
+                                                                ssrCodeKey = wordsArray[0];
+                                                                ssrCodeKey = ssrCodeKey.Replace(@"""", "");
+                                                            }
+                                                            else
+                                                                ssrCodeKey = _obj.SSRbaggagecode0[k].key.ToString();
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx] = new PaxSSR();
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ActionStatusCode = "NN";
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRCode = ssrCodeKey;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumberSpecified = true;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumber = Convert.ToInt16(k);
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRNumber = Convert.ToInt16(0);
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
+
+                                                        }
+                                                    }
+                                                }
+
 
                                             }
                                             j1 = idx;
@@ -465,7 +566,7 @@ namespace OnionConsumeWebAPI.Controllers
                             {
                                 if (TotalPaxcount > 0)
                                 {
-                                    for (int j1 = 0; j1 < PaxNum.Infant_.Count + _obj.SSRcode1.Count; j1++)
+                                    for (int j1 = 0; j1 < PaxNum.Infant_.Count + _obj.SSRcode1.Count + _obj.SSRbaggagecode1.Count; j1++)
                                     {
 
                                         if (j1 < PaxNum.Infant_.Count)
@@ -490,7 +591,7 @@ namespace OnionConsumeWebAPI.Controllers
                                         else
                                         {
                                             int idx = 0;
-                                            if (_obj.SSRcode0.Count > 0)//&& i1 + 1 <= ssrKey.Count
+                                            if (_obj.SSRcode1.Count > 0)//&& i1 + 1 <= ssrKey.Count
                                             {
                                                 for (int i1 = 0; i1 < _obj.SSRcode1.Count; i1++)//Paxnum 1 adult,1 child,1 infant 2 meal
                                                 {
@@ -515,7 +616,38 @@ namespace OnionConsumeWebAPI.Controllers
                                                     sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
                                                     sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
                                                     //j1 = j1 + i1;
-
+                                                }
+                                                if (_obj.SSRbaggagecode1.Count > 0)
+                                                {
+                                                    idx++;
+                                                    for (int k = 0; k < PaxNum.Adults_.Count + PaxNum.Childs_.Count; k++)//Paxnum 1 adult,1 child,1 infant 2 meal
+                                                    {
+                                                        int baggagecount = _obj.SSRbaggagecode1.Count;
+                                                        if (baggagecount > 0 && k + 1 <= baggagecount)
+                                                        {
+                                                            
+                                                            string[] wordsArray = _obj.SSRbaggagecode1[k].key.ToString().Split(' ');
+                                                            //alert(wordsArray);
+                                                            //var meal = null;
+                                                            string ssrCodeKey = "";
+                                                            if (wordsArray.Length > 1)
+                                                            {
+                                                                ssrCodeKey = wordsArray[0];
+                                                                ssrCodeKey = ssrCodeKey.Replace(@"""", "");
+                                                            }
+                                                            else
+                                                                ssrCodeKey = _obj.SSRbaggagecode1[k].key.ToString();
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx] = new PaxSSR();
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ActionStatusCode = "NN";
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRCode = ssrCodeKey;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumberSpecified = true;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumber = Convert.ToInt16(k);
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRNumber = Convert.ToInt16(0);
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
+                                                            idx++;
+                                                        }
+                                                    }
                                                 }
 
                                             }
@@ -550,6 +682,7 @@ namespace OnionConsumeWebAPI.Controllers
                     #endregion
 
                 }
+
                 //if (unitKey.Count > 0)
                 //{
                 //    try
@@ -1231,6 +1364,8 @@ namespace OnionConsumeWebAPI.Controllers
         {
             public List<ssrsKey> SSRcode0 { get; set; }
             public List<ssrsKey> SSRcode1 { get; set; }
+            public List<ssrsKey> SSRbaggagecode0 { get; set; }
+            public List<ssrsKey> SSRbaggagecode1 { get; set; }
             public List<ssrsKey> SSRcodeOneWayI { get; set; }
             public List<ssrsKey> SSRcodeOneWayII { get; set; }
             public List<ssrsKey> SSRcodeRTI { get; set; }

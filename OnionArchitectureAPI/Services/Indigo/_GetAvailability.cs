@@ -126,6 +126,9 @@ namespace OnionArchitectureAPI.Services.Indigo
             _getAvailabilityReturnRQ.TripAvailabilityRequest.LoyaltyFilterSpecified = true;
             _getAvailabilityReturnRQ.TripAvailabilityRequest.LoyaltyFilter = LoyaltyFilter.MonetaryOnly;
 
+            _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].IncludeTaxesAndFees = true;
+            _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].IncludeTaxesAndFeesSpecified = true;
+
 
             SetSessionValue("IndigoReturnSignature", JsonConvert.SerializeObject(_IndigologonResponseobj.Signature));
             SetSessionValue("IndigoAvailibilityRequest", JsonConvert.SerializeObject(_getAvailabilityReturnRQ));

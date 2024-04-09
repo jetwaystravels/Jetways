@@ -13,7 +13,7 @@ namespace DomainLayer.Model
         public int Id { get; set; }
         public string BookingID { get; set; }
 
-        public string ? jetwaysId { get; set; }
+        public string ? FlightID { get; set; }
         public int AirLineID { get; set; }
         public string RecordLocator { get; set; }
         public string CurrencyCode { get; set; }

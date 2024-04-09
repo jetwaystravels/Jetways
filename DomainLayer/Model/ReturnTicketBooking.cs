@@ -532,7 +532,7 @@ namespace DomainLayer.Model
         }
         public class ReturnPassengers
         {
-           public string barcodestring { get; set; }
+            public string barcodestring { get; set; }
             public string passengerKey { get; set; }
             public object passengerAlternateKey { get; set; }
             public object customerNumber { get; set; }
@@ -553,6 +553,7 @@ namespace DomainLayer.Model
         {
             public string passengerKey { get; set; }
             public List<ReturnSeats> seats { get; set; }
+            public List<SsrReturn> SsrReturn { get; set; }
 
         }
         public class ReturnSeats
@@ -582,6 +583,28 @@ namespace DomainLayer.Model
             public object nameChanges { get; set; }
             public object convenience { get; set; }
             public Infant infant { get; set; }
+        }
+        public class SsrReturn
+        {
+            public bool isConfirmed { get; set; }
+            public bool isConfirmingUnheld { get; set; }
+            public string note { get; set; }
+            public int ssrDuration { get; set; }
+            public string ssrKey { get; set; }
+            public int count { get; set; }
+            public string ssrCode { get; set; }
+            public string MealName { get; set; }
+            public string feeCode { get; set; }
+            public bool inBundle { get; set; }
+            public string passengerKey { get; set; }
+            public object ssrDetail { get; set; }
+            public int ssrNumber { get; set; }
+            public Market market { get; set; }
+            public int available { get; set; }
+            public string ssrNestCode { get; set; }
+            public int lid { get; set; }
+            public int sold { get; set; }
+            public int unitSold { get; set; }
         }
         public class Payment
         {
@@ -725,27 +748,7 @@ namespace DomainLayer.Model
             public object adjustments { get; set; }
             public List<Charge> charges { get; set; }
         }
-        public class SsrReturn
-        {
-            public bool isConfirmed { get; set; }
-            public bool isConfirmingUnheld { get; set; }
-            public string note { get; set; }
-            public int ssrDuration { get; set; }
-            public string ssrKey { get; set; }
-            public int count { get; set; }
-            public string ssrCode { get; set; }
-            public string feeCode { get; set; }
-            public bool inBundle { get; set; }
-            public string passengerKey { get; set; }
-            public object ssrDetail { get; set; }
-            public int ssrNumber { get; set; }
-            public Market market { get; set; }
-            public int available { get; set; }
-            public string ssrNestCode { get; set; }
-            public int lid { get; set; }
-            public int sold { get; set; }
-            public int unitSold { get; set; }
-        }
+
         public class STVIDcyMn4gfn5CTFJMTIvMzAvMjAyMiAwMDo0MH5ERUxMTIvMzAvMjAyMiAwMzozMH5
         {
             public string journeyKey { get; set; }

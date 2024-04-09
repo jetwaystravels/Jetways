@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Nancy;
 using Nancy.Json;
+using Nancy.Session;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NuGet.Common;
@@ -81,12 +82,46 @@ namespace OnionConsumeWebAPI.Controllers
                 SSRAvailabiltyResponceModel BaggageDataDetails = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(BaggageData, typeof(SSRAvailabiltyResponceModel));
                 vm.passeengerlist = passeengerlist;
                 vm.Seatmaplist = Seatmaplist;
-                vm.Meals = Mealslist;                
+                vm.Meals = Mealslist;
                 vm.Baggage = BaggageDataDetails;
             }
             return View(vm);
-        }     
-    
+        }
+        public IActionResult PostSeatMapModaldataView()
+        {
+
+            List<SelectListItem> Title = new()
+            {
+                new SelectListItem { Text = "Mr", Value = "Mr" },
+                new SelectListItem { Text = "Ms" ,Value = "Ms" },
+                new SelectListItem { Text = "Mrs", Value = "Mrs"},
+
+            };
+
+            ViewBag.Title = Title;
+            var AirlineName = TempData["AirLineName"];
+            ViewData["name"] = AirlineName;
+
+            string passenger = HttpContext.Session.GetString("keypassenger");
+            string passengerInfant = HttpContext.Session.GetString("keypassengerItanary");
+            string Seatmap = HttpContext.Session.GetString("Seatmap");
+            string Meals = HttpContext.Session.GetString("Meals");
+            string BaggageData = HttpContext.Session.GetString("BaggageDetails");
+            string PassengerData = HttpContext.Session.GetString("PassengerName");
+            ViewModel vm = new ViewModel();
+            AirAsiaTripResponceModel passeengerlist = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
+            SeatMapResponceModel Seatmaplist = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
+            SSRAvailabiltyResponceModel Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
+            SSRAvailabiltyResponceModel BaggageDataDetails = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(BaggageData, typeof(SSRAvailabiltyResponceModel));
+            List<passkeytype> PassengerDataDetails = JsonConvert.DeserializeObject<List<passkeytype>>(PassengerData);
+
+            vm.passeengerlist = passeengerlist;
+            vm.Seatmaplist = Seatmaplist;
+            vm.Meals = Mealslist;
+            vm.Baggage = BaggageDataDetails;
+            vm.passkeytype = PassengerDataDetails;
+            return View(vm);
+        }
         public async Task<IActionResult> ContectDetails(ContactModel contactobject)
         {
             string tokenview = HttpContext.Session.GetString("AirasiaTokan");
@@ -180,13 +215,9 @@ namespace OnionConsumeWebAPI.Controllers
 
             return RedirectToAction("Tripsell", "AATripsell");
         }
-
-
-
-        public async Task<IActionResult> TravllerDetails(List<passkeytype> passengerdetails, List<Infanttype> infanttype)
+        public async Task<PartialViewResult> TravllerDetails(List<passkeytype> passengerdetails)
         {
             string tokenview = HttpContext.Session.GetString("AirasiaTokan");
-
 
             using (HttpClient client = new HttpClient())
             {
@@ -221,6 +252,8 @@ namespace OnionConsumeWebAPI.Controllers
                             Info.residentCountry = "IN";
                             _PassengersModel.name = name;
                             _PassengersModel.info = Info;
+
+                            HttpContext.Session.SetString("PassengerName", JsonConvert.SerializeObject(passengerdetails));
                             var jsonPassengers = JsonConvert.SerializeObject(_PassengersModel, Formatting.Indented);
                             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -295,13 +328,36 @@ namespace OnionConsumeWebAPI.Controllers
                             }
                         }
                     }
-                    HttpContext.Session.SetString("PassengerNameDetails", JsonConvert.SerializeObject(passengerdetails));
+                    //HttpContext.Session.SetString("PassengerNameDetails", JsonConvert.SerializeObject(passengerdetails));
                 }
 
-                return RedirectToAction("Tripsell", "AATripsell");
+                #region post data 
+                string passenger = HttpContext.Session.GetString("keypassenger");
+                //string passengerInfant = HttpContext.Session.GetString("keypassengerItanary");
+                string Seatmap = HttpContext.Session.GetString("Seatmap");
+                string Meals = HttpContext.Session.GetString("Meals");
+                string BaggageData = HttpContext.Session.GetString("BaggageDetails");
+                string PassengerData = HttpContext.Session.GetString("PassengerName");
+                ViewModel vm = new ViewModel();
+                AirAsiaTripResponceModel passeengerlist = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
+                SeatMapResponceModel Seatmaplist = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
+                SSRAvailabiltyResponceModel Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
+                SSRAvailabiltyResponceModel BaggageDataDetails = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(BaggageData, typeof(SSRAvailabiltyResponceModel));
+                //passkeytype PassengerDataDetails = (passkeytype)JsonConvert.DeserializeObject(PassengerData, typeof(passkeytype));
+                List<passkeytype> PassengerDataDetails = JsonConvert.DeserializeObject<List<passkeytype>>(PassengerData);
+                vm.passeengerlist = passeengerlist;
+                vm.Seatmaplist = Seatmaplist;
+                vm.Meals = Mealslist;
+                vm.Baggage = BaggageDataDetails;
+                vm.passkeytype = PassengerDataDetails;
+                #endregion
+
+                return PartialView("_ServiceRequestsPartialView", vm);
+                //return RedirectToAction("Tripsell", "AATripsell", passengerdetails);
+
+
             }
         }
-       
         public async Task<IActionResult> GetGstDetails01(AddGSTInformation addGSTInformation, string lineOne, string lineTwo, string city, string number, string postalCode)
         {
             string tokenview = HttpContext.Session.GetString("AirasiaTokan");
@@ -362,8 +418,25 @@ namespace OnionConsumeWebAPI.Controllers
             }
             return RedirectToAction("Tripsell", "AATripsell");
         }
-        public async Task<IActionResult> PostUnitkey(List<string> unitKey, List<string> ssrKey,List<string> BaggageSSrkey)
+        public async Task<IActionResult> PostUnitkey(List<string> unitKey, List<string> mealssrKey, List<string> BaggageSSrkey, List<string> wheelSsrkey)
         {
+            if (unitKey[0] == null)
+            {
+                unitKey = new List<string>();
+            }
+            if (mealssrKey[0] == null)
+            {
+                mealssrKey = new List<string>();
+            }
+            if (BaggageSSrkey[0] == null)
+            {
+                BaggageSSrkey = new List<string>();
+            }
+            if (wheelSsrkey[0] == null)
+            {
+                wheelSsrkey = new List<string>();
+            }
+
             string tokenview = HttpContext.Session.GetString("AirasiaTokan");
             token = tokenview.Replace(@"""", string.Empty);
             if (token == "" || token == null)
@@ -390,8 +463,8 @@ namespace OnionConsumeWebAPI.Controllers
                     {
                         for (int j = 0; j < passengerscount; j++)
                         {
-                            string unitKey1 = string.Empty;                            
-                            string passengerkey = passeengerKeyList.passengers[j].passengerKey;                           
+                            string unitKey1 = string.Empty;
+                            string passengerkey = passeengerKeyList.passengers[j].passengerKey;
                             string journeyKey = passeengerKeyList.journeys[0].journeyKey;
                             SeatAssignmentModel _SeatAssignmentModel = new SeatAssignmentModel();
                             _SeatAssignmentModel.journeyKey = journeyKey;
@@ -416,60 +489,75 @@ namespace OnionConsumeWebAPI.Controllers
                     {
                         for (int j = 0; j < passengerscount; j++)
                         {
-                            string unitKey1 = string.Empty;                            
-                            string passengerkey = passeengerKeyList.passengers[j].passengerKey;
-                            string journeyKey = passeengerKeyList.journeys[0].journeyKey;
-                            unitKey1 = unitKey[seatid];
-                            string[] unitKey2 = unitKey1.Split('_');
-                            string pas_unitKey = unitKey2[1];
-                            SeatAssignmentModel _SeatAssignmentModel = new SeatAssignmentModel();
-                            _SeatAssignmentModel.journeyKey = journeyKey;
-                            var jsonSeatAssignmentRequest = JsonConvert.SerializeObject(_SeatAssignmentModel, Formatting.Indented);
-                            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                            HttpResponseMessage responceSeatAssignment = await client.PostAsJsonAsync(AppUrlConstant.AirasiaSeatSelect + passengerkey + "/seats/" + pas_unitKey, _SeatAssignmentModel);
-                            //HttpResponseMessage responceSeatAssignment = await client.PostAsJsonAsync(BaseURL + "/api/nsk/v1/booking/seats/auto/" + passengerkey, _SeatAssignmentModel);
-                            if (responceSeatAssignment.IsSuccessStatusCode)
+                            if (seatid < unitKey.Count) // Check if mealid is within bounds
                             {
-                                var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
-                                var JsonObjSeatAssignment = JsonConvert.DeserializeObject<dynamic>(_responseSeatAssignment);
+                                string unitKey1 = string.Empty;
+                                string passengerkey = passeengerKeyList.passengers[j].passengerKey;
+                                string journeyKey = passeengerKeyList.journeys[0].journeyKey;
+                                unitKey1 = unitKey[seatid];
+                                string[] unitKey2 = unitKey1.Split('_');
+                                string pas_unitKey = unitKey2[1];
+                                SeatAssignmentModel _SeatAssignmentModel = new SeatAssignmentModel();
+                                _SeatAssignmentModel.journeyKey = journeyKey;
+                                var jsonSeatAssignmentRequest = JsonConvert.SerializeObject(_SeatAssignmentModel, Formatting.Indented);
+                                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                HttpResponseMessage responceSeatAssignment = await client.PostAsJsonAsync(AppUrlConstant.AirasiaSeatSelect + passengerkey + "/seats/" + pas_unitKey, _SeatAssignmentModel);
+                                //HttpResponseMessage responceSeatAssignment = await client.PostAsJsonAsync(BaseURL + "/api/nsk/v1/booking/seats/auto/" + passengerkey, _SeatAssignmentModel);
+                                if (responceSeatAssignment.IsSuccessStatusCode)
+                                {
+                                    var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
+                                    var JsonObjSeatAssignment = JsonConvert.DeserializeObject<dynamic>(_responseSeatAssignment);
+                                }
+                                seatid++;
                             }
-                            seatid++;
+                            else
+                            {
+                                break;
+                            }
                         }
                     }
-                    var mealcount = ssrKey.Count;                   
+                    var mealcount = mealssrKey.Count;
                     if (mealcount > 0)
                     {
                         int mealid = 0;
-                        int mealssr = Mealslist.legSsrs.Count;                   
-                                               
+                        int mealssr = Mealslist.legSsrs.Count;
+
                         for (int k = 0; k < mealssr; k++)
                         {
-                            for (int l = 0; l< passengerscount; l++)
+                            for (int l = 0; l < passengerscount; l++)
                             {
-                                string mealskey = string.Empty;
-                                mealskey = ssrKey[mealid];
-                                string[] MealSSrKeyData = mealskey.Split('_');
-                                string pas_SsrKey = MealSSrKeyData[0];                               
-                                SellSSRModel _sellSSRModel = new SellSSRModel();
-                                _sellSSRModel.count = 1;
-                                _sellSSRModel.note = "DevTest";
-                                _sellSSRModel.forceWaveOnSell = false;
-                                _sellSSRModel.currencyCode = "INR";
-
-                                var jsonSellSSR = JsonConvert.SerializeObject(_sellSSRModel, Formatting.Indented);
-                                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                                HttpResponseMessage responseSellSSR = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/ssrs/" + pas_SsrKey, _sellSSRModel);
-                                if (responseSellSSR.IsSuccessStatusCode)
+                                if (mealid < mealssrKey.Count) // Check if mealid is within bounds
                                 {
-                                    var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
-                                    var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
+                                    string mealskey = string.Empty;
+                                    mealskey = mealssrKey[mealid];
+                                    string[] MealSSrKeyData = mealskey.Split('_');
+                                    string pas_SsrKey = MealSSrKeyData[0];
+                                    SellSSRModel _sellSSRModel = new SellSSRModel();
+                                    _sellSSRModel.count = 1;
+                                    _sellSSRModel.note = "DevTest";
+                                    _sellSSRModel.forceWaveOnSell = false;
+                                    _sellSSRModel.currencyCode = "INR";
+
+                                    var jsonSellSSR = JsonConvert.SerializeObject(_sellSSRModel, Formatting.Indented);
+                                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                    HttpResponseMessage responseSellSSR = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/ssrs/" + pas_SsrKey, _sellSSRModel);
+                                    if (responseSellSSR.IsSuccessStatusCode)
+                                    {
+                                        var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
+                                        var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
+                                    }
+                                    mealid++;
                                 }
-                                mealid++;
+                                else
+                                {
+
+                                    break;
+                                }
                             }
-                        }                      
-                        
+                        }
+
                     }
                     #region Baggage
                     var baggagecount = BaggageSSrkey.Count;
@@ -480,29 +568,79 @@ namespace OnionConsumeWebAPI.Controllers
                         for (int k = 0; k < baggageSsr; k++)
                         {
                             for (int i = 0; i < passengerscount; i++)
-                            {                          
-
-
-                                string BaggageKey = string.Empty;
-                                BaggageKey = BaggageSSrkey[baggageid];
-                                string[] BaggageSSrKeyData = BaggageKey.Split('_');
-                                string pas_BaggageSsrKey = BaggageSSrKeyData[0];
-
-                                SellSSRModel _sellSSRModel = new SellSSRModel();
-                                _sellSSRModel.count = 1;
-                                _sellSSRModel.note = "DevTest";
-                                _sellSSRModel.forceWaveOnSell = false;
-                                _sellSSRModel.currencyCode = "INR";
-                                var jsonSellSSR = JsonConvert.SerializeObject(_sellSSRModel, Formatting.Indented);
-                                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                                HttpResponseMessage responseSellSSR = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/ssrs/" + pas_BaggageSsrKey, _sellSSRModel);
-                                if (responseSellSSR.IsSuccessStatusCode)
+                            {
+                                if (baggageid < BaggageSSrkey.Count) // Check if mealid is within bounds
                                 {
-                                    var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
-                                    var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
+
+
+                                    string BaggageKey = string.Empty;
+                                    BaggageKey = BaggageSSrkey[baggageid];
+                                    string[] BaggageSSrKeyData = BaggageKey.Split('_');
+                                    string pas_BaggageSsrKey = BaggageSSrKeyData[0];
+
+                                    SellSSRModel _sellSSRModel = new SellSSRModel();
+                                    _sellSSRModel.count = 1;
+                                    _sellSSRModel.note = "DevTest";
+                                    _sellSSRModel.forceWaveOnSell = false;
+                                    _sellSSRModel.currencyCode = "INR";
+                                    var jsonSellSSR = JsonConvert.SerializeObject(_sellSSRModel, Formatting.Indented);
+                                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                    HttpResponseMessage responseSellSSR = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/ssrs/" + pas_BaggageSsrKey, _sellSSRModel);
+                                    if (responseSellSSR.IsSuccessStatusCode)
+                                    {
+                                        var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
+                                        var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
+                                    }
+                                    baggageid++;
                                 }
-                                baggageid++;
+                                else
+                                {
+                                    break;
+                                }
+
+                            }
+                        }
+                    }
+                    #endregion
+
+                    #region WheelBaggage
+                    var WheelChaircount = wheelSsrkey.Count;
+                    int WheelChairbaggageSsr = BaggageDetails.journeySsrsBaggage.Count;
+                    if (WheelChaircount > 0)
+                    {
+                        int WheelChairid = 0;
+                        for (int k = 0; k < WheelChairbaggageSsr; k++)
+                        {
+                            for (int i = 0; i < passengerscount; i++)
+                            {
+                                if (WheelChairid < wheelSsrkey.Count) // Check if mealid is within bounds
+                                {
+                                    string wheelChairKey = string.Empty;
+                                    wheelChairKey = wheelSsrkey[WheelChairid];
+                                    string[] WheelSSrKeyData = wheelChairKey.Split('_');
+                                    string pas_WheelSsrKey = WheelSSrKeyData[0];
+
+                                    SellSSRModel _sellSSRModel = new SellSSRModel();
+                                    _sellSSRModel.count = 1;
+                                    _sellSSRModel.note = "DevTest";
+                                    _sellSSRModel.forceWaveOnSell = false;
+                                    _sellSSRModel.currencyCode = "INR";
+                                    var jsonSellSSR = JsonConvert.SerializeObject(_sellSSRModel, Formatting.Indented);
+                                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                    HttpResponseMessage responseSellSSR = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/ssrs/" + pas_WheelSsrKey, _sellSSRModel);
+                                    if (responseSellSSR.IsSuccessStatusCode)
+                                    {
+                                        var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
+                                        var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
+                                    }
+                                    WheelChairid++;
+                                }
+                                else
+                                {
+                                    break;
+                                }
 
                             }
                         }
@@ -518,7 +656,7 @@ namespace OnionConsumeWebAPI.Controllers
                 HttpResponseMessage responceGetBooking01 = await client.GetAsync(AppUrlConstant.AirasiaGetBoking);
                 if (responceGetBooking01.IsSuccessStatusCode)
                 {
-                    // string BaseURL1 = "http://localhost:5225/";
+
                     var _responceGetBooking = responceGetBooking01.Content.ReadAsStringAsync().Result;
 
                     var JsonObjGetBooking = JsonConvert.DeserializeObject<dynamic>(_responceGetBooking);
@@ -526,12 +664,14 @@ namespace OnionConsumeWebAPI.Controllers
                 }
                 #endregion
             }
-            //return RedirectToAction("booking", "CommitBooking");
+
             return RedirectToAction("AirAsiaOneWayPaymentView", "AirAsiaOneWayPayment");
         }
 
     }
 }
+
+
 
 
 

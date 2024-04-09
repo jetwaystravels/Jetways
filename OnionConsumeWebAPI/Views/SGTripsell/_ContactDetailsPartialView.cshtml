@@ -6,46 +6,27 @@
 
         <div class="col-md-3">
             <div class="form-input ">
-                <input type="text" name="first" id="first" class="firstNClass" placeholder="First Name">
+                <input type="text" name="first" maxlength="32" oninput="validateInput(event)" id="first" class="firstNClass" placeholder="First Name">
             </div>
-            <p id="error-message1" class="error-message" style="display:none">Type your First name</p>
+            <p id="error-message1" class="error-message" style="display:none">Enter First name</p>
+            <p id="errorMessage" style="color: red;font-size:13px;"></p>
         </div>
-        @* <div class="col-md-3">
-        <div class="form-input">
-        <input type="text" name="middle" id="middle" placeholder="Middle Name">
-        </div>
-        <p id="error-message4" class="error-message" style="display:none">Type your middle name</p>
-        </div> *@
+     
         <div class="col-md-3">
             <div class="form-input ">
-                <input type="text" name="last" id="last" class="lastNClass" placeholder="Last Name">
+                <input type="text" name="last" maxlength="32" id="last" oninput="validateInput2(event)" class="lastNClass" placeholder="Last Name">
             </div>
-            <p id="error-message2" class="error-message" style="display:none">Type your Last name</p>
+            <p id="error-message2" class="error-message" style="display:none">Enter Last name</p>
+             <p id="errorMessage2" style="color: red;font-size:13px;"></p>
         </div>
-        @* <div class="col-md-3">
-        <div class="form-input ">
-        <input type="text" name="lineOne" id="lineOne" placeholder="Address1">
-        </div>
-        <p id="error-message3" class="error-message" style="display:none">Type your address</p>
-        </div> *@
-        @*  <div class="col-md-3">
-        <div class="form-input ">
-        <input type="text" name="city" id="city" placeholder="City">
-        </div>
-        <p id="error-message5" class="error-message" style="display:none">Type your City Name</p>
-        </div> *@
-        @*  <div class="col-md-3">
-        <div class="form-input">
-        <input type="number" name="postalCode" id="postalCode" placeholder="Postal Code">
-        </div>
-        <p id="error-message6" class="error-message" style="display:none">Type your Postal Code</p>
-        </div> *@
+    
 
         <div class="col-md-3">
             <div class="form-input">
-                <input type="text" name="emailAddress" class="emailNClass" id="emailAddress" placeholder="Email ID">
+                <input type="text" name="emailAddress" maxlength="266" oninput="validateEmail(event)" class="emailNClass" id="emailAddress" placeholder="Email ID">
             </div>
-            <p id="error-message7" class="error-message" style="display:none">Type your emai ID</p>
+            <p id="error-message7" class="error-message" style="display:none">Enter email ID</p>
+            <p id="emailErrorMessage" style="color: red; font-size:13px;"></p>
         </div>
 
         <div class="col-md-1 phone-code">
@@ -55,9 +36,10 @@
         </div>
         <div class="col-md-2 phone-number">
             <div class="form-input">
-                <input type="number" name="number" id="number" class="phoneNClass" placeholder="Phone Number">
+                <input type="text" name="number" id="number" class="phoneNClass" placeholder="Phone Number" oninput="validatePhoneNumber(event)">
             </div>
-            <p id="error-message8" class="error-message" style="display:none">Type your Phone Number</p>
+            <p id="error-message8" class="error-message" style="display:none">Enter Phone Number</p>
+            <p id="phoneNumberErrorMessage" style="color: red;font-size:13px;"></p>
         </div>
         <div class="d-flex justify-content-between mt-3">
             <div class="d-flex align-items-center">
@@ -81,34 +63,20 @@
         <div class="col-md-3">
             <div class="form-input">
                
-                <input type="text" name="companyName" class="companyName hid-block hidden" id="companyname" placeholder="Company Name">
+                <input type="text" id="gstname" maxlength="32" name="companyName" oninput="validateInputgst(event)" class="companyName hid-block hidden" id="companyname" placeholder="Company Name">
             </div>
+            <p id="errorMessagegst" style="color: red;font-size:13px;"></p>
+            <p id="error-message9" class="error-message" style="display:none">Enter Company Name</p>
         </div>
         <div class="col-md-3">
             <div class="form-input">
-                <input type="text" name="customerNumber" class="companyName hid-block hidden" id="gstnum" placeholder="GST Number">
+                <input type="text" id="gstnumber" name="customerNumber" oninput="validateGST(event)" class="companyName hid-block hidden" id="gstnum" placeholder="GST Number">
             </div>
-        </div>
-        @* <div class="col-md-3">
-        <div class="form-input">
-        <input type="text" name="gstemail" class="companyName hid-block hidden" id="gstemail" placeholder="Email ID">
-        </div>
-        </div> *@
+            <p id="gstErrorMessage" style="color: red;font-size:13px;"></p>
+            <p id="error-message10" class="error-message" style="display:none">Enter GST Number</p>
 
-
-
-        @*  <div class="d-flex justify-content-between mt-3">
-        <div class="d-flex align-items-center">
-        <div class="">
-        Same as lead passenger <button id="leadpassengerButton" class="checkbox-button ms-2"></button>
         </div>
-        <div class="ms-3">
-        Do you have GST  <button id="GSTButton" class="checkbox-button ms-2"></button>
-        </div>
-        </div>
-        <div><input type="submit" class="btn btn-primary pagelaod" value="Save" /></div>
-
-        </div> *@
+       
 
     </div>
 </form>
@@ -199,6 +167,7 @@
         if (buttongst.checked) {
 
             buttongst.classList.add('checked');
+           
         } else {
             buttongst.classList.remove('checked');
         }
@@ -263,15 +232,12 @@
                 document.getElementById("first").focus();
                 return false;
             }
+            else {
+                var firstToDisplay = document.getElementById("error-message1");
+                firstToDisplay.style.display = "none";
+            }
 
-            // var middelfocus = document.getElementById("middle").value;
-            // if (middelfocus == "") {
-            //     //alert("Enter Origin Name");
-            //     var middelToDisplay = document.getElementById("error-message4");
-            //     middelToDisplay.style.display = "block";
-            //     document.getElementById("middle").focus();
-            //     return false;
-            // }
+         
             var lastfocus = document.getElementById("last").value;
             if (lastfocus == "") {
                 //alert("Enter Origin Name");
@@ -280,31 +246,10 @@
                 document.getElementById("last").focus();
                 return false;
             }
-            // var addrresfocus = document.getElementById("lineOne").value;
-            // if (addrresfocus == "") {
-            //     //alert("Enter Origin Name");
-            //     var firstToDisplay = document.getElementById("error-message3");
-            //     firstToDisplay.style.display = "block";
-            //     document.getElementById("lineOne").focus();
-            //     return false;
-            // }
-            // let cityfocus = document.getElementById("city").value;
-            // if (cityfocus == "") {
-            //     //alert("Enter Origin Name");
-            //     let cityToDisplay = document.getElementById("error-message5");
-            //     cityToDisplay.style.display = "block";
-            //     document.getElementById("city").focus();
-            //     return false;
-            // }
-
-            // let postalfocus = document.getElementById("postalCode").value;
-            // if (postalfocus == "") {
-            //     //alert("Enter Origin Name");
-            //     let postalCodeToDisplay = document.getElementById("error-message6");
-            //     postalCodeToDisplay.style.display = "block";
-            //     document.getElementById("postalCode").focus();
-            //     return false;
-            // }
+            else {
+                var firstToDisplay = document.getElementById("error-message2");
+                firstToDisplay.style.display = "none";
+            }
 
 
             let emailfocus = document.getElementById("emailAddress").value;
@@ -315,6 +260,10 @@
                 emailToDisplay.style.display = "block";
                 document.getElementById("emailAddress").focus();
                 return false;
+            }
+            else {
+                let emailToDisplay = document.getElementById("error-message7");
+                emailToDisplay.style.display = "none";
             }
 
             let phonefocus = document.getElementById("number").value;
@@ -332,6 +281,8 @@
                 alert("Please enter a valid 10-digit mobile number.");
                 return false;
             }
+
+        
 
 
 
@@ -364,58 +315,151 @@
 
 
         });
+
+    
+
     });
+
+   
+    function validateInput(event) {
+        const input = event.target.value;
+        const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
+
+        if (!regex.test(input)) {
+            document.getElementById('errorMessage').innerText = "";
+            event.target.value = input.replace(/[^a-zA-Z]/g, ''); // Remove non-alphabetic characters
+        } else {
+            document.getElementById('errorMessage').innerText = "";
+        }
+
+        var firstfocus = document.getElementById("first").value;
+        if (firstfocus == "") {
+            //alert("Enter Origin Name");
+            var firstToDisplay = document.getElementById("error-message1");
+            firstToDisplay.style.display = "block";
+            document.getElementById("first").focus();
+            return false;
+        }
+        else {
+            var firstToDisplay = document.getElementById("error-message1");
+            firstToDisplay.style.display = "none";
+        }
+    }
+    function validateInput2(event) {
+        const input = event.target.value;
+        const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
+
+        if (!regex.test(input)) {
+            document.getElementById('errorMessage2').innerText = "";
+            event.target.value = input.replace(/[^a-zA-Z]/g, ''); // Remove non-alphabetic characters
+        } else {
+            document.getElementById('errorMessage2').innerText = "";
+        }
+        var lastfocus = document.getElementById("last").value;
+        if (lastfocus == "") {
+            //alert("Enter Origin Name");
+            var firstToDisplay = document.getElementById("error-message2");
+            firstToDisplay.style.display = "block";
+            document.getElementById("last").focus();
+            return false;
+        }
+        else {
+            var firstToDisplay = document.getElementById("error-message2");
+            firstToDisplay.style.display = "none";
+        }
+
+
+    }
+
+      function validateEmail(event) {
+          const email = event.target.value;
+          //const regex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/; // Regular expression for basic email validation
+          const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/; // Regular expression for basic email validation
+      
+          if (!regex.test(email)) {
+            document.getElementById('emailErrorMessage').innerText = "valid email";
+          } else {
+            document.getElementById('emailErrorMessage').innerText = "";
+          }
+
+        let emailfocus = document.getElementById("emailAddress").value;
+
+        if (emailfocus == "") {
+            //alert("Enter Origin Name");
+            let emailToDisplay = document.getElementById("error-message7");
+            emailToDisplay.style.display = "block";
+            document.getElementById("emailAddress").focus();
+            return false;
+        }
+        else {
+            let emailToDisplay = document.getElementById("error-message7");
+            emailToDisplay.style.display = "none";
+        }
+
+
+      }
+
+    function validatePhoneNumber(event) {
+        const phoneNumber = event.target.value;
+        const regex = /^\d{10}$/; // Regular expression for 10-digit phone number validation
+
+        if (!regex.test(phoneNumber)) {
+            document.getElementById('phoneNumberErrorMessage').innerText = "valid number";
+        } else {
+            document.getElementById('phoneNumberErrorMessage').innerText = "";
+        }
+        let phonefocus = document.getElementById("number").value;
+        if (phonefocus == "") {
+
+            let phoneToDisplay = document.getElementById("error-message8");
+            phoneToDisplay.style.display = "block";
+            document.getElementById("number").focus();
+            return false;
+        }
+        else {
+            let phoneToDisplay = document.getElementById("error-message8");
+            phoneToDisplay.style.display = "none";
+        }
+    }
+
+    function validateInputgst(event) {
+        const input = event.target.value;
+        const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
+
+        if (!regex.test(input)) {
+            document.getElementById('errorMessagegst').innerText = "";
+            event.target.value = input.replace(/[^a-zA-Z]/g, ''); // Remove non-alphabetic characters
+        } else {
+            document.getElementById('errorMessagegst').innerText = "";
+        }
+    }
+
+    function validateGST(event) {
+        const gstNumber = event.target.value.toUpperCase(); // Convert to uppercase for consistency
+        //const regex = /^[0-9A-Z]{15}$/; // Regular expression for 15-character GST number validation
+        const regex = /^([0-9]){2}([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}([0-9]){1}([a-zA-Z]){1}([0-9]){1}?$/; // Regular expression for 15-character GST number validation
+
+        if (gstNumber.trim() === "") {
+            document.getElementById('gstErrorMessage').innerText = "Enter a GST number.";
+        } else if (!regex.test(gstNumber)) {
+            document.getElementById('gstErrorMessage').innerText = "Enter a valid 15-character GST number.";
+        } else {
+            document.getElementById('gstErrorMessage').innerText = "";
+        }
+
+        let gstnamefocus = document.getElementById("gstname").value;
+
+        if (gstnamefocus == "") {
+            //alert("Enter Origin Name");
+            let gstToDisplay = document.getElementById("error-message9");
+            gstToDisplay.style.display = "block";
+            document.getElementById("emailAddres9").focus();
+            return false;
+        }
+        else {
+            let gstToDisplay = document.getElementById("error-message9");
+            gstToDisplay.style.display = "none";
+        }
+    }
 </script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-@* <form asp-action="SGContactDetails" asp-controller="SGTripsell" method="post">
-   
-    <div class="row  row mt-2 py-3 mb-3">
-        
-        <div class="col-12">
-            <label class="text-18 fw-600">Contact Details</label>
-        </div>
-
-        <div class="col-md-6">
-            <div class="form-input ">
-
-                <input type="text" name="emailAddress" id="emailAddress">
-                <label class="lh-1 text-16 text-light-1">Email ID</label>
-            </div>
-        </div>
-
-        <div class="col-md-2 phone-code">
-            <select class="form-control form-control-lg">
-                <option>+91</option>
-            </select>
-        </div>
-        <div class="col-md-4 phone-number">
-            <div class="form-input">
-                <input type="text" name="number" id="number">
-                <label class="lh-1 text-16 text-light-1">Phone Number</label>
-            </div>
-        </div>
-        <div class="d-flex justify-content-end mt-3">
-            <input type="submit" class="btn btn-primary pagelaod" value="Save" />
-        </div>
-
-</div>
-</form>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $(".pagelaod").click(function (e) {
-            e.preventDefault();
-       
-    });
-</script>  *@

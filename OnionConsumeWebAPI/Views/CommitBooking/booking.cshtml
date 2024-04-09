@@ -40,6 +40,10 @@
                 border-top: 1px dashed #000;
                 margin-top: 0px;
             }
+
+        .img-height img {
+            height: 80px !important;
+        }
     </style>
 </head>
 <body>
@@ -89,9 +93,9 @@
 
                     <!------Passengers-Detail-Section--------->
                     @for (int i = 0; i < Model.AirlinePNR[0].passengerscount; i++)
-                    {                         
+                    {
                         <div class="col-12 PDetail">
-                            
+
                             <div class="d-flex flex-row justify-content-between">
                                 <div class="Pdetail1">
 
@@ -100,7 +104,7 @@
                                         <li class="tlist-none"><span id="Pname1" class="fw-bold-600">@Model.AirlinePNR[0].passengers[i].name.first</span></li>
                                         @* <li class="tlist-none"><span>(Adult)</span></li> *@
                                     </ul>
-                                </div>                             
+                                </div>
 
                                 <div class="Pdetail1">
                                     <ul class="td-inline">
@@ -118,22 +122,22 @@
 
 
                             </div>
-                          
-                            @if (Model.AirlinePNR[0].passengers[i].infant!=null)
+
+                            @if (Model.AirlinePNR[0].passengers[i].infant != null)
                             {
                                 @if (Model.AirlinePNR[0].passengers[i].infant.name != null)
                                 {
                                     <div class="d-flex flex-row justify-content-between">
                                         <div class="Pdetail1">
 
-                                            <ul class="td-inline">
+                                            <ul class="td-inline  img-height">
                                                 <li class="tlist-none"><span id="Adult1"></span></li>
                                                 <li class="tlist-none"><span id="Pname1" class="fw-bold-600">@Model.AirlinePNR[0].passengers[i].infant.name.first</span></li>
                                                 @* <li class="tlist-none"><span>(Adult)</span></li> *@
                                             </ul>
-                                        </div>                                      
+                                        </div>
                                         <div class="Pdetail1">
-                                            <ul class="td-inline">
+                                            <ul class="td-inline  img-height">
                                                 @{
                                                     imageUrl1 = @Model.AirlinePNR[0].passengers[i].barcodestring;
                                                     // string imageUrl1 = ViewData["ImageBytes"] as string;
@@ -237,30 +241,59 @@
                                         {
                                             <p>No passenger segments found.</p>
                                         }
+
+
+                                        if (passengerSegmentsList != null)
+                                        {
+                                            foreach (var passengerSegment in passengerSegmentsList)
+                                            {
+                                                @foreach (var ssrReturn in passengerSegment.SsrReturn)
+                                                {
+                                                    if (ssrReturn.MealName != null)
+                                                    {
+                                                        if (ssrReturn.MealName.StartsWith("V", StringComparison.OrdinalIgnoreCase))
+                                                        {
+
+
+
+                                                            <div class="tseat5d d-flex align-items-center">
+                                                                <span><img src="~/img/pmeal.png"></span>
+                                                                <div class="pmeal ps-2">
+                                                                    <span class="fw-bold-600">
+                                                                        @Model.AirlinePNR[0].journeys[0].segments[0].designator.origin
+                                                                        -@Model.AirlinePNR[0].journeys[0].segments[0].designator.destination:
+                                                                        @ssrReturn.MealName
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                        <div class="tseat5d d-flex align-items-center">
+                                                            <span><img src="~/img/pbaggage.png"></span>
+                                                            <div class="baggag ps-2 ">
+                                                                @if (ssrReturn.MealName.StartsWith("P", StringComparison.OrdinalIgnoreCase))
+                                                                {
+                                                                    <div class="bgagg-kg">
+                                                                        <span>Baggage:</span> <span class="fw-bold-600">@ssrReturn.MealName</span>
+                                                                        @*<span>Check-In -</span> <span class="fw-bold-600"> 15Kgs</span>*@
+                                                                    </div>
+                                                                }
+                                                                <div class="bgagg-kg">
+                                                                    <span>Extra Baggage: </span> <span class="fw-bold-600"> NA</span>
+                                                                </div>
+                                                                @if (ssrReturn.MealName.StartsWith("W", StringComparison.OrdinalIgnoreCase))
+                                                                {
+                                                                    <div class="bgagg-kg">
+                                                                        <span>Special request: </span> <span class="fw-bold-600"> @ssrReturn.MealName</span>
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
-
-                                <div class="tseat5d d-flex align-items-center">
-                                    <span><img src="~/img/pmeal.png"></span>
-                                    <div class="pmeal ps-2">
-                                        <span class="fw-bold-600"> @Model.AirlinePNR[0].journeys[0].segments[0].designator.origin-@Model.AirlinePNR[0].journeys[0].segments[0].designator.destination: CPML(Select On board)</span>
-                                    </div>
-                                </div>
-                                <div class="tseat5d d-flex align-items-center">
-                                    <span><img src="~/img/pbaggage.png"></span>
-                                    <div class="baggag ps-2 ">
-                                        <div class="bgagg-kg">
-                                            <span>Baggage:</span> <span class="fw-bold-600"> Cabin - 7kgs,</span>
-                                            <span>Check-In -</span> <span class="fw-bold-600"> 15Kgs</span>
-                                        </div>
-                                        <div class="bgagg-kg">
-                                            <span>Extra Baggage: </span> <span class="fw-bold-600"> NA</span>
-                                        </div>
-                                        <div class="bgagg-kg">
-                                            <span>Special request: </span> <span class="fw-bold-600"> -</span>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
 
                         </div>
