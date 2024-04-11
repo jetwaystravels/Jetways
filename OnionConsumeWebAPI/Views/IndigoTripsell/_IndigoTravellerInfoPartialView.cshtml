@@ -9,8 +9,8 @@
     @* <label class="text-18 fw-600">Traveller Information</label>
 
     <div class="mb-3">
-        <span class="text-primary fw-600" >Important Note:</span>
-        <span id="contactfocus">Please ensure that the names of the passengers on the travel documents is the same as on their government issued identity proof.</span>
+    <span class="text-primary fw-600" >Important Note:</span>
+    <span id="contactfocus">Please ensure that the names of the passengers on the travel documents is the same as on their government issued identity proof.</span>
     </div> *@
 
 
@@ -30,11 +30,10 @@
                 <div class="col-md-1">
                     <select name="passengerdetails[@i].Title" class="form-control" asp-items="@ViewBag.Title"></select>
                 </div>
-
-                <div class="col-md-3">
+                <div class="col-md-3 inputFirstname">
                     <div class="form-input">
 
-                        <input type="text" class="contactFname" maxlength="32" id="LeadPass1" oninput="validateInputT(event)" placeholder="First & middle name" name="passengerdetails[@i].First" required />
+                        <input type="text" class="contactFname" maxlength="32" oninput="validateInputT(event)" id="LeadPass[@i]" placeholder="First & middle name" name="passengerdetails[@i].First" required />
 
                     </div>
                     <p id="error-Fname" class="error-message error-CFname" style="display:none">Enter first name</p>
@@ -43,7 +42,7 @@
                 <div class="col-md-3">
                     <div class="form-input">
 
-                        <input type="text" class="contactLname" maxlength="32" oninput="validateInputTr(event)" placeholder="Last name" name="passengerdetails[@i].Last" required />
+                        <input type="text" class="contactLname" oninput="validateInputTr(event)" maxlength="32" placeholder="Last name" name="passengerdetails[@i].Last" required />
 
                     </div>
                     <p id="error-Lname" class="error-message error-CLname" style="display:none">Enter last name</p>
@@ -56,54 +55,54 @@
                         <div class="col-md-3">
                             <div class="form-input"><input type="text" maxlength="266" oninput="validateEmailTr(event)" id="contactemailID" class="contactemail" placeholder="email" name="" required /></div>
                             <p class="emailErrorMessageTr" style="color: red; font-size:13px;"></p>
-                            <p class="error-message error-emailname" style="display:none">Enter email</p>
-                            </div>
+                            <p class="error-message error-emailname" style="display:none">Enter your email</p>
+                        </div>
                         <div class="col-md-2">
                             <div class="form-input"><input type="text" id="contactphoneID" oninput="validatePhoneNumberTr(event)" class="contactphone" placeholder="phone" name="" required /></div>
-                            <p class="error-message error-phoneN" style="display:none">Enter phone</p>
+                            <p class="error-message error-phoneN" style="display:none">Enter your phone</p>
                             <p class="phoneErrorMessageTr" style="color: red; font-size:13px;"></p>
-                            </div>
+                        </div>
                     }
                 }
 
 
                 @{
-                    
+
 
                     if (@Model.passeengerlist.passengers[i].passengerTypeCode == "INFT")
                     {
-                            <div class="col-md-4">
-                                <div class="form-input dobinput d-flex">
-                                    <div class="dob-picker">
-                                        <select class="brd-none day-select" required>
-                                            <option value="" disabled selected>Day</option>
-                                        </select>
-                                        <select class="brd-none month-select" required>
-                                            <option value="" disabled selected>Month</option>
-                                            <option value="1">January</option>
-                                            <option value="2">February</option>
-                                            <option value="3">March</option>
-                                            <option value="4">April</option>
-                                            <option value="5">May</option>
-                                            <option value="6">June</option>
-                                            <option value="7">July</option>
-                                            <option value="8">August</option>
-                                            <option value="9">September</option>
-                                            <option value="10">October</option>
-                                            <option value="11">November</option>
-                                            <option value="12">December</option>
-                                        </select>
-                                        <select class="brd-none year-select" required>
-                                            <option value="" disabled selected>Year</option>
-                                        </select>
-                                    </div>
+                        <div class="col-md-4">
+                            <div class="form-input dobinput d-flex">
+                                <div class="dob-picker">
+                                    <select class="brd-none day-select" required>
+                                        <option value="" disabled selected>Day</option>
+                                    </select>
+                                    <select class="brd-none month-select" required>
+                                        <option value="" disabled selected>Month</option>
+                                        <option value="1">January</option>
+                                        <option value="2">February</option>
+                                        <option value="3">March</option>
+                                        <option value="4">April</option>
+                                        <option value="5">May</option>
+                                        <option value="6">June</option>
+                                        <option value="7">July</option>
+                                        <option value="8">August</option>
+                                        <option value="9">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+                                    </select>
+                                    <select class="brd-none year-select" required>
+                                        <option value="" disabled selected>Year</option>
+                                    </select>
                                 </div>
                             </div>
+                        </div>
 
                     }
 
-               
-          }
+
+                }
             </div>
         }
         <div class="d-flex justify-content-end">
@@ -406,6 +405,43 @@
                 document.querySelector(".contactLname").focus();
                 return false;
             }
+
+            var emailName = document.querySelector(".contactemail").value;
+            if (emailName == "") {
+                //alert("Enter Origin Name");
+                var emailNameToDisplay = document.querySelector('.error-emailname');
+                emailNameToDisplay.style.display = "block";
+                document.querySelector(".contactemail").focus();
+                return false;
+            }
+
+            let phonefocus = document.querySelector('.contactphone').value;
+            if (phonefocus == "") {
+
+                let phoneToDisplay = document.querySelector('.error-phoneN');
+                phoneToDisplay.textContent = "Please enter your phone number";
+                phoneToDisplay.style.display = "block";
+                document.querySelector('.contactphone').focus();
+                return false;
+            }
+            var mobileNumberPattern = /^\d{10}$/; // Assumes a 10-digit number
+
+            if (!mobileNumberPattern.test(phonefocus)) {
+                alert("Please enter a valid 10-digit mobile number.");
+                return false;
+            }
+
+            // var day = document.querySelector('.day-select').value;
+            // var month = document.querySelector('.month-select').value;
+            // var year = document.querySelector('.year-select').value;
+
+            // // Check if any of the dropdowns have default values
+            // if (day === "" || month === "" || year === "") {
+            //     // Display error message or take necessary action
+            //     alert("Please select a valid date of birth.");
+            //     return false; // Prevent form submission
+            // }
+
             /*******Validation End*********/
 
 
@@ -440,6 +476,8 @@
             // toggleButton3To.style.opacity = "1.0";
             // var content3To = document.getElementById("content3");
             // content3To.style.display = "block";
+            var toggleButton4To = document.getElementById("toggleButton4");
+            toggleButton4To.style.opacity = "1.0";
             var GSTcontent5To = document.getElementById("content4");
             GSTcontent5To.style.display = "block";
 
@@ -455,6 +493,8 @@
                 processData: false,
                 contentType: false,
                 success: function (result) {
+                    //alert(result);
+                    $('#IndigoPartialView').html(result);
                     // Handle the response from the server if needed
                 },
                 error: function (error) {
@@ -469,7 +509,7 @@
 </script>
 
 @* <script type="text/javascript">
-    
+
     document.addEventListener('DOMContentLoaded', function (event) {
         event.preventDefault();
         const daySelect = document.querySelector('.day-select');
@@ -513,7 +553,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-       
+
         function showForm() {
             // Show the form
             $('#passengerForm').show();
@@ -549,12 +589,12 @@
 
                 if (Passengertypecode == "ADT") { Passengertypecode = "Adult"; }
                 if (Passengertypecode == "CHD") { Passengertypecode = "Child"; }
-                
+
                 enteredData += "<p><strong>Passenger " + (i + 1) + ": (" + Passengertypecode + ")</strong><br>";
                 enteredData += "Title: " + title + "<br>";
                 enteredData += "First Name: " + firstName + "<br>";
                 enteredData += "Last Name: " + lastName + "</p>";
-                
+
             }
             //alert(enteredData);
 
@@ -650,14 +690,14 @@
             </div>
             <div class="modal-body" id="enteredData">
                 <!-- Display the entered data here -->
-               
+
             </div>
             <div class="d-flex justify-content-end">
                 <div class="editbtn me-3">
                     <button type="button" data-dismiss="modal" class="btn btn-primary w-20" id="editData">Edit</button>
                 </div>
                 <div class="countibtn me-3">
-                    <button type="button" data-dismiss="modal"  class="btn btn-primary w-20" id="ContinueData">Continue</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary w-20" id="ContinueData">Continue</button>
                 </div>
             </div>
 
@@ -665,4 +705,387 @@
     </div>
 </div>
 
+
+<style>
+    .error-message {
+        color: red;
+        font-size: 13px;
+    }
+
+    .checkbox-button {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 0;
+        cursor: pointer;
+    }
+
+
+        .checkbox-button.checked::after {
+            content: '\2713';
+            font-size: 16px;
+            color: #333;
+            display: block;
+            text-align: center;
+            line-height: 20px;
+        }
+
+</style>
+<script type="text/javascript">
+
+    //Lead Passeneger Check Box function
+    var button = document.getElementById('leadpassengerButton');
+
+
+    button.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        button.checked = !button.checked;
+
+
+        if (button.checked) {
+            button.classList.add('checked');
+        } else {
+            button.classList.remove('checked');
+        }
+
+
+        if (button.checked) {
+            // alert("Checked!!")
+
+            var firstLeadPass = document.querySelector('.firstNClass').value;
+            var lastLeadPass = document.querySelector('.lastNClass').value;
+            var emaiLeadPass = document.querySelector('.emailNClass').value;
+            var phoneLeadPass = document.querySelector('.phoneNClass').value;
+            localStorage.setItem('Leadpassenger1', firstLeadPass);
+            localStorage.setItem('Leadpassenger2', lastLeadPass);
+            localStorage.setItem('Leadpassenger3', emaiLeadPass);
+            localStorage.setItem('Leadpassenger4', phoneLeadPass);
+
+        } else {
+            //alert("Checkbox is unchecked");
+            var firstLeadPass = "";
+            var lastLeadPass = "";
+            var emaiLeadPass = "";
+            var phoneLeadPass = "";
+            localStorage.setItem('Leadpassenger1', firstLeadPass);
+            localStorage.setItem('Leadpassenger2', lastLeadPass);
+            localStorage.setItem('Leadpassenger3', emaiLeadPass);
+            localStorage.setItem('Leadpassenger4', phoneLeadPass);
+        }
+    });
+
+
+
+
+    //GST Checkbox Function
+    var buttongst = document.getElementById('GSTButton');
+
+
+    buttongst.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        buttongst.checked = !buttongst.checked;
+
+
+        if (buttongst.checked) {
+
+            buttongst.classList.add('checked');
+
+        } else {
+            buttongst.classList.remove('checked');
+        }
+
+
+        if (buttongst.checked) {
+            //alert("Checked!!")
+            $(".hid-block").show();
+
+
+        } else {
+            //alert("Checkbox is unchecked");
+            $(".hid-block").hide();
+        }
+    });
+
+
+
+
+    //****************GST END*************************** */
+
+
+
+
+
+    $(document).ready(function () {
+        $(".pagelaodSg").click(function (e) {
+            e.preventDefault();
+
+            //alert("Test");
+            var laedpas = localStorage.getItem('Leadpassenger1');
+            document.querySelector(".contactFname").value = laedpas;
+            var laedpasLast = localStorage.getItem('Leadpassenger2');
+            document.querySelector(".contactLname").value = laedpasLast;
+
+            var laedpasemail = localStorage.getItem('Leadpassenger3');
+            document.querySelector(".contactemail").value = laedpasemail;
+            //document.querySelectorAll(".contactemail").value = laedpasemail;
+            var laedpasphone = localStorage.getItem('Leadpassenger4');
+            document.querySelector(".contactphone").value = laedpasphone;
+
+            //document.querySelectorAll(".contactphone").value = laedpasphone;
+            // Get all elements with class "contactemail" and set their value
+            // var emailInputs = document.querySelectorAll(".contactemail");
+            // emailInputs.forEach(function (input) {
+            //     input.value = laedpasemail;
+            // });
+
+            // Get all elements with class "contactphone" and set their value
+            // var phoneInputs = document.querySelectorAll(".contactphone");
+            // phoneInputs.forEach(function (input) {
+            //     input.value = laedpasphone;
+            // });
+
+
+
+            var firstfocus = document.getElementById("first").value;
+            if (firstfocus == "") {
+                //alert("Enter Origin Name");
+                var firstToDisplay = document.getElementById("error-message1");
+                firstToDisplay.style.display = "block";
+                document.getElementById("first").focus();
+                return false;
+            }
+            else {
+                var firstToDisplay = document.getElementById("error-message1");
+                firstToDisplay.style.display = "none";
+            }
+
+
+            var lastfocus = document.getElementById("last").value;
+            if (lastfocus == "") {
+                //alert("Enter Origin Name");
+                var firstToDisplay = document.getElementById("error-message2");
+                firstToDisplay.style.display = "block";
+                document.getElementById("last").focus();
+                return false;
+            }
+            else {
+                var firstToDisplay = document.getElementById("error-message2");
+                firstToDisplay.style.display = "none";
+            }
+
+
+            let emailfocus = document.getElementById("emailAddress").value;
+
+            if (emailfocus == "") {
+                //alert("Enter Origin Name");
+                let emailToDisplay = document.getElementById("error-message7");
+                emailToDisplay.style.display = "block";
+                document.getElementById("emailAddress").focus();
+                return false;
+            }
+            else {
+                let emailToDisplay = document.getElementById("error-message7");
+                emailToDisplay.style.display = "none";
+            }
+
+            let phonefocus = document.getElementById("number").value;
+            if (phonefocus == "") {
+
+                let phoneToDisplay = document.getElementById("error-message8");
+                phoneToDisplay.textContent = "Please enter your phone number";
+                phoneToDisplay.style.display = "block";
+                document.getElementById("number").focus();
+                return false;
+            }
+            var mobileNumberPattern = /^\d{10}$/; // Assumes a 10-digit number
+
+            if (!mobileNumberPattern.test(phonefocus)) {
+                alert("Please enter a valid 10-digit mobile number.");
+                return false;
+            }
+
+
+
+
+
+            var contactFormData = new FormData($("#contactFormSG")[0]);
+            //alert("form data:"+ contactFormData);
+            $.ajax({
+                url: "/IndigoTripsell/IndigoContactDetails",
+                type: "POST",
+                data: contactFormData,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    // Handle the response from the server if needed
+                    var contentToDisplay = document.getElementById("content");
+                    contentToDisplay.style.display = "none";
+                    var content2ToDisplay = document.getElementById("content2");
+                    content2ToDisplay.style.display = "block";
+
+                    var toggleButton2 = document.getElementById("toggleButton2");
+                    //toggleButton2.disabled = false;
+                    toggleButton2.style.opacity = "1.0";
+
+                },
+                error: function (error) {
+                    // Handle any errors here
+                }
+            });
+            //return true;
+
+
+
+        });
+
+
+
+    });
+
+
+    function validateInput(event) {
+        const input = event.target.value;
+        const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
+
+        if (!regex.test(input)) {
+            document.getElementById('errorMessage').innerText = "";
+            event.target.value = input.replace(/[^a-zA-Z]/g, ''); // Remove non-alphabetic characters
+        } else {
+            document.getElementById('errorMessage').innerText = "";
+        }
+
+        var firstfocus = document.getElementById("first").value;
+        if (firstfocus == "") {
+            //alert("Enter Origin Name");
+            var firstToDisplay = document.getElementById("error-message1");
+            firstToDisplay.style.display = "block";
+            document.getElementById("first").focus();
+            return false;
+        }
+        else {
+            var firstToDisplay = document.getElementById("error-message1");
+            firstToDisplay.style.display = "none";
+        }
+    }
+    function validateInput2(event) {
+        const input = event.target.value;
+        const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
+
+        if (!regex.test(input)) {
+            document.getElementById('errorMessage2').innerText = "";
+            event.target.value = input.replace(/[^a-zA-Z]/g, ''); // Remove non-alphabetic characters
+        } else {
+            document.getElementById('errorMessage2').innerText = "";
+        }
+        var lastfocus = document.getElementById("last").value;
+        if (lastfocus == "") {
+            //alert("Enter Origin Name");
+            var firstToDisplay = document.getElementById("error-message2");
+            firstToDisplay.style.display = "block";
+            document.getElementById("last").focus();
+            return false;
+        }
+        else {
+            var firstToDisplay = document.getElementById("error-message2");
+            firstToDisplay.style.display = "none";
+        }
+
+
+    }
+
+    function validateEmail(event) {
+        const email = event.target.value;
+        //const regex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/; // Regular expression for basic email validation
+        const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/; // Regular expression for basic email validation
+
+        if (!regex.test(email)) {
+            document.getElementById('emailErrorMessage').innerText = "valid email";
+        } else {
+            document.getElementById('emailErrorMessage').innerText = "";
+        }
+
+        let emailfocus = document.getElementById("emailAddress").value;
+
+        if (emailfocus == "") {
+            //alert("Enter Origin Name");
+            let emailToDisplay = document.getElementById("error-message7");
+            emailToDisplay.style.display = "block";
+            document.getElementById("emailAddress").focus();
+            return false;
+        }
+        else {
+            let emailToDisplay = document.getElementById("error-message7");
+            emailToDisplay.style.display = "none";
+        }
+
+
+    }
+
+    function validatePhoneNumber(event) {
+        const phoneNumber = event.target.value;
+        const regex = /^\d{10}$/; // Regular expression for 10-digit phone number validation
+
+        if (!regex.test(phoneNumber)) {
+            document.getElementById('phoneNumberErrorMessage').innerText = "valid number";
+        } else {
+            document.getElementById('phoneNumberErrorMessage').innerText = "";
+        }
+        let phonefocus = document.getElementById("number").value;
+        if (phonefocus == "") {
+
+            let phoneToDisplay = document.getElementById("error-message8");
+            phoneToDisplay.style.display = "block";
+            document.getElementById("number").focus();
+            return false;
+        }
+        else {
+            let phoneToDisplay = document.getElementById("error-message8");
+            phoneToDisplay.style.display = "none";
+        }
+    }
+
+    function validateInputgst(event) {
+        const input = event.target.value;
+        const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
+
+        if (!regex.test(input)) {
+            document.getElementById('errorMessagegst').innerText = "";
+            event.target.value = input.replace(/[^a-zA-Z]/g, ''); // Remove non-alphabetic characters
+        } else {
+            document.getElementById('errorMessagegst').innerText = "";
+        }
+    }
+
+    function validateGST(event) {
+        const gstNumber = event.target.value.toUpperCase(); // Convert to uppercase for consistency
+        //const regex = /^[0-9A-Z]{15}$/; // Regular expression for 15-character GST number validation
+        const regex = /^([0-9]){2}([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}([0-9]){1}([a-zA-Z]){1}([0-9]){1}?$/; // Regular expression for 15-character GST number validation
+
+        if (gstNumber.trim() === "") {
+            document.getElementById('gstErrorMessage').innerText = "Enter a GST number.";
+        } else if (!regex.test(gstNumber)) {
+            document.getElementById('gstErrorMessage').innerText = "Enter a valid 15-character GST number.";
+        } else {
+            document.getElementById('gstErrorMessage').innerText = "";
+        }
+
+        let gstnamefocus = document.getElementById("gstname").value;
+
+        if (gstnamefocus == "") {
+            //alert("Enter Origin Name");
+            let gstToDisplay = document.getElementById("error-message9");
+            gstToDisplay.style.display = "block";
+            document.getElementById("emailAddres9").focus();
+            return false;
+        }
+        else {
+            let gstToDisplay = document.getElementById("error-message9");
+            gstToDisplay.style.display = "none";
+        }
+    }
+</script>
 

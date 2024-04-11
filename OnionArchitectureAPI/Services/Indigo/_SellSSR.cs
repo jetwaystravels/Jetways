@@ -26,7 +26,7 @@ namespace OnionArchitectureAPI.Services.Indigo
         _getapi _obj = new _getapi();
         int passengerscount = 0;
         int journeyscount = 0;
-        public async Task<IndigoBookingManager_.SellResponse> sellssr(string Signature, AirAsiaTripResponceModel passeengerKeyList, List<string> ssrKey, int _a,string _Airline="")
+        public async Task<IndigoBookingManager_.SellResponse> sellssr(string Signature, AirAsiaTripResponceModel passeengerKeyList, List<string> ssrKey, List<string> BaggageSSrkey, int _a,string _Airline="")
         {
             passengerscount = passeengerKeyList.passengerscount;
             SellResponse sellSsrResponse = null;

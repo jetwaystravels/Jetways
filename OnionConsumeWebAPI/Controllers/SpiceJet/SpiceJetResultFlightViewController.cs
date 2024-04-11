@@ -1026,6 +1026,7 @@ namespace OnionConsumeWebAPI.Controllers
                                                     compartmentsunitobj.servicechargefeeAmount += Convert.ToInt32(SeatGroup[x].SeatAvailabilityResponse.SeatGroupPassengerFees[k].PassengerFee.ServiceCharges[l].Amount);
                                                 }
                                             }
+                                            break;
                                         }
                                     }
                                     //if (compartmentsunitobj.assignable == true)

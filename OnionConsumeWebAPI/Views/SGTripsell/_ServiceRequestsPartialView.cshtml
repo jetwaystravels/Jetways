@@ -92,12 +92,32 @@
         color: #E93329 !important;
         border-bottom: 1px solid #E93329 !important;
     }
-    .select-option {max-width:120px;}
 
-      .select-option .servc-bordr {
-        max-width: 94px;
-    } 
-    .width-90 {width:60px;}
+    .select-option {
+        max-width: 120px;
+    }
+
+        .select-option .servc-bordr {
+            max-width: 94px;
+        }
+
+    .width-90 {
+        width: 60px;
+    }
+
+    .select-option2 {
+        max-width: 120px;
+    }
+
+        .select-option2 .servc-bordr {
+            max-width: 94px;
+        }
+
+    .wdth-100{width:100px;}
+
+    .btngry {
+        background-color: #808080!important;
+    }
 </style>
 
 <section id="myContainer1">
@@ -137,10 +157,22 @@
                                     {
                                         @if (i == 1)
                                         {
-                                            <div id="popbtnB" style="display:none;">
-                                                B
-                                                <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
-                                            </div>
+                                                    <div class="d-flex">
+                                                        <div>
+                                                            <button type="submit" id="" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
+                                                        </div>
+
+                                                        <div id="popbtnA">
+
+
+                                                            <button type="submit" id="btnfocus" class="btn  btn-primary">Continue</button>
+
+                                                        </div>
+                                                        <div id="popbtnB" style="display:none;">
+                                                            <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
+
+                                                        </div>
+                                                    </div>
                                         }
 
                                     }
@@ -281,7 +313,7 @@
                                                     for (int s = 0; s < Model.Meals.legSsrs[0].legssrs.Count; s++)
                                                     {
                                                         string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                        string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
+                                                        string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode +"_"+ Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
                                                         string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " @" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
                                                         string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) || Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase)).ToString();
                                                         if (Mcode.ToLower() == "true")
@@ -371,30 +403,30 @@
                                                         }
                                                     }
 
-                                                }
-                                                <div class="d-flex">
-                                                    <img src="~/img/pbaggage.png" style="width:20px;height:20px;margin-right:10px;" />
-                                                <select id="ddlbagOptions" class="servc-bordr">
-                                                    @foreach (var option in BaggageOptions)
-                                                    {
-                                                        <option value="@option.Value" data-bagkey=@bagkey>
-                                                            @option.Text
-                                                        </option>
-                                                    }
-                                                </select>
-                                                <input type="hidden" id="hiddenbagKey" name="bagkey" value="" />
+                                                        }
+                                                        <div class="d-flex">
+                                                            <img src="~/img/pbaggage.png" style="width:20px;height:20px;margin-right:10px;" />
+                                                            <select id="ddlbagOptions" class="servc-bordr">
+                                                                @foreach (var option in BaggageOptions)
+                                                        {
+                                                                    <option value="@option.Value" data-bagkey=@bagkey>
+                                                                        @option.Text
+                                                                    </option>
+                                                        }
+                                                            </select>
+                                                            <input type="hidden" id="hiddenbagKey" name="bagkey" value="" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="servc-content">
+                                                        <select class="servc-bordr wdth-100">
+                                                            <option></option>
+                                                            <option>Meal1</option>
+                                                            <option>Meal2</option>
+                                                            <option>Meal3</option>
+                                                            <option>Meal4</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="servc-content">
-                                                <select class="servc-bordr">
-                                                    <option></option>
-                                                    <option>Meal1</option>
-                                                    <option>Meal2</option>
-                                                    <option>Meal3</option>
-                                                    <option>Meal4</option>
-                                                </select>
-                                            </div>
-                                        </div>
 
                                     }
                                 }
@@ -498,35 +530,41 @@
                                                         // }
 
                                                     }
-                                                }
-                                                <select id="ddlMealOptions2" class="servc-bordr">
-                                                    @foreach (var option in mealOptions)
+                                                        }
+                                                        <div class="d-flex">
+                                                            <div><img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /></div>
+                                                        <select id="ddlMealOptions2" class="servc-bordr">
+                                                            @foreach (var option in mealOptions)
                                                     {
-                                                        <option selected="selected" value="@option.Value" data-ssrkey=@ssrkey>
-                                                            @option.Text
-                                                        </option>
+                                                                <option selected="selected" value="@option.Value" data-ssrkey=@ssrkey>
+                                                                    @option.Text
+                                                                </option>
                                                     }
-                                                </select>
-                                                <input type="hidden" id="hiddenSsrKey2" name="ssrKey" value="" />
+                                                        </select>
+                                                        <input type="hidden" id="hiddenSsrKey2" name="ssrKey" value="" />
+                                                        </div>
+                                                        @*<select id="mealid" class="servc-bordr select-width" asp-items="@mealOptions"></select>*@
 
-                                                @*<select id="mealid" class="servc-bordr select-width" asp-items="@mealOptions"></select>*@
+                                                    </div>
+                                                    <div class="servc-content">
+                                                        <div class="d-flex">
+                                                            <div><img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /></div>
+                                                           <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
+                                                        </div>
+                                                         <div class="output-div-input" id="outputDivConnect_@pas"></div>
+                                                    </div>
 
-                                            </div>
-                                            <div class="servc-content">
-                                                <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
-                                                 <div class="output-div-input" id="outputDivConnect_@pas"></div>
-                                            </div>
-                                          
-                                            <div class="servc-content">
-                                                <select class="servc-bordr">
-                                                    <option></option>
-                                                    <option>Meal1</option>
-                                                    <option>Meal2</option>
-                                                    <option>Meal3</option>
-                                                    <option>Meal4</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                                    <div class="servc-content">
+                                                       
+                                                    <select class="servc-bordr wdth-100">
+                                                            <option></option>
+                                                            <option>Meal1</option>
+                                                            <option>Meal2</option>
+                                                            <option>Meal3</option>
+                                                            <option>Meal4</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
 
                                     }
                                 }
@@ -771,11 +809,13 @@
         $("#tabshow2").hide();
         $("#tabnew2").hide();
         $("#popbtnB").hide();
+        $("#popbtnA").show();
         $("#seattab1").click(function () {
             $("#tabshow1").show();
             $("#tabnew1").show();
             $("#tabnew2").hide();
             $("#popbtnB").hide();
+            $("#popbtnA").show();
             $("#tabshow2").hide();
             $("#seattab1").addClass('active');
             $("#seattab2").removeClass('active');
@@ -786,24 +826,30 @@
             $("#tabshow2").css("display", "block");
             $("#seattab2").addClass('active');
             $("#seattab1").removeClass('active');
+            $("#popbtnA").hide();
             $("#tabshow1").hide();
             $("#tabnew1").hide();
             $("#tabnew2").show();
             $("#popbtnB").show();
+
         });
 
-
+        $("#btnfocus").click(function () {
+            alert("Do you want select connect seat");
+            $("#seattab2").click();
+        });
 
     });
+
 </script>
 <script>
 
     $(document).ready(function () {
 
-
+       
         // //Start :MealKey post
 
-        $('.select-option .servc-bordr').change((e) => {
+        @*$('.select-option .servc-bordr').change((e) => {
 
             // var selected = $(e.target).find("option:selected").map(function () { return this.value; }).get();
             // alert(selected);
@@ -816,7 +862,36 @@
             localStorage.setItem("MealssrKeyCount", JSON.stringify(selected));
             document.getElementById("hiddenSsrKey").value = selected.join(',');  // Joining selected values into a string
 
-        });
+        });*@
+
+            $('.select-option .servc-bordr').change((e) => {
+                var selectedOptions = $('.select-option .servc-bordr option:selected'); 
+
+              
+                var mealCodes = [];
+                var prices = [];
+
+                selectedOptions.each(function () {
+                    var optionValue = $(this).val(); 
+                    var parts = optionValue.split('_'); 
+
+                    mealCodes.push(parts[0]+"_0"); 
+                    prices.push(parseFloat(parts[1])); 
+                });
+                alert(mealCodes);
+                localStorage.setItem("MealssrKeyCount", JSON.stringify(mealCodes)); 
+                document.getElementById("hiddenSsrKey").value = mealCodes.join(','); 
+
+                // Calculate total price
+                 var totalPrice = prices.reduce((acc, curr) => acc + curr, 0); 
+                $('#AddMeal').text(totalPrice.toFixed(2)); 
+
+                // Display meal codes and prices in separate alerts
+               // alert("Meal Codes: " + mealCodes.join(','));
+                //alert("Prices: " + prices.join(','));
+
+            });
+
 
         $('.select-option2 .servc-bordr').change((e) => {
 
@@ -832,6 +907,8 @@
             document.getElementById("hiddenSsrKey2").value = selected.join(','); // Joining selected values into a string
 
         });
+          
+
         //End :MealKey post
 
         //Bagage code start
@@ -924,6 +1001,8 @@
 
     });
 
+
+   
 </script>
 
 

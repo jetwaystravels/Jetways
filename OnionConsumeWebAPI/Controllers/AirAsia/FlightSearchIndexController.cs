@@ -137,7 +137,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     AirasiaTokan.idleTimeoutInMinutes = JsonObj.data.idleTimeoutInMinutes;
                     //token = ((Newtonsoft.Json.Linq.JValue)value).Value.ToString();
                 }
-                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(AirasialoginRequest) + "\n Response: " + JsonConvert.SerializeObject(AirasiaTokan.token), "Logon", "AirAsiaOneWay");
+                logs.WriteLogs("Request: " + AirasialoginRequest + "\n Response: " + JsonConvert.SerializeObject(AirasiaTokan.token), "Logon", "AirAsiaOneWay");
 
 
                 HttpContext.Session.SetString("AirasiaTokan", JsonConvert.SerializeObject(AirasiaTokan.token));
@@ -268,7 +268,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                 if (responce1.IsSuccessStatusCode)
                 {
                     var results = responce1.Content.ReadAsStringAsync().Result;
-                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_SimpleAvailabilityobj) + "\n Response: " + JsonConvert.SerializeObject(results), "GetAvailability", "AirAsiaOneWay");
+                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_SimpleAvailabilityobj) + "\n Response: " + results, "GetAvailability", "AirAsiaOneWay");
                     var JsonObj = JsonConvert.DeserializeObject<dynamic>(results);
                     // var value = JsonObj.data.token;
                     //var value = JsonObj.data.results[0].trips[0].date;
@@ -794,7 +794,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
                     }
                     Array.Sort(ViewPriceNew);
-                    if (ViewPriceNew[0] > 0)
+                    if (ViewPriceNew.Length>0 && ViewPriceNew[0] > 0)
                     {
                         fareTotalsum = ViewPriceNew[0];
                     }
@@ -1030,7 +1030,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
                     }
                     Array.Sort(ViewPriceNew);
-                    if (ViewPriceNew[0] > 0)
+                    if (ViewPriceNew.Length>0 && ViewPriceNew[0] > 0)
                     {
                         fareTotalsum = ViewPriceNew[0];
                     }

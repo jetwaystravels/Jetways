@@ -1,5 +1,5 @@
 ﻿
-<form  id="contactFormIndigo">
+<form id="contactFormIndigo">
     @* @Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
 
     <div class="row y-gap-10 row mt-2 py-3 mb-3">
@@ -7,26 +7,26 @@
 
         <div class="col-md-3">
             <div class="form-input ">
-                <input type="text" name="first" id="first" maxlength="32" oninput="validateInput(event)" class="firstNClass" placeholder="First Name">
+                <input type="text" name="first" maxlength="32" oninput="validateInput(event)" id="first" class="firstNClass" placeholder="First Name">
             </div>
             <p id="error-message1" class="error-message" style="display:none">Enter First name</p>
             <p id="errorMessage" style="color: red;font-size:13px;"></p>
         </div>
-       
+
         <div class="col-md-3">
             <div class="form-input ">
-                <input type="text" name="last" maxlength="32" id="last" class="lastNClass" oninput="validateInput2(event)" placeholder="Last Name">
+                <input type="text" name="last" maxlength="32" id="last" oninput="validateInput2(event)" class="lastNClass" placeholder="Last Name">
             </div>
             <p id="error-message2" class="error-message" style="display:none">Enter Last name</p>
             <p id="errorMessage2" style="color: red;font-size:13px;"></p>
         </div>
-     
+
 
         <div class="col-md-3">
             <div class="form-input">
-                <input type="text" name="emailAddress" class="emailNClass" maxlength="266" oninput="validateEmail(event)" id="emailAddress" placeholder="Email ID">
+                <input type="text" name="emailAddress" maxlength="266" oninput="validateEmail(event)" class="emailNClass" id="emailAddress" placeholder="Email ID">
             </div>
-            <p id="error-message7" class="error-message" style="display:none">Enter emai ID</p>
+            <p id="error-message7" class="error-message" style="display:none">Enter email ID</p>
             <p id="emailErrorMessage" style="color: red; font-size:13px;"></p>
         </div>
 
@@ -38,7 +38,7 @@
         <div class="col-md-2 phone-number">
             <div class="form-input">
                 <input type="text" name="number" id="number" class="phoneNClass" placeholder="Phone Number" oninput="validatePhoneNumber(event)">
-               
+
             </div>
             <p id="error-message8" class="error-message" style="display:none">Enter Phone Number</p>
             <p id="phoneNumberErrorMessage" style="color: red;font-size:13px;"></p>
@@ -65,23 +65,22 @@
         <div class="col-md-3">
             <div class="form-input">
 
-                <input type="text" name="companyName" oninput="validateInputgst(event)" class="companyName hid-block hidden" id="companyname" placeholder="Company Name">
+                <input type="text" id="gstname" maxlength="32" name="companyName" oninput="validateInputgst(event)" class="companyName hid-block hidden" id="companyname" placeholder="Company Name">
             </div>
             <p id="errorMessagegst" style="color: red;font-size:13px;"></p>
             <p id="error-message9" class="error-message" style="display:none">Enter Company Name</p>
         </div>
         <div class="col-md-3">
             <div class="form-input">
-                <input type="text" name="customerNumber" oninput="validateGST(event)" class="companyName hid-block hidden" id="gstnum" placeholder="GST Number">
+                <input type="text" id="gstnumber" name="customerNumber" oninput="validateGST(event)" class="companyName hid-block hidden" id="gstnum" placeholder="GST Number">
             </div>
             <p id="gstErrorMessage" style="color: red;font-size:13px;"></p>
             <p id="error-message10" class="error-message" style="display:none">Enter GST Number</p>
 
         </div>
-    
+
 
     </div>
-
 </form>
 <style>
     .error-message {
@@ -110,7 +109,6 @@
         }
 
 </style>
-
 <script type="text/javascript">
 
     //Lead Passeneger Check Box function
@@ -171,6 +169,7 @@
         if (buttongst.checked) {
 
             buttongst.classList.add('checked');
+
         } else {
             buttongst.classList.remove('checked');
         }
@@ -212,7 +211,7 @@
             var laedpasphone = localStorage.getItem('Leadpassenger4');
             document.querySelector(".contactphone").value = laedpasphone;
 
-          
+
 
 
             var firstfocus = document.getElementById("first").value;
@@ -223,8 +222,12 @@
                 document.getElementById("first").focus();
                 return false;
             }
+            else {
+                var firstToDisplay = document.getElementById("error-message1");
+                firstToDisplay.style.display = "none";
+            }
 
-         
+
             var lastfocus = document.getElementById("last").value;
             if (lastfocus == "") {
                 //alert("Enter Origin Name");
@@ -233,7 +236,10 @@
                 document.getElementById("last").focus();
                 return false;
             }
-          
+            else {
+                var firstToDisplay = document.getElementById("error-message2");
+                firstToDisplay.style.display = "none";
+            }
 
 
             let emailfocus = document.getElementById("emailAddress").value;
@@ -244,6 +250,10 @@
                 emailToDisplay.style.display = "block";
                 document.getElementById("emailAddress").focus();
                 return false;
+            }
+            else {
+                let emailToDisplay = document.getElementById("error-message7");
+                emailToDisplay.style.display = "none";
             }
 
             let phonefocus = document.getElementById("number").value;
@@ -261,6 +271,7 @@
                 alert("Please enter a valid 10-digit mobile number.");
                 return false;
             }
+
 
 
 
@@ -415,7 +426,7 @@
         if (gstNumber.trim() === "") {
             document.getElementById('gstErrorMessage').innerText = "Enter a GST number.";
         } else if (!regex.test(gstNumber)) {
-            document.getElementById('gstErrorMessage').innerText = "Valid 15-character GST number.";
+            document.getElementById('gstErrorMessage').innerText = "Enter a valid 15-character GST number.";
         } else {
             document.getElementById('gstErrorMessage').innerText = "";
         }

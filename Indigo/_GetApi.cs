@@ -5,7 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Newtonsoft.Json;
+using Utility;
 
 namespace Indigo
 {
@@ -235,6 +236,8 @@ namespace Indigo
             }
             catch (Exception ex)
             {
+                Logs logs = new Logs();
+                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_bookingCommitRequest) + "\n\n Response: " + ex.StackTrace.ToString(), "BookingCommit", "IndigoOneWay");
                 //return Ok(session);
             }
             return _bookingCommitRes;

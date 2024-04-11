@@ -1097,7 +1097,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     string tokenview = HttpContext.Session.GetString("IndigoSignature");//spelling 
                                     token = tokenview.Replace(@"""", string.Empty);
                                     _SellSSR obj_ = new _SellSSR(httpContextAccessorInstance);
-                                    IndigoBookingManager_.SellResponse sellSsrResponse = await obj_.sellssr(token, passeengerKeyList, ssrKey, _a);
+                                    List<string> BaggageSSrkey = new List<string>();
+                                    IndigoBookingManager_.SellResponse sellSsrResponse = await obj_.sellssr(token, passeengerKeyList, ssrKey, BaggageSSrkey, _a);
                                 }
                                 _a++;
                             }

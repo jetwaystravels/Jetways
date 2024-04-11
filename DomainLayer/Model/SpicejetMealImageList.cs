@@ -34,6 +34,12 @@ namespace DomainLayer.Model
             htSSr.Add("EB20", "20 kg");
             htSSr.Add("EB25", "25 kg");
             htSSr.Add("EB30", "30 kg");
+            htSSr.Add("XBPA", "5 kg");
+            htSSr.Add("XBPJ", "20 kg");
+            htSSr.Add("XBPB", "10 kg");
+            htSSr.Add("XBPC", "15 kg");
+            htSSr.Add("XBPD", "30 kg");
+            htSSr.Add("XBPE", "XBG");
             return htSSr;
 
         }
