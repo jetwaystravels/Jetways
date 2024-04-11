@@ -1,7 +1,20 @@
-﻿
+﻿@using System.Globalization;
 @model DomainLayer.ViewModel.ViewModel
 @{
-    var data = Model;
+    string formatTime = string.Empty;
+    var ArrivalTime = Model.passeengerlist.journeys[0].designator.arrival;
+    var DepartureTime = Model.passeengerlist.journeys[0].designator.departure;
+    var DiffTime = (ArrivalTime - DepartureTime);
+    TimeSpan time = TimeSpan.Parse(DiffTime.ToString());
+    if ((int)time.Minutes == 0)
+    {
+        formatTime = $"{(int)time.TotalHours}h";
+
+    }
+    else
+    {
+        formatTime = $"{(int)time.TotalHours}h {(int)time.Minutes}m";
+    }
 
 }
 <style>
@@ -17,7 +30,7 @@
     <div class="py-10 px-30">
         <div class="row d-flex justify-content-end">
             <div class="col-auto">
-                <div class="text-14 text-light-1 fw-600">Total Time: 4h 35m</div>
+                <div class="text-14 text-light-1 fw-600">Total Time:@formatTime </div>
             </div>
         </div>
     </div>
@@ -41,7 +54,7 @@
                                         <img class="size-30" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
                                     </div>
 
-                                    <div class="text-14 text-light-1"> Air Asia @item.segments[i].identifier.identifier @item.segments[i].identifier.carrierCode</div><span class="airliname">@ViewData["name"]</span>
+                                    <div class="text-14 text-light-1"> Air Asia @item.segments[i].identifier.identifier @item.segments[i].identifier.carrierCode</div><span class="airliname">@Model.Seatmaplist.datalist[i].seatMap.name</span>
                                 </div>
 
                                 <div class="relative z-0">
@@ -64,7 +77,7 @@
                                                 <div class="lh-14 fw-500">@departuretimefinal</div>
                                             </div>
                                             <div class="col-auto">
-                                                <div class="lh-14 fw-500">@item.segments[i].legs[j].designator.origin <span class="text-13 ml-2 fw-600">(@item.segments[i].legs[j].designator.departure <span class="text-13 text-light-1 ml-2"> Indira Gandhi,@item.segments[i].legs[j].legInfo.departureTerminal </span> )</span></div>
+                                                <div class="lh-14 fw-500">@item.segments[i].legs[j].designator.origin <span class="text-13 ml-2 fw-600">(@item.segments[i].legs[j].designator.departure <span class="text-13 text-light-1 ml-2"> Indira Gandhi,T-@item.segments[i].legs[j].legInfo.departureTerminal </span> )</span></div>
 
                                             </div>
                                         </div>
@@ -95,7 +108,7 @@
                                                 <div class="lh-14 fw-500">@arrivalfinal</div>
                                             </div>
                                             <div class="col-auto">
-                                                <div class="lh-14 fw-500">@item.segments[i].legs[j].designator.destination<span class="text-13 ml-2 fw-600">(@item.segments[i].legs[j].designator.arrival<span class="text-13 text-light-1 ml-2"> Sanganeer, @item.segments[i].legs[j].legInfo.arrivalTerminal </span> )</span></div>
+                                                <div class="lh-14 fw-500">@item.segments[i].legs[j].designator.destination<span class="text-13 ml-2 fw-600">(@item.segments[i].legs[j].designator.arrival<span class="text-13 text-light-1 ml-2"> Sanganeer,T-@item.segments[i].legs[j].legInfo.arrivalTerminal </span> )</span></div>
 
                                             </div>
                                         </div>

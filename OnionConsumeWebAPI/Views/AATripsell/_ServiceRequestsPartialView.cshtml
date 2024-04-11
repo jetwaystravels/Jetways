@@ -7,9 +7,11 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-    localStorage.clear();
+    //localStorage.clear();
 
     $(document).ready(function () {
+
+
         // Meals
         $('.select-option .servc-bordr').change((e) => {
 
@@ -32,10 +34,8 @@
                 return $(this).find("option:selected").map(function () { return this.value + "_1"; }).get();
             }).get();
 
-            if (selected != null) {
-                localStorage.setItem("MealssrKeyCount2", JSON.stringify(selected));
-                document.getElementById("hiddenSsrKey2").value = selected.join(','); // Joining selected values into a string
-            }
+            localStorage.setItem("MealssrKeyCount2", JSON.stringify(selected));
+            document.getElementById("hiddenSsrKey2").value = selected.join(','); // Joining selected values into a string
 
         });
         //Baggage
@@ -47,7 +47,6 @@
                 return $(this).find("option:selected").map(function () { return this.value + "_0"; }).get();
             }).get();
 
-            alert(selected);
             localStorage.setItem("bagKeyArray", JSON.stringify(selected));
             document.getElementById("hiddenbagKey").value = selected.join(','); // Joining selected values into a string
 
@@ -104,8 +103,31 @@
             debugger;
 
             var unitKey = JSON.parse(localStorage.getItem("selectedIds"));
-            var BaggageSSrkey = JSON.parse(localStorage.getItem("bagKeyArray"));
+            var BaggageSSrkey = JSON.parse(localStorage.getItem("bagKeyArray"));           
 
+            var mealcode1 = JSON.parse(localStorage.getItem("MealssrKeyCount")) || [];
+           //alert(mealcode1);
+            var mealcode2 = JSON.parse(localStorage.getItem("MealssrKeyCount2")) || [];
+           // alert(mealcode2);
+
+            var mealssrKey;
+            if (Array.isArray(mealcode1) && Array.isArray(mealcode2)) {
+                mealssrKey = mealcode1.concat(mealcode2);
+            } else {
+
+                mealssrKey = [];
+            }
+            // if (Array.isArray(mealcode1) && Array.isArray(mealcode2)) {
+
+            //     if (mealcode2.length > 0) {
+            //         mealssrKey = mealcode1.concat(mealcode2);
+            //     } else {
+            //         mealssrKey = mealcode1;
+            //     }
+            // } else {
+
+            //     mealssrKey = [];
+            // }
             var WheelKeyArray1 = JSON.parse(localStorage.getItem("otherbagKeyArray")) || [];
             var WheelKeyArray2 = JSON.parse(localStorage.getItem("otherbagKeyArray2")) || [];
             var wheelSsrkey;
@@ -120,38 +142,6 @@
 
                 wheelSsrkey = [];
             }
-
-
-
-            // if (WheelKeyArray2 && WheelKeyArray2.length > 0) {
-            //     wheelSsrkey = WheelKeyArray1.concat(WheelKeyArray2);
-            // }
-            // else {
-            //     wheelSsrkey = WheelKeyArray1;
-            // }
-
-            let mealcode1 = JSON.parse(localStorage.getItem("MealssrKeyCount")) || [];
-            alert(mealcode1);
-            let mealcode2 = JSON.parse(localStorage.getItem("MealssrKeyCount2")) || [];
-            alert(mealcode2);
-            var mealssrKey;
-            if (Array.isArray(mealcode1) && Array.isArray(mealcode2)) {
-
-                if (mealcode2.length > 0) {
-                    mealssrKey = mealcode1.concat(mealcode2);
-                } else {
-                    mealssrKey = mealcode1;
-                }
-            } else {
-
-                mealssrKey = [];
-            }
-
-            // if (mealcode2 && mealcode2.length > 0) {
-            //     mealssrKey = mealcode1.concat(mealcode2);
-            // } else {
-            //     mealssrKey = mealcode1;
-            // }
 
             $.ajax({
                 url: "/AATripsell/PostUnitkey",
@@ -281,7 +271,7 @@
                                     @if (segmentcount == 1)
                                     {
                                         <div>
-                                            A
+
                                             <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
                                         </div>
                                     }
@@ -293,7 +283,7 @@
                                             @if (i == 1)
                                             {
                                                 <div id="popbtnB" style="display:none;">
-                                                    B
+
                                                     <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
                                                 </div>
                                             }
@@ -358,330 +348,336 @@
 
                     </ul>
                 </div>
-                @for (int r = 0; r < seatmaap2; r++)
+                @*     @for (int r = 0; r < seatmaap2; r++)
                 {
-                    if (r == 0)
-                    {
-                        <div class="row" id="tabnew1">
-                            <div class="col-lg-12">
-                                <section class="container">
-                                    <div class="row border-service">
+                if (r == 0)
+                { *@
+                <div class="row" id="tabnew1">
+                    <div class="col-lg-12">
+                        <section class="container">
+                            <div class="row border-service">
 
-                                        <div class="d-flex justify-content-between bg-servc py-2">
-                                            <div class="serv-header">
-                                                Traveller
-                                            </div>
-                                            <div class="serv-header">
-                                                Meal
-                                            </div>
-                                            <div class="serv-header">
-                                                Seat
-                                            </div>
-                                            <div class="serv-header">
-                                                Baggage
-                                            </div>
-                                            <div class="serv-header">
-                                                Speacial Request
-                                            </div>
-                                        </div>
-                                        @{
-                                            //int passengerdata = Model.passkeytype.Count;
-                                            int passengerdata = Model.passeengerlist.passengerscount;
-                                            int passengerDataValue = 0;
-                                            for (int i = 0; i < Model.passeengerlist.passengerscount; i++)
+                                <div class="d-flex justify-content-between bg-servc py-2">
+                                    <div class="serv-header">
+                                        Traveller
+                                    </div>
+                                    <div class="serv-header">
+                                        Meal
+                                    </div>
+                                    <div class="serv-header">
+                                        Seat
+                                    </div>
+                                    <div class="serv-header">
+                                        Baggage
+                                    </div>
+                                    <div class="serv-header">
+                                        Speacial Request
+                                    </div>
+                                </div>
+                                @{
+                                    //int passengerdata = Model.passkeytype.Count;
+                                    int passengerdata = Model.passeengerlist.passengerscount;
+                                    int passengerDataValue = 0;
+                                    for (int i = 0; i < Model.passeengerlist.passengerscount; i++)
+                                    {
+                                        if (Model.passeengerlist.passengers[i].passengerTypeCode == "ADT" || Model.passeengerlist.passengers[i].passengerTypeCode == "CHD")
+                                        {
+                                            if (Model.passkeytype != null)
                                             {
-                                                if (Model.passeengerlist.passengers[i].passengerTypeCode == "ADT" || Model.passeengerlist.passengers[i].passengerTypeCode == "CHD")
-                                                {
-                                                    if (Model.passkeytype != null)
+                                                Model.passeengerlist.passengers[i].name = Model.passkeytype[i].first;
+
+                                            }
+                                            passengerDataValue = passengerDataValue + 1;
+
+                                        }
+                                    }
+                                    passengerdata = passengerDataValue;
+
+                                }
+                                @for (int pa = 0; pa < passengerdata; pa++)
+                                {
+
+                                    string ssrkey = string.Empty;
+                                    string bagkey = string.Empty;
+                                    string otherbagkey = string.Empty;
+                                    <div class="d-flex justify-content-between py-3">
+
+
+                                        <div class="servc-content">
+                                            @Model.passkeytype[pa].first
+                                        </div>
+
+
+                                        @{
+                                            var legSSrcount = Model.Meals.legSsrs.Count;
+
+                                            <div class="servc-content select-option">
+
+                                                @{
+                                                    List<SelectListItem> mealOptions = new List<SelectListItem>();
+                                                    for (int s = 0; s < Model.Meals.legSsrs[0].legssrs.Count; s++)
                                                     {
-                                                        Model.passeengerlist.passengers[i].name = Model.passkeytype[i].first;
+
+                                                        string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                        string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
+                                                        string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " @" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price; ;
+                                                        ssrkey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].ssrKey;
+                                                        string passengerKey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].passengerKey;
+                                                        if (ssrkey != null)
+                                                        {
+                                                            mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
+                                                        }
 
                                                     }
-                                                    passengerDataValue = passengerDataValue + 1;
+
+                                                    <select id="ddlMealOptions" class="servc-bordr" data-passenger-index="@pa">
+                                                        <option value=""><b>Please select Meal</b></option>
+                                                        @foreach (var option in mealOptions)
+                                                        {
+
+                                                            <option value="@option.Value">
+                                                                @option.Text
+                                                            </option>
+                                                        }
+                                                    </select>
+                                                    <input type="hidden" id="hiddenSsrKey" name="ssrKey" value="" />
+
+                                                }
+                                            </div>
+
+                                        }
+                                        <div class="servc-content">
+
+                                            <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn" data-toggle="modal" data-target="#rrrtexampleModal">
+
+                                            <div class="output-div-input" id="outputDiv_@pa"></div>
+                                        </div>
+                                        <!-- Output div for each passenger -->
+                                        <div class="servc-content select-baggage">
+
+                                            @{
+                                                List<SelectListItem> BaggageOptions = new List<SelectListItem>();
+
+                                                for (int s = 0; s < Model.Baggage.journeySsrsBaggage[0].baggageSsr.Count; s++)
+                                                {
+                                                    string Sssrcode = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].ssrCode;
+                                                    string bagcode = Sssrcode.StartsWith("P", StringComparison.OrdinalIgnoreCase).ToString();
+                                                    //var mealData = MealImageList.GetAllmeal().SingleOrDefault(x => x.MealCode == queryMeal);
+                                                    var bagname = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].name;
+                                                    bagkey = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].ssrKey;
+
+                                                    if (bagcode != "False")
+                                                    {
+                                                        BaggageOptions.Add(new SelectListItem { Text = bagname, Value = bagkey });
+                                                    }
 
                                                 }
                                             }
-                                            passengerdata = passengerDataValue;
+                                            <select id="ddlbagOptions" class="servc-bordr" data-passenger-index="@pa">
+                                                <option value=""><b>Please select Baggage</b></option>
+                                                @foreach (var option in BaggageOptions)
+                                                {
+                                                    <option value="@option.Value">
+                                                        @option.Text
+                                                    </option>
+                                                }
+                                            </select>
+                                            <input type="hidden" id="hiddenbagKey" name="bagkey" value="" />
+
+                                        </div>
+                                        <div class="servc-content select-others">
+                                            @{
+                                                List<SelectListItem> otherOptions = new List<SelectListItem>();
+
+                                                for (int s = 0; s < Model.Baggage.journeySsrsBaggage[0].baggageSsr.Count; s++)
+                                                {
+
+                                                    string Sssrcode = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].ssrCode;
+                                                    string othercode = Sssrcode.StartsWith("P", StringComparison.OrdinalIgnoreCase).ToString();
+                                                    //var mealData = MealImageList.GetAllmeal().SingleOrDefault(x => x.MealCode == queryMeal);
+                                                    var bagname = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].name;
+                                                    otherbagkey = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].ssrKey;
+
+                                                    if (othercode == "False")
+                                                    {
+                                                        otherOptions.Add(new SelectListItem { Text = bagname, Value = otherbagkey });
+                                                    }
+
+                                                }
+                                            }
+
+                                            <select id="otherOptions" class="servc-bordr">
+                                                <option value=""><b>Please select OtherService</b></option>
+                                                @foreach (var option in otherOptions)
+                                                {
+                                                    <option value="@option.Value">
+                                                        @option.Text
+                                                    </option>
+                                                }
+                                            </select>
+
+                                            <input type="hidden" id="hiddenotherbagKey" name="otherbagkey" value="" />
+                                        </div>
+
+                                    </div>
+
+                                }
+
+
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="row" id="tabnew2">
+
+                    <div class="col-lg-12">
+                        <section class="container">
+                            <div class="row border-service">
+
+                                <div class="d-flex justify-content-between bg-servc py-2">
+                                    <div class="serv-header">
+                                        Traveller
+                                    </div>
+                                    <div class="serv-header">
+                                        Meal
+                                    </div>
+                                    <div class="serv-header">
+                                        Seat
+                                    </div>
+
+                                    <div class="serv-header">
+                                        Speacial Request
+                                    </div>
+                                </div>
+                                @{
+                                    int passengerdataConnect = Model.passkeytype.Count;
+                                    int passengerDataValue1 = 0;
+                                    for (int i = 0; i < Model.passeengerlist.passengerscount; i++)
+                                    {
+                                        if (Model.passeengerlist.passengers[i].passengerTypeCode == "ADT" || Model.passeengerlist.passengers[i].passengerTypeCode == "CHD")
+                                        {
+                                            if (Model.passkeytype != null)
+                                            {
+                                                Model.passeengerlist.passengers[i].name = Model.passkeytype[i].first;
+
+                                            }
+                                            passengerDataValue1 = passengerDataValue1 + 1;
 
                                         }
-                                        @for (int pa = 0; pa < passengerdata; pa++)
-                                        {
+                                    }
+                                    passengerdataConnect = passengerDataValue1;
+                                }
 
-                                            string ssrkey = string.Empty;
-                                            string bagkey = string.Empty;
-                                            string otherbagkey = string.Empty;
-                                            <div class="d-flex justify-content-between py-3">
+                                @{
+                                    for (int pas = 0; pas < passengerdataConnect; pas++)
+                                    {
 
+                                        string ssrkey = string.Empty;
+                                        string bagkey = string.Empty;
+                                        string otherbagkey = string.Empty;
 
-                                                <div class="servc-content">
-                                                    @Model.passkeytype[pa].first
-                                                </div>
+                                        <div class="d-flex justify-content-between py-3">
 
-                                                @{
-                                                    var legSSrcount = Model.Meals.legSsrs.Count;
+                                            <div class="servc-content">
+                                                @Model.passkeytype[pas].first
+                                            </div>
+                                            @{
+                                                if (Model.Meals.legSsrs.Count == 2)
+                                                {
 
-                                                    <div class="servc-content select-option">
+                                                    <div class="servc-content select-option2">
 
                                                         @{
                                                             List<SelectListItem> mealOptions = new List<SelectListItem>();
-                                                            for (int s = 0; s < Model.Meals.legSsrs[0].legssrs.Count; s++)
+
+                                                            for (int s = 0; s < Model.Meals.legSsrs[1].legssrs.Count; s++)
                                                             {
 
-                                                                string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                                string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
-                                                                string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " @" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price; ;
-                                                                ssrkey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].ssrKey;
-                                                                string passengerKey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].passengerKey;
+                                                                string ssrprice = Model.Meals.legSsrs[1].legssrs[s].legpassengers[0].price;
+                                                                string Mealcode = Model.Meals.legSsrs[1].legssrs[s].ssrCode;
+                                                                string Mealname = Model.Meals.legSsrs[1].legssrs[s].name + " @" + @Model.Meals.legSsrs[1].legssrs[s].legpassengers[0].price; ;
+                                                                ssrkey = Model.Meals.legSsrs[1].legssrs[s].legpassengers[pas].ssrKey;
+                                                                string passengerKey = Model.Meals.legSsrs[1].legssrs[s].legpassengers[pas].passengerKey;
                                                                 if (ssrkey != null)
                                                                 {
+                                                                    // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
                                                                     mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
                                                                 }
 
                                                             }
 
-                                                            <select id="ddlMealOptions" class="servc-bordr" data-passenger-index="@pa">
+                                                            <select id="ddlMealOptions" class="servc-bordr" data-passenger-index="@pas">
+                                                                <option value=""><b>Please select Meal</b></option>
                                                                 @foreach (var option in mealOptions)
                                                                 {
-                                                                    <option value="@option.Value ">
+                                                                    <option value="@option.Value">
                                                                         @option.Text
                                                                     </option>
                                                                 }
                                                             </select>
-                                                            <input type="hidden" id="hiddenSsrKey" name="ssrKey" value="" />
 
+
+                                                            <input type="hidden" id="hiddenSsrKey2" name="ssrKey" value="" />
                                                         }
+
                                                     </div>
-
                                                 }
-                                                <div class="servc-content">
 
-                                                    <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn" data-toggle="modal" data-target="#rrrtexampleModal">
+                                            }
+                                            <div class="servc-content">
 
-                                                    <div class="output-div-input" id="outputDiv_@pa"></div>
-                                                </div>
-                                                <!-- Output div for each passenger -->
-                                                <div class="servc-content select-baggage">
+                                                <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn" data-toggle="modal" data-target="#rrrtexampleModal">
 
-                                                    @{
-                                                        List<SelectListItem> BaggageOptions = new List<SelectListItem>();
-
-                                                        for (int s = 0; s < Model.Baggage.journeySsrsBaggage[0].baggageSsr.Count; s++)
-                                                        {
-                                                            string Sssrcode = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].ssrCode;
-                                                            string bagcode = Sssrcode.StartsWith("P", StringComparison.OrdinalIgnoreCase).ToString();
-                                                            //var mealData = MealImageList.GetAllmeal().SingleOrDefault(x => x.MealCode == queryMeal);
-                                                            var bagname = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].name;
-                                                            bagkey = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].ssrKey;
-
-                                                            if (bagcode != "False")
-                                                            {
-                                                                BaggageOptions.Add(new SelectListItem { Text = bagname, Value = bagkey });
-                                                            }
-
-                                                        }
-                                                    }
-                                                    <select id="ddlbagOptions" class="servc-bordr" data-passenger-index="@pa">
-                                                        @foreach (var option in BaggageOptions)
-                                                        {
-                                                            <option value="@option.Value">
-                                                                @option.Text
-                                                            </option>
-                                                        }
-                                                    </select>
-                                                    <input type="hidden" id="hiddenbagKey" name="bagkey" value="" />
-
-                                                </div>
-                                                <div class="servc-content select-others">
-                                                    @{
-                                                        List<SelectListItem> otherOptions = new List<SelectListItem>();
-
-                                                        for (int s = 0; s < Model.Baggage.journeySsrsBaggage[0].baggageSsr.Count; s++)
-                                                        {
-
-                                                            string Sssrcode = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].ssrCode;
-                                                            string othercode = Sssrcode.StartsWith("P", StringComparison.OrdinalIgnoreCase).ToString();
-                                                            //var mealData = MealImageList.GetAllmeal().SingleOrDefault(x => x.MealCode == queryMeal);
-                                                            var bagname = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].name;
-                                                            otherbagkey = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].ssrKey;
-
-                                                            if (othercode == "False")
-                                                            {
-                                                                otherOptions.Add(new SelectListItem { Text = bagname, Value = otherbagkey });
-                                                            }
-
-                                                        }
-                                                    }
-
-                                                    <select id="otherOptions" class="servc-bordr">
-                                                        @foreach (var option in otherOptions)
-                                                        {
-                                                            <option value="@option.Value">
-                                                                @option.Text
-                                                            </option>
-                                                        }
-                                                    </select>
-
-                                                    <input type="hidden" id="hiddenotherbagKey" name="otherbagkey" value="" />
-                                                </div>
-
+                                                <div class="output-div-input" id="outputDivConnect_@pas"></div>
                                             </div>
+                                            <!-- Output div for each passenger -->
 
-                                        }
+                                            <div class="servc-content select-others2">
+                                                @{
+                                                    List<SelectListItem> otherOptions = new List<SelectListItem>();
 
-
-                                    </div>
-                                </section>
-                            </div>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="row" id="tabnew2">
-                            Conect B
-                            <div class="col-lg-12">
-                                <section class="container">
-                                    <div class="row border-service">
-
-                                        <div class="d-flex justify-content-between bg-servc py-2">
-                                            <div class="serv-header">
-                                                Traveller
-                                            </div>
-                                            <div class="serv-header">
-                                                Meal
-                                            </div>
-                                            <div class="serv-header">
-                                                Seat
-                                            </div>
-
-                                            <div class="serv-header">
-                                                Speacial Request
-                                            </div>
-                                        </div>
-                                        @{
-                                            int passengerdataConnect = Model.passkeytype.Count;
-                                            int passengerDataValue = 0;
-                                            for (int i = 0; i < Model.passeengerlist.passengerscount; i++)
-                                            {
-                                                if (Model.passeengerlist.passengers[i].passengerTypeCode == "ADT" || Model.passeengerlist.passengers[i].passengerTypeCode == "CHD")
-                                                {
-                                                    if (Model.passkeytype != null)
+                                                    for (int s = 0; s < Model.Baggage.journeySsrsBaggage[0].baggageSsr.Count; s++)
                                                     {
-                                                        Model.passeengerlist.passengers[i].name = Model.passkeytype[i].first;
 
-                                                    }
-                                                    passengerDataValue = passengerDataValue + 1;
-
-                                                }
-                                            }
-                                            passengerdataConnect = passengerDataValue;
-                                        }
-
-                                        @{
-                                            for (int pas = 0; pas < passengerdataConnect; pas++)
-                                            {
-
-                                                string ssrkey = string.Empty;
-                                                string bagkey = string.Empty;
-                                                string otherbagkey = string.Empty;
-
-                                                <div class="d-flex justify-content-between py-3">
-
-                                                    <div class="servc-content">
-                                                        @Model.passkeytype[pas].first
-                                                    </div>
-                                                    @{
-                                                        if (Model.Meals.legSsrs.Count == 2)
+                                                        string Sssrcode = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].ssrCode;
+                                                        string othercode = Sssrcode.StartsWith("P", StringComparison.OrdinalIgnoreCase).ToString();
+                                                        var bagname = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].name;
+                                                        otherbagkey = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].ssrKey;
+                                                        if (othercode == "False")
                                                         {
-
-                                                            <div class="servc-content select-option2">
-
-                                                                @{
-                                                                    List<SelectListItem> mealOptions = new List<SelectListItem>();
-
-                                                                    for (int s = 0; s < Model.Meals.legSsrs[1].legssrs.Count; s++)
-                                                                    {
-
-                                                                        string ssrprice = Model.Meals.legSsrs[1].legssrs[s].legpassengers[0].price;
-                                                                        string Mealcode = Model.Meals.legSsrs[1].legssrs[s].ssrCode;
-                                                                        string Mealname = Model.Meals.legSsrs[1].legssrs[s].name + " @" + @Model.Meals.legSsrs[1].legssrs[s].legpassengers[0].price; ;
-                                                                        ssrkey = Model.Meals.legSsrs[1].legssrs[s].legpassengers[pas].ssrKey;
-                                                                        string passengerKey = Model.Meals.legSsrs[1].legssrs[s].legpassengers[pas].passengerKey;
-                                                                        if (ssrkey != null)
-                                                                        {
-                                                                            // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
-                                                                            mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
-                                                                        }
-
-                                                                    }
-
-                                                                    <select id="ddlMealOptions" class="servc-bordr" data-passenger-index="@pas">
-                                                                        @foreach (var option in mealOptions)
-                                                                        {
-                                                                            <option value="@option.Value">
-                                                                                @option.Text
-                                                                            </option>
-                                                                        }
-                                                                    </select>
-
-
-                                                                    @* <input type="hidden" id="hiddenSsrKey2" name="ssrKey" value="" />*@
-                                                                }
-
-                                                            </div>
+                                                            // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
+                                                            otherOptions.Add(new SelectListItem { Text = bagname, Value = otherbagkey });
                                                         }
 
                                                     }
-                                                    <div class="servc-content">
+                                                }
+                                                <select id="otherOptions2" class="servc-bordr">
+                                                    <option value=""><b>Please select OtherService</b></option>
+                                                    @foreach (var option in otherOptions)
+                                                    {
+                                                        <option value="@option.Value">
+                                                            @option.Text
+                                                        </option>
+                                                    }
+                                                </select>
 
-                                                        <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn" data-toggle="modal" data-target="#rrrtexampleModal">
+                                                <input type="hidden" id="hiddenotherbagKey2" name="otherbagkey" value="" />
+                                            </div>
 
-                                                        <div class="output-div-input" id="outputDivConnect_@pas"></div>
-                                                    </div>
-                                                    <!-- Output div for each passenger -->
+                                        </div>
 
-                                                    <div class="servc-content select-others2">
-                                                        @{
-                                                            List<SelectListItem> otherOptions = new List<SelectListItem>();
+                                    }
 
-                                                            for (int s = 0; s < Model.Baggage.journeySsrsBaggage[0].baggageSsr.Count; s++)
-                                                            {
-
-                                                                string Sssrcode = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].ssrCode;
-                                                                string othercode = Sssrcode.StartsWith("P", StringComparison.OrdinalIgnoreCase).ToString();
-                                                                var bagname = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].name;
-                                                                otherbagkey = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].ssrKey;
-                                                                if (othercode == "False")
-                                                                {
-                                                                    // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
-                                                                    otherOptions.Add(new SelectListItem { Text = bagname, Value = otherbagkey });
-                                                                }
-
-                                                            }
-                                                        }
-                                                        <select id="otherOptions2" class="servc-bordr">
-                                                            @foreach (var option in otherOptions)
-                                                            {
-                                                                <option value="@option.Value">
-                                                                    @option.Text
-                                                                </option>
-                                                            }
-                                                        </select>
-
-                                                        <input type="hidden" id="hiddenotherbagKey2" name="otherbagkey" value="" />
-                                                    </div>
-
-                                                </div>
-
-                                            }
-
-                                        }
-                                    </div>
-                                </section>
+                                }
                             </div>
+                        </section>
+                    </div>
 
-                        </div>
-                    }
-                }
+                </div>
+
+
             </div>
 
             <div class="tabs__pane -tab-item-2">
@@ -820,28 +816,6 @@
                                     }
                                 }
 
-                                // for (int r = 0; r < Model.Baggage.journeySsrsBaggage.Count; r++)
-                                // {
-                                //     for (int s = 0; s < Model.Baggage.journeySsrsBaggage[r].baggageSsr.Count; s++)
-                                //     {
-                                //         for (int q = 0; q < Model.Baggage.journeySsrsBaggage[r].baggageSsr[s].passengersAvailabilityBaggage.Count; q++)
-                                //         {
-                                //             <div class="swiper-slide active">
-                                //                 <div class="tourTypeCard__content text-center pt-10 pb-15 px-10 bg-blue-1-05 rounded-4">
-                                //                     <img src="~/img/images/travel-bag.png" title="image" alt="image">
-                                //                     <h6 class="text-14 fw-600 mt-10">Additional</h6>
-                                //                      <h5 class="text-13 fw-600 mt-10">@Model.Baggage.journeySsrsBaggage[r].baggageSsr[s].name</h5>
-                                //                     <h5 class="text-14 fw-700 mt-6">3 Kg</h5>
-                                //                     <p class="text-14 fw-600 mt-2 text-center">&#8377; @Model.Baggage.journeySsrsBaggage[r].baggageSsr[s].passengersAvailabilityBaggage[q].price</p>
-                                //                     <div class="d-flex justify-content-center">
-                                //                         <input type="checkbox" id="baggageId" class="ssrKeyBaggage" name="ssrKey" value="@Model.Baggage.journeySsrsBaggage[r].baggageSsr[s].passengersAvailabilityBaggage[q].ssrKey _@s" />
-                                //                         @* <button class="button -md -outline-blue-1 text-blue-1">Select</button>*@
-                                //                     </div>
-                                //                 </div>
-                                //             </div>
-                                //         }
-                                //     }
-                                // }
                             }
                         </div>
                     </div>

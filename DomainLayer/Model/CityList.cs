@@ -10,7 +10,7 @@ namespace DomainLayer.Model
     {
         public string cityCode { get; set; }
         public string cityName { get; set; }
-       
+
         public static List<Citydata> GetAllcity()
         {
             List<Citydata> Citydatalist = new List<Citydata>();
@@ -36,7 +36,19 @@ namespace DomainLayer.Model
             };
             Citydatalist.Add(citycityBLR);
 
+            Citydata citycityLKO = new Citydata();
+            {
+                citycityLKO.cityCode = "LKO";
+                citycityLKO.cityName = "LKO";
+            };
+            Citydatalist.Add(citycityLKO);
 
+            Citydata citycitySTV = new Citydata();
+            {
+                citycitySTV.cityCode = "STV";
+                citycitySTV.cityName = "STV";
+            };
+            Citydatalist.Add(citycitySTV);
             return Citydatalist;
         }
     }

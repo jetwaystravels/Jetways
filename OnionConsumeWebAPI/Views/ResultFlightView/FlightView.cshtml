@@ -419,7 +419,7 @@
                                 </li>
                             </ul>
                         </div>
-                        @* <form asp-controller="FlightSearchIndex" method="post"> *@
+
                         @for (var j = 0; j < Model.SimpleAvailibilityaAddResponcelist.Count; j++)
                         {
 
@@ -458,7 +458,6 @@
                                             <div class="col">
                                                 <div class="row x-gap-20 items-end">
                                                     <div class="col-auto">
-                                                        @*  <div class="lh-15 fw-500">AirAsia</div> *@
 
                                                         @{
                                                             @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("SG"))
@@ -548,7 +547,17 @@
                                                             }
                                                             if (stops == 2)
                                                             {
-                                                                <div class="mt-1">2 Stop</div>
+                                                                for (int l = 0; l < @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs.Count; l++)
+                                                                {
+                                                                    if (l == 0)
+                                                                    {
+                                                                        <div class="mt-1">2 Stop Via  @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[l].designator.destination  <b>,</b></div>
+                                                                    }
+                                                                    else if (l == 1)
+                                                                    {
+                                                                        <span> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[l].designator.destination</span>
+                                                                    }
+                                                                }
                                                             }
                                                         }
                                                         @*  <div class="mt-1">@flightResult.stops</div> *@
@@ -634,7 +643,7 @@
                                                             Faretype = "Saver Fare";
                                                     }
                                                     else
-                                                         Faretype = "Saver Fare";
+                                                        Faretype = "Saver Fare";
 
                                                     <tr>
                                                         <td>
@@ -780,23 +789,23 @@
                                                                                     <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.identifier </div>
                                                                                     //}
 
-                                                                                    //if (SegmentDatacount == 2)
+                        //if (SegmentDatacount == 2)
                                                                                     //{
-                                                                                       // @for (var x = 0; x < SegmentDatacount; x++)
-                                                                                        //{
-                                                                                            //if (x == 0)
-                                                                                            //{
+                                                                                    // @for (var x = 0; x < SegmentDatacount; x++)
+                                                                                    //{
+                                                                                    //if (x == 0)
+                                                                                    //{
 
-                                                                                               // <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier <b>,</b></div>
+                                                                                    // <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier <b>,</b></div>
 
-                                                                                            //}
-                                                                                            //else
-                                                                                            //{
-                                                                                               // <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier</div>
+                                                                                    //}
+                                                                                    //else
+                                                                                    //{
+                                                                                    // <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier</div>
 
-                                                                                            //}
+                                                                                    //}
 
-                                                                                        //}
+                        //}
                                                                                     //}
                                                                                 }
                                                                             </div>
@@ -804,7 +813,7 @@
                                                                         @{
                                                                             departuretimefinal = @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.departureTime.ToString().Substring(11, 5);
 
-                                                                            arrivalfinal = @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.arrivalTime.ToString().Substring(11,5);
+                                                                            arrivalfinal = @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.arrivalTime.ToString().Substring(11, 5);
 
                                                                             formattedTime = string.Empty;
                                                                             arrivalDate = Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.arrival;
@@ -867,53 +876,15 @@
                                                         string formattedDate = originalDateTime.ToString("dddd, dd MMM yyyy").ToUpper();
                                                     }
                                                     <div class="dst-top">@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin - @Model.SimpleAvailibilityaAddResponcelist[j].designator.destination (@formattedDate) </div>
-                                                   @* <div class="col-lg-7">
-                                                        <div class="text-19 fw-600">Fare baeakup (Include all taxes)</div>
-                                                        @{
-                                                            @for (var l = 0; l < Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual.Count; l++)
-                                                            {
-                                                                <table class="table mt-20">
-                                                                    <thead class="bg-light-2">
-                                                                        <tr>
-                                                                            <th>Type</th>
-                                                                            <th>Pax</th>
-                                                                            <th>Basic</th>
-                                                                            <th>Taxes </th>
-                                                                            <th>OthChg </th>
-                                                                            <th>Total</th>
 
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            @{
-                                                                                int totalPax = 0;
-                                                                                for (int k1 = 0; k1 < @Model.simpleAvailabilityRequestModelEdit.passengers.types.Count; k1++)
-                                                                                {
-                                                                                    totalPax += @Model.simpleAvailabilityRequestModelEdit.passengers.types[k1].count;
-                                                                                }
-                                                                                decimal basefare = @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[l].faretotal - @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[l].taxamount;
-                                                                            }
-
-                                                                            <td>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[l].passengertype</td>
-                                                                            <td>@totalPax</td>
-                                                                            <td>@basefare.ToString("N0")</td>
-                                                                            <td>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[l].taxamount.ToString("N0")</td>
-                                                                            <td>0</td>
-                                                                            <td>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[l].faretotal.ToString("N0")</td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            }
-                                                        }
-                                                    </div>*@
 
                                                     <div class="col-lg-4">
                                                         <div class="text-19 fw-600">Fare Rule</div>
                                                         @{
                                                             @for (var k = 0; k < Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual.Count; k++)
                                                             {
-                                                                if(k>0){
+                                                                if (k > 0)
+                                                                {
                                                                     break;
                                                                 }
                                                                 decimal basic = @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].faretotal - @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].taxamount;
@@ -921,7 +892,7 @@
                                                                     <thead class="bg-light-2">
                                                                         <tr>
                                                                             <th>Fare Details</th>
-                                                                            
+
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -936,7 +907,7 @@
                                                                             <td>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].taxamount.ToString("N0")</td>
                                                                         </tr>
 
-                                
+
                                                                         <tr>
                                                                             <td>Total</td>
                                                                             <td>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].faretotal.ToString("N0")</td>

@@ -820,7 +820,7 @@ namespace OnionConsumeWebAPI.Controllers
                             compartmentsunitobj.zone = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].zone;
                             compartmentsunitobj.x = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].x;
                             compartmentsunitobj.y = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].y;
-                            string a = JsonObjSeatmap.data[x].fees["MCFBRFQ-"].groups["1"].fees[0].serviceCharges[0].amount;
+                            //string a = JsonObjSeatmap.data[x].fees["MCFBRFQ-"].groups["1"].fees[0].serviceCharges[0].amount;
                             int counter = 0;
                             foreach (var strTextdata in Regex.Matches(strnewText, @"seatMap"":[\s\S]*?ssrLookup"))
                             {

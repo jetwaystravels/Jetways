@@ -422,7 +422,11 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 var perpersontotal = JsonObj.data.faresAvailable[fareAvailabilityKey].totals.fareTotal;
                                 var fareAmount = perpersontotal / passengercount;
                                 var perpersontotalclasswise = JsonObj.data.faresAvailable[fareAvailabilityKey].totals.fareTotal;
-                                fareTotalsum = perpersontotalclasswise / passengercount;
+                                if(j==0)
+                                {
+                                    fareTotalsum = perpersontotalclasswise / passengercount;
+                                }
+                                
                                 //END
                                 decimal discountamount = JsonObj.data.faresAvailable[fareAvailabilityKey].fares[0].passengerFares[0].discountedFare;
 

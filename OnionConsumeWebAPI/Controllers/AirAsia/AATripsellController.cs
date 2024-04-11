@@ -420,22 +420,35 @@ namespace OnionConsumeWebAPI.Controllers
         }
         public async Task<IActionResult> PostUnitkey(List<string> unitKey, List<string> mealssrKey, List<string> BaggageSSrkey, List<string> wheelSsrkey)
         {
-            if (unitKey[0] == null)
+            if (unitKey.Count > 0)
             {
-                unitKey = new List<string>();
+                if (unitKey[0] == null)
+                {
+                    unitKey = new List<string>();
+                }
             }
-            if (mealssrKey[0] == null)
+            if (mealssrKey.Count > 0)
             {
-                mealssrKey = new List<string>();
+                if (mealssrKey[0] == null)
+                {
+                    mealssrKey = new List<string>();
+                }
             }
-            if (BaggageSSrkey[0] == null)
+            if (BaggageSSrkey.Count > 0)
             {
-                BaggageSSrkey = new List<string>();
+                if (BaggageSSrkey[0] == null)
+                {
+                    BaggageSSrkey = new List<string>();
+                }
             }
-            if (wheelSsrkey[0] == null)
+            if (wheelSsrkey.Count > 0)
             {
-                wheelSsrkey = new List<string>();
+                if (wheelSsrkey[0] == null)
+                {
+                    wheelSsrkey = new List<string>();
+                }
             }
+
 
             string tokenview = HttpContext.Session.GetString("AirasiaTokan");
             token = tokenview.Replace(@"""", string.Empty);
