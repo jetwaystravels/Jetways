@@ -190,37 +190,6 @@
 
                 </div>
             </div>
-            @*   <div class="hideme" style="display:none;">
-        <div class="row y-gap-3 justify-between bg-light-2">
-        <div class="col-auto">
-        <div class="text-14">Adult x 1 </div>
-        <div> </div>
-        </div>
-        <div class="col-auto">
-        <div class="text-15">&#8377;  8,310 </div>
-        </div>
-        </div>
-
-        <div class="row y-gap-3 justify-between bg-light-2 border-top-light">
-        <div class="col-auto">
-        <div class="text-14">Adult x 1 </div>
-        <div> </div>
-        </div>
-        <div class="col-auto">
-        <div class="text-15">&#8377;  8,310 </div>
-        </div>
-        </div>
-
-        <div class="row y-gap-3 justify-between bg-light-2 border-top-light">
-        <div class="col-auto">
-        <div class="text-14">Adult x 1 </div>
-        <div> </div>
-        </div>
-        <div class="col-auto">
-        <div class="text-15">&#8377;  8,310 </div>
-        </div>
-        </div>
-        </div> *@
 
             <div class="row y-gap-3 justify-between pb-2">
                 <div class="col-auto">
@@ -243,8 +212,7 @@
                         <input class="input-ammount fw-600" type="text" name="Totalamount" value="@totalBaseFare_tax" id="Totalamount" />
                     }
 
-                    @* <input class="input-ammount" type="hidden" name="Totalamount" value="0" id="Totalamount" /> *@
-                    @*<span id="TotalamountN"></span>*@
+
                 </div>
             </div>
 
@@ -287,85 +255,62 @@
                 </div>
             </div>
 
+            @*<div class="row y-gap-2 justify-between pt-2">
+        <div class="col-auto">
+        <div class="text-14">Add-Ons</div>
+        </div>
+        <div class="col-auto" style="width:74px">
+        <div class="text-15">&#8377; 100</div>
+        </div>
+        </div>
 
+        <div class="row y-gap-2 justify-between pt-1 showBtn" style="cursor: pointer;">
+        <div class="col-auto">
+        <div class="text-14">Take off<i class="fa fa-angle-down ml-2" aria-hidden="true"></i> </div>
+        </div>
+        </div>
+        <div class="row y-gap-3 justify-between bg-light-2 hideme" style="display:none;">
+        <div class="col-auto">
+        <div class="text-14">TAKE OFF Contribution</div>
+        <div> </div>
+        </div>
+        <div class="col-auto">
+        <div class="text-15">&#8377; 100</div>
+        </div>
+        </div>*@
 
+            @* <div class="px-20 py-20 bg-blue-2 rounded-4 mt-20">
+        <div class="row y-gap-2 justify-between">
+        <div class="col-auto">
+        <div class="text-20 lh-13 fw-600">You Pay</div>
+        </div>
 
+        <div class="col-auto d-flex">
+        <span class="text-20 lh-13 fw-600">&#8377</span>
+        <div class="text-20 lh-13 fw-600" id="TotalMealPayID"></div>
+        <div class="text-20 lh-13 fw-600" id="TotalSeatPayID"></div>
+        <div class="text-20 lh-13 fw-600" id="amountPay"></div>
+        </div>
+        </div>
 
+        <div class="row y-gap-2 justify-between text-success">
+        <div class="col-auto">
+        <div class="text-16 lh-13 fw-600">Total Savings</div>
+        </div>
+        <div class="col-auto">
+        <div class="text-16 lh-13 fw-600">&#8377; 50</div>
+        </div>
+        </div>
+        </div>
 
-            <div class="row y-gap-2 justify-between pt-2">
-                <div class="col-auto">
-                    <div class="text-14">Add-Ons</div>
-                </div>
-                <div class="col-auto" style="width:74px">
-                    <div class="text-15">&#8377; 100</div>
-                </div>
-            </div>
-
-            <div class="row y-gap-2 justify-between pt-1 showBtn" style="cursor: pointer;">
-                <div class="col-auto">
-                    <div class="text-14">Take off<i class="fa fa-angle-down ml-2" aria-hidden="true"></i> </div>
-                </div>
-            </div>
-
-            <div class="row y-gap-3 justify-between bg-light-2 hideme" style="display:none;">
-                <div class="col-auto">
-                    <div class="text-14">TAKE OFF Contribution</div>
-                    <div> </div>
-                </div>
-                <div class="col-auto">
-                    <div class="text-15">&#8377; 100</div>
-                </div>
-            </div>
-
-            <div class="px-20 py-20 bg-blue-2 rounded-4 mt-20">
-                <div class="row y-gap-2 justify-between">
-                    <div class="col-auto">
-                        <div class="text-20 lh-13 fw-600">You Pay</div>
-                    </div>
-                    @*   <div class="col-auto">
-                @* @{
-                foreach (var item in Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares)
-                {
-                int servicecharge = item.serviceCharges.Count;
-                int Totalamount = 0;
-                for (int i = 0; i < servicecharge; i++)
-                {
-                int amounttax = item.serviceCharges[i].amount;
-                Totalamount += amounttax;
-                }
-                int takeoffCharge = 10;
-                int Totalamountpay = @Totalamount + takeoffCharge;
-                <div class="text-20 lh-13 fw-600">&#8377; @Totalamountpay </div>
-                }
-                }
-                <div class="text-20 lh-13 fw-600">&#8377; 4000 </div>
-                </div> *@
-                    <div class="col-auto d-flex">
-                        <span class="text-20 lh-13 fw-600">&#8377</span>
-                        <div class="text-20 lh-13 fw-600" id="TotalMealPayID"></div>
-                        <div class="text-20 lh-13 fw-600" id="TotalSeatPayID"></div>
-                        <div class="text-20 lh-13 fw-600" id="amountPay"></div>
-                    </div>
-                </div>
-
-                <div class="row y-gap-2 justify-between text-success">
-                    <div class="col-auto">
-                        <div class="text-16 lh-13 fw-600">Total Savings</div>
-                    </div>
-                    <div class="col-auto">
-                        <div class="text-16 lh-13 fw-600">&#8377; 50</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row y-gap-3 justify-between pt-3">
-                <div class="col-auto">
-                    <div class="text-15">Earn eCash</div>
-                </div>
-                <div class="col-auto">
-                    <div class="text-15">&#8377; 250</div>
-                </div>
-            </div>
+        <div class="row y-gap-3 justify-between pt-3">
+        <div class="col-auto">
+        <div class="text-15">Earn eCash</div>
+        </div>
+        <div class="col-auto">
+        <div class="text-15">&#8377; 250</div>
+        </div>
+        </div>*@
         </div>
     }
     <div class="px-30 py-30 border-light rounded-4 mt-30 bg-white">

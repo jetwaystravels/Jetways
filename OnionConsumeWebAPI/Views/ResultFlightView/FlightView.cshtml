@@ -145,7 +145,6 @@
                                                     </span>
                                                     <span class="autodropdownOneWay">
                                                         <select id="autodropdownOneWayId" name="autodropdownOneWayId" onchange="OnewaySelection()">
-                                                            @* <option value="">Please select</option> *@
 
                                                             @foreach (var item in Citynamelist.GetAllCityData())
                                                             {
@@ -643,8 +642,15 @@
                                                             Faretype = "Saver Fare";
                                                     }
                                                     else
-                                                        Faretype = "Saver Fare";
+                                                    {
+                                                        if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("EC"))
+                                                            Faretype = "Express Value";
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("HF"))
+                                                            Faretype = "Vista Flex";
+                                                        else
+                                                            Faretype = "Saver Fare";
 
+                                                    }
                                                     <tr>
                                                         <td>
                                                             <div><strong>@Faretype @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass</strong></div>

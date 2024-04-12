@@ -268,22 +268,20 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                 if (responce1.IsSuccessStatusCode)
                 {
                     var results = responce1.Content.ReadAsStringAsync().Result;
-                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_SimpleAvailabilityobj) + "\n Response: " + results, "GetAvailability", "AirAsiaOneWay");
+                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_SimpleAvailabilityobj) + "\n Response: " + JsonConvert.SerializeObject(results), "GetAvailability", "AirAsiaOneWay");
                     var JsonObj = JsonConvert.DeserializeObject<dynamic>(results);
-                    // var value = JsonObj.data.token;
-                    //var value = JsonObj.data.results[0].trips[0].date;
+
+
                     var oriDes = _GetfligthModel.origin + "|" + _GetfligthModel.destination;
                     TempData["origin"] = _SimpleAvailabilityobj.origin;
                     TempData["destination"] = _SimpleAvailabilityobj.destination;
                     var finddate = JsonObj.data.results[0].trips[0].date;
                     var bookingdate = finddate.ToString("dddd, dd MMMM yyyy");
-                    //var abc = JsonObj.data.results[0].trips[0].journeysAvailableByMarket["DEL|BOM"][3];
                     int count = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes].Count;
                     TempData["count"] = count;
                     for (int i = 0; i < JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes].Count; i++)
                     {
                         string journeyKey = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].journeyKey;
-                        //journeyKey1 = ((Newtonsoft.Json.Linq.JValue)journeyKey).Value.ToString();
                         var uniqueJourney = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i];
                         Designator Designatorobj = new Designator();
                         string queryorigin = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].designator.origin;
@@ -294,7 +292,6 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         Designatorobj.destination = destination1;
                         Designatorobj.departure = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].designator.departure;
                         Designatorobj.arrival = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].designator.arrival;
-                        //Citydata citydata1 = new Citydata();
 
 
                         var segmentscount = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments.Count;
@@ -305,23 +302,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             DomainLayer.Model.Segment Segmentobj = new DomainLayer.Model.Segment();
                             Designator SegmentDesignatorobj = new Designator();
                             //queryorigin = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].designator.origin;
-                            //querydestination = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].designator.destination;
-                            //if (Citydata.GetAllcity().Where(x => x.cityCode == queryorigin).SingleOrDefault() != null)
-                            //{
-                            //    origin = Citydata.GetAllcity().Where(x => x.cityCode == queryorigin).SingleOrDefault().cityName;
-                            //    SegmentDesignatorobj.origin = origin;
-                            //}
-                            //else
-                            //{
-                            //    SegmentDesignatorobj.origin = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].designator.origin;
-                            //}
-                            //if (Citydata.GetAllcity().Where(x => x.cityCode == querydestination).SingleOrDefault() != null)
-                            //{
-                            //    destination1 = Citydata.GetAllcity().Where(x => x.cityCode == querydestination).SingleOrDefault().cityName;
-                            //    SegmentDesignatorobj.destination = destination1;
-                            //}
-                            //else
-                            //    SegmentDesignatorobj.destination = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].designator.destination;
+                            // querydestination = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].designator.destination;                       
 
                             SegmentDesignatorobj.origin = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].designator.origin;
                             SegmentDesignatorobj.destination = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].designator.destination;
@@ -344,7 +325,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 querydestination = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].designator.destination;
                                 if (Citydata.GetAllcity().Where(x => x.cityCode == queryorigin).SingleOrDefault() != null)
                                 {
-                                    origin = Citydata.GetAllcity().Where(x => x.cityCode == queryorigin).SingleOrDefault().cityName;
+                                    origin = Citydata.GetAllcity().Where(x => x.cityCode == queryorigin).SingleOrDefault().cityCode;
                                     legdesignatorobj.origin = origin;
                                 }
                                 else
@@ -353,15 +334,13 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 }
                                 if (Citydata.GetAllcity().Where(x => x.cityCode == querydestination).SingleOrDefault() != null)
                                 {
-                                    destination1 = Citydata.GetAllcity().Where(x => x.cityCode == querydestination).SingleOrDefault().cityName;
+                                    destination1 = Citydata.GetAllcity().Where(x => x.cityCode == querydestination).SingleOrDefault().cityCode;
                                     legdesignatorobj.destination = destination1;
                                 }
                                 else
+                                {
                                     legdesignatorobj.destination = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].designator.destination;
-
-
-                                //legdesignatorobj.origin = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].designator.origin;
-                                //legdesignatorobj.destination = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].designator.destination;
+                                }
 
                                 legdesignatorobj.departure = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].designator.departure;
                                 legdesignatorobj.arrival = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].designator.arrival;
@@ -382,8 +361,6 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             Segmentobjlist.Add(Segmentobj);
 
                         }
-
-
                         var arrivalTerminal = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[0].legs[0].legInfo.arrivalTerminal;
                         var departureTerminal = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[0].legs[0].legInfo.departureTerminal;
                         int FareCount = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].fares.Count;
@@ -422,11 +399,11 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 var perpersontotal = JsonObj.data.faresAvailable[fareAvailabilityKey].totals.fareTotal;
                                 var fareAmount = perpersontotal / passengercount;
                                 var perpersontotalclasswise = JsonObj.data.faresAvailable[fareAvailabilityKey].totals.fareTotal;
-                                if(j==0)
+                                if (j == 0)
                                 {
                                     fareTotalsum = perpersontotalclasswise / passengercount;
                                 }
-                                
+
                                 //END
                                 decimal discountamount = JsonObj.data.faresAvailable[fareAvailabilityKey].fares[0].passengerFares[0].discountedFare;
 
@@ -794,7 +771,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
                     }
                     Array.Sort(ViewPriceNew);
-                    if (ViewPriceNew.Length>0 && ViewPriceNew[0] > 0)
+                    if (ViewPriceNew.Length > 0 && ViewPriceNew[0] > 0)
                     {
                         fareTotalsum = ViewPriceNew[0];
                     }
@@ -999,7 +976,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         {
                             for (int i2 = 0; i2 < fareIndividualsconnectedList.Count; i2++)
                             {
-                                if (fareIndividualsconnectedList[i2].procuctclass.Equals(fareIndividualsList[i1].procuctclass) && i2==i1)
+                                if (fareIndividualsconnectedList[i2].procuctclass.Equals(fareIndividualsList[i1].procuctclass) && i2 == i1)
                                 {
                                     fareIndividualsList[i1].fareKey += "^" + fareIndividualsconnectedList[i2].fareKey;
                                     fareIndividualsList[i1].faretotal += fareIndividualsconnectedList[i2].faretotal;
@@ -1030,7 +1007,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
                     }
                     Array.Sort(ViewPriceNew);
-                    if (ViewPriceNew.Length>0 && ViewPriceNew[0] > 0)
+                    if (ViewPriceNew.Length > 0 && ViewPriceNew[0] > 0)
                     {
                         fareTotalsum = ViewPriceNew[0];
                     }

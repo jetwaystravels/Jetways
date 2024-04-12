@@ -306,13 +306,13 @@
         </div>
     </div>
 </section>
-<div class="flight-box-content rounded-4">
+<div class="flight-box-content p-0 rounded-4">
     <div class="tabs -pills-3 js-tabs">
 
         <div class="tabs__content pt-0 js-tabs-content">
             <div class="tabs__pane -tab-item-1 is-tab-el-active">
                 <div class="journey-box">
-                    <ul class="nav nav-pills mb-3">
+                    <ul class="nav nav-pills mb-1">
                         @{
 
                             <input type="hidden" value="@Model.passeengerlist.passengerscount" id="passengercountid">
@@ -320,7 +320,7 @@
                             if (seatmaap2 == 1)
                             {
                                 <li class="nav-item">
-                                    <button class="nav-link active">@Model.passeengerlist.journeys[0].segments[0].designator.origin-@Model.passeengerlist.journeys[0].segments[0].designator.destination</button>
+                                    <button class="nav-link active p-0">@Model.passeengerlist.journeys[0].segments[0].designator.origin-@Model.passeengerlist.journeys[0].segments[0].designator.destination</button>
 
                                 </li>
                             }
@@ -331,12 +331,12 @@
                                     <li class="nav-item d-flex">
                                         @if (i == 0)
                                         {
-                                            <div id="seattab1" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
+                                            <div id="seattab1" class="nav-link p-0">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
 
                                         }
                                         else
                                         {
-                                            <div id="seattab2" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
+                                            <div id="seattab2" class="nav-link p-0">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
                                         }
                                     </li>
 
@@ -420,7 +420,7 @@
 
                                                         string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
                                                         string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
-                                                        string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " @" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price; ;
+                                                        string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " ₹" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price; ;
                                                         ssrkey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].ssrKey;
                                                         string passengerKey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].passengerKey;
                                                         if (ssrkey != null)

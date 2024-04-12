@@ -39,14 +39,14 @@ namespace DomainLayer.Model
             Citydata citycityLKO = new Citydata();
             {
                 citycityLKO.cityCode = "LKO";
-                citycityLKO.cityName = "LKO";
+                citycityLKO.cityName = "Lucknow";
             };
             Citydatalist.Add(citycityLKO);
 
             Citydata citycitySTV = new Citydata();
             {
                 citycitySTV.cityCode = "STV";
-                citycitySTV.cityName = "STV";
+                citycitySTV.cityName = "Surat";
             };
             Citydatalist.Add(citycitySTV);
             return Citydatalist;
