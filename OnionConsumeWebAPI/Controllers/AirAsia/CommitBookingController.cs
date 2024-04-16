@@ -122,8 +122,11 @@ namespace OnionConsumeWebAPI.Controllers
                     ReturnSeats returnSeats = new ReturnSeats();
                     if (JsonObjPNRBooking.data.breakdown.passengerTotals.seats != null)
                     {
-                        returnSeats.total = JsonObjPNRBooking.data.breakdown.passengerTotals.seats.total;
-                        returnSeats.taxes = JsonObjPNRBooking.data.breakdown.passengerTotals.seats.taxes;
+                        if (JsonObjPNRBooking.data.breakdown.passengerTotals.seats.total > 0 || JsonObjPNRBooking.data.breakdown.passengerTotals.seats.total != null)
+                        {
+                            returnSeats.total = JsonObjPNRBooking.data.breakdown.passengerTotals.seats.total;
+                            returnSeats.taxes = JsonObjPNRBooking.data.breakdown.passengerTotals.seats.taxes;
+                        }
                     }
                     SpecialServices specialServices = new SpecialServices();
                     if (JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices != null)

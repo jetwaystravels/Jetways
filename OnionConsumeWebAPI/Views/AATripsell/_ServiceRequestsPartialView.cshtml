@@ -5,52 +5,147 @@
     var paasenger = Model;
 }
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/js/custom.js/SGCustom.js"></script>
 
 <script>
     //localStorage.clear();
 
     $(document).ready(function () {
 
-
         // Meals
+        // $('.select-option .servc-bordr').change((e) => {
+
+        //     var selectedMeal = $('.select-option .servc-bordr').map(function () {
+
+        //         return $(this).find("option:selected").map(function () { return this.value + "_0"; }).get();
+        //     }).get();
+
+        //     localStorage.setItem("MealssrKeyCount", JSON.stringify(selectedMeal));
+        //     document.getElementById("hiddenSsrKey").value = selectedMeal.join(',');  // Joining selected values into a string
+
+        // });
         $('.select-option .servc-bordr').change((e) => {
+            var selectedOptions = $('.select-option .servc-bordr option:selected');
+            debugger;
 
-            var selectedMeal = $('.select-option .servc-bordr').map(function () {
+            var mealCodes = [];
+            var prices = [];
 
-                return $(this).find("option:selected").map(function () { return this.value + "_0"; }).get();
-            }).get();
+            selectedOptions.each(function () {
+                debugger;
+                var optionValue = $(this).val();
+                var parts = optionValue.split('_');
 
-            localStorage.setItem("MealssrKeyCount", JSON.stringify(selectedMeal));
-            document.getElementById("hiddenSsrKey").value = selectedMeal.join(',');  // Joining selected values into a string
+                mealCodes.push(parts[0] + "_0");
+                prices.push(parseFloat(parts[1]));
+            });
+
+            // Calculate total price
+            var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
+            $('#AddMeal').text(totalPrice.toFixed(2));
+            updateCombinedTotal();
+            localStorage.setItem("MealssrKeyCount", JSON.stringify(mealCodes));
+            document.getElementById("hiddenSsrKey").value = mealCodes.join(',');
 
         });
 
+        // $('.select-option2 .servc-bordr').change((e) => {
+
+
+        //     var selected = $('.select-option2 .servc-bordr').map(function () {
+
+        //         return $(this).find("option:selected").map(function () { return this.value + "_1"; }).get();
+        //     }).get();
+
+        //     localStorage.setItem("MealssrKeyCount2", JSON.stringify(selected));
+        //     document.getElementById("hiddenSsrKey2").value = selected.join(','); // Joining selected values into a string
+
+        // });
+
 
         $('.select-option2 .servc-bordr').change((e) => {
-
-
+            debugger;
+            // Collect selected values and append "_1" to each
             var selected = $('.select-option2 .servc-bordr').map(function () {
-
-                return $(this).find("option:selected").map(function () { return this.value + "_1"; }).get();
+                return $(this).find("option:selected").map(function () {
+                    return this.value + "_1";  // Appending "_1" for some specific reason (similar to your original request)
+                }).get();
             }).get();
+
+            // Extract prices from the selected values for total calculation
+            var prices = $('.select-option2 .servc-bordr').map(function () {
+                return $(this).find("option:selected").map(function () {
+                    var parts = this.value.split('_');
+                    return parseFloat(parts[1]);  // Extract the price part and convert to float
+                }).get();
+            }).get();
+
+            // Calculate the total price
+            var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
+
+            // Update the DOM elements with the selected values and total price
 
             localStorage.setItem("MealssrKeyCount2", JSON.stringify(selected));
             document.getElementById("hiddenSsrKey2").value = selected.join(','); // Joining selected values into a string
 
+            // Display total price in a specified element, ensure you have an element with this ID
+            $('#AddMeal2').text(totalPrice.toFixed(2));
+            updateCombinedTotal();
         });
+
+
+        function updateCombinedTotal() {
+            debugger;
+            var totalPrice1 = parseFloat($('#AddMeal').text()) || 0;
+            var totalPrice2 = parseFloat($('#AddMeal2').text()) || 0;
+            var combinedTotal = totalPrice1 + totalPrice2;
+            $('#AddMealTotal').text(combinedTotal.toFixed(2));
+
+        }
+
+
         //Baggage
+        // $('.select-baggage .servc-bordr').change((e) => {
+
+
+        //     var selected = $('.select-baggage .servc-bordr').map(function () {
+
+        //         return $(this).find("option:selected").map(function () { return this.value + "_0"; }).get();
+        //     }).get();
+
+        //     localStorage.setItem("bagKeyArray", JSON.stringify(selected));
+        //     document.getElementById("hiddenbagKey").value = selected.join(','); // Joining selected values into a string
+
+        // });
+
         $('.select-baggage .servc-bordr').change((e) => {
-
-
+            // Collect selected values and append "_0" to each
             var selected = $('.select-baggage .servc-bordr').map(function () {
-
-                return $(this).find("option:selected").map(function () { return this.value + "_0"; }).get();
+                return $(this).find("option:selected").map(function () {
+                    return this.value + "_0";
+                }).get();
             }).get();
 
-            localStorage.setItem("bagKeyArray", JSON.stringify(selected));
-            document.getElementById("hiddenbagKey").value = selected.join(','); // Joining selected values into a string
+            // Extract prices from the selected values for total calculation
+            var prices = $('.select-baggage .servc-bordr').map(function () {
+                return $(this).find("option:selected").map(function () {
+                    var parts = this.value.split('_');
+                    return parseFloat(parts[1]);
+                }).get();
+            }).get();
 
+            // Calculate the total price
+            var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
+
+            // Update the DOM elements with the selected values and total price
+
+            localStorage.setItem("BagssrKeyCount", JSON.stringify(selected));
+            document.getElementById("hiddenbagKey").value = selected.join(',');  // Joining selected values into a string
+
+            // Display total price in a specified element, assuming the ID is correct
+            $('#AddBaggage').text(totalPrice.toFixed(2));
         });
+
         //Wheel Chair
         $('.select-others .servc-bordr').change((e) => {
 
@@ -103,12 +198,12 @@
             debugger;
 
             var unitKey = JSON.parse(localStorage.getItem("selectedIds"));
-            var BaggageSSrkey = JSON.parse(localStorage.getItem("bagKeyArray"));           
+            var BaggageSSrkey = JSON.parse(localStorage.getItem("bagKeyArray"));
 
             var mealcode1 = JSON.parse(localStorage.getItem("MealssrKeyCount")) || [];
-           //alert(mealcode1);
+            //alert(mealcode1);
             var mealcode2 = JSON.parse(localStorage.getItem("MealssrKeyCount2")) || [];
-           // alert(mealcode2);
+            // alert(mealcode2);
 
             var mealssrKey;
             if (Array.isArray(mealcode1) && Array.isArray(mealcode2)) {
@@ -196,7 +291,6 @@
         });
     });
 </script>
-
 <style>
     .chkbox {
         background: #b1abab;
@@ -249,7 +343,6 @@
         border-bottom: #E93329 1px solid !important;
     }
 </style>
-
 <section id="myContainer1">
     <div class="container">
         <div class="row">
@@ -320,7 +413,7 @@
                             if (seatmaap2 == 1)
                             {
                                 <li class="nav-item">
-                                    <button class="nav-link active p-0">@Model.passeengerlist.journeys[0].segments[0].designator.origin-@Model.passeengerlist.journeys[0].segments[0].designator.destination</button>
+                                    <button class="nav-link active ">@Model.passeengerlist.journeys[0].segments[0].designator.origin-@Model.passeengerlist.journeys[0].segments[0].designator.destination</button>
 
                                 </li>
                             }
@@ -331,12 +424,12 @@
                                     <li class="nav-item d-flex">
                                         @if (i == 0)
                                         {
-                                            <div id="seattab1" class="nav-link p-0">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
+                                            <div id="seattab1" class="nav-link ">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
 
                                         }
                                         else
                                         {
-                                            <div id="seattab2" class="nav-link p-0">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
+                                            <div id="seattab2" class="nav-link ">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
                                         }
                                     </li>
 
@@ -420,8 +513,8 @@
 
                                                         string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
                                                         string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
-                                                        string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " ₹" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price; ;
-                                                        ssrkey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].ssrKey;
+                                                        string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " ₹" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                        ssrkey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].ssrKey + "_" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price; ;
                                                         string passengerKey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].passengerKey;
                                                         if (ssrkey != null)
                                                         {
@@ -429,19 +522,20 @@
                                                         }
 
                                                     }
+                                                    <div class="d-flex">
+                                                        <div><img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /></div>
+                                                        <select id="ddlMealOptions" class="servc-bordr" data-passenger-index="@pa">
+                                                            <option value=""><b>Please select Meal</b></option>
+                                                            @foreach (var option in mealOptions)
+                                                            {
 
-                                                    <select id="ddlMealOptions" class="servc-bordr" data-passenger-index="@pa">
-                                                        <option value=""><b>Please select Meal</b></option>
-                                                        @foreach (var option in mealOptions)
-                                                        {
-
-                                                            <option value="@option.Value">
-                                                                @option.Text
-                                                            </option>
-                                                        }
-                                                    </select>
-                                                    <input type="hidden" id="hiddenSsrKey" name="ssrKey" value="" />
-
+                                                                <option value="@option.Value">
+                                                                    @option.Text
+                                                                </option>
+                                                            }
+                                                        </select>
+                                                        <input type="hidden" id="hiddenSsrKey" name="ssrKey" value="" />
+                                                    </div>
                                                 }
                                             </div>
 
@@ -460,11 +554,12 @@
 
                                                 for (int s = 0; s < Model.Baggage.journeySsrsBaggage[0].baggageSsr.Count; s++)
                                                 {
+                                                    string priceBaggage = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].price;
                                                     string Sssrcode = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].ssrCode;
                                                     string bagcode = Sssrcode.StartsWith("P", StringComparison.OrdinalIgnoreCase).ToString();
                                                     //var mealData = MealImageList.GetAllmeal().SingleOrDefault(x => x.MealCode == queryMeal);
                                                     var bagname = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].name;
-                                                    bagkey = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].ssrKey;
+                                                    bagkey = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].ssrKey + "_" + Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].price;
 
                                                     if (bagcode != "False")
                                                     {
@@ -473,17 +568,19 @@
 
                                                 }
                                             }
-                                            <select id="ddlbagOptions" class="servc-bordr" data-passenger-index="@pa">
-                                                <option value=""><b>Please select Baggage</b></option>
-                                                @foreach (var option in BaggageOptions)
-                                                {
-                                                    <option value="@option.Value">
-                                                        @option.Text
-                                                    </option>
-                                                }
-                                            </select>
-                                            <input type="hidden" id="hiddenbagKey" name="bagkey" value="" />
-
+                                            <div class="d-flex">
+                                                <img src="~/img/pbaggage.png" style="width:20px;height:20px;margin-right:10px;" />
+                                                <select id="ddlbagOptions" class="servc-bordr" data-passenger-index="@pa">
+                                                    <option value=""><b>Please select Baggage</b></option>
+                                                    @foreach (var option in BaggageOptions)
+                                                    {
+                                                        <option value="@option.Value">
+                                                            @option.Text
+                                                        </option>
+                                                    }
+                                                </select>
+                                                <input type="hidden" id="hiddenbagKey" name="bagkey" value="" />
+                                            </div>
                                         </div>
                                         <div class="servc-content select-others">
                                             @{
@@ -597,8 +694,8 @@
 
                                                                 string ssrprice = Model.Meals.legSsrs[1].legssrs[s].legpassengers[0].price;
                                                                 string Mealcode = Model.Meals.legSsrs[1].legssrs[s].ssrCode;
-                                                                string Mealname = Model.Meals.legSsrs[1].legssrs[s].name + " @" + @Model.Meals.legSsrs[1].legssrs[s].legpassengers[0].price; ;
-                                                                ssrkey = Model.Meals.legSsrs[1].legssrs[s].legpassengers[pas].ssrKey;
+                                                                string Mealname = Model.Meals.legSsrs[1].legssrs[s].name + " @" + @Model.Meals.legSsrs[1].legssrs[s].legpassengers[0].price;
+                                                                ssrkey = Model.Meals.legSsrs[1].legssrs[s].legpassengers[pas].ssrKey + "_" + @Model.Meals.legSsrs[1].legssrs[s].legpassengers[0].price;
                                                                 string passengerKey = Model.Meals.legSsrs[1].legssrs[s].legpassengers[pas].passengerKey;
                                                                 if (ssrkey != null)
                                                                 {
@@ -607,19 +704,21 @@
                                                                 }
 
                                                             }
+                                                            <div class="d-flex">
+                                                                <div><img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /></div>
+                                                                <select id="ddlMealOptions" class="servc-bordr" data-passenger-index="@pas">
+                                                                    <option value=""><b>Please select Meal</b></option>
+                                                                    @foreach (var option in mealOptions)
+                                                                    {
+                                                                        <option value="@option.Value">
+                                                                            @option.Text
+                                                                        </option>
+                                                                    }
+                                                                </select>
 
-                                                            <select id="ddlMealOptions" class="servc-bordr" data-passenger-index="@pas">
-                                                                <option value=""><b>Please select Meal</b></option>
-                                                                @foreach (var option in mealOptions)
-                                                                {
-                                                                    <option value="@option.Value">
-                                                                        @option.Text
-                                                                    </option>
-                                                                }
-                                                            </select>
 
-
-                                                            <input type="hidden" id="hiddenSsrKey2" name="ssrKey" value="" />
+                                                                <input type="hidden" id="hiddenSsrKey2" name="ssrKey" value="" />
+                                                            </div>
                                                         }
 
                                                     </div>
@@ -627,10 +726,12 @@
 
                                             }
                                             <div class="servc-content">
-
-                                                <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn" data-toggle="modal" data-target="#rrrtexampleModal">
-
+                                                <div class="d-flex">
+                                                    <div><img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /></div>
+                                                    <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn" data-toggle="modal" data-target="#rrrtexampleModal">
+                                                </div>
                                                 <div class="output-div-input" id="outputDivConnect_@pas"></div>
+
                                             </div>
                                             <!-- Output div for each passenger -->
 
@@ -653,17 +754,20 @@
 
                                                     }
                                                 }
-                                                <select id="otherOptions2" class="servc-bordr">
-                                                    <option value=""><b>Please select OtherService</b></option>
-                                                    @foreach (var option in otherOptions)
-                                                    {
-                                                        <option value="@option.Value">
-                                                            @option.Text
-                                                        </option>
-                                                    }
-                                                </select>
+                                                <div class="d-flex">
 
-                                                <input type="hidden" id="hiddenotherbagKey2" name="otherbagkey" value="" />
+                                                    <select id="otherOptions2" class="servc-bordr">
+                                                        <option value=""><b>Please select OtherService</b></option>
+                                                        @foreach (var option in otherOptions)
+                                                        {
+                                                            <option value="@option.Value">
+                                                                @option.Text
+                                                            </option>
+                                                        }
+                                                    </select>
+
+                                                    <input type="hidden" id="hiddenotherbagKey2" name="otherbagkey" value="" />
+                                                </div>
                                             </div>
 
                                         </div>

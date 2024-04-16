@@ -49,7 +49,51 @@ namespace DomainLayer.Model
                 citycitySTV.cityName = "Surat";
             };
             Citydatalist.Add(citycitySTV);
+            Citydata citycityGWL = new Citydata();
+            {
+                citycityGWL.cityCode = "GWL";
+                citycityGWL.cityName = "Gwalior";
+            };
+            Citydatalist.Add(citycityGWL);
+            Citydata citycityGOI = new Citydata();
+            {
+                citycityGOI.cityCode = "GOI";
+                citycityGOI.cityName = "Goa";
+            };
+            Citydatalist.Add(citycityGOI);
+            Citydata citycityJAI = new Citydata();
+            {
+                citycityJAI.cityCode = "JAI";
+                citycityJAI.cityName = "Jaipur";
+            };
+            Citydatalist.Add(citycityJAI);
+            Citydata citycityIXR = new Citydata();
+            {
+                citycityIXR.cityCode = "IXR";
+                citycityIXR.cityName = "Ranchi";
+            };
+            Citydatalist.Add(citycityIXR);
+            Citydata citycityBBI = new Citydata();
+            {
+                citycityBBI.cityCode = "BBI";
+                citycityBBI.cityName = "Bhubaneswar";
+            };
+            Citydatalist.Add(citycityBBI);
+            Citydata citycityHYD = new Citydata();
+            {
+                citycityHYD.cityCode = "HYD";
+                citycityHYD.cityName = "Hyderabad";
+            };
+            Citydatalist.Add(citycityHYD);
+            Citydata citycityPNQ = new Citydata();
+            {
+                citycityPNQ.cityCode = "PNQ";
+                citycityPNQ.cityName = "Pune";
+            };
+            Citydatalist.Add(citycityPNQ);
             return Citydatalist;
+
+
         }
     }
 }

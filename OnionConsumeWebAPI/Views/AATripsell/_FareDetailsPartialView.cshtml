@@ -100,8 +100,6 @@
                         }
 
                     }
-
-
                     @*int amount = @Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares[0].serviceCharges[0].amount;
 
                 int finalbasefare = passengercountbase * amount;*@
@@ -112,16 +110,11 @@
                             // infcount = Model.passeengerlistItanary.inftcount;
                             inftbasefare = Model.passeengerlistItanary.inftbasefare;
                         }
-
-
                         toatlinftbasefare = infcount * inftbasefare;
                         basefare = (peradtamount * adtcount) + (perchdtamount * chdcount) + (toatlinftbasefare);
 
                     }
                     <div class="text-15 fw-600">&#8377; @basefare  </div>
-
-
-
 
                 </div>
             </div>
@@ -227,14 +220,42 @@
                 </div>
             </div>
 
-            <div class="row y-gap-2  pt-2">
+            <div class="row d-none  y-gap-2  pt-2">
 
                 <div class="damount col-9">
-                    <span class="text-15">Meal</span>
+                    <span class="text-15">Add Meal</span>
                 </div>
                 <div class="damount col-3 d-flex width-132">
                     <span>&#8377</span>
                     <span id="AddMeal"></span>
+                </div>
+            </div>
+            <div class="row d-none  y-gap-2  pt-2">
+                <div class="damount col-9">
+                    <span class="text-15">Add Meal</span>
+                </div>
+                <div class="damount col-3 d-flex width-132">
+                    <span>&#8377</span>
+                    <span id="AddMeal2"></span>
+                </div>
+            </div>
+            <div class="row y-gap-2  pt-2">
+                <div class="damount col-9">
+                    <span class="text-15">Add Meal</span>
+                </div>
+                <div class="damount col-3 d-flex width-132">
+                    <span>&#8377</span>
+                    <span id="AddMealTotal"></span>
+                </div>
+            </div>
+            <div class="row y-gap-2  pt-2">
+
+                <div class="damount col-9">
+                    <span class="text-15">Add Baggage</span>
+                </div>
+                <div class="damount col-3 d-flex width-132">
+                    <span>&#8377</span>
+                    <span id="AddBaggage"></span>
                 </div>
             </div>
 
@@ -288,8 +309,8 @@
         <div class="col-auto d-flex">
         <span class="text-20 lh-13 fw-600">&#8377</span>
         <div class="text-20 lh-13 fw-600" id="TotalMealPayID"></div>
-        <div class="text-20 lh-13 fw-600" id="TotalSeatPayID"></div>
-        <div class="text-20 lh-13 fw-600" id="amountPay"></div>
+        <div class="text-20 lh-13 fw-600 " id="TotalSeatPayID"></div>
+        @*<div class="text-20 lh-13 fw-600" id="amountPay"></div>
         </div>
         </div>
 

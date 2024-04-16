@@ -82,10 +82,104 @@
             <!-------------Air Line PNR Section ------------->
             <section class="container mt-1">
                 <div class="row border-dot pt-2">
-                    <div class="d-flex flex-row justify-content-between flex-wrap">
-                        <div class="TPNR">
-                            <span class="mb-0 fw-bold-600"><span id="depart">@Model.AirlinePNR[0].journeys[0].segments[0].designator.origin</span><span> to</span><span id="tarrive"> @Model.AirlinePNR[0].journeys[0].segments[0].designator.destination</span></span>
-                        </div>
+                    @for (int j = 0; j < Model.AirlinePNR[0].journeys.Count; j++)
+                    {
+                        @for (int s = 0; s < Model.AirlinePNR[0].journeys[j].segments.Count; s++)
+                        {
+                            <div class="pass">
+                                <div class="d-flex flex-row justify-content-between flex-wrap">
+                                    <div class="TPNR">
+                                        <span class="mb-0 fw-bold-600"><span id="depart"> @Model.AirlinePNR[0].journeys[j].segments[s].designator.origin</span><span> to</span><span id="tarrive"> @Model.AirlinePNR[0].journeys[j].segments[s].designator.destination</span></span>
+                                    </div>
+                                </div>
+                                <div class="col-12 border-width"></div>
+
+                                <div class="col-12 border-width"></div>
+
+                                <!------Passengers-Detail-Section--------->
+                                @for (int p = 0; p < Model.AirlinePNR[0].passengers.Count; p++)
+                                {
+                                    <div class="col-12 PDetail">
+                                        <div class="d-flex flex-row justify-content-between">
+                                            <div class="Pdetail1">
+
+                                                <ul class="td-inline">
+                                                    <li class="tlist-none"><span id="Adult1">Passengers @Model.AirlinePNR[0].passengers[p].passengerTypeCode</span></li>
+                                                    <li class="tlist-none"><span id="Pname1" class="fw-bold-600">@Model.AirlinePNR[0].passengers[p].name.first</span></li>
+                                                    @* <li class="tlist-none"><span>(Adult)</span></li> *@
+                                                </ul>
+                                            </div>
+                                            <div class="Pdetail1">
+                                                <ul class="td-inline">
+                                                    <li class="tlist-none"> <span>Mobile No:</span><span class="fw-bold-600">@Model.AirlinePNR[0].PhoneNumbers[0].number</span></li>
+                                                </ul>
+                                            </div>
+
+                                            @*   <div class="Pdetail1">
+                                <ul class="td-inline">
+                                <li class="tlist-none"><svg id="barcode"></svg></li>
+                                </ul>
+                                </div> *@
+                                            <div class="Pdetail1">
+                                                <ul class="td-inline">
+                                                    @{
+                                                        var imageUrl1 = @Model.AirlinePNR[0].passengers[p].barcodestring;
+                                                        // string imageUrl1 = ViewData["ImageBytes"] as string;
+                                                        string barcode = ViewData["Barcode"] as string;
+                                                    }
+                                                    @if (!string.IsNullOrEmpty(imageUrl1))
+                                                    {
+                                                        <img src="@imageUrl1" alt="barcode" />
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+
+                            @*  <div class="d-flex flex-row justify-content-between flex-wrap">
+                    @{
+                    int Segmentcount = Model.AirlinePNR[0].journeys[0].segments.Count;
+
+                    }
+                    @if (Segmentcount == 1)
+                    {
+                    <div class="TPNR">
+
+                    <span class="mb-0 fw-bold-600"><span id="depart">@Model.AirlinePNR[0].journeys[0].segments[0].designator.origin</span>
+                    <span> to</span><span id="tarrive"> @Model.AirlinePNR[0].journeys[0].segments[0].designator.destination</span></span>
+                    </div>
+                    }
+                    else
+                    {
+                    @for (int i = 0; i < Segmentcount; i++)
+                    {
+                    @if (i == 0)
+                    {
+                    <div class="TPNR">
+
+                    <span class="mb-0 fw-bold-600">
+                    <span id="depart">@Model.AirlinePNR[0].journeys[0].segments[i].designator.origin</span>
+                    <span> to</span><span id="tarrive"> @Model.AirlinePNR[0].journeys[0].segments[i].designator.destination</span>
+                    </span>
+                    </div>
+
+                    }
+                    else
+                    {
+                    <div class="TPNR">
+
+                    <span class="mb-0 fw-bold-600">
+                    <span id="depart">@Model.AirlinePNR[0].journeys[0].segments[i].designator.origin</span>
+                    <span> to</span><span id="tarrive"> @Model.AirlinePNR[0].journeys[0].segments[i].designator.destination</span>
+                    </span>
+                    </div>
+
+                    }
+                    }
+                    }
                     </div>
                     <div class="col-12 border-width"></div>
 
@@ -94,67 +188,69 @@
                     <!------Passengers-Detail-Section--------->
                     @for (int i = 0; i < Model.AirlinePNR[0].passengerscount; i++)
                     {
-                        <div class="col-12 PDetail">
+                    <div class="col-12 PDetail">
 
-                            <div class="d-flex flex-row justify-content-between">
-                                <div class="Pdetail1">
+                    <div class="d-flex flex-row justify-content-between">
+                    <div class="Pdetail1">
 
-                                    <ul class="td-inline">
-                                        <li class="tlist-none"><span id="Adult1">Passengers @Model.AirlinePNR[0].passengers[i].passengerTypeCode</span></li>
-                                        <li class="tlist-none"><span id="Pname1" class="fw-bold-600">@Model.AirlinePNR[0].passengers[i].name.first</span></li>
-                                        @* <li class="tlist-none"><span>(Adult)</span></li> *@
-                                    </ul>
-                                </div>
+                    <ul class="td-inline">
+                    <li class="tlist-none"><span id="Adult1">Passengers @Model.AirlinePNR[0].passengers[i].passengerTypeCode</span></li>
+                    <li class="tlist-none"><span id="Pname1" class="fw-bold-600">@Model.AirlinePNR[0].passengers[i].name.first</span></li>
+                    @* <li class="tlist-none"><span>(Adult)</span></li>
+                    </ul>
+                    </div>
 
-                                <div class="Pdetail1">
-                                    <ul class="td-inline">
-                                        @{
-                                            var imageUrl1 = @Model.AirlinePNR[0].passengers[i].barcodestring;
-                                            // string imageUrl1 = ViewData["ImageBytes"] as string;
-                                            string barcode = ViewData["Barcode"] as string;
-                                        }
-                                        @if (!string.IsNullOrEmpty(imageUrl1))
-                                        {
-                                            <img src="@imageUrl1" alt="barcode" />
-                                        }
-                                    </ul>
-                                </div>
-
-
-                            </div>
-
-                            @if (Model.AirlinePNR[0].passengers[i].infant != null)
-                            {
-                                @if (Model.AirlinePNR[0].passengers[i].infant.name != null)
-                                {
-                                    <div class="d-flex flex-row justify-content-between">
-                                        <div class="Pdetail1">
-
-                                            <ul class="td-inline  img-height">
-                                                <li class="tlist-none"><span id="Adult1"></span></li>
-                                                <li class="tlist-none"><span id="Pname1" class="fw-bold-600">@Model.AirlinePNR[0].passengers[i].infant.name.first</span></li>
-                                                @* <li class="tlist-none"><span>(Adult)</span></li> *@
-                                            </ul>
-                                        </div>
-                                        <div class="Pdetail1">
-                                            <ul class="td-inline  img-height">
-                                                @{
-                                                    imageUrl1 = @Model.AirlinePNR[0].passengers[i].barcodestring;
-                                                    // string imageUrl1 = ViewData["ImageBytes"] as string;
-                                                    barcode = ViewData["Barcode"] as string;
-                                                }
-                                                @if (!string.IsNullOrEmpty(imageUrl1))
-                                                {
-                                                    <img src="@imageUrl1" alt="barcode" />
-                                                }
-                                            </ul>
-                                        </div>
+                    <div class="Pdetail1">
+                    <ul class="td-inline">
+                    @{
+                    var imageUrl1 = @Model.AirlinePNR[0].passengers[i].barcodestring;
+                    // string imageUrl1 = ViewData["ImageBytes"] as string;
+                    string barcode = ViewData["Barcode"] as string;
+                    }
+                    @if (!string.IsNullOrEmpty(imageUrl1))
+                    {
+                    <img src="@imageUrl1" alt="barcode" />
+                    }
+                    </ul>
+                    </div>
 
 
-                                    </div>
-                                }
-                            }
-                        </div>
+                    </div>
+
+                    @if (Model.AirlinePNR[0].passengers[i].infant != null)
+                    {
+                    @if (Model.AirlinePNR[0].passengers[i].infant.name != null)
+                    {
+                    <div class="d-flex flex-row justify-content-between">
+                    <div class="Pdetail1">
+
+                    <ul class="td-inline  img-height">
+                    <li class="tlist-none"><span id="Adult1"></span></li>
+                    <li class="tlist-none"><span id="Pname1" class="fw-bold-600">@Model.AirlinePNR[0].passengers[i].infant.name.first</span></li>
+                    @* <li class="tlist-none"><span>(Adult)</span></li>
+                    </ul>
+                    </div>
+                    <div class="Pdetail1">
+                    <ul class="td-inline  img-height">
+                    @{
+                    imageUrl1 = @Model.AirlinePNR[0].passengers[i].barcodestring;
+                    // string imageUrl1 = ViewData["ImageBytes"] as string;
+                    barcode = ViewData["Barcode"] as string;
+                    }
+                    @if (!string.IsNullOrEmpty(imageUrl1))
+                    {
+                    <img src="@imageUrl1" alt="barcode" />
+                    }
+                    </ul>
+                    </div>
+
+
+                    </div>
+                    }
+                    }
+                    </div>
+                    } *@
+                        }
                     }
                     <div class="col-12 border-width mt-1"></div>
                     <!--------------Non-Stop------------------------->
@@ -243,55 +339,55 @@
                                         }
 
 
-                                        if (passengerSegmentsList != null)
-                                        {
-                                            foreach (var passengerSegment in passengerSegmentsList)
-                                            {
-                                                @foreach (var ssrReturn in passengerSegment.SsrReturn)
-                                                {
-                                                    if (ssrReturn.MealName != null)
-                                                    {
-                                                        if (ssrReturn.MealName.StartsWith("V", StringComparison.OrdinalIgnoreCase))
-                                                        {
+                                        // if (passengerSegmentsList != null)
+                                        // {
+                                        //     foreach (var passengerSegment in passengerSegmentsList)
+                                        //     {
+                                        //         @foreach (var ssrReturn in passengerSegment.SsrReturn)
+                                        //         {
+                                        //             if (ssrReturn.MealName != null)
+                                        //             {
+                                        //                 if (ssrReturn.MealName.StartsWith("V", StringComparison.OrdinalIgnoreCase))
+                                        //                 {
 
 
 
-                                                            <div class="tseat5d d-flex align-items-center">
-                                                                <span><img src="~/img/pmeal.png"></span>
-                                                                <div class="pmeal ps-2">
-                                                                    <span class="fw-bold-600">
-                                                                        @Model.AirlinePNR[0].journeys[0].segments[0].designator.origin
-                                                                        -@Model.AirlinePNR[0].journeys[0].segments[0].designator.destination:
-                                                                        @ssrReturn.MealName
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        }
-                                                        <div class="tseat5d d-flex align-items-center">
-                                                            <span><img src="~/img/pbaggage.png"></span>
-                                                            <div class="baggag ps-2 ">
-                                                                @if (ssrReturn.MealName.StartsWith("P", StringComparison.OrdinalIgnoreCase))
-                                                                {
-                                                                    <div class="bgagg-kg">
-                                                                        <span>Baggage:</span> <span class="fw-bold-600">@ssrReturn.MealName</span>
-                                                                        @*<span>Check-In -</span> <span class="fw-bold-600"> 15Kgs</span>*@
-                                                                    </div>
-                                                                }
-                                                                <div class="bgagg-kg">
-                                                                    <span>Extra Baggage: </span> <span class="fw-bold-600"> NA</span>
-                                                                </div>
-                                                                @if (ssrReturn.MealName.StartsWith("W", StringComparison.OrdinalIgnoreCase))
-                                                                {
-                                                                    <div class="bgagg-kg">
-                                                                        <span>Special request: </span> <span class="fw-bold-600"> @ssrReturn.MealName</span>
-                                                                    </div>
-                                                                }
-                                                            </div>
-                                                        </div>
-                                                    }
-                                                }
-                                            }
-                                        }
+                                        //                     <div class="tseat5d d-flex align-items-center">
+                                        //                         <span><img src="~/img/pmeal.png"></span>
+                                        //                         <div class="pmeal ps-2">
+                                        //                             <span class="fw-bold-600">
+                                        //                                 @Model.AirlinePNR[0].journeys[0].segments[0].designator.origin
+                                        //                                 -@Model.AirlinePNR[0].journeys[0].segments[0].designator.destination:
+                                        //                                 @ssrReturn.MealName
+                                        //                             </span>
+                                        //                         </div>
+                                        //                     </div>
+                                        //                 }
+                                        //                 <div class="tseat5d d-flex align-items-center">
+                                        //                     <span><img src="~/img/pbaggage.png"></span>
+                                        //                     <div class="baggag ps-2 ">
+                                        //                         @if (ssrReturn.MealName.StartsWith("P", StringComparison.OrdinalIgnoreCase))
+                                        //                         {
+                                        //                             <div class="bgagg-kg">
+                                        //                                 <span>Baggage:</span> <span class="fw-bold-600">@ssrReturn.MealName</span>
+                                        //                                 @*<span>Check-In -</span> <span class="fw-bold-600"> 15Kgs</span>*@
+                                        //                             </div>
+                                        //                         }
+                                        //                         <div class="bgagg-kg">
+                                        //                             <span>Extra Baggage: </span> <span class="fw-bold-600"> NA</span>
+                                        //                         </div>
+                                        //                         @if (ssrReturn.MealName.StartsWith("W", StringComparison.OrdinalIgnoreCase))
+                                        //                         {
+                                        //                             <div class="bgagg-kg">
+                                        //                                 <span>Special request: </span> <span class="fw-bold-600"> @ssrReturn.MealName</span>
+                                        //                             </div>
+                                        //                         }
+                                        //                     </div>
+                                        //                 </div>
+                                        //             }
+                                        //         }
+                                        //     }
+                                        // }
                                     }
                                 }
                             </div>
