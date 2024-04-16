@@ -71,6 +71,8 @@ namespace DomainLayer.Model
             public PassengerTotals passengerTotals { get; set; }
             public ReturnPassengers passengers { get; set; }
             public JourneyTotals journeyTotals { get; set; }
+            public List<JourneyTotals> journeyfareTotals { get; set; }
+            public JourneyTotals InfantfareTotals { get; set; }
             public JourneysReturn journeys { get; set; }
 
         }
@@ -538,6 +540,7 @@ namespace DomainLayer.Model
             public object customerNumber { get; set; }
             public object[] fees { get; set; }
             public Name name { get; set; }
+            public string MobNumber { get; set; }
             public string passengerTypeCode { get; set; }
             public object discountCode { get; set; }
             public object[] bags { get; set; }
@@ -561,6 +564,7 @@ namespace DomainLayer.Model
             public string compartmentDesignator { get; set; }
             public int penalty { get; set; }
             public string unitDesignator { get; set; }
+            public string SSRCode { get; set; }
             public SeatInformation seatInformation { get; set; }
             public string arrivalStation { get; set; }
             public string departureStation { get; set; }
@@ -712,6 +716,8 @@ namespace DomainLayer.Model
             public string flightReference { get; set; }
             public List<LegReturn> legs { get; set; }
             public int status { get; set; }
+            public string unitdesignator { get; set; }
+            public string SSRCode { get; set; }
         }
         public class ServiceChargeReturn
         {

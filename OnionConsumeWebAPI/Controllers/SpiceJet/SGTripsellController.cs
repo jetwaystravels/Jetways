@@ -414,18 +414,26 @@ namespace OnionConsumeWebAPI.Controllers
                                 string[] sskeydata = new string[2];
                                 if (ssrKey[k].Contains("_0"))
                                 {
-                                    sskeydata = ssrKey[k].Split("_");
-                                    ssrsKey _obj0 = new ssrsKey();
-                                    _obj0.key = sskeydata[0];
-                                    _obj.SSRcode0.Add(_obj0);
+                                    string[] wordsArray = ssrKey[k].ToString().Split('_');
+                                    if (wordsArray.Length > 1 && !string.IsNullOrEmpty(wordsArray[0]))
+                                    {
+                                        sskeydata = ssrKey[k].Split("_");
+                                        ssrsKey _obj0 = new ssrsKey();
+                                        _obj0.key = sskeydata[0];
+                                        _obj.SSRcode0.Add(_obj0);
+                                    }
                                 }
                                 else if (ssrKey[k].Contains("_1"))
                                 {
-                                    sskeydata = ssrKey[k].Split("_");
-                                    ssrsKey _obj1 = new ssrsKey();
-                                    _obj1.key = ssrKey[k];
-                                    _obj1.key = sskeydata[0];
-                                    _obj.SSRcode1.Add(_obj1);
+                                    string[] wordsArray = ssrKey[k].ToString().Split('_');
+                                    if (wordsArray.Length > 1 && !string.IsNullOrEmpty(wordsArray[0]))
+                                    {
+                                        sskeydata = ssrKey[k].Split("_");
+                                        ssrsKey _obj1 = new ssrsKey();
+                                        _obj1.key = ssrKey[k];
+                                        _obj1.key = sskeydata[0];
+                                        _obj.SSRcode1.Add(_obj1);
+                                    }
                                 }
 
                             }
@@ -434,17 +442,25 @@ namespace OnionConsumeWebAPI.Controllers
                                 string[] sskeydata = new string[2];
                                 if (BaggageSSrkey[k].Contains("_0"))
                                 {
-                                    sskeydata = BaggageSSrkey[k].Split("_");
-                                    ssrsKey _objBag0 = new ssrsKey();
-                                    _objBag0.key = sskeydata[0];
-                                    _obj.SSRbaggagecode0.Add(_objBag0);
+                                    string[] wordsArray = BaggageSSrkey[k].ToString().Split('_');
+                                    if (wordsArray.Length > 1 && !string.IsNullOrEmpty(wordsArray[0]))
+                                    {
+                                        sskeydata = BaggageSSrkey[k].Split("_");
+                                        ssrsKey _objBag0 = new ssrsKey();
+                                        _objBag0.key = sskeydata[0];
+                                        _obj.SSRbaggagecode0.Add(_objBag0);
+                                    }
                                 }
                                 else if (BaggageSSrkey[k].Contains("_1"))
                                 {
-                                    sskeydata = BaggageSSrkey[k].Split("_");
-                                    ssrsKey _objBag1 = new ssrsKey();
-                                    _objBag1.key = sskeydata[0];
-                                    _obj.SSRbaggagecode1.Add(_objBag1);
+                                    string[] wordsArray = BaggageSSrkey[k].ToString().Split('_');
+                                    if (wordsArray.Length > 1 && !string.IsNullOrEmpty(wordsArray[0]))
+                                    {
+                                        sskeydata = BaggageSSrkey[k].Split("_");
+                                        ssrsKey _objBag1 = new ssrsKey();
+                                        _objBag1.key = sskeydata[0];
+                                        _obj.SSRbaggagecode1.Add(_objBag1);
+                                    }
                                 }
 
                             }

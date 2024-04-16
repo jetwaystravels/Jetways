@@ -233,7 +233,7 @@
 
                             <div class="flex-center x-gap-20 y-gap-20 mt-30">
                                 @* <input type="submit" class="btn btn-btn-primary" value="Continue" /> *@
-                            <input type="submit" id="Continuebtn" class="btn btn-btn-primary" value="Continue" style="opacity:0.2" disabled />
+                            <input type="submit" id="Continuebtn" class="btn btn-btn-primary Continuebtnprice" value="Continue" style="opacity:0.2" disabled />
                             </div> 
 
                        @*  <div class="flex-center x-gap-20 y-gap-20 mt-30">
@@ -479,6 +479,21 @@
 
 
 
+        });
+        $(".Continuebtnprice").click(function () {
+            // Retrieve and store meal total
+            const mealTotal = $('#AddMealTotal').text();
+            localStorage.setItem('mealTotal1', mealTotal);
+            alert("Meal"+ mealTotal);
+            // Retrieve and store baggage total
+            const baggageTotal = $('#AddBaggage').text();
+            localStorage.setItem('bagTotal1', baggageTotal);
+            alert("Bag" + baggageTotal);
+
+            // Retrieve and store base payment total
+            const basePaymentTotal = $('#Totalamount').val();
+            localStorage.setItem('basePayment1', basePaymentTotal);
+            alert("Base" + basePaymentTotal);
         });
 
 

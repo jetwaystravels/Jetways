@@ -316,8 +316,12 @@
                                                     {
                                                         string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
                                                         string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode + "_" + Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                        string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " @" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                        string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) || Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase)).ToString();
+                                                        string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " ₹" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                         string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) ||
+                                                         Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase) ||
+                                                         Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase)).ToString();
+
+                                                       // string Mcode = Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase).ToString();
                                                         if (Mcode.ToLower() == "true")
                                                         {
                                                             continue;
@@ -345,9 +349,10 @@
                                                 <div class="d-flex">
                                                     <div><img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /></div>
                                                     <select id="ddlMealOptions" class="servc-bordr">
+                                                        <option selected="selected" value="">Please Select</option>
                                                         @foreach (var option in mealOptions)
                                                         {
-                                                            <option selected="selected" value="@option.Value" data-ssrkey=@ssrkey>
+                                                            <option  value="@option.Value" data-ssrkey=@ssrkey>
                                                                 @option.Text
                                                             </option>
                                                         }
@@ -385,7 +390,7 @@
                                                     for (int s = 0; s < Model.Meals.legSsrs[0].legssrs.Count; s++)
                                                     {
                                                         string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                        string Sssrcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
+                                                        string Sssrcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode + "_" + Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
                                                         string bagcode = Sssrcode.StartsWith("X", StringComparison.OrdinalIgnoreCase).ToString();
                                                         if (bagcode.ToLower() == "true")
                                                         {
@@ -409,7 +414,8 @@
                                                 <div class="d-flex">
                                                     <img src="~/img/pbaggage.png" style="width:20px;height:20px;margin-right:10px;" />
                                                     <select id="ddlbagOptions" class="servc-bordr">
-                                                        @foreach (var option in BaggageOptions)
+                                                        <option selected="selected" value="">Please Select</option>
+                                                    @foreach (var option in BaggageOptions)
                                                         {
                                                             <option value="@option.Value" data-bagkey=@bagkey>
                                                                 @option.Text
@@ -504,8 +510,8 @@
                                                     for (int s = 0; s < Model.Meals.legSsrs[0].legssrs.Count; s++)
                                                     {
                                                         string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                        string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
-                                                        string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " @" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                        string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode + "_" + Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                        string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " ₹" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
 
                                                         string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) || Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase)).ToString();
                                                         if (Mcode.ToLower() == "true")
@@ -536,9 +542,10 @@
                                                 <div class="d-flex">
                                                     <div><img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /></div>
                                                     <select id="ddlMealOptions2" class="servc-bordr">
-                                                        @foreach (var option in mealOptions)
+                                                        <option selected="selected" value="">Please Select</option>
+                                                    @foreach (var option in mealOptions)
                                                         {
-                                                            <option selected="selected" value="@option.Value" data-ssrkey=@ssrkey>
+                                                            <option  value="@option.Value" data-ssrkey=@ssrkey>
                                                                 @option.Text
                                                             </option>
                                                         }
@@ -880,7 +887,7 @@
                     mealCodes.push(parts[0] + "_OneWay0");
                     prices.push(parseFloat(parts[1]));
                 });
-                alert(mealCodes);
+                //alert(mealCodes);
                 localStorage.setItem("MealssrKeyCount", JSON.stringify(mealCodes));
                 document.getElementById("hiddenSsrKey").value = mealCodes.join(',');
 
@@ -891,11 +898,15 @@
                 // Display meal codes and prices in separate alerts
                 // alert("Meal Codes: " + mealCodes.join(','));
                 //alert("Prices: " + prices.join(','));
+                updateCombinedTotal();
 
             });
 
+      
 
-        $('.select-option2 .servc-bordr').change((e) => {
+
+
+        @*$('.select-option2 .servc-bordr').change((e) => {
 
             // var selected = $(e.target).find("option:selected").map(function () { return this.value; }).get();
             // alert(selected);
@@ -908,13 +919,53 @@
             localStorage.setItem("MealssrKeyCount2", JSON.stringify(selected));
             document.getElementById("hiddenSsrKey2").value = selected.join(','); // Joining selected values into a string
 
-        });
+        });*@
+
+            $('.select-option2 .servc-bordr').change((e) => {
+               
+                var selected = $('.select-option2 .servc-bordr').map(function () {
+                    return $(this).find("option:selected").map(function () {
+                        return this.value + "_OneWay1";  
+                    }).get();
+                }).get();
+
+              
+                var prices = $('.select-option2 .servc-bordr').map(function () {
+                    return $(this).find("option:selected").map(function () {
+                        var parts = this.value.split('_');
+                        return parseFloat(parts[1]);  
+                    }).get();
+                }).get();
+
+                // Calculate the total price
+                var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
+
+                // Update the DOM elements with the selected values and total price
+                //alert(selected);  // Display selected options for debugging
+                localStorage.setItem("MealssrKeyCount2", JSON.stringify(selected));
+                document.getElementById("hiddenSsrKey2").value = selected.join(','); // Joining selected values into a string
+
+                // Display total price in a specified element, ensure you have an element with this ID
+                $('#AddMeal2').text(totalPrice.toFixed(2));
+                updateCombinedTotal();
+            });
+
+
+        function updateCombinedTotal() {
+            var totalPrice1 = parseFloat($('#AddMeal').text()) || 0;
+            var totalPrice2 = parseFloat($('#AddMeal2').text()) || 0;
+            var combinedTotal = totalPrice1 + totalPrice2;
+            $('#AddMealTotal').text(combinedTotal.toFixed(2));
+
+        }
+
+
 
 
         //End :MealKey post
 
         //Bagage code start
-        $('.select-baggage .servc-bordr').change((e) => {
+        @*$('.select-baggage .servc-bordr').change((e) => {
 
             // var selected = $(e.target).find("option:selected").map(function () { return this.value; }).get();
             // alert(selected);
@@ -927,7 +978,35 @@
             localStorage.setItem("BagssrKeyCount", JSON.stringify(selected));
             document.getElementById("hiddenbagKey").value = selected.join(',');  // Joining selected values into a string
 
-        });
+        });*@
+
+            $('.select-baggage .servc-bordr').change((e) => {
+                // Collect selected values and append "_0" to each
+                var selected = $('.select-baggage .servc-bordr').map(function () {
+                    return $(this).find("option:selected").map(function () {
+                        return this.value + "_0";
+                    }).get();
+                }).get();
+
+                // Extract prices from the selected values for total calculation
+                var prices = $('.select-baggage .servc-bordr').map(function () {
+                    return $(this).find("option:selected").map(function () {
+                        var parts = this.value.split('_');
+                        return parseFloat(parts[1]);
+                    }).get();
+                }).get();
+
+                // Calculate the total price
+                var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
+
+                // Update the DOM elements with the selected values and total price
+                //alert(selected);  // Debug: Display selected baggage options
+                localStorage.setItem("BagssrKeyCount", JSON.stringify(selected));
+                document.getElementById("hiddenbagKey").value = selected.join(',');  // Joining selected values into a string
+
+                // Display total price in a specified element, assuming the ID is correct
+                $('#AddBaggage').text(totalPrice.toFixed(2));
+            });
 
 
         // $(document).ready(function () {

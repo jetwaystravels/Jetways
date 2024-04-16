@@ -137,25 +137,11 @@
                             <partial name="_IndigoTripsellPatialView.cshtml" />
                         </div>
                         <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
-                            <div id="toggleButton" class="bg-h2"><h2 class="text-18 fw-600 md:mt-20 ">Enter Contact Details |  <span class="text-18">Sign in  to book faster and use eCash</span></h2></div>
+                            <div id="toggleButton" class="bg-h2"><h2 class="text-18 fw-600 md:mt-20 ">Enter Contact Details</h2></div>
                         </div>
                         <div id="content" class="row bg-white mt-2">
                             <partial name="_IndigoContactDetailsPartialView.cshtml" />  <br> <br>
-                            @*   <div style="margin-top:-10px;">
-
-                            <div class="col-12">
-                            Your booking details will be sent to this email address and mobile number.
-                            <label class="align-checkbox fs-base cursor-pointer gray" ng-show="whatsApp.show &amp;&amp; !yatraAgent.isAgent">
-                            <span class="ui-checkbox">
-                            <input type="checkbox" class="ng-pristine ng-untouched ng-valid" ng-model="whatsApp.checked" ng-click="clickWhatsApp(whatsApp.checked);">
-                            <i class="ytfi-checker"></i>
-                            </span>
-                            Also send my booking details on WhatsApp<img src="~/img/whatsApp-logo.png" title="logo" alt="whatsapp-logo" style="margin-left:3px;">
-                            <i class="ico-whatsapp"></i>
-                            </label>
-                            </div>
-
-                            </div> *@
+                 
                         </div>
 
 
@@ -232,7 +218,7 @@
 
                         <div class="flex-center x-gap-20 y-gap-20 mt-30">
                             @* <input type="submit" class="btn btn-btn-primary" value="Continue" /> *@
-                            <input type="submit" id="Continuebtn" class="btn btn-btn-primary" value="Continue" style="opacity:0.2" disabled />
+                            <input type="submit" id="Continuebtn" class="btn btn-btn-primary Continuebtnprice" value="Continue" style="opacity:0.2" disabled />
                         </div>
 
 
@@ -473,7 +459,21 @@
                 GSTContinuebtn1.style.opacity = "0.2";
             });
 
+            $(".Continuebtnprice").click(function () {
+                // Retrieve and store meal total
+                const mealTotal = $('#AddMealTotal').text();
+                localStorage.setItem('mealTotal1', mealTotal);
+                //alert("Meal" + mealTotal);
+                // Retrieve and store baggage total
+                const baggageTotal = $('#AddBaggage').text();
+                localStorage.setItem('bagTotal1', baggageTotal);
+                //alert("Bag" + baggageTotal);
 
+                // Retrieve and store base payment total
+                const basePaymentTotal = $('#Totalamount').val();
+                localStorage.setItem('basePayment1', basePaymentTotal);
+                //alert("Base" + basePaymentTotal);
+            });
 
 
         });
