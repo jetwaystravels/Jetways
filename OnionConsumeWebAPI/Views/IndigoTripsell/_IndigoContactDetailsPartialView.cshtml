@@ -275,6 +275,37 @@
                 return false;
             }
 
+            var buttongst = document.getElementById('GSTButton2');
+            if (buttongst.checked == true) {
+
+                let gstnamefocus = document.getElementById("gstname").value;
+
+                if (gstnamefocus == "") {
+                    var gstToDisplay = document.getElementById("error-message9");
+                    gstToDisplay.style.display = "block";
+                    document.getElementById("gstname").focus();
+                    return false;
+                }
+                else {
+                    var gstToDisplay = document.getElementById("error-message9");
+                    gstToDisplay.style.display = "none";
+                }
+
+                let gstnofocus = document.getElementById("gstnumber").value;
+
+                if (gstnofocus == "") {
+                    var gstnoToDisplay = document.getElementById("error-message10");
+                    gstnoToDisplay.style.display = "block";
+                    document.getElementById("gstnumber").focus();
+                    return false;
+                }
+                else {
+                    var gstnoToDisplay = document.getElementById("error-message10");
+                    gstnoToDisplay.style.display = "none";
+                }
+
+
+            }
 
 
 
@@ -420,6 +451,20 @@
         } else {
             document.getElementById('errorMessagegst').innerText = "";
         }
+
+        var gstnamefocus = document.getElementById("gstname").value;
+
+        if (gstnamefocus == "") {
+            var gstToDisplay = document.getElementById("error-message9");
+            gstToDisplay.style.display = "block";
+            document.getElementById("gstname").focus();
+            return false;
+        }
+        else {
+            var gstToDisplay = document.getElementById("error-message9");
+            gstToDisplay.style.display = "none";
+        }
+
     }
 
     function validateGST(event) {
@@ -433,19 +478,23 @@
         } else {
             document.getElementById('gstErrorMessage').innerText = "";
         }
+       var gstnofocus = document.getElementById("gstnumber").value;
 
-        let gstnamefocus = document.getElementById("gstname").value;
-
-        if (gstnamefocus == "") {
-            //alert("Enter Origin Name");
-            let gstToDisplay = document.getElementById("error-message9");
-            gstToDisplay.style.display = "block";
-            document.getElementById("emailAddres9").focus();
+        if (gstnofocus == "") {
+            var gstnoToDisplay = document.getElementById("error-message10");
+            gstnoToDisplay.style.display = "block";
+            document.getElementById("gstnumber").focus();
             return false;
         }
         else {
-            let gstToDisplay = document.getElementById("error-message9");
-            gstToDisplay.style.display = "none";
+            var gstnoToDisplay = document.getElementById("error-message10");
+            gstnoToDisplay.style.display = "none";
         }
+       
     }
 </script> 
+
+
+        
+
+             

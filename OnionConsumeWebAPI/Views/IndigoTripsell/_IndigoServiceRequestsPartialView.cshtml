@@ -133,9 +133,9 @@
                     <div class="modal-content MWidth">
                         <div class="modal-mfareheader d-flex justify-between">
                             <h2 class="text-22 fw-600">Seat Details</h2>
-                            <button type="button" class="btnclose" data-dismiss="modal" aria-label="Close">
+                            @* <button type="button" class="btnclose" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true" style="font-size: 21px;">&times;</span>
-                            </button>
+                            </button> *@
                         </div>
                         <div class="modal-bodyy mbody-padding">
                         </div>
@@ -147,9 +147,14 @@
                                 int segmentcount = Model.passeengerlist.journeys[0].segments.Count;
                                 @if (segmentcount == 1)
                                 {
+                                    <div class="d-flex">
+                                        <div>
+                                            <button type="submit" id="" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
+                                        </div>
                                     <div>
                                         A
                                         <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
+                                    </div>
                                     </div>
                                 }
                                 else
