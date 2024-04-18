@@ -135,39 +135,28 @@
                             <partial name="_TripsellPatialView.cshtml" />
                         </div>
                         <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
-                            <div id="toggleButton" class="bg-h2"><h2 class="text-22 fw-600 md:mt-20 ">Enter Traveller Details |  <span class="text-18">Sign in  to book faster and use eCash</span></h2></div>
+                            <div id="toggleButton" class="bg-h2"><h2 class="text-22 fw-600 md:mt-20 ">Enter Contact Details</h2></div>
                         </div>
-                        <div id="content" class="hidden row bg-white mt-2">
+                        <div id="content" class="row bg-white mt-2">
                             <partial name="_ContactDetailsPartialView.cshtml" /> <br> <br>
                             <div style="margin-top:-10px;">
 
-                             @*    <div class="col-12">
-                                    Your booking details will be sent to this email address and mobile number.
-                                    <label class="align-checkbox fs-base cursor-pointer gray" ng-show="whatsApp.show &amp;&amp; !yatraAgent.isAgent">
-                                        <span class="ui-checkbox">
-                                            <input type="checkbox" class="ng-pristine ng-untouched ng-valid" ng-model="whatsApp.checked" ng-click="clickWhatsApp(whatsApp.checked);">
-                                            <i class="ytfi-checker"></i>
-                                        </span>
-                                        Also send my booking details on WhatsApp<img src="~/img/whatsApp-logo.png" title="logo" alt="whatsapp-logo" style="margin-left:3px;">
-                                        <i class="ico-whatsapp"></i>
-                                    </label>
-                                </div> *@
 
                             </div>
                         </div>
 
 
                         <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
-                            <div id="toggleButton2" class="bg-h2"><h2 class="text-22 fw-600 md:mt-20 ">Enter Traveller Details |  <span class="text-18">Name</span></h2></div>
+                            <div id="toggleButton2" class="bg-h2" style="opacity:0.2"><h2 class="text-18 fw-600 md:mt-20 ">Enter Traveller Details</h2></div>
                         </div>
                         <div id="content2" class="row hidden">
                             <partial name="_TravellerInfoPartialView.cshtml" />
                         </div>
 
-                        <div class="row x-gap-20 y-gap-20 mt-3 pt-10">
+                      @*   <div class="row x-gap-20 y-gap-20 mt-3 pt-10">
                             <div id="toggleButton3" class="bg-h2"><h2 class="text-22 fw-600 md:mt-20 ">Add your GST Details (Optional)</h2></div>
-                        </div>
-                        <div id="content3" class="hidden">
+                        </div> *@
+                      @*   <div id="content3" class="hidden">
                             <div id="gst_hide" class="row mt-5">
                                 <div class="col-md-10 border-bottom-light">
                                     <!----<div class="text-18 fw-600">Add your GST Details (Optional)</div>-->
@@ -186,14 +175,14 @@
                                 </div>
                                 <partial name="_TravellingBebefitPartialView.cshtml" />
                             </div>
-                        </div>
+                        </div> *@
 
 
 
                         <form asp-action="PostUnitkey" asp-controller="RoundAATripsell" method="post">
 
                             <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
-                                <div id="toggleButton4" class="bg-h2"><h2 class="text-22 fw-600 md:mt-20 ">Service Requests <span class="text-18">(Optional)</span></h2></div>
+                                <div id="toggleButton4" class="bg-h2" style="opacity:0.2"><h2 class="text-22 fw-600 md:mt-20 ">Seat, Meal & Baggage</h2></div>
                             </div>
                             <div id="content4" class="hidden">
                                 <div id="show" class="row x-gap-20 y-gap-20 mt-10 bg-white service-section">
@@ -204,13 +193,13 @@
                             </div>
 
                             <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
-                                <div id="toggleButton5" class="bg-h2"><h2 class="text-22 fw-600 md:mt-20 ">Travel Insurance  <span class="text-18">(Recommended)</span></h2></div>
+                                <div id="toggleButton5" class="bg-h2" style="opacity:0.2"><h2 class="text-22 fw-600 md:mt-20 ">Travel Insurance  <span class="text-18">(Recommended)</span></h2></div>
                             </div>
                             <div id="content5" class="row hidden mt-2">
                                 <partial name="_TravelInsurancePatialView.cshtml" />
                             </div>
                             <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
-                                <div id="toggleButton6" class="bg-h2"><h2 class="text-22 fw-600 md:mt-20 ">Add-ons <span class="text-18">(Recommended)</span></h2></div>
+                                <div id="toggleButton6" class="bg-h2" style="opacity:0.2"><h2 class="text-22 fw-600 md:mt-20 ">Add-ons <span class="text-18">(Recommended)</span></h2></div>
                             </div>
                             <div id="content6" class="row hidden mt-2">
                                 Add-Ons
@@ -227,7 +216,7 @@
 
 
                             <div class="flex-center x-gap-20 y-gap-20 mt-30">
-                                <input type="submit" class="btn btn-btn-primary" value="Continue" />
+                                <input type="submit" class="btn btn-btn-primary" value="Continue" style="opacity:0.2"  />
                             </div>
                         </form>
 

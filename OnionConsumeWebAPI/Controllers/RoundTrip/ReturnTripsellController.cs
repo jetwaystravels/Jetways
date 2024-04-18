@@ -1430,6 +1430,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     #region SeatMap
                     if (_JourneykeyRTData.ToLower() == "indigo")
                     {
+                        if (AirAsiaTripResponceobj == null)
+                            AirAsiaTripResponceobj= (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(HttpContext.Session.GetString("SGkeypassengerRT"), typeof(AirAsiaTripResponceModel)); 
                         _GetSSR objssr = new _GetSSR();
                         List<IndigoBookingManager_.GetSeatAvailabilityResponse> SeatGroup = await objssr.GetseatAvailability(Signature, AirAsiaTripResponceobj);
                         if (SeatGroup != null)

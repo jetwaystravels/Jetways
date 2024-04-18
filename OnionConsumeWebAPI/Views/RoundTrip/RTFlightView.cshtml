@@ -328,11 +328,33 @@
                     <div class="col-xl-9 col-lg-8 ps-0">
                         <div class="row ">
                             @{
-                                string queryorigin = ViewData["origin"].ToString();
-                                string originL = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
-                                string querydestination = ViewData["destination"].ToString();
-                                string destinationL = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
+                                string queryorigin=string.Empty;
+                                string querydestination = string.Empty;
+                                if (ViewData["origin"]!=null)
+                                {
+                                    queryorigin = ViewData["origin"].ToString();
+                                }
+                                else
+                                    queryorigin = Model.SimpleAvailibilityaAddResponcelist[0].designator.origin;//ViewData["origin"].ToString();
 
+                                if (ViewData["destination"] != null)
+                                {
+                                    querydestination = ViewData["destination"].ToString();
+                                }
+                                else
+                                    querydestination = Model.SimpleAvailibilityaAddResponcelist[0].designator.destination;//ViewData["origin"].ToString();
+                                string originL,destinationL = string.Empty;
+                                if(Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault()!=null)
+                                {
+                                    originL = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
+                                    destinationL = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
+
+                                }
+                                else
+                                {
+                                    originL = queryorigin;
+                                    destinationL = querydestination;
+                                }
 
                             }
                             <div class="col-xl-6 col-lg-6">
@@ -780,11 +802,42 @@
                             </div>
                             <!------RoundTrip Right Side-------->
                             @{
-                                queryorigin = ViewData["origin"].ToString();
-                                string originR = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
-                                querydestination = ViewData["destination"].ToString();
-                                string destinationR = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
+                                // queryorigin = ViewData["origin"].ToString();
+                                // string originR = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
+                                // querydestination = ViewData["destination"].ToString();
+                                // string destinationR = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
 
+                                queryorigin = string.Empty;
+                                querydestination = string.Empty;
+                                if (ViewData["origin"] != null)
+                                {
+                                    queryorigin = ViewData["origin"].ToString();
+                                }
+                                else
+                                    queryorigin = Model.SimpleAvailibilityaAddResponcelistR[0].designator.origin;//ViewData["origin"].ToString();
+
+                                if (ViewData["destination"] != null)
+                                {
+                                    querydestination = ViewData["destination"].ToString();
+                                }
+                                else
+                                    querydestination = Model.SimpleAvailibilityaAddResponcelistR[0].designator.destination;//ViewData["origin"].ToString();
+
+                                string originR=string.Empty;
+                                string destinationR = string.Empty;
+
+                                if (Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault() != null)
+                                {
+                                    originR = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
+                                    destinationR = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
+                                }
+                                else
+                                {
+                                    originR = queryorigin;
+                                    destinationR = querydestination;
+                                }
+                                //string originR = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
+                                //string destinationR = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
 
                             }
 
@@ -1178,7 +1231,7 @@
                                                             </ul>
                                                         </div>
                                                         <div class="tabs__pane -tab-item-4">
-                                                            <div class="dst-top">@Model.SimpleAvailibilityaAddResponcelistR[j].designator.origin - @Model.SimpleAvailibilityaAddResponcelistR[j].designator.destination (@Model.SimpleAvailibilityaAddResponcelist[j].bookingdate)  </div>
+                                                            <div class="dst-top">@Model.SimpleAvailibilityaAddResponcelistR[j].designator.origin - @Model.SimpleAvailibilityaAddResponcelistR[j].designator.destination ()  </div><!--Model.SimpleAvailibilityaAddResponcelist[j].bookingdate-->
                                                             <table class="table mt-20">
                                                                 <tbody>
                                                                     <tr>

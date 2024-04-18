@@ -1,29 +1,134 @@
-﻿@model DomainLayer.ViewModel.ViewModel
+﻿@using System.Globalization;
+@model DomainLayer.ViewModel.ViewModel
 @{
     Layout = null;
     var data = Model;
 }
+<style>
+    /* Styles for modal box and overlay */
+    .modalTrip {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 50%;
+        width: 60%;
+        height: 80%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 8px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+    }
+
+    .overlayTrip {
+        display: none;
+        position: fixed;
+        z-index: 9998;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .tripmodal {
+        background: #366480;
+        padding: 6px;
+    }
+
+        .tripmodal h4 {
+            color: #fff;
+        }
+
+        .tripmodal button {
+            color: #fff;
+        }
+
+
+
+    /* Styles for tabs */
+    .tab {
+        display: none;
+    }
+
+    /* Styles for active tab */
+    .active {
+        display: block;
+    }
+
+    /* Styles for tab buttons */
+    .tab-btn {
+        cursor: pointer;
+        padding: 10px 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+
+</style>
+<script>
+    $(document).ready(function () {
+        // Open modal box
+        $("#openModal_0").click(function () {
+            $("#modal, #overlay").fadeIn();
+        });
+
+        // Close modal box
+        $("#closeModal, #overlay").click(function () {
+            $("#modal, #overlay").fadeOut();
+        });
+
+
+
+        $("#tabContent1").addClass("active");
+
+        // Show/hide tab content on click
+        $(".tab-btn").click(function () {
+            // Get the ID of the clicked tab button
+            var tabId = $(this).attr("id").replace("tabBtn", "");
+
+            // Hide all tab contents and remove active class from all tab buttons
+            $(".tab").removeClass("active");
+            $(".tab-btn").removeClass("active");
+
+            // Show the corresponding tab content and mark the clicked tab button as active
+            $("#tabContent" + tabId).addClass("active");
+            $(this).addClass("active");
+        });
+
+        $("#openModal_1").click(function () {
+            $("#modal1, #overlay1").fadeIn();
+        });
+
+        // Close modal box
+        $("#closeModal1, #overlay1").click(function () {
+            $("#modal1, #overlay1").fadeOut();
+        });
+
+
+    });
+</script>
 <div class="flight-box-content rounded-4">
-    <div class="py-10 px-30">
-        <div class="row d-flex justify-between">
-            <div class="col-auto">
-                <div class="text-16 text-light-1 fw-700">Depart</div>
-            </div>
-            <div class="col-auto">
-                <div class="text-14 text-light-1 fw-600">Total Time: 4h 35m</div>
-            </div>
-        </div>
-    </div>
     @{
         for (int k = 0; k < Model.passeengerlistRT.Count; k++)
         {
             var AirLinename = Model.passeengerlistRT[k].journeys[0].Airlinename;
-            // if (k == 0)
-            //     AirLinename = "AirAsia";
-            // else
-            //     AirLinename = "Spicejet";
 
-            if(k==1)
+
+            string formattedTime = string.Empty;
+            var arrivalDate = Model.passeengerlistRT[k].journeys[0].designator.arrival;
+            var departureDate = Model.passeengerlistRT[k].journeys[0].designator.departure;
+            var diff = (arrivalDate - departureDate);
+            TimeSpan timeSpan = TimeSpan.Parse(diff.ToString());
+            if ((int)timeSpan.Minutes == 0)
+                formattedTime = $"{(int)timeSpan.TotalHours} h";
+            else
+                formattedTime = $"{(int)timeSpan.TotalHours} h : {(int)timeSpan.Minutes} m";
+
+
+
+            if (k == 1)
             {
                 <div class="border-line-2"></div>
                 <div class="py-10 px-30">
@@ -32,29 +137,69 @@
                             <div class="text-16 text-light-1 fw-700">Return</div>
                         </div>
                         <div class="col-auto">
-                            <div class="text-14 text-light-1 fw-600">Total Time: 4h 35m</div>
+                            <div class="text-14 text-light-1 fw-600">Total Time: @formattedTime</div>
                         </div>
                     </div>
                 </div>
             }
             else
             {
-                
+                <div class="border-line-2"></div>
+                <div class="py-10 px-30">
+                    <div class="row d-flex justify-between">
+                        <div class="col-auto">
+                            <div class="text-16 text-light-1 fw-700">Depart</div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="text-14 text-light-1 fw-600">Total Time: @formattedTime</div>
+                        </div>
+                    </div>
+                </div>
             }
 
             foreach (var item in Model.passeengerlistRT[k].journeys)
             {
                 for (int i = 0; i < item.segments.Count; i++)
                 {
+                    if (i == 1)
+                    {
+                        formattedTime = string.Empty;
+                        arrivalDate = item.segments[i - 1].designator.arrival;
+                        departureDate = item.segments[i].designator.departure;
+                        diff = (departureDate - arrivalDate);
+                        timeSpan = TimeSpan.Parse(diff.ToString());
+                        if ((int)timeSpan.Minutes == 0)
+                            formattedTime = $"{(int)timeSpan.TotalHours} h";
+                        else
+                            formattedTime = $"{(int)timeSpan.TotalHours} h : {(int)timeSpan.Minutes} m";
 
+                        <div class="py-15 px-20 rounded-4 text-15 bg-green-1 flex-center">
+                            Change planes at <span class="fw-600"> <div></div> (@item.segments[i].designator.origin),</span> Connecting Time: <span class="fw-600">@formattedTime</span>
+                        </div>
+                    }
                     <div class="py-30 px-30 border-top-light">
                         <div class="row y-gap-10 justify-between">
                             <div class="col-auto">
 
 
                                 @for (int j = 0; j < item.segments[i].legs.Count; j++)
-
                                 {
+                                    if (j == 1)
+                                    {
+                                        formattedTime = string.Empty;
+                                        arrivalDate = item.segments[i].legs[j - 1].designator.arrival;
+                                        departureDate = item.segments[i].legs[j].designator.departure;
+                                        diff = (departureDate - arrivalDate);
+                                        timeSpan = TimeSpan.Parse(diff.ToString());
+                                        if ((int)timeSpan.Minutes == 0)
+                                            formattedTime = $"{(int)timeSpan.TotalHours} h";
+                                        else
+                                            formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
+
+                                        <div class="py-15 px-20 rounded-4 text-15 bg-green-1 flex-center">
+                                            Change planes at <span class="fw-600"> <div></div> (@item.segments[i].legs[j].designator.origin),</span> Connecting Time: <span class="fw-600">@formattedTime</span>
+                                        </div>
+                                    }
                                     <div class="d-flex items-center mb-15">
                                         <div class="w-28 d-flex justify-center mr-15">
                                             @if (item.segments[i].identifier.carrierCode.Equals("SG"))
@@ -88,16 +233,39 @@
                                             <div class="row">
 
                                                 @{
+                                                    // var departuretime = @item.segments[i].legs[j].designator.departure;
+                                                    // string departuretimestr = departuretime.ToString();
+                                                    // var departuretimefinal = departuretimestr.Substring(11, 5);
                                                     var departuretime = @item.segments[i].legs[j].designator.departure;
                                                     string departuretimestr = departuretime.ToString();
                                                     var departuretimefinal = departuretimestr.Substring(11, 5);
+                                                    string queryorigin = item.segments[i].legs[j].designator.origin;
+                                                    string querydestination = item.segments[i].legs[j].designator.destination;
+
+                                                    if (Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault() != null)
+                                                    {
+                                                        string origin = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
+                                                        item.segments[i].legs[j].designator.origin = origin;
+                                                    }
+
+                                                    if (Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault() != null)
+                                                    {
+                                                        string destination1 = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
+                                                        item.segments[i].legs[j].designator.destination = destination1;
+                                                    }
+
+                                                    //formatted date
+                                                    var date = DateTime.ParseExact(departuretimestr, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+
+                                                    string formatteddepartureDate = date.ToString("ddd, dd MMM yyyy");
+
                                                 }
 
                                                 <div class="col-auto">
                                                     <div class="lh-14 fw-500">@departuretimefinal</div>
                                                 </div>
                                                 <div class="col-auto">
-                                                    <div class="lh-14 fw-500">@item.segments[i].legs[j].designator.origin <span class="text-13 ml-2 fw-600">( Tue, 13 Jun 2023<span class="text-13 text-light-1 ml-2"> Indira Gandhi, T-3 </span> )</span></div>
+                                                    <div class="lh-14 fw-500">@item.segments[i].legs[j].designator.origin <span class="text-13 ml-2 fw-600">( @formatteddepartureDate<span class="text-13 text-light-1 ml-2"> Indira Gandhi, T-@item.segments[i].legs[j].legInfo.departureTerminal </span> )</span></div>
 
                                                 </div>
                                             </div>
@@ -122,13 +290,18 @@
                                                         var arrivaltime = @item.segments[i].legs[j].designator.arrival;
                                                         string arrivaltimestr = arrivaltime.ToString();
                                                         var arrivalfinal = arrivaltimestr.Substring(11, 5);
+                                                        //formatted date
+                                                        date = DateTime.ParseExact(arrivaltimestr, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+
+                                                        string formattedarrivalDate = date.ToString("ddd, dd MMM yyyy");
 
                                                     }
+
 
                                                     <div class="lh-14 fw-500">@arrivalfinal</div>
                                                 </div>
                                                 <div class="col-auto">
-                                                    <div class="lh-14 fw-500">@item.segments[i].legs[j].designator.destination<span class="text-13 ml-2 fw-600">( Tue, 13 Jun 2023<span class="text-13 text-light-1 ml-2"> Sanganeer, T-2 </span> )</span></div>
+                                                    <div class="lh-14 fw-500">@item.segments[i].legs[j].designator.destination<span class="text-13 ml-2 fw-600">( @formattedarrivalDate<span class="text-13 text-light-1 ml-2"> Sanganeer, T-@item.segments[i].legs[j].legInfo.arrivalTerminal </span> )</span></div>
 
                                                 </div>
                                             </div>
@@ -136,12 +309,15 @@
                                     </div>
                                 }
                             </div>
-                            <div class="col-auto text-right md:text-left">
-                                <div class="text-13">Paid Meal</div>
-                                <div class="text-13 mt-1">Economy</div>
-                                <div class="text-13 mt-1">15 kgs</div>
-                                <div class="text-13 mt-1"><a href="#">View Fare Rules</a></div>
-                            </div>
+                            @if (i == 0)
+                            {
+                                <div class="col-auto text-right md:text-left">
+                                    <div class="text-13 mt-1">Economy</div>
+                                    <div class="text-13 mt-1">
+                                        <button id="openModal_@k" style="color:#366480;">View Fare Rules</button>
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </div>
                 }
@@ -150,182 +326,130 @@
 
     }
 
-    @* <div class="py-30 px-30 border-top-light">
-    <div class="row y-gap-10 justify-between">
-    <div class="col-auto">
-    <div class="d-flex items-center mb-15">
-    <div class="w-28 d-flex justify-center mr-15">
-    <img class="size-30" src="~/img/flight-logo-icon/1.webp" alt="image">
-    </div>
-
-    <div class="text-14 text-light-1"> SpiceJet I5 SG</div>
-    </div>
-    <div class="relative z-0">
-    <div class="border-line-2"></div>
-
-    <div class="d-flex items-center">
-    <div class="w-28 d-flex justify-center mr-15">
-    <div class="size-10 border-light rounded-full bg-white"></div>
-    </div>
-
-    <div class="row">
-
-
-
-    <div class="col-auto">
-    <div class="lh-14 fw-500">DEL</div>
-    </div>
-    <div class="col-auto">
-    <div class="lh-14 fw-500">11:30 <span class="text-13 ml-2 fw-600">( Tue, 13 Jun 2023<span class="text-13 text-light-1 ml-2"> Indira Gandhi, T-3 </span> )</span></div>
-
-    </div>
-    </div>
-    </div>
-
-    <div class="d-flex items-center mt-15">
-    <div class="w-28 d-flex justify-center mr-15">
-    <img src="~/img/plane.svg" alt="image">
-    </div>
-
-    <div class="text-14 text-light-1"></div>
-    </div>
-
-    <div class="d-flex items-center mt-15">
-    <div class="w-28 d-flex justify-center mr-15">
-    <div class="size-10 border-light rounded-full bg-border"></div>
-    </div>
-
-    <div class="row">
-    <div class="col-auto">
-    @*  @{
-    var arrivaltime = @item.segments[i].legs[j].designator.arrival;
-    string arrivaltimestr = arrivaltime.ToString();
-    var arrivalfinal = arrivaltimestr.Substring(11, 5);
-
-    }
-
-    <div class="lh-14 fw-500">BOM</div>
-    </div>
-    <div class="col-auto">
-    <div class="lh-14 fw-500">12:30<span class="text-13 ml-2 fw-600">( Tue, 13 Jun 2023<span class="text-13 text-light-1 ml-2"> Sanganeer, T-2 </span> )</span></div>
-
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
-
-    <div class="col-auto text-right md:text-left">
-    <div class="text-13">Paid Meal</div>
-    <div class="text-13 mt-1">Economy</div>
-    <div class="text-13 mt-1">15 kgs</div>
-    <div class="text-13 mt-1"><a href="#">View Fare Rules</a></div>
-    </div>
-    </div>
-    </div> *@
-
-    <!-------------Round Flight Details-->
-
     
-
-    @*  @{
-    foreach (var item in Model.passeengerlist.journeys)
-    {
-    for (int i = 0; i < item.segments.Count; i++)
-    {
-
-    <div class="py-30 px-30 border-top-light">
-    <div class="row y-gap-10 justify-between">
-    <div class="col-auto">
-
-
-    @for (int j = 0; j < item.segments[i].legs.Count; j++)
-
-    {
-    <div class="d-flex items-center mb-15">
-    <div class="w-28 d-flex justify-center mr-15">
-    <img class="size-30" src="~/img/flight-logo-icon/1.webp" alt="image">
-    </div>
-
-    <div class="text-14 text-light-1"> Air Asia @item.segments[i].identifier.identifier @item.segments[i].identifier.carrierCode</div>
-    </div>
-
-    <div class="relative z-0">
-    <div class="border-line-2"></div>
-
-    <div class="d-flex items-center">
-    <div class="w-28 d-flex justify-center mr-15">
-    <div class="size-10 border-light rounded-full bg-white"></div>
-    </div>
-
-    <div class="row">
-
-    @{
-    var departuretime = @item.segments[i].legs[j].designator.departure;
-    string departuretimestr = departuretime.ToString();
-    var departuretimefinal = departuretimestr.Substring(11, 5);
-    }
-
-    <div class="col-auto">
-    <div class="lh-14 fw-500">@departuretimefinal</div>
-    </div>
-    <div class="col-auto">
-    <div class="lh-14 fw-500">@item.segments[i].legs[j].designator.origin <span class="text-13 ml-2 fw-600">( Tue, 13 Jun 2023<span class="text-13 text-light-1 ml-2"> Indira Gandhi, T-3 </span> )</span></div>
-
-    </div>
-    </div>
-    </div>
-
-    <div class="d-flex items-center mt-15">
-    <div class="w-28 d-flex justify-center mr-15">
-    <img src="~/img/plane.svg" alt="image">
-    </div>
-
-    <div class="text-14 text-light-1"></div>
-    </div>
-
-    <div class="d-flex items-center mt-15">
-    <div class="w-28 d-flex justify-center mr-15">
-    <div class="size-10 border-light rounded-full bg-border"></div>
-    </div>
-
-    <div class="row">
-    <div class="col-auto">
-    @{
-    var arrivaltime = @item.segments[i].legs[j].designator.arrival;
-    string arrivaltimestr = arrivaltime.ToString();
-    var arrivalfinal = arrivaltimestr.Substring(11, 5);
-
-    }
-
-    <div class="lh-14 fw-500">@arrivalfinal</div>
-    </div>
-    <div class="col-auto">
-    <div class="lh-14 fw-500">@item.segments[i].legs[j].designator.destination<span class="text-13 ml-2 fw-600">( Tue, 13 Jun 2023<span class="text-13 text-light-1 ml-2"> Sanganeer, T-2 </span> )</span></div>
-
-    </div>
-    </div>
-    </div>
-    </div>
-    }
-    </div>
-    <div class="col-auto text-right md:text-left">
-    <div class="text-13">Paid Meal</div>
-    <div class="text-13 mt-1">Economy</div>
-    <div class="text-13 mt-1">15 kgs</div>
-    <div class="text-13 mt-1"><a href="#">View Fare Rules</a></div>
-    </div>
-    </div>
-    </div>
-    }
-    }
-
-    } *@
-
-
-    <div class="py-15 px-20 rounded-4 text-15 bg-green-1 flex-center">
-        Change planes at <span class="fw-600">Jaipur (JAI),</span> Connecting Time: <span class="fw-600">1h 25m</span>
-    </div>
 
 
 </div>
+<!-- Modal box -->
+<div id="modal" class="modalTrip">
+    <div class="d-flex justify-between tripmodal">
+        <h4 class="modal-title">Fare Rules</h4>
+        <button id="closeModal">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+    <div class="Mbody p-2">
+        <div class="d-flex">
+            <div class="tab-btn" id="tabBtn1">Fare 1</div>
+            <div class="tab-btn" id="tabBtn2">Fare 2</div>
+            <div class="tab-btn" id="tabBtn3">Fare 3</div>
+        </div>
+
+        <div class="tab" id="tabContent1">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Base Fare</th>
+                        <th scope="col">GST</th>
+                        <th scope="col">Taxes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>1222</td>
+                        <td>222</td>
+                        <td>120</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>1222</td>
+                        <td>222</td>
+                        <td>120</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>1222</td>
+                        <td>222</td>
+                        <td>120</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab" id="tabContent2">Tab 2 Content</div>
+        <div class="tab" id="tabContent3">Tab 3 Content</div>
+
+
+
+    </div>
+
+</div>
+
+<!-- Overlay -->
+<div id="overlay" class="overlayTrip"></div>
+
+
+
+<!-- Modal box -->
+<div id="modal1" class="modalTrip">
+    <div class="d-flex justify-between tripmodal">
+        <h4 class="modal-title">Fare Rules</h4>
+        <button id="closeModal1">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+    <div class="Mbody p-2">
+        <div class="d-flex">
+            <div class="tab-btn" id="tabBtn1">Fare 1</div>
+            <div class="tab-btn" id="tabBtn2">Fare 2</div>
+            <div class="tab-btn" id="tabBtn3">Fare 3</div>
+        </div>
+
+        <div class="tab" id="tabContent1">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Base Fare</th>
+                        <th scope="col">GST</th>
+                        <th scope="col">Taxes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>1222</td>
+                        <td>222</td>
+                        <td>120</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>1222</td>
+                        <td>222</td>
+                        <td>120</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>1222</td>
+                        <td>222</td>
+                        <td>120</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab" id="tabContent2">Tab 2 Content</div>
+        <div class="tab" id="tabContent3">Tab 3 Content</div>
+
+
+
+    </div>
+
+</div>
+
+<!-- Overlay -->
+<div id="overlay1" class="overlayTrip"></div>

@@ -61,8 +61,6 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
             vm.SeatmaplistRT = new List<SeatMapResponceModel>();
             vm.passeengerlistRT = new List<AirAsiaTripResponceModel>();
             vm.MealslistRT = new List<SSRAvailabiltyResponceModel>();
-
-
             string Passenegrtext = HttpContext.Session.GetString("Mainpassengervm");
             string Seattext = HttpContext.Session.GetString("Mainseatmapvm");
             string Mealtext = HttpContext.Session.GetString("Mainmealvm");
@@ -119,118 +117,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         vm.MealslistRT.Add(Mealslist);
                     }
                 }
-                // HttpContext.Session.Remove("_MealsData");
             }
 
-
-            //if (!string.IsNullOrEmpty(HttpContext.Session.GetString("_keypassengerdata")))
-            //{
-            //    test = HttpContext.Session.GetString("_keypassengerdata");
-
-            //    foreach (Match item in Regex.Matches(test, @"<Start>(?<test>[\s\S]*?)<End>"))
-            //    {
-            //        passenger = item.Groups["test"].Value.ToString().Replace("/\"", "\"").Replace("\\\"", "\"");
-            //        if (passenger != null)
-            //        {
-            //            passeengerlist = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
-            //            vm.passeengerlistRT.Add(passeengerlist);
-            //        }
-            //    }
-            //    //HttpContext.Session.Remove("_keypassengerdata");
-            //}
-
-            //AirAsia Seatmap
-            //Seatmaplist = null;
-            //string Seatmap = HttpContext.Session.GetString("Seatmap");
-
-            //if (!string.IsNullOrEmpty(HttpContext.Session.GetString("_SeatmapData")))
-            //{
-            //    //vm.SeatmaplistRT = new List<SeatMapResponceModel>();
-            //    test = HttpContext.Session.GetString("_SeatmapData");
-            //    Seatmap = string.Empty;
-            //    foreach (Match item in Regex.Matches(test, @"<Start>(?<test>[\s\S]*?)<End>"))
-            //    {
-            //        Seatmap = item.Groups["test"].Value.ToString().Replace("/\"", "\"").Replace("\\\"", "\"");
-            //        if (Seatmap != null)
-            //        {
-            //            Seatmaplist = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
-            //            vm.SeatmaplistRT.Add(Seatmaplist);
-            //        }
-            //    }
-            //    //HttpContext.Session.Remove("_SeatmapData");
-            //}
-
-
-            //AirAsia SSR MealsData
-            //vm.MealslistRT = new List<SSRAvailabiltyResponceModel>();
-            //Meals = string.Empty;// HttpContext.Session.GetString("Meals");
-            //Mealslist = null;
-            //if (!string.IsNullOrEmpty(HttpContext.Session.GetString("_MealsData")))
-            //{
-            //    test = HttpContext.Session.GetString("_MealsData");
-            //    foreach (Match item in Regex.Matches(test, @"<Start>(?<test>[\s\S]*?)<End>"))
-            //    {
-            //        Meals = item.Groups["test"].Value.ToString().Replace("/\"", "\"").Replace("\\\"", "\"");
-            //        if (Meals != null)
-            //        {
-            //            Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
-            //            vm.MealslistRT.Add(Mealslist);
-            //        }
-            //    }
-            //    // HttpContext.Session.Remove("_MealsData");
-            //}
-            #endregion
-            #region 1
-            //if (!string.IsNullOrEmpty(HttpContext.Session.GetString("keypassengerdata")))
-            //{
-            //    test = HttpContext.Session.GetString("keypassengerdata");
-
-            //    foreach (Match item in Regex.Matches(test, @"<Start>(?<test>[\s\S]*?)<End>"))
-            //    {
-            //        passenger = item.Groups["test"].Value.ToString().Replace("/\"", "\"").Replace("\\\"", "\"");
-            //        if (passenger != null)
-            //        {
-            //            passeengerlist = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
-            //            vm.passeengerlistRT.Add(passeengerlist);
-            //        }
-            //    }
-            //    //HttpContext.Session.Remove("keypassengerdata");
-            //}
-
-            //AirAsia Seatmap
-            //if (!string.IsNullOrEmpty(HttpContext.Session.GetString("SeatmapData")))
-            //{
-            //    //string Seatmap = HttpContext.Session.GetString("Seatmap");
-            //    test = HttpContext.Session.GetString("SeatmapData");
-
-            //    foreach (Match item in Regex.Matches(test, @"<Start>(?<test>[\s\S]*?)<End>"))
-            //    {
-            //        Seatmap = item.Groups["test"].Value.ToString().Replace("/\"", "\"").Replace("\\\"", "\"");
-            //        if (Seatmap != null)
-            //        {
-            //            Seatmaplist = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
-            //            vm.SeatmaplistRT.Add(Seatmaplist);
-            //        }
-            //    }
-            //    //HttpContext.Session.Remove("SeatmapData");
-            //}
-
-
-            //AirAsia SSR MealsData
-            //if (!string.IsNullOrEmpty(HttpContext.Session.GetString("MealsData")))
-            //{
-            //    test = HttpContext.Session.GetString("MealsData");
-            //    foreach (Match item in Regex.Matches(test, @"<Start>(?<test>[\s\S]*?)<End>"))
-            //    {
-            //        Meals = item.Groups["test"].Value.ToString().Replace("/\"", "\"").Replace("\\\"", "\"");
-            //        if (Meals != null)
-            //        {
-            //            Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
-            //            vm.MealslistRT.Add(Mealslist);
-            //        }
-            //    }
-            //    //HttpContext.Session.Remove("MealsData");
-            //}
             #endregion
 
 
@@ -313,9 +201,12 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                 _ContactModelSG.updateContactsRequestData.BookingContactList = new BookingContact[1];
                 _ContactModelSG.updateContactsRequestData.BookingContactList[0] = new BookingContact();
                 _ContactModelSG.updateContactsRequestData.BookingContactList[0].EmailAddress = contactobject.emailAddress;
-                _ContactModelSG.updateContactsRequestData.BookingContactList[0].TypeCode = "G";
-                _ContactModelSG.updateContactsRequestData.BookingContactList[0].CompanyName = "SpiceJet";
-                _ContactModelSG.updateContactsRequestData.BookingContactList[0].CustomerNumber = "22AAAAA0000A1Z5"; //GSTNumber Re_ Assistance required for SG API Integration\GST Logs.zip\GST Logs
+                if (contactobject.customerNumber != null)
+                {
+                    _ContactModelSG.updateContactsRequestData.BookingContactList[0].TypeCode = "G";
+                    _ContactModelSG.updateContactsRequestData.BookingContactList[0].CompanyName = contactobject.companyName;//"Indigo";
+                    _ContactModelSG.updateContactsRequestData.BookingContactList[0].CustomerNumber = contactobject.customerNumber; //GSTNumber Re_ Assistance required for SG API Integration\GST Logs.zip\GST Logs
+                }
                 SpiceJetApiController objSpiceJet = new SpiceJetApiController();
                 UpdateContactsResponse responseAddContactSG = await objSpiceJet.GetUpdateContactsAsync(_ContactModelSG);
                 HttpContext.Session.SetString("ContactDetails", JsonConvert.SerializeObject(_ContactModelSG));
