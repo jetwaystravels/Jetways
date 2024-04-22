@@ -14,12 +14,12 @@ namespace DomainLayer.ViewModel
         [ForeignKey("tb_booking")]
         public string BookingID { get; set; }
         public tb_Booking tb_Booking { get; set; }
-       // public tb_Airlines tb_Airlines { get; set; }
+        public ContactDetail ContactDetail { get; set; }
         public tb_AirCraft tb_AirCraft { get; set; }
         public tb_PassengerTotal tb_PassengerTotal { get; set; }
         public List<tb_PassengerDetails> tb_PassengerDetails { get; set; }
         public List<tb_journeys> tb_journeys { get; set; }
         public List<tb_Segments> tb_Segments { get; set; }
     }
-    
+
 }

@@ -386,6 +386,8 @@ namespace OnionConsumeWebAPI.Controllers
                     returnTicketBooking.PhoneNumbers = phoneNumberList;
                     _AirLinePNRTicket.AirlinePNR.Add(returnTicketBooking);
 
+
+
                     AirLineFlightTicketBooking airLineFlightTicketBooking = new AirLineFlightTicketBooking();
                     airLineFlightTicketBooking.BookingID = JsonObjPNRBooking.data.bookingKey;
                     tb_Booking tb_Booking = new tb_Booking();
@@ -419,6 +421,9 @@ namespace OnionConsumeWebAPI.Controllers
                     tb_Airlines.Modifieddate = DateTime.Now;
                     tb_Airlines.Modifyby = "Online";
                     tb_Airlines.Status = "0";
+
+
+
                     tb_AirCraft tb_AirCraft = new tb_AirCraft();
                     tb_AirCraft.Id = 1;
                     tb_AirCraft.AirlineID = 1;
@@ -430,6 +435,16 @@ namespace OnionConsumeWebAPI.Controllers
                     tb_AirCraft.Modifyby = "Online";
                     tb_AirCraft.Status = "0";
 
+                    ContactDetail contactDetail = new ContactDetail();
+                    contactDetail.FirstName = JsonObjPNRBooking.data.contacts.P.name.first;
+                    contactDetail.LastName = JsonObjPNRBooking.data.contacts.P.name.last;
+                    contactDetail.EmailID = JsonObjPNRBooking.data.contacts.P.emailAddress;
+                    contactDetail.MobileNumber = 789456123;//JsonObjPNRBooking.data.contacts.P.phoneNumbers[0].number;
+                    contactDetail.CreateDate = DateTime.Now;
+                    contactDetail.CreateBy = "Admin";
+                    contactDetail.ModifyDate = DateTime.Now;
+                    contactDetail.ModifyBy = "Admin";
+                    contactDetail.Status = 0;
 
 
                     tb_PassengerTotal tb_PassengerTotalobj = new tb_PassengerTotal();
@@ -528,6 +543,7 @@ namespace OnionConsumeWebAPI.Controllers
                     airLineFlightTicketBooking.tb_journeys = tb_JourneysList;
                     airLineFlightTicketBooking.tb_PassengerTotal = tb_PassengerTotalobj;
                     airLineFlightTicketBooking.tb_PassengerDetails = tb_PassengerDetailsList;
+                    airLineFlightTicketBooking.ContactDetail = contactDetail;
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                     HttpResponseMessage responsePassengers = await client.PostAsJsonAsync(AppUrlConstant.BaseURL + "api/AirLineTicketBooking/PostairlineTicketData", airLineFlightTicketBooking);
                     if (responsePassengers.IsSuccessStatusCode)

@@ -67,6 +67,14 @@ namespace DomainLayer.Model
            new { MealCode = "PBAC", MealImage = "+ 10 kg Xcess Baggage" },
            new { MealCode = "PBAB", MealImage = "+ 5 kg Xcess Baggage" },
            new { MealCode = "PBA3", MealImage = "+3 kgs Xcess Baggage" },
+           //Indigo Bag Code
+           new { MealCode = "XBPD", MealImage = "+30 kgs Xcess Baggage" },
+           new { MealCode = "XBPJ", MealImage = "+ 20 kg Xcess Baggage" },
+           new { MealCode = "XBPC", MealImage = "+ 15 kg Xcess Baggage" },
+           new { MealCode = "XBPB", MealImage = "+ 10 kg Xcess Baggage" },
+           new { MealCode = "XBPA", MealImage = "+ 5 kg Xcess Baggage" },
+      
+
               
             // Add more data as needed...
         };

@@ -34,6 +34,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
         string ssrKey = string.Empty;
         string journeyKey = string.Empty;
         string uniquekey = string.Empty;
+        AirAsiaTripResponceModel passeengerlist = null;
         public IActionResult RoundAATripsellView()
         {
 
@@ -52,7 +53,6 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
             //AirAsia Passeneger
             string test = string.Empty;
-            AirAsiaTripResponceModel passeengerlist = null;
             string Meals = string.Empty;// HttpContext.Session.GetString("Meals");
             SSRAvailabiltyResponceModel Mealslist = null;
             SeatMapResponceModel Seatmaplist = null;
@@ -64,7 +64,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
             string Passenegrtext = HttpContext.Session.GetString("Mainpassengervm");
             string Seattext = HttpContext.Session.GetString("Mainseatmapvm");
             string Mealtext = HttpContext.Session.GetString("Mainmealvm");
-
+            string passengerNamedetails = HttpContext.Session.GetString("PassengerNameDetails");
 
             #region 2
 
@@ -84,7 +84,11 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                 }
                 //HttpContext.Session.Remove("_keypassengerdata");
             }
-
+            if (!string.IsNullOrEmpty(passengerNamedetails))
+            {
+                List<passkeytype> passengerNamedetailsdata = (List<passkeytype>)JsonConvert.DeserializeObject(passengerNamedetails, typeof(List<passkeytype>));
+                vm.passengerNamedetails = passengerNamedetailsdata;
+            }
 
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Mainseatmapvm")))
             {
@@ -125,6 +129,94 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
             return View(vm);
 
 
+        }
+        public IActionResult RTPostSeatMapModaldataView()
+        {
+            ViewModel vm = new ViewModel();
+            string test = string.Empty;
+            string Meals = string.Empty;
+            SSRAvailabiltyResponceModel Mealslist = null;
+            SeatMapResponceModel Seatmaplist = null;
+            string Seatmap = string.Empty;
+            vm.SeatmaplistRT = new List<SeatMapResponceModel>();
+            vm.passeengerlistRT = new List<AirAsiaTripResponceModel>();
+            vm.MealslistRT = new List<SSRAvailabiltyResponceModel>();
+
+            List<SelectListItem> Title = new()
+            {
+                new SelectListItem { Text = "Mr", Value = "Mr" },
+                new SelectListItem { Text = "Ms" ,Value = "Ms" },
+                new SelectListItem { Text = "Mrs", Value = "Mrs"},
+
+            };
+            ViewBag.Title = Title;
+            var AirlineName = TempData["AirLineName"];
+            ViewData["name"] = AirlineName;
+
+            string passengerInfant = HttpContext.Session.GetString("keypassengerItanary");
+            string passenger = HttpContext.Session.GetString("keypassenger");
+            string Passenegrtext = HttpContext.Session.GetString("Mainpassengervm");
+            string Seattext = HttpContext.Session.GetString("Mainseatmapvm");
+            string Mealtext = HttpContext.Session.GetString("Mainmealvm");
+             string passengerNamedetails = HttpContext.Session.GetString("PassengerNameDetails");
+
+            #region 2
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Mainpassengervm")))
+            {
+                test = HttpContext.Session.GetString("Mainpassengervm");
+
+                foreach (Match item in Regex.Matches(test, @"<Start>(?<test>[\s\S]*?)<End>"))
+                {
+                    passenger = item.Groups["test"].Value.ToString().Replace("/\"", "\"").Replace("\\\"", "\"").Replace("\\\\", "");
+                    if (passenger != null)
+                    {
+                        passeengerlist = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
+                        vm.passeengerlistRT.Add(passeengerlist);
+                    }
+                }
+            }
+            if (!string.IsNullOrEmpty(passengerNamedetails))
+            {
+                List<passkeytype> passengerNamedetailsdata = (List<passkeytype>)JsonConvert.DeserializeObject(passengerNamedetails, typeof(List<passkeytype>));
+                vm.passengerNamedetails = passengerNamedetailsdata;
+            }
+
+
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Mainseatmapvm")))
+            {
+                test = HttpContext.Session.GetString("Mainseatmapvm");
+                Seatmap = string.Empty;
+                foreach (Match item in Regex.Matches(test, @"<Start>(?<test>[\s\S]*?)<End>"))
+                {
+                    Seatmap = item.Groups["test"].Value.ToString().Replace("/\"", "\"").Replace("\\\"", "\"").Replace("\\\\", "");
+                    if (Seatmap != null)
+                    {
+                        Seatmaplist = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
+                        vm.SeatmaplistRT.Add(Seatmaplist);
+                    }
+                }
+            }
+
+            Meals = string.Empty;
+            Mealslist = null;
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Mainmealvm")))
+            {
+                test = HttpContext.Session.GetString("Mainmealvm");
+                foreach (Match item in Regex.Matches(test, @"<Start>(?<test>[\s\S]*?)<End>"))
+                {
+                    Meals = item.Groups["test"].Value.ToString().Replace("/\"", "\"").Replace("\\\"", "\"").Replace("\\\\", "");
+                    if (Meals != null)
+                    {
+                        Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
+                        vm.MealslistRT.Add(Mealslist);
+                    }
+                }
+            }
+
+            #endregion
+
+
+            return View(vm);
         }
 
         public async Task<IActionResult> PostReturnContactData(ContactModel contactobject)
@@ -220,12 +312,12 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
             {
                 Signature = Signature.Replace(@"""", string.Empty);
                 _updateContact obj = new _updateContact(httpContextAccessorInstance);
-                IndigoBookingManager_.UpdateContactsResponse _responseAddContact6E = await obj.GetUpdateContacts(Signature, contactobject.emailAddress ,  "",  "");
+                IndigoBookingManager_.UpdateContactsResponse _responseAddContact6E = await obj.GetUpdateContacts(Signature, contactobject.emailAddress, "", "");
                 string Str1 = JsonConvert.SerializeObject(_responseAddContact6E);
             }
             return RedirectToAction("RoundAATripsellView", "RoundAATripsell");
         }
-
+        [HttpPost]
         public async Task<IActionResult> PostReturnTravllerData(List<passkeytype> passengerdetails, List<Infanttype> infanttype)
         {
             string tokenview = HttpContext.Session.GetString("AirasiaTokan");
@@ -388,14 +480,80 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                 }
 
                 Signature = HttpContext.Session.GetString("IndigoSignature");
-               if (!string.IsNullOrEmpty(Signature))
+                if (!string.IsNullOrEmpty(Signature))
                 {
                     Signature = Signature.Replace(@"""", string.Empty);
                     _updateContact obj = new _updateContact(httpContextAccessorInstance);
                     IndigoBookingManager_.UpdatePassengersResponse updatePaxResp = await obj.UpdatePassengers(Signature, passengerdetails);
                     string Str2 = JsonConvert.SerializeObject(updatePaxResp);
                 }
-                return RedirectToAction("RoundAATripsellView", "RoundAATripsell");
+                SSRAvailabiltyResponceModel Mealslist = null;
+                SeatMapResponceModel Seatmaplist = null;
+                ViewModel vm = new ViewModel();
+                vm.SeatmaplistRT = new List<SeatMapResponceModel>();
+                vm.passeengerlistRT = new List<AirAsiaTripResponceModel>();
+                vm.MealslistRT = new List<SSRAvailabiltyResponceModel>();
+                string test = string.Empty;
+                string passengerInfant = HttpContext.Session.GetString("keypassengerItanary");
+                string passenger = HttpContext.Session.GetString("keypassenger");
+                string Passenegrtext = HttpContext.Session.GetString("Mainpassengervm");
+                string Seatmap = HttpContext.Session.GetString("Mainseatmapvm");
+                string Meals = HttpContext.Session.GetString("Mainmealvm");
+                string passengerNamedetails = HttpContext.Session.GetString("PassengerNameDetails");
+
+                if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Mainpassengervm")))
+                {
+                    test = HttpContext.Session.GetString("Mainpassengervm");
+
+                    foreach (Match item in Regex.Matches(test, @"<Start>(?<test>[\s\S]*?)<End>"))
+                    {
+                        passenger = item.Groups["test"].Value.ToString().Replace("/\"", "\"").Replace("\\\"", "\"").Replace("\\\\", "");
+                        if (passenger != null)
+                        {
+                            passeengerlist = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
+                            vm.passeengerlistRT.Add(passeengerlist);
+                        }
+                    }
+                }
+                if (!string.IsNullOrEmpty(passengerNamedetails))
+                {
+                    List<passkeytype> passengerNamedetailsdata = (List<passkeytype>)JsonConvert.DeserializeObject(passengerNamedetails, typeof(List<passkeytype>));
+                    vm.passengerNamedetails = passengerNamedetailsdata;
+                }
+                if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Mainseatmapvm")))
+                {
+                    test = HttpContext.Session.GetString("Mainseatmapvm");
+                    Seatmap = string.Empty;
+                    foreach (Match item in Regex.Matches(test, @"<Start>(?<test>[\s\S]*?)<End>"))
+                    {
+                        Seatmap = item.Groups["test"].Value.ToString().Replace("/\"", "\"").Replace("\\\"", "\"").Replace("\\\\", "");
+                        if (Seatmap != null)
+                        {
+                            Seatmaplist = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
+                            vm.SeatmaplistRT.Add(Seatmaplist);
+                        }
+                    }
+                }
+
+                Meals = string.Empty;
+                Mealslist = null;
+                if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Mainmealvm")))
+                {
+                    test = HttpContext.Session.GetString("Mainmealvm");
+                    foreach (Match item in Regex.Matches(test, @"<Start>(?<test>[\s\S]*?)<End>"))
+                    {
+                        Meals = item.Groups["test"].Value.ToString().Replace("/\"", "\"").Replace("\\\"", "\"").Replace("\\\\", "");
+                        if (Meals != null)
+                        {
+                            Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
+                            vm.MealslistRT.Add(Mealslist);
+                        }
+                    }
+                }
+                HttpContext.Session.SetString("PassengerNameDetails", JsonConvert.SerializeObject(passengerdetails));
+                return PartialView("_ServiceRequestsPartialView", vm);
+
+                //return RedirectToAction("RoundAATripsellView", "RoundAATripsell");
             }
         }
 
@@ -1511,7 +1669,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 {
                                     seatid = 0;
                                     _index = 0;
-                                    string Signature = HttpContext.Session.GetString("IndigoSignature"); 
+                                    string Signature = HttpContext.Session.GetString("IndigoSignature");
                                     Signature = Signature.Replace(@"""", string.Empty);
                                     _SellSSR obj_ = new _SellSSR(httpContextAccessorInstance);
                                     IndigoBookingManager_.AssignSeatsResponse _AssignseatRes = await obj_.AssignSeat(Signature, passeengerKeyList, unitKey, p, keycount0, keycount1);
