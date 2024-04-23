@@ -559,8 +559,27 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
 
         //Post Unit Key
-        public async Task<IActionResult> PostUnitkey(List<string> unitKey, List<string> ssrKey)
+        public async Task<IActionResult> PostUnitkey(List<string> unitKey, List<string> ssrKey, List<string> BaggageSSrkey)
         {
+            if (BaggageSSrkey[0] == null)
+            {
+                BaggageSSrkey = new List<string>();
+            }
+            if (ssrKey[0] == null)
+            {
+                ssrKey = new List<string>();
+            }
+            if (unitKey[0] == null)
+            {
+                unitKey = new List<string>();
+            }
+            List<string> ConnetedBaggageSSrkey = new List<string>();
+            for (int i = 0; i < BaggageSSrkey.Count; i++)
+            {
+                ConnetedBaggageSSrkey.Add(BaggageSSrkey[i].Replace("_0", "_1"));
+            }
+            //ConnetedBaggageSSrkey = BaggageSSrkey;
+            BaggageSSrkey.AddRange(ConnetedBaggageSSrkey);
             //#region AirAsia
 
             //Seat
@@ -1146,7 +1165,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     string tokenview = HttpContext.Session.GetString("IndigoSignature");//spelling 
                                     token = tokenview.Replace(@"""", string.Empty);
                                     _SellSSR obj_ = new _SellSSR(httpContextAccessorInstance);
-                                    List<string> BaggageSSrkey = new List<string>();
+                                    //List<string> BaggageSSrkey = new List<string>();
                                     IndigoBookingManager_.SellResponse sellSsrResponse = await obj_.sellssr(token, passeengerKeyList, ssrKey, BaggageSSrkey, _a);
                                 }
                                 _a++;

@@ -242,7 +242,11 @@
 
         $("#btnfocus").click(function () {
             alert("Do you want select connect seat");
-            $("#seattab2").click();
+            $("##seattabRT1").click();
+        });
+        $("#btnfocus2").click(function () {
+            alert("Do you want select Rerturn seat");
+            $("#seattabRT2").click();
         });
 
     });
@@ -256,20 +260,7 @@
 
         // //Start :MealKey post
 
-    @*$('.select-option .servc-bordr').change((e) => {
-
-            // var selected = $(e.target).find("option:selected").map(function () { return this.value; }).get();
-            // alert(selected);
-            var selected = $('.select-option .servc-bordr').map(function () {
-
-            return $(this).find("option:selected").map(function () { return this.value + "_0"; }).get();
-            }).get();
-
-            alert(selected);
-            localStorage.setItem("MealssrKeyCount", JSON.stringify(selected));
-            document.getElementById("hiddenSsrKey").value = selected.join(',');  // Joining selected values into a string
-
-            });*@
+ 
 
             $('.select-option .servc-bordr').change((e) => {
                 var selectedOptions = $('.select-option .servc-bordr option:selected');
@@ -277,12 +268,12 @@
 
                 var mealCodes = [];
                 var prices = [];
-
+                //XBPJ_9000_RT1_Indigo
                 selectedOptions.each(function () {
                     var optionValue = $(this).val();
                     var parts = optionValue.split('_');
 
-                    mealCodes.push(parts[0] + "_OneWay0");
+                    mealCodes.push(optionValue);
                     prices.push(parseFloat(parts[1]));
                 });
                 //alert(mealCodes);
@@ -304,26 +295,13 @@
 
 
 
-    @*$('.select-option2 .servc-bordr').change((e) => {
-
-            // var selected = $(e.target).find("option:selected").map(function () { return this.value; }).get();
-            // alert(selected);
-            var selected = $('.select-option2 .servc-bordr').map(function () {
-
-            return $(this).find("option:selected").map(function () { return this.value + "_OneWay1"; }).get();
-            }).get();
-
-            alert(selected);
-            localStorage.setItem("MealssrKeyCount2", JSON.stringify(selected));
-            document.getElementById("hiddenSsrKey2").value = selected.join(','); // Joining selected values into a string
-
-            });*@
+    
 
             $('.select-option2 .servc-bordr').change((e) => {
-
+                debugger;
                 var selected = $('.select-option2 .servc-bordr').map(function () {
                     return $(this).find("option:selected").map(function () {
-                        return this.value + "_OneWay1";
+                        return this.value;
                     }).get();
                 }).get();
 
@@ -363,26 +341,13 @@
         //End :MealKey post
 
         //Bagage code start
-    @*$('.select-baggage .servc-bordr').change((e) => {
-
-            // var selected = $(e.target).find("option:selected").map(function () { return this.value; }).get();
-            // alert(selected);
-            var selected = $('.select-baggage .servc-bordr').map(function () {
-
-            return $(this).find("option:selected").map(function () { return this.value + "_0"; }).get();
-            }).get();
-
-            alert(selected);
-            localStorage.setItem("BagssrKeyCount", JSON.stringify(selected));
-            document.getElementById("hiddenbagKey").value = selected.join(',');  // Joining selected values into a string
-
-            });*@
+  
 
             $('.select-baggage .servc-bordr').change((e) => {
                 // Collect selected values and append "_0" to each
                 var selected = $('.select-baggage .servc-bordr').map(function () {
                     return $(this).find("option:selected").map(function () {
-                        return this.value + "_0";
+                        return this.value + "_OneWay0";
                     }).get();
                 }).get();
 
@@ -407,43 +372,159 @@
             });
 
 
-        // $(document).ready(function () {
-        //     // Clear the selected value on page load
-        //     $('.select-baggage .servc-bordr').val('');
+      //Return Code start
+      //Rt Meal
 
-        //     $('.select-baggage .servc-bordr').change((e) => {
-        //         var selected = $('.select-baggage .servc-bordr').map(function () {
-        //             return $(this).find("option:selected").map(function () { return this.value + "_0"; }).get();
-        //         }).get();
 
-        //         alert(selected);
-        //         localStorage.setItem("BagssrKeyCount", JSON.stringify(selected));
-        //         document.getElementById("hiddenbagKey").value = selected.join(',');  // Joining selected values into a string
-        //     });
-        // });
+        $('.select-optionRT .servc-bordr').change((e) => {
+            var selectedOptions = $('.select-optionRT .servc-bordr option:selected');
+            debugger;
 
+            var mealCodes = [];
+            var prices = [];
+            //XBPJ_9000_RT1_Indigo
+            selectedOptions.each(function () {
+                var optionValue = $(this).val();
+                var parts = optionValue.split('_');
+
+                mealCodes.push(optionValue);
+                prices.push(parseFloat(parts[1]));
+            });
+            //alert(mealCodes);
+            localStorage.setItem("MealssrKeyCountRT", JSON.stringify(mealCodes));
+            document.getElementById("hiddenSsrKeyRT").value = mealCodes.join(',');
+
+            // Calculate total price
+            var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
+            $('#AddMealRT').text(totalPrice.toFixed(2));
+
+            // Display meal codes and prices in separate alerts
+            // alert("Meal Codes: " + mealCodes.join(','));
+            //alert("Prices: " + prices.join(','));
+            updateCombinedTotalRT();
+
+        });
+
+
+
+
+
+
+
+        $('.select-option2RT .servc-bordr').change((e) => {
+            debugger;
+            var selected = $('.select-option2RT .servc-bordr').map(function () {
+                return $(this).find("option:selected").map(function () {
+                    return this.value;
+                }).get();
+            }).get();
+
+
+            var prices = $('.select-option2RT .servc-bordr').map(function () {
+                return $(this).find("option:selected").map(function () {
+                    var parts = this.value.split('_');
+                    return parseFloat(parts[1]);
+                }).get();
+            }).get();
+
+            // Calculate the total price
+            var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
+
+            // Update the DOM elements with the selected values and total price
+            //alert(selected);  // Display selected options for debugging
+            localStorage.setItem("MealssrKeyCount2RT", JSON.stringify(selected));
+            document.getElementById("hiddenSsrKey2RT").value = selected.join(','); // Joining selected values into a string
+
+            // Display total price in a specified element, ensure you have an element with this ID
+            $('#AddMeal2RT').text(totalPrice.toFixed(2));
+            updateCombinedTotalRT();
+        });
+
+
+        function updateCombinedTotalRT() {
+            var totalPrice1 = parseFloat($('#AddMealRT').text()) || 0;
+            var totalPrice2 = parseFloat($('#AddMeal2RT').text()) || 0;
+            var combinedTotal = totalPrice1 + totalPrice2;
+            $('#AddMealTotalRT').text(combinedTotal.toFixed(2));
+
+        }
+      // Rt Meal End 
+
+      // Return Code End
+        $('.select-baggageRT .servc-bordr').change((e) => {
+            // Collect selected values and append "_0" to each
+            var selected = $('.select-baggageRT .servc-bordr').map(function () {
+                return $(this).find("option:selected").map(function () {
+                    return this.value + "_RT0";
+                }).get();
+            }).get();
+
+            // Extract prices from the selected values for total calculation
+            var prices = $('.select-baggageRT .servc-bordr').map(function () {
+                return $(this).find("option:selected").map(function () {
+                    var parts = this.value.split('_');
+                    return parseFloat(parts[1]);
+                }).get();
+            }).get();
+
+            // Calculate the total price
+            var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
+
+            // Update the DOM elements with the selected values and total price
+            //alert(selected);  // Debug: Display selected baggage options
+            localStorage.setItem("BagssrKeyCountRT", JSON.stringify(selected));
+            document.getElementById("hiddenbagKeyRT").value = selected.join(',');  // Joining selected values into a string
+
+            // Display total price in a specified element, assuming the ID is correct
+            $('#AddBaggageRT').text(totalPrice.toFixed(2));
+        });
 
         // bagage code end
 
         $("#Continuebtn").click(function () {
-
+            debugger;
             var unitKey = JSON.parse(localStorage.getItem("selectedIds"));
             // let mealcode1 = JSON.parse(localStorage.getItem("MealssrKeyCount"));
             // let mealcode2 = JSON.parse(localStorage.getItem("MealssrKeyCount2"));
             // var ssrKey = mealcode1 + "," + mealcode2;
             let mealcode1 = JSON.parse(localStorage.getItem("MealssrKeyCount"));
             let mealcode2 = JSON.parse(localStorage.getItem("MealssrKeyCount2"));
-            var ssrKey;
+            let mealcode1RT = JSON.parse(localStorage.getItem("MealssrKeyCountRT"));
+            let mealcode2RT = JSON.parse(localStorage.getItem("MealssrKeyCount2RT"));
+             //var ssrKey;
+            // if (mealcode2 && mealcode2.length > 0) {
+            //     ssrKey = mealcode1.concat(mealcode2);
+            // } else {
+            //     ssrKey = mealcode1;
+            // }
+
+            // if (mealcode2RT && mealcode2RT.length > 0) {
+            //     ssrKey = mealcode1RT.concat(mealcode2RT);
+            // } else {
+            //     ssrKey = mealcode1RT;
+            // }
+            var ssrKey = [];
+            var BaggageSSrkey = [];
             if (mealcode2 && mealcode2.length > 0) {
-                ssrKey = mealcode1.concat(mealcode2);
+                ssrKey = ssrKey.concat(mealcode1, mealcode2);
             } else {
-                ssrKey = mealcode1;
+                ssrKey = ssrKey.concat(mealcode1);
             }
 
-            let BaggageSSrkey = JSON.parse(localStorage.getItem("BagssrKeyCount"));
-
+            if (mealcode2RT && mealcode2RT.length > 0) {
+                ssrKey = ssrKey.concat(mealcode1RT, mealcode2RT);
+            } else {
+                ssrKey = ssrKey.concat(mealcode1RT);
+            }
+            let BaggageSSrkey_0 = JSON.parse(localStorage.getItem("BagssrKeyCount"));
+            let BaggageSSrkey_1 = JSON.parse(localStorage.getItem("BagssrKeyCountRT"));
+            if (BaggageSSrkey_1 && BaggageSSrkey_1.length > 0) {
+                BaggageSSrkey = BaggageSSrkey.concat(BaggageSSrkey_0, BaggageSSrkey_1);
+            } else {
+                BaggageSSrkey = BaggageSSrkey.concat(BaggageSSrkey_1);
+            }
             $.ajax({
-                url: "/IndigoTripsell/PostUnitkey",
+                url: "/RoundAATripsell/PostUnitkey",
                 type: "POST",
                 contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
                 data: { unitKey: unitKey, ssrKey: ssrKey, BaggageSSrkey: BaggageSSrkey },
@@ -516,6 +597,7 @@
                                             <button type="submit" id="" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
                                         </div>
                                         <div>
+                                            
                                             A
                                             <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
                                         </div>
@@ -536,11 +618,11 @@
                                                 <div id="popbtnA">
 
 
-                                                    <button type="submit" id="btnfocus" class="btn  btn-primary">Continue</button>
+                                                    <button type="submit" id="btnfocus"  class="btn  btn-primary">Continue</button>
 
                                                 </div>
-                                                <div id="popbtnB" style="display:none;">
-                                                    <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
+                                                <div id="popbtnB">
+                                                    <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">D-Continue</button>
 
                                                 </div>
                                             </div>
@@ -664,40 +746,43 @@
 
 
                                                 @{
+
                                                     List<SelectListItem> mealOptions = new List<SelectListItem>();
-
-                                                    for (int s = 0; s < Model.MealslistRT[0].legSsrs[0].legssrs.Count; s++)
+                                                    for (int l = 0; l < Model.MealslistRT[0].legSsrs.Count; l++)
                                                     {
-                                                        string ssrprice = Model.MealslistRT[0].legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                        string Mealcode = Model.MealslistRT[0].legSsrs[0].legssrs[s].ssrCode + "_" + Model.MealslistRT[0].legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                        string Mealname = Model.MealslistRT[0].legSsrs[0].legssrs[s].name + " ₹" + @Model.MealslistRT[0].legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                        string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) ||
-                                                        Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase) ||
-                                                        Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase)).ToString();
-
-                                                        // string Mcode = Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase).ToString();
-                                                        if (Mcode.ToLower() == "true")
+                                                        for (int s = 0; s < Model.MealslistRT[0].legSsrs[l].legssrs.Count; s++)
                                                         {
-                                                            continue;
+                                                            string ssrprice = Model.MealslistRT[0].legSsrs[l].legssrs[s].legpassengers[0].price;
+                                                            string Mealcode = Model.MealslistRT[0].legSsrs[l].legssrs[s].ssrCode + "_" + Model.MealslistRT[0].legSsrs[l].legssrs[s].legpassengers[0].price + "_" + "OneWay0" + "_" + Model.MealslistRT[0].legSsrs[l].legssrs[s].legpassengers[0].Airline;
+                                                            string Mealname = Model.MealslistRT[0].legSsrs[l].legssrs[s].name + " ₹" + @Model.MealslistRT[0].legSsrs[l].legssrs[s].legpassengers[0].price;
+                                                            string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) ||
+                                                            Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase) ||
+                                                            Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase)).ToString();
+
+                                                            // string Mcode = Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase).ToString();
+                                                            if (Mcode.ToLower() == "true")
+                                                            {
+                                                                continue;
+                                                            }
+                                                            else
+                                                                ssrkey = Mealcode;
+
+                                                            if (Mealcode != null)
+                                                            {
+                                                                // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
+                                                                mealOptions.Add(new SelectListItem { Text = Mealname, Value = Mealcode });
+                                                            }
+
+                                                            // string queryMeal = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
+                                                            // var mealData = SpicejetMealImageList.GetAllmeal().SingleOrDefault(x => x.MealCode == queryMeal);
+
+                                                            // if (mealData != null)
+                                                            // {
+                                                            //     // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
+                                                            //     mealOptions.Add(new SelectListItem { Text = mealData.MealImage, Value = mealData.MealCode });
+                                                            // }
+
                                                         }
-                                                        else
-                                                            ssrkey = Mealcode;
-
-                                                        if (Mealcode != null)
-                                                        {
-                                                            // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
-                                                            mealOptions.Add(new SelectListItem { Text = Mealname, Value = Mealcode });
-                                                        }
-
-                                                        // string queryMeal = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
-                                                        // var mealData = SpicejetMealImageList.GetAllmeal().SingleOrDefault(x => x.MealCode == queryMeal);
-
-                                                        // if (mealData != null)
-                                                        // {
-                                                        //     // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
-                                                        //     mealOptions.Add(new SelectListItem { Text = mealData.MealImage, Value = mealData.MealCode });
-                                                        // }
-
                                                     }
                                                 }
                                                 <div class="d-flex">
@@ -865,7 +950,7 @@
                                                         for (int s = 0; s < Model.MealslistRT[0].legSsrs[1].legssrs.Count; s++)
                                                         {
                                                             string ssrprice = Model.MealslistRT[0].legSsrs[1].legssrs[s].legpassengers[0].price;
-                                                            string Mealcode = Model.MealslistRT[0].legSsrs[1].legssrs[s].ssrCode + "_" + Model.MealslistRT[0].legSsrs[1].legssrs[s].legpassengers[0].price;
+                                                            string Mealcode = Model.MealslistRT[0].legSsrs[1].legssrs[s].ssrCode + "_" + Model.MealslistRT[0].legSsrs[1].legssrs[s].legpassengers[0].price + "_" + "OneWay1" + "_" + Model.MealslistRT[0].legSsrs[1].legssrs[s].legpassengers[0].Airline;
                                                             string Mealname = Model.MealslistRT[0].legSsrs[1].legssrs[s].name + " ₹" + @Model.MealslistRT[0].legSsrs[1].legssrs[s].legpassengers[0].price;
 
                                                             string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) || Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase)).ToString();
@@ -993,7 +1078,7 @@
                                                         <span>@name</span>
                                                     }
                                                 </div>
-                                                <div class="servc-content select-option">
+                                                <div class="servc-content select-optionRT">
 
 
 
@@ -1002,25 +1087,32 @@
 
                                                         for (int s = 0; s < Model.MealslistRT[1].legSsrs[0].legssrs.Count; s++)
                                                         {
-                                                            string ssrprice = Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                            string Mealcode = Model.MealslistRT[1].legSsrs[0].legssrs[s].ssrCode + "_" + Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                            string Mealname = Model.MealslistRT[1].legSsrs[0].legssrs[s].name + " ₹" + @Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                            string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) ||
-                                                            Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase) ||
-                                                            Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase)).ToString();
-
-                                                            // string Mcode = Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase).ToString();
-                                                            if (Mcode.ToLower() == "true")
+                                                            try
                                                             {
-                                                                continue;
-                                                            }
-                                                            else
-                                                                ssrkey = Mealcode;
+                                                                string ssrprice = Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                                string Mealcode = Model.MealslistRT[1].legSsrs[0].legssrs[s].ssrCode + "_" + Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].price + "_" + "RT0" + "_" + Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].Airline;
+                                                                string Mealname = Model.MealslistRT[1].legSsrs[0].legssrs[s].name + " ₹" + @Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                                string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) ||
+                                                                Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase) ||
+                                                                Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase)).ToString();
 
-                                                            if (Mealcode != null)
-                                                            {
+                                                                // string Mcode = Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase).ToString();
+                                                                if (Mcode.ToLower() == "true")
+                                                                {
+                                                                    continue;
+                                                                }
+                                                                else
+                                                                    ssrkey = Mealcode;
+
+                                                                if (Mealcode != null)
+                                                                {
                                                                 // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
-                                                                mealOptions.Add(new SelectListItem { Text = Mealname, Value = Mealcode });
+                                                                    mealOptions.Add(new SelectListItem { Text = Mealname, Value = Mealcode });
+                                                                }
+                                                            }
+                                                            catch(Exception ex)
+                                                            {
+                                                                
                                                             }
 
                                                             // string queryMeal = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
@@ -1045,7 +1137,7 @@
                                                                 </option>
                                                             }
                                                         </select>
-                                                        <input type="hidden" id="hiddenSsrKey" name="ssrKey" value="" />
+                                                        <input type="hidden" id="hiddenSsrKeyRT" name="ssrKey" value="" />
                                                     </div>
                                                     @*<select id="mealid" class="servc-bordr select-width" asp-items="@mealOptions"></select>*@
 
@@ -1058,7 +1150,7 @@
                                                     </div>
                                                     <div class="output-div-input" id="outputDiv_@pas"></div>
                                                 </div>
-                                                <div class="servc-content select-baggage">
+                                                <div class="servc-content select-baggageRT">
 
                                                     @{
                                                         List<SelectListItem> BaggageOptions = new List<SelectListItem>();
@@ -1110,7 +1202,7 @@
                                                                 </option>
                                                             }
                                                         </select>
-                                                        <input type="hidden" id="hiddenbagKey" name="bagkey" value="" />
+                                                        <input type="hidden" id="hiddenbagKeyRT" name="bagkey" value="" />
                                                     </div>
                                                 </div>
                                                 <div class="servc-content">
@@ -1188,7 +1280,7 @@
                                                         <span>@name</span>
                                                     }
                                                 </div>
-                                                <div class="servc-content select-option2">
+                                                <div class="servc-content select-option2RT">
 
 
 
@@ -1199,7 +1291,7 @@
                                                             for (int s = 0; s < Model.MealslistRT[1].legSsrs[1].legssrs.Count; s++)
                                                             {
                                                                 string ssrprice = Model.MealslistRT[1].legSsrs[1].legssrs[s].legpassengers[0].price;
-                                                                string Mealcode = Model.MealslistRT[1].legSsrs[1].legssrs[s].ssrCode + "_" + Model.MealslistRT[1].legSsrs[1].legssrs[s].legpassengers[0].price;
+                                                                string Mealcode = Model.MealslistRT[1].legSsrs[1].legssrs[s].ssrCode + "_" + Model.MealslistRT[1].legSsrs[1].legssrs[s].legpassengers[0].price + "_" + "RT1" + "_" + Model.MealslistRT[1].legSsrs[1].legssrs[s].legpassengers[0].Airline;
                                                                 string Mealname = Model.MealslistRT[1].legSsrs[1].legssrs[s].name + " ₹" + @Model.MealslistRT[1].legSsrs[1].legssrs[s].legpassengers[0].price;
 
                                                                 string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) || Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase)).ToString();
@@ -1231,7 +1323,7 @@
                                                                 </option>
                                                             }
                                                         </select>
-                                                        <input type="hidden" id="hiddenSsrKey2" name="ssrKey" value="" />
+                                                        <input type="hidden" id="hiddenSsrKey2RT" name="ssrKey" value="" />
                                                     </div>
                                                     @*<select id="mealid" class="servc-bordr select-width" asp-items="@mealOptions"></select>*@
 

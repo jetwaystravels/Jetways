@@ -235,9 +235,9 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                 _SimpleAvailabilityobj.promotionCode = "";
                 string[] sortOptions = new string[1];
                 sortOptions[0] = "ServiceType";
-                string[] fareTypes = new string[2];
+                string[] fareTypes = new string[1];
                 fareTypes[0] = "R";
-                fareTypes[1] = "M";
+              //  fareTypes[1] = "M";
                 string[] productClasses = new string[3];
                 productClasses[0] = "EC";
                 productClasses[1] = "HF";
