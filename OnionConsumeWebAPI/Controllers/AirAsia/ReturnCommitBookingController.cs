@@ -63,7 +63,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                 if (responceGetBooking.IsSuccessStatusCode)
                 {
-                    // string BaseURL1 = "http://localhost:5225/";
+                    
                     var _responceGetBooking = responceGetBooking.Content.ReadAsStringAsync().Result;
                     var JsonObjGetBooking = JsonConvert.DeserializeObject<dynamic>(_responceGetBooking);
                     AirLinePNR = JsonObjGetBooking.data.recordLocator;
@@ -77,7 +77,7 @@ namespace OnionConsumeWebAPI.Controllers
                 HttpResponseMessage responcepnrBooking = await client.GetAsync(AppUrlConstant.AirasiaPNRBooking + AirLinePNR);
                 if (responcepnrBooking.IsSuccessStatusCode)
                 {
-                    // string BaseURL1 = "http://localhost:5225/";
+                    
                     var _responcePNRBooking = responcepnrBooking.Content.ReadAsStringAsync().Result;
                     var JsonObjPNRBooking = JsonConvert.DeserializeObject<dynamic>(_responcePNRBooking);
 
@@ -96,7 +96,7 @@ namespace OnionConsumeWebAPI.Controllers
                         phoneNumberList.Add(phoneobject);
 
                     }
-                    //_contactobj.PhoneNumbers = phoneNumberList;
+                  
 
 
                     int JourneysReturnCount = JsonObjPNRBooking.data.journeys.Count;

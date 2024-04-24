@@ -34,8 +34,8 @@
             else
             {
                 <li class="nav-item d-flex">
-                    <div id="seattab1" class="nav-link activeblue">@Model.passeengerlistRT[0].journeys[0].segments[0].designator.origin-@Model.passeengerlistRT[0].journeys[0].segments[0].designator.destination</div>
-                    <div id="seattab2" class="nav-link">@Model.passeengerlistRT[0].journeys[0].segments[1].designator.origin-@Model.passeengerlistRT[0].journeys[0].segments[1].designator.destination</div>
+                    <div id="seattab1Popup" class="nav-link activeblue">@Model.passeengerlistRT[0].journeys[0].segments[0].designator.origin-@Model.passeengerlistRT[0].journeys[0].segments[0].designator.destination</div>
+                    <div id="seattab2Popup" class="nav-link">@Model.passeengerlistRT[0].journeys[0].segments[1].designator.origin-@Model.passeengerlistRT[0].journeys[0].segments[1].designator.destination</div>
                 </li>
             }
             //RoundTrip
@@ -49,8 +49,8 @@
             else
             {
                 <li class="nav-item d-flex">
-                    <div id="seattabRT1" class="nav-link">@Model.passeengerlistRT[1].journeys[0].segments[0].designator.origin-@Model.passeengerlistRT[1].journeys[0].segments[0].designator.destination</div>
-                    <div id="seattabRT2" class="nav-link">@Model.passeengerlistRT[1].journeys[0].segments[1].designator.origin-@Model.passeengerlistRT[1].journeys[0].segments[1].designator.destination</div>
+                    <div id="seattabRT1Popup" class="nav-link">@Model.passeengerlistRT[1].journeys[0].segments[0].designator.origin-@Model.passeengerlistRT[1].journeys[0].segments[0].designator.destination</div>
+                    <div id="seattabRT2Popup" class="nav-link">@Model.passeengerlistRT[1].journeys[0].segments[1].designator.origin-@Model.passeengerlistRT[1].journeys[0].segments[1].designator.destination</div>
                 </li>
             }
             
@@ -136,6 +136,80 @@
             }
         </section>
     </div>
+
+    <div class="col-lg-12" id="passtab1RT">
+        <section class="d-flex flex-wrap">
+            @{
+                passengerdata = @Model.passeengerlistRT[1].passengerscount;
+            }
+
+            @{
+                passengerdataValue = 0;
+                for (int i = 0; i < @Model.passeengerlistRT[1].passengers.Count; i++)
+                {
+                    if (Model.passeengerlistRT[1].passengers[i].passengerTypeCode == "ADT" || Model.passeengerlistRT[1].passengers[i].passengerTypeCode == "CHD")
+                    {
+                        passengerdataValue = passengerdataValue + 1;
+                    }
+                }
+                passengerdata = passengerdataValue;
+                for (int pasRT = 0; pasRT < passengerdata; pasRT++)
+                {
+                    <div class="">
+                        <div class="servc-content popinput1">
+                            <div>
+                                <label>@Model.passengerNamedetails[pasRT].first</label>
+                                <input type="text" id="inputRT_@pasRT" class="textInput_@pasRT">
+                            </div>
+                            <div>
+                                <span>Price</span>
+                                <span class="feeSpanRT_@pasRT"></span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+            }
+        </section>
+    </div>
+
+    <div class="col-lg-12" id="passtab2RT">
+        <section class="d-flex flex-wrap">
+            @{
+                 passengerdata1 = @Model.passeengerlistRT[0].passengerscount;
+            }
+
+            @{
+               passengerdataValue1 = 0;
+                for (int i = 0; i < @Model.passeengerlistRT[0].passengers.Count; i++)
+                {
+                    if (Model.passeengerlistRT[0].passengers[i].passengerTypeCode == "ADT" || Model.passeengerlistRT[0].passengers[i].passengerTypeCode == "CHD")
+                    {
+                        passengerdataValue1 = passengerdataValue1 + 1;
+                    }
+                }
+                passengerdata1 = passengerdataValue1;
+                for (int pas = 0; pas < passengerdata1; pas++)
+                {
+                    <div class="py-3">
+                        <div class="servc-content popinput2">
+                            <div>
+                                <label>@Model.passengerNamedetails[pas].first</label>
+                                <input type="text" id="inputConnectRT_@pas" class="textInput_@pas">
+                            </div>
+                            <div>
+                                <span>Price</span>
+                                <span class="feeSpanConnectRT_@pas"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                }
+            }
+        </section>
+    </div>
+
 </div>
 
 
@@ -190,7 +264,7 @@
             {
                 if (l == 0)
                 {
-                    <div id="tabshow1" class="seat-section">
+                    <div id="tabshow1popup" class="seat-section">
                         A
                         <div class="inner-section">
                             <ul class="column">
@@ -265,7 +339,7 @@
                 }
                 else
                 {
-                    <div id="tabshow2" class="seat-section">
+                    <div id="tabshow2popup" class="seat-section">
                         B
                         <div class="inner-section">
                             <ul class="column">
@@ -589,82 +663,84 @@
         border-bottom: 1px solid #E93329 !important;
     }
 </style>
+
+<script src="~/js/custom.js/roundtripsell.js"></script>
 <script type="text/javascript">
     /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
     $(document).ready(function () {
 
         $("#seattab1way").click(function () {
-            $("#tabshow1").show();
+            $("#tabshow1popup").show();
             $("#tabshowRT1").hide();
             $("#seattab1way").addClass('activeblue');
             $("#seattabRT1way").removeClass('activeblue');
             $("#tabshowRT2").removeClass('activeblue');
             $("#tabshowRT1").removeClass('activeblue');
             $("#seattabRT2").removeClass('activeblue');
-            $("#seattabRT1").removeClass('activeblue');
+            $("#seattabRT1Popup").removeClass('activeblue');
         });
         $("#seattabRT1way").click(function () {
-            $("#tabshow1").hide();
-            $("#tabshow2").hide();
+            $("#tabshow1popup").hide();
+            $("#tabshow2popup").hide();
             $("#tabshowRT1").show();
             $("#seattabRT1way").addClass('activeblue');
             $("#seattab1way").removeClass('activeblue');
-            $("#seattab1").removeClass('activeblue');
-            $("#seattab2").removeClass('activeblue');
+            $("#seattab1Popup").removeClass('activeblue');
+            $("#seattab2Popup").removeClass('activeblue');
         });
 
 
-        $("#tabshow2").hide();
+        $("#tabshow2popup").hide();
         $("#tabshowRT1").hide();
         $("#tabshowRT2").hide();
-        $("#seattab1").click(function () {
-            $("#tabshow1").show();
-            $("#tabshow2").hide();
+        $("#seattab1Popup").click(function () {
+            $("#tabshow1popup").show();
+            $("#tabshow2popup").hide();
             $("#tabshowRT1").hide();
             $("#tabshowRT2").hide();
-            $("#seattab1").addClass('activeblue');
-            $("#seattab2").removeClass('activeblue');
+            $("#seattab1Popup").addClass('activeblue');
+            $("#seattab2Popup").removeClass('activeblue');
             $("#tabshowRT2").removeClass('activeblue');
             $("#tabshowRT1").removeClass('activeblue');
 
         });
 
-        $("#seattab2").click(function () {
-            $("#tabshow2").show();
+        $("#seattab2Popup").click(function () {
+            $("#tabshow2popup").show();
             $("#tabshowRT1").hide();
             $("#tabshowRT2").hide();
-            $("#seattab2").addClass('activeblue');
-            $("#seattab1").removeClass('activeblue');
+            $("#seattab2Popup").addClass('activeblue');
+            $("#seattab1Popup").removeClass('activeblue');
             $("#seattabRT2").removeClass('activeblue');
             $("#seattabRT1").removeClass('activeblue');
             $("#seattab1way").removeClass('activeblue');
             $("#seattabRT1way").removeClass('activeblue');
-            $("#tabshow1").hide();
+            $("#tabshow1popup").hide();
         });
-        $("#seattabRT1").click(function () {
-            $("#tabshow2").hide();
-            $("#tabshow1").hide();
+        $("#seattabRT1Popup").click(function () {
+            $("#tabshow2popup").hide();
+            $("#tabshow1popup").hide();
             $("#tabshowRT1").show();
             $("#tabshowRT2").hide();
-            $("#seattabRT1").addClass('activeblue');
-            $("#seattabRT2").removeClass('activeblue');
-            $("#seattab2").removeClass('activeblue');
-            $("#seattab1").removeClass('activeblue');
+            $("#seattabRT1Popup").addClass('activeblue');
+            $("#seattabRT2Popup").removeClass('activeblue');
+            $("#seattab2Popup").removeClass('activeblue');
+            $("#seattab1Popup").removeClass('activeblue');
             $("#seattab1way").removeClass('activeblue');
 
         });
-        $("#seattabRT2").click(function () {
-            $("#tabshow2").hide();
-            $("#tabshow1").hide();
+        $("#seattabRT2Popup").click(function () {
+            $("#tabshow2popup").hide();
+            $("#tabshow1popup").hide();
             $("#tabshowRT1").hide();
             $("#tabshowRT2").show();
-            $("#seattabRT2").addClass('activeblue');
-            $("#seattabRT1").removeClass('activeblue');
-            $("#seattab2").removeClass('activeblue');
-            $("#seattab1").removeClass('activeblue');
+            $("#seattabRT2Popup").addClass('activeblue');
+            $("#seattabRT1Popup").removeClass('activeblue');
+            $("#seattab2Popup").removeClass('activeblue');
+            $("#seattab1Popup").removeClass('activeblue');
             $("#seattab1way").removeClass('activeblue');
         });
-
+        
       
 
     });
@@ -786,7 +862,86 @@
         }
 
 
+        //Return Code seat validation
 
+        var checkedValuesRT = ['', '', '', '', '', '', '', '', ''];
+        $('.mycheckRT').change(function () {
+            if ($(this).is(':checked')) {
+                for (var i = 0; i < 9; i++) {
+                    if (checkedValuesRT[i] === '') {
+                        checkedValuesRT[i] = $(this).val();
+                        break;
+                    }
+                }
+            } else {
+                var index = checkedValuesRT.indexOf($(this).val());
+                console.log(index)
+                if (index !== -1) {
+                    checkedValuesRT[index] = '';
+                }
+            }
+            $('#inputRT_0').val(checkedValuesRT[0]);
+            $('#inputRT_1').val(checkedValuesRT[1]);
+            $('#inputRT_2').val(checkedValuesRT[2]);
+            $('#inputRT_3').val(checkedValuesRT[3]);
+            $('#inputRT_4').val(checkedValuesRT[4]);
+            $('#inputRT_5').val(checkedValuesRT[5]);
+            $('#inputRT_6').val(checkedValuesRT[6]);
+            $('#inputRT_7').val(checkedValuesRT[7]);
+            $('#inputRT_8').val(checkedValuesRT[8]);
+            updateInputsAndSpansRT(checkedValuesRT);
+
+        });
+
+        function updateInputsAndSpansRT(checkedValuesRT) {
+            for (var i = 0; i < checkedValuesRT.length; i++) {
+                var parts = checkedValuesRT[i].split('_');
+                $('#inputRT_' + i).val(parts[1]);
+                $('.feeSpanRT_' + i).text(parts[0]);
+                $('#outputDivRT_' + i).text(parts[1]);
+            }
+        }
+
+
+
+        var checkedValues2RT = ['', '', '', '', '', '', '', '', ''];
+        $('.mycheck2RT').change(function () {
+            if ($(this).is(':checked')) {
+                for (var i = 0; i < 9; i++) {
+                    if (checkedValues2RT[i] === '') {
+                        checkedValues2RT[i] = $(this).val();
+                        break;
+                    }
+                }
+            } else {
+                var index = checkedValues2RT.indexOf($(this).val());
+                console.log(index)
+                if (index !== -1) {
+                    checkedValues2RT[index] = '';
+                }
+            }
+            $('#inputConnectRT_0').val(checkedValues2RT[0]);
+            $('#inputConnectRT_1').val(checkedValues2RT[1]);
+            $('#inputConnectRT_2').val(checkedValues2RT[2]);
+            $('#inputConnectRT_3').val(checkedValues2RT[3]);
+            $('#inputConnectRT_4').val(checkedValues2RT[4]);
+            $('#inputConnectRT_5').val(checkedValues2RT[5]);
+            $('#inputConnectRT_6').val(checkedValues2RT[6]);
+            $('#inputConnectRT_7').val(checkedValues2RT[7]);
+            $('#inputConnectRT_8').val(checkedValues2RT[8]);
+
+            updateInputsAndSpans2RT(checkedValues2RT);
+
+        });
+
+        function updateInputsAndSpans2RT(checkedValues2RT) {
+            for (var i = 0; i < checkedValues2RT.length; i++) {
+                var parts = checkedValues2RT[i].split('_');
+                $('#inputConnectRT_' + i).val(parts[1]);
+                $('.feeSpanConnectRT_' + i).text(parts[0]);
+                $('#outputDivConnectRT_' + i).text(parts[1]);
+            }
+        }
 
 
 

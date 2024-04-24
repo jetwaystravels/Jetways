@@ -112,7 +112,7 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script src="~/js/custom.js/SGCustom.js"></script>
+<script src="~/js/custom.js/roundtripsell.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -148,10 +148,16 @@
     document.getElementById("Totalamount").innerHTML = totalpricepopup;
 
 </script>
-<script type="text/javascript">
+
+ @* <script type="text/javascript">
     /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
     $(document).ready(function () {
-
+        $("#tabshow2").hide();
+        $("#tabshowRT1").hide();
+        $("#tabshowRT2").hide();
+        $("#tabshow1RT").hide();
+        $("#tabshow2RT").hide();
+        
         $("#seattab1way").click(function () {
             $("#tabshow1").show();
             $("#tabshow1RT").hide();
@@ -177,11 +183,7 @@
         });
 
 
-        $("#tabshow2").hide();
-        $("#tabshowRT1").hide();
-        $("#tabshowRT2").hide();
-        $("#tabshow1RT").hide();
-        $("#tabshow2RT").hide();
+    
         $("#seattab1").click(function () {
             $("#tabshow1").show();
             $("#tabshow2").hide();
@@ -198,8 +200,9 @@
 
         $("#seattab2").click(function () {
             $("#tabshow2").show();
-            $("#tabshowRT1").hide();
+            $("#tabshowRT1").hide(); 
             $("#tabshowRT2").hide();
+            $("#tabshow1RT").hide();
             $("#seattab2").addClass('activeblue');
             $("#seattab1").removeClass('activeblue');
             $("#seattabRT2").removeClass('activeblue');
@@ -211,6 +214,7 @@
         $("#seattabRT1").click(function () {
             $("#tabshowRT1").show();
             $("#tabshow2").hide();
+            $("#tabshow1").hide();
             $("#tabshow1").hide();
             $("#tabshow2RT").hide();
             $("#tabshow1RT").show();
@@ -250,8 +254,8 @@
         });
 
     });
-</script>
-
+</script> 
+ *@
 
 <script>
 
@@ -1148,7 +1152,7 @@
                                                         <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
 
                                                     </div>
-                                                    <div class="output-div-input" id="outputDiv_@pas"></div>
+                                                    <div class="output-div-input" id="outputDivRT_@pas"></div>
                                                 </div>
                                                 <div class="servc-content select-baggageRT">
 
@@ -1333,7 +1337,7 @@
                                                         <div><img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /></div>
                                                         <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
                                                     </div>
-                                                    <div class="output-div-input" id="outputDivConnect_@pas"></div>
+                                                    <div class="output-div-input" id="outputDivConnectRT_@pas"></div>
                                                 </div>
 
                                                 <div class="servc-content">

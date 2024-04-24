@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using DomainLayer.Model;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using OnionConsumeWebAPI.Extensions;
 using OnionConsumeWebAPI.Models;
 
 namespace OnionConsumeWebAPI.Controllers
@@ -20,7 +21,9 @@ namespace OnionConsumeWebAPI.Controllers
         {
            List<User> users = new List<User>();
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:5225/");
+            
+            //  client.BaseAddress = new Uri("http://localhost:5225/");
+              client.BaseAddress = new Uri(AppUrlConstant.BaseURL);
             HttpResponseMessage response = await client.GetAsync("api/User/getall");
             if(response.IsSuccessStatusCode) 
             {

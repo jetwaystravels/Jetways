@@ -51,7 +51,8 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
         {
             List<City> city = new List<City>();
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:5225/");
+            //client.BaseAddress = new Uri("http://localhost:5225/");
+            client.BaseAddress = new Uri(AppUrlConstant.BaseURL);
             HttpResponseMessage response = await client.GetAsync("api/City/getallCity");
             if (response.IsSuccessStatusCode)
             {
@@ -108,7 +109,8 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
             _credentials credentialsobj = new _credentials();
             using (HttpClient client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:5225/");
+                //client.BaseAddress = new Uri("http://localhost:5225/");
+                client.BaseAddress = new Uri(AppUrlConstant.BaseURL);
                 HttpResponseMessage response = await client.GetAsync("api/Login/getotacredairasia");
                 if (response.IsSuccessStatusCode)
                 {

@@ -1,6 +1,7 @@
 ﻿using DomainLayer.Model;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using OnionConsumeWebAPI.Extensions;
 
 namespace OnionConsumeWebAPI.Controllers
 {
@@ -16,7 +17,9 @@ namespace OnionConsumeWebAPI.Controllers
         {
             List<City> city = new List<City>();
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:5225/");
+           
+            //client.BaseAddress = new Uri("http://localhost:5225/");
+            client.BaseAddress = new Uri(AppUrlConstant.BaseURL);
             HttpResponseMessage response = await client.GetAsync("api/City/getallCity");
             if (response.IsSuccessStatusCode)
             {
