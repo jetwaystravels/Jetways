@@ -1,4 +1,42 @@
-﻿
+﻿function updateCombinedTotal() {
+    debugger;
+
+    var totalPrice1 = parseFloat($('#AddMeal').text()) || 0;
+    var totalPrice2 = parseFloat($('#AddMeal2').text()) || 0;
+    var combinedTotal = totalPrice1 + totalPrice2;
+    $('#AddMealTotal').text(combinedTotal.toFixed(2));
+
+    var TotalBagAmount = parseFloat($('#AddBaggage').text()) || 0;
+
+    var totalServicePrice1 = parseFloat($('#Addservice').text()) || 0;
+    var totalServicePrice2 = parseFloat($('#Addservice2').text()) || 0;
+    var combinedServiceTotal = totalServicePrice1 + totalServicePrice2;
+    $('#AddServicesTotal').text(combinedServiceTotal.toFixed(2));
+    var TotalSeatAmount = parseFloat($('#total').text()) || 0;
+    var TotalAmmount = document.getElementById("Totalamount").value;
+    var Totalseat1 = parseInt(TotalAmmount) + parseInt(TotalBagAmount) + parseInt(combinedTotal) + parseInt(combinedServiceTotal) + parseInt(TotalSeatAmount);
+
+    if (Totalseat1 != null) {
+        document.getElementById("seattotal1").innerHTML = Totalseat1;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //$(document).ready(function () {
 //    debugger;
 //    var count = $("#passengercountid").val();
@@ -36,7 +74,7 @@
 //        var TotalAmmount = document.getElementById("Totalamount").value;
 //        localStorage.setItem('seatPayment', seatmap1);
 //        localStorage.setItem('basePayment', TotalAmmount);
-       
+
 //        var Totalseat1 = parseInt(TotalAmmount) + parseInt(seatmap1);
 //        if (seatmap1 != null) {
 //            document.getElementById("seattotal1").innerHTML = Totalseat1;
@@ -45,7 +83,7 @@
 //        if (TotalSeatPay != null) {
 //            document.getElementById("TotalSeatPayID").innerHTML = TotalSeatPay;
 //        }
-       
+
 //        localStorage.setItem("selectedIds", JSON.stringify(selectedIds));
 
 
@@ -53,7 +91,7 @@
 
 //    $("#Continuebtn").click(function(){
 
-//        var unitKey = JSON.parse(localStorage.getItem("selectedIds"));       
+//        var unitKey = JSON.parse(localStorage.getItem("selectedIds"));
 //        $.ajax({
 //            url: "/AATripsell/PostUnitkey",
 //            type: "POST",
@@ -68,7 +106,7 @@
 //        });
 //    });
 
-   
+
 
 //});
 

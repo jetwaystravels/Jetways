@@ -5,11 +5,7 @@
 }
 <div class="py-15 px-20 rounded-4 text-15 bg-blue-1-05 mb-10">
     <div class="d-flex justify-content-end" style="margin-bottom:-15px;"><button id="checkboxLead" class="checkbox-button2" onclick="toggleCheckbox()"></button></div>
-    @*  <label class="text-18 fw-600">Traveller Information</label>
-    <div class="mb-3">
-    <span class="text-primary fw-600">Important Note:</span>
-    <span id="contactfocus">Please ensure that the names of the passengers on the travel documents is the same as on their government issued identity proof.</span>
-    </div> *@
+
     <form asp-action="TravllerDetails" asp-controller="AATripsell" method="post" id="passengerForm">
         @for (var i = 0; i < Model.passeengerlist.passengers.Count; i++)
         {
@@ -61,12 +57,12 @@
                             <div class="form-input"><input type="text" maxlength="266" oninput="validateEmailTr(event)" id="contactemailID" class="contactemail" placeholder="email" name="" required /></div>
                             <p class="emailErrorMessageTr" style="color: red; font-size:13px;"></p>
                             <p class="error-message error-emailname" style="display:none">Enter your email</p>
-                            </div>
+                        </div>
                         <div class="col-md-2">
                             <div class="form-input"><input type="text" id="contactphoneID" oninput="validatePhoneNumberTr(event)" class="contactphone" placeholder="phone" name="" required /></div>
                             <p class="error-message error-phoneN" style="display:none">Enter your phone</p>
                             <p class="phoneErrorMessageTr" style="color: red; font-size:13px;"></p>
-                            </div>
+                        </div>
                     }
                 }
 
@@ -213,7 +209,6 @@
         }
         var lastName = document.querySelector(".contactLname").value;
         if (lastName == "") {
-            //alert("Enter Origin Name");
             var lastnameToDisplay = document.querySelector('.error-CLname');
             lastnameToDisplay.style.display = "block";
             document.querySelector(".contactLname").focus();
@@ -398,6 +393,21 @@
                 document.querySelector(".contactLname").focus();
                 return false;
             }
+            let phonefocus = document.querySelector('.contactphone').value;
+            if (phonefocus == "") {
+
+                let phoneToDisplay = document.querySelector('.error-phoneN');
+                phoneToDisplay.textContent = "Please enter your phone number";
+                phoneToDisplay.style.display = "block";
+                document.querySelector('.contactphone').focus();
+                return false;
+            }
+            var mobileNumberPattern = /^\d{10}$/; // Assumes a 10-digit number
+
+            if (!mobileNumberPattern.test(phonefocus)) {
+                alert("Please enter a valid 10-digit mobile number.");
+                return false;
+            }
 
             // var day = document.querySelector('.day-select').value;
             // var month = document.querySelector('.month-select').value;
@@ -439,13 +449,16 @@
             contentToDisplay.style.display = "none";
             var content2To = document.getElementById("content2");
             content2To.style.display = "none";
-            var toggleButton3To = document.getElementById("toggleButton4");
-            toggleButton3To.style.opacity = "1.0";
-            var content3To = document.getElementById("content4");
-            content3To.style.display = "block";
 
-            // // var GSTcontent5To = document.getElementById("content4");
-            // // GSTcontent5To.style.display = "block";
+            // var toggleButton3To = document.getElementById("toggleButton4");
+            // toggleButton3To.style.opacity = "1.0";
+            // var content3To = document.getElementById("content4");
+            // content3To.style.display = "block";
+
+            var toggleButton4To = document.getElementById("toggleButton4");
+            toggleButton4To.style.opacity = "1.0";
+            var GSTcontent5To = document.getElementById("content4");
+            GSTcontent5To.style.display = "block";
 
             var GSTContinuebtn1 = document.querySelector("#Continuebtn");
             GSTContinuebtn1.disabled = false;

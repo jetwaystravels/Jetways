@@ -513,7 +513,13 @@
                                                 <span class="fw-bold-600">Meal:</span>
                                             </div>
                                             <div class="col-3">
-                                                <span class="fw-bold-600">0</span>
+                                                <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.passengerTotals.specialServices.total</span>
+                                            </div>
+                                            <div class="col-9">
+                                                <span class="fw-bold-600">Meal Tax:</span>
+                                            </div>
+                                            <div class="col-3">
+                                                <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.passengerTotals.specialServices.taxes</span>
                                             </div>
                                             <div class="col-9">
                                                 <span class="fw-bold-600">Seat :</span>

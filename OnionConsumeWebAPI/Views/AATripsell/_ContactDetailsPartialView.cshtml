@@ -11,7 +11,7 @@
             <p id="error-message1" class="error-message" style="display:none">Enter First name</p>
             <p id="errorMessage" style="color: red;font-size:13px;"></p>
         </div>
-       
+
         <div class="col-md-3">
             <div class="form-input ">
                 <input type="text" name="last" maxlength="32" id="last" oninput="validateInput2(event)" class="lastNClass" placeholder="Last Name">
@@ -19,7 +19,7 @@
             <p id="error-message2" class="error-message" style="display:none">Enter Last name</p>
             <p id="errorMessage2" style="color: red;font-size:13px;"></p>
         </div>
-      
+
 
         <div class="col-md-3">
             <div class="form-input">
@@ -34,26 +34,28 @@
                 <option>+91</option>
             </select>
         </div>
+
         <div class="col-md-2 phone-number">
             <div class="form-input">
-                <input type="number" name="number" id="number" class="phoneNClass" placeholder="Phone Number" oninput="validatePhoneNumber(event)">
+                <input type="text" name="number" id="number" class="phoneNClass" placeholder="Phone Number" oninput="validatePhoneNumber(event)">
+
             </div>
             <p id="error-message8" class="error-message" style="display:none">Enter Phone Number</p>
             <p id="phoneNumberErrorMessage" style="color: red;font-size:13px;"></p>
         </div>
         <div class="d-flex justify-content-between mt-3">
             <div class="d-flex align-items-center">
-                <div class="">
-                    Same as lead passenger <button id="leadpassengerButton" class="checkbox-button ms-2"></button>
+                <div class="kk">
+                    Same as lead passenger <button id="leadpassengerButton2" class="checkbox-button ms-2"></button>
                 </div>
                 <div class="ms-3">
-                    Do you have GST  <button id="GSTButton" class="checkbox-button ms-2"></button>
+                    Do you have GST  <button id="GSTButton2" class="checkbox-button ms-2"></button>
+
                 </div>
             </div>
-            <div><input type="submit" class="btn btn-primary pagelaod" value="Save" /></div>
+            <div><input type="submit" class="btn btn-primary pagelaodSg" value="Save" /></div>
 
         </div>
-
         <div class="col-md-12 hid-block hidden">
             <div class="text-16 fw-600">
                 Fill your's GST details below !
@@ -61,19 +63,20 @@
         </div>
         <div class="col-md-3">
             <div class="form-input">
-                <input type="text" id="gstname" maxlength="32" name="companyName" oninput="validateInputgst(event)" class="companyName hid-block hidden"  placeholder="Company Name">
+
+                <input type="text" id="gstname" maxlength="32" name="companyName" oninput="validateInputgst(event)" class="companyName hid-block hidden" placeholder="Company Name">
             </div>
             <p id="errorMessagegst" style="color: red;font-size:13px;"></p>
             <p id="error-message9" class="error-message" style="display:none">Enter Company Name</p>
         </div>
         <div class="col-md-3">
             <div class="form-input">
-                <input type="text" id="gstnumber" name="customerNumber" oninput="validateGST(event)" class="companyName hid-block hidden"  placeholder="GST Number">
+                <input type="text" id="gstnumber" name="customerNumber" oninput="validateGST(event)" class="companyName hid-block hidden" placeholder="GST Number">
             </div>
             <p id="gstErrorMessage" style="color: red;font-size:13px;"></p>
             <p id="error-message10" class="error-message" style="display:none">Enter GST Number</p>
+
         </div>
-  
 
     </div>
 </form>
@@ -106,28 +109,27 @@
 </style>
 <script type="text/javascript">
 
-
-
-
-
     //Lead Passeneger Check Box function
-    var button = document.getElementById('leadpassengerButton');
+    var buttonlead = document.getElementById('leadpassengerButton2');
 
 
-    button.addEventListener('click', function (e) {
+    buttonlead.addEventListener('click', function (e) {
         e.preventDefault();
 
-        button.checked = !button.checked;
+        buttonlead.checked = !buttonlead.checked;
 
 
-        if (button.checked) {
-            button.classList.add('checked');
+        if (buttonlead.checked) {
+
+            buttonlead.classList.add('checked');
+
         } else {
-            button.classList.remove('checked');
+            buttonlead.classList.remove('checked');
         }
 
 
-        if (button.checked) {
+
+        if (buttonlead.checked) {
             // alert("Checked!!")
 
             var firstLeadPass = document.querySelector('.firstNClass').value;
@@ -156,7 +158,7 @@
 
 
     //GST Checkbox Function
-    var buttongst = document.getElementById('GSTButton');
+    var buttongst = document.getElementById('GSTButton2');
 
 
     buttongst.addEventListener('click', function (e) {
@@ -166,7 +168,9 @@
 
 
         if (buttongst.checked) {
+
             buttongst.classList.add('checked');
+
         } else {
             buttongst.classList.remove('checked');
         }
@@ -193,7 +197,7 @@
 
 
     $(document).ready(function () {
-        $(".pagelaod").click(function (e) {
+        $(".pagelaodSg").click(function (e) {
             e.preventDefault();
 
             //alert("Test");
@@ -208,18 +212,6 @@
             var laedpasphone = localStorage.getItem('Leadpassenger4');
             document.querySelector(".contactphone").value = laedpasphone;
 
-            //document.querySelectorAll(".contactphone").value = laedpasphone;
-            // Get all elements with class "contactemail" and set their value
-            // var emailInputs = document.querySelectorAll(".contactemail");
-            // emailInputs.forEach(function (input) {
-            //     input.value = laedpasemail;
-            // });
-
-            // Get all elements with class "contactphone" and set their value
-            // var phoneInputs = document.querySelectorAll(".contactphone");
-            // phoneInputs.forEach(function (input) {
-            //     input.value = laedpasphone;
-            // });
 
 
 
@@ -231,8 +223,12 @@
                 document.getElementById("first").focus();
                 return false;
             }
+            else {
+                var firstToDisplay = document.getElementById("error-message1");
+                firstToDisplay.style.display = "none";
+            }
 
-          
+
             var lastfocus = document.getElementById("last").value;
             if (lastfocus == "") {
                 //alert("Enter Origin Name");
@@ -241,7 +237,10 @@
                 document.getElementById("last").focus();
                 return false;
             }
-          
+            else {
+                var firstToDisplay = document.getElementById("error-message2");
+                firstToDisplay.style.display = "none";
+            }
 
 
             let emailfocus = document.getElementById("emailAddress").value;
@@ -253,12 +252,16 @@
                 document.getElementById("emailAddress").focus();
                 return false;
             }
+            else {
+                let emailToDisplay = document.getElementById("error-message7");
+                emailToDisplay.style.display = "none";
+            }
 
             let phonefocus = document.getElementById("number").value;
             if (phonefocus == "") {
 
                 let phoneToDisplay = document.getElementById("error-message8");
-                phoneToDisplay.textContent = "Enter your phone number";
+                phoneToDisplay.textContent = "Please enter your phone number";
                 phoneToDisplay.style.display = "block";
                 document.getElementById("number").focus();
                 return false;
@@ -270,8 +273,37 @@
                 return false;
             }
 
+            var buttongst = document.getElementById('GSTButton2');
+            if (buttongst.checked == true) {
+
+                let gstnamefocus = document.getElementById("gstname").value;
+
+                if (gstnamefocus == "") {
+                    var gstToDisplay = document.getElementById("error-message9");
+                    gstToDisplay.style.display = "block";
+                    document.getElementById("gstname").focus();
+                    return false;
+                }
+                else {
+                    var gstToDisplay = document.getElementById("error-message9");
+                    gstToDisplay.style.display = "none";
+                }
+
+                let gstnofocus = document.getElementById("gstnumber").value;
+
+                if (gstnofocus == "") {
+                    var gstnoToDisplay = document.getElementById("error-message10");
+                    gstnoToDisplay.style.display = "block";
+                    document.getElementById("gstnumber").focus();
+                    return false;
+                }
+                else {
+                    var gstnoToDisplay = document.getElementById("error-message10");
+                    gstnoToDisplay.style.display = "none";
+                }
 
 
+            }
             var contactFormData = new FormData($("#contactForm")[0]);
             //alert("form data:"+ contactFormData);
             $.ajax({
@@ -297,8 +329,6 @@
                 }
             });
             //return true;
-
-
 
         });
     });
@@ -414,6 +444,20 @@
         } else {
             document.getElementById('errorMessagegst').innerText = "";
         }
+
+        var gstnamefocus = document.getElementById("gstname").value;
+
+        if (gstnamefocus == "") {
+            var gstToDisplay = document.getElementById("error-message9");
+            gstToDisplay.style.display = "block";
+            document.getElementById("gstname").focus();
+            return false;
+        }
+        else {
+            var gstToDisplay = document.getElementById("error-message9");
+            gstToDisplay.style.display = "none";
+        }
+
     }
 
     function validateGST(event) {
@@ -427,20 +471,19 @@
         } else {
             document.getElementById('gstErrorMessage').innerText = "";
         }
+        var gstnofocus = document.getElementById("gstnumber").value;
 
-        let gstnamefocus = document.getElementById("gstname").value;
-
-        if (gstnamefocus == "") {
-            //alert("Enter Origin Name");
-            let gstToDisplay = document.getElementById("error-message9");
-            gstToDisplay.style.display = "block";
-            document.getElementById("emailAddres9").focus();
+        if (gstnofocus == "") {
+            var gstnoToDisplay = document.getElementById("error-message10");
+            gstnoToDisplay.style.display = "block";
+            document.getElementById("gstnumber").focus();
             return false;
         }
         else {
-            let gstToDisplay = document.getElementById("error-message9");
-            gstToDisplay.style.display = "none";
+            var gstnoToDisplay = document.getElementById("error-message10");
+            gstnoToDisplay.style.display = "none";
         }
+
     }
 </script>
 
