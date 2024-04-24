@@ -576,7 +576,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
             List<string> ConnetedBaggageSSrkey = new List<string>();
             for (int i = 0; i < BaggageSSrkey.Count; i++)
             {
-                ConnetedBaggageSSrkey.Add(BaggageSSrkey[i].Replace("_0", "_1"));
+                ConnetedBaggageSSrkey.Add(BaggageSSrkey[i].Replace("_OneWay0", "_OneWay1").Replace("_RT0","_RT1"));
             }
             //ConnetedBaggageSSrkey = BaggageSSrkey;
             BaggageSSrkey.AddRange(ConnetedBaggageSSrkey);

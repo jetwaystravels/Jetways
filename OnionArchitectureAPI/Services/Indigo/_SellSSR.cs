@@ -73,10 +73,16 @@ namespace OnionArchitectureAPI.Services.Indigo
                             _obj.SSRcodeOneWayII = new List<ssrsKey>();
                             _obj.SSRcodeRTI = new List<ssrsKey>();
                             _obj.SSRcodeRTII = new List<ssrsKey>();
-                            _obj.SSRbaggagecode0 = new List<ssrsKey>();
-                            _obj.SSRbaggagecode1 = new List<ssrsKey>();
+                            _obj.SSRbaggagecodeOneWayI = new List<ssrsKey>();
+                            _obj.SSRbaggagecodeOneWayII = new List<ssrsKey>();
+                            _obj.SSRbaggagecodeRTI = new List<ssrsKey>();
+                            _obj.SSRbaggagecodeRTII = new List<ssrsKey>();
                             for (int k = 0; k < ssrKey.Count; k++)
                             {
+                                if(ssrKey[k]== null)
+                                { 
+                                    continue; 
+                                }
                                 if (ssrKey[k].ToLower().Contains("airasia"))
                                     continue;
                                 if (ssrKey[k].Contains("_OneWay0"))
@@ -125,18 +131,19 @@ namespace OnionArchitectureAPI.Services.Indigo
                             for (int k = 0; k < BaggageSSrkey.Count; k++)
                             {
                                 string[] sskeydata = new string[2];
-                                if (BaggageSSrkey[k].Contains("_0"))
+                                if (BaggageSSrkey[k].Contains("_OneWay0"))
                                 {
+                                    //split
                                     string[] wordsArray = BaggageSSrkey[k].ToString().Split('_');
                                     if (wordsArray.Length > 1 && !string.IsNullOrEmpty(wordsArray[0]))
                                     {
                                         sskeydata = BaggageSSrkey[k].Split("_");
                                         ssrsKey _objBag0 = new ssrsKey();
                                         _objBag0.key = sskeydata[0];
-                                        _obj.SSRbaggagecode0.Add(_objBag0);
+                                        _obj.SSRbaggagecodeOneWayI.Add(_objBag0);
                                     }
                                 }
-                                else if (BaggageSSrkey[k].Contains("_1"))
+                                else if (BaggageSSrkey[k].Contains("_OneWay1"))
                                 {
                                     string[] wordsArray = BaggageSSrkey[k].ToString().Split('_');
                                     if (wordsArray.Length > 1 && !string.IsNullOrEmpty(wordsArray[0]))
@@ -144,26 +151,73 @@ namespace OnionArchitectureAPI.Services.Indigo
                                         sskeydata = BaggageSSrkey[k].Split("_");
                                         ssrsKey _objBag1 = new ssrsKey();
                                         _objBag1.key = sskeydata[0];
-                                        _obj.SSRbaggagecode1.Add(_objBag1);
+                                        _obj.SSRbaggagecodeOneWayII.Add(_objBag1);
                                     }
                                 }
+                                else if (BaggageSSrkey[k].Contains("_RT0"))
+                                {
+                                    string[] wordsArray = BaggageSSrkey[k].ToString().Split('_');
+                                    if (wordsArray.Length > 1 && !string.IsNullOrEmpty(wordsArray[0]))
+                                    {
+                                        sskeydata = BaggageSSrkey[k].Split("_");
+                                        ssrsKey _objBagRT1 = new ssrsKey();
+                                        _objBagRT1.key = sskeydata[0];
+                                        _obj.SSRbaggagecodeRTI.Add(_objBagRT1);
+                                    }
+                                }
+                                else if (BaggageSSrkey[k].Contains("_RT1"))
+                                {
+                                    string[] wordsArray = BaggageSSrkey[k].ToString().Split('_');
+                                    if (wordsArray.Length > 1 && !string.IsNullOrEmpty(wordsArray[0]))
+                                    {
+                                        sskeydata = BaggageSSrkey[k].Split("_");
+                                        ssrsKey _objBagRT2 = new ssrsKey();
+                                        _objBagRT2.key = sskeydata[0];
+                                        _obj.SSRbaggagecodeRTII.Add(_objBagRT2);
+                                    }
+                                }
+
+
+                                //string[] sskeydata = new string[2];
+                                //if (BaggageSSrkey[k].Contains("_0"))
+                                //{
+                                //    string[] wordsArray = BaggageSSrkey[k].ToString().Split('_');
+                                //    if (wordsArray.Length > 1 && !string.IsNullOrEmpty(wordsArray[0]))
+                                //    {
+                                //        sskeydata = BaggageSSrkey[k].Split("_");
+                                //        ssrsKey _objBag0 = new ssrsKey();
+                                //        _objBag0.key = sskeydata[0];
+                                //        _obj.SSRbaggagecode0.Add(_objBag0);
+                                //    }
+                                //}
+                                //else if (BaggageSSrkey[k].Contains("_1"))
+                                //{
+                                //    string[] wordsArray = BaggageSSrkey[k].ToString().Split('_');
+                                //    if (wordsArray.Length > 1 && !string.IsNullOrEmpty(wordsArray[0]))
+                                //    {
+                                //        sskeydata = BaggageSSrkey[k].Split("_");
+                                //        ssrsKey _objBag1 = new ssrsKey();
+                                //        _objBag1.key = sskeydata[0];
+                                //        _obj.SSRbaggagecode1.Add(_objBag1);
+                                //    }
+                                //}
 
                             }
                             if (j == 0 && _a == 0)
                             {
-                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[PaxNum.Infant_.Count + _obj.SSRcodeOneWayI.Count];
+                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[PaxNum.Infant_.Count + _obj.SSRcodeOneWayI.Count + _obj.SSRbaggagecodeOneWayI.Count];
                             }
                             else if (j == 1 && _a == 0)
                             {
-                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[PaxNum.Infant_.Count + _obj.SSRcodeOneWayII.Count];
+                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[PaxNum.Infant_.Count + _obj.SSRcodeOneWayII.Count + _obj.SSRbaggagecodeOneWayII.Count];
                             }
                             else if (j == 0 && _a == 1)
                             {
-                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[PaxNum.Infant_.Count + _obj.SSRcodeRTI.Count];
+                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[PaxNum.Infant_.Count + _obj.SSRcodeRTI.Count + _obj.SSRbaggagecodeRTI.Count];
                             }
                             else if (j == 1 && _a == 1)
                             {
-                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[PaxNum.Infant_.Count + _obj.SSRcodeRTII.Count];
+                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[PaxNum.Infant_.Count + _obj.SSRcodeRTII.Count + _obj.SSRbaggagecodeRTII.Count];
                             }
 
 
@@ -175,7 +229,7 @@ namespace OnionArchitectureAPI.Services.Indigo
 
                                 if (TotalPaxcount > 0)
                                 {
-                                    for (int j1 = 0; j1 < PaxNum.Infant_.Count + _obj.SSRcodeOneWayI.Count; j1++)
+                                    for (int j1 = 0; j1 < PaxNum.Infant_.Count + _obj.SSRcodeOneWayI.Count + _obj.SSRbaggagecodeOneWayI.Count; j1++)
                                     {
 
                                         if (j1 < PaxNum.Infant_.Count)
@@ -227,7 +281,37 @@ namespace OnionArchitectureAPI.Services.Indigo
                                                     //j1 = j1 + i1;
 
                                                 }
+                                                if (_obj.SSRbaggagecodeOneWayI.Count > 0)
+                                                {
+                                                    for (int k = 0; k < PaxNum.Adults_.Count + PaxNum.Childs_.Count; k++)//Paxnum 1 adult,1 child,1 infant 2 meal
+                                                    {
+                                                        int baggagecount = _obj.SSRbaggagecodeOneWayI.Count;
+                                                        if (baggagecount > 0 && k + 1 <= baggagecount)
+                                                        {
+                                                            idx++;
+                                                            string[] wordsArray = _obj.SSRbaggagecodeOneWayI[k].key.ToString().Split(' ');
+                                                            //alert(wordsArray);
+                                                            //var meal = null;
+                                                            string ssrCodeKey = "";
+                                                            if (wordsArray.Length > 1)
+                                                            {
+                                                                ssrCodeKey = wordsArray[0];
+                                                                ssrCodeKey = ssrCodeKey.Replace(@"""", "");
+                                                            }
+                                                            else
+                                                                ssrCodeKey = _obj.SSRbaggagecodeOneWayI[k].key.ToString();
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx] = new PaxSSR();
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ActionStatusCode = "NN";
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRCode = ssrCodeKey;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumberSpecified = true;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumber = Convert.ToInt16(k);
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRNumber = Convert.ToInt16(0);
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
 
+                                                        }
+                                                    }
+                                                }
                                             }
                                             j1 = idx;
                                         }
@@ -241,7 +325,7 @@ namespace OnionArchitectureAPI.Services.Indigo
                             {
                                 if (TotalPaxcount > 0)
                                 {
-                                    for (int j1 = 0; j1 < PaxNum.Infant_.Count + _obj.SSRcodeOneWayII.Count; j1++)
+                                    for (int j1 = 0; j1 < PaxNum.Infant_.Count + _obj.SSRcodeOneWayII.Count + _obj.SSRbaggagecodeOneWayII.Count; j1++)
                                     {
 
                                         if (j1 < PaxNum.Infant_.Count)
@@ -295,6 +379,39 @@ namespace OnionArchitectureAPI.Services.Indigo
                                                 }
 
                                             }
+                                            if (_obj.SSRbaggagecodeOneWayII.Count > 0)
+                                            {
+                                                if(idx>0)
+                                                    idx++;
+                                                for (int k = 0; k < PaxNum.Adults_.Count + PaxNum.Childs_.Count; k++)//Paxnum 1 adult,1 child,1 infant 2 meal
+                                                {
+                                                    int baggagecount = _obj.SSRbaggagecodeOneWayII.Count;
+                                                    if (baggagecount > 0 && k + 1 <= baggagecount)
+                                                    {
+
+                                                        string[] wordsArray = _obj.SSRbaggagecodeOneWayII[k].key.ToString().Split(' ');
+                                                        //alert(wordsArray);
+                                                        //var meal = null;
+                                                        string ssrCodeKey = "";
+                                                        if (wordsArray.Length > 1)
+                                                        {
+                                                            ssrCodeKey = wordsArray[0];
+                                                            ssrCodeKey = ssrCodeKey.Replace(@"""", "");
+                                                        }
+                                                        else
+                                                            ssrCodeKey = _obj.SSRbaggagecodeOneWayII[k].key.ToString();
+                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx] = new PaxSSR();
+                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ActionStatusCode = "NN";
+                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRCode = ssrCodeKey;
+                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumberSpecified = true;
+                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumber = Convert.ToInt16(k);
+                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRNumber = Convert.ToInt16(0);
+                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
+                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
+                                                        idx++;
+                                                    }
+                                                }
+                                            }
                                             j1 = idx;
                                         }
                                     }
@@ -307,7 +424,7 @@ namespace OnionArchitectureAPI.Services.Indigo
 
                                 if (TotalPaxcount > 0)
                                 {
-                                    for (int j1 = 0; j1 < PaxNum.Infant_.Count + _obj.SSRcodeRTI.Count; j1++)
+                                    for (int j1 = 0; j1 < PaxNum.Infant_.Count + _obj.SSRcodeRTI.Count + _obj.SSRbaggagecodeRTI.Count; j1++)
                                     {
 
                                         if (j1 < PaxNum.Infant_.Count)
@@ -359,6 +476,38 @@ namespace OnionArchitectureAPI.Services.Indigo
                                                     //j1 = j1 + i1;
 
                                                 }
+                                                if (_obj.SSRbaggagecodeRTI.Count > 0)
+                                                {
+                                                    idx++;
+                                                    for (int k = 0; k < PaxNum.Adults_.Count + PaxNum.Childs_.Count; k++)//Paxnum 1 adult,1 child,1 infant 2 meal
+                                                    {
+                                                        int baggagecount = _obj.SSRbaggagecodeRTI.Count;
+                                                        if (baggagecount > 0 && k + 1 <= baggagecount)
+                                                        {
+
+                                                            string[] wordsArray = _obj.SSRbaggagecodeRTI[k].key.ToString().Split(' ');
+                                                            //alert(wordsArray);
+                                                            //var meal = null;
+                                                            string ssrCodeKey = "";
+                                                            if (wordsArray.Length > 1)
+                                                            {
+                                                                ssrCodeKey = wordsArray[0];
+                                                                ssrCodeKey = ssrCodeKey.Replace(@"""", "");
+                                                            }
+                                                            else
+                                                                ssrCodeKey = _obj.SSRbaggagecodeRTI[k].key.ToString();
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx] = new PaxSSR();
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ActionStatusCode = "NN";
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRCode = ssrCodeKey;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumberSpecified = true;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumber = Convert.ToInt16(k);
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRNumber = Convert.ToInt16(0);
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
+                                                            idx++;
+                                                        }
+                                                    }
+                                                }
 
                                             }
                                             j1 = idx;
@@ -373,7 +522,7 @@ namespace OnionArchitectureAPI.Services.Indigo
                             {
                                 if (TotalPaxcount > 0)
                                 {
-                                    for (int j1 = 0; j1 < PaxNum.Infant_.Count + _obj.SSRcodeRTII.Count; j1++)
+                                    for (int j1 = 0; j1 < PaxNum.Infant_.Count + _obj.SSRcodeRTII.Count + _obj.SSRbaggagecodeRTII.Count; j1++)
                                     {
 
                                         if (j1 < PaxNum.Infant_.Count)
@@ -425,7 +574,38 @@ namespace OnionArchitectureAPI.Services.Indigo
                                                     //j1 = j1 + i1;
 
                                                 }
+                                                if (_obj.SSRbaggagecodeRTII.Count > 0)
+                                                {
+                                                    idx++;
+                                                    for (int k = 0; k < PaxNum.Adults_.Count + PaxNum.Childs_.Count; k++)//Paxnum 1 adult,1 child,1 infant 2 meal
+                                                    {
+                                                        int baggagecount = _obj.SSRbaggagecodeRTII.Count;
+                                                        if (baggagecount > 0 && k + 1 <= baggagecount)
+                                                        {
 
+                                                            string[] wordsArray = _obj.SSRbaggagecodeRTII[k].key.ToString().Split(' ');
+                                                            //alert(wordsArray);
+                                                            //var meal = null;
+                                                            string ssrCodeKey = "";
+                                                            if (wordsArray.Length > 1)
+                                                            {
+                                                                ssrCodeKey = wordsArray[0];
+                                                                ssrCodeKey = ssrCodeKey.Replace(@"""", "");
+                                                            }
+                                                            else
+                                                                ssrCodeKey = _obj.SSRbaggagecodeRTII[k].key.ToString();
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx] = new PaxSSR();
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ActionStatusCode = "NN";
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRCode = ssrCodeKey;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumberSpecified = true;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumber = Convert.ToInt16(k);
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRNumber = Convert.ToInt16(0);
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
+                                                            idx++;
+                                                        }
+                                                    }
+                                                }
                                             }
                                             j1 = idx;
                                         }
@@ -511,8 +691,9 @@ namespace OnionArchitectureAPI.Services.Indigo
                         {
                             if (unitKey[seatid].Length > 1)
                             {
-                                if ((unitKey[seatid].ToString().Contains("OneWay0") || unitKey[seatid].ToString().Contains("_0") || unitKey[seatid].ToString().Contains("OneWay1") || unitKey[seatid].ToString().Contains("_1")) && p == 0)
+                                if ((unitKey[seatid].ToString().Contains("OneWay0") || unitKey[seatid].ToString().Contains("OneWay1")) && p == 0)
                                 {
+                                    //if ((unitKey[seatid].ToString().Contains("OneWay0") || unitKey[seatid].ToString().Contains("_0") || unitKey[seatid].ToString().Contains("OneWay1") || unitKey[seatid].ToString().Contains("_1")) && p == 0 && !unitKey[seatid].ToString().Contains("RT"))
                                     unitsubKey2 = unitKey[seatid].Split('_');
                                     pas_unitKey = unitsubKey2[1];
                                     if (unitsubKey2.Length > 3)
@@ -607,8 +788,10 @@ namespace OnionArchitectureAPI.Services.Indigo
         {
             public List<ssrsKey> SSRcode0 { get; set; }
             public List<ssrsKey> SSRcode1 { get; set; }
-            public List<ssrsKey> SSRbaggagecode0 { get; set; }
-            public List<ssrsKey> SSRbaggagecode1 { get; set; }
+            public List<ssrsKey> SSRbaggagecodeOneWayI { get; set; }
+            public List<ssrsKey> SSRbaggagecodeOneWayII { get; set; }
+            public List<ssrsKey> SSRbaggagecodeRTI { get; set; }
+            public List<ssrsKey> SSRbaggagecodeRTII { get; set; }
             public List<ssrsKey> SSRcodeOneWayI { get; set; }
             public List<ssrsKey> SSRcodeOneWayII { get; set; }
             public List<ssrsKey> SSRcodeRTI { get; set; }

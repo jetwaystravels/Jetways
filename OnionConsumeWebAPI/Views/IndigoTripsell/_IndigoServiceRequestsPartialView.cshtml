@@ -990,7 +990,7 @@
                 // Collect selected values and append "_0" to each
                 var selected = $('.select-baggage .servc-bordr').map(function () {
                     return $(this).find("option:selected").map(function () {
-                        return this.value + "_0";
+                        return this.value + "_OneWay0";
                     }).get();
                 }).get();
 
@@ -1072,7 +1072,7 @@
 
             e.preventDefault();
             $.ajax({
-                url: '@Url.Action("PostSeatMapModaldataView", "SGTripsell")',
+                url: '@Url.Action("PostSeatMapModaldataView", "IndigoTripsell")',
                 type: "GET",
                 success: function (data) {
                     //console.log('POST request successful');
