@@ -689,17 +689,33 @@
             $("#seattab2Popup").removeClass('activeblue');
         });
 
-
+        $("#passtab2").hide();
+        $("#passtab1RT").hide();
+        $("#passtab2RT").hide();
         $("#tabshow2popup").hide();
         $("#tabshowRT1").hide();
         $("#tabshowRT2").hide();
+        $("#popbtnA").show();
+        $("#popbtnA1").hide();
+        $("#popbtnB1").hide();
+        $("#popbtnB").hide();
         $("#seattab1Popup").click(function () {
             $("#tabshow1popup").show();
             $("#tabshow2popup").hide();
-            $("#tabshowRT1").hide();
+            $("#tabshowRT1").hide();   
             $("#tabshowRT2").hide();
+            $("#passtab1").show();
+            $("#passtab2").hide();
+            $("#passtab1RT").hide();
+            $("#passtab2RT").hide();
+            $("#popbtnA").show();
+            $("#popbtnA1").hide();
+            $("#popbtnB1").hide();
+            $("#popbtnB").hide();
             $("#seattab1Popup").addClass('activeblue');
             $("#seattab2Popup").removeClass('activeblue');
+            $("#seattabRT1Popup").removeClass('activeblue');
+            $("#seattabRT2Popup").removeClass('activeblue');
             $("#tabshowRT2").removeClass('activeblue');
             $("#tabshowRT1").removeClass('activeblue');
 
@@ -709,8 +725,18 @@
             $("#tabshow2popup").show();
             $("#tabshowRT1").hide();
             $("#tabshowRT2").hide();
+            $("#passtab1").hide();
+            $("#passtab2").show();
+            $("#passtab1RT").hide();
+            $("#passtab2RT").hide();
+            $("#popbtnA").hide();
+            $("#popbtnA1").show();
+            $("#popbtnB1").hide();
+            $("#popbtnB").hide();
             $("#seattab2Popup").addClass('activeblue');
             $("#seattab1Popup").removeClass('activeblue');
+            $("#seattabRT1Popup").removeClass('activeblue');
+            $("#seattabRT2Popup").removeClass('activeblue');
             $("#seattabRT2").removeClass('activeblue');
             $("#seattabRT1").removeClass('activeblue');
             $("#seattab1way").removeClass('activeblue');
@@ -722,6 +748,14 @@
             $("#tabshow1popup").hide();
             $("#tabshowRT1").show();
             $("#tabshowRT2").hide();
+            $("#passtab1").hide();
+            $("#passtab2").hide();
+            $("#popbtnA").hide();
+            $("#popbtnA1").hide();
+            $("#popbtnB1").show(); 
+            $("#popbtnB").hide();
+            $("#passtab1RT").show();
+            $("#passtab2RT").hide();
             $("#seattabRT1Popup").addClass('activeblue');
             $("#seattabRT2Popup").removeClass('activeblue');
             $("#seattab2Popup").removeClass('activeblue');
@@ -734,15 +768,34 @@
             $("#tabshow1popup").hide();
             $("#tabshowRT1").hide();
             $("#tabshowRT2").show();
+            $("#passtab1").hide();
+            $("#passtab2").hide();
+            $("#passtab1RT").hide();
+            $("#passtab2RT").show();
+            $("#popbtnA").hide();
+            $("#popbtnA1").hide();
+            $("#popbtnB1").hide();
+            $("#popbtnB").show();
             $("#seattabRT2Popup").addClass('activeblue');
             $("#seattabRT1Popup").removeClass('activeblue');
             $("#seattab2Popup").removeClass('activeblue');
             $("#seattab1Popup").removeClass('activeblue');
             $("#seattab1way").removeClass('activeblue');
         });
-        
-      
 
+        $("#btnfocus").click(function () {
+            alert("Do you want select connect seat");
+            $("#seattab2Popup").click();
+        });
+        $("#btnfocusA1").click(function () {
+            alert("Do you want select Return seat");
+            $("#seattabRT1Popup").click();
+        });
+        $("#btnfocusB1").click(function () {
+            alert("Do you want select connect seat");
+            $("#seattabRT2Popup").click();
+        });
+       
     });
 </script>
 
@@ -948,6 +1001,35 @@
         // End connceting second code
 
         // Function for handling seat checkboxes
+        // $('input[name="unitKey"]').on('change', function () {
+        //     var selectedIds = [];
+        //     debugger;
+        //     $('input[name="unitKey"]:checked').each(function () {
+        //         selectedIds.push($(this).val());
+        //     });
+        //     var total = 0;
+        //     $('input[name="unitKey"]:checked').each(function () {
+        //         total += parseInt($(this).val());
+        //     });
+        //     document.getElementById("total").value = total.toFixed(2);
+        //     const seatmap1 = document.getElementById("total").value;
+
+        //     var TotalAmmount = document.getElementById("Totalamount").value;
+        //     // localStorage.setItem('seatPayment', seatmap1);
+        //     // localStorage.setItem('basePayment', TotalAmmount);
+
+        //     // var Totalseat1 = parseInt(TotalAmmount) + parseInt(seatmap1);
+        //     // if (seatmap1 != null) {
+        //     //     document.getElementById("seattotal1").innerHTML = Totalseat1;
+        //     // }
+        //     // var TotalSeatPay = parseInt(TotalAmmount) + parseInt(seatmap1) + 100;
+        //     // if (TotalSeatPay != null) {
+        //     //     document.getElementById("TotalSeatPayID").innerHTML = TotalSeatPay;
+        //     // }
+
+        //      localStorage.setItem("selectedIds", JSON.stringify(selectedIds));
+        // });
+
         $('input[name="unitKey"]').on('change', function () {
             var selectedIds = [];
             debugger;
@@ -958,26 +1040,14 @@
             $('input[name="unitKey"]:checked').each(function () {
                 total += parseInt($(this).val());
             });
+            $('#total').text(total.toFixed(2));
             document.getElementById("total").value = total.toFixed(2);
             const seatmap1 = document.getElementById("total").value;
+            localStorage.setItem("selectedIds", JSON.stringify(selectedIds));
+            //updateCombinedTotal();
 
-            var TotalAmmount = document.getElementById("Totalamount").value;
-            // localStorage.setItem('seatPayment', seatmap1);
-            // localStorage.setItem('basePayment', TotalAmmount);
 
-            // var Totalseat1 = parseInt(TotalAmmount) + parseInt(seatmap1);
-            // if (seatmap1 != null) {
-            //     document.getElementById("seattotal1").innerHTML = Totalseat1;
-            // }
-            // var TotalSeatPay = parseInt(TotalAmmount) + parseInt(seatmap1) + 100;
-            // if (TotalSeatPay != null) {
-            //     document.getElementById("TotalSeatPayID").innerHTML = TotalSeatPay;
-            // }
-
-             localStorage.setItem("selectedIds", JSON.stringify(selectedIds));
         });
-
-
 
 
 

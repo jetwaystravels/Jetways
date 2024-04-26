@@ -368,6 +368,10 @@ namespace OnionConsumeWebAPI.Controllers
             public List<ssrsKey> SSRcodeOneWayII { get; set; }
             public List<ssrsKey> SSRcodeRTI { get; set; }
             public List<ssrsKey> SSRcodeRTII { get; set; }
+            public List<ssrsKey> SSRbaggagecodeOneWayI { get; set; }
+            public List<ssrsKey> SSRbaggagecodeOneWayII { get; set; }
+            public List<ssrsKey> SSRbaggagecodeRTI { get; set; }
+            public List<ssrsKey> SSRbaggagecodeRTII { get; set; }
         }
 
         public class ssrsKey

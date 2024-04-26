@@ -153,7 +153,7 @@ namespace OnionConsumeWebAPI.Controllers
                 _ContactModel.updateContactsRequestData.BookingContactList[0] = new BookingContact();
                 _ContactModel.updateContactsRequestData.BookingContactList[0].EmailAddress = obj.emailAddress;
                 if (obj.customerNumber != "") 
-				{ 
+                {
                 _ContactModel.updateContactsRequestData.BookingContactList[0].TypeCode = "G";
                 _ContactModel.updateContactsRequestData.BookingContactList[0].CompanyName = obj.companyName;
                 _ContactModel.updateContactsRequestData.BookingContactList[0].CustomerNumber = obj.customerNumber; //"22AAAAA0000A1Z5"; //GSTNumber Re_ Assistance required for SG API Integration\GST Logs.zip\GST Logs
@@ -336,9 +336,9 @@ namespace OnionConsumeWebAPI.Controllers
         //    return RedirectToAction("Tripsell", "AATripsell");
         //}
         ////public async Task<IActionResult> PostUnitkey(string selectedIds, List<string> ssrKey)
-        public async Task<IActionResult> PostUnitkey(List<string> unitKey, List<string> ssrKey,List<string> BaggageSSrkey)
+        public async Task<IActionResult> PostUnitkey(List<string> unitKey, List<string> ssrKey, List<string> BaggageSSrkey)
         {
-            if (BaggageSSrkey[0]==null)
+            if (BaggageSSrkey[0] == null)
             {
                 BaggageSSrkey = new List<string>();
             }
@@ -546,7 +546,7 @@ namespace OnionConsumeWebAPI.Controllers
                                                 }
                                                 if (_obj.SSRbaggagecode0.Count > 0)
                                                 {
-                                                    for (int k = 0; k < PaxNum.Adults_.Count+ PaxNum.Childs_.Count; k++)//Paxnum 1 adult,1 child,1 infant 2 meal
+                                                    for (int k = 0; k < PaxNum.Adults_.Count + PaxNum.Childs_.Count; k++)//Paxnum 1 adult,1 child,1 infant 2 meal
                                                     {
                                                         int baggagecount = _obj.SSRbaggagecode0.Count;
                                                         if (baggagecount > 0 && k + 1 <= baggagecount)
@@ -649,7 +649,7 @@ namespace OnionConsumeWebAPI.Controllers
                                                         int baggagecount = _obj.SSRbaggagecode1.Count;
                                                         if (baggagecount > 0 && k + 1 <= baggagecount)
                                                         {
-                                                            
+
                                                             string[] wordsArray = _obj.SSRbaggagecode1[k].key.ToString().Split(' ');
                                                             //alert(wordsArray);
                                                             //var meal = null;
@@ -1599,8 +1599,8 @@ namespace OnionConsumeWebAPI.Controllers
                         {
                             p1.Infant = new PassengerInfant();
                             p1.Infant.DOBSpecified = true;
-                            p1.Infant.DOB = Convert.ToDateTime("2023-08-01") ;//Convert.ToDateTime(_paxes.Infant_[cntAdt].dateOfBirth);
-                                                                               //p1.Infant.Gender = Gender.Male;
+                            p1.Infant.DOB = Convert.ToDateTime("2023-08-01");//Convert.ToDateTime(_paxes.Infant_[cntAdt].dateOfBirth);
+                                                                             //p1.Infant.Gender = Gender.Male;
                             if (_paxes.Infant_[cntAdt].title.ToUpper().Replace(".", "") == "MR")
                             {
                                 p1.Infant.Gender = Gender.Male;

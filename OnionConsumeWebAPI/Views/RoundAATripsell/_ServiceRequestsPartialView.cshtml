@@ -6,14 +6,10 @@
 
 }
 
-<style>
-    .chkbox {
-        background: #b1abab;
-        text-align: center;
-        cursor: not-allowed;
-        padding: 3px 0;
-    }
 
+
+<style>
+  
     .activeblue {
         background-color: #d1c3c4 !important;
         height: 40px !important;
@@ -21,11 +17,6 @@
         border-radius: 30px !important;
         margin-top: 10px;
     }
-</style>
-
-
-
-<style>
     .chkbox {
         background: #b1abab;
         text-align: center;
@@ -263,20 +254,15 @@
 
 
         // //Start :MealKey post
-
- 
-
+     
             $('.select-option .servc-bordr').change((e) => {
                 var selectedOptions = $('.select-option .servc-bordr option:selected');
-
-
                 var mealCodes = [];
                 var prices = [];
                 //XBPJ_9000_RT1_Indigo
                 selectedOptions.each(function () {
                     var optionValue = $(this).val();
                     var parts = optionValue.split('_');
-
                     mealCodes.push(optionValue);
                     prices.push(parseFloat(parts[1]));
                 });
@@ -295,11 +281,6 @@
 
             });
 
-
-
-
-
-    
 
             $('.select-option2 .servc-bordr').change((e) => {
                 debugger;
@@ -338,6 +319,8 @@
             $('#AddMealTotal').text(combinedTotal.toFixed(2));
 
         }
+       
+
 
 
 
@@ -405,7 +388,7 @@
             // Display meal codes and prices in separate alerts
             // alert("Meal Codes: " + mealCodes.join(','));
             //alert("Prices: " + prices.join(','));
-            updateCombinedTotalRT();
+           
 
         });
 
@@ -441,17 +424,11 @@
 
             // Display total price in a specified element, ensure you have an element with this ID
             $('#AddMeal2RT').text(totalPrice.toFixed(2));
-            updateCombinedTotalRT();
+           
         });
 
 
-        function updateCombinedTotalRT() {
-            var totalPrice1 = parseFloat($('#AddMealRT').text()) || 0;
-            var totalPrice2 = parseFloat($('#AddMeal2RT').text()) || 0;
-            var combinedTotal = totalPrice1 + totalPrice2;
-            $('#AddMealTotalRT').text(combinedTotal.toFixed(2));
-
-        }
+      
       // Rt Meal End 
 
       // Return Code End
@@ -622,9 +599,23 @@
                                                 <div id="popbtnA">
 
 
-                                                    <button type="submit" id="btnfocus"  class="btn  btn-primary">Continue</button>
+                                                    <button type="submit" id="btnfocus"  class="btn  btn-primary">Continue-A</button>
 
                                                 </div>
+                                                <div id="popbtnA1">
+
+
+                                                    <button type="submit" id="btnfocusA1" class="btn  btn-primary">Continue-A1</button>
+
+                                                </div>
+
+                                                <div id="popbtnB1">
+
+
+                                                    <button type="submit" id="btnfocusB1" class="btn  btn-primary">Continue-B1</button>
+
+                                                </div>
+                                             
                                                 <div id="popbtnB">
                                                     <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">D-Continue</button>
 
