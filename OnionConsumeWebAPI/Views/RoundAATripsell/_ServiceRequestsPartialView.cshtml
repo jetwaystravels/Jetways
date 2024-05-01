@@ -9,7 +9,7 @@
 
 
 <style>
-  
+
     .activeblue {
         background-color: #d1c3c4 !important;
         height: 40px !important;
@@ -17,6 +17,7 @@
         border-radius: 30px !important;
         margin-top: 10px;
     }
+
     .chkbox {
         background: #b1abab;
         text-align: center;
@@ -107,219 +108,123 @@
 
 <script>
     $(document).ready(function () {
-        debugger;
-        $('input[type="checkbox"]').on('change', function () {
-            var selectedIds = [];
-            debugger;
-            $('input[type="checkbox"]:checked').each(function () {
-
-                //selectedIds.push($(this).attr('id'));
-                selectedIds.push($(this).val());
-
-            });
-
-            localStorage.setItem('selectedIds', selectedIds);
-
-            var input = document.getElementsByName("unitKey");
-            var total = 0;
-            for (var i = 0; i < input.length; i++) {
-                if (input[i].checked) {
-                    total += parseInt(input[i].value);
-                }
-            }
-            document.getElementById("total").value = total.toFixed(2);
-            var one = document.getElementById("Totalamount").value;
-            var two = document.getElementById("total").value;
-            //SSRMeal();
-
-        });
-    });
-
-    var totalpricepopup = localStorage.getItem('basetotalprice');
-    document.getElementById("Totalamount").innerHTML = totalpricepopup;
-
-</script>
-
- @* <script type="text/javascript">
-    /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
-    $(document).ready(function () {
-        $("#tabshow2").hide();
-        $("#tabshowRT1").hide();
-        $("#tabshowRT2").hide();
-        $("#tabshow1RT").hide();
-        $("#tabshow2RT").hide();
-        
-        $("#seattab1way").click(function () {
-            $("#tabshow1").show();
-            $("#tabshow1RT").hide();
-            $("#tabshow2RT").hide();
-            $("#tabshowRT1").hide();
-            $("#seattab1way").addClass('activeblue');
-            $("#seattabRT1way").removeClass('activeblue');
-            $("#tabshowRT2").removeClass('activeblue');
-            $("#tabshowRT1").removeClass('activeblue');
-            $("#seattabRT2").removeClass('activeblue');
-            $("#seattabRT1").removeClass('activeblue');
-        });
-        $("#seattabRT1way").click(function () {
-            $("#tabshow1").hide();
-            $("#tabshow2").hide();
-            $("#tabshow1RT").show();
-            $("#tabshow2RT").hide();
-            $("#tabshowRT1").show();
-            $("#seattabRT1way").addClass('activeblue');
-            $("#seattab1way").removeClass('activeblue');
-            $("#seattab1").removeClass('activeblue');
-            $("#seattab2").removeClass('activeblue');
-        });
-
-
-    
-        $("#seattab1").click(function () {
-            $("#tabshow1").show();
-            $("#tabshow2").hide();
-            $("#tabshow1RT").hide();
-            $("#tabshow2RT").hide();
-            $("#tabshowRT1").hide();
-            $("#tabshowRT2").hide();
-            $("#seattab1").addClass('activeblue');
-            $("#seattab2").removeClass('activeblue');
-            $("#tabshowRT2").removeClass('activeblue');
-            $("#tabshowRT1").removeClass('activeblue');
-
-        });
-
-        $("#seattab2").click(function () {
-            $("#tabshow2").show();
-            $("#tabshowRT1").hide(); 
-            $("#tabshowRT2").hide();
-            $("#tabshow1RT").hide();
-            $("#seattab2").addClass('activeblue');
-            $("#seattab1").removeClass('activeblue');
-            $("#seattabRT2").removeClass('activeblue');
-            $("#seattabRT1").removeClass('activeblue');
-            $("#seattab1way").removeClass('activeblue');
-            $("#seattabRT1way").removeClass('activeblue');
-            $("#tabshow1").hide();
-        });
-        $("#seattabRT1").click(function () {
-            $("#tabshowRT1").show();
-            $("#tabshow2").hide();
-            $("#tabshow1").hide();
-            $("#tabshow1").hide();
-            $("#tabshow2RT").hide();
-            $("#tabshow1RT").show();
-            //$("#tabshowRT1").show();
-            //$("#tabshowRT2").hide();
-            //$("#tabshowRT1").show();
-            //$("#tabshowRT2").hide();
-            $("#seattabRT1").addClass('activeblue');
-            $("#seattabRT2").removeClass('activeblue');
-            $("#seattab2").removeClass('activeblue');
-            $("#seattab1").removeClass('activeblue');
-            $("#seattab1way").removeClass('activeblue');
-
-        });
-        $("#seattabRT2").click(function () {
-            $("#tabshow2").hide();
-            $("#tabshow1").hide();
-            $("#tabshow1RT").hide();
-            $("#tabshow2RT").show();
-            //$("#tabshowRT1").hide();
-            //$("#tabshowRT2").show();
-            //$("#tabshowRT2").show();
-            $("#seattabRT2").addClass('activeblue');
-            $("#seattabRT1").removeClass('activeblue');
-            $("#seattab2").removeClass('activeblue');
-            $("#seattab1").removeClass('activeblue');
-            $("#seattab1way").removeClass('activeblue');
-        });
-
-        $("#btnfocus").click(function () {
-            alert("Do you want select connect seat");
-            $("##seattabRT1").click();
-        });
-        $("#btnfocus2").click(function () {
-            alert("Do you want select Rerturn seat");
-            $("#seattabRT2").click();
-        });
-
-    });
-</script> 
- *@
-
-<script>
-
-    $(document).ready(function () {
 
 
         // //Start :MealKey post
-     
-            $('.select-option .servc-bordr').change((e) => {
-                var selectedOptions = $('.select-option .servc-bordr option:selected');
-                var mealCodes = [];
-                var prices = [];
-                //XBPJ_9000_RT1_Indigo
-                selectedOptions.each(function () {
-                    var optionValue = $(this).val();
-                    var parts = optionValue.split('_');
-                    mealCodes.push(optionValue);
-                    prices.push(parseFloat(parts[1]));
-                });
-                //alert(mealCodes);
-                localStorage.setItem("MealssrKeyCount", JSON.stringify(mealCodes));
-                document.getElementById("hiddenSsrKey").value = mealCodes.join(',');
 
-                // Calculate total price
-                var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
-                $('#AddMeal').text(totalPrice.toFixed(2));
+        // $('.select-option .servc-bordr').change((e) => {
+        //     var selectedOptions = $('.select-option .servc-bordr option:selected');
+        //     var mealCodes = [];
+        //     var prices = [];
 
-                // Display meal codes and prices in separate alerts
-                // alert("Meal Codes: " + mealCodes.join(','));
-                //alert("Prices: " + prices.join(','));
-                updateCombinedTotal();
+        //     selectedOptions.each(function () {
+        //         var optionValue = $(this).val();
+        //         var parts = optionValue.split('_');
+        //         mealCodes.push(optionValue);
+        //         prices.push(parseFloat(parts[1]));
+        //     });
+        //     //alert(mealCodes);
+        //     localStorage.setItem("MealssrKeyCount", JSON.stringify(mealCodes));
+        //     document.getElementById("hiddenSsrKey").value = mealCodes.join(',');
 
-            });
+        //     $('#AddMeal').text(totalPrice.toFixed(2));
 
+        // });
+        $('.servc-bordrm1').change(function () {
+            debugger;
+            var selectedMeals = [];
+            var totalPrice = 0;
 
-            $('.select-option2 .servc-bordr').change((e) => {
+            $('.servc-bordrm1').each(function () {
                 debugger;
-                var selected = $('.select-option2 .servc-bordr').map(function () {
-                    return $(this).find("option:selected").map(function () {
-                        return this.value;
-                    }).get();
-                }).get();
+                var selectedValue = $(this).val();
+                if (selectedValue) {
+                    debugger;
+                    var price_value = selectedValue.split('_');
+                    var mealPrice = parseFloat(price_value[1]);
+
+                    selectedMeals.push(selectedValue);
+                    totalPrice += mealPrice;
+
+                }
+
+            });
+            localStorage.setItem("MealssrKeyCount", JSON.stringify(selectedMeals));
+            document.getElementById("hiddenSsrKey").value = selectedMeals.join(',');
+            $('#AddMeal').text(totalPrice.toFixed(2));
+            updateCombinedTotalRT();
 
 
-                var prices = $('.select-option2 .servc-bordr').map(function () {
-                    return $(this).find("option:selected").map(function () {
-                        var parts = this.value.split('_');
-                        return parseFloat(parts[1]);
-                    }).get();
-                }).get();
+        });
 
-                // Calculate the total price
-                var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
 
-                // Update the DOM elements with the selected values and total price
-                //alert(selected);  // Display selected options for debugging
-                localStorage.setItem("MealssrKeyCount2", JSON.stringify(selected));
-                document.getElementById("hiddenSsrKey2").value = selected.join(','); // Joining selected values into a string
 
-                // Display total price in a specified element, ensure you have an element with this ID
-                $('#AddMeal2').text(totalPrice.toFixed(2));
-                updateCombinedTotal();
+
+        // $('.select-option2 .servc-bordr').change((e) => {
+        //     debugger;
+        //     var selected = $('.select-option2 .servc-bordr').map(function () {
+        //         return $(this).find("option:selected").map(function () {
+        //             return this.value;
+        //         }).get();
+        //     }).get();
+
+
+        //     var prices = $('.select-option2 .servc-bordr').map(function () {
+        //         return $(this).find("option:selected").map(function () {
+        //             var parts = this.value.split('_');
+        //             return parseFloat(parts[1]);
+        //         }).get();
+        //     }).get();
+
+
+        //     var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
+
+        //     localStorage.setItem("MealssrKeyCount2", JSON.stringify(selected));
+        //     document.getElementById("hiddenSsrKey2").value = selected.join(',');
+
+        //     $('#AddMeal2').text(totalPrice.toFixed(2));
+        //     updateCombinedTotal();
+        // });
+
+        $('.select-option2 .servc-bordrCon').change((e) => {
+            debugger;
+            var selectedMealsCon = [];
+            var totalPrice = 0;
+
+            $('.servc-bordrCon').each(function () {
+                debugger;
+                var selectedValue = $(this).val();
+                if (selectedValue) {
+                    debugger;
+                    var price_value = selectedValue.split('_');
+                    var mealPrice = parseFloat(price_value[1]);
+
+                    selectedMealsCon.push(selectedValue);
+                    totalPrice += mealPrice;
+                }
+
+                localStorage.setItem("MealssrKeyCount2", JSON.stringify(selectedMealsCon));
+                document.getElementById("hiddenSsrKey2").value = selectedMealsCon.join(',');
+
             });
 
+            $('#AddMeal2').text(totalPrice.toFixed(2));
+            updateCombinedTotalRT();
 
-        function updateCombinedTotal() {
-            var totalPrice1 = parseFloat($('#AddMeal').text()) || 0;
-            var totalPrice2 = parseFloat($('#AddMeal2').text()) || 0;
-            var combinedTotal = totalPrice1 + totalPrice2;
-            $('#AddMealTotal').text(combinedTotal.toFixed(2));
+        });
 
-        }
-       
+
+
+
+        // function updateCombinedTotal() {
+        //     var totalPrice1 = parseFloat($('#AddMeal').text()) || 0;
+        //     var totalPrice2 = parseFloat($('#AddMeal2').text()) || 0;
+        //     var combinedTotal = totalPrice1 + totalPrice2;
+        //     $('#AddMealTotal').text(combinedTotal.toFixed(2));
+
+
+        // }
+
 
 
 
@@ -328,67 +233,123 @@
         //End :MealKey post
 
         //Bagage code start
-  
-
-            $('.select-baggage .servc-bordr').change((e) => {
-                // Collect selected values and append "_0" to each
-                var selected = $('.select-baggage .servc-bordr').map(function () {
-                    return $(this).find("option:selected").map(function () {
-                        return this.value + "_OneWay0";
-                    }).get();
-                }).get();
-
-                // Extract prices from the selected values for total calculation
-                var prices = $('.select-baggage .servc-bordr').map(function () {
-                    return $(this).find("option:selected").map(function () {
-                        var parts = this.value.split('_');
-                        return parseFloat(parts[1]);
-                    }).get();
-                }).get();
-
-                // Calculate the total price
-                var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
-
-                // Update the DOM elements with the selected values and total price
-                //alert(selected);  // Debug: Display selected baggage options
-                localStorage.setItem("BagssrKeyCount", JSON.stringify(selected));
-                document.getElementById("hiddenbagKey").value = selected.join(',');  // Joining selected values into a string
-
-                // Display total price in a specified element, assuming the ID is correct
-                $('#AddBaggage').text(totalPrice.toFixed(2));
-            });
 
 
-      //Return Code start
-      //Rt Meal
+        // $('.select-baggage .servc-bordr').change((e) => {
+        //     // Collect selected values and append "_0" to each
+        //     var selected = $('.select-baggage .servc-bordr').map(function () {
+        //         return $(this).find("option:selected").map(function () {
+        //             return this.value + "_OneWay0";
+        //         }).get();
+        //     }).get();
+
+        //     // Extract prices from the selected values for total calculation
+        //     var prices = $('.select-baggage .servc-bordr').map(function () {
+        //         return $(this).find("option:selected").map(function () {
+        //             var parts = this.value.split('_');
+        //             return parseFloat(parts[1]);
+        //         }).get();
+        //     }).get();
+
+        //     // Calculate the total price
+        //     var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
+
+        //     // Update the DOM elements with the selected values and total price
+        //     //alert(selected);  // Debug: Display selected baggage options
+        //     localStorage.setItem("BagssrKeyCount", JSON.stringify(selected));
+        //     document.getElementById("hiddenbagKey").value = selected.join(',');  // Joining selected values into a string
+
+        //     // Display total price in a specified element, assuming the ID is correct
+        //     $('#AddBaggage').text(totalPrice.toFixed(2));
+        // });
 
 
-        $('.select-optionRT .servc-bordr').change((e) => {
-            var selectedOptions = $('.select-optionRT .servc-bordr option:selected');
+
+        $('.servc-bordrbaggage').change(function () {
             debugger;
+            var selectedBaggage = [];
+            var baggagePrice = 0;
 
-            var mealCodes = [];
-            var prices = [];
-            //XBPJ_9000_RT1_Indigo
-            selectedOptions.each(function () {
-                var optionValue = $(this).val();
-                var parts = optionValue.split('_');
+            $('.servc-bordrbaggage').each(function () {
+                debugger;
+                var selectedValue = $(this).val();
+                if (selectedValue) {
+                    debugger;
+                    var price_value = selectedValue.split('_');
+                    var BagPrice = parseFloat(price_value[1]);
 
-                mealCodes.push(optionValue);
-                prices.push(parseFloat(parts[1]));
+                    selectedBaggage.push(selectedValue + "_OneWay0");
+                    baggagePrice += BagPrice;
+
+                }
+
             });
-            //alert(mealCodes);
-            localStorage.setItem("MealssrKeyCountRT", JSON.stringify(mealCodes));
-            document.getElementById("hiddenSsrKeyRT").value = mealCodes.join(',');
+            localStorage.setItem("BagssrKeyCount", JSON.stringify(selectedBaggage));
+            document.getElementById("hiddenbagKey").value = selectedBaggage.join(',');
+            $('#AddBaggage').text(baggagePrice.toFixed(2));
+            updateCombinedTotalRT();
 
-            // Calculate total price
-            var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
+
+        });
+
+        //Return Code start
+        //Rt Meal
+
+
+        // $('.select-optionRT .servc-bordr').change((e) => {
+        //     var selectedOptions = $('.select-optionRT .servc-bordr option:selected');
+        //     debugger;
+
+        //     var mealCodes = [];
+        //     var prices = [];
+        //     //XBPJ_9000_RT1_Indigo
+        //     selectedOptions.each(function () {
+        //         var optionValue = $(this).val();
+        //         var parts = optionValue.split('_');
+
+        //         mealCodes.push(optionValue);
+        //         prices.push(parseFloat(parts[1]));
+        //     });
+        //     //alert(mealCodes);
+        //     localStorage.setItem("MealssrKeyCountRT", JSON.stringify(mealCodes));
+        //     document.getElementById("hiddenSsrKeyRT").value = mealCodes.join(',');
+
+        //     // Calculate total price
+        //     var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
+        //     $('#AddMealRT').text(totalPrice.toFixed(2));
+
+        //     // Display meal codes and prices in separate alerts
+        //     // alert("Meal Codes: " + mealCodes.join(','));
+        //     //alert("Prices: " + prices.join(','));
+
+
+        // });
+
+
+        $('.servc-bordrm2').change(function () {
+            debugger;
+            var selectedMeals = [];
+            var totalPrice = 0;
+
+            $('.servc-bordrm2').each(function () {
+                debugger;
+                var selectedValue = $(this).val();
+                if (selectedValue) {
+                    debugger;
+                    var price_value = selectedValue.split('_');
+                    var mealPrice = parseFloat(price_value[1]);
+
+                    selectedMeals.push(selectedValue);
+                    totalPrice += mealPrice;
+
+                }
+
+            });
+            localStorage.setItem("MealssrKeyCountRT", JSON.stringify(selectedMeals));
+            document.getElementById("hiddenSsrKeyRT").value = selectedMeals.join(',');
             $('#AddMealRT').text(totalPrice.toFixed(2));
+            updateCombinedTotalRT();
 
-            // Display meal codes and prices in separate alerts
-            // alert("Meal Codes: " + mealCodes.join(','));
-            //alert("Prices: " + prices.join(','));
-           
 
         });
 
@@ -396,69 +357,122 @@
 
 
 
+        // $('.select-option2RT .servc-bordr').change((e) => {
+        //     debugger;
+        //     var selected = $('.select-option2RT .servc-bordr').map(function () {
+        //         return $(this).find("option:selected").map(function () {
+        //             return this.value;
+        //         }).get();
+        //     }).get();
 
 
-        $('.select-option2RT .servc-bordr').change((e) => {
+        //     var prices = $('.select-option2RT .servc-bordr').map(function () {
+        //         return $(this).find("option:selected").map(function () {
+        //             var parts = this.value.split('_');
+        //             return parseFloat(parts[1]);
+        //         }).get();
+        //     }).get();
+
+        //     // Calculate the total price
+        //     var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
+
+        //     // Update the DOM elements with the selected values and total price
+        //     //alert(selected);  // Display selected options for debugging
+        //     localStorage.setItem("MealssrKeyCount2RT", JSON.stringify(selected));
+        //     document.getElementById("hiddenSsrKey2RT").value = selected.join(','); // Joining selected values into a string
+
+        //     // Display total price in a specified element, ensure you have an element with this ID
+        //     $('#AddMeal2RT').text(totalPrice.toFixed(2));
+
+        // });
+
+        $('.select-option2RT .servc-bordrConm1').change((e) => {
             debugger;
-            var selected = $('.select-option2RT .servc-bordr').map(function () {
-                return $(this).find("option:selected").map(function () {
-                    return this.value;
-                }).get();
-            }).get();
+            var selectedMealsCon = [];
+            var totalPrice = 0;
 
+            $('.servc-bordrConm1').each(function () {
+                debugger;
+                var selectedValue = $(this).val();
+                if (selectedValue) {
+                    debugger;
+                    var price_value = selectedValue.split('_');
+                    var mealPrice = parseFloat(price_value[1]);
 
-            var prices = $('.select-option2RT .servc-bordr').map(function () {
-                return $(this).find("option:selected").map(function () {
-                    var parts = this.value.split('_');
-                    return parseFloat(parts[1]);
-                }).get();
-            }).get();
+                    selectedMealsCon.push(selectedValue);
+                    totalPrice += mealPrice;
+                }
 
-            // Calculate the total price
-            var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
+                localStorage.setItem("MealssrKeyCount2RT", JSON.stringify(selectedMealsCon));
+                document.getElementById("hiddenSsrKey2RT").value = selectedMealsCon.join(',');
 
-            // Update the DOM elements with the selected values and total price
-            //alert(selected);  // Display selected options for debugging
-            localStorage.setItem("MealssrKeyCount2RT", JSON.stringify(selected));
-            document.getElementById("hiddenSsrKey2RT").value = selected.join(','); // Joining selected values into a string
+            });
 
-            // Display total price in a specified element, ensure you have an element with this ID
             $('#AddMeal2RT').text(totalPrice.toFixed(2));
-           
+            updateCombinedTotalRT();
+
+        });
+
+        // Rt Meal End
+
+        // Return Code End
+        // $('.select-baggageRT .servc-bordr').change((e) => {
+        //     // Collect selected values and append "_0" to each
+        //     var selected = $('.select-baggageRT .servc-bordr').map(function () {
+        //         return $(this).find("option:selected").map(function () {
+        //             return this.value + "_RT0";
+        //         }).get();
+        //     }).get();
+
+        //     // Extract prices from the selected values for total calculation
+        //     var prices = $('.select-baggageRT .servc-bordr').map(function () {
+        //         return $(this).find("option:selected").map(function () {
+        //             var parts = this.value.split('_');
+        //             return parseFloat(parts[1]);
+        //         }).get();
+        //     }).get();
+
+        //     // Calculate the total price
+        //     var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
+
+        //     // Update the DOM elements with the selected values and total price
+        //     //alert(selected);  // Debug: Display selected baggage options
+        //     localStorage.setItem("BagssrKeyCountRT", JSON.stringify(selected));
+        //     document.getElementById("hiddenbagKeyRT").value = selected.join(',');  // Joining selected values into a string
+
+        //     // Display total price in a specified element, assuming the ID is correct
+        //     $('#AddBaggageRT').text(totalPrice.toFixed(2));
+        // });
+
+        $('.servc-bordrbaggagem2').change(function () {
+            debugger;
+            var selectedBaggage = [];
+            var baggagePrice = 0;
+
+            $('.servc-bordrbaggagem2').each(function () {
+                debugger;
+                var selectedValue = $(this).val();
+                if (selectedValue) {
+                    debugger;
+                    var price_value = selectedValue.split('_');
+                    var BagPrice = parseFloat(price_value[1]);
+
+                    selectedBaggage.push(selectedValue + "_RT0");
+                    baggagePrice += BagPrice;
+
+                }
+
+            });
+            localStorage.setItem("BagssrKeyCountRT", JSON.stringify(selectedBaggage));
+            document.getElementById("hiddenbagKeyRT").value = selectedBaggage.join(',');
+            $('#AddBaggageRT').text(baggagePrice.toFixed(2));
+            updateCombinedTotalRT();
+
+
         });
 
 
-      
-      // Rt Meal End 
 
-      // Return Code End
-        $('.select-baggageRT .servc-bordr').change((e) => {
-            // Collect selected values and append "_0" to each
-            var selected = $('.select-baggageRT .servc-bordr').map(function () {
-                return $(this).find("option:selected").map(function () {
-                    return this.value + "_RT0";
-                }).get();
-            }).get();
-
-            // Extract prices from the selected values for total calculation
-            var prices = $('.select-baggageRT .servc-bordr').map(function () {
-                return $(this).find("option:selected").map(function () {
-                    var parts = this.value.split('_');
-                    return parseFloat(parts[1]);
-                }).get();
-            }).get();
-
-            // Calculate the total price
-            var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
-
-            // Update the DOM elements with the selected values and total price
-            //alert(selected);  // Debug: Display selected baggage options
-            localStorage.setItem("BagssrKeyCountRT", JSON.stringify(selected));
-            document.getElementById("hiddenbagKeyRT").value = selected.join(',');  // Joining selected values into a string
-
-            // Display total price in a specified element, assuming the ID is correct
-            $('#AddBaggageRT').text(totalPrice.toFixed(2));
-        });
 
         // bagage code end
 
@@ -472,7 +486,7 @@
             let mealcode2 = JSON.parse(localStorage.getItem("MealssrKeyCount2"));
             let mealcode1RT = JSON.parse(localStorage.getItem("MealssrKeyCountRT"));
             let mealcode2RT = JSON.parse(localStorage.getItem("MealssrKeyCount2RT"));
-             //var ssrKey;
+            //var ssrKey;
             // if (mealcode2 && mealcode2.length > 0) {
             //     ssrKey = mealcode1.concat(mealcode2);
             // } else {
@@ -541,10 +555,8 @@
         });
 
     });
-
-
-
 </script>
+
 
 
 
@@ -577,9 +589,11 @@
                                         <div>
                                             <button type="submit" id="" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
                                         </div>
-                                        <div>
-                                            
-                                            A
+                                        <div id="LeftCN">
+                                            <button type="submit" id="Leftbtnfocus" class="btn  btn-primary">Continue</button>
+                                        </div>
+                                        <div id="rightCN">
+
                                             <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
                                         </div>
                                     </div>
@@ -599,25 +613,24 @@
                                                 <div id="popbtnA">
 
 
-                                                    <button type="submit" id="btnfocus"  class="btn  btn-primary">Continue-A</button>
+                                                    <button type="submit" id="btnfocus" class="btn  btn-primary">Continue</button>
 
                                                 </div>
                                                 <div id="popbtnA1">
 
 
-                                                    <button type="submit" id="btnfocusA1" class="btn  btn-primary">Continue-A1</button>
+                                                    <button type="submit" id="btnfocusA1" class="btn  btn-primary">Continue</button>
 
                                                 </div>
-
                                                 <div id="popbtnB1">
 
 
-                                                    <button type="submit" id="btnfocusB1" class="btn  btn-primary">Continue-B1</button>
+                                                    <button type="submit" id="btnfocusB1" class="btn  btn-primary">Continue</button>
 
                                                 </div>
-                                             
+
                                                 <div id="popbtnB">
-                                                    <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">D-Continue</button>
+                                                    <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue..</button>
 
                                                 </div>
                                             </div>
@@ -726,6 +739,11 @@
 
                                     for (int pas = 0; pas < passengerdata2; pas++)
                                     {
+                                        string AirLine = string.Empty;
+                                        string ssrkeyAA = string.Empty;
+                                        string bagkeyAA = string.Empty;
+                                        string bagkey = string.Empty;
+                                        string otherbagkey = string.Empty;
                                         string ssrkey = string.Empty;
                                         <div class="d-flex justify-content-between py-3">
                                             <div class="servc-content width-90">
@@ -749,7 +767,9 @@
                                                         {
                                                             string ssrprice = Model.MealslistRT[0].legSsrs[l].legssrs[s].legpassengers[0].price;
                                                             string Mealcode = Model.MealslistRT[0].legSsrs[l].legssrs[s].ssrCode + "_" + Model.MealslistRT[0].legSsrs[l].legssrs[s].legpassengers[0].price + "_" + "OneWay0" + "_" + Model.MealslistRT[0].legSsrs[l].legssrs[s].legpassengers[0].Airline;
+                                                            AirLine = Model.MealslistRT[0].legSsrs[l].legssrs[s].legpassengers[0].Airline.ToString();
                                                             string Mealname = Model.MealslistRT[0].legSsrs[l].legssrs[s].name + " ₹" + @Model.MealslistRT[0].legSsrs[l].legssrs[s].legpassengers[0].price;
+                                                            ssrkeyAA = Model.MealslistRT[0].legSsrs[l].legssrs[s].legpassengers[0].ssrKey + "_" + @Model.MealslistRT[0].legSsrs[l].legssrs[s].legpassengers[0].price + "_" + "OneWay0" + "_" + Model.MealslistRT[0].legSsrs[l].legssrs[s].legpassengers[0].Airline;
                                                             string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) ||
                                                             Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase) ||
                                                             Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase)).ToString();
@@ -764,8 +784,18 @@
 
                                                             if (Mealcode != null)
                                                             {
-                                                                // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
-                                                                mealOptions.Add(new SelectListItem { Text = Mealname, Value = Mealcode });
+                                                                if (AirLine.ToLower() == "airasia")
+                                                                {
+                                                                    if (ssrkeyAA != null)
+                                                                    {
+                                                                        mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkeyAA });
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
+                                                                    mealOptions.Add(new SelectListItem { Text = Mealname, Value = Mealcode });
+                                                                }
                                                             }
 
                                                             // string queryMeal = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
@@ -782,7 +812,7 @@
                                                 }
                                                 <div class="d-flex">
                                                     <div><img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /></div>
-                                                    <select id="ddlMealOptions" class="servc-bordr">
+                                                    <select id="ddlMealOptions" class="servc-bordr servc-bordrm1">
                                                         <option selected="selected" value="">Please Select</option>
                                                         @foreach (var option in mealOptions)
                                                         {
@@ -819,13 +849,15 @@
                                                     // {
                                                     //     BaggageOptions.Add(new SelectListItem { Text = bagname, Value = Sssrcode });
                                                     // }
-                                                    var bagkey = "";
+                                                    //var bagkey = "";
                                                     string Bagname = "";
                                                     for (int s = 0; s < Model.MealslistRT[0].legSsrs[0].legssrs.Count; s++)
                                                     {
                                                         string ssrprice = Model.MealslistRT[0].legSsrs[0].legssrs[s].legpassengers[0].price;
                                                         string Sssrcode = Model.MealslistRT[0].legSsrs[0].legssrs[s].ssrCode + "_" + Model.MealslistRT[0].legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                        AirLine = Model.MealslistRT[0].legSsrs[0].legssrs[s].legpassengers[0].Airline.ToString();
                                                         string bagcode = Sssrcode.StartsWith("X", StringComparison.OrdinalIgnoreCase).ToString();
+                                                        bagkeyAA = Model.MealslistRT[0].legSsrs[0].legssrs[s].legpassengers[0].ssrKey + "_" + @Model.MealslistRT[0].legSsrs[0].legssrs[s].legpassengers[0].price;
                                                         if (bagcode.ToLower() == "true")
                                                         {
 
@@ -839,15 +871,25 @@
 
                                                         if (bagcode != null)
                                                         {
-                                                            // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
-                                                            BaggageOptions.Add(new SelectListItem { Text = Bagname, Value = Sssrcode });
+                                                            if (AirLine.ToLower() == "airasia")
+                                                            {
+                                                                if (bagkeyAA != null)
+                                                                {
+                                                                    BaggageOptions.Add(new SelectListItem { Text = Bagname, Value = bagkeyAA });
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
+                                                                BaggageOptions.Add(new SelectListItem { Text = Bagname, Value = Sssrcode });
+                                                            }
                                                         }
                                                     }
 
                                                 }
                                                 <div class="d-flex">
                                                     <img src="~/img/pbaggage.png" style="width:20px;height:20px;margin-right:10px;" />
-                                                    <select id="ddlbagOptions" class="servc-bordr">
+                                                    <select id="ddlbagOptions" class="servc-bordr servc-bordrbaggage">
                                                         <option selected="selected" value="">Please Select</option>
                                                         @foreach (var option in BaggageOptions)
                                                         {
@@ -923,6 +965,9 @@
 
                                     for (int pas = 0; pas < passengerdata2; pas++)
                                     {
+                                        string AirLine = string.Empty;
+                                        string ssrkeyAA = string.Empty;
+                                        string bagkeyAA = string.Empty;
                                         string ssrkey = string.Empty;
                                         <div class="d-flex justify-content-between py-3">
 
@@ -947,6 +992,8 @@
                                                             string ssrprice = Model.MealslistRT[0].legSsrs[1].legssrs[s].legpassengers[0].price;
                                                             string Mealcode = Model.MealslistRT[0].legSsrs[1].legssrs[s].ssrCode + "_" + Model.MealslistRT[0].legSsrs[1].legssrs[s].legpassengers[0].price + "_" + "OneWay1" + "_" + Model.MealslistRT[0].legSsrs[1].legssrs[s].legpassengers[0].Airline;
                                                             string Mealname = Model.MealslistRT[0].legSsrs[1].legssrs[s].name + " ₹" + @Model.MealslistRT[0].legSsrs[1].legssrs[s].legpassengers[0].price;
+                                                            AirLine = Model.MealslistRT[0].legSsrs[1].legssrs[s].legpassengers[0].Airline.ToString();
+                                                            ssrkeyAA = Model.MealslistRT[0].legSsrs[1].legssrs[s].legpassengers[0].ssrKey + "_" + @Model.MealslistRT[0].legSsrs[1].legssrs[s].legpassengers[0].price + "_" + "OneWay1" + "_" + Model.MealslistRT[0].legSsrs[1].legssrs[s].legpassengers[0].Airline;
 
                                                             string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) || Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase)).ToString();
                                                             if (Mcode.ToLower() == "true")
@@ -959,8 +1006,18 @@
 
                                                             if (Mealcode != null)
                                                             {
-                                                                // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
-                                                                mealOptions.Add(new SelectListItem { Text = Mealname, Value = Mealcode });
+                                                                if (AirLine.ToLower() == "airasia")
+                                                                {
+                                                                    if (ssrkeyAA != null)
+                                                                    {
+                                                                        mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkeyAA });
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
+                                                                    mealOptions.Add(new SelectListItem { Text = Mealname, Value = Mealcode });
+                                                                }
                                                             }
 
                                                         }
@@ -968,7 +1025,7 @@
                                                 }
                                                 <div class="d-flex">
                                                     <div><img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /></div>
-                                                    <select id="ddlMealOptions2" class="servc-bordr">
+                                                    <select id="ddlMealOptions2" class="servc-bordr servc-bordrCon">
                                                         <option selected="selected" value="">Please Select</option>
                                                         @foreach (var option in mealOptions)
                                                         {
@@ -1063,6 +1120,9 @@
 
                                         for (int pas = 0; pas < passengerdata2; pas++)
                                         {
+                                            string AirLine = string.Empty;
+                                            string ssrkeyAA = string.Empty;
+                                            string bagkeyAA = string.Empty;
                                             string ssrkey = string.Empty;
                                             <div class="d-flex justify-content-between py-3">
                                                 <div class="servc-content width-90">
@@ -1087,6 +1147,9 @@
                                                                 string ssrprice = Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].price;
                                                                 string Mealcode = Model.MealslistRT[1].legSsrs[0].legssrs[s].ssrCode + "_" + Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].price + "_" + "RT0" + "_" + Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].Airline;
                                                                 string Mealname = Model.MealslistRT[1].legSsrs[0].legssrs[s].name + " ₹" + @Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                                AirLine = Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].Airline.ToString();
+                                                                ssrkeyAA = Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].ssrKey + "_" + @Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].price + "_" + "RT0" + "_" + Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].Airline;
+
                                                                 string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) ||
                                                                 Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase) ||
                                                                 Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase)).ToString();
@@ -1101,13 +1164,23 @@
 
                                                                 if (Mealcode != null)
                                                                 {
-                                                                // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
-                                                                    mealOptions.Add(new SelectListItem { Text = Mealname, Value = Mealcode });
+                                                                    if (AirLine.ToLower() == "airasia")
+                                                                    {
+                                                                        if (ssrkeyAA != null)
+                                                                        {
+                                                                            mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkeyAA });
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
+                                                                        mealOptions.Add(new SelectListItem { Text = Mealname, Value = Mealcode });
+                                                                    }
                                                                 }
                                                             }
-                                                            catch(Exception ex)
+                                                            catch (Exception ex)
                                                             {
-                                                                
+
                                                             }
 
                                                             // string queryMeal = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
@@ -1123,7 +1196,7 @@
                                                     }
                                                     <div class="d-flex">
                                                         <div><img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /></div>
-                                                        <select id="ddlMealOptions" class="servc-bordr">
+                                                        <select id="ddlMealOptions" class="servc-bordr servc-bordrm2">
                                                             <option selected="selected" value="">Please Select</option>
                                                             @foreach (var option in mealOptions)
                                                             {
@@ -1167,6 +1240,8 @@
                                                             string ssrprice = Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].price;
                                                             string Sssrcode = Model.MealslistRT[1].legSsrs[0].legssrs[s].ssrCode + "_" + Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].price;
                                                             string bagcode = Sssrcode.StartsWith("X", StringComparison.OrdinalIgnoreCase).ToString();
+                                                            AirLine = Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].Airline.ToString();
+                                                            bagkeyAA = Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].ssrKey + "_" + @Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].price;
                                                             if (bagcode.ToLower() == "true")
                                                             {
 
@@ -1180,15 +1255,25 @@
 
                                                             if (bagcode != null)
                                                             {
-                                                                // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
-                                                                BaggageOptions.Add(new SelectListItem { Text = Bagname, Value = Sssrcode });
+                                                                if (AirLine.ToLower() == "airasia")
+                                                                {
+                                                                    if (bagkeyAA != null)
+                                                                    {
+                                                                        BaggageOptions.Add(new SelectListItem { Text = Bagname, Value = bagkeyAA });
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
+                                                                    BaggageOptions.Add(new SelectListItem { Text = Bagname, Value = Sssrcode });
+                                                                }
                                                             }
                                                         }
 
                                                     }
                                                     <div class="d-flex">
                                                         <img src="~/img/pbaggage.png" style="width:20px;height:20px;margin-right:10px;" />
-                                                        <select id="ddlbagOptions" class="servc-bordr">
+                                                        <select id="ddlbagOptions" class="servc-bordr servc-bordrbaggagem2">
                                                             <option selected="selected" value="">Please Select</option>
                                                             @foreach (var option in BaggageOptions)
                                                             {
@@ -1264,6 +1349,8 @@
 
                                         for (int pas = 0; pas < passengerdata2; pas++)
                                         {
+                                            string AirLine = string.Empty;
+                                            string ssrkeyAA = string.Empty;
                                             string ssrkey = string.Empty;
                                             <div class="d-flex justify-content-between py-3">
 
@@ -1288,6 +1375,8 @@
                                                                 string ssrprice = Model.MealslistRT[1].legSsrs[1].legssrs[s].legpassengers[0].price;
                                                                 string Mealcode = Model.MealslistRT[1].legSsrs[1].legssrs[s].ssrCode + "_" + Model.MealslistRT[1].legSsrs[1].legssrs[s].legpassengers[0].price + "_" + "RT1" + "_" + Model.MealslistRT[1].legSsrs[1].legssrs[s].legpassengers[0].Airline;
                                                                 string Mealname = Model.MealslistRT[1].legSsrs[1].legssrs[s].name + " ₹" + @Model.MealslistRT[1].legSsrs[1].legssrs[s].legpassengers[0].price;
+                                                                AirLine = Model.MealslistRT[1].legSsrs[1].legssrs[s].legpassengers[0].Airline.ToString();
+                                                                ssrkeyAA = Model.MealslistRT[1].legSsrs[1].legssrs[s].legpassengers[0].ssrKey + "_" + @Model.MealslistRT[1].legSsrs[1].legssrs[s].legpassengers[0].price + "_" + "RT1" + "_" + Model.MealslistRT[1].legSsrs[1].legssrs[s].legpassengers[0].Airline;
 
                                                                 string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) || Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase)).ToString();
                                                                 if (Mcode.ToLower() == "true")
@@ -1300,8 +1389,18 @@
 
                                                                 if (Mealcode != null)
                                                                 {
-                                                                    // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
-                                                                    mealOptions.Add(new SelectListItem { Text = Mealname, Value = Mealcode });
+                                                                    if (AirLine.ToLower() == "airasia")
+                                                                    {
+                                                                        if (ssrkeyAA != null)
+                                                                        {
+                                                                            mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkeyAA });
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
+                                                                        mealOptions.Add(new SelectListItem { Text = Mealname, Value = Mealcode });
+                                                                    }
                                                                 }
 
                                                             }
@@ -1309,7 +1408,7 @@
                                                     }
                                                     <div class="d-flex">
                                                         <div><img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /></div>
-                                                        <select id="ddlMealOptions2" class="servc-bordr">
+                                                        <select id="ddlMealOptions2" class="servc-bordr servc-bordrConm1">
                                                             <option selected="selected" value="">Please Select</option>
                                                             @foreach (var option in mealOptions)
                                                             {

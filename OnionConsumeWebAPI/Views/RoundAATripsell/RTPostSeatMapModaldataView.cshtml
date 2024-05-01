@@ -668,10 +668,12 @@
 <script type="text/javascript">
     /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
     $(document).ready(function () {
-
+        $("#rightCN").hide();
         $("#seattab1way").click(function () {
             $("#tabshow1popup").show();
             $("#tabshowRT1").hide();
+            $("#rightCN").hide();
+            $("#LeftCN").show();
             $("#seattab1way").addClass('activeblue');
             $("#seattabRT1way").removeClass('activeblue');
             $("#tabshowRT2").removeClass('activeblue');
@@ -680,9 +682,11 @@
             $("#seattabRT1Popup").removeClass('activeblue');
         });
         $("#seattabRT1way").click(function () {
+            $("#rightCN").show();
             $("#tabshow1popup").hide();
             $("#tabshow2popup").hide();
             $("#tabshowRT1").show();
+            $("#LeftCN").hide();
             $("#seattabRT1way").addClass('activeblue');
             $("#seattab1way").removeClass('activeblue');
             $("#seattab1Popup").removeClass('activeblue');
@@ -790,10 +794,17 @@
         $("#btnfocusA1").click(function () {
             alert("Do you want select Return seat");
             $("#seattabRT1Popup").click();
+            //$("#seattabRT1way").click();
         });
         $("#btnfocusB1").click(function () {
             alert("Do you want select connect seat");
             $("#seattabRT2Popup").click();
+        }); 
+        
+        $("#Leftbtnfocus").click(function () {
+            alert("Do you want select connect seat");
+            $("#seattabRT1way").click();
+            $("#seattabRT1").click();
         });
        
     });
@@ -1040,11 +1051,15 @@
             $('input[name="unitKey"]:checked').each(function () {
                 total += parseInt($(this).val());
             });
-            $('#total').text(total.toFixed(2));
-            document.getElementById("total").value = total.toFixed(2);
+
+            //$('#total').text(total.toFixed(2));
+            //document.getElementById("total").value = total.toFixed(2);
+            var formattedTotal = total.toFixed(2).replace(/\.?0*$/, '');
+            $('#total').text(formattedTotal);
+            document.getElementById("total").value = formattedTotal;
             const seatmap1 = document.getElementById("total").value;
             localStorage.setItem("selectedIds", JSON.stringify(selectedIds));
-            //updateCombinedTotal();
+            updateCombinedTotalRT();
 
 
         });

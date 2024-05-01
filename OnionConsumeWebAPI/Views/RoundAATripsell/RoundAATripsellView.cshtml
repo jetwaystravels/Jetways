@@ -533,6 +533,26 @@
             $('[data-toggle="tooltip"]').tooltip()
         })
 
+
+        $(".Continuebtnprice").click(function () {
+            // Retrieve and store meal total
+            const mealTotal = $('#AddMealTotalRT').text();
+            localStorage.setItem('mealTotal1', mealTotal);
+            //alert("Meal" + mealTotal);
+            // Retrieve and store baggage total
+            const baggageTotal = $('#AddBaggageTotalRT').text();
+            localStorage.setItem('bagTotal1', baggageTotal);
+            //alert("Bag" + baggageTotal);
+            const seatTotal = $('#total').val();
+            localStorage.setItem('seatPayment', seatTotal);
+            // Retrieve and store base payment total
+            const basePaymentTotal = $('#Totalamount').val();
+            localStorage.setItem('basePayment1', basePaymentTotal);
+            //alert("Base" + basePaymentTotal);
+        });
+
+
+
     </script>
 
 

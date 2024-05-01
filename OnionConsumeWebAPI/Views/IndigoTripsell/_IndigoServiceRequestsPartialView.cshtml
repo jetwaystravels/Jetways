@@ -6,36 +6,7 @@
 }
 <script src="~/js/custom.js/SGCustom.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-@* <script>
-    $(document).ready(function () {
-        debugger;
-        $('input[type="checkbox"]').on('change', function () {
-            var selectedIds = [];
-            debugger;
-            $('input[type="checkbox"]:checked').each(function () {
 
-                //selectedIds.push($(this).attr('id'));
-                selectedIds.push($(this).val());
-
-            });
-
-            localStorage.setItem('selectedIds', selectedIds);
-
-            var input = document.getElementsByName("unitKey");
-            var total = 0;
-            for (var i = 0; i < input.length; i++) {
-                if (input[i].checked) {
-                    total += parseInt(input[i].value);
-                }
-            }
-            document.getElementById("total").value = total.toFixed(2);
-            var one = document.getElementById("Totalamount").value;
-            var two = document.getElementById("total").value;
-            //SSRMeal();
-
-        });
-    });
-</script> *@
 
 
 <style>
@@ -121,6 +92,353 @@
         background-color: #808080 !important;
     }
 </style>
+<script type="text/javascript">
+    /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
+    $(document).ready(function () {
+        $("#seattab1").addClass('active');
+        $("#tabshow2").hide();
+        $("#tabnew2").hide();
+        $("#popbtnB").hide();
+        $("#popbtnA").show();
+        $("#seattab1").click(function () {
+            $("#tabshow1").show();
+            $("#tabnew1").show();
+            $("#tabnew2").hide();
+            $("#popbtnB").hide();
+            $("#popbtnA").show();
+            $("#tabshow2").hide();
+            $("#seattab1").addClass('active');
+            $("#seattab2").removeClass('active');
+
+        });
+
+        $("#seattab2").click(function () {
+            $("#tabshow2").css("display", "block");
+            $("#seattab2").addClass('active');
+            $("#seattab1").removeClass('active');
+            $("#popbtnA").hide();
+            $("#tabshow1").hide();
+            $("#tabnew1").hide();
+            $("#tabnew2").show();
+            $("#popbtnB").show();
+
+        });
+
+        $("#btnfocus").click(function () {
+            alert("Do you want select connect seat");
+            $("#seattab2").click();
+        });
+
+    });
+
+</script>
+<script>
+
+    $(document).ready(function () {
+
+
+        // //Start :MealKey post
+
+
+            // $('.select-option .servc-bordr').change((e) => {
+            //     var selectedOptions = $('.select-option .servc-bordr option:selected');
+
+
+            //     var mealCodes = [];
+            //     var prices = [];
+
+            //     selectedOptions.each(function () {
+            //         var optionValue = $(this).val();
+            //         var parts = optionValue.split('_');
+
+            //         mealCodes.push(parts[0] + "_OneWay0");
+            //         prices.push(parseFloat(parts[1]));
+            //     });
+            //     //alert(mealCodes);
+            //     localStorage.setItem("MealssrKeyCount", JSON.stringify(mealCodes));
+            //     document.getElementById("hiddenSsrKey").value = mealCodes.join(',');
+
+            //     // Calculate total price
+            //     var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
+            //     $('#AddMeal').text(totalPrice.toFixed(2));
+
+            //     // Display meal codes and prices in separate alerts
+            //     // alert("Meal Codes: " + mealCodes.join(','));
+            //     //alert("Prices: " + prices.join(','));
+            //     updateCombinedTotal();
+
+            // });
+
+        $('.servc-bordrm1').change(function () {
+            debugger;
+            var selectedMeals = [];
+            var totalPrice = 0;
+
+            $('.servc-bordrm1').each(function () {
+                debugger;
+                var selectedValue = $(this).val();
+                if (selectedValue) {
+                    debugger;
+                    var price_value = selectedValue.split('_');
+                    var mealPrice = parseFloat(price_value[1]);
+
+                    selectedMeals.push(selectedValue);
+                    totalPrice += mealPrice;
+
+                }
+
+            });
+            localStorage.setItem("MealssrKeyCount", JSON.stringify(selectedMeals));
+            document.getElementById("hiddenSsrKey").value = selectedMeals.join(',');
+            $('#AddMeal').text(totalPrice.toFixed(2));
+            updateCombinedTotal();
+
+
+        });
+
+
+
+
+    
+
+            // $('.select-option2 .servc-bordr').change((e) => {
+
+            //     var selected = $('.select-option2 .servc-bordr').map(function () {
+            //         return $(this).find("option:selected").map(function () {
+            //             return this.value + "_OneWay1";
+            //         }).get();
+            //     }).get();
+
+
+            //     var prices = $('.select-option2 .servc-bordr').map(function () {
+            //         return $(this).find("option:selected").map(function () {
+            //             var parts = this.value.split('_');
+            //             return parseFloat(parts[1]);
+            //         }).get();
+            //     }).get();
+
+            //     // Calculate the total price
+            //     var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
+
+            //     // Update the DOM elements with the selected values and total price
+            //     //alert(selected);  // Display selected options for debugging
+            //     localStorage.setItem("MealssrKeyCount2", JSON.stringify(selected));
+            //     document.getElementById("hiddenSsrKey2").value = selected.join(','); // Joining selected values into a string
+
+            //     // Display total price in a specified element, ensure you have an element with this ID
+            //     $('#AddMeal2').text(totalPrice.toFixed(2));
+            //     updateCombinedTotal();
+            // });
+
+        $('.select-option2 .servc-bordrCon').change((e) => {
+            debugger;
+            var selectedMealsCon = [];
+            var totalPrice = 0;
+
+            $('.servc-bordrCon').each(function () {
+                debugger;
+                var selectedValue = $(this).val();
+                if (selectedValue) {
+                    debugger;
+                    var price_value = selectedValue.split('_');
+                    var mealPrice = parseFloat(price_value[1]);
+
+                    selectedMealsCon.push(selectedValue);
+                    totalPrice += mealPrice;
+                }
+
+                localStorage.setItem("MealssrKeyCount2", JSON.stringify(selectedMealsCon));
+                document.getElementById("hiddenSsrKey2").value = selectedMealsCon.join(',');
+
+            });
+
+            $('#AddMeal2').text(totalPrice.toFixed(2));
+            updateCombinedTotal();
+
+        });
+
+
+
+
+
+
+        function updateCombinedTotal() {
+            var totalPrice1 = parseFloat($('#AddMeal').text()) || 0;
+            var totalPrice2 = parseFloat($('#AddMeal2').text()) || 0;
+            var combinedTotal = totalPrice1 + totalPrice2;
+            $('#AddMealTotal').text(combinedTotal.toFixed(2).replace(/\.?0*$/, ''));
+
+            var TotalBagAmount1 = parseFloat($('#AddBaggage').text()) || 0;
+            var TotalSeatAmount = parseFloat($('#total').text()) || 0;
+            var TotalAmmount = document.getElementById("Totalamount").value;
+            var Totalseat1 = parseInt(TotalAmmount) + parseInt(TotalBagAmount1) + parseInt(combinedTotal) + parseInt(TotalSeatAmount);
+
+            if (Totalseat1 != null) {
+                document.getElementById("seattotal1").innerHTML = Totalseat1;
+            }
+
+        }
+
+
+
+
+        //End :MealKey post
+
+        //Bagage code start
+    @*$('.select-baggage .servc-bordr').change((e) => {
+
+            // var selected = $(e.target).find("option:selected").map(function () { return this.value; }).get();
+            // alert(selected);
+            var selected = $('.select-baggage .servc-bordr').map(function () {
+
+            return $(this).find("option:selected").map(function () { return this.value + "_0"; }).get();
+            }).get();
+
+            alert(selected);
+            localStorage.setItem("BagssrKeyCount", JSON.stringify(selected));
+            document.getElementById("hiddenbagKey").value = selected.join(',');  // Joining selected values into a string
+
+            });*@
+
+            // $('.select-baggage .servc-bordr').change((e) => {
+            //     // Collect selected values and append "_0" to each
+            //     var selected = $('.select-baggage .servc-bordr').map(function () {
+            //         return $(this).find("option:selected").map(function () {
+            //             return this.value + "_OneWay0";
+            //         }).get();
+            //     }).get();
+
+            //     // Extract prices from the selected values for total calculation
+            //     var prices = $('.select-baggage .servc-bordr').map(function () {
+            //         return $(this).find("option:selected").map(function () {
+            //             var parts = this.value.split('_');
+            //             return parseFloat(parts[1]);
+            //         }).get();
+            //     }).get();
+
+            //     // Calculate the total price
+            //     var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
+
+            //     // Update the DOM elements with the selected values and total price
+            //     //alert(selected);  // Debug: Display selected baggage options
+            //     localStorage.setItem("BagssrKeyCount", JSON.stringify(selected));
+            //     document.getElementById("hiddenbagKey").value = selected.join(',');  // Joining selected values into a string
+
+            //     // Display total price in a specified element, assuming the ID is correct
+            //     $('#AddBaggage').text(totalPrice.toFixed(2));
+            // });
+
+            $('.servc-bordrbaggage').change(function () {
+                debugger;
+                var selectedBaggage = [];
+                var baggagePrice = 0;
+
+                $('.servc-bordrbaggage').each(function () {
+                    debugger;
+                    var selectedValue = $(this).val();
+                    if (selectedValue) {
+                        debugger;
+                        var price_value = selectedValue.split('_');
+                        var BagPrice = parseFloat(price_value[1]);
+
+                        selectedBaggage.push(selectedValue + "_OneWay0");
+                        baggagePrice += BagPrice;
+
+                    }
+
+                });
+                localStorage.setItem("BagssrKeyCount", JSON.stringify(selectedBaggage));
+                document.getElementById("hiddenbagKey").value = selectedBaggage.join(',');
+                $('#AddBaggage').text(baggagePrice.toFixed(2));
+                updateCombinedTotal();
+
+
+            });
+
+
+
+
+
+        // $(document).ready(function () {
+        //     // Clear the selected value on page load
+        //     $('.select-baggage .servc-bordr').val('');
+
+        //     $('.select-baggage .servc-bordr').change((e) => {
+        //         var selected = $('.select-baggage .servc-bordr').map(function () {
+        //             return $(this).find("option:selected").map(function () { return this.value + "_0"; }).get();
+        //         }).get();
+
+        //         alert(selected);
+        //         localStorage.setItem("BagssrKeyCount", JSON.stringify(selected));
+        //         document.getElementById("hiddenbagKey").value = selected.join(',');  // Joining selected values into a string
+        //     });
+        // });
+
+
+        // bagage code end
+
+        $("#Continuebtn").click(function () {
+
+            var unitKey = JSON.parse(localStorage.getItem("selectedIds"));
+            // let mealcode1 = JSON.parse(localStorage.getItem("MealssrKeyCount"));
+            // let mealcode2 = JSON.parse(localStorage.getItem("MealssrKeyCount2"));
+            // var ssrKey = mealcode1 + "," + mealcode2;
+            let mealcode1 = JSON.parse(localStorage.getItem("MealssrKeyCount"));
+            let mealcode2 = JSON.parse(localStorage.getItem("MealssrKeyCount2"));
+            var ssrKey;
+            if (mealcode2 && mealcode2.length > 0) {
+                ssrKey = mealcode1.concat(mealcode2);
+            } else {
+                ssrKey = mealcode1;
+            }
+
+            let BaggageSSrkey = JSON.parse(localStorage.getItem("BagssrKeyCount"));
+
+            $.ajax({
+                url: "/IndigoTripsell/PostUnitkey",
+                type: "POST",
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                data: { unitKey: unitKey, ssrKey: ssrKey, BaggageSSrkey: BaggageSSrkey },
+                success: function (data) {
+                    window.location.href = '/IndigoPaymentGateway/IndigoPayment';
+                },
+                error: function (err) {
+                    console.error(err);
+                }
+            });
+        });
+
+
+
+
+
+        $("#exampleModalSeat").click(function (e) {
+
+            e.preventDefault();
+            $.ajax({
+                url: '@Url.Action("PostSeatMapModaldataView", "IndigoTripsell")',
+                type: "GET",
+                success: function (data) {
+                    //console.log('POST request successful');
+                    $('#sgexampleModal .modal-bodyy').html(data);
+                    $('#sgexampleModal').modal('show');
+
+                },
+                error: function (error) {
+                    console.log("Error fetching data:", error);
+                }
+            });
+        });
+
+    });
+
+
+
+</script>
+
+
+
+
 
 <section id="myContainer1">
     <div class="container">
@@ -320,7 +638,7 @@
                                                     for (int s = 0; s < Model.Meals.legSsrs[0].legssrs.Count; s++)
                                                     {
                                                         string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                        string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode + "_" + Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                        string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode + "_" + Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price + "_OneWay0";
                                                         string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " ₹" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
                                                          string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) ||
                                                          Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase) ||
@@ -353,7 +671,7 @@
                                                 }
                                                 <div class="d-flex">
                                                     <div><img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /></div>
-                                                    <select id="ddlMealOptions" class="servc-bordr">
+                                                    <select id="ddlMealOptions" class="servc-bordr servc-bordrm1">
                                                         <option selected="selected" value="">Please Select</option>
                                                         @foreach (var option in mealOptions)
                                                         {
@@ -418,7 +736,7 @@
                                                 }
                                                 <div class="d-flex">
                                                     <img src="~/img/pbaggage.png" style="width:20px;height:20px;margin-right:10px;" />
-                                                    <select id="ddlbagOptions" class="servc-bordr">
+                                                    <select id="ddlbagOptions" class="servc-bordr servc-bordrbaggage">
                                                         <option selected="selected" value="">Please Select</option>
                                                     @foreach (var option in BaggageOptions)
                                                         {
@@ -515,7 +833,7 @@
                                                     for (int s = 0; s < Model.Meals.legSsrs[0].legssrs.Count; s++)
                                                     {
                                                         string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                        string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode + "_" + Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                        string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode + "_" + Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price + "_OneWay1";
                                                         string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " ₹" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
 
                                                         string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) || Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase)).ToString();
@@ -546,7 +864,7 @@
                                                 }
                                                 <div class="d-flex">
                                                     <div><img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /></div>
-                                                    <select id="ddlMealOptions2" class="servc-bordr">
+                                                    <select id="ddlMealOptions2" class="servc-bordr servc-bordrCon">
                                                         <option selected="selected" value="">Please Select</option>
                                                     @foreach (var option in mealOptions)
                                                         {
@@ -817,388 +1135,8 @@
 <script src="~/js/custom.js/customnew.js"></script>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/jquery/dist/jquery.js"></script>
-<script type="text/javascript">
-    /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
-    $(document).ready(function () {
-        $("#seattab1").addClass('active');
-        $("#tabshow2").hide();
-        $("#tabnew2").hide();
-        $("#popbtnB").hide();
-        $("#popbtnA").show();
-        $("#seattab1").click(function () {
-            $("#tabshow1").show();
-            $("#tabnew1").show();
-            $("#tabnew2").hide();
-            $("#popbtnB").hide();
-            $("#popbtnA").show();
-            $("#tabshow2").hide();
-            $("#seattab1").addClass('active');
-            $("#seattab2").removeClass('active');
 
-        });
 
-        $("#seattab2").click(function () {
-            $("#tabshow2").css("display", "block");
-            $("#seattab2").addClass('active');
-            $("#seattab1").removeClass('active');
-            $("#popbtnA").hide();
-            $("#tabshow1").hide();
-            $("#tabnew1").hide();
-            $("#tabnew2").show();
-            $("#popbtnB").show();
 
-        });
-
-        $("#btnfocus").click(function () {
-            alert("Do you want select connect seat");
-            $("#seattab2").click();
-        });
-
-    });
-
-</script>
-<script>
-
-    $(document).ready(function () {
-
-
-        // //Start :MealKey post
-
-    @*$('.select-option .servc-bordr').change((e) => {
-
-            // var selected = $(e.target).find("option:selected").map(function () { return this.value; }).get();
-            // alert(selected);
-            var selected = $('.select-option .servc-bordr').map(function () {
-
-            return $(this).find("option:selected").map(function () { return this.value + "_0"; }).get();
-            }).get();
-
-            alert(selected);
-            localStorage.setItem("MealssrKeyCount", JSON.stringify(selected));
-            document.getElementById("hiddenSsrKey").value = selected.join(',');  // Joining selected values into a string
-
-            });*@
-
-            $('.select-option .servc-bordr').change((e) => {
-                var selectedOptions = $('.select-option .servc-bordr option:selected');
-
-
-                var mealCodes = [];
-                var prices = [];
-
-                selectedOptions.each(function () {
-                    var optionValue = $(this).val();
-                    var parts = optionValue.split('_');
-
-                    mealCodes.push(parts[0] + "_OneWay0");
-                    prices.push(parseFloat(parts[1]));
-                });
-                //alert(mealCodes);
-                localStorage.setItem("MealssrKeyCount", JSON.stringify(mealCodes));
-                document.getElementById("hiddenSsrKey").value = mealCodes.join(',');
-
-                // Calculate total price
-                var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
-                $('#AddMeal').text(totalPrice.toFixed(2));
-
-                // Display meal codes and prices in separate alerts
-                // alert("Meal Codes: " + mealCodes.join(','));
-                //alert("Prices: " + prices.join(','));
-                updateCombinedTotal();
-
-            });
-
-      
-
-
-
-        @*$('.select-option2 .servc-bordr').change((e) => {
-
-            // var selected = $(e.target).find("option:selected").map(function () { return this.value; }).get();
-            // alert(selected);
-            var selected = $('.select-option2 .servc-bordr').map(function () {
-
-                return $(this).find("option:selected").map(function () { return this.value + "_OneWay1"; }).get();
-            }).get();
-
-            alert(selected);
-            localStorage.setItem("MealssrKeyCount2", JSON.stringify(selected));
-            document.getElementById("hiddenSsrKey2").value = selected.join(','); // Joining selected values into a string
-
-        });*@
-
-            $('.select-option2 .servc-bordr').change((e) => {
-               
-                var selected = $('.select-option2 .servc-bordr').map(function () {
-                    return $(this).find("option:selected").map(function () {
-                        return this.value + "_OneWay1";  
-                    }).get();
-                }).get();
-
-              
-                var prices = $('.select-option2 .servc-bordr').map(function () {
-                    return $(this).find("option:selected").map(function () {
-                        var parts = this.value.split('_');
-                        return parseFloat(parts[1]);  
-                    }).get();
-                }).get();
-
-                // Calculate the total price
-                var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
-
-                // Update the DOM elements with the selected values and total price
-                //alert(selected);  // Display selected options for debugging
-                localStorage.setItem("MealssrKeyCount2", JSON.stringify(selected));
-                document.getElementById("hiddenSsrKey2").value = selected.join(','); // Joining selected values into a string
-
-                // Display total price in a specified element, ensure you have an element with this ID
-                $('#AddMeal2').text(totalPrice.toFixed(2));
-                updateCombinedTotal();
-            });
-
-
-        function updateCombinedTotal() {
-            var totalPrice1 = parseFloat($('#AddMeal').text()) || 0;
-            var totalPrice2 = parseFloat($('#AddMeal2').text()) || 0;
-            var combinedTotal = totalPrice1 + totalPrice2;
-            $('#AddMealTotal').text(combinedTotal.toFixed(2));
-
-        }
-
-
-
-
-        //End :MealKey post
-
-        //Bagage code start
-        @*$('.select-baggage .servc-bordr').change((e) => {
-
-            // var selected = $(e.target).find("option:selected").map(function () { return this.value; }).get();
-            // alert(selected);
-            var selected = $('.select-baggage .servc-bordr').map(function () {
-
-                return $(this).find("option:selected").map(function () { return this.value + "_0"; }).get();
-            }).get();
-
-            alert(selected);
-            localStorage.setItem("BagssrKeyCount", JSON.stringify(selected));
-            document.getElementById("hiddenbagKey").value = selected.join(',');  // Joining selected values into a string
-
-        });*@
-
-            $('.select-baggage .servc-bordr').change((e) => {
-                // Collect selected values and append "_0" to each
-                var selected = $('.select-baggage .servc-bordr').map(function () {
-                    return $(this).find("option:selected").map(function () {
-                        return this.value + "_OneWay0";
-                    }).get();
-                }).get();
-
-                // Extract prices from the selected values for total calculation
-                var prices = $('.select-baggage .servc-bordr').map(function () {
-                    return $(this).find("option:selected").map(function () {
-                        var parts = this.value.split('_');
-                        return parseFloat(parts[1]);
-                    }).get();
-                }).get();
-
-                // Calculate the total price
-                var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
-
-                // Update the DOM elements with the selected values and total price
-                //alert(selected);  // Debug: Display selected baggage options
-                localStorage.setItem("BagssrKeyCount", JSON.stringify(selected));
-                document.getElementById("hiddenbagKey").value = selected.join(',');  // Joining selected values into a string
-
-                // Display total price in a specified element, assuming the ID is correct
-                $('#AddBaggage').text(totalPrice.toFixed(2));
-            });
-
-
-        // $(document).ready(function () {
-        //     // Clear the selected value on page load
-        //     $('.select-baggage .servc-bordr').val('');
-
-        //     $('.select-baggage .servc-bordr').change((e) => {
-        //         var selected = $('.select-baggage .servc-bordr').map(function () {
-        //             return $(this).find("option:selected").map(function () { return this.value + "_0"; }).get();
-        //         }).get();
-
-        //         alert(selected);
-        //         localStorage.setItem("BagssrKeyCount", JSON.stringify(selected));
-        //         document.getElementById("hiddenbagKey").value = selected.join(',');  // Joining selected values into a string
-        //     });
-        // });
-
-
-        // bagage code end
-
-        $("#Continuebtn").click(function () {
-
-            var unitKey = JSON.parse(localStorage.getItem("selectedIds"));
-            // let mealcode1 = JSON.parse(localStorage.getItem("MealssrKeyCount"));
-            // let mealcode2 = JSON.parse(localStorage.getItem("MealssrKeyCount2"));
-            // var ssrKey = mealcode1 + "," + mealcode2;
-            let mealcode1 = JSON.parse(localStorage.getItem("MealssrKeyCount"));
-            let mealcode2 = JSON.parse(localStorage.getItem("MealssrKeyCount2"));
-            var ssrKey;
-            if (mealcode2 && mealcode2.length > 0) {
-                ssrKey = mealcode1.concat(mealcode2);
-            } else {
-                ssrKey = mealcode1;
-            }
-
-            let BaggageSSrkey = JSON.parse(localStorage.getItem("BagssrKeyCount"));
-
-            $.ajax({
-                url: "/IndigoTripsell/PostUnitkey",
-                type: "POST",
-                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                data: { unitKey: unitKey, ssrKey: ssrKey, BaggageSSrkey: BaggageSSrkey },
-                success: function (data) {
-                    window.location.href = '/IndigoPaymentGateway/IndigoPayment';
-                },
-                error: function (err) {
-                    console.error(err);
-                }
-            });
-        });
-
-
-
-
-
-        $("#exampleModalSeat").click(function (e) {
-
-            e.preventDefault();
-            $.ajax({
-                url: '@Url.Action("PostSeatMapModaldataView", "IndigoTripsell")',
-                type: "GET",
-                success: function (data) {
-                    //console.log('POST request successful');
-                    $('#sgexampleModal .modal-bodyy').html(data);
-                    $('#sgexampleModal').modal('show');
-
-                },
-                error: function (error) {
-                    console.log("Error fetching data:", error);
-                }
-            });
-        });
-
-    });
-
-
-
-</script>
-
-
-@* <script>
-
-    $(document).ready(function () {
-
-        var count = $("#passengercountid").val();
-        $('.mycheck').on('change', function () {
-            if ($('.mycheck:checked').length > count) {
-                alert('You can only ' + count + ' select checkboxes.');
-                this.checked = false;
-            }
-        });
-
-        $('.mycheck2').on('change', function () {
-            if ($('.mycheck2:checked').length > count) {
-                alert('You can only ' + count + ' select checkboxes.');
-                this.checked = false;
-            }
-        });
-        // Function for handling seat checkboxes
-        $('input[name="unitKey"]').on('change', function () {
-            var selectedIds = [];
-            debugger;
-            $('input[name="unitKey"]:checked').each(function () {
-                selectedIds.push($(this).val());
-            });
-            var total = 0;
-            $('input[name="unitKey"]:checked').each(function () {
-                total += parseInt($(this).val());
-            });
-            document.getElementById("total").value = total.toFixed(2);
-            const seatmap1 = document.getElementById("total").value;
-
-            var TotalAmmount = document.getElementById("Totalamount").value;
-            localStorage.setItem('seatPayment', seatmap1);
-            localStorage.setItem('basePayment', TotalAmmount);
-
-            var Totalseat1 = parseInt(TotalAmmount) + parseInt(seatmap1);
-            if (seatmap1 != null) {
-                document.getElementById("seattotal1").innerHTML = Totalseat1;
-            }
-            var TotalSeatPay = parseInt(TotalAmmount) + parseInt(seatmap1) + 100;
-            if (TotalSeatPay != null) {
-                document.getElementById("TotalSeatPayID").innerHTML = TotalSeatPay;
-            }
-
-            localStorage.setItem("selectedIds", JSON.stringify(selectedIds));
-        });
-
-        var count = $("#passengercountid").val();
-        $('.ssrKeyBaggage').on('change', function () {
-            if ($('.ssrKeyBaggage:checked').length > count) {
-                alert('You can only ' + count + ' select checkboxes.');
-                this.checked = false;
-            }
-        });
-        // Function for handling baggage checkboxes
-        $('input[name="ssrKey"]').on('change', function () {
-            var BaggageIds = [];
-            debugger;
-            $('input[name="ssrKey"]:checked').each(function () {
-                BaggageIds.push($(this).val());
-            });
-
-            localStorage.setItem("BaggageIds", JSON.stringify(BaggageIds));
-        });
-
-        $("#Continuebtn").click(function () {
-
-            var unitKey = JSON.parse(localStorage.getItem("selectedIds"));
-            var ssrKey = JSON.parse(localStorage.getItem("MealssrKeyCount"));
-            var BaggageSSrkey = JSON.parse(localStorage.getItem("BaggageIds"));
-            $.ajax({
-                url: "/SGTripsell/PostUnitkey",
-                type: "POST",
-                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                data: { unitKey: unitKey, ssrKey: ssrKey, BaggageSSrkey: BaggageSSrkey },
-                success: function (data) {
-                    window.location.href = '/AirAsiaOneWayPayment/AirAsiaOneWayPaymentView';
-                },
-                error: function (err) {
-                    console.error(err);
-                }
-            });
-        });
-        $("#exampleModalSeat").click(function (e) {
-            e.preventDefault();
-            alert("Pop Up Test");
-            $.ajax({
-                url: '@Url.Action("PostSeatMapModaldataView", "IndigoTripsell")',
-                type: "GET",
-                success: function (data) {
-                    console.log('POST request successful');
-                    $('#sgexampleModal .modal-bodyy').html(data);
-                    $('#sgexampleModal').modal('show');
-
-                },
-                error: function (error) {
-                    console.log("Error fetching data:", error);
-                }
-            });
-        });
-
-
-
-    });
-
-</script> *@
 
 

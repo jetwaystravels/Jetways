@@ -1,7 +1,7 @@
 ﻿@model DomainLayer.ViewModel.ViewModel
 @{
     Layout = null;
-
+    var data = Model;
 }
 
 <div class="py-15 px-20 rounded-4 text-15 bg-blue-1-05 mb-10">
@@ -18,6 +18,8 @@
 
             <div><label class="text-16 fw-600">@Model.passeengerlistRT[0].passengers[i].passengerTypeCode</label></div>
             <input type="hidden" name="passengerdetails[@i].passengertypecode" value="@Model.passeengerlistRT[0].passengers[i].passengerTypeCode" />
+            <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlistRT[0].passengers[i].passengerKey" />
+
             <div class="row">
                 <div class="col-md-1">
                     <select name="passengerdetails[@i].Title" class="form-control" asp-items="@ViewBag.Title"></select>

@@ -136,7 +136,7 @@
                                                     <div class="Pdetail1">
 
                                                         <ul class="td-inline">
-                                                            <li class="tlist-none"><span id="Adult1"></span></li>
+                                                            <li class="tlist-none"><span id="Adult1">Passengers INFT</span></li>
                                                             <li class="tlist-none"><span id="Pname1" class="fw-bold-600">@Model.AirlinePNR[0].passengers[p].infant.name.first</span></li>
 
                                                         </ul>
@@ -310,16 +310,16 @@
                                             {
                                                 if (ssrReturn.MealName != null)
                                                 {
-                                                    if (ssrReturn.MealName.StartsWith("V", StringComparison.OrdinalIgnoreCase))
+                                                    if (ssrReturn.ssrCode.StartsWith("V", StringComparison.OrdinalIgnoreCase))
                                                     {
                                                         <div class="tseat5d d-flex align-items-center">
                                                             <span><img src="~/img/pmeal.png"></span>
                                                             <div class="pmeal ps-2">
                                                                 <span class="fw-bold-600">
-                                                                    @origin
+
                                                                 </span>
                                                                 <span class="fw-bold-600">
-                                                                    @destination :
+                                                                    :
                                                                 </span>
 
                                                                 <span class="fw-bold-600">@ssrReturn.MealName</span>
@@ -338,7 +338,7 @@
                                                     {
                                                         if (ssrReturn.MealName != null)
                                                         {
-                                                            @if (ssrReturn.MealName.StartsWith("P", StringComparison.OrdinalIgnoreCase))
+                                                            @if (ssrReturn.ssrCode.StartsWith("P", StringComparison.OrdinalIgnoreCase))
                                                             {
                                                                 <div class="bgagg-kg">
                                                                     <span>Baggage:</span> <span class="fw-bold-600"> @ssrReturn.MealName</span>
@@ -349,13 +349,22 @@
                                                     }
                                                 }
 
-
                                                 <div class="bgagg-kg">
                                                     <span>Extra Baggage: </span> <span class="fw-bold-600"> NA</span>
                                                 </div>
-                                                <div class="bgagg-kg">
-                                                    <span>Special request: </span> <span class="fw-bold-600"> -</span>
-                                                </div>
+                                                @foreach (var mealsitems in passengerSegmentsList)
+                                                {
+                                                    @foreach (var ssrReturnn in mealsitems.SsrReturn)
+                                                    {
+                                                        @if (ssrReturnn.ssrCode.StartsWith("W", StringComparison.OrdinalIgnoreCase))
+                                                        {
+
+                                                            <div class="bgagg-kg">
+                                                                <span>Special request: </span> <span class="fw-bold-600">@ssrReturnn.MealName </span>
+                                                            </div>
+                                                        }
+                                                    }
+                                                }
                                             </div>
                                         </div>
                                     </div>
@@ -441,7 +450,7 @@
                                         <span>Base Price</span>
                                     </div>
                                     <div class="col-5">
-                                        <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.journeyTotals.totalAmount</span>
+                                        <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.totalAmountSum</span>
                                     </div>
                                 </div>
                                 <div class="row mt-2">
@@ -449,7 +458,7 @@
                                         <span>Airline taxes and Fees</span>
                                     </div>
                                     <div class="col-5">
-                                        <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.journeyTotals.totalTax</span>
+                                        <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.totaltax</span>
                                     </div>
                                 </div>
                                 <div class="row mt-2">
@@ -597,7 +606,7 @@
                                 <span class="fw-bold-600">Total Price (tatal Fare + Add-ons and Service Fee)</span>
                             </div>
                             <div class="totalprice">
-                                <span class="fw-bold-600">item.price</span>
+                                <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.balanceDue</span>
                             </div>
                         </div>
 
@@ -669,8 +678,6 @@
     //});
     //};
 
-
-
     function printDiv(divName) {
 
         var printContents = document.getElementById(divName).innerHTML;
@@ -684,7 +691,6 @@
         document.body.innerHTML = originalContents;
 
     }
-
 </script>
 
 

@@ -68,6 +68,8 @@ namespace DomainLayer.Model
             public double totalToCollect { get; set; }
             public double totalPointsToCollect { get; set; }
             public double totalCharged { get; set; }
+            public double totalAmountSum { get; set; }
+            public double totaltax { get; set; }
             public PassengerTotals passengerTotals { get; set; }
             public ReturnPassengers passengers { get; set; }
             public JourneyTotals journeyTotals { get; set; }
@@ -586,7 +588,7 @@ namespace DomainLayer.Model
             public object spoilage { get; set; }
             public object nameChanges { get; set; }
             public object convenience { get; set; }
-            public Infant infant { get; set; }
+            public InfantReturn infant { get; set; }
         }
         public class SsrReturn
         {

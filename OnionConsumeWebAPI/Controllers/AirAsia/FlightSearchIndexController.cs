@@ -717,6 +717,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                                 fareIndividualsList.Add(fareIndividual);
 
                                             }
+                                            break;
                                         }
                                         else
                                             continue;
@@ -962,6 +963,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                                 fareIndividualsList.Add(fareIndividual);
 
                                             }
+                                            break;
                                         }
                                         else
                                             continue;
@@ -1486,7 +1488,8 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                                     continue;
                                                 }
 
-
+                                                finalamount = 0;
+                                                taxamount = 0M;
                                                 //for (int k = 1; k < servicecharge; k++) // one way
                                                 for (int k = 0; k < servicecharge; k++)
                                                 {
@@ -1514,6 +1517,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                                     fareIndividualsList.Add(fareIndividual);
 
                                                 }
+                                                break;
                                             }
                                             else
                                                 continue;
@@ -1658,6 +1662,10 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             Identifier.identifier = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].FlightDesignator.FlightNumber; ;
                             Identifier.carrierCode = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].FlightDesignator.CarrierCode;
                             Segmentobj.identifier = Identifier;
+                            //if(Identifier.identifier == "5039")
+                            //{
+
+                            //}
                             int legscount = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].Legs.Length;
                             List<DomainLayer.Model.Leg> Leglist = new List<DomainLayer.Model.Leg>();
                             for (int m = 0; m < legscount; m++)
@@ -1718,6 +1726,8 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                                     continue;
                                                 }
 
+                                                finalamount = 0;
+                                                taxamount = 0M;
                                                 for (int k = 0; k < servicecharge; k++)
                                                 {
                                                     if (k > 0)
@@ -1742,6 +1752,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                                     fareIndividualsList.Add(fareIndividual);
 
                                                 }
+                                                break;
                                             }
                                             else
                                                 continue;

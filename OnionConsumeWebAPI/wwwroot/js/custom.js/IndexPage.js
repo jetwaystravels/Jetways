@@ -299,32 +299,91 @@ $(document).ready(function () {
 
 
     // Event handler for radio button change
+    //$('input[type="radio"]').on('change', function () {
+    //    if ($('#round-tripid').is(':checked')) {
+
+    //        $('#end-date').prop('disabled', false);
+    //        $('#bgEnddate').css('background-color', '#fff');
+    //        $('#end-date').css('visibility', 'visible');
+    //        //Date Picker end date
+
+    //        var returndate = new Date();
+    //        var returndd = String(returndate.getDate() + 2).padStart(2, '0');
+    //        var returnmm = String(returndate.getMonth() + 1).padStart(2, '0');
+    //        var returnyyyy = returndate.getFullYear();
+    //        var returncurrentDate = returnyyyy + '-' + returnmm + '-' + returndd;
+    //        $("#end-date").val(returncurrentDate);
+
+    //        $("#end-date").datepicker(
+    //            {
+    //                dateFormat: 'yy-mm-dd',
+    //                numberOfMonths: 2,
+    //                maxDate: '+3m',
+    //                minDate: '0'
+    //            });
+
+    //        $("#start-date").val(returncurrentDate);
+    //        $("#start-date").datepicker(
+    //            {
+    //            dateFormat: 'yy-mm-dd',
+    //            numberOfMonths: 2,
+    //            maxDate: '+2m',
+    //            minDate: '0',
+    //            onSelect: function (selectedDate) {
+    //                var endDate = $('#end-date');
+    //                endDate.datepicker('option', 'minDate', selectedDate);
+    //                endDate.datepicker('setDate', selectedDate);
+
+    //            }
+    //          });
+
+    //        const elementToHide = document.querySelector('.rounddateinput');
+    //        elementToHide.style.display = 'none'; // Hide the element
+
+
+    //        ///Date picker End Date---End--
+    //    } else {
+    //        // Disable the end date input field for other options
+    //        $('#end-date').prop('disabled', true);
+    //        $('#bgEnddate').css('background-color', '#e9ecef');
+    //        $('#end-date').css('visibility', 'hidden');
+    //        const elementToHide = document.querySelector('.rounddateinput');
+    //        elementToHide.style.display = 'block'; // Hide the element
+
+    //    }
+
+    //});
+
     $('input[type="radio"]').on('change', function () {
         if ($('#round-tripid').is(':checked')) {
-            
+
             $('#end-date').prop('disabled', false);
             $('#bgEnddate').css('background-color', '#fff');
             $('#end-date').css('visibility', 'visible');
-            //Date Picker end date
-           
+
+            // Date Picker end date
             var returndate = new Date();
-            var returndd = String(returndate.getDate() + 2).padStart(2, '0');
-            var returnmm = String(returndate.getMonth() + 1).padStart(2, '0');
+            var returndd = returndate.getDate() + 2; // Note: Don't pad with 0
+            var returnmm = returndate.getMonth() + 1; // Note: Don't pad with 0
             var returnyyyy = returndate.getFullYear();
+
+            // Check if the return day exceeds the maximum number of days in the month
+            if (returndd > new Date(returnyyyy, returnmm, 0).getDate()) {
+                returndd = new Date(returnyyyy, returnmm, 0).getDate(); // Set to the last day of the month
+            }
+
             var returncurrentDate = returnyyyy + '-' + returnmm + '-' + returndd;
             $("#end-date").val(returncurrentDate);
 
-            $("#end-date").datepicker(
-                {
-                    dateFormat: 'yy-mm-dd',
-                    numberOfMonths: 2,
-                    maxDate: '+3m',
-                    minDate: '0'
-                });
+            $("#end-date").datepicker({
+                dateFormat: 'yy-mm-dd',
+                numberOfMonths: 2,
+                maxDate: '+3m',
+                minDate: '0'
+            });
 
             $("#start-date").val(returncurrentDate);
-            $("#start-date").datepicker(
-                {
+            $("#start-date").datepicker({
                 dateFormat: 'yy-mm-dd',
                 numberOfMonths: 2,
                 maxDate: '+2m',
@@ -333,15 +392,19 @@ $(document).ready(function () {
                     var endDate = $('#end-date');
                     endDate.datepicker('option', 'minDate', selectedDate);
                     endDate.datepicker('setDate', selectedDate);
+                    var maxEndDate = new Date(selectedDate);
+                    maxEndDate.setMonth(maxEndDate.getMonth() + 3); 
+                    endDate.datepicker('option', 'maxDate', maxEndDate);
 
+                    if (endDate.val() < selectedDate) {
+                        endDate.datepicker('setDate', selectedDate);
+                    }
                 }
-              });
+            });
 
             const elementToHide = document.querySelector('.rounddateinput');
             elementToHide.style.display = 'none'; // Hide the element
 
-
-            ///Date picker End Date---End--
         } else {
             // Disable the end date input field for other options
             $('#end-date').prop('disabled', true);
@@ -351,128 +414,66 @@ $(document).ready(function () {
             elementToHide.style.display = 'block'; // Hide the element
 
         }
-
     });
 
 
+
+
+
+
+
+
     ////*****-----------DatePicker Start*****-----------//
+    //$(function () {
+    //    var today = new Date();
+    //    var dd = String(today.getDate() + 1).padStart(2, '0');
+    //    var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+    //    var yyyy = today.getFullYear();
+    //    var currentDate = yyyy + '-' + mm + '-' + dd;
+
+    //    // Set the current date as the default value in the input field
+    //    $("#start-date").val(currentDate);
+    //    $("#start-date").datepicker( {
+    //            dateFormat: 'yy-mm-dd',
+    //            numberOfMonths: 2,
+    //            maxDate: '+2m',
+    //            minDate: '0',
+    //           onSelect: function (selectedDate) {
+    //            var endDate = $('#end-date');
+    //            endDate.datepicker('option', 'minDate', selectedDate);
+    //            endDate.datepicker('setDate', selectedDate);
+    //           }
+    //    });
+
+
+    //});
+
     $(function () {
         var today = new Date();
-        var dd = String(today.getDate() + 1).padStart(2, '0');
+        var dd = String(today.getDate()).padStart(2, '0');
         var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
         var yyyy = today.getFullYear();
+        var maxDays = new Date(yyyy, mm, 0).getDate(); // Get the maximum days for the current month
         var currentDate = yyyy + '-' + mm + '-' + dd;
 
         // Set the current date as the default value in the input field
         $("#start-date").val(currentDate);
-        $("#start-date").datepicker( {
-                dateFormat: 'yy-mm-dd',
-                numberOfMonths: 2,
-                maxDate: '+2m',
-                minDate: '0',
-               onSelect: function (selectedDate) {
+        $("#start-date").datepicker({
+            dateFormat: 'yy-mm-dd',
+            numberOfMonths: 2,
+            maxDate: '+' + maxDays + 'd', // Set the maximum date to the last day of the current month
+            minDate: '0',
+            onSelect: function (selectedDate) {
                 var endDate = $('#end-date');
                 endDate.datepicker('option', 'minDate', selectedDate);
                 endDate.datepicker('setDate', selectedDate);
-               }
+            }
         });
-
-
     });
 
    
 
-    //var maxField = 6;
-    //var maxField_adult = 9;
-    //var count = 1;
-    //$('.increment').on('click', function () {
-    //    if (count < maxField_adult) {
-    //        count++;
-    //        $('#count_adult').text(count);
-    //        $('#field_adult').val(count);
 
-    //    }
-
-    //    var fieldValue = $('#field_adult').val();
-    //    localStorage.setItem("adultcount", fieldValue);
-
-
-
-    //});
-
-    //$('.decrement').on('click', function () {
-    //    if (count > 1) {
-    //        count--;
-    //        $('#count_adult').text(count);
-    //        $('#field_adult').val(count);
-
-    //        //New Code 20-03-2024-for infant validation
-    //        //if (count <= count_infant) {
-    //        if (count_infant > count) {
-    //            count_infant = count; // Adjust infant count to match adult count
-    //            $('#count_infant').text(count_infant);
-    //            $('#field_infant').val(count_infant);
-    //        }
-
-    //    }
-
-
-    //});
-
-    //var count_child = 0;
-    //$('.increment1').on('click', function () {
-    //    if (count_child < maxField) {
-    //        count_child++;
-    //        $('#count_child').text(count_child);
-    //        $('#field_child').val(count_child);
-    //    }
-    //});
-
-    //$('.decrement1').on('click', function () {
-    //    if (count_child > 0) {
-    //        count_child--;
-    //        $('#count_child').text(count_child);
-    //        $('#field_child').val(count_child);
-    //    }
-    //});
-
-    //var count_infant = 0;
-    //$('.increment2').on('click', function () {
-    //    if (count_infant < maxField) {
-    //        var adultcounttotal = localStorage.getItem("adultcount");
-    //        if (adultcounttotal == null) {
-    //            //alert("abc");
-    //            adultcounttotal = 1;
-    //            //alert(adultcounttotal);
-    //        }
-
-
-
-    //        //alert(count_infant);
-    //        if (adultcounttotal <= count_infant) {
-    //            //alert(count_infant);
-    //            alert("Number of infants cannot be more than adults");
-    //            document.getElementById("field_adult").focus();
-    //            return false;
-    //        }
-
-
-    //        count_infant++;
-    //        $('#count_infant').text(count_infant);
-    //        $('#field_infant').val(count_infant);
-
-
-    //    }
-
-    //});
-
-    //$('.decrement2').on('click', function () {
-    //    if (count_infant > 0) {
-    //        count_infant--;
-    //        $('#count_infant').text(count_infant);
-    //        $('#field_infant').val(count_infant);
-    //    }
-    //});
 
     var maxField = 6;
     var maxField_adult = 9;

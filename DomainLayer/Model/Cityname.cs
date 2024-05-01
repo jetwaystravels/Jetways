@@ -38,7 +38,6 @@ namespace DomainLayer.Model
             new { citycode = "ISK", cityname = "Nashik", airportname = "Ozar Airport India"},
             new { citycode = "SAG", cityname = "Shirdi", airportname = "Shirdi Airport India"},
             new { citycode = "IDR", cityname = "Indore", airportname = "Devi Ahilyabai Holkar International Airport India"},
-            new { citycode = "GWL", cityname = "Gwalior", airportname = "Gwalior Airport India"},
             new { citycode = "BHO", cityname = "Bhopal", airportname = "Raja Bhoj Airport India"},
             new { citycode = "JLR", cityname = "Jabalpur", airportname = "Jabalpur Airport India"},
             new { citycode = "TNI", cityname = "Satna", airportname = "Satna Airport India"},

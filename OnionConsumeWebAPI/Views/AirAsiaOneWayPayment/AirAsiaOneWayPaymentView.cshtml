@@ -893,22 +893,22 @@
 			//var value = localStorage.getItem('myValue');
 			// Display the value on the page
 			//document.getElementById("value-output").innerHTML = value;
-			var seatFare = localStorage.getItem('seatPayment');
+			var seatFare = localStorage.getItem('seatPayment') || "0";
 			//alert(seatFare);
-			var baseFare = localStorage.getItem('basePayment1');
+			var baseFare = localStorage.getItem('basePayment1') || "0";
 			//alert(baseFare)
-			var basemeal = localStorage.getItem('mealTotal1');
+			var basemeal = localStorage.getItem('mealTotal1') || "0";
 			//alert(basemeal)
-			var basebag = localStorage.getItem('bagTotal1');
+			var basebag = localStorage.getItem('bagTotal1') || "0";
 			//alert(basebag);
 
-			document.getElementById("base1").innerHTML = baseFare;
-			document.getElementById("meal1").innerHTML = basemeal;
-			document.getElementById("bag1").innerHTML = basebag;
-			document.getElementById("seattotal").innerHTML = seatFare;
+			document.getElementById("base1").innerHTML = baseFare || 0;
+			document.getElementById("meal1").innerHTML = basemeal || 0;
+			document.getElementById("bag1").innerHTML = basebag || 0;
+			document.getElementById("seattotal").innerHTML = seatFare || 0;
 
 
-			var conviniencefare = document.querySelector('#convinfare').value;
+			var conviniencefare = document.querySelector('#convinfare').value || "0";
 			let Totalpaymnet = parseInt(seatFare) + parseInt(baseFare) + parseInt(basebag) + parseInt(basemeal) + parseInt(conviniencefare);
 			document.getElementById("totalpayment").innerHTML = Totalpaymnet;
 			document.getElementById("Totalpayment").innerHTML = Totalpaymnet;

@@ -49,6 +49,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     string token = string.Empty;
                     tokenview = HttpContext.Session.GetString("AirasiaTokan");
 
+                    
                     if (!string.IsNullOrEmpty(tokenview) && flagAirAsia == true && data.Airline[k1].ToLower().Contains("airasia"))
                     {
                         flagAirAsia = false;
@@ -109,6 +110,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
                             ReturnTicketBooking returnTicketBooking = new ReturnTicketBooking();
                             returnTicketBooking.recordLocator = JsonObjPNRBooking.data.recordLocator;
+                            returnTicketBooking.airLines = "AirAsia";
                             returnTicketBooking.bookingKey = JsonObjPNRBooking.data.bookingKey;
                             int JourneysReturnCount = JsonObjPNRBooking.data.journeys.Count;
 
@@ -240,11 +242,17 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                             List<ServiceChargeReturn> serviceChargeReturnList = new List<ServiceChargeReturn>();
                                             for (int m = 0; m < ServiceChargeReturnCount; m++)
                                             {
-                                                ServiceChargeReturn serviceChargeReturnobj = new ServiceChargeReturn();
+                                                try
+                                                {
+                                                    ServiceChargeReturn serviceChargeReturnobj = new ServiceChargeReturn();
 
-                                                serviceChargeReturnobj.amount = JsonObjPNRBooking.data.journeys[i].segments[0].fares[j].passengerFares[k].serviceCharges[l].amount;
-                                                serviceChargeReturnList.Add(serviceChargeReturnobj);
+                                                    serviceChargeReturnobj.amount = JsonObjPNRBooking.data.journeys[i].segments[0].fares[j].passengerFares[k].serviceCharges[l].amount;
+                                                    serviceChargeReturnList.Add(serviceChargeReturnobj);
+                                                }
+                                                catch(Exception ex)
+                                                {
 
+                                                }
 
                                             }
                                             passengerFareReturnobj.serviceCharges = serviceChargeReturnList;
@@ -399,11 +407,14 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     //var JsonObjTripsell = JsonConvert.DeserializeObject<dynamic>(resultsTripsell);
                                     var totalAmount = _getBookingResponse.Booking.BookingSum.TotalCost;
                                     returnTicketBooking.bookingKey = _getBookingResponse.Booking.BookingID.ToString();
-                                    ReturnPaxSeats _unitdesinator = new ReturnPaxSeats();
-                                    _unitdesinator.unitDesignatorPax = _getBookingResponse.Booking.Journeys[0].Segments[0].PaxSeats[0].UnitDesignator;
                                     Contacts _contact = new Contacts();
                                     _contact.phoneNumbers = _getBookingResponse.Booking.BookingContacts[1].HomePhone.ToString();
-                                    _contact.ReturnPaxSeats = _unitdesinator.unitDesignatorPax.ToString();
+                                    ReturnPaxSeats _unitdesinator = new ReturnPaxSeats();
+                                    if (_getBookingResponse.Booking.Journeys[0].Segments[0].PaxSeats != null && _getBookingResponse.Booking.Journeys[0].Segments[0].PaxSeats.Length > 0)
+                                    {
+                                        _unitdesinator.unitDesignatorPax = _getBookingResponse.Booking.Journeys[0].Segments[0].PaxSeats[0].UnitDesignator;
+                                        _contact.ReturnPaxSeats = _unitdesinator.unitDesignatorPax.ToString();
+                                    }
                                     returnTicketBooking.airLines = "Spicejet";
                                     returnTicketBooking.recordLocator = _getBookingResponse.Booking.RecordLocator;
 
@@ -707,17 +718,32 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     if (_getBookingResponse != null)
                                     {
                                         string _responceGetBooking = JsonConvert.SerializeObject(_getBookingResponse);
-
+                                        //string fileName = @"D:\a.txt";
+                                        //try
+                                        //{
+                                        //    using (StreamReader reader = new StreamReader(fileName))
+                                        //    {
+                                        //        _responceGetBooking=reader.ReadToEnd();
+                                        //    }
+                                        //}
+                                        //catch (Exception exp)
+                                        //{
+                                        //    //Console.WriteLine(exp.Message);
+                                        //}
                                         ReturnTicketBooking returnTicketBooking = new ReturnTicketBooking();
                                         //var resultsTripsell = responseTripsell.Content.ReadAsStringAsync().Result;
                                         //var JsonObjTripsell = JsonConvert.DeserializeObject<dynamic>(resultsTripsell);
                                         var totalAmount = _getBookingResponse.Booking.BookingSum.TotalCost;
                                         returnTicketBooking.bookingKey = _getBookingResponse.Booking.BookingID.ToString();
-                                        ReturnPaxSeats _unitdesinator = new ReturnPaxSeats();
-                                        _unitdesinator.unitDesignatorPax = _getBookingResponse.Booking.Journeys[0].Segments[0].PaxSeats[0].UnitDesignator;
                                         Contacts _contact = new Contacts();
                                         _contact.phoneNumbers = _getBookingResponse.Booking.BookingContacts[1].HomePhone.ToString();
-                                        _contact.ReturnPaxSeats = _unitdesinator.unitDesignatorPax.ToString();
+                                        ReturnPaxSeats _unitdesinator = new ReturnPaxSeats();
+                                        if (_getBookingResponse.Booking.Journeys[0].Segments[0].PaxSeats != null && _getBookingResponse.Booking.Journeys[0].Segments[0].PaxSeats.Length>0)
+                                        {
+                                            _unitdesinator.unitDesignatorPax = _getBookingResponse.Booking.Journeys[0].Segments[0].PaxSeats[0].UnitDesignator;
+                                            _contact.ReturnPaxSeats = _unitdesinator.unitDesignatorPax.ToString();
+                                        }
+                                        
                                         returnTicketBooking.airLines = "Indigo";
                                         returnTicketBooking.recordLocator = _getBookingResponse.Booking.RecordLocator;
 

@@ -29,7 +29,7 @@
 		<!-- ***** Header Start ***** -->
 		<header class="navbar navbar-sticky navbar-expand-lg inner-bg">
 			<div class="container position-relative">
-				<a class="navbar-brand" href="index.html">
+				<a class="navbar-brand" asp-controller="FlightSearchIndex" asp-action="Index">
 					<img class="navbar-brand-regular" src="~/img/logo/logo.png" alt="brand-logo">
 					<img class="navbar-brand-sticky" src="~/img/logo/logo.png" alt="sticky brand-logo">
 				</a>
@@ -251,7 +251,7 @@
 												</div>
 												<div class="pt-20">
 													<div class="d-flex justify-content-between">
-														<span class="text-20 lh-13 fw-700 pt-3">&#8377; 7,219</span>
+														<span class="text-20 lh-13 fw-700 pt-3">&#8377; <span id="Totalpayment"></span></span>
 														@*<button class="btn btn-lg">Pay Now</button>*@
 														<form>
 															<input type="submit" asp-controller="RoundTripCommitBooking" asp-action="RoundTripBookingView" value="Pay Now" class="btn btn-lg">
@@ -652,32 +652,58 @@
 									<div class="text-15">Total Flight Price</div>
 								</div>
 								<div class="col-auto">
-									<div class="text-15">&#8377; <span id="value-output"></span></div>
+									<div class="text-15">&#8377; <span id="base1"></span></div>
 								</div>
 							</div>
-							<div class="row y-gap-3 justify-between pb-1">
-								<div class="col-auto">
-									<div class="text-14">(-) ICB Discount </div>
-									<div> </div>
-								</div>
-								<div class="col-auto">
-									<div class="text-15 text-success">&#8377;  100</div>
-								</div>
+							@* <div class="row y-gap-3 justify-between pb-1">
+							<div class="col-auto">
+							<div class="text-14">(-) ICB Discount </div>
+							<div> </div>
 							</div>
+							<div class="col-auto">
+							<div class="text-15 text-success">&#8377;  100</div>
+							</div>
+							</div> *@
 							<div class="row y-gap-2 justify-between pb-1">
 								<div class="col-auto">
 									<div class="text-15">Convenience Fee</div>
 								</div>
 								<div class="col-auto">
-									<div class="text-15">&#8377; 415</div>
+									<div class="text-15">&#8377; <span><input style="border:none;width:30px;" class="sum_item input-ammount" value="350" name="convie" type="text" id="convinfare" /></span></div>
 								</div>
 							</div>
+							<div class="row y-gap-2 justify-between pb-1">
+								<div class="col-auto">
+									<div class="text-15">Seat</div>
+								</div>
+								<div class="col-auto">
+									<div class="text-15">&#8377; <span id="seattotal"></span></div>
+								</div>
+							</div>
+							<div class="row y-gap-2 justify-between pb-1">
+								<div class="col-auto">
+									<div class="text-15">Meal</div>
+								</div>
+								<div class="col-auto">
+									<div class="text-15">&#8377; <span id="meal1"></span> </div>
+								</div>
+							</div>
+							<div class="row y-gap-2 justify-between pb-1">
+								<div class="col-auto">
+									<div class="text-15">Bag</div>
+								</div>
+								<div class="col-auto">
+									<div class="text-15">&#8377;  <span id="bag1"></span> </div>
+								</div>
+							</div>
+
+
 							<div class="row y-gap-2 justify-between pt-2 border-top-light">
 								<div class="col-auto">
 									<div class="text-20 fw-600">You Pay</div>
 								</div>
 								<div class="col-auto">
-									<div class="text-20 fw-600">&#8377; 4,224</div>
+									<div class="text-20 fw-600">&#8377; <span id="totalpayment"></span></div>
 								</div>
 							</div>
 
@@ -862,13 +888,43 @@
 	<script src="~/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 	<script src="~/js/vendor/npm.js"></script>
 	<script src="~/js/custom.js/customnew.js"></script>
+	@* <script type="text/javascript">
+	window.onload = function () {
+	debugger;
+	// Get the value from localStorage
+	var value = localStorage.getItem('myValue');
+	// Display the value on the page
+	document.getElementById("value-output").innerHTML = value;
+	};
+	</script> *@
 	<script type="text/javascript">
 		window.onload = function () {
 			debugger;
 			// Get the value from localStorage
-			var value = localStorage.getItem('myValue');
+			//var value = localStorage.getItem('myValue');
 			// Display the value on the page
-			document.getElementById("value-output").innerHTML = value;
+			//document.getElementById("value-output").innerHTML = value;
+			var seatFare = localStorage.getItem('seatPayment');
+			var baseFare = localStorage.getItem('basePayment1');
+			var basemeal = localStorage.getItem('mealTotal1');
+			var basebag = localStorage.getItem('bagTotal1');
+			//alert(baseFare);
+			//alert(basemeal);
+			//alert(basebag);
+			document.getElementById("base1").innerHTML = baseFare;
+			document.getElementById("meal1").innerHTML = basemeal;
+			document.getElementById("bag1").innerHTML = basebag;
+			document.getElementById("seattotal").innerHTML = seatFare;
+
+
+			var conviniencefare = document.querySelector('#convinfare').value;
+			let Totalpaymnet = parseInt(seatFare) + parseInt(baseFare) + parseInt(basebag) + parseInt(basemeal) + parseInt(conviniencefare);
+			document.getElementById("totalpayment").innerHTML = Totalpaymnet;
+			document.getElementById("Totalpayment").innerHTML = Totalpaymnet;
+			document.getElementById("totalpayment1").innerHTML = Totalpaymnet;
+			document.getElementById("totalpayment2").innerHTML = Totalpaymnet;
+			document.getElementById("totalpayment3").innerHTML = Totalpaymnet;
+
 		};
 	</script>
 </body>

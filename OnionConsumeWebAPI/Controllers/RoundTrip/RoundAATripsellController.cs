@@ -48,6 +48,11 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
             ViewBag.Title = Title;
 
             string passengerInfant = HttpContext.Session.GetString("keypassengerItanary");
+            AirAsiaTripResponceModel passeengerlistItanary = null;
+            if (passengerInfant != null)
+            {
+                passeengerlistItanary = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passengerInfant, typeof(AirAsiaTripResponceModel));
+            }
             //
             ViewModel vm = new ViewModel();
 
@@ -61,6 +66,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
             vm.SeatmaplistRT = new List<SeatMapResponceModel>();
             vm.passeengerlistRT = new List<AirAsiaTripResponceModel>();
             vm.MealslistRT = new List<SSRAvailabiltyResponceModel>();
+            vm.passeengerlistItanary = passeengerlistItanary;
             string Passenegrtext = HttpContext.Session.GetString("Mainpassengervm");
             string Seattext = HttpContext.Session.GetString("Mainseatmapvm");
             string Mealtext = HttpContext.Session.GetString("Mainmealvm");
@@ -1291,6 +1297,10 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                         int paxnum = 0;
                                         if (mealid < ssrKey.Count)
                                         {
+                                            if (ssrKey[mealid] == null)
+                                            {
+                                                continue;
+                                            }
                                             if (ssrKey[mealid].ToLower().Contains("airasia") && _a == 0 && (ssrKey[mealid].ToLower().Contains("oneway0") || ssrKey[mealid].ToLower().Contains("oneway1")))
                                             {
                                                 if (ssrKey[mealid].Length > 1)

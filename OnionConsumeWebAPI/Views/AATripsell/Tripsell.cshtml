@@ -433,7 +433,7 @@
             });
             $(".Continuebtnprice").click(function () {
                 debugger;
-                const SeatTotal = $('#total').text();
+                const SeatTotal = $('#total').text() || 0;
                 localStorage.setItem('seatPayment', SeatTotal);
                 // Retrieve and store meal total
                 const mealTotal = $('#AddMealTotal').text();

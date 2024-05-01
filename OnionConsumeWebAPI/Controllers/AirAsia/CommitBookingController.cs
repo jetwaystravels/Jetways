@@ -113,12 +113,21 @@ namespace OnionConsumeWebAPI.Controllers
                     returnTicketBooking.bookingKey = JsonObjPNRBooking.data.bookingKey;
                     // var zxvx= JsonObjPNRBooking.data.breakdown.journeyTotals.totalAmount;
                     Breakdown breakdown = new Breakdown();
+                    breakdown.balanceDue = JsonObjPNRBooking.data.breakdown.balanceDue;
                     JourneyTotals journeyTotalsobj = new JourneyTotals();
                     journeyTotalsobj.totalAmount = JsonObjPNRBooking.data.breakdown.journeyTotals.totalAmount;
                     journeyTotalsobj.totalTax = JsonObjPNRBooking.data.breakdown.journeyTotals.totalTax;
                     var ToatalBasePrice = journeyTotalsobj.totalAmount + journeyTotalsobj.totalTax;
 
                     PassengerTotals passengerTotals = new PassengerTotals();
+                    InfantReturn infantReturnobj = new InfantReturn();
+                    infantReturnobj.total = JsonObjPNRBooking.data.breakdown.passengerTotals.infant.total;
+                    infantReturnobj.taxes = JsonObjPNRBooking.data.breakdown.passengerTotals.infant.taxes;
+
+                    double totalAmountSum = journeyTotalsobj.totalAmount + infantReturnobj.total;
+                    double totaltax = journeyTotalsobj.totalTax + infantReturnobj.taxes;
+
+
                     ReturnSeats returnSeats = new ReturnSeats();
                     if (JsonObjPNRBooking.data.breakdown.passengerTotals.seats != null)
                     {
@@ -137,8 +146,12 @@ namespace OnionConsumeWebAPI.Controllers
                     //breakdown.journeyTotals = (int)ToatalBasePrice;
                     breakdown.journeyTotals = journeyTotalsobj;
                     breakdown.passengerTotals = passengerTotals;
+                    breakdown.totalAmountSum = totalAmountSum;
+                    breakdown.totaltax = totaltax;
                     passengerTotals.seats = returnSeats;
+                    passengerTotals.infant = infantReturnobj;
                     passengerTotals.specialServices = specialServices;
+
                     if (JsonObjPNRBooking.data.contacts.G != null)
                     {
                         returnTicketBooking.customerNumber = JsonObjPNRBooking.data.contacts.G.customerNumber;

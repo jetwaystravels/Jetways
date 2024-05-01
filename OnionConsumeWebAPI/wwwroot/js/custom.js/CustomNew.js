@@ -1,6 +1,4 @@
 ﻿function updateCombinedTotal() {
-    debugger;
-
     var totalPrice1 = parseFloat($('#AddMeal').text()) || 0;
     var totalPrice2 = parseFloat($('#AddMeal2').text()) || 0;
     var combinedTotal = totalPrice1 + totalPrice2;

@@ -468,6 +468,8 @@
                 const baggageTotal = $('#AddBaggage').text();
                 localStorage.setItem('bagTotal1', baggageTotal);
                 //alert("Bag" + baggageTotal);
+                const seatTotal = $('#total').val();
+                localStorage.setItem('seatPayment', seatTotal);
 
                 // Retrieve and store base payment total
                 const basePaymentTotal = $('#Totalamount').val();

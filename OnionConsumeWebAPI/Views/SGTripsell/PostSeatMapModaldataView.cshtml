@@ -625,6 +625,35 @@
         // End connceting second code
 
         // Function for handling seat checkboxes
+        // $('input[name="unitKey"]').on('change', function () {
+        //     var selectedIds = [];
+        //     debugger;
+        //     $('input[name="unitKey"]:checked').each(function () {
+        //         selectedIds.push($(this).val());
+        //     });
+        //     var total = 0;
+        //     $('input[name="unitKey"]:checked').each(function () {
+        //         total += parseInt($(this).val());
+        //     });
+        //     document.getElementById("total").value = total.toFixed(2);
+        //     const seatmap1 = document.getElementById("total").value;
+
+        //     var TotalAmmount = document.getElementById("Totalamount").value;
+        //     localStorage.setItem('seatPayment', seatmap1);
+        //     localStorage.setItem('basePayment', TotalAmmount);
+
+        //     var Totalseat1 = parseInt(TotalAmmount) + parseInt(seatmap1);
+        //     if (seatmap1 != null) {
+        //         document.getElementById("seattotal1").innerHTML = Totalseat1;
+        //     }
+        //     var TotalSeatPay = parseInt(TotalAmmount) + parseInt(seatmap1) + 100;
+        //     if (TotalSeatPay != null) {
+        //         document.getElementById("TotalSeatPayID").innerHTML = TotalSeatPay;
+        //     }
+
+        //     localStorage.setItem("selectedIds", JSON.stringify(selectedIds));
+        // });
+
         $('input[name="unitKey"]').on('change', function () {
             var selectedIds = [];
             debugger;
@@ -635,25 +664,18 @@
             $('input[name="unitKey"]:checked').each(function () {
                 total += parseInt($(this).val());
             });
-            document.getElementById("total").value = total.toFixed(2);
+
+            //$('#total').text(total.toFixed(2));
+            //document.getElementById("total").value = total.toFixed(2);
+            var formattedTotal = total.toFixed(2).replace(/\.?0*$/, '');
+            $('#total').text(formattedTotal);
+            document.getElementById("total").value = formattedTotal;
             const seatmap1 = document.getElementById("total").value;
-
-            var TotalAmmount = document.getElementById("Totalamount").value;
-            localStorage.setItem('seatPayment', seatmap1);
-            localStorage.setItem('basePayment', TotalAmmount);
-
-            var Totalseat1 = parseInt(TotalAmmount) + parseInt(seatmap1);
-            if (seatmap1 != null) {
-                document.getElementById("seattotal1").innerHTML = Totalseat1;
-            }
-            var TotalSeatPay = parseInt(TotalAmmount) + parseInt(seatmap1) + 100;
-            if (TotalSeatPay != null) {
-                document.getElementById("TotalSeatPayID").innerHTML = TotalSeatPay;
-            }
-
             localStorage.setItem("selectedIds", JSON.stringify(selectedIds));
-        });
+            updateCombinedTotal();
 
+
+        });
 
 
 

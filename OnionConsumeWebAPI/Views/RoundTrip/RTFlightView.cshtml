@@ -3399,6 +3399,25 @@
         // });
 
         $('#ReturnButtonId').click(function () {
+            // var arrivalTime = $('#arrivalData').text();
+            // var returnFlightTime = $('#arrivalreturndata').text(); 
+
+            
+            // var arrivalMinutes = convertToMinutes(arrivalTime);
+            // var returnFlightMinutes = convertToMinutes(returnFlightTime);
+
+           
+            // var minimumReturnTime = arrivalMinutes + 30;
+
+            
+            // if (returnFlightMinutes < minimumReturnTime) {
+               
+            //     alert('Return flight time must be at least 30 minutes after arrival time.');
+               
+            //     return false;
+            // }
+
+
             let uniqueId = localStorage.getItem('IDLEFT');
             let uniqueIdR = localStorage.getItem('IDRIGHT');
 
@@ -3423,7 +3442,10 @@
             });
         });
 
-
+        function convertToMinutes(time) {
+            var parts = time.split(':');
+            return parseInt(parts[0]) * 60 + parseInt(parts[1]);
+        }
 
 
 

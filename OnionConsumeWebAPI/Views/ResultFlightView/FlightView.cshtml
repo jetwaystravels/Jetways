@@ -22,8 +22,6 @@
     <link href="~/css/roundviewpage.css" rel="stylesheet" />
     <link href="~/css/indexvny.css" rel="stylesheet" />
     <script src="~/js/custom.js/indexpage.js"></script>
-
-
 </head>
 <body>
     <main id="filternonstopWay">
@@ -304,7 +302,7 @@
                                                         </div>
                                                         <div class="custom-control custom-checkbox custom-control-inline">
                                                             <input type="checkbox" class="custom-control-input" id="defaultInline3">
-                                                            <label class="custom-control-label" for="defaultInline3">Direct Flights</label>
+                                                            <label class="custom-control-label" for="defaultInline3">Senior Citizen</label>
                                                         </div>
                                                         <div class="custom-control custom-checkbox custom-control-inline">
                                                             <input type="checkbox" class="custom-control-input" id="defaultInline4">
@@ -432,12 +430,7 @@
                                         <div class="row y-gap-10 items-center">
 
                                             <div class="col-sm-auto">
-                                                @*   @{
-                                            var imagePath = "/img/flight-logo-icon/" + TempData["AirAsiaLogin"];
-                                            <td>
-                                            <img class="size-40" src=@imagePath height="100px" width="100px" alt="image" />
-                                            </td>
-                                            } *@
+
                                                 @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("SG"))
                                                 {
 
@@ -645,34 +638,139 @@
                                                     else
                                                     {
                                                         if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("EC"))
-                                                            Faretype = "Express Value";
+                                                            Faretype = "Xpress Value";
                                                         else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("HF"))
                                                             Faretype = "Vista Flex";
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("LT"))
+                                                            Faretype = "Xpress lite";
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("VV"))
+                                                            Faretype = "Xpress Bizz";
                                                         else
                                                             Faretype = "Saver Fare";
 
                                                     }
                                                     <tr>
                                                         <td>
-                                                            <div><strong>@Faretype @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass</strong></div>
+                                                            <div><strong>@Faretype (@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass)</strong></div>
                                                             <div>offered by airline.</div>
                                                         </td>
-                                                        <td>7 Kgs</td>
-                                                        <td><strong>15 Kgs</strong></td>
-                                                        <td>
-                                                            <div>Cancellation Fee</div>
-                                                            <div>Starting ₹ 3,500</div>
-                                                        </td>
-                                                        <td>
-                                                            <div>Date Change fee</div>
-                                                            <div>starting ₹ 3,250</div>
-                                                        </td>
-                                                        <td>
-                                                            <div>Middle Seat Free,</div>
-                                                            <div>Window/Aisle</div>
-                                                            <div>Chargeable</div>
-                                                        </td>
-                                                        <td>...</td>
+                                                        @if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "EC")
+                                                        {
+                                                            <td>7 Kg</td>
+                                                            <td><strong>15 kg (1 piece)</strong></td>
+                                                            <td>
+                                                                @*<div>Cancellation Fee</div>*@
+                                                                <div>3500 (upto 2 hrs prior from departure)</div>
+                                                            </td>
+                                                            <td>
+                                                                @*<div>Date Change fee</div>*@
+                                                                <div>3000 (upto 2 hrs prior from departure)</div>
+                                                            </td>
+                                                            <td>
+                                                                <div>
+                                                                    (Chargable)
+                                                                </div>
+                                                                @*<div>Window/Aisle</div>
+                                                <div>Chargeable</div>*@
+                                                            </td>
+                                                            <td>
+                                                                <div>
+                                                                    (Chargable)
+                                                                </div>
+                                                            </td>
+
+                                                        }
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "HF")
+                                                        {
+                                                            <td>7 Kg</td>
+                                                            <td><strong>15 kg (1 piece)</strong></td>
+                                                            <td>
+                                                                @*<div>Cancellation Fee</div>*@
+                                                                <div>3500 (upto 2 hrs prior from departure)</div>
+                                                            </td>
+                                                            <td>
+                                                                @*<div>Date Change fee</div>*@
+                                                                <div>
+                                                                    FREE (upto 2 hrs prior from departure)
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div>
+
+                                                                    Standard seats free
+                                                                </div>
+                                                                @*<div>Window/Aisle</div>
+                                                <div>Chargeable</div>*@
+                                                            </td>
+                                                            <td>
+                                                                <div>
+
+                                                                    (Free meal) per person
+                                                                </div>
+                                                            </td>
+
+                                                        }
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "LT")
+                                                        {
+                                                            <td>0</td>
+                                                            <td><strong>0</strong></td>
+                                                            <td>
+                                                                @*<div>Cancellation Fee</div>*@
+                                                                <div>
+                                                                    --
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                @*<div>Date Change fee</div>*@
+                                                                <div>
+                                                                    --
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div>
+                                                                    --
+                                                                </div>
+                                                                @*<div>Window/Aisle</div>
+                                                <div>Chargeable</div>*@
+                                                            </td>
+                                                            <td>
+                                                                <div>
+                                                                    --
+                                                                </div>
+                                                            </td>
+
+                                                        }
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "VV")
+                                                        {
+                                                            <td>7 Kg</td>
+                                                            <td>
+                                                                <strong>
+                                                                    25 k.g  (1 piece)
+                                                                </strong>
+                                                            </td>
+                                                            <td>
+                                                                @*<div>Cancellation Fee</div>*@
+                                                                <div>3500 (upto 2 hrs prior from departure)</div>
+                                                            </td>
+                                                            <td>
+                                                                @*<div>Date Change fee</div>*@
+                                                                <div>3000 (upto 2 hrs prior from departure)</div>
+                                                            </td>
+                                                            <td>
+                                                                <div>
+
+                                                                    (Free seats)
+                                                                </div>
+                                                                @*<div>Window/Aisle</div>
+                                                <div>Chargeable</div>*@
+                                                            </td>
+                                                            <td>
+                                                                <div>
+                                                                    (Free meal) per person
+                                                                </div>
+                                                            </td>
+
+                                                        }
                                                         <td>
                                                             <div class="text-center md:text-left mb-10">
                                                                 <div class="price">₹ @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal.ToString("N0")</div>
@@ -1045,12 +1143,6 @@
 
 
                         }
-
-                        @* </form> *@
-
-
-
-
 
                     </div>
                 </div>

@@ -96,3 +96,42 @@ $(document).ready(function () {
 
 
 
+function updateCombinedTotalRT() {
+    debugger;
+
+    var totalPrice1 = parseFloat($('#AddMeal').text()) || 0;
+    var totalPrice2 = parseFloat($('#AddMeal2').text()) || 0;
+    var totalPrice1RT = parseFloat($('#AddMealRT').text()) || 0;
+    var totalPrice2RT = parseFloat($('#AddMeal2RT').text()) || 0;
+    var combinedTotal = totalPrice1 + totalPrice2 + totalPrice1RT + totalPrice2RT;
+    $('#AddMealTotalRT').text(combinedTotal.toFixed(2).replace(/\.?0*$/, ''));
+
+    var TotalBagAmount1 = parseFloat($('#AddBaggage').text()) || 0;
+    var TotalBagAmountRT = parseFloat($('#AddBaggageRT').text()) || 0;
+    var TotalBagAmount = TotalBagAmount1 + TotalBagAmountRT;
+    $('#AddBaggageTotalRT').text(TotalBagAmount.toFixed(2).replace(/\.?0*$/, ''));
+    //var totalServicePrice1 = parseFloat($('#Addservice').text()) || 0;
+    //var totalServicePrice2 = parseFloat($('#Addservice2').text()) || 0;
+    //var combinedServiceTotal = totalServicePrice1 + totalServicePrice2;
+    //$('#AddServicesTotal').text(combinedServiceTotal.toFixed(2));
+    var TotalSeatAmount = parseFloat($('#total').text()) || 0;
+    var TotalAmmount = document.getElementById("Totalamount").value;
+    var Totalseat1 = parseInt(TotalAmmount) + parseInt(TotalBagAmount) + parseInt(combinedTotal) + parseInt(TotalSeatAmount);
+
+    if (Totalseat1 != null) {
+        document.getElementById("seattotal1").innerHTML = Totalseat1;
+    }
+
+}
+
+
+
+    //Servive Request Code Start
+
+
+   
+
+
+
+
+    // service request Code End 

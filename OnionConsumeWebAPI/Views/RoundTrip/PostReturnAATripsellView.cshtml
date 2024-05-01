@@ -83,15 +83,15 @@
                                                             var stops = @Model.SimpleAvailibilityaAddResponcelist[j].stops;
                                                             if (stops == 0)
                                                             {
-                                                                <div class="mt-1">NonStop</div>
+                                                                    <div class="mt-1">NonStop</div>
                                                             }
                                                             if (stops == 1)
                                                             {
-                                                                <div class="mt-1">1Stop via @Model.SimpleAvailibilityaAddResponcelist[j].designator.destination </div>
+                                                                <div class="mt-1">1Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination </div>
                                                             }
                                                             if (stops == 2)
                                                             {
-                                                                <div class="mt-1">2Stop</div>
+                                                                    <div class="mt-1">2Stop</div>
                                                             }
                                                         }
                                                     </div>
@@ -119,7 +119,7 @@
                                                     <input type="hidden" class="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
                                                     <input type="hidden" class="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
                                                     <input type="hidden" class="Airline" value="@Model.SimpleAvailibilityaAddResponcelist[j].Airline" />
-                                                    <input type="radio" name="fareRadioGroup" class="fareRadio" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal" onclick="collectData('fare', @k)">
+                                                    <input type="radio"  name="fareRadioGroup" class="fareRadio" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal" onclick="collectData('fare', @k)">
 
                                                     @*  <input type="radio" name="name"> *@
 
@@ -237,15 +237,15 @@
                                                             var stops = @Model.SimpleAvailibilityaAddResponcelistR[j].stops;
                                                             if (stops == 0)
                                                             {
-                                                                <div class="mt-1">NonStop</div>
+                                                                    <div class="mt-1">NonStop</div>
                                                             }
                                                             if (stops == 1)
                                                             {
-                                                                <div class="mt-1">1Stop via @Model.SimpleAvailibilityaAddResponcelistR[j].designator.destination </div>
+                                                                <div class="mt-1">1Stop via @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].legs[0].designator.destination </div>
                                                             }
                                                             if (stops == 2)
                                                             {
-                                                                <div class="mt-1">2Stop</div>
+                                                                    <div class="mt-1">2Stop</div>
                                                             }
                                                         }
                                                         @* <div class="mt-1">1-stop</div> *@
@@ -391,15 +391,15 @@
                                         var stops = @Model.SimpleAvailibilityaAddResponcelist[j].stops;
                                         if (stops == 0)
                                         {
-                                            <div class="mt-1">NonStop</div>
+                                                <div class="mt-1">NonStop</div>
                                         }
                                         if (stops == 1)
                                         {
-                                            <div class="mt-1">1Stop via @Model.SimpleAvailibilityaAddResponcelist[j].designator.destination </div>
+                                            <div class="mt-1">1Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination </div>
                                         }
                                         if (stops == 2)
                                         {
-                                            <div class="mt-1">2Stop</div>
+                                                <div class="mt-1">2Stop</div>
                                         }
                                     }
                                     @* <div class="mt-1">1</div> *@
@@ -527,15 +527,15 @@
                                         var stops = @Model.SimpleAvailibilityaAddResponcelistR[j].stops;
                                         if (stops == 0)
                                         {
-                                            <div class="mt-1">NonStop</div>
+                                                <div class="mt-1">NonStop</div>
                                         }
                                         if (stops == 1)
                                         {
-                                            <div class="mt-1">1Stop via @Model.SimpleAvailibilityaAddResponcelistR[j].designator.destination </div>
+                                            <div class="mt-1">1Stop via @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].legs[0].designator.destination </div>
                                         }
                                         if (stops == 2)
                                         {
-                                            <div class="mt-1">2Stop</div>
+                                                <div class="mt-1">2Stop</div>
                                         }
                                     }
 
@@ -691,6 +691,14 @@
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    // $(document).ready(function () {
+    //     collectData();
+    //     $('input[type=radio][name=fareRadioGroup]').first().prop('checked', true).trigger('change');
+
+    //     $('input[type=radio][name=renderRadioGroup]').first().prop('checked', true).trigger('change');
+
+    // });
+
     let fareKey = [];
     let journeyKey = [];
 
@@ -705,7 +713,9 @@
         }
         //Get value Pop up Radio Button
 
+
         $('input[type=radio][name=fareRadioGroup]').change(function () {
+
             var ele = document.getElementsByName('fareRadioGroup');
 
             for (i = 0; i < ele.length; i++) {
@@ -748,6 +758,9 @@
 
 
     }
+
+ 
+   
     function PostdataReturnTripsell() {
         //  console.log('Fare Keys:', fareKey);
         //  console.log('Journey Keys:', journeyKey);

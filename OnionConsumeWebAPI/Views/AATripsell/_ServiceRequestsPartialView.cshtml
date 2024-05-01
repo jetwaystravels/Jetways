@@ -141,7 +141,15 @@
 
         $("#Continuebtn").click(function () {
             debugger;
-            var unitKey = JSON.parse(localStorage.getItem("selectedIds"));
+            var unitKey1 = JSON.parse(localStorage.getItem("seatdata"));
+            var unitKey2 = JSON.parse(localStorage.getItem("seatdataCon"));
+            var unitKey;
+            if (unitKey2 && unitKey2.length > 0) {
+                unitKey = unitKey1.concat(unitKey2);
+            } else {
+                unitKey = unitKey1;
+            }
+
             let BaggageSSrkey = JSON.parse(localStorage.getItem("BagssrKeyCount"));
             let mealcode1 = JSON.parse(localStorage.getItem("selectedMeals"));
             let mealcode2 = JSON.parse(localStorage.getItem("selectedMealsCon"));
@@ -366,9 +374,9 @@
                         <div class="modal-content MWidth">
                             <div class="modal-mfareheader d-flex justify-between">
                                 <h2 class="text-22 fw-600">Seat Map</h2>
-                                <button type="button" class="btnclose" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true" style="font-size: 21px;">&times;</span>
-                                </button>
+                                @*   <button type="button" class="btnclose" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true" style="font-size: 21px;">&times;</span>
+                                </button> *@
                             </div>
                             <div class="modal-bodyy mbody-padding">
                             </div>
@@ -382,7 +390,7 @@
                                                 <button type="submit" id="" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
                                             </div>
                                             <div>
-                                                A
+
                                                 <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
                                             </div>
                                         </div>
@@ -587,11 +595,21 @@
                                                     string bagcode = Sssrcode.StartsWith("P", StringComparison.OrdinalIgnoreCase).ToString();
                                                     var bagname = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].name + "@" + Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].price;
                                                     bagkey = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].ssrKey + "_" + Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].price;
-
                                                     if (bagcode != "False")
                                                     {
-                                                        BaggageOptions.Add(new SelectListItem { Text = bagname, Value = bagkey });
+                                                        if (bagname.Contains("Xtra-Carry-On") || bagname.Contains(" Xcess Baggage"))
+                                                        {
+                                                            string[] parts = bagname.Split(new string[] { "Xtra-Carry-On", "Xcess Baggage" }, StringSplitOptions.RemoveEmptyEntries);
+                                                            string formattedName = string.Join(" ", parts).Trim();
+                                                            BaggageOptions.Add(new SelectListItem { Text = formattedName, Value = bagkey });
+                                                        }
+                                                        else
+                                                        {
+                                                            BaggageOptions.Add(new SelectListItem { Text = bagname, Value = bagkey });
+                                                        }
                                                     }
+
+
 
                                                 }
                                             }
