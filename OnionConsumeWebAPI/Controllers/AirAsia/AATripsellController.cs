@@ -215,10 +215,10 @@ namespace OnionConsumeWebAPI.Controllers
 
             return RedirectToAction("Tripsell", "AATripsell");
         }
-        public async Task<PartialViewResult> TravllerDetails(List<passkeytype> passengerdetails)
+        public async Task<PartialViewResult> TravllerDetails(List<passkeytype> passengerdetails, string formattedDates)
         {
             string tokenview = HttpContext.Session.GetString("AirasiaTokan");
-
+            string[] dateStrings = JsonConvert.DeserializeObject<string[]>(formattedDates);
             using (HttpClient client = new HttpClient())
             {
                 if (!string.IsNullOrEmpty(tokenview))
@@ -286,7 +286,8 @@ namespace OnionConsumeWebAPI.Controllers
                             for (int k = 0; k < infantcount; k++)
                             {
                                 _PassengersModel1.nationality = "IN";
-                                _PassengersModel1.dateOfBirth = "2023-10-01";
+                                //_PassengersModel1.dateOfBirth = "2023-10-01";
+                                _PassengersModel1.dateOfBirth = dateStrings[k];
                                 _PassengersModel1.residentCountry = "IN";
                                 _PassengersModel1.gender = "Male";
 
@@ -350,6 +351,19 @@ namespace OnionConsumeWebAPI.Controllers
                 vm.Meals = Mealslist;
                 vm.Baggage = BaggageDataDetails;
                 vm.passkeytype = PassengerDataDetails;
+                #endregion
+                #region Booking GET
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                HttpResponseMessage responceGetBooking01 = await client.GetAsync(AppUrlConstant.AirasiaGetBoking);
+                if (responceGetBooking01.IsSuccessStatusCode)
+                {
+                    // string BaseURL1 = "http://localhost:5225/";
+                    var _responceGetBooking = responceGetBooking01.Content.ReadAsStringAsync().Result;
+
+                    var JsonObjGetBooking = JsonConvert.DeserializeObject<dynamic>(_responceGetBooking);
+
+                }
                 #endregion
 
                 return PartialView("_ServiceRequestsPartialView", vm);

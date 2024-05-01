@@ -70,13 +70,13 @@
                 @{
                     if (@Model.passeengerlist.passengers[i].passengerTypeCode == "INFT")
                     {
-                        <div class="col-md-4">
+                        <div class="col-md-4 infant-dob-input ">
                             <div class="form-input dobinput d-flex">
                                 <div class="dob-picker">
-                                    <select class="brd-none day-select" required>
+                                    <select class="brd-none day-select" name="passengerdetails[@i].day" required>
                                         <option value="" disabled selected>Day</option>
                                     </select>
-                                    <select class="brd-none month-select" required>
+                                    <select class="brd-none month-select" name="passengerdetails[@i].month" required>
                                         <option value="" disabled selected>Month</option>
                                         <option value="1">January</option>
                                         <option value="2">February</option>
@@ -91,13 +91,12 @@
                                         <option value="11">November</option>
                                         <option value="12">December</option>
                                     </select>
-                                    <select class="brd-none year-select" required>
+                                    <select class="brd-none year-select" name="passengerdetails[@i].year" required>
                                         <option value="" disabled selected>Year</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
-
                     }
 
                 }
@@ -322,16 +321,16 @@
 
         }
     });
-
-
-
-
     document.addEventListener('DOMContentLoaded', function (event) {
+        debugger;
         event.preventDefault();
-        const daySelect = document.querySelector('.day-select');
-        const yearSelect = document.querySelector('.year-select');
 
-        function populateDayOptions() {
+        // Select all infant containers
+        const infantContainers = document.querySelectorAll('.infant-dob-input');
+
+        // Function to populate day options for a given container
+        function populateDayOptions(container) {
+            const daySelect = container.querySelector('.day-select');
             for (let i = 1; i <= 31; i++) {
                 const option = document.createElement('option');
                 option.value = i;
@@ -339,7 +338,10 @@
                 daySelect.appendChild(option);
             }
         }
-        function populateYearOptions() {
+
+        // Function to populate year options for a given container
+        function populateYearOptions(container) {
+            const yearSelect = container.querySelector('.year-select');
             const currentYear = new Date().getFullYear();
             const maxInfantAge = 2;
             for (let i = currentYear; i >= currentYear - maxInfantAge; i--) {
@@ -349,19 +351,51 @@
                 yearSelect.appendChild(option);
             }
         }
-        // Call the functions to populate day and year options
-        populateDayOptions();
-        populateYearOptions();
-    });
-    function getSelectedDayValue() {
-        const daySelect = document.querySelector('.day-select');
-        return daySelect.value;
-    }
 
-    function getSelectedYearValue() {
-        const yearSelect = document.querySelector('.year-select');
-        return yearSelect.value;
-    }
+        // Loop through each infant container and populate day and year selects
+        infantContainers.forEach(function (container) {
+            populateDayOptions(container);
+            populateYearOptions(container);
+        });
+    });
+
+
+    // document.addEventListener('DOMContentLoaded', function (event) {
+    //     debugger;
+    //     event.preventDefault();
+    //     const daySelect = document.querySelector('.day-select');
+    //     const yearSelect = document.querySelector('.year-select');
+
+    //     function populateDayOptions() {
+    //         for (let i = 1; i <= 31; i++) {
+    //             const option = document.createElement('option');
+    //             option.value = i;
+    //             option.textContent = i;
+    //             daySelect.appendChild(option);
+    //         }
+    //     }
+    //     function populateYearOptions() {
+    //         const currentYear = new Date().getFullYear();
+    //         const maxInfantAge = 2;
+    //         for (let i = currentYear; i >= currentYear - maxInfantAge; i--) {
+    //             const option = document.createElement('option');
+    //             option.value = i;
+    //             option.textContent = i;
+    //             yearSelect.appendChild(option);
+    //         }
+    //     }
+    //     populateDayOptions();
+    //     populateYearOptions();
+    // });
+    // function getSelectedDayValue() {
+    //     debugger;
+    //     const daySelect = document.querySelector('.day-select');
+    //     return daySelect.value;   }
+    // function getSelectedYearValue() {
+    //     debugger;
+    //     const yearSelect = document.querySelector('.year-select');
+    //     return yearSelect.value;
+    // }
 </script>
 
 <script type="text/javascript">
@@ -463,8 +497,27 @@
             var GSTContinuebtn1 = document.querySelector("#Continuebtn");
             GSTContinuebtn1.disabled = false;
             GSTContinuebtn1.style.opacity = "1.0";
-
+            debugger;
             var formData = new FormData($("#passengerForm")[0]);
+            var infantDateInputs = document.querySelectorAll('.infant-dob-input');
+            var formattedDates = [];
+
+            infantDateInputs.forEach(function (input) {
+                debugger;
+                var day = input.querySelector('.day-select').value;
+                var month = input.querySelector('.month-select').value;
+                var year = input.querySelector('.year-select').value;
+
+                // Format the date as YYYY-MM-DD
+                var formattedDate = year + '-' + month.padStart(2, '0') + '-' + day.padStart(2, '0');
+
+                formattedDates.push(formattedDate);
+            });
+
+            formData.append("formattedDates", JSON.stringify(formattedDates));
+
+
+            // Send the AJAX request with formData
             $.ajax({
                 url: "/AATripsell/TravllerDetails",
                 type: "POST",

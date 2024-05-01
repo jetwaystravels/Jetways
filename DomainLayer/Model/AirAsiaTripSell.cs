@@ -45,6 +45,9 @@ namespace DomainLayer.Model
         public string? middle { get; set; }
         public string? last { get; set; }
         public string title { get; set; }
+        public string day { get; set; }
+        public string month { get; set; }
+        public int year { get; set; }
         public string nationality { get; set; }
         public string residentCountry { get; set; }
         public string gender { get; set; }
@@ -66,6 +69,7 @@ namespace DomainLayer.Model
     public class Infanttype
     {
         public string passengerkey { get; set; }
+        public string formattedDates { get; set; }
         public int passengertypecount { get; set; }
         public string? First { get; set; }
         public string? middle { get; set; }
