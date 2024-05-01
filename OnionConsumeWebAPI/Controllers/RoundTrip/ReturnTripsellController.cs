@@ -948,7 +948,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 #region SellSSrInfant
                                 SellRequest sellSsrRequest = new SellRequest();
                                 SellRequestData sellreqd = new SellRequestData();
-                                sellSsrRequest.Signature = token;
+                                sellSsrRequest.Signature = Signature;
                                 sellSsrRequest.ContractVersion = 420;
                                 sellreqd.SellBy = SellBy.SSR;
                                 sellreqd.SellBySpecified = true;
