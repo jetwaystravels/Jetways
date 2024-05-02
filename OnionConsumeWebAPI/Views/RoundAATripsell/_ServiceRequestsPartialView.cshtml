@@ -89,9 +89,24 @@
     }
 
         .select-option2 .servc-bordr {
-            max-width: 94px;
+            max-width: 112px;
         }
 
+    .servc-bordrm2 {
+        max-width: 94px;
+    }
+
+    .servc-bordrConm1 {
+        max-width: 112px;
+    }
+
+    .servc-bordrbaggage{
+        width:120PX;
+    }
+
+    .servc-bordrbaggagem2 {
+        width: 120PX;
+    }
     .wdth-100 {
         width: 100px;
     }
@@ -539,6 +554,8 @@
         $("#exampleModalSeat").click(function (e) {
             debugger;
             e.preventDefault();
+            $("#popbtnA2").hide();//RightNonstop
+            $("#LeftCN").show();//LefttNonstop
             $.ajax({
                 url: '@Url.Action("RTPostSeatMapModaldataView", "RoundAATripsell")',
                 type: "GET",
@@ -589,9 +606,16 @@
                                         <div>
                                             <button type="submit" id="" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
                                         </div>
-                                        <div id="LeftCN">
-                                            <button type="submit" id="Leftbtnfocus" class="btn  btn-primary">Continue</button>
+                                      
+
+                                                <div id="LeftCN">
+                                                    <button type="submit" id="Leftbtnfocus" class="btn  btn-primary">Continue</button>
+                                                </div>
+
+                                        <div id="RightCN1" style="display:none;">
+                                            <button type="submit" id="rightbtnfocus" class="btn  btn-primary">Continue</button>
                                         </div>
+
                                         <div id="rightCN">
 
                                             <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
@@ -622,6 +646,10 @@
                                                     <button type="submit" id="btnfocusA1" class="btn  btn-primary">Continue</button>
 
                                                 </div>
+                                                <div id="popbtnA2" style="display:none">
+                                                    <button type="submit" id="nonstopright" data-dismiss="modal" class="btn btnclose btn-primary">Continue!!</button>
+                                                </div>
+
                                                 <div id="popbtnB1">
 
 
@@ -995,7 +1023,8 @@
                                                             AirLine = Model.MealslistRT[0].legSsrs[1].legssrs[s].legpassengers[0].Airline.ToString();
                                                             ssrkeyAA = Model.MealslistRT[0].legSsrs[1].legssrs[s].legpassengers[0].ssrKey + "_" + @Model.MealslistRT[0].legSsrs[1].legssrs[s].legpassengers[0].price + "_" + "OneWay1" + "_" + Model.MealslistRT[0].legSsrs[1].legssrs[s].legpassengers[0].Airline;
 
-                                                            string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) || Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase)).ToString();
+                                                            string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) || Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase) ||
+                                                            Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase)).ToString().ToString();
                                                             if (Mcode.ToLower() == "true")
                                                             {
                                                                 continue;
@@ -1378,7 +1407,8 @@
                                                                 AirLine = Model.MealslistRT[1].legSsrs[1].legssrs[s].legpassengers[0].Airline.ToString();
                                                                 ssrkeyAA = Model.MealslistRT[1].legSsrs[1].legssrs[s].legpassengers[0].ssrKey + "_" + @Model.MealslistRT[1].legSsrs[1].legssrs[s].legpassengers[0].price + "_" + "RT1" + "_" + Model.MealslistRT[1].legSsrs[1].legssrs[s].legpassengers[0].Airline;
 
-                                                                string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) || Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase)).ToString();
+                                                                string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) || Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase) ||
+                                                                Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase)).ToString().ToString();
                                                                 if (Mcode.ToLower() == "true")
                                                                 {
                                                                     continue;

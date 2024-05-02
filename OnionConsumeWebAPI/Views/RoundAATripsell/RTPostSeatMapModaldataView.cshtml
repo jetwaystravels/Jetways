@@ -28,7 +28,7 @@
             if (seatmaap2 != 2)
             {
                 <li class="nav-item">
-                    <div id="seattab1way" class="nav-link me-3 activeblue">@Model.passeengerlistRT[0].journeys[0].segments[0].designator.origin-@Model.passeengerlistRT[0].journeys[0].segments[0].designator.destination</div>
+                    <div id="seattab1waypopup" class="nav-link me-3 activeblue">@Model.passeengerlistRT[0].journeys[0].segments[0].designator.origin-@Model.passeengerlistRT[0].journeys[0].segments[0].designator.destination</div>
                 </li>
             }
             else
@@ -43,7 +43,7 @@
             if (seatmaapRT2 != 2)
             {
                 <li class="nav-item">
-                    <div id="seattabRT1way" class="nav-link">@Model.passeengerlistRT[1].journeys[0].segments[0].designator.origin-@Model.passeengerlistRT[1].journeys[0].segments[0].designator.destination</div>
+                    <div id="seattabRT1waypopup" class="nav-link">@Model.passeengerlistRT[1].journeys[0].segments[0].designator.origin-@Model.passeengerlistRT[1].journeys[0].segments[0].designator.destination</div>
                 </li>
             }
             else
@@ -53,7 +53,7 @@
                     <div id="seattabRT2Popup" class="nav-link">@Model.passeengerlistRT[1].journeys[0].segments[1].designator.origin-@Model.passeengerlistRT[1].journeys[0].segments[1].designator.destination</div>
                 </li>
             }
-            
+
         }
 
         @*  <li class="nav-item" role="presentation">
@@ -177,11 +177,11 @@
     <div class="col-lg-12" id="passtab2RT">
         <section class="d-flex flex-wrap">
             @{
-                 passengerdata1 = @Model.passeengerlistRT[0].passengerscount;
+                passengerdata1 = @Model.passeengerlistRT[0].passengerscount;
             }
 
             @{
-               passengerdataValue1 = 0;
+                passengerdataValue1 = 0;
                 for (int i = 0; i < @Model.passeengerlistRT[0].passengers.Count; i++)
                 {
                     if (Model.passeengerlistRT[0].passengers[i].passengerTypeCode == "ADT" || Model.passeengerlistRT[0].passengers[i].passengerTypeCode == "CHD")
@@ -669,26 +669,34 @@
     /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
     $(document).ready(function () {
         $("#rightCN").hide();
-        $("#seattab1way").click(function () {
+        $("#seattab1waypopup").click(function () {
             $("#tabshow1popup").show();
             $("#tabshowRT1").hide();
             $("#rightCN").hide();
             $("#LeftCN").show();
-            $("#seattab1way").addClass('activeblue');
-            $("#seattabRT1way").removeClass('activeblue');
+            $("#passtab1").show();
+            $("#tabshowRT2").hide();
+            $("#passtab1RT").hide();
+            $("#passtab2RT").hide();
+            $("#popbtnA2").hide();//RightNonstop
+            $("#seattab1waypopup").addClass('activeblue');
+            $("#seattabRT1waypopup").removeClass('activeblue');
             $("#tabshowRT2").removeClass('activeblue');
             $("#tabshowRT1").removeClass('activeblue');
             $("#seattabRT2").removeClass('activeblue');
             $("#seattabRT1Popup").removeClass('activeblue');
         });
-        $("#seattabRT1way").click(function () {
+        $("#seattabRT1waypopup").click(function () {
             $("#rightCN").show();
             $("#tabshow1popup").hide();
             $("#tabshow2popup").hide();
+            $("#passtab1").hide();
+            $("#passtab2").hide();
+            $("#passtab1RT").show();
             $("#tabshowRT1").show();
             $("#LeftCN").hide();
-            $("#seattabRT1way").addClass('activeblue');
-            $("#seattab1way").removeClass('activeblue');
+            $("#seattabRT1waypopup").addClass('activeblue');
+            $("#seattab1waypopup").removeClass('activeblue');
             $("#seattab1Popup").removeClass('activeblue');
             $("#seattab2Popup").removeClass('activeblue');
         });
@@ -706,7 +714,7 @@
         $("#seattab1Popup").click(function () {
             $("#tabshow1popup").show();
             $("#tabshow2popup").hide();
-            $("#tabshowRT1").hide();   
+            $("#tabshowRT1").hide();
             $("#tabshowRT2").hide();
             $("#passtab1").show();
             $("#passtab2").hide();
@@ -716,6 +724,8 @@
             $("#popbtnA1").hide();
             $("#popbtnB1").hide();
             $("#popbtnB").hide();
+            $("#popbtnA2").hide();//RightNonstop
+
             $("#seattab1Popup").addClass('activeblue');
             $("#seattab2Popup").removeClass('activeblue');
             $("#seattabRT1Popup").removeClass('activeblue');
@@ -737,14 +747,16 @@
             $("#popbtnA1").show();
             $("#popbtnB1").hide();
             $("#popbtnB").hide();
+            $("#popbtnA2").hide();//RightNonstop
+
             $("#seattab2Popup").addClass('activeblue');
             $("#seattab1Popup").removeClass('activeblue');
             $("#seattabRT1Popup").removeClass('activeblue');
             $("#seattabRT2Popup").removeClass('activeblue');
             $("#seattabRT2").removeClass('activeblue');
             $("#seattabRT1").removeClass('activeblue');
-            $("#seattab1way").removeClass('activeblue');
-            $("#seattabRT1way").removeClass('activeblue');
+            $("#seattab1waypopup").removeClass('activeblue');
+            $("#seattabRT1waypopup").removeClass('activeblue');
             $("#tabshow1popup").hide();
         });
         $("#seattabRT1Popup").click(function () {
@@ -756,15 +768,17 @@
             $("#passtab2").hide();
             $("#popbtnA").hide();
             $("#popbtnA1").hide();
-            $("#popbtnB1").show(); 
+            $("#popbtnB1").show();
             $("#popbtnB").hide();
             $("#passtab1RT").show();
             $("#passtab2RT").hide();
+            $("#popbtnA2").hide();//RightNonstop
+            $("#LeftCN").hide();//Rightconnect
             $("#seattabRT1Popup").addClass('activeblue');
             $("#seattabRT2Popup").removeClass('activeblue');
             $("#seattab2Popup").removeClass('activeblue');
             $("#seattab1Popup").removeClass('activeblue');
-            $("#seattab1way").removeClass('activeblue');
+            $("#seattab1waypopup").removeClass('activeblue');
 
         });
         $("#seattabRT2Popup").click(function () {
@@ -776,37 +790,81 @@
             $("#passtab2").hide();
             $("#passtab1RT").hide();
             $("#passtab2RT").show();
+            $("#rightCN").show();
             $("#popbtnA").hide();
             $("#popbtnA1").hide();
             $("#popbtnB1").hide();
             $("#popbtnB").show();
+            $("#popbtnA2").hide();//RightNonstop
+            $("#LeftCN").hide();//Rightconnect
+            $("#RightCN1").hide();//Rightconnect
             $("#seattabRT2Popup").addClass('activeblue');
             $("#seattabRT1Popup").removeClass('activeblue');
             $("#seattab2Popup").removeClass('activeblue');
             $("#seattab1Popup").removeClass('activeblue');
-            $("#seattab1way").removeClass('activeblue');
+            $("#seattab1waypopup").removeClass('activeblue');
         });
 
+
         $("#btnfocus").click(function () {
-            alert("Do you want select connect seat");
+            alert("Do you want select connect seat?");
             $("#seattab2Popup").click();
         });
         $("#btnfocusA1").click(function () {
-            alert("Do you want select Return seat");
-            $("#seattabRT1Popup").click();
-            //$("#seattabRT1way").click();
+            debugger;
+            alert("Do you want select Return seat?");
+            // $("#seattabRT1Popup").click();
+            // $("#seattabRT1waypopup").click();
+            if ($("#seattabRT1Popup").is(":visible")) {
+                $("#seattabRT1Popup").click();
+            } else if ($("#seattabRT1waypopup").is(":visible")) {
+
+                $("#seattabRT1waypopup").click();
+                $("#popbtnA2").show();
+                $("#popbtnA1").hide();
+
+
+            }
+
         });
         $("#btnfocusB1").click(function () {
             alert("Do you want select connect seat");
             $("#seattabRT2Popup").click();
-        }); 
-        
+        });
+
+
+
         $("#Leftbtnfocus").click(function () {
             alert("Do you want select connect seat");
-            $("#seattabRT1way").click();
-            $("#seattabRT1").click();
+            if ($("#seattabRT1Popup").is(":visible")) {
+                $("#seattabRT1Popup").click();
+                $("#RightCN1").show();
+                //$("#popbtnB1").show();
+            } else if ($("#seattabRT2Popup").is(":visible")) {
+
+                $("#seattabRT2Popup").click();
+                $("#RightCN1").hide();
+                //$("#popbtnA2").show();
+
+                //$("#popbtnB").show();
+
+
+            }
+            else if ($("#seattabRT1waypopup").is(":visible")) {
+
+                $("#seattabRT1waypopup").click();
+
+            }
+
         });
-       
+
+        $("#rightbtnfocus").click(function () {
+            alert("Do you want select connect seat");
+            $("#seattabRT2Popup").click();
+            $("#RightCN1").hide();
+            $("#rightCN").show();
+        });
+
     });
 </script>
 

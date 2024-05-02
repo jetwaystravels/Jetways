@@ -189,29 +189,58 @@
 <script type="text/javascript">
 
     function validateInputT(event) {
+        //     //alert("test");
         const input = event.target.value;
-        const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
-
+        const regex = /^[a-zA-Z]*$/;
         if (!regex.test(input)) {
-            document.querySelectorAll('.errorMessageT1').innerText = "";
-            event.target.value = input.replace(/[^a-zA-Z]/g, '');   //Remove non-alphabetic characters
-        } else {
-            document.querySelectorAll('.errorMessageT1').innerText = "";
-        }
-
-        var firstName = document.querySelector(".contactFname").value;
-        if (firstName == "") {
-            //alert("Enter Origin Name");
-            var firstnameToDisplay = document.querySelector('.error-CFname');
-            firstnameToDisplay.style.display = "block";
-            document.querySelector(".contactFname").focus();
-            return false;
+            // Replace non-alphabetic characters with an empty string
+            //input.value = value.replace(/[^a-zA-Z]/g, '');
+            event.target.value = input.replace(/[^a-zA-Z]/g, '');
         }
         else {
-            var firstnameToDisplay = document.querySelector('.error-CFname');
-            firstnameToDisplay.style.display = "none";
+            // Clear any existing error messages
+            const errorMessageElements = document.querySelectorAll('.errorMessageT1');
+            errorMessageElements.forEach(function (element) {
+                element.innerText = '';
+            });
         }
+        // Attach event listeners to all input elements with the class 'validateT'
+        const inputElements = document.querySelectorAll('.validateT');
+        inputElements.forEach(function (input) {
+            input.addEventListener('input', function () {
+                validateInputT(input);
+            });
+
+        });
+
     }
+
+
+
+    // function validateInputT(event) {
+    //     const input = event.target.value;
+    //     const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
+
+    //     if (!regex.test(input)) {
+    //         document.querySelectorAll('.errorMessageT1').innerText = "";
+    //         event.target.value = input.replace(/[^a-zA-Z]/g, '');   //Remove non-alphabetic characters
+    //     } else {
+    //         document.querySelectorAll('.errorMessageT1').innerText = "";
+    //     }
+
+    //     var firstName = document.querySelector(".contactFname").value;
+    //     if (firstName == "") {
+    //         //alert("Enter Origin Name");
+    //         var firstnameToDisplay = document.querySelector('.error-CFname');
+    //         firstnameToDisplay.style.display = "block";
+    //         document.querySelector(".contactFname").focus();
+    //         return false;
+    //     }
+    //     else {
+    //         var firstnameToDisplay = document.querySelector('.error-CFname');
+    //         firstnameToDisplay.style.display = "none";
+    //     }
+    // }
 
     function validateInputTr(event) {
         const input = event.target.value;
@@ -397,19 +426,81 @@
         $("#editData").click(function () {
             $("#dataPopup").hide();
         });
+
+        function showError(input, message) {
+            // Create a new div for error message
+            var errorDiv = document.createElement('div');
+            errorDiv.textContent = message;
+            errorDiv.classList.add('error-message'); // Add a class name to the error div
+            errorDiv.style.color = 'red';
+
+            // Insert the error div after the input's parent div
+            input.parentNode.parentNode.insertBefore(errorDiv, input.parentNode.nextSibling);
+
+            // Add event listener to input to hide error message when input is filled
+            input.addEventListener('input', function () {
+                if (input.value.trim() !== '') {
+                    errorDiv.style.display = 'none'; // Hide error message
+                }
+            });
+        }
+
+
+        function clearError(input) {
+            // Find and remove the error message div if it exists
+            var errorDiv = input.parentNode.parentNode.querySelector('.error-message');
+            if (errorDiv) {
+                errorDiv.parentNode.removeChild(errorDiv);
+            }
+        }
+
+        function FirstNameVal() {
+            var inputs = document.querySelectorAll('.contactFname');
+            var isValid = true;
+            var errorInputs = [];
+
+            for (var i = 0; i < inputs.length; i++) {
+                if (!inputs[i].value.trim()) {
+                    isValid = false;
+                    errorInputs.push(inputs[i]);
+                } else {
+                    clearError(inputs[i]);
+                }
+                // Add more validation checks as needed
+            }
+
+            if (!isValid) {
+                showError(errorInputs[0], 'This field is required');
+                errorInputs[0].focus();
+                //document.querySelector(".contactFname").focus();
+                //inputs.focus();
+                return false;
+            } else {
+
+               // alert('All inputs are valid!');
+                // You might want to submit the form or take other actions here
+            }
+
+        }
+
+
+
+
         $("#showReviewPopup").click(function (e) {
             e.preventDefault();
 
             /*******Validation Start*********/
 
-            var firstName = document.querySelector(".contactFname").value;
-            if (firstName == "") {
-                //alert("Enter Origin Name");
-                var firstnameToDisplay = document.getElementById("error-Fname");
-                firstnameToDisplay.style.display = "block";
-                document.querySelector(".contactFname").focus();
-                return false;
-            }
+            // var firstName = document.querySelector(".contactFname").value;
+            // if (firstName == "") {
+            //     //alert("Enter Origin Name");
+            //     var firstnameToDisplay = document.getElementById("error-Fname");
+            //     firstnameToDisplay.style.display = "block";
+            //     document.querySelector(".contactFname").focus();
+            //     return false;
+            // }
+            FirstNameVal();
+
             var lastName = document.querySelector(".contactLname").value;
             if (lastName == "") {
                 //alert("Enter Origin Name");
