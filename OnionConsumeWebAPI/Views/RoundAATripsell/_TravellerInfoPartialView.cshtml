@@ -407,15 +407,22 @@
         populateDayOptions();
         populateYearOptions();
     });
+
     function getSelectedDayValue() {
-        const daySelect = document.querySelector('.day-select');
+        var daySelect = document.querySelector('.day-select');
         return daySelect.value;
     }
 
     function getSelectedYearValue() {
-        const yearSelect = document.querySelector('.year-select');
+        var yearSelect = document.querySelector('.year-select');
         return yearSelect.value;
+
     }
+
+
+
+
+
 </script>
 
 <script type="text/javascript">
@@ -477,7 +484,7 @@
                 return false;
             } else {
 
-               // alert('All inputs are valid!');
+                // alert('All inputs are valid!');
                 // You might want to submit the form or take other actions here
             }
 
@@ -489,6 +496,48 @@
         $("#showReviewPopup").click(function (e) {
             e.preventDefault();
 
+
+            var day = document.querySelector('.day-select');
+            var month = document.querySelector('.month-select');
+            var year = document.querySelector('.year-select');
+
+            //alert("Day" +day.value);
+            //alert("Month" +month.value);
+            //alert("Year" + year.value);
+            // Example usage:
+            if ($(".dobinput").is(":visible")) {
+                var dob = year.value + "-" + month.value + "-" + day.value;
+                function validateInfantDOB(dob) {
+                    // Convert the date string into a Date object
+                    var dobDate = new Date(dob);
+
+                    // Get the current date
+                    var currentDate = new Date();
+
+                    // Calculate the difference in milliseconds between the current date and the date of birth
+                    var timeDiff = currentDate.getTime() - dobDate.getTime();
+
+                    // Calculate the difference in years
+                    var yearsDiff = timeDiff / (1000 * 3600 * 24 * 365.25);
+
+                    // Check if the age is less than 2 years (24 months)
+                    if (yearsDiff < 2) {
+                        return true; // Infant is valid
+                    } else {
+                        return false; // Infant is too old
+                    }
+                }
+
+                // Example usage:
+
+                //var dob = "2024-01-15"; // Example date of birth
+                if (validateInfantDOB(dob)) {
+                    //alert("Infant's date of birth is valid.");
+                } else {
+                    alert("Infant can't be  greater than 2 years.");
+                    return false;
+                }
+            }
             /*******Validation Start*********/
 
             // var firstName = document.querySelector(".contactFname").value;

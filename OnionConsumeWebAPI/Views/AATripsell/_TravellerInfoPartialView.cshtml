@@ -208,6 +208,47 @@
             e.preventDefault();
 
             /*******Validation Start*********/
+            var day = document.querySelector('.day-select');
+            var month = document.querySelector('.month-select');
+            var year = document.querySelector('.year-select');
+
+            //alert("Day" +day.value);
+            //alert("Month" +month.value);
+            //alert("Year" + year.value);
+            // Example usage:
+            if ($(".dobinput").is(":visible")) {
+                var dob = year.value + "-" + month.value + "-" + day.value;
+                function validateInfantDOB(dob) {
+                    // Convert the date string into a Date object
+                    var dobDate = new Date(dob);
+
+                    // Get the current date
+                    var currentDate = new Date();
+
+                    // Calculate the difference in milliseconds between the current date and the date of birth
+                    var timeDiff = currentDate.getTime() - dobDate.getTime();
+
+                    // Calculate the difference in years
+                    var yearsDiff = timeDiff / (1000 * 3600 * 24 * 365.25);
+
+                    // Check if the age is less than 2 years (24 months)
+                    if (yearsDiff < 2) {
+                        return true; // Infant is valid
+                    } else {
+                        return false; // Infant is too old
+                    }
+                }
+
+                // Example usage:
+
+                //var dob = "2024-01-15"; // Example date of birth
+                if (validateInfantDOB(dob)) {
+                    //alert("Infant's date of birth is valid.");
+                } else {
+                    alert("Infant can't be  greater than 2 years.");
+                    return false;
+                }
+            }
 
             var firstName = document.querySelector(".contactFname").value;
             if (firstName == "") {
@@ -454,15 +495,13 @@
 
         }
     });
+
     document.addEventListener('DOMContentLoaded', function (event) {
         event.preventDefault();
+        const daySelect = document.querySelector('.day-select');
+        const yearSelect = document.querySelector('.year-select');
 
-        // Select all infant containers
-        const infantContainers = document.querySelectorAll('.infant-dob-input');
-
-        // Function to populate day options for a given container
-        function populateDayOptions(container) {
-            const daySelect = container.querySelector('.day-select');
+        function populateDayOptions() {
             for (let i = 1; i <= 31; i++) {
                 const option = document.createElement('option');
                 option.value = i;
@@ -470,10 +509,7 @@
                 daySelect.appendChild(option);
             }
         }
-
-        // Function to populate year options for a given container
-        function populateYearOptions(container) {
-            const yearSelect = container.querySelector('.year-select');
+        function populateYearOptions() {
             const currentYear = new Date().getFullYear();
             const maxInfantAge = 2;
             for (let i = currentYear; i >= currentYear - maxInfantAge; i--) {
@@ -483,56 +519,101 @@
                 yearSelect.appendChild(option);
             }
         }
-
-        // Function to validate infant age
-        function validateInfantAge(container) {
-            debugger;
-            const yearSelect = container.querySelector('.year-select');
-            const monthSelect = container.querySelector('.month-select');
-            const daySelect = container.querySelector('.day-select');
-            const selectedYear = parseInt(yearSelect.value);
-            const selectedMonth = parseInt(monthSelect.value);
-            const selectedDay = parseInt(daySelect.value);
-
-            const selectedDOB = new Date(selectedYear, selectedMonth - 1, selectedDay);
-            if (isNaN(selectedDOB)) {
-                alert("Please Select Infant Date!!");
-
-            }
-            const currentDate = new Date();
-            const ageDifferenceInMs = currentDate - selectedDOB;
-            const ageInYears = Math.floor(ageDifferenceInMs / (1000 * 60 * 60 * 24 * 365.25));
-            if (ageInYears < 2 || (ageInYears === 2 && currentDate.getMonth() < selectedDOB.getMonth()) ||
-                (ageInYears === 2 && currentDate.getMonth() === selectedDOB.getMonth() && currentDate.getDate() < selectedDOB.getDate())) {
-                return true;
-            } else {
-                return false;
-            }
-
-
-        }
-        const saveButton = document.getElementById('showReviewPopup');
-        saveButton.addEventListener('click', function (event) {
-            debugger;
-            let isValid = true;
-            infantContainers.forEach(function (container) {
-                if (!validateInfantAge(container)) {
-                    debugger;
-                    isValid = false;
-                    alert('Infant must be exactly 2 years old.');
-                    return;
-                }
-            });
-            if (!isValid) {
-                event.preventDefault();
-            }
-        });
-
-        infantContainers.forEach(function (container) {
-            populateDayOptions(container);
-            populateYearOptions(container);
-        });
+        // Call the functions to populate day and year options
+        populateDayOptions();
+        populateYearOptions();
     });
+    function getSelectedDayValue() {
+        const daySelect = document.querySelector('.day-select');
+        return daySelect.value;
+    }
+
+    function getSelectedYearValue() {
+        const yearSelect = document.querySelector('.year-select');
+        return yearSelect.value;
+    }
+
+
+
+    // document.addEventListener('DOMContentLoaded', function (event) {
+    //     event.preventDefault();
+
+    //     // Select all infant containers
+    //     const infantContainers = document.querySelectorAll('.infant-dob-input');
+
+    //     // Function to populate day options for a given container
+    //     function populateDayOptions(container) {
+    //         const daySelect = container.querySelector('.day-select');
+    //         for (let i = 1; i <= 31; i++) {
+    //             const option = document.createElement('option');
+    //             option.value = i;
+    //             option.textContent = i;
+    //             daySelect.appendChild(option);
+    //         }
+    //     }
+
+    //     // Function to populate year options for a given container
+    //     function populateYearOptions(container) {
+    //         const yearSelect = container.querySelector('.year-select');
+    //         const currentYear = new Date().getFullYear();
+    //         const maxInfantAge = 2;
+    //         for (let i = currentYear; i >= currentYear - maxInfantAge; i--) {
+    //             const option = document.createElement('option');
+    //             option.value = i;
+    //             option.textContent = i;
+    //             yearSelect.appendChild(option);
+    //         }
+    //     }
+
+    //     // Function to validate infant age
+    //     function validateInfantAge(container) {
+    //         debugger;
+    //         const yearSelect = container.querySelector('.year-select');
+    //         const monthSelect = container.querySelector('.month-select');
+    //         const daySelect = container.querySelector('.day-select');
+    //         const selectedYear = parseInt(yearSelect.value);
+    //         const selectedMonth = parseInt(monthSelect.value);
+    //         const selectedDay = parseInt(daySelect.value);
+
+    //         const selectedDOB = new Date(selectedYear, selectedMonth - 1, selectedDay);
+    //         if (isNaN(selectedDOB)) {
+    //             alert("Please Select Infant Date!!");
+
+    //         }
+    //         const currentDate = new Date();
+    //         const ageDifferenceInMs = currentDate - selectedDOB;
+    //         const ageInYears = Math.floor(ageDifferenceInMs / (1000 * 60 * 60 * 24 * 365.25));
+    //         if (ageInYears < 2 || (ageInYears === 2 && currentDate.getMonth() < selectedDOB.getMonth()) ||
+    //             (ageInYears === 2 && currentDate.getMonth() === selectedDOB.getMonth() && currentDate.getDate() < selectedDOB.getDate())) {
+    //             return true;
+    //         } else {
+    //             return false;
+    //         }
+
+
+    //     }
+    //     const saveButton = document.getElementById('showReviewPopup');
+    //     saveButton.addEventListener('click', function (event) {
+    //         debugger;
+    //         let isValid = true;
+    //         infantContainers.forEach(function (container) {
+    //             if (!validateInfantAge(container)) {
+    //                 debugger;
+    //                 isValid = false;
+    //                 alert('Infant must be exactly 2 years old.');
+    //                 return;
+    //             }
+    //         });
+    //         if (!isValid) {
+    //             event.preventDefault();
+    //         }
+    //     });
+
+    //     infantContainers.forEach(function (container) {
+    //         populateDayOptions(container);
+    //         populateYearOptions(container);
+    //     });
+    // });
 
 
 </script>

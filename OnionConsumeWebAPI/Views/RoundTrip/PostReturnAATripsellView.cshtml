@@ -113,6 +113,46 @@
                                     <div class="corboxmain">
                                         @for (var k = 0; k < Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual.Count; k++)
                                         {
+                                            string Faretype = string.Empty;
+                                            if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Indigo)
+                                            {
+                                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("J"))
+                                                    Faretype = "Flexi Plus";
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("R"))
+                                                    Faretype = "Saver";
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("O"))
+                                                    Faretype = "Super 6E";
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("A"))
+                                                    Faretype = "Family Fare";
+                                                else
+                                                    Faretype = "Saver Fare";
+                                            }
+                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Spicejet)
+                                            {
+
+                                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("RS"))
+                                                    Faretype = "Spice Saver";
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SF"))
+                                                    Faretype = "Spice Flex";
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SC"))
+                                                    Faretype = "Spice max";
+                                                else
+                                                    Faretype = "Saver Fare";
+                                            }
+                                            else
+                                            {
+                                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("EC"))
+                                                    Faretype = "Xpress Value";
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("HF"))
+                                                    Faretype = "Vista Flex";
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("LT"))
+                                                    Faretype = "Xpress lite";
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("VV"))
+                                                    Faretype = "Xpress Bizz";
+                                                else
+                                                    Faretype = "Saver Fare";
+
+                                            }
                                             <div class="corbox active-bx">
 
                                                 <div class="dst-top pl-0">
@@ -123,7 +163,7 @@
 
                                                     @*  <input type="radio" name="name"> *@
 
-                                                    <span> Saver Fare @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass </span>
+                                                    <span> @Faretype @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass </span>
                                                     <span class="price">
                                                         ₹  @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal
                                                         <div class="rtfare-1">
@@ -268,6 +308,46 @@
                                     <div class="corboxmain">
                                         @for (var k = 0; k < Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual.Count; k++)
                                         {
+                                            string Faretype = string.Empty;
+                                            if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Indigo)
+                                            {
+                                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("J"))
+                                                    Faretype = "Flexi Plus";
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("R"))
+                                                    Faretype = "Saver";
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("O"))
+                                                    Faretype = "Super 6E";
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("A"))
+                                                    Faretype = "Family Fare";
+                                                else
+                                                    Faretype = "Saver Fare";
+                                            }
+                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Spicejet)
+                                            {
+
+                                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("RS"))
+                                                    Faretype = "Spice Saver";
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SF"))
+                                                    Faretype = "Spice Flex";
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SC"))
+                                                    Faretype = "Spice max";
+                                                else
+                                                    Faretype = "Saver Fare";
+                                            }
+                                            else
+                                            {
+                                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("EC"))
+                                                    Faretype = "Xpress Value";
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("HF"))
+                                                    Faretype = "Vista Flex";
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("LT"))
+                                                    Faretype = "Xpress lite";
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("VV"))
+                                                    Faretype = "Xpress Bizz";
+                                                else
+                                                    Faretype = "Saver Fare";
+
+                                            }
                                             <div class="corbox active-bx">
                                                 <div class="dst-top pl-0">
                                                     <input type="hidden" class="fareKeyReturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].fareKey" />
@@ -276,7 +356,7 @@
                                                     <input type="radio" name="renderRadioGroup" class="renderRadio" value="@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal" onclick="collectData('render', @k)">
                                                     @*  <input type="radio" name="name"> *@
 
-                                                    <span> Saver Fare @Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass  </span>
+                                                    <span> @Faretype @Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass  </span>
                                                     <span class="price">
                                                         ₹  @Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal
                                                         <div class="rtfare-1">
@@ -765,6 +845,33 @@
         //  console.log('Fare Keys:', fareKey);
         //  console.log('Journey Keys:', journeyKey);
         const form = new FormData();
+        //debugger;
+        var Leftbool = false;
+        var LeftAmount = document.getElementsByName('fareRadioGroup');
+        var chklengthL = LeftAmount.length;
+        for (k = 0; k < chklengthL; k++) {
+            if (LeftAmount[k].checked == true) {
+                Leftbool = true;
+                break;
+            }
+        }
+        var Rightbool = false;
+        var RightAmount = document.getElementsByName('renderRadioGroup');
+        var chklengthR = RightAmount.length;
+        for (k = 0; k < chklengthR; k++) {
+            if (RightAmount[k].checked == true) {
+                Rightbool = true;
+                break;
+            }
+        }
+        if (Rightbool==false) {
+            alert("Please Select Return Fare.");
+            return false;
+        }
+        if (Leftbool == false) {
+            alert("Please Select Departure Fare.");
+            return false;
+        } 
         for (let i = 0; i < fareKey.length; i++) {
             form.append('fareKey', fareKey[i]);
             form.append('journeyKey', journeyKey[i]);

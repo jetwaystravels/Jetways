@@ -214,8 +214,36 @@
                                                 <div class="lh-14 fw-500">@departuretimefinal</div>
                                             </div>
                                             <div class="col-auto">
-                                                <div class="lh-14 fw-500">@item.segments[i].legs[j].designator.origin <span class="text-13 ml-2 fw-600">( @formatteddepartureDate<span class="text-13 text-light-1 ml-2"> Indira Gandhi, T-@item.segments[i].legs[j].legInfo.departureTerminal </span> )</span></div>
+                                                @{
+                                                    var allCityData = Citynamelist.GetAllCityData();
+                                                    string QueryOriginAirportName = item.segments[i].legs[j].designator.origin;
+                                                    string QueryDestinationAirportName = item.segments[i].legs[j].designator.destination;
 
+                                                    var originCity = allCityData.SingleOrDefault(x => x.cityname == QueryOriginAirportName);
+                                                    var destinationCity = allCityData.SingleOrDefault(x => x.cityname == QueryDestinationAirportName);
+
+                                                    if (originCity != null)
+                                                    {
+                                                        item.segments[i].legs[j].designator.origin = originCity.airportname;
+                                                    }
+                                                    if (destinationCity != null)
+                                                    {
+                                                        item.segments[i].legs[j].designator.destination = destinationCity.airportname;
+                                                    }
+                                                }
+                                                @*<div class="lh-14 fw-500">@item.segments[i].legs[j].designator.origin <span class="text-13 ml-2 fw-600">( @formatteddepartureDate<span class="text-13 text-light-1 ml-2"> Indira Gandhi, T-@item.segments[i].legs[j].legInfo.departureTerminal </span> )</span></div>*@
+                                                <div class="lh-14 fw-500">
+                                                    @QueryOriginAirportName<span class="text-13 ml-2 fw-600">
+                                                        ( @formatteddepartureDate<span class="text-13 text-light-1 ml-2">@originCity?.airportname</span><span class="text-13 ml-2 fw-600">
+                                                            @if (@item.segments[i].legs[j].legInfo.departureTerminal != null)
+                                                            {
+                                                                <span>, T-</span>
+
+                                                                @item.segments[i].legs[j].legInfo.departureTerminal
+                                                            }
+                                                        </span>)
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -249,8 +277,21 @@
                                                 <div class="lh-14 fw-500">@arrivalfinal</div>
                                             </div>
                                             <div class="col-auto">
-                                                <div class="lh-14 fw-500">@item.segments[i].legs[j].designator.destination<span class="text-13 ml-2 fw-600">( @formattedarrivalDate<span class="text-13 text-light-1 ml-2"> Sanganeer, T-@item.segments[i].legs[j].legInfo.arrivalTerminal </span> )</span></div>
+                                                @*<div class="lh-14 fw-500">@item.segments[i].legs[j].designator.destination<span class="text-13 ml-2 fw-600">( @formattedarrivalDate<span class="text-13 text-light-1 ml-2"> Sanganeer, T-@item.segments[i].legs[j].legInfo.arrivalTerminal </span> )</span></div>*@
+                                                <div class="lh-14 fw-500">
+                                                    @QueryDestinationAirportName
+                                                    <span class="text-13 ml-2 fw-600">
+                                                        (@formattedarrivalDate
+                                                        <span class="text-13 text-light-1 ml-2">@destinationCity?.airportname</span>
+                                                        <span class="text-13 ml-2 fw-600">
+                                                            @if (@item.segments[i].legs[j].legInfo.arrivalTerminal != null)
+                                                            {
+                                                                <span>, T-</span> @item.segments[i].legs[j].legInfo.arrivalTerminal
+                                                            }
+                                                        </span>)
 
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
