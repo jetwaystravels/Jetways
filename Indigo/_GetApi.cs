@@ -237,7 +237,7 @@ namespace Indigo
             catch (Exception ex)
             {
                 Logs logs = new Logs();
-                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_bookingCommitRequest) + "\n\n Response: " + ex.StackTrace.ToString(), "BookingCommit", "IndigoOneWay");
+                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_bookingCommitRequest) + "\n\n Response: " + ex.ToString(), "BookingCommit", "IndigoOneWay");
                 //return Ok(session);
             }
             return _bookingCommitRes;
