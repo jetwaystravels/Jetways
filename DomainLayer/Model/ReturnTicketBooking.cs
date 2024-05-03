@@ -22,6 +22,10 @@ namespace DomainLayer.Model
         public TypeOfSale typeOfSale { get; set; }
         public object hold { get; set; }
         public Breakdown breakdown { get; set; }
+        public double totalAmount { get; set; }
+        public double totalAmountBaggage { get; set; }
+        public double taxMinusMeal { get; set; }
+        public double taxMinusBaggage { get; set; }
         public ReceivedBy receivedBy { get; set; }
         public Contacts contacts { get; set; }
         public int passengerscount { get; set; }
@@ -70,6 +74,7 @@ namespace DomainLayer.Model
             public double totalCharged { get; set; }
             public double totalAmountSum { get; set; }
             public double totaltax { get; set; }
+            public double totalplusAmountSumtax { get; set; }
             public PassengerTotals passengerTotals { get; set; }
             public ReturnPassengers passengers { get; set; }
             public JourneyTotals journeyTotals { get; set; }
@@ -78,9 +83,11 @@ namespace DomainLayer.Model
             public JourneysReturn journeys { get; set; }
 
         }
-        public class Charge
+        public class ReturnCharge
         {
             public double amount { get; set; }
+            public double totalAmount { get; set; }
+            public double totalAmountBaggage { get; set; }
             public string code { get; set; }
             public string detail { get; set; }
             public int type { get; set; }
@@ -186,7 +193,7 @@ namespace DomainLayer.Model
             public double total { get; set; }
             public double taxes { get; set; }
             public object adjustments { get; set; }
-            public List<Charge> charges { get; set; }
+            public List<ReturnCharge> charges { get; set; }
             public List<Fee> fees { get; set; }
             public string nationality { get; set; }
             public DateTime dateOfBirth { get; set; }
@@ -553,6 +560,8 @@ namespace DomainLayer.Model
             public object[] addresses { get; set; }
             public int weightCategory { get; set; }
             public object[] emdCoupons { get; set; }
+            public ServiceChargeReturn ServiceChargeReturn { get; set; }
+            public List<ReturnCharge> charges { get; set; }
         }
         public class PassengerSegment
         {
@@ -577,7 +586,7 @@ namespace DomainLayer.Model
             public int total { get; set; }
             public int taxes { get; set; }
             public object adjustments { get; set; }
-            public List<Charge> charges { get; set; }
+            public List<ReturnCharge> charges { get; set; }
         }
         public class PassengerTotals
         {
@@ -732,6 +741,7 @@ namespace DomainLayer.Model
             public string foreignCurrencyCode { get; set; }
             public double foreignAmount { get; set; }
             public string ticketCode { get; set; }
+            public List<ReturnCharge> charges { get; set; }
         }
         public class Source
         {
@@ -754,7 +764,7 @@ namespace DomainLayer.Model
             public decimal total { get; set; }
             public decimal taxes { get; set; }
             public object adjustments { get; set; }
-            public List<Charge> charges { get; set; }
+            public List<ReturnCharge> charges { get; set; }
         }
 
         public class STVIDcyMn4gfn5CTFJMTIvMzAvMjAyMiAwMDo0MH5ERUxMTIvMzAvMjAyMiAwMzozMH5

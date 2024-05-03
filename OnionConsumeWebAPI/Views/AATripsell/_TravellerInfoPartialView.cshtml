@@ -104,9 +104,37 @@
         }
         <div class="d-flex justify-content-end">
             <button type="button" class="btn btn-primary mt-15" id="showReviewPopup">Save</button>
+            @*<button type="button" class="btn btn-primary mt-15" id="saveButton">Save</button>*@
+
+
         </div>
     </form>
 
+</div>
+<div class="modal fade" id="dataPopup" tabindex="-1" role="dialog" aria-labelledby="dataPopupLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content pb-3">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dataPopupLabel">Please review your details to ensure accuracy.</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="enteredData">
+                <!-- Display the entered data here -->
+
+            </div>
+            <div class="d-flex justify-content-end">
+                <div class="editbtn me-3">
+                    <button type="button" data-dismiss="modal" class="btn btn-primary w-20" id="editData">Edit</button>
+                </div>
+                <div class="countibtn me-3">
+                    <button type="button" data-dismiss="modal" class="btn btn-primary w-20" id="ContinueData">Continue</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -169,6 +197,121 @@
 
 </style>
 <script type="text/javascript">
+    $(document).ready(function () {
+        function showForm() {
+            $('#passengerForm').show();
+        }
+        $("#editData").click(function () {
+            $("#dataPopup").hide();
+        });
+        $("#showReviewPopup").click(function (e) {
+            e.preventDefault();
+
+            /*******Validation Start*********/
+
+            var firstName = document.querySelector(".contactFname").value;
+            if (firstName == "") {
+                //alert("Enter Origin Name");
+                var firstnameToDisplay = document.getElementById("error-Fname");
+                firstnameToDisplay.style.display = "block";
+                document.querySelector(".contactFname").focus();
+                return false;
+            }
+            var lastName = document.querySelector(".contactLname").value;
+            if (lastName == "") {
+                var lastnameToDisplay = document.getElementById("error-Lname");
+                lastnameToDisplay.style.display = "block";
+                document.querySelector(".contactLname").focus();
+                return false;
+            }
+            let phonefocus = document.querySelector('.contactphone').value;
+            if (phonefocus == "") {
+
+                let phoneToDisplay = document.querySelector('.error-phoneN');
+                phoneToDisplay.textContent = "Please enter your phone number";
+                phoneToDisplay.style.display = "block";
+                document.querySelector('.contactphone').focus();
+                return false;
+            }
+            var mobileNumberPattern = /^\d{10}$/;
+
+            if (!mobileNumberPattern.test(phonefocus)) {
+                alert("Please enter a valid 10-digit mobile number.");
+                return false;
+            }
+            /*******Validation End*********/
+            var enteredData = "";
+            for (var i = 0; i < @Model.passeengerlist.passengers.Count; i++) {
+                var firstName = $("input[name='passengerdetails[" + i + "].First']").val();
+                var lastName = $("input[name='passengerdetails[" + i + "].Last']").val();
+                var title = $("select[name='passengerdetails[" + i + "].Title']").val();
+                var Passengertypecode = $("input[name='passengerdetails[" + i + "].passengertypecode']").val();
+                if (Passengertypecode == "ADT") { Passengertypecode = "Adult"; }
+                if (Passengertypecode == "CHD") { Passengertypecode = "Child"; }
+                enteredData += "<p><strong>Passenger " + (i + 1) + ": (" + Passengertypecode + ")</strong><br>";
+                enteredData += "Title: " + title + "<br>";
+                enteredData += "First Name: " + firstName + "<br>";
+                enteredData += "Last Name: " + lastName + "</p>";
+            }
+            $("#enteredData").html(enteredData);
+            $('#dataPopup').modal('show');
+
+        });
+        $("#ContinueData").click(function () {
+            $('#passengers_id').hide();
+            //*************Validation effect Start**********
+            var contentToDisplay = document.getElementById("content");
+            contentToDisplay.style.display = "none";
+            var content2To = document.getElementById("content2");
+            content2To.style.display = "none";
+
+            var toggleButton4To = document.getElementById("toggleButton4");
+            toggleButton4To.style.opacity = "1.0";
+            var GSTcontent5To = document.getElementById("content4");
+            GSTcontent5To.style.display = "block";
+
+            var GSTContinuebtn1 = document.querySelector("#Continuebtn");
+            GSTContinuebtn1.disabled = false;
+            GSTContinuebtn1.style.opacity = "1.0";
+
+            debugger;
+            var formData = new FormData($("#passengerForm")[0]);
+            var infantDateInputs = document.querySelectorAll('.infant-dob-input');
+            var formattedDates = [];
+
+            infantDateInputs.forEach(function (input) {
+                debugger;
+                var day = input.querySelector('.day-select').value;
+                var month = input.querySelector('.month-select').value;
+                var year = input.querySelector('.year-select').value;
+                // Format the date as YYYY-MM-DD
+                var formattedDate = year + '-' + month.padStart(2, '0') + '-' + day.padStart(2, '0');
+
+                formattedDates.push(formattedDate);
+            });
+
+            formData.append("formattedDates", JSON.stringify(formattedDates));
+
+            $.ajax({
+                url: "/AATripsell/TravllerDetails",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    $('#divpartialViewSeat').html(data);
+                },
+                error: function (error) {
+
+                }
+            });
+        });
+
+
+    });
+
+</script>
+<script type="text/javascript">
 
     function validateInputT(event) {
         const input = event.target.value;
@@ -194,8 +337,6 @@
             firstnameToDisplay.style.display = "none";
         }
     }
-
-
     function validateInputTr(event) {
         const input = event.target.value;
         const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
@@ -217,13 +358,10 @@
             var lastnameToDisplay = document.querySelector('.error-CLname');
             lastnameToDisplay.style.display = "none";
         }
-
-
     }
-
     function validateEmailTr(event) {
         const email = event.target.value;
-        const regex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/; // Regular expression for basic email validation
+        const regex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
 
         if (!regex.test(email)) {
             document.querySelector('.emailErrorMessageTr').innerText = "valid email";
@@ -245,11 +383,9 @@
         }
 
     }
-
     function validatePhoneNumberTr(event) {
         const phoneNumber = event.target.value;
-        const regex = /^\d{10}$/; // Regular expression for 10-digit phone number validation
-
+        const regex = /^\d{10}$/;
         if (!regex.test(phoneNumber)) {
             document.querySelector('.phoneErrorMessageTr').innerText = "valid number.";
         } else {
@@ -268,9 +404,6 @@
             phoneTrToDisplay.style.display = "none";
         }
     }
-
-
-
     var buttonLead = document.getElementById('checkboxLead');
     buttonLead.addEventListener('click', function (e) {
         e.preventDefault();
@@ -322,7 +455,6 @@
         }
     });
     document.addEventListener('DOMContentLoaded', function (event) {
-        debugger;
         event.preventDefault();
 
         // Select all infant containers
@@ -352,7 +484,50 @@
             }
         }
 
-        // Loop through each infant container and populate day and year selects
+        // Function to validate infant age
+        function validateInfantAge(container) {
+            debugger;
+            const yearSelect = container.querySelector('.year-select');
+            const monthSelect = container.querySelector('.month-select');
+            const daySelect = container.querySelector('.day-select');
+            const selectedYear = parseInt(yearSelect.value);
+            const selectedMonth = parseInt(monthSelect.value);
+            const selectedDay = parseInt(daySelect.value);
+
+            const selectedDOB = new Date(selectedYear, selectedMonth - 1, selectedDay);
+            if (isNaN(selectedDOB)) {
+                alert("Please Select Infant Date!!");
+
+            }
+            const currentDate = new Date();
+            const ageDifferenceInMs = currentDate - selectedDOB;
+            const ageInYears = Math.floor(ageDifferenceInMs / (1000 * 60 * 60 * 24 * 365.25));
+            if (ageInYears < 2 || (ageInYears === 2 && currentDate.getMonth() < selectedDOB.getMonth()) ||
+                (ageInYears === 2 && currentDate.getMonth() === selectedDOB.getMonth() && currentDate.getDate() < selectedDOB.getDate())) {
+                return true;
+            } else {
+                return false;
+            }
+
+
+        }
+        const saveButton = document.getElementById('showReviewPopup');
+        saveButton.addEventListener('click', function (event) {
+            debugger;
+            let isValid = true;
+            infantContainers.forEach(function (container) {
+                if (!validateInfantAge(container)) {
+                    debugger;
+                    isValid = false;
+                    alert('Infant must be exactly 2 years old.');
+                    return;
+                }
+            });
+            if (!isValid) {
+                event.preventDefault();
+            }
+        });
+
         infantContainers.forEach(function (container) {
             populateDayOptions(container);
             populateYearOptions(container);
@@ -360,210 +535,20 @@
     });
 
 
-    // document.addEventListener('DOMContentLoaded', function (event) {
-    //     debugger;
-    //     event.preventDefault();
-    //     const daySelect = document.querySelector('.day-select');
-    //     const yearSelect = document.querySelector('.year-select');
-
-    //     function populateDayOptions() {
-    //         for (let i = 1; i <= 31; i++) {
-    //             const option = document.createElement('option');
-    //             option.value = i;
-    //             option.textContent = i;
-    //             daySelect.appendChild(option);
-    //         }
-    //     }
-    //     function populateYearOptions() {
-    //         const currentYear = new Date().getFullYear();
-    //         const maxInfantAge = 2;
-    //         for (let i = currentYear; i >= currentYear - maxInfantAge; i--) {
-    //             const option = document.createElement('option');
-    //             option.value = i;
-    //             option.textContent = i;
-    //             yearSelect.appendChild(option);
-    //         }
-    //     }
-    //     populateDayOptions();
-    //     populateYearOptions();
-    // });
-    // function getSelectedDayValue() {
-    //     debugger;
-    //     const daySelect = document.querySelector('.day-select');
-    //     return daySelect.value;   }
-    // function getSelectedYearValue() {
-    //     debugger;
-    //     const yearSelect = document.querySelector('.year-select');
-    //     return yearSelect.value;
-    // }
-</script>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        function showForm() {
-            $('#passengerForm').show();
-        }
-        $("#editData").click(function () {
-            $("#dataPopup").hide();
-        });
-        $("#showReviewPopup").click(function (e) {
-            e.preventDefault();
-
-            /*******Validation Start*********/
-
-            var firstName = document.querySelector(".contactFname").value;
-            if (firstName == "") {
-                //alert("Enter Origin Name");
-                var firstnameToDisplay = document.getElementById("error-Fname");
-                firstnameToDisplay.style.display = "block";
-                document.querySelector(".contactFname").focus();
-                return false;
-            }
-            var lastName = document.querySelector(".contactLname").value;
-            if (lastName == "") {
-                //alert("Enter Origin Name");
-                var lastnameToDisplay = document.getElementById("error-Lname");
-                lastnameToDisplay.style.display = "block";
-                document.querySelector(".contactLname").focus();
-                return false;
-            }
-            let phonefocus = document.querySelector('.contactphone').value;
-            if (phonefocus == "") {
-
-                let phoneToDisplay = document.querySelector('.error-phoneN');
-                phoneToDisplay.textContent = "Please enter your phone number";
-                phoneToDisplay.style.display = "block";
-                document.querySelector('.contactphone').focus();
-                return false;
-            }
-            var mobileNumberPattern = /^\d{10}$/; // Assumes a 10-digit number
-
-            if (!mobileNumberPattern.test(phonefocus)) {
-                alert("Please enter a valid 10-digit mobile number.");
-                return false;
-            }
-
-            // var day = document.querySelector('.day-select').value;
-            // var month = document.querySelector('.month-select').value;
-            // var year = document.querySelector('.year-select').value;
-
-            // // Check if any of the dropdowns have default values
-            // if (day === "" || month === "" || year === "") {
-            //     // Display error message or take necessary action
-            //     alert("Please select a valid date of birth.");
-            //     return false; // Prevent form submission
-            // }
-            /*******Validation End*********/
-
-
-            var enteredData = "";
-            for (var i = 0; i < @Model.passeengerlist.passengers.Count; i++) {
-                var firstName = $("input[name='passengerdetails[" + i + "].First']").val();
-                var lastName = $("input[name='passengerdetails[" + i + "].Last']").val();
-                var title = $("select[name='passengerdetails[" + i + "].Title']").val();
-                var Passengertypecode = $("input[name='passengerdetails[" + i + "].passengertypecode']").val();
-                if (Passengertypecode == "ADT") { Passengertypecode = "Adult"; }
-                if (Passengertypecode == "CHD") { Passengertypecode = "Child"; }
-                enteredData += "<p><strong>Passenger " + (i + 1) + ": (" + Passengertypecode + ")</strong><br>";
-                enteredData += "Title: " + title + "<br>";
-                enteredData += "First Name: " + firstName + "<br>";
-                enteredData += "Last Name: " + lastName + "</p>";
-            }
-            // Display the entered data in the popup
-            $("#enteredData").html(enteredData);
-            // Show the popup
-            $('#dataPopup').modal('show');
-            // Hide the form
-            //$('#passengerForm').hide();
-        });
-        $("#ContinueData").click(function () {
-            $('#passengers_id').hide(); //Contact Details Div Hide
-            //*************Validation effect Start**********
-            var contentToDisplay = document.getElementById("content");
-            contentToDisplay.style.display = "none";
-            var content2To = document.getElementById("content2");
-            content2To.style.display = "none";
-
-            // var toggleButton3To = document.getElementById("toggleButton4");
-            // toggleButton3To.style.opacity = "1.0";
-            // var content3To = document.getElementById("content4");
-            // content3To.style.display = "block";
-
-            var toggleButton4To = document.getElementById("toggleButton4");
-            toggleButton4To.style.opacity = "1.0";
-            var GSTcontent5To = document.getElementById("content4");
-            GSTcontent5To.style.display = "block";
-
-            var GSTContinuebtn1 = document.querySelector("#Continuebtn");
-            GSTContinuebtn1.disabled = false;
-            GSTContinuebtn1.style.opacity = "1.0";
-            debugger;
-            var formData = new FormData($("#passengerForm")[0]);
-            var infantDateInputs = document.querySelectorAll('.infant-dob-input');
-            var formattedDates = [];
-
-            infantDateInputs.forEach(function (input) {
-                debugger;
-                var day = input.querySelector('.day-select').value;
-                var month = input.querySelector('.month-select').value;
-                var year = input.querySelector('.year-select').value;
-
-                // Format the date as YYYY-MM-DD
-                var formattedDate = year + '-' + month.padStart(2, '0') + '-' + day.padStart(2, '0');
-
-                formattedDates.push(formattedDate);
-            });
-
-            formData.append("formattedDates", JSON.stringify(formattedDates));
-
-
-            // Send the AJAX request with formData
-            $.ajax({
-                url: "/AATripsell/TravllerDetails",
-                type: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    $('#divpartialViewSeat').html(data);
-                },
-                error: function (error) {
-                    // Handle any errors here
-                }
-            });
-        });
-
-
-    });
-
 </script>
 
 
-<div class="modal fade" id="dataPopup" tabindex="-1" role="dialog" aria-labelledby="dataPopupLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content pb-3">
-            <div class="modal-header">
-                <h5 class="modal-title" id="dataPopupLabel">Please review your details to ensure accuracy.</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="enteredData">
-                <!-- Display the entered data here -->
 
-            </div>
-            <div class="d-flex justify-content-end">
-                <div class="editbtn me-3">
-                    <button type="button" data-dismiss="modal" class="btn btn-primary w-20" id="editData">Edit</button>
-                </div>
-                <div class="countibtn me-3">
-                    <button type="button" data-dismiss="modal" class="btn btn-primary w-20" id="ContinueData">Continue</button>
-                </div>
-            </div>
 
-        </div>
-    </div>
-</div>
+
+
+
+
+
+
+
+
+
 
 
 

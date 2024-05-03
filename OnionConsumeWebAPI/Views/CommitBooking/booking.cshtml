@@ -522,13 +522,13 @@
                                                 <span class="fw-bold-600">Meal:</span>
                                             </div>
                                             <div class="col-3">
-                                                <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.passengerTotals.specialServices.total</span>
+                                                <span class="fw-bold-600">@Model.AirlinePNR[0].totalAmount</span>
                                             </div>
                                             <div class="col-9">
                                                 <span class="fw-bold-600">Meal Tax:</span>
                                             </div>
                                             <div class="col-3">
-                                                <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.passengerTotals.specialServices.taxes</span>
+                                                <span class="fw-bold-600">0</span>
                                             </div>
                                             <div class="col-9">
                                                 <span class="fw-bold-600">Seat :</span>
@@ -546,7 +546,7 @@
                                                 <span class="fw-bold-600">Baggage:</span>
                                             </div>
                                             <div class="col-3">
-                                                <span class="fw-bold-600">0</span>
+                                                <span class="fw-bold-600">@Model.AirlinePNR[0].totalAmountBaggage</span>
                                             </div>
                                             <div class="col-9">
                                                 <span class="fw-bold-600">Misc Charges:</span>
@@ -581,7 +581,7 @@
                                         <span class="fw-bold-600">Total Fare</span>
                                     </div>
                                     <div class="col-3">
-                                        <span class="fw-bold-600">xxxx</span>
+                                        <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.totalplusAmountSumtax</span>
                                     </div>
                                 </div>
                             </div>

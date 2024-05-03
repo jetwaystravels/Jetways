@@ -120,12 +120,71 @@ namespace OnionConsumeWebAPI.Controllers
                     var ToatalBasePrice = journeyTotalsobj.totalAmount + journeyTotalsobj.totalTax;
 
                     PassengerTotals passengerTotals = new PassengerTotals();
+                    SpecialServices serviceChargeReturn = new SpecialServices();
+                    List<ReturnCharge> returnChargeList = new List<ReturnCharge>();
+                    int chargesCount = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.charges.Count;
+                    double totalAmount = 0;
+                    double totalAmountBaggage = 0;
+                    double totalAmounttax = 0;
+                    double totalAmounttaxSGST = 0;
+                    double totalAmounttaxBag = 0;
+                    double totalAmounttaxSGSTBag = 0;
+                    double totalMealTax = 0;
+                    double totalBaggageTax = 0;
+                    double taxMinusMeal = 0;
+                    double taxMinusBaggage = 0;
+
+
+                    for (int ch = 0; ch < chargesCount; ch++)
+                    {
+                        ReturnCharge returnChargeobj = new ReturnCharge();
+                        returnChargeobj.amount = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.charges[ch].amount;
+                        returnChargeobj.code = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.charges[ch].code;
+                        if (returnChargeobj.code.StartsWith("V"))
+                        {
+                            totalAmount += returnChargeobj.amount;
+
+                        }
+                        if (returnChargeobj.code.StartsWith("C"))
+                        {
+                            totalAmounttax += returnChargeobj.amount;
+                        }
+                        if (returnChargeobj.code.StartsWith("S"))
+                        {
+                            totalAmounttaxSGST += returnChargeobj.amount;
+                        }
+                        totalMealTax = totalAmounttax + totalAmounttaxSGST;
+                        taxMinusMeal = totalAmount - totalMealTax;
+
+                        if (returnChargeobj.code.StartsWith("P"))
+                        {
+                            totalAmountBaggage += returnChargeobj.amount;
+
+                        }
+                        if (returnChargeobj.code.StartsWith("C"))
+                        {
+                            totalAmounttaxBag += returnChargeobj.amount;
+                        }
+
+                        if (returnChargeobj.code.StartsWith("S"))
+                        {
+                            totalAmounttaxSGSTBag += returnChargeobj.amount;
+                        }
+                        totalBaggageTax = totalAmounttaxBag + totalAmounttaxSGSTBag;
+                        taxMinusBaggage = totalAmountBaggage - totalBaggageTax;
+
+
+                        returnChargeList.Add(returnChargeobj);
+                    }
+                    serviceChargeReturn.charges = returnChargeList;
+
                     InfantReturn infantReturnobj = new InfantReturn();
                     infantReturnobj.total = JsonObjPNRBooking.data.breakdown.passengerTotals.infant.total;
                     infantReturnobj.taxes = JsonObjPNRBooking.data.breakdown.passengerTotals.infant.taxes;
 
                     double totalAmountSum = journeyTotalsobj.totalAmount + infantReturnobj.total;
                     double totaltax = journeyTotalsobj.totalTax + infantReturnobj.taxes;
+                    double totalplusAmountSumtax = totalAmountSum + totaltax;
 
 
                     ReturnSeats returnSeats = new ReturnSeats();
@@ -144,13 +203,16 @@ namespace OnionConsumeWebAPI.Controllers
                         specialServices.taxes = (decimal)JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes;
                     }
                     //breakdown.journeyTotals = (int)ToatalBasePrice;
+
                     breakdown.journeyTotals = journeyTotalsobj;
                     breakdown.passengerTotals = passengerTotals;
                     breakdown.totalAmountSum = totalAmountSum;
                     breakdown.totaltax = totaltax;
+                    breakdown.totalplusAmountSumtax = totalplusAmountSumtax;
                     passengerTotals.seats = returnSeats;
                     passengerTotals.infant = infantReturnobj;
                     passengerTotals.specialServices = specialServices;
+                    passengerTotals.specialServices = serviceChargeReturn;
 
                     if (JsonObjPNRBooking.data.contacts.G != null)
                     {
@@ -180,6 +242,7 @@ namespace OnionConsumeWebAPI.Controllers
                         orides = JsonObjPNRBooking.data.journeys[0].designator.origin + JsonObjPNRBooking.data.journeys[0].designator.destination;
                         ReturnDesignatorobject.departure = JsonObjPNRBooking.data.journeys[0].designator.departure;
                         ReturnDesignatorobject.arrival = JsonObjPNRBooking.data.journeys[0].designator.arrival;
+
                         journeysReturnObj.designator = ReturnDesignatorobject;
                         int SegmentReturnCount = JsonObjPNRBooking.data.journeys[i].segments.Count;
                         List<SegmentReturn> segmentReturnsList = new List<SegmentReturn>();
@@ -397,6 +460,10 @@ namespace OnionConsumeWebAPI.Controllers
                     returnTicketBooking.passengers = ReturnpassengersList;
                     returnTicketBooking.passengerscount = Returnpassengercount;
                     returnTicketBooking.PhoneNumbers = phoneNumberList;
+                    returnTicketBooking.totalAmount = totalAmount;
+                    returnTicketBooking.taxMinusMeal = taxMinusMeal;
+                    returnTicketBooking.taxMinusBaggage = taxMinusBaggage;
+                    returnTicketBooking.totalAmountBaggage = totalAmountBaggage;
                     _AirLinePNRTicket.AirlinePNR.Add(returnTicketBooking);
 
 
