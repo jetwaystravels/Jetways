@@ -60,7 +60,7 @@
     </ul>
 </div>
 
-<div class="row">
+<div class="row pax-border">
 
     <div class="col-lg-12" id="passtab1">
         <section class="d-flex flex-wrap">
@@ -140,7 +140,7 @@
 <div class="row">
     <div class="col-lg-12">
         @*   <div class="flight-protip">Pro Tip Grab your favourite seat before it gets sold.</div> *@
-        <div class="wing-left">&nbsp;</div>
+        @* <div class="wing-left">&nbsp;</div> *@
 
         @{
             var seatmaap = Model.passeengerlist.journeys[0].segments.Count;
@@ -186,73 +186,83 @@
                 {
                     <div class="service-section">
                         <div id="tabshow1" class="seat-section">
-                            A
+
                             <div class="inner-section">
-                                <ul class="column">
-                                    <li class="seat-li row-no">F</li>
-                                    <li class="seat-li row-no">E</li>
-                                    <li class="seat-li row-no">D</li>
-                                    <li class="seat-li row-no"></li>
-                                    <li class="seat-li row-no">C</li>
-                                    <li class="seat-li row-no">B</li>
-                                    <li class="seat-li row-no">A</li>
-                                </ul>
+                                <div>
+                                    <span class="bgProperties iconflFront">
+                                        <img class="left-img" src="~/img/flight-front-icon-1.png">
+                                        <img class="right-img" src="~/img/flight-front-icon-2.png">
+                                        <img class="exit-top-img" src="~/img/exit-btn-top.png">
+                                        <img class="exit-btnn-img" src="~/img/exit-btn-button.png">
+                                    </span>
+                                </div>
+                                <div class="bg-white-seat">
+                                    <ul class="column">
+                                        <li class="seat-li row-no">F</li>
+                                        <li class="seat-li row-no">E</li>
+                                        <li class="seat-li row-no">D</li>
+                                        <li class="seat-li row-no"></li>
+                                        <li class="seat-li row-no">C</li>
+                                        <li class="seat-li row-no">B</li>
+                                        <li class="seat-li row-no">A</li>
+                                    </ul>
 
-                                @{
-                                    @for (int i = 1; i <= 30; i++)
-                                    {
+                                    @{
+                                        @for (int i = 1; i <= 30; i++)
+                                        {
 
-                                        <ul class="column" id="itemList">
-                                            @{
-                                                for (int k = 6; k >= 1; k--)
-                                                {
-                                                    string data = string.Empty;
-                                                    if (k == 6) { data = i.ToString() + "F"; }
-                                                    else if (k == 5) { data = i.ToString() + "E"; }
-                                                    else if (k == 4) { data = i.ToString() + "D"; }
-                                                    else if (k == 3) { data = i.ToString() + "C"; }
-                                                    else if (k == 2) { data = i.ToString() + "B"; }
-                                                    else if (k == 1) { data = i.ToString() + "A"; }
-                                                    var designation = data;
-                                                    if (!ht0.Contains(data))
+                                            <ul class="column" id="itemList">
+                                                @{
+                                                    for (int k = 6; k >= 1; k--)
                                                     {
-                                                        <li class="seat-li chkbox">
-                                                            <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
-                                                        </li>
-                                                    }
-                                                    else
-                                                    {
-                                                        string feeamountF1 = ht0[data].ToString();
-                                                        if (feeamountF1 == "0")
+                                                        string data = string.Empty;
+                                                        if (k == 6) { data = i.ToString() + "F"; }
+                                                        else if (k == 5) { data = i.ToString() + "E"; }
+                                                        else if (k == 4) { data = i.ToString() + "D"; }
+                                                        else if (k == 3) { data = i.ToString() + "C"; }
+                                                        else if (k == 2) { data = i.ToString() + "B"; }
+                                                        else if (k == 1) { data = i.ToString() + "A"; }
+                                                        var designation = data;
+                                                        if (!ht0.Contains(data))
                                                         {
-                                                            <li class="seat-li free-seat tooltip">
-                                                                <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@data _OneWay0 _@l" id="unitKey" />
-                                                                <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                            <li class="seat-li chkbox">
+                                                                <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
                                                             </li>
                                                         }
                                                         else
                                                         {
-                                                            <li class="seat-li midcomfort tooltip">
-                                                                <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@data _OneWay0 _@l" id="unitKey" />
-                                                                <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
-                                                            </li>
+                                                            string feeamountF1 = ht0[data].ToString();
+                                                            if (feeamountF1 == "0")
+                                                            {
+                                                                <li class="seat-li free-seat tooltip">
+                                                                    <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+                                                                    <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@data _OneWay0 _@l" id="unitKey" />
+                                                                    <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                                </li>
+                                                            }
+                                                            else
+                                                            {
+                                                                <li class="seat-li midcomfort tooltip">
+                                                                    <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+                                                                    <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@data _OneWay0 _@l" id="unitKey" />
+                                                                    <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                                </li>
+                                                            }
                                                         }
-                                                    }
 
-                                                    if (k == 4)
-                                                    {
-                                                        <li class="seat-li"></li>
-                                                    }
+                                                        if (k == 4)
+                                                        {
+                                                            <li class="seat-li"></li>
+                                                        }
 
-                                                    <li class="seat-li colNo left">@i</li>
+                                                        <li class="seat-li colNo left">@i</li>
+                                                    }
                                                 }
-                                            }
 
-                                        </ul>
+                                            </ul>
+                                        }
                                     }
-                                }
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -261,73 +271,83 @@
                 {
                     <div class="service-section">
                         <div id="tabshow2" class="seat-section">
-                            B
+
                             <div class="inner-section">
-                                <ul class="column">
-                                    <li class="seat-li row-no">F</li>
-                                    <li class="seat-li row-no">E</li>
-                                    <li class="seat-li row-no">D</li>
-                                    <li class="seat-li row-no"></li>
-                                    <li class="seat-li row-no">C</li>
-                                    <li class="seat-li row-no">B</li>
-                                    <li class="seat-li row-no">A</li>
-                                </ul>
+                                <div>
+                                    <span class="bgProperties iconflFront">
+                                        <img class="left-img" src="~/img/flight-front-icon-1.png">
+                                        <img class="right-img" src="~/img/flight-front-icon-2.png">
+                                        <img class="exit-top-img" src="~/img/exit-btn-top.png">
+                                        <img class="exit-btnn-img" src="~/img/exit-btn-button.png">
+                                    </span>
+                                </div>
+                                <div class="bg-white-seat">
+                                    <ul class="column">
+                                        <li class="seat-li row-no">F</li>
+                                        <li class="seat-li row-no">E</li>
+                                        <li class="seat-li row-no">D</li>
+                                        <li class="seat-li row-no"></li>
+                                        <li class="seat-li row-no">C</li>
+                                        <li class="seat-li row-no">B</li>
+                                        <li class="seat-li row-no">A</li>
+                                    </ul>
 
-                                @{
-                                    @for (int i = 1; i <= 30; i++)
-                                    {
+                                    @{
+                                        @for (int i = 1; i <= 30; i++)
+                                        {
 
-                                        <ul class="column" id="itemList">
-                                            @{
-                                                for (int k = 6; k >= 1; k--)
-                                                {
-                                                    string data = string.Empty;
-                                                    if (k == 6) { data = i.ToString() + "F"; }
-                                                    else if (k == 5) { data = i.ToString() + "E"; }
-                                                    else if (k == 4) { data = i.ToString() + "D"; }
-                                                    else if (k == 3) { data = i.ToString() + "C"; }
-                                                    else if (k == 2) { data = i.ToString() + "B"; }
-                                                    else if (k == 1) { data = i.ToString() + "A"; }
-                                                    var designation = data;
-                                                    if (!ht1.Contains(data))
+                                            <ul class="column" id="itemList">
+                                                @{
+                                                    for (int k = 6; k >= 1; k--)
                                                     {
-                                                        <li class="seat-li chkbox">
-                                                            <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
-                                                        </li>
-                                                    }
-                                                    else
-                                                    {
-                                                        string feeamountF1 = ht1[data].ToString();
-                                                        if (feeamountF1 == "0")
+                                                        string data = string.Empty;
+                                                        if (k == 6) { data = i.ToString() + "F"; }
+                                                        else if (k == 5) { data = i.ToString() + "E"; }
+                                                        else if (k == 4) { data = i.ToString() + "D"; }
+                                                        else if (k == 3) { data = i.ToString() + "C"; }
+                                                        else if (k == 2) { data = i.ToString() + "B"; }
+                                                        else if (k == 1) { data = i.ToString() + "A"; }
+                                                        var designation = data;
+                                                        if (!ht1.Contains(data))
                                                         {
-                                                            <li class="seat-li free-seat tooltip">
-                                                                <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@data _OneWay1 _@l" id="unitKey" />
-                                                                <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                            <li class="seat-li chkbox">
+                                                                <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
                                                             </li>
                                                         }
                                                         else
                                                         {
-                                                            <li class="seat-li midcomfort tooltip">
-                                                                <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@data _OneWay1 _@l" id="unitKey" />
-                                                                <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
-                                                            </li>
+                                                            string feeamountF1 = ht1[data].ToString();
+                                                            if (feeamountF1 == "0")
+                                                            {
+                                                                <li class="seat-li free-seat tooltip">
+                                                                    <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+                                                                    <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@data _OneWay1 _@l" id="unitKey" />
+                                                                    <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                                </li>
+                                                            }
+                                                            else
+                                                            {
+                                                                <li class="seat-li midcomfort tooltip">
+                                                                    <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+                                                                    <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@data _OneWay1 _@l" id="unitKey" />
+                                                                    <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                                </li>
+                                                            }
                                                         }
-                                                    }
 
-                                                    if (k == 4)
-                                                    {
-                                                        <li class="seat-li"></li>
-                                                    }
+                                                        if (k == 4)
+                                                        {
+                                                            <li class="seat-li"></li>
+                                                        }
 
-                                                    <li class="seat-li colNo left">@i</li>
+                                                        <li class="seat-li colNo left">@i</li>
+                                                    }
                                                 }
-                                            }
 
-                                        </ul>
+                                            </ul>
+                                        }
                                     }
-                                }
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -338,98 +358,11 @@
 
         @*<--Tab2start----->*@
 
-        @*@{
-        // int count1 = Model.Seatmaplist.datalist[1].seatMap.decks.units.Count;
-        // Hashtable ht1 = new Hashtable();
-        // for (int i = 0; i < count; i++)
-        // {
-        // if (Model.Seatmaplist.datalist[1].seatMap.decks.units[i].assignable == true)
-        // {
-        // if (!ht1.Contains(Model.Seatmaplist.datalist[1].seatMap.decks.units[i].designator))
-        // ht1.Add(Model.Seatmaplist.datalist[1].seatMap.decks.units[i].designator, Model.Seatmaplist.datalist[1].seatMap.decks.units[i].servicechargefeeAmount);
-        // }
-
-        // }
-        // }*@
-        @*<div id="tabshow2" class="seat-section">
-        <div class="inner-section">
-        <ul class="column">
-        <li class="seat-li row-no">F</li>
-        <li class="seat-li row-no">E</li>
-        <li class="seat-li row-no">D</li>
-        <li class="seat-li row-no"></li>
-        <li class="seat-li row-no">C</li>
-        <li class="seat-li row-no">B</li>
-        <li class="seat-li row-no">A</li>
-        </ul>
-        <h6>Seat 2 Map Here</h6>
-
-        @{
-        @for (int i = 1; i <= 30; i++)
-        {
-
-        <ul class="column" id="itemList">
-        @{
-        for (int k = 6; k >= 1; k--)
-        {
-        string data = string.Empty;
-        if (k == 6) { data = i.ToString() + "F"; }
-        else if (k == 5) { data = i.ToString() + "E"; }
-        else if (k == 4) { data = i.ToString() + "D"; }
-        else if (k == 3) { data = i.ToString() + "C"; }
-        else if (k == 2) { data = i.ToString() + "B"; }
-        else if (k == 1) { data = i.ToString() + "A"; }
-        var designation = data;
-        if (!ht.Contains(data))
-        {
-        <li class="seat-li chkbox">
-        <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
-        </li>
-        }
-        else
-        {
-        string feeamountF1 = ht[data].ToString();
-        if (feeamountF1 == "0")
-        {
-        <li class="seat-li free-seat tooltip">
-        <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-        <input type="checkbox" name="unitKey" value="@feeamountF1 _@data" id="unitKey" onchange="myfun()" />
-        <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
-        </li>
-        }
-        else
-        {
-        <li class="seat-li midcomfort tooltip">
-        <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-        <input type="checkbox" name="unitKey" value="@feeamountF1 _@data" id="unitKey" onchange="myfun()" />
-        <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
-        </li>
-        }
-        }
-
-        if (k == 4)
-        {
-        <li class="seat-li"></li>
-        }
-
-        <li class="seat-li colNo left">@i</li>
-        }
-        }
-
-        </ul>
-        }
-        }
-
-
-
-        @*--------------------
-        </div>
-        </div>*@
 
 
 
         @* ----------End--------- *@
-        <div class="wing-right">&nbsp;</div>
+        @*  <div class="wing-right">&nbsp;</div> *@
         <div class="service-section">
             <div class="legendHolder-box">
                 <ul>
@@ -460,12 +393,20 @@
     }
 </style>
 <style>
+    .pax-border {
+        border-top: #ddd 1px solid;
+        border-bottom: #ddd 1px solid;
+        font-weight: 500;
+        margin: 8px 0px;
+        padding: 8px 0px;
+    }
+
     .popinput1 input {
         width: 40px;
-        border: 1px solid green;
-        background: green;
-        color: #fff;
-        padding-left: 8px;
+        border: #1e568f 1px solid;
+        border-radius: 3px;
+        padding: 0 4px;
+        color: #1e568f;
     }
 
     .popinput1 {
@@ -478,10 +419,10 @@
 
         .popinput2 input {
             width: 40px;
-            border: 1px solid green;
-            background: green;
-            color: #fff;
-            padding-left: 8px;
+            border: #1e568f 1px solid;
+            border-radius: 3px;
+            padding: 0 4px;
+            color: #1e568f;
         }
 
     .active {

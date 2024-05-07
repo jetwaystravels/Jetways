@@ -13190,6 +13190,55 @@ check out section
         font-size: 20px;
     }
 
+
+/* ******************************
+Start Seat Map section
+****************************** */
+.service-section .iconflFront {
+    background-image: url(../img/flight-small-front.png);
+    background-position: left;
+    width: 286px;
+    height: 262px;
+    /*display: inline-block;*/
+    /* position: absolute;*/
+    /*   left: 16px;
+    top: 18px;*/
+    background-size: cover;
+    text-align: right;
+}
+
+    .service-section .iconflFront .left-img {
+        position: absolute;
+        top: 37px;
+        left: 150px;
+    }
+
+    .service-section .iconflFront .right-img {
+        position: absolute;
+        top: 141px;
+        left: 150px;
+    }
+
+    .service-section .iconflFront .exit-top-img {
+        position: absolute;
+        top: 13px;
+        left: 259px;
+    }
+
+    .service-section .iconflFront .exit-btnn-img {
+        position: absolute;
+        top: 203px;
+        left: 259px;
+    }
+
+.service-section .bgProperties {
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+}
+
+
+
 .service-section .tabs__controls.bdr-btm {
     border-bottom: #ddd 1px solid;
     margin: 0 0 3px 0;
@@ -13223,144 +13272,155 @@ check out section
 }
 
 .service-section .seat-section {
-    background: #FAFAFA;
-    padding: 27px 0 21px 3px;
-    border-radius: 143px 0 0 143px;
+    background: #CCCCCC;
+    padding: 0px 0 0px 0px;
+    /* border-radius: 143px 0 0 143px;*/
     border: #DEE0E4 1px solid;
     overflow: auto;
     white-space: nowrap;
     height: 293px;
+    position: relative;
+    z-index: 99999999;
 }
 
-    .service-section .seat-section .inner-section {
-        position: relative;
+.bg-white-seat {
+    background: #ffffff;
+    margin-bottom: 6px;
+    padding: 28px 4px 4px 0px;
+}
+
+.service-section .seat-section .inner-section {
+    position: relative;
+    /*display: inline-block;*/
+    display: flex;
+    margin: 15px 0px 15px 0px;
+    /*box-shadow: 0 0 12px 0px rgba(0,0,0,0.2);*/
+    padding: 0px;
+    width: auto;
+    /* border-radius: 110px 0 0 110px;
+    background: #FAFAFA;*/
+    /*background: rgb(230,236,245);*/
+    /* background: linear-gradient(98deg, rgba(230,236,245,1) 4%, rgba(255,255,255,1) 35%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);
+    */
+}
+
+    .service-section .seat-section .inner-section ul.column {
         display: inline-block;
-        margin: 0;
-        box-shadow: 0 0 12px 0px rgba(0,0,0,0.2);
-        padding: 12px 12px 12px 72px;
-        width: auto;
-        border-radius: 110px 0 0 110px;
-        background: rgb(230,236,245);
-        background: linear-gradient(98deg, rgba(230,236,245,1) 4%, rgba(255,255,255,1) 35%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);
+        position: relative;
+        margin: 0 4px;
+        padding: 0;
+        vertical-align: middle;
     }
 
-        .service-section .seat-section .inner-section ul.column {
-            display: inline-block;
-            position: relative;
-            margin: 0 4px;
-            padding: 0;
-            vertical-align: middle;
-        }
+    .service-section .seat-section .inner-section ul.column {
+        list-style: none;
+        cursor: pointer;
+    }
 
-        .service-section .seat-section .inner-section ul.column {
-            list-style: none;
-            cursor: pointer;
-        }
+    .service-section .seat-section .inner-section .seat-li.row-no {
+        transform: rotateZ(-90deg);
+        text-align: center;
+    }
 
-        .service-section .seat-section .inner-section .seat-li.row-no {
-            transform: rotateZ(-90deg);
+    .service-section .seat-section .inner-section .seat-li {
+        margin: 6px 0;
+        width: 22px;
+        height: 22px;
+        position: relative;
+        font-size: 14px;
+    }
+
+        .service-section .seat-section .inner-section .seat-li.booked {
+            background: #EFEFEF;
+            border-radius: 4px;
+            color: #C0C0C0;
+            font-weight: 100;
+            border: #E7E5E5 1px solid;
+            font-size: 13px;
+            padding-top: 1px;
             text-align: center;
         }
 
-        .service-section .seat-section .inner-section .seat-li {
-            margin: 6px 0;
-            width: 22px;
-            height: 22px;
-            position: relative;
-            font-size: 14px;
+        .service-section .seat-section .inner-section .seat-li.selected {
+            background: #36C24D;
+            border-radius: 4px;
+            color: #fff;
+            font-weight: 100;
+            border: #E7E5E5 1px solid;
+            font-size: 12px;
+            padding-top: 2px;
+            text-align: center;
         }
 
-            .service-section .seat-section .inner-section .seat-li.booked {
-                background: #EFEFEF;
-                border-radius: 4px;
-                color: #C0C0C0;
-                font-weight: 100;
-                border: #E7E5E5 1px solid;
-                font-size: 13px;
-                padding-top: 1px;
-                text-align: center;
-            }
 
-            .service-section .seat-section .inner-section .seat-li.selected {
-                background: #36C24D;
-                border-radius: 4px;
-                color: #fff;
-                font-weight: 100;
-                border: #E7E5E5 1px solid;
-                font-size: 12px;
-                padding-top: 2px;
-                text-align: center;
-            }
+        .service-section .seat-section .inner-section .seat-li.midcomfort {
+            background: #48A5E9;
+            text-align: center;
+        }
 
+        .service-section .seat-section .inner-section .seat-li.comfort {
+            background: #003B6F;
+            text-align: center;
+        }
 
-            .service-section .seat-section .inner-section .seat-li.midcomfort {
-                background: #48A5E9;
-                text-align: center;
-            }
+        .service-section .seat-section .inner-section .seat-li.free-seat {
+            background: #34DDC9;
+            text-align: center;
+        }
 
-            .service-section .seat-section .inner-section .seat-li.comfort {
-                background: #003B6F;
-                text-align: center;
-            }
+    .service-section .seat-section .inner-section ul.column li.colNo {
+        position: absolute;
+        z-index: 2;
+        width: 22px;
+        text-align: center;
+    }
 
-            .service-section .seat-section .inner-section .seat-li.free-seat {
-                background: #34DDC9;
-                text-align: center;
-            }
+        .service-section .seat-section .inner-section ul.column li.colNo.left {
+            bottom: -30px;
+        }
 
-        .service-section .seat-section .inner-section ul.column li.colNo {
+    .service-section .seat-section .inner-section .tooltip {
+        position: relative;
+        border-bottom: 1px dotted #04263C;
+        z-index: 9999;
+    }
+
+        .service-section .seat-section .inner-section .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 80px;
+            font-weight: 600;
+            font-size: 0.72rem;
+            background-color: #04263C;
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
+            padding: 4px 0;
             position: absolute;
-            z-index: 2;
-            width: 22px;
-            text-align: center;
+            z-index: 1;
+            bottom: 135%;
+            left: 50%;
+            margin-left: -40px;
         }
 
-            .service-section .seat-section .inner-section ul.column li.colNo.left {
-                bottom: -48px;
+            .service-section .seat-section .inner-section .tooltip .tooltiptext span {
+                color: #F8D448;
+                padding-left: 5px;
             }
 
-        .service-section .seat-section .inner-section .tooltip {
-            position: relative;
-            border-bottom: 1px dotted #04263C;
-            z-index: 9999;
-        }
-
-            .service-section .seat-section .inner-section .tooltip .tooltiptext {
-                visibility: hidden;
-                width: 80px;
-                font-weight: 600;
-                font-size: 0.72rem;
-                background-color: #04263C;
-                color: #fff;
-                text-align: center;
-                border-radius: 4px;
-                padding: 4px 0;
+            .service-section .seat-section .inner-section .tooltip .tooltiptext::after {
+                content: "";
                 position: absolute;
-                z-index: 1;
-                bottom: 135%;
+                top: 100%;
                 left: 50%;
-                margin-left: -40px;
+                margin-left: -5px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: black transparent transparent transparent;
             }
 
-                .service-section .seat-section .inner-section .tooltip .tooltiptext span {
-                    color: #F8D448;
-                    padding-left: 5px;
-                }
-
-                .service-section .seat-section .inner-section .tooltip .tooltiptext::after {
-                    content: "";
-                    position: absolute;
-                    top: 100%;
-                    left: 50%;
-                    margin-left: -5px;
-                    border-width: 5px;
-                    border-style: solid;
-                    border-color: black transparent transparent transparent;
-                }
-
-            .service-section .seat-section .inner-section .tooltip:hover .tooltiptext {
-                visibility: visible;
-            }
+        .service-section .seat-section .inner-section .tooltip:hover .tooltiptext {
+            visibility: visible;
+        }
 
 
 .service-section .legendHolder-box {
