@@ -40,7 +40,7 @@
                                     <div class="departbx">Depart</div>
                                     <div class="dst-top pl-0">
                                         <span>@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin <i class="fa fa-angle-double-right" aria-hidden="true"></i>@Model.SimpleAvailibilityaAddResponcelist[j].designator.destination</span>
-                                        <span class="dprtdt">@Model.SimpleAvailibilityaAddResponcelist[j].designator.departure</span>
+                                        <span class="dprtdt">@Model.SimpleAvailibilityaAddResponcelist[j].designator.departure.ToString("dd-MM-yyyy HH:mm")</span>
                                     </div>
 
                                     <div class="col">
@@ -79,11 +79,18 @@
 
                                                     <div class="col-auto text-center stop-info">
                                                         @{
+                                                            string formattedTime = string.Empty;
                                                             var arrivalDate = Model.SimpleAvailibilityaAddResponcelist[j].designator.arrival;
                                                             var departureDate = Model.SimpleAvailibilityaAddResponcelist[j].designator.departure;
                                                             var diff = (arrivalDate - departureDate);
+                                                            TimeSpan timeSpan = TimeSpan.Parse(diff.ToString());
+                                                            if ((int)timeSpan.Minutes == 0)
+                                                                formattedTime = $"{(int)timeSpan.TotalHours} h";
+                                                            else
+                                                                formattedTime = $"{(int)timeSpan.TotalHours} h : {(int)timeSpan.Minutes} m";
+
                                                         }
-                                                        <div class="px-20 md:px-0">@diff</div>
+                                                        <div class="px-20 md:px-0">@formattedTime</div>
                                                         <div class="flightLine">
                                                             <div></div>
                                                             <div></div>
@@ -93,15 +100,15 @@
                                                             var stops = @Model.SimpleAvailibilityaAddResponcelist[j].stops;
                                                             if (stops == 0)
                                                             {
-                                                                <div class="mt-1">NonStop</div>
+                                                                    <div class="mt-1">NonStop</div>
                                                             }
                                                             if (stops == 1)
                                                             {
-                                                                <div class="mt-1">1Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination </div>
+                                                                <div class="mt-1">1 Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination </div>
                                                             }
                                                             if (stops == 2)
                                                             {
-                                                                <div class="mt-1">2Stop</div>
+                                                                    <div class="mt-1">2 Stop</div>
                                                             }
                                                         }
                                                     </div>
@@ -169,13 +176,13 @@
                                                     <input type="hidden" class="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
                                                     <input type="hidden" class="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
                                                     <input type="hidden" class="Airline" value="@Model.SimpleAvailibilityaAddResponcelist[j].Airline" />
-                                                    <input type="radio" name="fareRadioGroup" class="fareRadio" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal" onclick="collectData('fare', @k)">
+                                                    <input type="radio"  name="fareRadioGroup" class="fareRadio" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal" onclick="collectData('fare', @k)">
 
                                                     @*  <input type="radio" name="name"> *@
 
                                                     <span> @Faretype @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass </span>
                                                     <span class="price">
-                                                        ₹  @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal
+                                                        ₹  @Math.Round(Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal,0)
                                                         <div class="rtfare-1">
                                                             <input type="hidden" id="IdPOPL" class="farekeyIDL" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal" />
 
@@ -233,7 +240,7 @@
                                     <div class="departbx">Return</div>
                                     <div class="dst-top pl-0">
                                         <span>@Model.SimpleAvailibilityaAddResponcelistR[j].designator.origin<i class="fa fa-angle-double-right" aria-hidden="true"></i>@Model.SimpleAvailibilityaAddResponcelistR[j].designator.destination</span>
-                                        <span class="dprtdt">@Model.SimpleAvailibilityaAddResponcelistR[j].designator.arrival</span>
+                                        <span class="dprtdt">@Model.SimpleAvailibilityaAddResponcelistR[j].designator.arrival.ToString("dd-MM-yyyy HH:mm")</span>
                                     </div>
 
                                     <div class="col">
@@ -274,11 +281,17 @@
 
                                                     <div class="col-auto text-center stop-info">
                                                         @{
+                                                            string formattedTime = string.Empty;
                                                             var arrivalDate = Model.SimpleAvailibilityaAddResponcelistR[j].designator.arrival;
                                                             var departureDate = Model.SimpleAvailibilityaAddResponcelistR[j].designator.departure;
                                                             var diff = (arrivalDate - departureDate);
+                                                            TimeSpan timeSpan = TimeSpan.Parse(diff.ToString());
+                                                            if ((int)timeSpan.Minutes == 0)
+                                                                formattedTime = $"{(int)timeSpan.TotalHours} h";
+                                                            else
+                                                                formattedTime = $"{(int)timeSpan.TotalHours} h : {(int)timeSpan.Minutes} m";
                                                         }
-                                                        <div class="px-20 md:px-0">@diff</div>
+                                                        <div class="px-20 md:px-0">@formattedTime</div>
                                                         <div class="flightLine">
                                                             <div></div>
                                                             <div></div>
@@ -287,15 +300,15 @@
                                                             var stops = @Model.SimpleAvailibilityaAddResponcelistR[j].stops;
                                                             if (stops == 0)
                                                             {
-                                                                <div class="mt-1">NonStop</div>
+                                                                    <div class="mt-1">NonStop</div>
                                                             }
                                                             if (stops == 1)
                                                             {
-                                                                <div class="mt-1">1Stop via @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].legs[0].designator.destination </div>
+                                                                <div class="mt-1">1 Stop via @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].legs[0].designator.destination </div>
                                                             }
                                                             if (stops == 2)
                                                             {
-                                                                <div class="mt-1">2Stop</div>
+                                                                    <div class="mt-1">2 Stop</div>
                                                             }
                                                         }
                                                         @* <div class="mt-1">1-stop</div> *@
@@ -368,7 +381,7 @@
 
                                                     <span> @Faretype @Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass  </span>
                                                     <span class="price">
-                                                        ₹  @Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal
+                                                        ₹  @Math.Round(Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal,0)
                                                         <div class="rtfare-1">
                                                             <input type="hidden" id="IdPOPR" class="farekeyIDR" value="@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal" />
 
@@ -468,11 +481,17 @@
                             <div class="fare-round">
                                 <div class="col text-center">
                                     @{
+                                        string formattedTime = string.Empty;
                                         var arrivalDate = Model.SimpleAvailibilityaAddResponcelist[j].designator.arrival;
                                         var departureDate = Model.SimpleAvailibilityaAddResponcelist[j].designator.departure;
                                         var diff = (arrivalDate - departureDate);
+                                        TimeSpan timeSpan = TimeSpan.Parse(diff.ToString());
+                                        if ((int)timeSpan.Minutes == 0)
+                                            formattedTime = $"{(int)timeSpan.TotalHours} h";
+                                        else
+                                            formattedTime = $"{(int)timeSpan.TotalHours} h : {(int)timeSpan.Minutes} m";
                                     }
-                                    <div class="px-20 md:px-0">@diff</div>
+                                    <div class="px-20 md:px-0">@formattedTime</div>
                                     <div class="flightLine">
                                         <div></div>
                                         <div></div>
@@ -481,15 +500,15 @@
                                         var stops = @Model.SimpleAvailibilityaAddResponcelist[j].stops;
                                         if (stops == 0)
                                         {
-                                            <div class="mt-1">NonStop</div>
+                                                <div class="mt-1">NonStop</div>
                                         }
                                         if (stops == 1)
                                         {
-                                            <div class="mt-1">1Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination </div>
+                                            <div class="mt-1">1 Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination </div>
                                         }
                                         if (stops == 2)
                                         {
-                                            <div class="mt-1">2Stop</div>
+                                                <div class="mt-1">2 Stop</div>
                                         }
                                     }
                                     @* <div class="mt-1">1</div> *@
@@ -520,7 +539,7 @@
                                     </div>
                                     <div class="rtfare-1">
                                         <input type="hidden" id="IdPOPL" class="farekeyIDL" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal" />
-                                        <span> ₹@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal</span>
+                                        <span> ₹@Math.Round(Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal,0)</span>
                                     </div>
                                 </div>
 
@@ -604,11 +623,17 @@
                             <div class="fare-round">
                                 <div class="col text-center">
                                     @{
+                                        string formattedTime = string.Empty;
                                         var arrivalDate = Model.SimpleAvailibilityaAddResponcelistR[j].designator.arrival;
                                         var departureDate = Model.SimpleAvailibilityaAddResponcelistR[j].designator.departure;
                                         var diff = (arrivalDate - departureDate);
+                                        TimeSpan timeSpan = TimeSpan.Parse(diff.ToString());
+                                        if ((int)timeSpan.Minutes == 0)
+                                            formattedTime = $"{(int)timeSpan.TotalHours} h";
+                                        else
+                                            formattedTime = $"{(int)timeSpan.TotalHours} h : {(int)timeSpan.Minutes} m";
                                     }
-                                    <div class="px-20 md:px-0">@diff</div>
+                                    <div class="px-20 md:px-0">@formattedTime</div>
                                     <div class="flightLine">
                                         <div></div>
                                         <div></div>
@@ -617,15 +642,15 @@
                                         var stops = @Model.SimpleAvailibilityaAddResponcelistR[j].stops;
                                         if (stops == 0)
                                         {
-                                            <div class="mt-1">NonStop</div>
+                                                <div class="mt-1">NonStop</div>
                                         }
                                         if (stops == 1)
                                         {
-                                            <div class="mt-1">1Stop via @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].legs[0].designator.destination </div>
+                                            <div class="mt-1">1 Stop via @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].legs[0].designator.destination </div>
                                         }
                                         if (stops == 2)
                                         {
-                                            <div class="mt-1">2Stop</div>
+                                                <div class="mt-1">2 Stop</div>
                                         }
                                     }
 
@@ -656,7 +681,7 @@
                                     </div>
                                     <div class="rtfare-1">
                                         <input type="hidden" id="IdPOPR" class="farekeyIDR" value="@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal" />
-                                        <span> ₹@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal</span>
+                                        <span> ₹@Math.Round(Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal,0)</span>
                                     </div>
                                 </div>
 
@@ -723,9 +748,9 @@
     }
 
 
+  
 
-
-
+   
 
     .iconanimate {
         border-radius: 50%;
@@ -737,6 +762,9 @@
         animation-duration: 10s;
     }
 
+ 
+
+  
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -754,11 +782,11 @@
     function collectData(type, index) {
         debugger;
         if (type === 'fare') {
-            fareKey.push(document.getElementsByClassName('fareKey')[index].value + "@@0f" + "@@" + document.getElementsByClassName('Airline')[index].value);
-            journeyKey.push(document.getElementsByClassName('journeyKey')[index].value + "@@0j" + "@@" + document.getElementsByClassName('Airline')[index].value);
+            fareKey[0]=document.getElementsByClassName('fareKey')[index].value + "@@0f" + "@@" + document.getElementsByClassName('Airline')[index].value;
+            journeyKey[0]=document.getElementsByClassName('journeyKey')[index].value + "@@0j" + "@@" + document.getElementsByClassName('Airline')[index].value;
         } else if (type === 'render') {
-            fareKey.push(document.getElementsByClassName('fareKeyReturn')[index].value + "@@1f" + "@@" + document.getElementsByClassName('AirlineReturn')[index].value);
-            journeyKey.push(document.getElementsByClassName('journeyKeyReturn')[index].value + "@@1j" + "@@" + document.getElementsByClassName('AirlineReturn')[index].value);
+            fareKey[1]=document.getElementsByClassName('fareKeyReturn')[index].value + "@@1f" + "@@" + document.getElementsByClassName('AirlineReturn')[index].value;
+            journeyKey[1]=document.getElementsByClassName('journeyKeyReturn')[index].value + "@@1j" + "@@" + document.getElementsByClassName('AirlineReturn')[index].value;
         }
         //Get value Pop up Radio Button
 
@@ -808,8 +836,8 @@
 
     }
 
-
-
+ 
+   
     function PostdataReturnTripsell() {
         //  console.log('Fare Keys:', fareKey);
         //  console.log('Journey Keys:', journeyKey);
@@ -833,14 +861,17 @@
                 break;
             }
         }
+        
+        if (Leftbool == false) {
+            alert("Please Select Departure Fare.");
+            return false;
+        } 
+
         if (Rightbool == false) {
             alert("Please Select Return Fare.");
             return false;
         }
-        if (Leftbool == false) {
-            alert("Please Select Departure Fare.");
-            return false;
-        }
+        debugger;
         for (let i = 0; i < fareKey.length; i++) {
             form.append('fareKey', fareKey[i]);
             form.append('journeyKey', journeyKey[i]);
@@ -865,6 +896,7 @@
             });
 
 
+        
         // Flight Icon Animation
         var flhticonDisplay = document.getElementById("flightImage");
         flhticonDisplay.style.display = "block";
@@ -887,7 +919,10 @@
                 $('#animationOverlay').fadeOut();
             }
         });
-        $('#flighticon').hide();
+
+        @* var loader = document.getElementById("loader");
+        loader.style.display = "block"; *@
+        //$('#flighticon').hide();
     }
 
 

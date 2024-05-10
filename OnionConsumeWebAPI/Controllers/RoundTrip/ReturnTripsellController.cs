@@ -1796,6 +1796,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 SeatMapResponceModellist = new List<SeatMapResponceModel>();
                                 Fees Fees = new Fees();
                                 Seatmap Seatmapobj = new Seatmap();
+                                Seatmapobj.name = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Name;
+                                TempData["AirCraftName"] = Seatmapobj.name;
                                 Seatmapobj.arrivalStation = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].ArrivalStation;
                                 Seatmapobj.departureStation = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].DepartureStation;
                                 Seatmapobj.marketingCode = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].MarketingCode;

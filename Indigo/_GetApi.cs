@@ -243,7 +243,26 @@ namespace Indigo
             return _bookingCommitRes;
         }
         #endregion
-
+        #region Addpayment
+        public async Task<AddPaymentToBookingResponse> Addpayment(AddPaymentToBookingRequest _bookingPaymentRequest)
+        {
+            IBookingManager bookingManager = null;
+            AddPaymentToBookingResponse _bookingpaymentRes = null;
+            bookingManager = new BookingManagerClient();
+            try
+            {
+                _bookingpaymentRes = await bookingManager.AddPaymentToBookingAsync(_bookingPaymentRequest);
+                return _bookingpaymentRes;
+            }
+            catch (Exception ex)
+            {
+                Logs logs = new Logs();
+                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_bookingPaymentRequest) + "\n\n Response: " + ex.ToString(), "Bookingpayment", "IndigoOneWay");
+                //return Ok(session);
+            }
+            return _bookingpaymentRes;
+        }
+        #endregion
 
         #region GetBookingdetails
         public async Task<GetBookingResponse> GetBookingdetails(GetBookingRequest _getbookingRequest)

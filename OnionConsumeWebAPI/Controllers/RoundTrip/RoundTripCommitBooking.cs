@@ -722,9 +722,25 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             IndigoBookingManager_.UpdateContactsRequest contactList = (IndigoBookingManager_.UpdateContactsRequest)JsonConvert.DeserializeObject(contactdata, typeof(IndigoBookingManager_.UpdateContactsRequest));
                             using (HttpClient client1 = new HttpClient())
                             {
+                                _commit objcommit = new _commit();
+                                #region GetState
+                                _sell objsell = new _sell();
+                                IndigoBookingManager_.GetBookingFromStateResponse _GetBookingFromStateRS1 = await objsell.GetBookingFromState(token, "");
+
+                                string strdata = JsonConvert.SerializeObject(_GetBookingFromStateRS1);
+                                decimal Totalpayment = 0M;
+                                if (_GetBookingFromStateRS1 != null)
+                                {
+                                    Totalpayment = _GetBookingFromStateRS1.BookingData.BookingSum.TotalCost;
+                                }
+                                #endregion
+                                #region Addpayment For Api payment deduction
+                                //IndigoBookingManager_.AddPaymentToBookingResponse _BookingPaymentResponse = await objcommit.AddpaymenttoBook(token, Totalpayment);
+
+                                #endregion
                                 #region Commit Booking
 
-                                _commit objcommit = new _commit();
+
                                 IndigoBookingManager_.BookingCommitResponse _BookingCommitResponse = await objcommit.commit(token, contactList, passeengerlist);
 
                                 if (_BookingCommitResponse != null && _BookingCommitResponse.BookingUpdateResponseData.Success.RecordLocator != null)

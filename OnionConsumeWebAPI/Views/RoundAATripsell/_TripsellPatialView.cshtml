@@ -219,7 +219,7 @@
                                             @* <img class="size-30" src="~/img/flight-logo-icon/1.webp" alt="image">*@
                                         </div>
 
-                                        <div class="text-14 text-light-1"> @AirLinename @item.segments[i].identifier.identifier @item.segments[i].identifier.carrierCode</div>
+                                        <div class="text-14 text-light-1"> @AirLinename @item.segments[i].identifier.carrierCode @item.segments[i].identifier.identifier <span class="airliname">@Model.SeatmaplistRT[i].datalist[0].seatMap.name</span></div>
                                     </div>
 
                                     <div class="relative z-0">

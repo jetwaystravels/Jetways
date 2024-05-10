@@ -100,11 +100,19 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                 childcount = _GetfligthModel.passengercount.childcount;
                 _infantcount = _GetfligthModel.passengercount.infantcount;
                 TotalCount = adultcount + childcount + _infantcount;
-
-                HttpContext.Session.SetString("adultCount", JsonConvert.SerializeObject(adultcount));
-                HttpContext.Session.SetString("childCount", JsonConvert.SerializeObject(childcount));
-                HttpContext.Session.SetString("infantCount", JsonConvert.SerializeObject(_infantcount));
             }
+            else
+            {
+                adultcount = _GetfligthModel.adultcount;
+                childcount = _GetfligthModel.childcount;
+                _infantcount = _GetfligthModel.infantcount;
+                TotalCount = adultcount + childcount + _infantcount;
+            }
+
+            HttpContext.Session.SetString("adultCount", JsonConvert.SerializeObject(adultcount));
+            HttpContext.Session.SetString("childCount", JsonConvert.SerializeObject(childcount));
+            HttpContext.Session.SetString("infantCount", JsonConvert.SerializeObject(_infantcount));
+
 
             _credentials credentialsobj = new _credentials();
             using (HttpClient client = new HttpClient())
@@ -239,7 +247,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                 sortOptions[0] = "ServiceType";
                 string[] fareTypes = new string[1];
                 fareTypes[0] = "R";
-              //  fareTypes[1] = "M";
+                //  fareTypes[1] = "M";
                 string[] productClasses = new string[3];
                 productClasses[0] = "EC";
                 productClasses[1] = "HF";
@@ -1040,6 +1048,12 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                 if (_SimpleAvailabilityobj.beginDate != null && _SimpleAvailabilityobj.endDate != null)
                 {
 
+                    var AdtTypeR = string.Empty;
+                    var AdtCountR = 0;
+                    var chdtypeR = string.Empty;
+                    var chdcountR = 0;
+                    var infanttypeR = string.Empty;
+                    var infantcountR = 0;
 
                     uniqueidx = 0;
                     ////Roundtripcode for AirAsia
@@ -1054,13 +1068,26 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     Codessimple _codesR = new Codessimple();
 
 
+
                     List<Typesimple> _typeslistR = new List<Typesimple>();
-                    var AdtTypeR = _GetfligthModel.passengercount.adulttype;
-                    var AdtCountR = _GetfligthModel.passengercount.adultcount;
-                    var chdtypeR = _GetfligthModel.passengercount.childtype;
-                    var chdcountR = _GetfligthModel.passengercount.childcount;
-                    var infanttypeR = _GetfligthModel.passengercount.infanttype;
-                    var infantcountR = _GetfligthModel.passengercount.infantcount;
+                    if (_GetfligthModel.passengercount != null)
+                    {
+                        AdtTypeR = _GetfligthModel.passengercount.adulttype;
+                        AdtCountR = _GetfligthModel.passengercount.adultcount;
+                        chdtypeR = _GetfligthModel.passengercount.childtype;
+                        chdcountR = _GetfligthModel.passengercount.childcount;
+                        infanttypeR = _GetfligthModel.passengercount.infanttype;
+                        infantcountR = _GetfligthModel.passengercount.infantcount;
+                    }
+                    else
+                    {
+                        AdtTypeR = _GetfligthModel.adulttype;
+                        AdtCountR = _GetfligthModel.adultcount;
+                        chdtypeR = _GetfligthModel.childtype;
+                        chdcountR = _GetfligthModel.childcount;
+                        infanttypeR = _GetfligthModel.infanttype;
+                        infantcountR = _GetfligthModel.infantcount;
+                    }
 
                     if (AdtTypeR == "ADT" && AdtCountR != 0)
                     {

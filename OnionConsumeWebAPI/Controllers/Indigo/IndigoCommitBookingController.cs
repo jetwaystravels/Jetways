@@ -53,9 +53,26 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                 IndigoBookingManager_.UpdateContactsRequest contactList = (IndigoBookingManager_.UpdateContactsRequest)JsonConvert.DeserializeObject(contactdata, typeof(IndigoBookingManager_.UpdateContactsRequest));
                 using (HttpClient client1 = new HttpClient())
                 {
-                    #region Commit Booking
 
                     _commit objcommit = new _commit();
+                    #region GetState
+                    _sell objsell = new _sell();
+                    IndigoBookingManager_.GetBookingFromStateResponse _GetBookingFromStateRS1 = await objsell.GetBookingFromState(token, "");
+
+                    string strdata = JsonConvert.SerializeObject(_GetBookingFromStateRS1);
+                    decimal Totalpayment = 0M;
+                    if (_GetBookingFromStateRS1 != null)
+                    {
+                        Totalpayment = _GetBookingFromStateRS1.BookingData.BookingSum.TotalCost;
+                    }
+                    #endregion
+                    #region Addpayment Commneted For Api Payment deduction
+                    //IndigoBookingManager_.AddPaymentToBookingResponse _BookingPaymentResponse = await objcommit.AddpaymenttoBook(token, Totalpayment, "OneWay");
+
+                    #endregion
+
+                    #region Commit Booking
+
                     IndigoBookingManager_.BookingCommitResponse _BookingCommitResponse = await objcommit.commit(token, contactList, passeengerlist, "OneWay");
 
                     if (_BookingCommitResponse != null && _BookingCommitResponse.BookingUpdateResponseData.Success.RecordLocator != null)
@@ -441,10 +458,13 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                             tb_PassengerTotal tb_PassengerTotalobj = new tb_PassengerTotal();
                             bookingKey = _getBookingResponse.Booking.BookingID.ToString();
                             tb_PassengerTotalobj.BookingID = _getBookingResponse.Booking.BookingID.ToString();
-                            tb_PassengerTotalobj.TotalMealsAmount = _getBookingResponse.Booking.Passengers[0].PassengerFees[0].ServiceCharges[0].Amount;
-                            tb_PassengerTotalobj.TotalMealsAmount_Tax = _getBookingResponse.Booking.Passengers[0].PassengerFees[0].ServiceCharges[0].Amount;
-                            tb_PassengerTotalobj.TotalSeatAmount = _getBookingResponse.Booking.Passengers[0].PassengerFees[0].ServiceCharges[0].Amount;
-                            tb_PassengerTotalobj.TotalSeatAmount_Tax = _getBookingResponse.Booking.Passengers[0].PassengerFees[0].ServiceCharges[0].Amount;
+                            if (_getBookingResponse.Booking.Passengers.Length > 0 && _getBookingResponse.Booking.Passengers[0].PassengerFees.Length > 0)
+                            {
+                                tb_PassengerTotalobj.TotalMealsAmount = _getBookingResponse.Booking.Passengers[0].PassengerFees[0].ServiceCharges[0].Amount;
+                                tb_PassengerTotalobj.TotalMealsAmount_Tax = _getBookingResponse.Booking.Passengers[0].PassengerFees[0].ServiceCharges[0].Amount;
+                                tb_PassengerTotalobj.TotalSeatAmount = _getBookingResponse.Booking.Passengers[0].PassengerFees[0].ServiceCharges[0].Amount;
+                                tb_PassengerTotalobj.TotalSeatAmount_Tax = _getBookingResponse.Booking.Passengers[0].PassengerFees[0].ServiceCharges[0].Amount;
+                            }
                             tb_PassengerTotalobj.TotalBookingAmount = (decimal)1000.00;//JsonObjPNRBooking.data.breakdown.journeyTotals.totalAmount;
                             tb_PassengerTotalobj.totalBookingAmount_Tax = (decimal)100.00;// JsonObjPNRBooking.data.breakdown.journeyTotals.totalTax;
                             tb_PassengerTotalobj.Modifyby = "Online";
