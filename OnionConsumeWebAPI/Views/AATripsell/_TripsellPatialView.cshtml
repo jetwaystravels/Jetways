@@ -57,7 +57,7 @@
 
                 <div class="py-30 px-30 border-top-light">
                     <div class="row y-gap-10 justify-between">
-                        <div class="col-auto">
+                        <div class="col-lg-8">
 
                             @for (int j = 0; j < item.segments[i].legs.Count; j++)
                             {
@@ -228,23 +228,95 @@
 
                                         @if (item.segments[i].fares[f].productClass.Equals("EC"))
                                         {
-                                            <div class="text-13 mt-1">Economy: @Faretype<b>Xpress Value</b></div>
+                                            // <div class="text-13 mt-1">Economy: @Faretype<b>Xpress Value</b></div>
+                                            <span class="tooltipF">
+                                                Economy:  @Faretype<b>Xpress Value</b>
+                                                <span class="tooltiptext">
+                                                    <ul>
+                                                        <li>1: CABIN BAG: 7 k.g</li>
+                                                        <li>2: CHECK-IN: 15 k.g  (1 piece)</li>
+                                                        <li>3: CANCELLATION: 3500 :-  (upto 2 hrs prior from departure)</li>
+                                                        <li>4: DATE CHANGE: 3000 :-  (upto 2 hrs prior from departure)</li>
+                                                        <li>5: SEAT : (Chargable)</li>
+                                                        <li>6: MEAL : (Chargable)</li>
+                                                        <li>7: Category Class : (Economy)</li>
+                                                    </ul>
+                                                </span>
+                                            </span>
                                         }
                                         else if (item.segments[i].fares[f].productClass.Equals("HF"))
                                         {
-                                            <div class="text-13 mt-1">Economy: @Faretype<b>Vista Flex</b></div>
+                                            //<div class="text-13 mt-1">Economy: @Faretype<b>Vista Flex</b></div>
+                                            <span class="tooltipF">
+                                                Economy:  @Faretype<b>Vista Flex</b>
+                                                <span class="tooltiptext">
+                                                    <ul>
+                                                        <li>1: CABIN BAG: 7 k.g</li>
+                                                        <li>2: CHECK-IN: 15 k.g  (1 piece)</li>
+                                                        <li>3: CANCELLATION: 3500 :-  (upto 2 hrs prior from departure)</li>
+                                                        <li>4: DATE CHANGE: 3000 :-  FREE  (upto 2 hrs prior from departure)</li>
+                                                        <li>5: SEAT : Standard seats free</li>
+                                                        <li>6: MEAL : Free meal) per person</li>
+                                                        <li>7: Category Class : (Economy)</li>
+                                                    </ul>
+                                                </span>
+                                            </span>
+
                                         }
                                         else if (item.segments[i].fares[f].productClass.Equals("LT"))
                                         {
-                                            <div class="text-13 mt-1">Economy: @Faretype<b>Xpress lite</b></div>
+                                            //<div class="text-13 mt-1">Economy: @Faretype<b>Xpress lite</b></div>
+                                            <span class="tooltipF">
+                                                Economy:  @Faretype<b>Xpress lite</b>
+                                                <span class="tooltiptext">
+                                                    <ul>
+                                                        <li>1: CABIN BAG: 0</li>
+                                                        <li>2: CHECK-IN: 0</li>
+                                                        <li>3: CANCELLATION: </li>
+                                                        <li>4: DATE CHANGE: </li>
+                                                        <li>5: SEAT : </li>
+                                                        <li>6: MEAL : </li>
+                                                        <li>7: Category Class :</li>
+                                                    </ul>
+                                                </span>
+                                            </span>
                                         }
                                         else if (item.segments[i].fares[f].productClass.Equals("VV"))
                                         {
-                                            <div class="text-13 mt-1">Economy: @Faretype<b>Xpress Bizz</b></div>
+                                            //<div class="text-13 mt-1">Economy: @Faretype<b>Xpress Bizz</b></div>
+                                            <span class="tooltipF">
+                                                Economy:  @Faretype<b>Xpress Bizz</b>
+                                                <span class="tooltiptext">
+                                                    <ul>
+                                                        <li>1: CABIN BAG: 7 k.g</li>
+                                                        <li>2: CHECK-IN: 25 k.g  (1 piece)</li>
+                                                        <li>3: CANCELLATION: 3500 :-  (upto 2 hrs prior from departure)</li>
+                                                        <li>4: DATE CHANGE: 3000 :-  FREE  (upto 2 hrs prior from departure)</li>
+                                                        <li>5: SEAT : (Free seats)</li>
+                                                        <li>6: MEAL : (Free meal) per person</li>
+                                                        <li>7: Category Class : (Business)</li>
+                                                    </ul>
+                                                </span>
+                                            </span>
+
                                         }
                                         else
                                         {
-                                            <div class="text-13 mt-1">Economy: @Faretype<b>Saver Fare</b></div>
+                                            //<div class="text-13 mt-1">Economy: @Faretype<b>Saver Fare</b></div>
+                                            <span class="tooltipF">
+                                                Economy:  @Faretype<b>Saver Fare</b>
+                                                <span class="tooltiptext">
+                                                    <ul>
+                                                        <li>1: CABIN BAG: </li>
+                                                        <li>2: CHECK-IN: </li>
+                                                        <li>3: CANCELLATION: </li>
+                                                        <li>4: DATE CHANGE: </li>
+                                                        <li>5: SEAT : </li>
+                                                        <li>6: MEAL : </li>
+                                                        <li>7: Category Class : </li>
+                                                    </ul>
+                                                </span>
+                                            </span>
                                         }
                                         <div class="text-13 mt-1">
                                             <button id="openModal" style="color:#366480;">View Fare Rules</button>
@@ -272,17 +344,17 @@
 
     <div class="Mbody p-2">
         <div class="d-flex">
-            <div class="tab-btn" id="tabBtn1">Cancellation Charges</div>
+            <div class="tab-btn active" id="tabBtn1">Cancellation Charges</div>
             <div class="tab-btn" id="tabBtn2">Date Change Charges</div>
 
 
         </div>
-        <div class="fligtbox">
+        <div class="fligtbox align-item-center d-flex">
             @{
                 foreach (var item in Model.passeengerlist.journeys)
                 {
                     <div> <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image"></div>
-                    <button class="nav-link active">@item.designator.origin-@item.designator.destination</button>
+                    <div>@item.designator.origin-@item.designator.destination</div>
                 }
             }
         </div>
@@ -297,7 +369,7 @@
                         @for (int f = 0; f < @item.segments[i].fares.Count; f++)
                         {
 
-                            <div class="col-auto text-right md:text-left">
+                            <div class="col-auto text-center md:text-left">
 
                                 @{
                                     string Faretype = string.Empty;
@@ -392,7 +464,7 @@
                 }
             }
             <div class="firstdiv">
-                *Important: The airline fee is indicative. Jetways does not guarantee the accuracy of this information.All refunds are subject to airline approval.
+                <strong>*Note:</strong> The airline fee is indicative. Jetways does not guarantee the accuracy of this information.All refunds are subject to airline approval.
             </div>
         </div>
         <div class="tab" id="tabContent2">
@@ -406,7 +478,7 @@
                         @for (int k = 0; k < @item.segments[j].fares.Count; k++)
                         {
 
-                            <div class="col-auto text-right md:text-left">
+                            <div class="col-auto text-center md:text-left">
 
                                 @{
                                     string Faretype = string.Empty;
@@ -415,7 +487,7 @@
                                     {
                                         <table style="width:100%">
                                             <tr>
-                                                <td><b>TimeB</b></td>
+                                                <td><b>Time</b></td>
                                                 <td><b>Charges</b></td>
 
                                             </tr>
@@ -500,7 +572,7 @@
                 }
             }
             <div class="seconddiv">
-                *Important: The airline fee is indicative. Jetways does not guarantee the accuracy of this information.All refunds are subject to airline approval.
+                <strong>*Note:</strong> The airline fee is indicative. Jetways does not guarantee the accuracy of this information.All refunds are subject to airline approval.
             </div>
         </div>
 
@@ -520,7 +592,7 @@
         z-index: 9999;
         left: 50%;
         width: 60%;
-        height: 80%;
+        height: 60%;
         top: 50%;
         transform: translate(-50%, -50%);
         background-color: #fff;
@@ -568,12 +640,16 @@
     /* Styles for tab buttons */
     .tab-btn {
         cursor: pointer;
+        background-color: #fff;
         padding: 10px 20px;
         border: 1px solid #ccc;
         border-radius: 5px;
         margin-right: 10px;
     }
 
+        .tab-btn.active {
+            background-color: #ccd6dd; /* Change background color for active tab */
+        }
 
     .airliname {
         border-radius: 20px;
@@ -582,6 +658,32 @@
         font-size: 13px;
         border: 1px solid #2f647e;
     }
+
+    .tooltipF {
+        position: relative;
+        display: inline-block;
+    }
+
+        .tooltipF .tooltiptext {
+            visibility: hidden;
+            width: 220px;
+            background-color: #366480;
+            color: #fff;
+            text-align: left;
+            border-radius:2px;
+            padding: 6px;
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 100%;
+            font-size:12px;
+            
+            margin-left: 6px; /* Adjust as needed */
+        }
+
+        .tooltipF:hover .tooltiptext {
+            visibility: visible;
+        }
 
 </style>
 <style>
@@ -596,43 +698,40 @@
     }
 
     .fligtbox {
-        border: 3px solid orange;
+        margin: 4px 15px;
+        border: 1px solid #366480;
     }
 
     .firstdiv {
-        background-color: #EBEBEB;
+        background-color: #edcbcb;
+        margin: 15px;
+        padding: 8px;
     }
 
     .seconddiv {
-        background-color: #EBEBEB;
+        background-color: #edcbcb;
+        margin:15px;
+        padding:8px;
     }
+
+   
 </style>
 <script>
     $(document).ready(function () {
         // Open modal box
         $("#openModal").click(function () {
             $("#modal, #overlay").fadeIn();
+            $("body").css("overflow", "hidden");
         });
-
-        // Close modal box
         $("#closeModal, #overlay").click(function () {
             $("#modal, #overlay").fadeOut();
+            $("body").css("overflow", "auto");
         });
-
-
-
         $("#tabContent1").addClass("active");
-
-        // Show/hide tab content on click
         $(".tab-btn").click(function () {
-            // Get the ID of the clicked tab button
             var tabId = $(this).attr("id").replace("tabBtn", "");
-
-            // Hide all tab contents and remove active class from all tab buttons
             $(".tab").removeClass("active");
             $(".tab-btn").removeClass("active");
-
-            // Show the corresponding tab content and mark the clicked tab button as active
             $("#tabContent" + tabId).addClass("active");
             $(this).addClass("active");
         });
