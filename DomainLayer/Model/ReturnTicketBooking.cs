@@ -25,6 +25,7 @@ namespace DomainLayer.Model
         public double totalAmount { get; set; }
         public double totalAmountBaggage { get; set; }
         public double taxMinusMeal { get; set; }
+        public double totalMealTax { get; set; }
         public double taxMinusBaggage { get; set; }
         public ReceivedBy receivedBy { get; set; }
         public Contacts contacts { get; set; }
@@ -75,6 +76,9 @@ namespace DomainLayer.Model
             public double totalAmountSum { get; set; }
             public double totaltax { get; set; }
             public double totalplusAmountSumtax { get; set; }
+            public double baseTotalAmount { get; set; }
+            public double BaseTotalTax { get; set; }
+            public double ToatalBasePrice { get; set; }
             public PassengerTotals passengerTotals { get; set; }
             public ReturnPassengers passengers { get; set; }
             public JourneyTotals journeyTotals { get; set; }
@@ -562,6 +566,7 @@ namespace DomainLayer.Model
             public object[] emdCoupons { get; set; }
             public ServiceChargeReturn ServiceChargeReturn { get; set; }
             public List<ReturnCharge> charges { get; set; }
+            public ReturnSeats seats { get; set; }
         }
         public class PassengerSegment
         {

@@ -2,6 +2,8 @@
 //*****************************************************//
 localStorage.clear();
 function validateForm() {
+
+
     $('#multipleValuesForm').submit(function (event) {
         var originfocus = document.getElementById("myInput").value;
         if (originfocus == "") {
@@ -49,6 +51,14 @@ function validateForm() {
                 event.preventDefault(); // Stop the form submission
             }
         }
+
+        var loader = document.getElementById("loader");
+        loader.style.display = "block";
+        var navtopright = document.getElementById("top-navbar-nav");
+        navtopright.style.display = "none";
+        var logotop = document.querySelector(".navbar-brand");
+        logotop.style.display = "none";
+
     });
 };
 

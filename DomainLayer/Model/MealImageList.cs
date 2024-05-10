@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DomainLayer.Model
+﻿namespace DomainLayer.Model
 {
     public class MealImageList
     {
@@ -18,38 +12,38 @@ namespace DomainLayer.Model
 
             var mealDataCollection = new[]
             {
-            new { MealCode = "NCBB", MealImage = "Awadhi Chicken Biryani with Mirch Salan(Chargable meal code).png" },
-            new { MealCode = "NCBF", MealImage = "Awadhi Chicken Biryani with Mirch Salan(Free meal code).png" },
-            new { MealCode = "VBKB", MealImage = "Bajra Khichdi with Matar Bhaji (Diabetic-friendly)(Chargable meal code).png" },
-            new { MealCode = "VBKF", MealImage = "Bajra Khichdi with Matar Bhaji (Diabetic-friendly)(Free meal code).png" },
-            new { MealCode = "NCJB", MealImage = "Chicken Junglee Sandwich(Chargable meal code).png" },
+            new { MealCode = "NCBB", MealImage = "Awadhi Chicken Biryani with Mirch Salan" },
+            new { MealCode = "NCBF", MealImage = "Awadhi Chicken Biryani with Mirch Salan" },
+            new { MealCode = "VBKB", MealImage = "Bajra Khichdi with Matar Bhaji (Diabetic-friendly)" },
+            new { MealCode = "VBKF", MealImage = "Bajra Khichdi with Matar Bhaji (Diabetic-friendly)" },
+            new { MealCode = "NCJB", MealImage = "Chicken Junglee Sandwich" },
             new { MealCode = "NCJF", MealImage = "Chicken Junglee Sandwich(Free meal code).png" },
-            new { MealCode = "NCNB", MealImage = "Chicken Nuggets with Fried Potatoes(Chargable meal code).png" },
-            new { MealCode = "NCNF", MealImage = "Chicken Nuggets with Fried Potatoes(Free meal code).png" },
-            new { MealCode = "NFFB", MealImage = "Herb Grilled Fish Fillet(Chargable meal code).png" },
-            new { MealCode = "NFFF", MealImage = "Herb Grilled Fish Fillet(Free  meal code).png" },
-            new { MealCode = "VHRB", MealImage = "Herb Roast Vegetable Roll(Chargable meal code).png" },
-            new { MealCode = "VHRF", MealImage = "Herb Roast Vegetable Roll(Free meal code).png" },
-            new { MealCode = "NMBB", MealImage = "Hyderabadi Mutton Biryani with Mirch Salan(Chargable meal code).png" },
-            new { MealCode = "NMBF", MealImage = "Hyderabadi Mutton Biryani with Mirch Salan (Free meal code).png" },
-            new { MealCode = "NOSB", MealImage = "Masala-Omelette-with-Chicken-Sausages-_-Hash-Brown(Chargable meal code).png" },
-            new { MealCode = "NOSF", MealImage = "Masala-Omelette-with-Chicken-Sausages-_-Hash-Brown(FREE meal code).png" },
-            new { MealCode = "VPBB", MealImage = "Matar-Paneer-Bhurji-with-Aloo-Paratha(Chargable meal code).png" },
-            new { MealCode = "VPBF", MealImage = "Matar-Paneer-Bhurji-with-Aloo-Paratha(Free meal code).png" },
-            new { MealCode = "VIVB", MealImage = "Mini Idlis, Medu Vada and Upma(Chargable meal code).png" },
-            new { MealCode = "VIVF", MealImage = "Mini Idlis, Medu Vada and Upma(Free meal code).png" },
-            new { MealCode = "NMTB", MealImage = "Murg Tikka Masala with Lachha Paratha(Chargable meal code).png" },
-            new { MealCode = "NMTF", MealImage = "Murg Tikka Masala with Lachha Paratha(Free  meal code).png" },
-            new { MealCode = "VPMB", MealImage = "Paneer Makhani with Jeera Aloo _ Vegetable Pulao(Chargable meal code).png" },
-            new { MealCode = "VPMF", MealImage = "Paneer Makhani with Jeera Aloo _ Vegetable Pulao (Free meal code).png" },
-            new { MealCode = "VFPB", MealImage = "Seasonal Fresh Fruits Platter (Chargable meal code).png" },
-            new { MealCode = "VFPF", MealImage = "Seasonal Fresh Fruits Platter (Free meal code).png" },
-            new { MealCode = "VSDB", MealImage = "Shôndesh Tiramisù(Chargable meal code).png" },
-            new { MealCode = "VSDF", MealImage = "Shôndesh Tiramisù(Free meal code).png" },
-            new { MealCode = "VMCB", MealImage = "Vegan Moilee Curry with Coconut Rice (1)(Chargable meal code).png" },
-            new { MealCode = "VMCF", MealImage = "Vegan Moilee Curry with Coconut Rice (1)(Chargable meal code).png" },
-            new { MealCode = "VMFB", MealImage = "Vegetable Manchurian with Fried Rice (Chargable meal code).png" },
-            new { MealCode = "VMFF", MealImage = "Vegetable Manchurian with Fried Rice (Free meal code).png" },
+            new { MealCode = "NCNB", MealImage = "Chicken Nuggets with Fried Potatoes" },
+            new { MealCode = "NCNF", MealImage = "Chicken Nuggets with Fried Potatoes" },
+            new { MealCode = "NFFB", MealImage = "Herb Grilled Fish Fillet" },
+            new { MealCode = "NFFF", MealImage = "Herb Grilled Fish Fillet" },
+            new { MealCode = "VHRB", MealImage = "Herb Roast Vegetable Roll" },
+            new { MealCode = "VHRF", MealImage = "Herb Roast Vegetable Roll" },
+            new { MealCode = "NMBB", MealImage = "Hyderabadi Mutton Biryani with Mirch Salan" },
+            new { MealCode = "NMBF", MealImage = "Hyderabadi Mutton Biryani with Mirch Salan " },
+            new { MealCode = "NOSB", MealImage = "Masala-Omelette-with-Chicken-Sausages-_-Hash-Brown" },
+            new { MealCode = "NOSF", MealImage = "Masala-Omelette-with-Chicken-Sausages-_-Hash-Brown" },
+            new { MealCode = "VPBB", MealImage = "Matar-Paneer-Bhurji-with-Aloo-Paratha" },
+            new { MealCode = "VPBF", MealImage = "Matar-Paneer-Bhurji-with-Aloo-Paratha" },
+            new { MealCode = "VIVB", MealImage = "Mini Idlis, Medu Vada and Upma" },
+            new { MealCode = "VIVF", MealImage = "Mini Idlis, Medu Vada and Upma" },
+            new { MealCode = "NMTB", MealImage = "Murg Tikka Masala with Lachha Paratha" },
+            new { MealCode = "NMTF", MealImage = "Murg Tikka Masala with Lachha Paratha" },
+            new { MealCode = "VPMB", MealImage = "Paneer Makhani with Jeera Aloo _ Vegetable Pulao" },
+            new { MealCode = "VPMF", MealImage = "Paneer Makhani with Jeera Aloo _ Vegetable Pulao " },
+            new { MealCode = "VFPB", MealImage = "Seasonal Fresh Fruits Platter" },
+            new { MealCode = "VFPF", MealImage = "Seasonal Fresh Fruits Platter" },
+            new { MealCode = "VSDB", MealImage = "Shôndesh Tiramisù" },
+            new { MealCode = "VSDF", MealImage = "Shôndesh Tiramisù" },
+            new { MealCode = "VMCB", MealImage = "Vegan Moilee Curry with Coconut Rice (1)" },
+            new { MealCode = "VMCF", MealImage = "Vegan Moilee Curry with Coconut Rice (1)" },
+            new { MealCode = "VMFB", MealImage = "Vegetable Manchurian with Fried Rice " },
+            new { MealCode = "VMFF", MealImage = "Vegetable Manchurian with Fried Rice " },
             //wheelchair
              new { MealCode = "WCHS", MealImage = "Wheelchair Unable to ascend and descend step" },
              new { MealCode = "WCHR", MealImage = "Wheelchair Unable to walk long distance"},

@@ -86,12 +86,14 @@
                     {
                         @for (int s = 0; s < Model.AirlinePNR[0].journeys[j].segments.Count; s++)
                         {
+
                             <div class="pass">
                                 <div class="d-flex flex-row justify-content-between flex-wrap">
                                     <div class="TPNR">
                                         <span class="mb-0 fw-bold-600"><span id="depart"> @Model.AirlinePNR[0].journeys[j].segments[s].designator.origin</span><span> to</span><span id="tarrive"> @Model.AirlinePNR[0].journeys[j].segments[s].designator.destination</span></span>
                                     </div>
                                 </div>
+
                                 <div class="col-12 border-width"></div>
 
                                 <div class="col-12 border-width"></div>
@@ -109,6 +111,7 @@
                                                     @* <li class="tlist-none"><span>(Adult)</span></li> *@
                                                 </ul>
                                             </div>
+
                                             <div class="Pdetail1">
                                                 <ul class="td-inline">
                                                     <li class="tlist-none"> <span>Mobile No:</span><span class="fw-bold-600">@Model.AirlinePNR[0].PhoneNumbers[0].number</span></li>
@@ -166,6 +169,7 @@
                                     </div>
                                 }
                             </div>
+
                         }
                     }
                     <div class="col-12 border-width mt-1"></div>
@@ -449,17 +453,35 @@
                                     <div class="col-7">
                                         <span>Base Price</span>
                                     </div>
-                                    <div class="col-5">
-                                        <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.totalAmountSum</span>
-                                    </div>
+                                    @if (Model.AirlinePNR[0].breakdown.totalAmountSum > 0)
+                                    {
+                                        <div class="col-5">
+                                            <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.totalAmountSum</span>
+                                        </div>
+                                    }
+                                    else if (Model.AirlinePNR[0].breakdown.baseTotalAmount > 0)
+                                    {
+                                        <div class="col-5">
+                                            <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.baseTotalAmount</span>
+                                        </div>
+                                    }
                                 </div>
                                 <div class="row mt-2">
                                     <div class="col-7">
                                         <span>Airline taxes and Fees</span>
                                     </div>
-                                    <div class="col-5">
-                                        <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.totaltax</span>
-                                    </div>
+                                    @if (Model.AirlinePNR[0].breakdown.totaltax > 0)
+                                    {
+                                        <div class="col-5">
+                                            <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.totaltax</span>
+                                        </div>
+                                    }
+                                    else if (Model.AirlinePNR[0].breakdown.BaseTotalTax > 0)
+                                    {
+                                        <div class="col-5">
+                                            <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.BaseTotalTax</span>
+                                        </div>
+                                    }
                                 </div>
                                 <div class="row mt-2">
                                     <div class="col-auto">
@@ -580,9 +602,19 @@
                                     <div class="col-9">
                                         <span class="fw-bold-600">Total Fare</span>
                                     </div>
-                                    <div class="col-3">
-                                        <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.totalplusAmountSumtax</span>
-                                    </div>
+                                    @if (Model.AirlinePNR[0].breakdown.totalplusAmountSumtax > 0)
+                                    {
+                                        <div class="col-3">
+                                            <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.totalplusAmountSumtax</span>
+                                        </div>
+                                    }
+                                    else if (Model.AirlinePNR[0].breakdown.ToatalBasePrice > 0)
+                                    {
+                                        <div class="col-3">
+                                            <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.ToatalBasePrice</span>
+                                        </div>
+
+                                    }
                                 </div>
                             </div>
                             <div class="col-auto"></div>

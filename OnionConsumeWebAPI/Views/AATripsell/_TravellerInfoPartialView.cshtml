@@ -39,7 +39,7 @@
 
                     </div>
                     <p id="error-Fname" class="error-message error-CFname" style="display:none">Enter first name</p>
-                    <p id="error-Sname" class="errorr-message error-SFname" style="display:none">Both are same name </p>
+                    <p id="error-Sname" class="errorr-message error-SFname" style="display:none">Two Adult Name can't be Same ' </p>
                     <p class="errorMessageT1" style="color: red;font-size:13px;"></p>
                 </div>
                 <div class="col-md-3">
@@ -141,268 +141,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <!-- Include Bootstrap JavaScript -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-@* <script>
-    function validateInputT(event, index) {
-        debugger;
-        var PreviousName = [];
-        const input = event.target.value.trim(); // Trim to remove leading/trailing spaces
-        const allInputs = document.querySelectorAll('.contactFname');
-
-        for (let i = 0; i < allInputs.length; i++) {
-            debugger;
-            // Skip the current input being validated
-            if (i === index) continue;
-
-            // Get the value of the current input
-            const currentName = allInputs[i].value.trim();
-            if (currentName == currentName) {
-                alert("cureentname ");
-
-            }
-
-            // Check if the current name is in the PreviousName array
-            if (PreviousName.includes(currentName)) {
-                debugger;
-                // If the name is already entered, display the error message
-                document.getElementById(`error-Sname-${index}`).style.display = 'block';
-                return;
-            }
-        }
-
-        // If the name is unique, add it to the PreviousName array
-        PreviousName.push(input);
-
-        // Hide the error message if the name is unique
-        document.getElementById(`error-Sname-${index}`).style.display = 'none';
-    }
-
-
-
-    // function validateInputTr(event, index) {
-    //     debugger;
-    //     const input = event.target.value;
-    //     const otherInputs = document.querySelectorAll('.contactLname');
-
-    //     for (let i = 0; i < otherInputs.length; i++) {
-    //         debugger;
-    //         if (input === otherInputs[i].value && index !== i) {
-    //             document.getElementById(`error-Lname-${index}`).style.display = 'block';
-    //             return;
-    //         }
-    //     }
-    //     document.getElementById(`error-Lname-${index}`).style.display = 'none';
-    // }
-</script> *@
-<style>
-    .modal-body p {
-        border-radius: 6px;
-        box-shadow: 0 0 10px 0 rgb(0 0 0 / 9%);
-        border: 1px solid #E4E3E1;
-        padding: 8px;
-        margin-bottom: 10px;
-    }
-
-    .dobinput {
-        background: #fff;
-        color: var(--color-light-1);
-        border: 1px solid var(--color-border);
-        border-radius: 4px;
-        padding: 8px;
-        min-height: 40px;
-        transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
-        width: 100%;
-        font-size: 14px;
-    }
-
-    .brd-none {
-        border: none;
-    }
-
-    .custom-select::-ms-expand {
-        display: none; /* Hide the arrow icon in IE */
-    }
-
-    .custom-select option {
-        padding: 5px; /* Set the desired padding for each option */
-        height: 50px;
-        overflow: hidden;
-    }
-
-    .checkbox-button2 {
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        padding: 0;
-        cursor: pointer;
-    }
-
-
-        .checkbox-button2.checked::after {
-            content: '\2713';
-            font-size: 16px;
-            color: #333;
-            display: block;
-            text-align: center;
-            line-height: 20px;
-        }
-
-</style>
-<script type="text/javascript">
-    $(document).ready(function () {
-        function showForm() {
-            $('#passengerForm').show();
-        }
-        $("#editData").click(function () {
-            $("#dataPopup").hide();
-        });
-        $("#showReviewPopup").click(function (e) {
-            e.preventDefault();
-
-            /*******Validation Start*********/
-            function validateInfantDOB(dob) {
-                debugger;
-                var dobDate = new Date(dob);
-                var currentDate = new Date();
-                var timeDiff = currentDate.getTime() - dobDate.getTime();
-                var yearsDiff = timeDiff / (1000 * 3600 * 24 * 365.25);
-                return yearsDiff < 2;
-            }
-            function validateMultipleInfantDOBs() {
-                debugger;
-                var infantsValid = true;
-
-                $(".dobinput:visible").each(function () {
-
-                    var day = $(this).find('.day-select').val();
-                    var month = $(this).find('.month-select').val();
-                    var year = $(this).find('.year-select').val();
-                    var dob = year + "-" + month + "-" + day;
-
-                    if (!validateInfantDOB(dob)) {
-
-                        infantsValid = false;
-                        return false;
-                    }
-                });
-
-                if (!infantsValid) {
-
-                    alert("Infant can't be  greater than 2 years.");
-                }
-                return infantsValid;
-            }
-            if ($(".dobinput").is(":visible")) {
-                debugger;
-                if (!validateMultipleInfantDOBs()) {
-                    return false;
-                }
-            }
-
-            var firstName = document.querySelector(".contactFname").value;
-            if (firstName == "") {
-                debuggerl;
-                //alert("Enter Origin Name");
-                var firstnameToDisplay = document.getElementById("error-Fname");
-                firstnameToDisplay.style.display = "block";
-                document.querySelector(".contactFname").focus();
-                return false;
-            }
-            var lastName = document.querySelector(".contactLname").value;
-            if (lastName == "") {
-                var lastnameToDisplay = document.getElementById("error-Lname");
-                lastnameToDisplay.style.display = "block";
-                document.querySelector(".contactLname").focus();
-                return false;
-            }
-            let phonefocus = document.querySelector('.contactphone').value;
-            if (phonefocus == "") {
-
-                let phoneToDisplay = document.querySelector('.error-phoneN');
-                phoneToDisplay.textContent = "Please enter your phone number";
-                phoneToDisplay.style.display = "block";
-                document.querySelector('.contactphone').focus();
-                return false;
-            }
-            var mobileNumberPattern = /^\d{10}$/;
-
-            if (!mobileNumberPattern.test(phonefocus)) {
-                alert("Please enter a valid 10-digit mobile number.");
-                return false;
-            }
-            /*******Validation End*********/
-            var enteredData = "";
-            for (var i = 0; i < @Model.passeengerlist.passengers.Count; i++) {
-                var firstName = $("input[name='passengerdetails[" + i + "].First']").val();
-                var lastName = $("input[name='passengerdetails[" + i + "].Last']").val();
-                var title = $("select[name='passengerdetails[" + i + "].Title']").val();
-                var Passengertypecode = $("input[name='passengerdetails[" + i + "].passengertypecode']").val();
-                if (Passengertypecode == "ADT") { Passengertypecode = "Adult"; }
-                if (Passengertypecode == "CHD") { Passengertypecode = "Child"; }
-                enteredData += "<p><strong>Passenger " + (i + 1) + ": (" + Passengertypecode + ")</strong><br>";
-                enteredData += "Title: " + title + "<br>";
-                enteredData += "First Name: " + firstName + "<br>";
-                enteredData += "Last Name: " + lastName + "</p>";
-            }
-            $("#enteredData").html(enteredData);
-            $('#dataPopup').modal('show');
-
-        });
-        $("#ContinueData").click(function () {
-            $('#passengers_id').hide();
-            //*************Validation effect Start**********
-            var contentToDisplay = document.getElementById("content");
-            contentToDisplay.style.display = "none";
-            var content2To = document.getElementById("content2");
-            content2To.style.display = "none";
-
-            var toggleButton4To = document.getElementById("toggleButton4");
-            toggleButton4To.style.opacity = "1.0";
-            var GSTcontent5To = document.getElementById("content4");
-            GSTcontent5To.style.display = "block";
-
-            var GSTContinuebtn1 = document.querySelector("#Continuebtn");
-            GSTContinuebtn1.disabled = false;
-            GSTContinuebtn1.style.opacity = "1.0";
-
-            debugger;
-            var formData = new FormData($("#passengerForm")[0]);
-            var infantDateInputs = document.querySelectorAll('.infant-dob-input');
-            var formattedDates = [];
-
-            infantDateInputs.forEach(function (input) {
-                debugger;
-                var day = input.querySelector('.day-select').value;
-                var month = input.querySelector('.month-select').value;
-                var year = input.querySelector('.year-select').value;
-                // Format the date as YYYY-MM-DD
-                var formattedDate = year + '-' + month.padStart(2, '0') + '-' + day.padStart(2, '0');
-
-                formattedDates.push(formattedDate);
-            });
-
-            formData.append("formattedDates", JSON.stringify(formattedDates));
-
-            $.ajax({
-                url: "/AATripsell/TravllerDetails",
-                type: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    $('#divpartialViewSeat').html(data);
-                },
-                error: function (error) {
-
-                }
-            });
-        });
-
-
-    });
-
-</script>
 <script type="text/javascript">
 
     function validateInputT(event) {
@@ -577,7 +315,239 @@
 
 
 </script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        function showForm() {
+            $('#passengerForm').show();
+        }
+        $("#editData").click(function () {
+            $("#dataPopup").hide();
+        });
+        $("#showReviewPopup").click(function (e) {
+            e.preventDefault();
+            debugger;
+            /*******Validation Start*********/
+            var contactFnames = document.querySelectorAll(".contactFname");
+            var foundDuplicate = false;
+            var emptyFirstNames = [];
+            contactFnames.forEach(function (element, index) {
+                var firstName = element.value;
+                for (var i = index + 1; i < contactFnames.length; i++) {
+                    debugger;
+                    if (firstName == contactFnames[i].value) {
+                        alert("More than One Adults name Can't be Same!!");
+                        foundDuplicate = true;
+                        return;
+                    }
+                }
+                if (firstName == "") {
+                    debugger;
 
+                    // FirstNameValidation();
+                    var firstnameToDisplay = document.getElementById("error-Fname");
+                    firstnameToDisplay.style.display = "block";
+                    element.focus();
+                    foundDuplicate = true;
+                    return;
+                }
+            });
+            if (foundDuplicate) {
+                return false;
+            }
+
+            var lastName = document.querySelector(".contactLname").value;
+            if (lastName == "") {
+                var lastnameToDisplay = document.getElementById("error-Lname");
+                lastnameToDisplay.style.display = "block";
+                document.querySelector(".contactLname").focus();
+                return false;
+            }
+            let phonefocus = document.querySelector('.contactphone').value;
+            if (phonefocus == "") {
+
+                let phoneToDisplay = document.querySelector('.error-phoneN');
+                phoneToDisplay.textContent = "Please enter your phone number";
+                phoneToDisplay.style.display = "block";
+                document.querySelector('.contactphone').focus();
+                return false;
+            }
+            var mobileNumberPattern = /^\d{10}$/;
+
+            if (!mobileNumberPattern.test(phonefocus)) {
+                alert("Please enter a valid 10-digit mobile number.");
+                return false;
+            }
+            if ($(".dobinput").is(":visible")) {
+                debugger;
+                if (!validateMultipleInfantDOBs()) {
+                    return false;
+                }
+            }
+            function validateInfantDOB(dob) {
+                debugger;
+                var dobDate = new Date(dob);
+                var currentDate = new Date();
+                var timeDiff = currentDate.getTime() - dobDate.getTime();
+                let yearsDiff = timeDiff / (1000 * 3600 * 24 * 365.25);
+                yearsDiff = Math.round(yearsDiff);
+                return yearsDiff <= 2;
+
+            }
+            function validateMultipleInfantDOBs() {
+
+                var infantsValid = true;
+
+                $(".dobinput:visible").each(function () {
+                    debugger;
+                    var day = $(this).find('.day-select').val();
+                    var month = $(this).find('.month-select').val();
+                    var year = $(this).find('.year-select').val();
+                    var dob = year + "-" + month + "-" + day;
+
+                    if (!validateInfantDOB(dob)) {
+
+                        infantsValid = false;
+                        return false;
+                    }
+                });
+
+                if (!infantsValid) {
+
+                    alert("Infant can't be  greater than 2 years.");
+                }
+                return infantsValid;
+            }
+
+            /*******Validation End*********/
+            var enteredData = "";
+            for (var i = 0; i < @Model.passeengerlist.passengers.Count; i++) {
+                var firstName = $("input[name='passengerdetails[" + i + "].First']").val();
+                var lastName = $("input[name='passengerdetails[" + i + "].Last']").val();
+                var title = $("select[name='passengerdetails[" + i + "].Title']").val();
+                var Passengertypecode = $("input[name='passengerdetails[" + i + "].passengertypecode']").val();
+                if (Passengertypecode == "ADT") { Passengertypecode = "Adult"; }
+                if (Passengertypecode == "CHD") { Passengertypecode = "Child"; }
+                enteredData += "<p><strong>Passenger " + (i + 1) + ": (" + Passengertypecode + ")</strong><br>";
+                enteredData += "Title: " + title + "<br>";
+                enteredData += "First Name: " + firstName + "<br>";
+                enteredData += "Last Name: " + lastName + "</p>";
+            }
+            $("#enteredData").html(enteredData);
+            $('#dataPopup').modal('show');
+
+        });
+        $("#ContinueData").click(function () {
+            $('#passengers_id').hide();
+            //*************Validation effect Start**********
+            var contentToDisplay = document.getElementById("content");
+            contentToDisplay.style.display = "none";
+            var content2To = document.getElementById("content2");
+            content2To.style.display = "none";
+
+            var toggleButton4To = document.getElementById("toggleButton4");
+            toggleButton4To.style.opacity = "1.0";
+            var GSTcontent5To = document.getElementById("content4");
+            GSTcontent5To.style.display = "block";
+
+            var GSTContinuebtn1 = document.querySelector("#Continuebtn");
+            GSTContinuebtn1.disabled = false;
+            GSTContinuebtn1.style.opacity = "1.0";
+
+            debugger;
+            var formData = new FormData($("#passengerForm")[0]);
+            var infantDateInputs = document.querySelectorAll('.infant-dob-input');
+            var formattedDates = [];
+
+            infantDateInputs.forEach(function (input) {
+                debugger;
+                var day = input.querySelector('.day-select').value;
+                var month = input.querySelector('.month-select').value;
+                var year = input.querySelector('.year-select').value;
+                // Format the date as YYYY-MM-DD
+                var formattedDate = year + '-' + month.padStart(2, '0') + '-' + day.padStart(2, '0');
+
+                formattedDates.push(formattedDate);
+            });
+
+            formData.append("formattedDates", JSON.stringify(formattedDates));
+
+            $.ajax({
+                url: "/AATripsell/TravllerDetails",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    $('#divpartialViewSeat').html(data);
+                },
+                error: function (error) {
+
+                }
+            });
+        });
+
+
+    });
+
+</script>
+
+
+<style>
+    .modal-body p {
+        border-radius: 6px;
+        box-shadow: 0 0 10px 0 rgb(0 0 0 / 9%);
+        border: 1px solid #E4E3E1;
+        padding: 8px;
+        margin-bottom: 10px;
+    }
+
+    .dobinput {
+        background: #fff;
+        color: var(--color-light-1);
+        border: 1px solid var(--color-border);
+        border-radius: 4px;
+        padding: 8px;
+        min-height: 40px;
+        transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .brd-none {
+        border: none;
+    }
+
+    .custom-select::-ms-expand {
+        display: none; /* Hide the arrow icon in IE */
+    }
+
+    .custom-select option {
+        padding: 5px; /* Set the desired padding for each option */
+        height: 50px;
+        overflow: hidden;
+    }
+
+    .checkbox-button2 {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 0;
+        cursor: pointer;
+    }
+
+
+        .checkbox-button2.checked::after {
+            content: '\2713';
+            font-size: 16px;
+            color: #333;
+            display: block;
+            text-align: center;
+            line-height: 20px;
+        }
+
+</style>
 
 
 
