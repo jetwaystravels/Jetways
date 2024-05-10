@@ -195,7 +195,7 @@
                                                         <input id="Rway-endDate" name="endDate" type="text" placeholder="Date" class="form-control">
                                                     </span>
                                                 </div>
-                                                <div class="col-12 col-md-10 col-lg-2 space travellers">
+                                                @* <div class="col-12 col-md-10 col-lg-2 space travellers">
                                                     <label style="margin-bottom: 0.1rem;">Travellers </label>
                                                     <div class="searchMenu-guests js-form-dd js-form-counters">
                                                         <div data-x-dd-click="searchMenu-guests">
@@ -213,7 +213,7 @@
 
                                                             <div class="bg-white px-30 py-30 rounded-4">
 
-                                                                @*  ------------------------ *@
+                                                                @*  ------------------------ 
                                                                 <div class="d-flex y-gap-10 justify-between items-center">
                                                                     <div class="btn-incr-adult">
                                                                         <div class="text-15 fw-500">Adults</div>
@@ -258,6 +258,91 @@
                                                                     <div class="btn-increase">
                                                                         <div class="decrement2 sub btn_sub">-</div>
                                                                         <input type="number" id="field_infant" class="input-field" value="0" asp-for="@Model.MyProperty.passengercount.infantcount" min="0" max="6">
+                                                                        <div class="increment2 add btn_sub">+</div>
+
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="border-top-light mt-24 mb-24"></div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div> *@
+                                                <div class="col-12 col-md-10 col-lg-2 space travellers">
+                                                    <label style="margin-bottom: 0.1rem;">Travellers </label>
+                                                    <div class="searchMenu-guests js-form-dd js-form-counters">
+                                                        <div data-x-dd-click="searchMenu-guests">
+
+                                                            <div class="text-15 text-light-1 ls-2 lh-16">
+                                                                <span class="js-count-adult" id="count_adult">@Model.simpleAvailabilityRequestModelEdit.passengers.types[0].count</span> adults
+                                                                @if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 1)
+                                                                {
+                                                                    <span class="js-count-child" id="count_child">@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count </span>
+
+                                                                    <span>children</span>
+
+                                                                }
+                                                                @if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 2)
+                                                                {
+                                                                    <span class="js-count-infents" id="count_infant">@Model.simpleAvailabilityRequestModelEdit.passengers.types[2].count</span>
+
+                                                                    <span>infant</span>
+                                                                }
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="searchMenu-guests__field shadow-2" data-x-dd="searchMenu-guests" data-x-dd-toggle="-is-active">
+
+                                                            <div class="bg-white px-30 py-30 rounded-4">
+
+                                                                @*  ------------------------ *@
+                                                                <div class="d-flex y-gap-10 justify-between items-center">
+                                                                    <div class="btn-incr-adult">
+                                                                        <div class="text-15 fw-500">Adults</div>
+
+                                                                        <input type="hidden" name="adulttype" value="ADT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.adulttype" />
+                                                                        <div class="text-15 fw-500">Aged 12+ yrs</div>
+                                                                    </div>
+                                                                    <div class="btn-increase">
+                                                                        <div class="decrement sub btn_sub">-</div>
+
+                                                                        <input type="number" id="field_adult" class="input-field" name="adultcount" value="1" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.adultcount" min="1" max="9">
+                                                                        <div class="increment add btn_sub">+</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="border-top-light mt-24 mb-24"></div>
+                                                                <div class="d-flex y-gap-10 justify-between items-center">
+                                                                    <div class="btn-incr-chld">
+                                                                        <div class="text-15 fw-500">
+                                                                            Children
+                                                                        </div>
+                                                                        <input type="hidden" name="childtype" value="CHD" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childtype" />
+                                                                        <div class="text-15 fw-500">
+                                                                            Aged 2-12 yrs
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="btn-increase">
+                                                                        <div class="decrement1 sub btn_sub">-</div>
+                                                                        <input type="number" id="field_child" class="input-field" value="0" name="childcount" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childcount" min="0" max="6">
+                                                                        <div class="increment1 add btn_sub">+</div>
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="border-top-light mt-24 mb-24"></div>
+                                                                <div class="d-flex y-gap-10 justify-between items-center">
+                                                                    <div class="infant-area">
+                                                                        <div class="text-15 fw-500">Infants</div>
+                                                                        <input type="hidden" name="infanttype" value="INFT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infanttype" />
+                                                                        <div class="text-15 fw-500">
+                                                                            Below 2 yrs
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="btn-increase">
+                                                                        <div class="decrement2 sub btn_sub">-</div>
+
+                                                                        <input type="number" id="field_infant" class="input-field" name="infantcount" value="0" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infantcount" min="0" max="6">
                                                                         <div class="increment2 add btn_sub">+</div>
 
                                                                     </div>
@@ -360,6 +445,7 @@
                             <div class="col-xl-6 col-lg-6">
                                 <div class="shorting-bg-white">
                                     <div class="fontSize16 d-flex justify-content-between"><div class="fw-600">@originL → @destinationL</div>  <div>@Model.SimpleAvailibilityaAddResponcelist[0].bookingdate</div></div>
+                                    <input type="hidden" id="leftdate" value="@Model.SimpleAvailibilityaAddResponcelist[0].bookingdate" />
                                     <ul class="shorting-tab">
                                         <li><a href="#">Airlines </a></li>
                                         <li><a href="#">Depart</a></li>
@@ -395,7 +481,7 @@
                                                     <input type="hidden" class="carrierCode" name="carrierCode" value="@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode" />
                                                     <input type="hidden" class="identifier" name="identifier" value="@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.identifier" />
                                                     @*<input type="hidden" class="carrierCode" name="carrierCode" value="@Model.SimpleAvailibilityaAddResponcelist[j].segments[i].identifier.carrierCode" />
-                                                
+
                                                 <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[i].identifier.carrierCode  - @Model.SimpleAvailibilityaAddResponcelist[j].segments[i].identifier.identifier </div>*@
                                                     <div class="fliCode text-12"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode  - @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.identifier </div>
 
@@ -459,7 +545,7 @@
                                                             }
                                                         }
 
-                                                        <input type="hidden" class="diff" value="@diff" />
+                                                        <input type="hidden" class="diff" value="@formattedTime" />
                                                         <input type="hidden" class="stops" value="@Model.SimpleAvailibilityaAddResponcelist[j].stops" />
                                                     </div>
                                                 </div>
@@ -478,7 +564,7 @@
 
                                                 <div class="fare-round mt-3">
                                                     <div class="rtprice text-20 fw-700">₹ @Model.SimpleAvailibilityaAddResponcelist[j].fareTotalsum.ToString("N0")</div>
-                                                    <input type="hidden" class="fareTotalsum" value="@Model.SimpleAvailibilityaAddResponcelist[j].fareTotalsum" />
+                                                    <input type="hidden" class="fareTotalsum" value="@Math.Round(Model.SimpleAvailibilityaAddResponcelist[j].fareTotalsum,0)" />
 
                                                 </div>
 
@@ -844,6 +930,7 @@
                             <div class="col-xl-6 col-lg-6">
                                 <div class="shorting-bg-white">
                                     <div class="fontSize1 d-flex justify-content-between"><div class="fw-600">@destinationR → @originR</div>  <div>@Model.SimpleAvailibilityaAddResponcelistR[0].bookingdate</div></div>
+                                    <input type="hidden" id="rightdate" value="@Model.SimpleAvailibilityaAddResponcelistR[0].bookingdate" />
                                     <ul class="shorting-tab">
                                         <li><a href="#">Airlines </a></li>
                                         <li><a href="#">Depart</a></li>
@@ -937,7 +1024,7 @@
                                                                 }
                                                             }
                                                         }
-                                                        <input type="hidden" class="diffreturn" value="@diff" />
+                                                        <input type="hidden" class="diffreturn" value="@formattedTime" />
                                                         <input type="hidden" class="stopreturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].stops" />
                                                     </div>
                                                 </div>
@@ -956,7 +1043,7 @@
 
                                                 <div class="fare-round mt-3">
                                                     <div class="rtprice text-20 fw-700">₹ @Model.SimpleAvailibilityaAddResponcelistR[j].fareTotalsum.ToString("N0")</div>
-                                                    <input type="hidden" class="faretotalsumreturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].fareTotalsum" />
+                                                    <input type="hidden" class="faretotalsumreturn" value="@Math.Round(Model.SimpleAvailibilityaAddResponcelistR[j].fareTotalsum,0)" />
 
                                                 </div>
                                                 <div class="fare-round mt-3">
@@ -1311,7 +1398,8 @@
                             <div class="fare-round ms-2">
                                 <div class="text-14 fw-600">₹<span id="fareTotalsumData"></span></div>
                                 @* <div class="text-12 rtline"><a data-toggle="modal" data-target="#rt1exampleModal">Details</a></div> *@
-                                <div class="text-12 rtline"> <button id="openModal" style="color:#fff">Details</button>
+                                <div class="text-12 rtline">
+                                    <button id="openModal" style="color:#fff">Details</button>
                                 </div>
                             </div>
                         </div>
@@ -1391,7 +1479,7 @@
                                         <h2 class="text-22 fw-600">More Fare Options Available</h2>
                                         @*<button type="button" class="btn-close" data-dismiss="modal">Close</button>*@
                                         @* <h5 class="modal-title" id="exampleModalLabel">More Fare Options Available</h5> *@
-                                        <button type="button" class="btnclose" data-dismiss="modal" aria-label="Close">
+                                        <button type="button" id="btncross" class="btnclose" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true" style="font-size: 21px;">&times;</span>
                                         </button>
                                     </div>
@@ -3398,24 +3486,63 @@
         //     $('#totalfaretotalround').text(TotalfareLR);
         // });
 
+        // function returnTime(){
+
+        //     var from = $('#arrivalData').text();
+        //     var to = $('#arrivalreturndata').text();
+
+        //     // Parse the times using Moment.js
+        //     var fromDate = moment(from, 'hh:mm a');
+        //     var toDate = moment(to, 'hh:mm a');
+
+        //     // Compare the times
+        //     if (fromDate.isAfter(toDate)) {
+        //         alert("Invalid Date Range");
+        //     } else {
+        //         alert("Valid Date Range");
+        //     }
+        //     // Compare the times
+        //     // if (toDate.isBefore(fromDate)) {
+        //     //     alert("Invalid Date Range");
+        //     // } else {
+        //     //     alert("Valid Date Range");
+        //     // }
+
+        // }
+
+
         $('#ReturnButtonId').click(function () {
-            // var arrivalTime = $('#arrivalData').text();
-            // var returnFlightTime = $('#arrivalreturndata').text(); 
 
-            
-            // var arrivalMinutes = convertToMinutes(arrivalTime);
-            // var returnFlightMinutes = convertToMinutes(returnFlightTime);
 
-           
-            // var minimumReturnTime = arrivalMinutes + 30;
+            var arrivalTime = $('#arrivalData').text();
+            var returnFlightTime = $('#departurereturndata').text();
+            var Leftdate = $('#leftdate').val();
+            var rightdate = $('#rightdate').val();
+            if (Leftdate == rightdate) {
+                alert("SameDate");
+                var arrivalMinutes = convertToMinutes(arrivalTime);
+                var returnFlightMinutes = convertToMinutes(returnFlightTime);
 
-            
-            // if (returnFlightMinutes < minimumReturnTime) {
-               
-            //     alert('Return flight time must be at least 30 minutes after arrival time.');
-               
-            //     return false;
-            // }
+
+                var minimumReturnTime = arrivalMinutes + 30;
+
+
+                if (returnFlightMinutes < minimumReturnTime) {
+
+                    alert('Return flight time must be at least 30 minutes after arrival time.');
+
+                    return false;
+                }
+            }
+            // Get the arrival and return flight times as strings
+            // Get the arrival and return flight times as strings
+            //var arrivalTimeStr = $('#arrivalData').text();
+            //var returnFlightTimeStr = $('#arrivalreturndata').text();
+
+            // returnTime();
+
+
+
 
 
             let uniqueId = localStorage.getItem('IDLEFT');
@@ -3462,7 +3589,6 @@
                 $(this).next().filter('.hideme').slideDown(1);
             }
         });
-
 
         //**********Chosen Departure Code Start ****************//
         //*****************************************************//

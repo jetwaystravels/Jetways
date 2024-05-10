@@ -93,6 +93,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
             string passengerkey = string.Empty;
             string uniquekey = string.Empty;
             decimal fareTotalsum = 0;
+            string formatTime = string.Empty;
 
             if (_GetfligthModel.passengercount != null)
             {
@@ -302,10 +303,16 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         string querydestination = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].designator.destination;
                         destination1 = Citydata.GetAllcity().Where(x => x.cityCode == querydestination).SingleOrDefault().cityName;
                         Designatorobj.destination = destination1;
+
                         Designatorobj.departure = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].designator.departure;
                         Designatorobj.arrival = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].designator.arrival;
-
-
+                        TimeSpan travelTimeDiff = Designatorobj.arrival- Designatorobj.departure ;
+                        TimeSpan timeSpan = TimeSpan.Parse(travelTimeDiff.ToString());
+                        if ((int)timeSpan.Minutes == 0)
+                            formatTime = $"{(int)timeSpan.TotalHours} h";
+                        else
+                            formatTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
+                        Designatorobj.formatTime = formatTime;
                         var segmentscount = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments.Count;
                         List<DomainLayer.Model.Segment> Segmentobjlist = new List<DomainLayer.Model.Segment>();
 
@@ -367,8 +374,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 LegInfo.departureTime = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].legInfo.departureTime;
                                 Legobj.legInfo = LegInfo;
 
-                            }
-                            //  Leglist.Add(Legobj);
+                            }                         
                             Segmentobj.legs = Leglist;
                             Segmentobjlist.Add(Segmentobj);
 
@@ -568,15 +574,20 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     Designatorobj.origin = _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0][0].DepartureStation;
                     Designatorobj.destination = _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0][0].ArrivalStation;
 
+
                     string journeykey = _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].JourneySellKey.ToString();
                     string departureTime = Regex.Match(journeykey, @Designatorobj.origin + @"[\s\S]*?~(?<STD>[\s\S]*?)~").Groups["STD"].Value.Trim();
                     string arrivalTime = Regex.Match(journeykey, @Designatorobj.destination + @"[\s\S]*?~(?<STA>[\s\S]*?)~").Groups["STA"].Value.Trim();
 
                     Designatorobj.departure = DateTime.ParseExact(departureTime, "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture);// Convert.ToDateTime(departureTime);
-
-
                     Designatorobj.arrival = DateTime.ParseExact(arrivalTime, "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture);// Convert.ToDateTime(arrivalTime);
-
+                    TimeSpan TimeDiff = Designatorobj.arrival - Designatorobj.departure;
+                    TimeSpan timeSpan = TimeSpan.Parse(TimeDiff.ToString());
+                    if ((int)timeSpan.Minutes == 0)
+                        formatTime = $"{(int)timeSpan.TotalHours} h";
+                    else
+                        formatTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
+                    Designatorobj.formatTime = formatTime;
                     string queryorigin = _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0][0].DepartureStation;
                     origin = Citydata.GetAllcity().Where(x => x.cityCode == queryorigin).SingleOrDefault().cityName;
                     Designatorobj.origin = origin;
@@ -843,7 +854,13 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     string arrivalTime = Regex.Match(journeykey, @Designatorobj.destination + @"[\s\S]*?~(?<STA>[\s\S]*?)~").Groups["STA"].Value.Trim();
                     Designatorobj.departure = DateTime.ParseExact(departureTime, "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture); //Convert.ToDateTime(departureTime);
                     Designatorobj.arrival = DateTime.ParseExact(arrivalTime, "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture); //Convert.ToDateTime(arrivalTime);
-
+                    TimeSpan TimeDifference = Designatorobj.arrival - Designatorobj.departure;
+                    TimeSpan timeSpan = TimeSpan.Parse(TimeDifference.ToString());
+                    if ((int)timeSpan.Minutes == 0)
+                        formatTime = $"{(int)timeSpan.TotalHours} h";
+                    else
+                        formatTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
+                    Designatorobj.formatTime = formatTime;
                     string queryorigin = _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0][0].DepartureStation;
                     origin = Citydata.GetAllcity().Where(x => x.cityCode == queryorigin).SingleOrDefault().cityName;
                     Designatorobj.origin = origin;

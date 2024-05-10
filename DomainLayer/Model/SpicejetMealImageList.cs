@@ -34,12 +34,12 @@ namespace DomainLayer.Model
             htSSr.Add("EB20", "20 kg");
             htSSr.Add("EB25", "25 kg");
             htSSr.Add("EB30", "30 kg");
-            htSSr.Add("XBPA", "+5 Kg Xcess Baggage");
-            htSSr.Add("XBPJ", "+20 Kg Xcess Baggage");
-            htSSr.Add("XBPB", "+10 Kg Xcess Baggage");
-            htSSr.Add("XBPC", "+15 Kg Xcess Baggage");
-            htSSr.Add("XBPD", "+30 Kg Xcess Baggage");
-            htSSr.Add("XBPE", "XBG");
+            htSSr.Add("XBPA", "5 Kg");
+            htSSr.Add("XBPJ", "20 Kg");
+            htSSr.Add("XBPB", "10 Kg");
+            htSSr.Add("XBPC", "15 Kg");
+            htSSr.Add("XBPD", "30 Kg");
+            htSSr.Add("XBPE", "3 Kg");
             htSSr.Add("VLML", "Awadhi Chicken Biryani with Mirch Salan(Chargable meal code");
             htSSr.Add("VGPI", "Awadhi Chicken Biryani with Mirch Salan(Free meal code");
             htSSr.Add("VGNI", "Bajra Khichdi with Matar Bhaji (Diabetic-friendly)(Chargable meal code");

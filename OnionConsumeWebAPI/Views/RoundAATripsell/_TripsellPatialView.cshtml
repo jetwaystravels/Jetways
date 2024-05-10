@@ -123,6 +123,8 @@
             TimeSpan timeSpan = TimeSpan.Parse(diff.ToString());
             if ((int)timeSpan.Minutes == 0)
                 formattedTime = $"{(int)timeSpan.TotalHours} h";
+            else if ((int)timeSpan.Hours == 0)
+                formattedTime = $"{(int)timeSpan.Minutes} m";
             else
                 formattedTime = $"{(int)timeSpan.TotalHours} h : {(int)timeSpan.Minutes} m";
 
@@ -170,6 +172,8 @@
                         timeSpan = TimeSpan.Parse(diff.ToString());
                         if ((int)timeSpan.Minutes == 0)
                             formattedTime = $"{(int)timeSpan.TotalHours} h";
+                        else if ((int)timeSpan.Hours == 0)
+                            formattedTime = $"{(int)timeSpan.Minutes} m";
                         else
                             formattedTime = $"{(int)timeSpan.TotalHours} h : {(int)timeSpan.Minutes} m";
 
@@ -193,6 +197,8 @@
                                         timeSpan = TimeSpan.Parse(diff.ToString());
                                         if ((int)timeSpan.Minutes == 0)
                                             formattedTime = $"{(int)timeSpan.TotalHours} h";
+                                        else if ((int)timeSpan.Hours == 0)
+                                            formattedTime = $"{(int)timeSpan.Minutes} m";
                                         else
                                             formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
 
@@ -285,14 +291,16 @@
                                                     @*<div class="lh-14 fw-500">@item.segments[i].legs[j].designator.origin <span class="text-13 ml-2 fw-600">( @formatteddepartureDate<span class="text-13 text-light-1 ml-2"> Indira Gandhi, T-@item.segments[i].legs[j].legInfo.departureTerminal </span> )</span></div>*@
                                                     <div class="lh-14 fw-500">
                                                         @QueryOriginAirportName<span class="text-13 ml-2 fw-600">
-                                                            ( @formatteddepartureDate<span class="text-13 text-light-1 ml-2">@originCity?.airportname</span><span class="text-13 ml-2 fw-600">
-                                                             @if (@item.segments[i].legs[j].legInfo.departureTerminal != null)
-                                                                {
+                                                            ( @formatteddepartureDate<span class="text-13 text-light-1 ml-2">@originCity?.airportname</span>
+                                                            @if (@item.segments[i].legs[j].legInfo.departureTerminal != null && @item.segments[i].legs[j].legInfo.departureTerminal != "")
+                                                            {
+                                                                <span class="text-13 ml-2 fw-600">
                                                                     <span>, T-</span>
 
                                                                     @item.segments[i].legs[j].legInfo.departureTerminal
-                                                                }
-                                                            </span>)
+                                                                </span>
+                                                            }
+                                                            )
                                                         </span>
                                                     </div>
 
@@ -330,18 +338,20 @@
                                                     <div class="lh-14 fw-500">@arrivalfinal</div>
                                                 </div>
                                                 <div class="col-auto">
-                                                   @* <div class="lh-14 fw-500">@item.segments[i].legs[j].designator.destination<span class="text-13 ml-2 fw-600">( @formattedarrivalDate<span class="text-13 text-light-1 ml-2"> Sanganeer, T-@item.segments[i].legs[j].legInfo.arrivalTerminal </span> )</span></div>*@
+                                                    @* <div class="lh-14 fw-500">@item.segments[i].legs[j].designator.destination<span class="text-13 ml-2 fw-600">( @formattedarrivalDate<span class="text-13 text-light-1 ml-2"> Sanganeer, T-@item.segments[i].legs[j].legInfo.arrivalTerminal </span> )</span></div>*@
                                                     <div class="lh-14 fw-500">
                                                         @QueryDestinationAirportName
                                                         <span class="text-13 ml-2 fw-600">
                                                             (@formattedarrivalDate
                                                             <span class="text-13 text-light-1 ml-2">@destinationCity?.airportname</span>
-                                                            <span class="text-13 ml-2 fw-600">
-                                                                @if (@item.segments[i].legs[j].legInfo.arrivalTerminal != null)
-                                                                {
+
+                                                            @if (@item.segments[i].legs[j].legInfo.arrivalTerminal != null && @item.segments[i].legs[j].legInfo.arrivalTerminal != "")
+                                                            {
+                                                                <span class="text-13 ml-2 fw-600">
                                                                     <span>, T-</span> @item.segments[i].legs[j].legInfo.arrivalTerminal
-                                                                }
-                                                            </span>)
+                                                                </span>
+                                                            }
+                                                            )
 
                                                         </span>
                                                     </div>
@@ -368,7 +378,7 @@
 
     }
 
-    
+
 
 
 </div>

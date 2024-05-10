@@ -352,20 +352,21 @@
                                         {
                                             <span class="oi oi-sort-descending"></span>
                                         }
-                                        else
+                                        else if (ViewBag.NameSortParam == "name_asc")
                                         {
                                             <span class="oi oi-sort-ascending"></span>
                                         }
+                                       
                                     </a>
                                 </li>
                                 <li>
                                     <a asp-controller="ResultFlightView" asp-action="FlightView" asp-route-sortOrder="@ViewBag.DepartSortParam">
                                         Depart
-                                        @if (ViewBag.PriceSortParam == "price_desc")
+                                        @if (ViewBag.PriceSortParam == "deprt_desc")
                                         {
                                             <span class="oi oi-sort-descending"></span>
                                         }
-                                        else
+                                        else if (ViewBag.NameSortParam == "deprt_asc")
                                         {
                                             <span class="oi oi-sort-ascending"></span>
                                         }
@@ -378,7 +379,7 @@
                                         {
                                             <span class="oi oi-sort-descending"></span>
                                         }
-                                        else
+                                        else if (ViewBag.NameSortParam == "duration_asc")
                                         {
                                             <span class="oi oi-sort-ascending"></span>
                                         }
@@ -391,7 +392,7 @@
                                         {
                                             <span class="oi oi-sort-descending"></span>
                                         }
-                                        else
+                                        else if (ViewBag.NameSortParam == "arrive_asc")
                                         {
                                             <span class="oi oi-sort-ascending"></span>
                                         }
@@ -408,7 +409,7 @@
                                         {
                                             <span class="oi oi-sort-descending"></span>
                                         }
-                                        else
+                                        else if (ViewBag.NameSortParam == "price_asc")
                                         {
                                             <span class="oi oi-sort-ascending"></span>
                                         }
@@ -553,7 +554,7 @@
                                                                 }
                                                             }
                                                         }
-                                                        @*  <div class="mt-1">@flightResult.stops</div> *@
+                                                        
                                                     </div>
 
                                                     <div class="col-auto">
@@ -659,19 +660,18 @@
                                                             <td>7 Kg</td>
                                                             <td><strong>15 kg (1 piece)</strong></td>
                                                             <td>
-                                                                @*<div>Cancellation Fee</div>*@
+                                                              
                                                                 <div>3500 (upto 2 hrs prior from departure)</div>
                                                             </td>
                                                             <td>
-                                                                @*<div>Date Change fee</div>*@
+                                                               
                                                                 <div>3000 (upto 2 hrs prior from departure)</div>
                                                             </td>
                                                             <td>
                                                                 <div>
                                                                     (Chargable)
                                                                 </div>
-                                                                @*<div>Window/Aisle</div>
-                                                <div>Chargeable</div>*@
+                                                               
                                                             </td>
                                                             <td>
                                                                 <div>
@@ -685,11 +685,11 @@
                                                             <td>7 Kg</td>
                                                             <td><strong>15 kg (1 piece)</strong></td>
                                                             <td>
-                                                                @*<div>Cancellation Fee</div>*@
+                                                               
                                                                 <div>3500 (upto 2 hrs prior from departure)</div>
                                                             </td>
                                                             <td>
-                                                                @*<div>Date Change fee</div>*@
+                                                              
                                                                 <div>
                                                                     FREE (upto 2 hrs prior from departure)
                                                                 </div>
@@ -699,8 +699,7 @@
 
                                                                     Standard seats free
                                                                 </div>
-                                                                @*<div>Window/Aisle</div>
-                                                <div>Chargeable</div>*@
+                                                              
                                                             </td>
                                                             <td>
                                                                 <div>
@@ -715,13 +714,13 @@
                                                             <td>0</td>
                                                             <td><strong>0</strong></td>
                                                             <td>
-                                                                @*<div>Cancellation Fee</div>*@
+                                                               
                                                                 <div>
                                                                     --
                                                                 </div>
                                                             </td>
                                                             <td>
-                                                                @*<div>Date Change fee</div>*@
+                                                              
                                                                 <div>
                                                                     --
                                                                 </div>
@@ -730,8 +729,7 @@
                                                                 <div>
                                                                     --
                                                                 </div>
-                                                                @*<div>Window/Aisle</div>
-                                                <div>Chargeable</div>*@
+                                                               
                                                             </td>
                                                             <td>
                                                                 <div>
@@ -749,11 +747,11 @@
                                                                 </strong>
                                                             </td>
                                                             <td>
-                                                                @*<div>Cancellation Fee</div>*@
+                                                             
                                                                 <div>3500 (upto 2 hrs prior from departure)</div>
                                                             </td>
                                                             <td>
-                                                                @*<div>Date Change fee</div>*@
+                                                              
                                                                 <div>3000 (upto 2 hrs prior from departure)</div>
                                                             </td>
                                                             <td>
@@ -761,8 +759,7 @@
 
                                                                     (Free seats)
                                                                 </div>
-                                                                @*<div>Window/Aisle</div>
-                                                <div>Chargeable</div>*@
+                                                                
                                                             </td>
                                                             <td>
                                                                 <div>
@@ -888,30 +885,9 @@
                                                                                 <div class="lh-15 fw-500">@CompanyName</div>
                                                                                 @{
                                                                                     SegmentDatacount = Model.SimpleAvailibilityaAddResponcelist[j].segments.Count;
-
-                                                                                    //if (SegmentDatacount == 1)
-                                                                                    //{
+                                                                                    
                                                                                     <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.identifier </div>
-                                                                                    //}
-
-                        //if (SegmentDatacount == 2)
-                                                                                    //{
-                                                                                    // @for (var x = 0; x < SegmentDatacount; x++)
-                                                                                    //{
-                                                                                    //if (x == 0)
-                                                                                    //{
-
-                                                                                    // <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier <b>,</b></div>
-
-                                                                                    //}
-                                                                                    //else
-                                                                                    //{
-                                                                                    // <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier</div>
-
-                                                                                    //}
-
-                        //}
-                                                                                    //}
+                                                                                    
                                                                                 }
                                                                             </div>
                                                                         </div>
@@ -1024,7 +1000,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="tabs__pane -tab-item-3">
                                                 <table class="table mt-20">
                                                     <thead class="bg-light-2">

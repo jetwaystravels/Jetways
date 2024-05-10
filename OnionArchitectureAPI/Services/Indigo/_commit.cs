@@ -55,6 +55,43 @@ namespace OnionArchitectureAPI.Services.Indigo
 
         }
 
+        public async Task<AddPaymentToBookingResponse> AddpaymenttoBook(string Signature, decimal Amount, string _Airlineway = "")
+        {
+            AddPaymentToBookingRequest _bookingpaymentRequest = new AddPaymentToBookingRequest();
+            AddPaymentToBookingResponse _BookingPaymentResponse = new AddPaymentToBookingResponse();
+            _bookingpaymentRequest.Signature = Signature;
+            _bookingpaymentRequest.ContractVersion = 456;
+            _bookingpaymentRequest.addPaymentToBookingReqData = new AddPaymentToBookingRequestData();
+            _bookingpaymentRequest.addPaymentToBookingReqData.MessageStateSpecified = true;
+            _bookingpaymentRequest.addPaymentToBookingReqData.MessageState = MessageState.New;
+            _bookingpaymentRequest.addPaymentToBookingReqData.WaiveFeeSpecified = true;
+            _bookingpaymentRequest.addPaymentToBookingReqData.WaiveFee = false;
+            _bookingpaymentRequest.addPaymentToBookingReqData.PaymentMethodTypeSpecified = true;
+            _bookingpaymentRequest.addPaymentToBookingReqData.PaymentMethodType = RequestPaymentMethodType.AgencyAccount;
+            _bookingpaymentRequest.addPaymentToBookingReqData.PaymentMethodCode = "AG";
+            _bookingpaymentRequest.addPaymentToBookingReqData.QuotedCurrencyCode = "INR";
+            _bookingpaymentRequest.addPaymentToBookingReqData.QuotedAmountSpecified = true;
+            _bookingpaymentRequest.addPaymentToBookingReqData.QuotedAmount = Amount;
+            _bookingpaymentRequest.addPaymentToBookingReqData.AccountNumber = "OTI122";
+            _bookingpaymentRequest.addPaymentToBookingReqData.InstallmentsSpecified = true;
+            _bookingpaymentRequest.addPaymentToBookingReqData.Installments = 1;
+            _bookingpaymentRequest.addPaymentToBookingReqData.ExpirationSpecified = true;
+            _bookingpaymentRequest.addPaymentToBookingReqData.Expiration = Convert.ToDateTime("0001-01-01T00:00:00");
+
+            _BookingPaymentResponse = await _obj.Addpayment(_bookingpaymentRequest);
+
+            string Str3 = JsonConvert.SerializeObject(_BookingPaymentResponse);
+            if (_Airlineway.ToLower() == "oneway")
+            {
+                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_bookingpaymentRequest) + "\n\n Response: " + JsonConvert.SerializeObject(_BookingPaymentResponse), "BookingPayment", "IndigoOneWay");
+            }
+            else
+            {
+                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_bookingpaymentRequest) + "\n\n Response: " + JsonConvert.SerializeObject(_BookingPaymentResponse), "BookingPayment", "IndigoRT");
+            }
+            return (AddPaymentToBookingResponse)_BookingPaymentResponse;
+
+        }
 
         public async Task<GetBookingResponse> GetBookingdetails(string Signature, BookingCommitResponse _BookingCommitResponse,string _Airlineway="")
         {

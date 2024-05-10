@@ -46,6 +46,16 @@ namespace OnionConsumeWebAPI.Controllers
         string sequencenumber = string.Empty;
         string bookingKey = string.Empty;
         ApiResponseModel responseModel;
+        double totalAmount = 0;
+        double totalAmountBaggage = 0;
+        double totalAmounttax = 0;
+        double totalAmounttaxSGST = 0;
+        double totalAmounttaxBag = 0;
+        double totalAmounttaxSGSTBag = 0;
+        double totalMealTax = 0;
+        double totalBaggageTax = 0;
+        double taxMinusMeal = 0;
+        double taxMinusBaggage = 0;
         public async Task<IActionResult> booking()
         {
 
@@ -141,61 +151,65 @@ namespace OnionConsumeWebAPI.Controllers
                     PassengerTotals passengerTotals = new PassengerTotals();
                     SpecialServices serviceChargeReturn = new SpecialServices();
                     List<ReturnCharge> returnChargeList = new List<ReturnCharge>();
-                    int chargesCount = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.charges.Count;
-                    double totalAmount = 0;
-                    double totalAmountBaggage = 0;
-                    double totalAmounttax = 0;
-                    double totalAmounttaxSGST = 0;
-                    double totalAmounttaxBag = 0;
-                    double totalAmounttaxSGSTBag = 0;
-                    double totalMealTax = 0;
-                    double totalBaggageTax = 0;
-                    double taxMinusMeal = 0;
-                    double taxMinusBaggage = 0;
-
-
-                    for (int ch = 0; ch < chargesCount; ch++)
+                    if (JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices != null)
                     {
-                        ReturnCharge returnChargeobj = new ReturnCharge();
-                        returnChargeobj.amount = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.charges[ch].amount;
-                        returnChargeobj.code = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.charges[ch].code;
-                        if (returnChargeobj.code.StartsWith("V"))
-                        {
-                            totalAmount += returnChargeobj.amount;
-
-                        }
-                        if (returnChargeobj.code.StartsWith("C"))
-                        {
-                            totalAmounttax += returnChargeobj.amount;
-                        }
-                        if (returnChargeobj.code.StartsWith("S"))
-                        {
-                            totalAmounttaxSGST += returnChargeobj.amount;
-                        }
-                        totalMealTax = totalAmounttax + totalAmounttaxSGST;
-                        taxMinusMeal = totalAmount - totalMealTax;
-
-                        if (returnChargeobj.code.StartsWith("P"))
-                        {
-                            totalAmountBaggage += returnChargeobj.amount;
-
-                        }
-                        if (returnChargeobj.code.StartsWith("C"))
-                        {
-                            totalAmounttaxBag += returnChargeobj.amount;
-                        }
-
-                        if (returnChargeobj.code.StartsWith("S"))
-                        {
-                            totalAmounttaxSGSTBag += returnChargeobj.amount;
-                        }
-                        totalBaggageTax = totalAmounttaxBag + totalAmounttaxSGSTBag;
-                        taxMinusBaggage = totalAmountBaggage - totalBaggageTax;
+                        int chargesCount = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.charges.Count;
+                        //double totalAmount = 0;
+                        //double totalAmountBaggage = 0;
+                        //double totalAmounttax = 0;
+                        //double totalAmounttaxSGST = 0;
+                        //double totalAmounttaxBag = 0;
+                        //double totalAmounttaxSGSTBag = 0;
+                        //double totalMealTax = 0;
+                        //double totalBaggageTax = 0;
+                        //double taxMinusMeal = 0;
+                        //double taxMinusBaggage = 0;
 
 
-                        returnChargeList.Add(returnChargeobj);
+                        for (int ch = 0; ch < chargesCount; ch++)
+                        {
+                            ReturnCharge returnChargeobj = new ReturnCharge();
+                            returnChargeobj.amount = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.charges[ch].amount;
+                            returnChargeobj.code = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.charges[ch].code;
+                            if (returnChargeobj.code.StartsWith("V"))
+                            {
+                                totalAmount += returnChargeobj.amount;
+
+                            }
+                            if (returnChargeobj.code.StartsWith("C"))
+                            {
+                                totalAmounttax += returnChargeobj.amount;
+                            }
+                            if (returnChargeobj.code.StartsWith("S"))
+                            {
+                                totalAmounttaxSGST += returnChargeobj.amount;
+                            }
+                            totalMealTax = totalAmounttax + totalAmounttaxSGST;
+                            taxMinusMeal = totalAmount - totalMealTax;
+
+                            if (returnChargeobj.code.StartsWith("P"))
+                            {
+                                totalAmountBaggage += returnChargeobj.amount;
+
+                            }
+                            if (returnChargeobj.code.StartsWith("C"))
+                            {
+                                totalAmounttaxBag += returnChargeobj.amount;
+                            }
+
+                            if (returnChargeobj.code.StartsWith("S"))
+                            {
+                                totalAmounttaxSGSTBag += returnChargeobj.amount;
+                            }
+                            totalBaggageTax = totalAmounttaxBag + totalAmounttaxSGSTBag;
+                            taxMinusBaggage = totalAmountBaggage - totalBaggageTax;
+
+
+                            returnChargeList.Add(returnChargeobj);
+                        }
+                        serviceChargeReturn.charges = returnChargeList;
+
                     }
-                    serviceChargeReturn.charges = returnChargeList;
 
                     ReturnSeats returnSeats = new ReturnSeats();
                     if (JsonObjPNRBooking.data.breakdown.passengerTotals.seats != null)

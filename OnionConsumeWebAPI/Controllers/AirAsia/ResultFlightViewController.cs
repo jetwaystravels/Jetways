@@ -33,24 +33,42 @@ namespace OnionConsumeWebAPI.Controllers
             string OnewayFlightData = HttpContext.Session.GetString("OneWayFlightView");
             List<SimpleAvailibilityaAddResponce> OnewaydeserializedObjects = null;
             OnewaydeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(OnewayFlightData);
-            ViewBag.NameSortParam = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.PriceSortParam = String.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
-            ViewBag.DepartSortParam = String.IsNullOrEmpty(sortOrder) ? "deprt_desc" : "";
-            ViewBag.arriveSortParam = String.IsNullOrEmpty(sortOrder) ? "arrive_desc" : "";
-            ViewBag.durationSortParam = String.IsNullOrEmpty(sortOrder) ? "duration_desc" : "";
+            ViewBag.NameSortParam = sortOrder == "name_desc" ? "name_asc" : "name_desc";         
+            ViewBag.PriceSortParam = sortOrder == "price_desc" ? "price_asc" : "price_desc";           
+            ViewBag.DepartSortParam = sortOrder == "deprt_desc" ? "deprt_asc" : "deprt_desc";           
+            ViewBag.arriveSortParam = sortOrder == "arrive_desc" ? "arrive_asc" : "arrive_desc";          
+            ViewBag.durationSortParam = sortOrder == "duration_desc" ? "duration_asc" : "duration_desc";           
             switch (sortOrder)
             {
                 case "name_desc":
                     OnewaydeserializedObjects = OnewaydeserializedObjects.OrderByDescending(f => f.Airline.ToString()).ToList();
                     break;
+                case "name_asc":                   
+                     OnewaydeserializedObjects = OnewaydeserializedObjects.OrderBy(f => f.Airline.ToString()).ToList();
+                     break;                    
                 case "price_desc":
                     OnewaydeserializedObjects = OnewaydeserializedObjects.OrderByDescending(p => p.fareTotalsum).ToList();
+                    break;
+                case "price_asc":
+                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderBy(p => p.fareTotalsum).ToList();
                     break;
                 case "deprt_desc":
                     OnewaydeserializedObjects = OnewaydeserializedObjects.OrderByDescending(d => d.designator.departure).ToList();
                     break;
+                case "deprt_asc":
+                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderBy(d => d.designator.departure).ToList();
+                    break;
                 case "arrive_desc":
-                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderByDescending(d => d.designator.departure).ToList();
+                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderByDescending(d => d.designator.arrival).ToList();
+                    break;
+                case "arrive_asc":
+                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderBy(d => d.designator.arrival).ToList();
+                    break;
+                case "duration_desc":
+                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderByDescending(d => d.designator.formatTime).ToList();
+                    break;
+                case "duration_asc":
+                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderBy(d => d.designator.formatTime).ToList();
                     break;
                 default:
                     OnewaydeserializedObjects = OnewaydeserializedObjects.OrderBy(p => p.fareTotalsum).ToList();
@@ -784,8 +802,8 @@ namespace OnionConsumeWebAPI.Controllers
                         Seatmapobj.decks = Decksobj;
                         int compartmentsunitCount = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units.Count;
                         List<Unit> compartmentsunitlist = new List<Unit>();
-                       // To do
-					    string strnewText = Regex.Match(_responseSeatmap, @"data""[\s\S]*?fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup"":null}]",
+                        // To do
+                        string strnewText = Regex.Match(_responseSeatmap, @"data""[\s\S]*?fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup"":null}]",
                             RegexOptions.IgnoreCase | RegexOptions.Multiline).Value.ToString();
                         int _counter = 0;
                         foreach (var strTextdata in Regex.Matches(strnewText, @"seatMap"":[\s\S]*?ssrLookup"))
@@ -799,7 +817,7 @@ namespace OnionConsumeWebAPI.Controllers
                         }
 
 
-                                    for (int i = 0; i < compartmentsunitCount; i++)
+                        for (int i = 0; i < compartmentsunitCount; i++)
                         {
                             Unit compartmentsunitobj = new Unit();
                             compartmentsunitobj.unitKey = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].unitKey;

@@ -1845,8 +1845,15 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                             List<Servicecharge> feesgroupserviceChargeslist = new List<Servicecharge>();
                                             for (int l = 0; l < feesgroupserviceChargescount; l++)
                                             {
-                                                Servicecharge feesgroupserviceChargesobj = new Servicecharge();
-                                                compartmentsunitobj.servicechargefeeAmount += Convert.ToInt32(SeatGroup[x].SeatAvailabilityResponse.SeatGroupPassengerFees[k].PassengerFee.ServiceCharges[l].Amount);
+                                                //Servicecharge feesgroupserviceChargesobj = new Servicecharge();
+                                                if (l > 0)
+                                                {
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    compartmentsunitobj.servicechargefeeAmount += Convert.ToInt32(SeatGroup[x].SeatAvailabilityResponse.SeatGroupPassengerFees[k].PassengerFee.ServiceCharges[l].Amount);
+                                                }
                                             }
                                         }
                                     }

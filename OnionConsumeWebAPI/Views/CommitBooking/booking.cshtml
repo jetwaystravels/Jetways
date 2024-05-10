@@ -194,7 +194,7 @@
                                     </div>
                                     <div class="TEconomy">
                                         <span id="eco-class">Corpate Fare : </span>
-                                        <span id="Cnomer" class="fw-bold-600"> Ecomomics</span>
+                                        <span id="Cnomer" class="fw-bold-600"> Economy</span>
                                     </div>
 
                                 </div>
@@ -253,6 +253,13 @@
                                     <div id="Ttiming" class="fw-bold-600">@formattedTime</div>
 
                                     <div class="arrow-icon"><i class="fas fa-arrow-right"></i></div>
+                                    @{
+                                        var stops = Model.AirlinePNR[0].journeys[j].stops;
+                                        if (stops == 1)
+                                        {
+                                            <div class="mt-1">1 Stop via @Model.AirlinePNR[0].journeys[j].segments[s1].legs[0].designator.destination </div>
+                                        }
+                                    }
                                     <!--<p class="mb-0">Economy</p>--->
                                     <!--<p>Status: <span class="fw-bold-600 t-color">Confirmed</span></p>-->
                                 </div>

@@ -66,7 +66,8 @@
                                     formatTime = string.Empty;
                                     ArrivalTime = item.segments[i].legs[j - 1].designator.arrival;
                                     DepartureTime = item.segments[i].legs[j].designator.departure;
-                                    DiffTime = (ArrivalTime - DepartureTime);
+                                    //DiffTime = (ArrivalTime - DepartureTime);
+                                    DiffTime = (DepartureTime - ArrivalTime);
                                     time = TimeSpan.Parse(DiffTime.ToString());
                                     if ((int)time.Minutes == 0)
                                     {
@@ -239,7 +240,7 @@
                                                         <li>4: DATE CHANGE: 3000 :-  (upto 2 hrs prior from departure)</li>
                                                         <li>5: SEAT : (Chargable)</li>
                                                         <li>6: MEAL : (Chargable)</li>
-                                                        <li>7: Category Class : (Economy)</li>
+                                                        @* <li>7: Category Class : (Economy)</li>*@
                                                     </ul>
                                                 </span>
                                             </span>
@@ -257,7 +258,7 @@
                                                         <li>4: DATE CHANGE: 3000 :-  FREE  (upto 2 hrs prior from departure)</li>
                                                         <li>5: SEAT : Standard seats free</li>
                                                         <li>6: MEAL : Free meal) per person</li>
-                                                        <li>7: Category Class : (Economy)</li>
+                                                        @* <li>7: Category Class : (Economy)</li>*@
                                                     </ul>
                                                 </span>
                                             </span>
@@ -276,7 +277,7 @@
                                                         <li>4: DATE CHANGE: </li>
                                                         <li>5: SEAT : </li>
                                                         <li>6: MEAL : </li>
-                                                        <li>7: Category Class :</li>
+                                                       @* <li>7: Category Class :</li>*@
                                                     </ul>
                                                 </span>
                                             </span>
@@ -294,7 +295,7 @@
                                                         <li>4: DATE CHANGE: 3000 :-  FREE  (upto 2 hrs prior from departure)</li>
                                                         <li>5: SEAT : (Free seats)</li>
                                                         <li>6: MEAL : (Free meal) per person</li>
-                                                        <li>7: Category Class : (Business)</li>
+                                                       @* <li>7: Category Class : (Business)</li>*@
                                                     </ul>
                                                 </span>
                                             </span>
@@ -313,7 +314,7 @@
                                                         <li>4: DATE CHANGE: </li>
                                                         <li>5: SEAT : </li>
                                                         <li>6: MEAL : </li>
-                                                        <li>7: Category Class : </li>
+                                                        @*<li>7: Category Class : </li>*@
                                                     </ul>
                                                 </span>
                                             </span>
