@@ -7,26 +7,13 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="overlay" id="animationOverlay">
-
+            <div class="loader"></div>
             <div class="iconanimate">
                 <img id="flightImage" src="~/img/flytk.png" alt="Flight" style="display:none">
-                <div class="cs-loader-main" id="loader">
-                    <div class="cs-loader">
-                        <div class="cs-loader-inner">
-                            <div><img src="~/img/cloude-1.png"></div>
-                            <label><img src="~/img/airo-f.png"></label>
-                            <div class="load-text">Search for cheap Flight...</div>
-                        </div>
-
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 </div>
-
-
-
 <div class="row">
     <div class="col-lg-12">
 
@@ -715,7 +702,7 @@
 
     /* Overlay styles */
     .overlay {
-        display: none;
+         display: none; 
         position: fixed;
         top: 0;
         left: 0;
@@ -726,9 +713,15 @@
     }
 
 
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
 
-
-
+        100% {
+            transform: rotate(360deg);
+        }
+    }
 
     .iconanimate {
         border-radius: 50%;
@@ -740,6 +733,24 @@
         animation-duration: 10s;
     }
 
+    @@keyframes example {
+        0% {
+            left: 0; /* Starting position */
+        }
+
+        100% {
+            left: calc(100% - 100px); /* Move to the right edge (100% - width) */
+        }
+        /* 0%   {background-color:red; left:0px; right:0px;}
+                                  25%  {background-color:yellow; left:80%; top:10%;}
+                                  50%  {background-color:blue; left:200px; top:200px;}
+                                  75%  {background-color:green; left:0px; top:200px;}
+                                  100% {background-color:red; left:0px; top:0px;}  */
+    }
+
+    .iconanimate img {
+        transform: rotate(45deg);
+    }
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -868,7 +879,6 @@
             });
 
 
-
         // Flight Icon Animation
         var flhticonDisplay = document.getElementById("flightImage");
         flhticonDisplay.style.display = "block";
@@ -891,11 +901,8 @@
                 $('#animationOverlay').fadeOut();
             }
         });
-
-    @* var loader = document.getElementById("loader");
-            loader.style.display = "block"; *@
-            //$('#flighticon').hide();
-        }
+        $('#flighticon').hide();
+    }
 
 
 
