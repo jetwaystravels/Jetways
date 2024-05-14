@@ -8,6 +8,7 @@ using NuGet.Common;
 using OnionArchitectureAPI.Services.Indigo;
 using OnionConsumeWebAPI.Extensions;
 using Sessionmanager;
+using System.Collections;
 using System.Net.Http.Headers;
 using Utility;
 using static DomainLayer.Model.ReturnAirLineTicketBooking;
@@ -749,6 +750,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
                                     if (_getBookingResponse != null)
                                     {
+                                        //Hashtable htseatdata = new Hashtable();
                                         int adultcount = Convert.ToInt32(HttpContext.Session.GetString("adultCount"));
                                         int childcount = Convert.ToInt32(HttpContext.Session.GetString("childCount"));
                                         int infantcount = Convert.ToInt32(HttpContext.Session.GetString("infantCount"));
@@ -922,9 +924,11 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                                     AALeglist.Add(AALeg);
 
                                                 }
+                                                
                                                 //vivek
                                                 foreach (var item1 in _getBookingResponse.Booking.Journeys[i].Segments[j].PaxSeats)
                                                 {
+                                                    //htseatdata.Add(item1.PassengerNumber.ToString(), item1.UnitDesignator);
                                                     returnSeats.unitDesignator += item1.UnitDesignator + ",";
                                                 }
 
@@ -939,6 +943,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                                 AASegmentlist.Add(AASegmentobj);
                                                 breakdown.journeyfareTotals = journeyBaseFareobj;
                                             }
+
                                             AAJourneyobj.segments = AASegmentlist;
                                             AAJourneyList.Add(AAJourneyobj);
 
@@ -1011,7 +1016,19 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                             passkeytypeobj.name = new Name();
                                             passkeytypeobj.passengerTypeCode = item.PassengerTypeInfo.PaxType;
                                             passkeytypeobj.name.first = item.Names[0].FirstName + " " + item.Names[0].LastName;
-                                            passkeytypeobj.MobNumber = "";
+                                            for (int i = 0; i < passeengerlist.Count; i++)
+                                            {
+                                                if (passkeytypeobj.passengerTypeCode == passeengerlist[i].passengertypecode && passkeytypeobj.name.first.ToLower() == passeengerlist[i].first.ToLower() + " " + passeengerlist[i].last.ToLower())
+                                                {
+                                                    passkeytypeobj.MobNumber = passeengerlist[i].mobile;
+                                                    //passkeytypeobj.seats.unitDesignator = htseatdata[passeengerlist[i].passengerkey].ToString();
+                                                    break;
+                                                }
+
+                                            }
+
+                                            
+
                                             passkeylist.Add(passkeytypeobj);
                                             if (item.Infant != null)
                                             {
@@ -1019,7 +1036,16 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                                 passkeytypeobj.name = new Name();
                                                 passkeytypeobj.passengerTypeCode = "INFT";
                                                 passkeytypeobj.name.first = item.Infant.Names[0].FirstName + " " + item.Infant.Names[0].LastName;
-                                                passkeytypeobj.MobNumber = "";
+                                                for (int i = 0; i < passeengerlist.Count; i++)
+                                                {
+                                                    if (passkeytypeobj.passengerTypeCode == passeengerlist[i].passengertypecode && passkeytypeobj.name.first.ToLower() == passeengerlist[i].first.ToLower() + " " + passeengerlist[i].last.ToLower())
+                                                    {
+                                                        passkeytypeobj.MobNumber = passeengerlist[i].mobile;
+                                                        break;
+                                                    }
+
+                                                }
+                                                //passkeytypeobj.MobNumber = "";
                                                 passkeylist.Add(passkeytypeobj);
 
                                             }

@@ -32,7 +32,7 @@ namespace OnionArchitectureAPI.Services.Indigo
             _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].Names[0].LastName = passeengerlist[0].last;
             _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].Names[0].Title = passeengerlist[0].title;
             _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].EmailAddress = contactList.updateContactsRequestData.BookingContactList[0].EmailAddress; //"vinay.ks@gmail.com"; //passeengerlist.Email;
-            _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].HomePhone = "9457000000"; //contactList.updateContactsRequestData.BookingContactList[0].HomePhone; //"9457000000"; //passeengerlist.mobile;
+            _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].HomePhone = contactList.updateContactsRequestData.BookingContactList[0].HomePhone; //"9457000000"; //passeengerlist.mobile;
             _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].AddressLine1 = "A";
             _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].AddressLine2 = "B";
             _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].City = "Delhi";

@@ -46,10 +46,10 @@
             color: #1e568f;
         }
 
-    .active {
+   /*  .active {
         color: #E93329 !important;
         border-bottom: 1px solid #E93329 !important;
-    }
+    } */
 </style>
 
 <script src="~/js/custom.js/roundtripsell.js"></script>
@@ -148,19 +148,23 @@
             $("#tabshow1popup").hide();
         });
         $("#seattabRT1Popup").click(function () {
+            debugger;
             $("#tabshow2popup").hide();
             $("#tabshow1popup").hide();
             $("#tabshowRT1").show();
             $("#tabshowRT2").hide();
             $("#passtab1").hide();
             $("#passtab2").hide();
+            $("#passtab1RT").show();
             $("#popbtnA").hide();
             $("#popbtnA1").hide();
-            $("#popbtnB1").show();
+            $("#popbtnB1").show(); 
             $("#popbtnB").hide();
-            $("#passtab1RT").show();
+           
             $("#passtab2RT").hide();
             $("#popbtnA2").hide();//RightNonstop
+            $("#RightCN1").show();//Rightconnect first
+            $("#rightCN").hide();//Rightconnect first
             $("#LeftCN").hide();//Rightconnect
             $("#seattabRT1Popup").addClass('activeblue');
             $("#seattabRT2Popup").removeClass('activeblue');
@@ -195,62 +199,107 @@
 
 
         $("#btnfocus").click(function () {
-            alert("Do you want select connect seat?");
-            $("#seattab2Popup").click();
+            // confirm("Do you want select connect seat?");
+            // $("#seattab2Popup").click();
+            debugger;
+            var confirmation = confirm("Do you want to select a connecting seat?");
+            
+            if (confirmation==true) {
+                $("#seattab2Popup").click();
+            } else {
+               
+                return false;
+            }
         });
+      
+
+
         $("#btnfocusA1").click(function () {
             debugger;
-            alert("Do you want select Return seat?");
+            //confirm("Do you want select Return seat?");
+            var confirmation = confirm("Do you want to select a connecting seat?");
+
+            if (confirmation == true) {
+                if ($("#seattabRT1Popup").is(":visible")) {
+                    $("#seattabRT1Popup").click();
+                } else if ($("#seattabRT1waypopup").is(":visible")) {
+
+                    $("#seattabRT1waypopup").click();
+                    $("#popbtnA2").show();
+                    $("#popbtnA1").hide();
+
+
+                }
+            } else {
+
+                return false;
+            }
             // $("#seattabRT1Popup").click();
             // $("#seattabRT1waypopup").click();
-            if ($("#seattabRT1Popup").is(":visible")) {
-                $("#seattabRT1Popup").click();
-            } else if ($("#seattabRT1waypopup").is(":visible")) {
-
-                $("#seattabRT1waypopup").click();
-                $("#popbtnA2").show();
-                $("#popbtnA1").hide();
-
-
-            }
+           
 
         });
         $("#btnfocusB1").click(function () {
-            alert("Do you want select connect seat");
-            $("#seattabRT2Popup").click();
+            //confirm("Do you want select connect seat?");
+            //$("#seattabRT2Popup").click();
+            var confirmation = confirm("Do you want to select a connecting seat?");
+
+            if (confirmation == true) {
+                $("#seattabRT2Popup").click();
+            } else {
+
+                return false;
+            }
         });
 
 
 
         $("#Leftbtnfocus").click(function () {
-            alert("Do you want select connect seat");
-            if ($("#seattabRT1Popup").is(":visible")) {
-                $("#seattabRT1Popup").click();
-                $("#RightCN1").show();
-                //$("#popbtnB1").show();
-            } else if ($("#seattabRT2Popup").is(":visible")) {
+            //confirm("Do you want select connect seat?");
+            var confirmation = confirm("Do you want to select a connecting seat?");
 
-                $("#seattabRT2Popup").click();
-                $("#RightCN1").hide();
-                //$("#popbtnA2").show();
+            if (confirmation == true) {
+                if ($("#seattabRT1Popup").is(":visible")) {
+                    $("#seattabRT1Popup").click();
+                    $("#RightCN1").show();
+                    //$("#popbtnB1").show();
+                } else if ($("#seattabRT2Popup").is(":visible")) {
 
-                //$("#popbtnB").show();
+                    $("#seattabRT2Popup").click();
+                    $("#RightCN1").hide();
+                    //$("#popbtnA2").show();
+
+                    //$("#popbtnB").show();
 
 
+                }
+                else if ($("#seattabRT1waypopup").is(":visible")) {
+
+                    $("#seattabRT1waypopup").click();
+
+                }
+            } else {
+
+                return false;
             }
-            else if ($("#seattabRT1waypopup").is(":visible")) {
 
-                $("#seattabRT1waypopup").click();
-
-            }
+           
 
         });
 
         $("#rightbtnfocus").click(function () {
-            alert("Do you want select connect seat");
-            $("#seattabRT2Popup").click();
-            $("#RightCN1").hide();
-            $("#rightCN").show();
+            //confirm("Do you want select connect seat?");
+            var confirmation = confirm("Do you want to select a connecting seat?");
+
+            if (confirmation == true) {
+                $("#seattabRT2Popup").click();
+                $("#RightCN1").hide();
+                $("#rightCN").show();
+            } else {
+
+                return false;
+            }
+           
         });
 
     });
@@ -264,28 +313,28 @@
         var count = $("#passengercountid").val();
         $('.mycheck').on('change', function () {
             if ($('.mycheck:checked').length > count) {
-                alert('You can only ' + count + ' select checkboxes.');
+                alert('you can not select more than' + count + ' seat.');
                 this.checked = false;
             }
         });
 
         $('.mycheck2').on('change', function () {
             if ($('.mycheck2:checked').length > count) {
-                alert('You can only ' + count + ' select checkboxes.');
+                alert('you can not select more than' + count + ' seat.');
                 this.checked = false;
             }
         });
 
         $('.mycheckRT').on('change', function () {
             if ($('.mycheckRT:checked').length > count) {
-                alert('You can only ' + count + ' select checkboxes.');
+                alert('you can not select more than' + count + ' seat.');
                 this.checked = false;
             }
         });
 
         $('.mycheck2RT').on('change', function () {
             if ($('.mycheck2RT:checked').length > count) {
-                alert('You can only ' + count + ' select checkboxes.');
+                alert('you can not select more than' + count + ' seat.');
                 this.checked = false;
             }
         });
@@ -329,7 +378,13 @@
             }
         }
 
-
+        $('#cancelbtn1').click(function () {
+           
+            // Loop through each element and set its text to an empty string
+            for (var i = 0; i < checkedValues.length; i++) {
+                $('#outputDiv_' + i).text('');
+            }
+        });
 
         //Connceting 2 seat Code js
         var checkedValues2 = ['', '', '', '', '', '', '', '', ''];
@@ -370,7 +425,12 @@
                 $('#outputDivConnect_' + i).text(parts[1]);
             }
         }
-
+        $('#cancelbtn2').click(function () {
+            // Loop through each element and set its text to an empty string
+            for (var i = 0; i < checkedValues2.length; i++) {
+                $('#outputDivConnect_' + i).text('');
+            }
+        });
 
         //Return Code seat validation
 
@@ -412,7 +472,12 @@
             }
         }
 
-
+        $('#cancelbtn3').click(function () {
+            // Loop through each element and set its text to an empty string
+            for (var i = 0; i < checkedValuesRT.length; i++) {
+                $('#outputDivRT_' + i).text('');
+            }
+        });
 
         var checkedValues2RT = ['', '', '', '', '', '', '', '', ''];
         $('.mycheck2RT').change(function () {
@@ -453,39 +518,15 @@
             }
         }
 
-
+        $('#cancelbtn4').click(function () {
+            // Loop through each element and set its text to an empty string
+            for (var i = 0; i < checkedValues2RT.length; i++) {
+                $('#outputDivConnectRT_' + i).text('');
+            }
+        });
 
         // End connceting second code
 
-        // Function for handling seat checkboxes
-        // $('input[name="unitKey"]').on('change', function () {
-        //     var selectedIds = [];
-        //     debugger;
-        //     $('input[name="unitKey"]:checked').each(function () {
-        //         selectedIds.push($(this).val());
-        //     });
-        //     var total = 0;
-        //     $('input[name="unitKey"]:checked').each(function () {
-        //         total += parseInt($(this).val());
-        //     });
-        //     document.getElementById("total").value = total.toFixed(2);
-        //     const seatmap1 = document.getElementById("total").value;
-
-        //     var TotalAmmount = document.getElementById("Totalamount").value;
-        //     // localStorage.setItem('seatPayment', seatmap1);
-        //     // localStorage.setItem('basePayment', TotalAmmount);
-
-        //     // var Totalseat1 = parseInt(TotalAmmount) + parseInt(seatmap1);
-        //     // if (seatmap1 != null) {
-        //     //     document.getElementById("seattotal1").innerHTML = Totalseat1;
-        //     // }
-        //     // var TotalSeatPay = parseInt(TotalAmmount) + parseInt(seatmap1) + 100;
-        //     // if (TotalSeatPay != null) {
-        //     //     document.getElementById("TotalSeatPayID").innerHTML = TotalSeatPay;
-        //     // }
-
-        //      localStorage.setItem("selectedIds", JSON.stringify(selectedIds));
-        // });
 
         $('input[name="unitKey"]').on('change', function () {
             var selectedIds = [];

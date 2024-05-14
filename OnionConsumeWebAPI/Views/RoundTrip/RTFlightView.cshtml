@@ -1488,7 +1488,7 @@
                                     <div class="modal-footer fbody-padding">
                                         @*  <button type="submit" id="flighticon" onclick="PostdataReturnTripsell()" class="btn btn-primary">Continue</button> *@
                                         <div class="btm-price-bx d-flex align-items-center">
-                                            <div class="book-price me-3"><label class="mr-1 fw-600">₹</label><span id="popuptatalfare"></span></div>
+                                            <div class="book-price me-3"><label class="mr-1 fw-600">₹</label><span id="popuptatalfare">0</span></div>
                                             <button type="submit" id="flighticon" onclick="PostdataReturnTripsell()" class="btn btncnt btn-lg" data-x-click="flight-item-1">Continue</button>
                                         </div>
                                     </div>
@@ -3519,7 +3519,7 @@
             var Leftdate = $('#leftdate').val();
             var rightdate = $('#rightdate').val();
             if (Leftdate == rightdate) {
-                alert("SameDate");
+                //alert("SameDate");
                 var arrivalMinutes = convertToMinutes(arrivalTime);
                 var returnFlightMinutes = convertToMinutes(returnFlightTime);
 

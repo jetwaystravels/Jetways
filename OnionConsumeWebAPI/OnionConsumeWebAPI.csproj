@@ -194,5 +194,9 @@
     <ProjectReference Include="..\OnionArchitectureAPI\OnionArchitectureAPI.csproj" />
     <ProjectReference Include="..\Utility\Utility.csproj" />
   </ItemGroup>
+	<PropertyGroup>
+		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+	</PropertyGroup>
+
 
 </Project>

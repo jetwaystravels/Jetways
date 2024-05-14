@@ -23,7 +23,7 @@ namespace OnionArchitectureAPI.Services.Indigo
         }
 
         Logs logs = new Logs();
-        public async Task<UpdateContactsResponse> GetUpdateContacts(string Signature, string emailAddress, string companyName,string customerNumber, string _AirLineWay = "")
+        public async Task<UpdateContactsResponse> GetUpdateContacts(string Signature, string emailAddress, string contactnumber, string companyName,string customerNumber, string _AirLineWay = "")
         {
             UpdateContactsRequest _ContactModel6E = new UpdateContactsRequest();
             //  _ContactModel.emailAddress = passengerdetails.Email;
@@ -39,6 +39,7 @@ namespace OnionArchitectureAPI.Services.Indigo
                 _ContactModel6E.updateContactsRequestData.BookingContactList[0].CompanyName = companyName;//"Indigo";
                 _ContactModel6E.updateContactsRequestData.BookingContactList[0].CustomerNumber = customerNumber; //GSTNumber Re_ Assistance required for SG API Integration\GST Logs.zip\GST Logs
             }
+            _ContactModel6E.updateContactsRequestData.BookingContactList[0].HomePhone = contactnumber;
             _getapi  objIndigo = new _getapi();
             UpdateContactsResponse responseAddContact6E = await objIndigo.GetUpdateContacts(_ContactModel6E);
             SetSessionValue("ContactDetails", JsonConvert.SerializeObject(_ContactModel6E));
