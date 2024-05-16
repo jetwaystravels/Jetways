@@ -554,11 +554,13 @@
                                                         var arrivaltime = Model.SimpleAvailibilityaAddResponcelist[j].designator.arrival;
                                                         string arrivaltimestr = arrivaltime.ToString();
                                                         var arrivalfinal = arrivaltimestr.Substring(11, 5);
+                                                        var arrivalfinaldate = arrivaltimestr.Substring(0, 11).Trim();
                                                     }
                                                     <div class="lh-15 text-20 fw-700">@arrivalfinal</div>
                                                     <div class="text-12 lh-15 text-light-1">@Model.SimpleAvailibilityaAddResponcelist[j].designator.destination</div>
 
                                                     <input type="hidden" class="arrival" value="@arrivalfinal" />
+                                                    <input type="hidden" class="arrivaldate" value="@arrivalfinaldate" />
                                                     <input type="hidden" class="destination" value="@Model.SimpleAvailibilityaAddResponcelist[j].designator.destination" />
                                                 </div>
 
@@ -615,93 +617,95 @@
                                                                     <div class="col">
                                                                         <div class="row y-gap-10 items-center">
                                                                             <div class="dst-top">@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.origin<i class="fa fa-angle-double-right" aria-hidden="true"></i>@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.destination</div>
-                                                                            <div class="col-sm-auto">
-                                                                                @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("SG"))
-                                                                                {
+                                                                            <div class="d-flex items-center">
+                                                                                <div class="climg pe-3">
+                                                                                    @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("SG"))
+                                                                                    {
 
-                                                                                    <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
-                                                                                }
-                                                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("6E"))
-                                                                                {
-
-                                                                                    <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
-                                                                                }
-                                                                            </div>
-                                                                            <div class="col">
-                                                                                <div class="row x-gap-20 items-end">
-                                                                                    <div class="col-auto">
-                                                                                        <div class="inside-col">
-                                                                                            @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("SG"))
-                                                                                            {
-                                                                                                CompanyName = "SpiceJet";
-                                                                                            }
-                                                                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("6E"))
-                                                                                            {
-
-                                                                                                CompanyName = "Indigo";
-                                                                                            }
-                                                                                            else
-                                                                                            {
-                                                                                                CompanyName = "Air India Expr...";
-                                                                                            }
-                                                                                            <div class="lh-15 fw-500">@CompanyName</div>
-                                                                                            @{
-                                                                                                SegmentDatacount = Model.SimpleAvailibilityaAddResponcelist[j].segments.Count;
-                                                                                                <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.identifier </div>
-                                                                                            }
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    @{
-                                                                                        departuretimefinal = @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.departureTime.ToString().Substring(11, 5);
-
-                                                                                        arrivalfinal = @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.arrivalTime.ToString().Substring(11, 5);
-
-                                                                                        formattedTime = string.Empty;
-                                                                                        arrivalDate = Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.arrival;
-                                                                                        departureDate = Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.departure;
-                                                                                        diff = (arrivalDate - departureDate);
-                                                                                        timeSpan = TimeSpan.Parse(diff.ToString());
-                                                                                        if ((int)timeSpan.Minutes == 0)
-                                                                                            formattedTime = $"{(int)timeSpan.TotalHours} h";
-                                                                                        else
-                                                                                        {
-                                                                                            if ((int)timeSpan.Hours == 0)
-                                                                                            {
-                                                                                                formattedTime = $"{(int)timeSpan.Minutes} m";
-                                                                                            }
-                                                                                            else
-                                                                                            {
-                                                                                                formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
-                                                                                            }
-                                                                                        }
-
-
+                                                                                        <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
                                                                                     }
-                                                                                    <div class="col-auto">
-                                                                                        <div class="">@departuretimefinal</div>
-                                                                                        <div class="">@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.origin</div>
-                                                                                        <span>Terminal-@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.departureTerminal </span>
-                                                                                    </div>
+                                                                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("6E"))
+                                                                                    {
 
+                                                                                        <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
+                                                                                    }
+                                                                                </div>
+                                                                                <div class="colcrc">
+                                                                                    <div class="row x-gap-20 items-end">
+                                                                                        <div class="col-auto">
+                                                                                            <div class="inside-col">
+                                                                                                @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("SG"))
+                                                                                                {
+                                                                                                    CompanyName = "SpiceJet";
+                                                                                                }
+                                                                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("6E"))
+                                                                                                {
 
-
-                                                                                    <div class="col text-center">
-                                                                                        <div class="px-20 md:px-0">@formattedTime</div>
-                                                                                        <div class="flightLine">
-                                                                                            <div></div>
-                                                                                            <div></div>
+                                                                                                    CompanyName = "Indigo";
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    CompanyName = "Air India Expr...";
+                                                                                                }
+                                                                                                <div class="lh-15 fw-500">@CompanyName</div>
+                                                                                                @{
+                                                                                                    SegmentDatacount = Model.SimpleAvailibilityaAddResponcelist[j].segments.Count;
+                                                                                                    <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.identifier </div>
+                                                                                                }
+                                                                                            </div>
                                                                                         </div>
-                                                                                        <div class="mt-1">&nbsp;</div>
-                                                                                    </div>
+                                                                                        @{
+                                                                                            departuretimefinal = @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.departureTime.ToString().Substring(11, 5);
 
-                                                                                    <div class="col-auto">
-                                                                                        <div class="lh-15 fw-500">@arrivalfinal</div>
-                                                                                        <div class="text-15 lh-15 text-light-1">@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.destination</div>
-                                                                                        <span>Terminal-@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.arrivalTerminal</span>
+                                                                                            arrivalfinal = @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.arrivalTime.ToString().Substring(11, 5);
+
+                                                                                            formattedTime = string.Empty;
+                                                                                            arrivalDate = Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.arrival;
+                                                                                            departureDate = Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.departure;
+                                                                                            diff = (arrivalDate - departureDate);
+                                                                                            timeSpan = TimeSpan.Parse(diff.ToString());
+                                                                                            if ((int)timeSpan.Minutes == 0)
+                                                                                                formattedTime = $"{(int)timeSpan.TotalHours} h";
+                                                                                            else
+                                                                                            {
+                                                                                                if ((int)timeSpan.Hours == 0)
+                                                                                                {
+                                                                                                    formattedTime = $"{(int)timeSpan.Minutes} m";
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
+                                                                                                }
+                                                                                            }
+
+
+                                                                                        }
+                                                                                        <div class="col-auto">
+                                                                                            <div class="">@departuretimefinal</div>
+                                                                                            <div class="">@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.origin</div>
+                                                                                            <span>Terminal-@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.departureTerminal </span>
+                                                                                        </div>
+
+
+
+                                                                                        <div class="col text-center">
+                                                                                            <div class="md:px-0">@formattedTime</div>
+                                                                                            <div class="flightLine">
+                                                                                                <div></div>
+                                                                                                <div></div>
+                                                                                            </div>
+                                                                                            <div class="mt-1">&nbsp;</div>
+                                                                                        </div>
+
+                                                                                        <div class="col-auto">
+                                                                                            <div class="lh-15 fw-500">@arrivalfinal</div>
+                                                                                            <div class="text-15 lh-15 text-light-1">@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.destination</div>
+                                                                                            <span>Terminal-@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.arrivalTerminal</span>
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -968,7 +972,9 @@
                                                         var departuretime = Model.SimpleAvailibilityaAddResponcelistR[j].designator.departure;
                                                         string departuretimestr = departuretime.ToString();
                                                         var departuretimefinal = departuretimestr.Substring(11, 5);
+                                                        var Departfinaldate = departuretimestr.Substring(0, 11).Trim();
                                                     }
+                                                    <input type="hidden" class="arrivaldatereturn" value="@Departfinaldate" />
                                                     <div class="text-20 fw-700">@departuretimefinal</div>
                                                     <div class="text-12">@Model.SimpleAvailibilityaAddResponcelistR[j].designator.origin</div>
 
@@ -1033,11 +1039,13 @@
                                                         var arrivaltime = Model.SimpleAvailibilityaAddResponcelistR[j].designator.arrival;
                                                         string arrivaltimestr = arrivaltime.ToString();
                                                         var arrivalfinal = arrivaltimestr.Substring(11, 5);
+                                                       
                                                     }
                                                     <div class="lh-15 text-20 fw-700">@arrivalfinal</div>
                                                     <div class="text-12 lh-15 text-light-1">@Model.SimpleAvailibilityaAddResponcelistR[j].designator.destination</div>
 
                                                     <input type="hidden" class="arrivalreturn" value="@arrivalfinal" />
+                                                   
                                                     <input type="hidden" class="destinationreturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].designator.destination" />
                                                 </div>
 
@@ -1392,7 +1400,7 @@
                                 </div>
                             </div>
                             <div class="fare-round">
-                                <div class="lh-15 text-12"><span id="arrivalData"></span></div>
+                                <div class="lh-15 text-12"><span id="arrivalData"></span><span class="d-none" id="arrivalDatadate"></span></div>
                                 <div class="text-12 lh-15"><span id="destinationData"></span></div>
                             </div>
                             <div class="fare-round ms-2">
@@ -1426,7 +1434,7 @@
                                 </div>
                             </div>
                             <div class="fare-round">
-                                <div class="lh-15 text-12"><span id="arrivalreturndata"></span></div>
+                                <div class="lh-15 text-12"><span id="arrivalreturndata"></span><span class="d-none" id="arrivalreturndataR"></span></div>
                                 <div class="text-12 lh-15"><span id="destinationreturndata"></span></div>
                             </div>
                             <div class="fare-round ms-2">
@@ -3167,6 +3175,9 @@
 
 
     <script>
+
+      
+
         $(function () {
             var today = new Date();
             var dd = String(today.getDate() + 1).padStart(2, '0');
@@ -3332,7 +3343,7 @@
             var fareTotalsumL = $('.fareTotalsum').eq(uniqueId).val();
             var carrierCodeL = $('.carrierCode').eq(uniqueId).val();
             var identifierL = $('.identifier').eq(uniqueId).val();
-
+            var arrivaldateL = $('.arrivaldate').eq(uniqueId).val();
 
             // Display the retrieved values
             $('#departureData').text(departureTime);
@@ -3340,6 +3351,7 @@
             $('#diffData').text(diffL);
             $('#stopsData').text(stopsL);
             $('#arrivalData').text(arrivalL);
+            $('#arrivalDatadate').text(arrivaldateL);
             $('#destinationData').text(destination);
             $('#fareTotalsumData').text(fareTotalsumL);
             $('#carierCodedata').text(carrierCodeL);
@@ -3373,29 +3385,7 @@
         // Auto-select the first radio button and trigger its change event
         $('input[type=radio][name=dynamicRadio]').first().prop('checked', true).trigger('change');
 
-        // $('input[type=radio][name=dynamicRadio]').change(function () {
-        //     uniqueId = $(this).val();
-        //     var uniqueId = $('input[type=radio][name=dynamicRadio]:checked').val();
-        //     // Retrieve values from hidden input fields
-        //     var departureTime = $('.departuretime').eq(uniqueId).val();
-        //     var origin = $('.origin').eq(uniqueId).val();
-        //     var destination = $('.destination').eq(uniqueId).val();
-        //     var diffL = $('.diff').eq(uniqueId).val();
-        //     var stopsL = $('.stops').eq(uniqueId).val();
-        //     var arrivalL = $('.arrival').eq(uniqueId).val();
-        //     var fareTotalsumL = $('.fareTotalsum').eq(uniqueId).val();
-        //     // Display the retrieved values
-        //     $('#departureData').text(departureTime);
-        //     $('#originData').text(origin);
-        //     $('#diffData').text(diffL);
-        //     $('#stopsData').text(stopsL);
-        //     $('#arrivalData').text(arrivalL);
-        //     $('#destinationData').text(destination);
-        //     $('#fareTotalsumData').text(fareTotalsumL);
-        //     // Store in session Total Fare Left
-        //     localStorage.setItem('TotalfareL', fareTotalsumL);
-        // });
-
+     
 
         // Function to handle return radio button change and display data
         function handleReturnRadioChange() {
@@ -3408,6 +3398,7 @@
             var diffR = $('.diffreturn').eq(uniqueIdR).val();
             var stopsR = $('.stopsreturn').eq(uniqueIdR).val();
             var arrivalR = $('.arrivalreturn').eq(uniqueIdR).val();
+            var arrivaldateR = $('.arrivaldatereturn').eq(uniqueIdR).val();
             var destinationR = $('.destinationreturn').eq(uniqueIdR).val();
             var fareTotalsumR = $('.faretotalsumreturn').eq(uniqueIdR).val();
             var carrierCodeR = $('.carrierCodeR').eq(uniqueIdR).val();
@@ -3419,6 +3410,7 @@
             $('#diffreturndata').text(diffR);
             $('#stopsreturndata').text(stopsR);
             $('#arrivalreturndata').text(arrivalR);
+            $('#arrivalreturndataR').text(arrivaldateR);
             $('#destinationreturndata').text(destinationR);
             $('#faretotalsumreturndata').text(fareTotalsumR);
             $('#carrierreturndataR').text(carrierCodeR);
@@ -3446,6 +3438,7 @@
             var totalL = localStorage.getItem('TotalfareL');
             var TotalfareLR = parseInt(totalL) + parseInt(fareTotalsumR, 10);
             $('#totalfaretotalround').text(TotalfareLR);
+            
         }
 
         // Trigger change event on return radio button selection
@@ -3456,68 +3449,18 @@
 
 
 
-        // $('input[type=radio][name=dynamicRadioR]').first().prop('checked', true).trigger('change');
-        // $('input[type=radio][name=dynamicRadioR]').change(function () {
-        //     debugger;
-
-        //     uniqueIdR = $(this).val();
-
-        //     // Retrieve values from hidden input fields
-        //     var departureTimeR = $('.departurereturn').eq(uniqueIdR).val();
-        //     var originR = $('.originreturn').eq(uniqueIdR).val();
-        //     var diffR = $('.diffreturn').eq(uniqueIdR).val();
-        //     var stopsR = $('.stopsreturn').eq(uniqueIdR).val();
-        //     var arrivalR = $('.arrivalreturn').eq(uniqueIdR).val();
-        //     var destinationR = $('.destinationreturn').eq(uniqueIdR).val();
-        //     var fareTotalsumR = $('.faretotalsumreturn').eq(uniqueIdR).val();
-
-        //     // Display the retrieved values
-        //     $('#departurereturndata').text(departureTimeR);
-        //     $('#originreturndata').text(originR);
-        //     $('#diffreturndata').text(diffR);
-        //     $('#stopsreturndata').text(stopsR);
-        //     $('#arrivalreturndata').text(arrivalR);
-        //     $('#destinationreturndata').text(destinationR);
-        //     $('#faretotalsumreturndata').text(fareTotalsumR);
-
-        //     //Sum Of Total fare left and right
-        //     var totalL = localStorage.getItem('TotalfareL');
-        //     var TotalfareLR = parseInt(totalL) + parseInt(fareTotalsumR, 10);
-        //     $('#totalfaretotalround').text(TotalfareLR);
-        // });
-
-        // function returnTime(){
-
-        //     var from = $('#arrivalData').text();
-        //     var to = $('#arrivalreturndata').text();
-
-        //     // Parse the times using Moment.js
-        //     var fromDate = moment(from, 'hh:mm a');
-        //     var toDate = moment(to, 'hh:mm a');
-
-        //     // Compare the times
-        //     if (fromDate.isAfter(toDate)) {
-        //         alert("Invalid Date Range");
-        //     } else {
-        //         alert("Valid Date Range");
-        //     }
-        //     // Compare the times
-        //     // if (toDate.isBefore(fromDate)) {
-        //     //     alert("Invalid Date Range");
-        //     // } else {
-        //     //     alert("Valid Date Range");
-        //     // }
-
-        // }
-
 
         $('#ReturnButtonId').click(function () {
-
+            
 
             var arrivalTime = $('#arrivalData').text();
-            var returnFlightTime = $('#departurereturndata').text();
+            var returnFlightTime = $('#departurereturndata').text(); 
             var Leftdate = $('#leftdate').val();
             var rightdate = $('#rightdate').val();
+            var LeftdateL = $('#arrivalDatadate').text();
+            var rightdateR = $('#arrivalreturndataR').text();
+            //alert(LeftdateL);
+            //alert(rightdateR);
             if (Leftdate == rightdate) {
                 //alert("SameDate");
                 var arrivalMinutes = convertToMinutes(arrivalTime);
@@ -3533,13 +3476,21 @@
 
                     return false;
                 }
-            }
-            // Get the arrival and return flight times as strings
-            // Get the arrival and return flight times as strings
-            //var arrivalTimeStr = $('#arrivalData').text();
-            //var returnFlightTimeStr = $('#arrivalreturndata').text();
 
-            // returnTime();
+                else if (LeftdateL !== rightdateR) {
+
+                    alert('First Flight Arrive Next Date');
+
+                    return false;
+                }
+               
+
+            }
+
+
+           
+            
+          
 
 
 
@@ -3707,7 +3658,14 @@
             //$('.autodropdownOneWay').hide();
             dropdown.selectedIndex = -1;
         }
-
+        function preback() { window.history.forward(); }
+        setTimeout("preback()", 0);
+        window.onupload = function () { null };
+       
+        //For pop fare total ammount
+        window.onload = function () {
+            localStorage.clear();
+        };
     </script>
 
 </body>

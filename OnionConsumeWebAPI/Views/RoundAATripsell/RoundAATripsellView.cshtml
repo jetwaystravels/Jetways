@@ -420,15 +420,17 @@
 
 
     <script type="text/javascript">
+      
+
         window.onload = function () {
             //alert("test");
             debugger;
             updateCombinedTotalRT();
         };
 
-        var totalfarepopup = localStorage.getItem('basetotalfare');
-        document.getElementById("TotalamountN").innerHTML = totalfarepopup;
-        document.getElementById("Totalamount").value = totalfarepopup;
+        //var totalfarepopup = localStorage.getItem('basetotalfare');
+        //document.getElementById("TotalamountN").innerHTML = totalfarepopup;
+        //document.getElementById("Totalamount").value = totalfarepopup;
 
         $(document).ready(function () {
 
@@ -556,7 +558,31 @@
             //alert("Base" + basePaymentTotal);
         });
 
+        // document.addEventListener("keydown", function (event) {
+        //     // Check if Alt key and Left Arrow key are pressed
+        //     if (event.altKey && event.keyCode === 37) {
+        //         // Prevent the default browser behavior
+        //         event.preventDefault();
+        //         // Optionally, you can add your custom logic here
+        //         alert("Alt + Left Arrow disabled");
+        //     }
+           
+        // });
 
+        document.addEventListener("keydown", function (event) {
+            // Check if Alt key and Left Arrow key are pressed
+            if (event.altKey && event.keyCode === 37) {
+                // Prevent the default browser behavior
+                event.preventDefault();
+                // Optionally, you can add your custom logic here
+                //alert("Alt + Left Arrow disabled");
+            }
+        });
+
+      
+
+
+       
 
     </script>
 
