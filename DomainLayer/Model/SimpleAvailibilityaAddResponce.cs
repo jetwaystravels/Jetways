@@ -50,7 +50,7 @@ namespace DomainLayer.Model
     {
         public string destination { get; set; }
         public string origin { get; set; }
-        public string formatTime { get; set; }
+        public TimeSpan formatTime { get; set; }
 
         public DateTime arrival { get; set; }
         public DateTime departure { get; set; }

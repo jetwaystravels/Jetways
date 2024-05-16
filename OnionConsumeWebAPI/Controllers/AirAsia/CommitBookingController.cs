@@ -24,6 +24,7 @@ using ZXing.Common;
 using ZXing;
 using ZXing.Windows.Compatibility;
 using OnionArchitectureAPI.Services.Barcode;
+using System.Collections;
 
 namespace OnionConsumeWebAPI.Controllers
 {
@@ -110,7 +111,9 @@ namespace OnionConsumeWebAPI.Controllers
                 HttpResponseMessage responcepnrBooking = await client.GetAsync(AppUrlConstant.AirasiaPNRBooking + AirLinePNR);
                 if (responcepnrBooking.IsSuccessStatusCode)
                 {
-                    // string BaseURL1 = "http://localhost:5225/";
+
+                    Hashtable htseatdata = new Hashtable();
+                    Hashtable htmealdata = new Hashtable();
                     var _responcePNRBooking = responcepnrBooking.Content.ReadAsStringAsync().Result;
                     var JsonObjPNRBooking = JsonConvert.DeserializeObject<dynamic>(_responcePNRBooking);
                     ReturnTicketBooking returnTicketBooking = new ReturnTicketBooking();
@@ -154,17 +157,6 @@ namespace OnionConsumeWebAPI.Controllers
                     if (JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices != null)
                     {
                         int chargesCount = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.charges.Count;
-                        //double totalAmount = 0;
-                        //double totalAmountBaggage = 0;
-                        //double totalAmounttax = 0;
-                        //double totalAmounttaxSGST = 0;
-                        //double totalAmounttaxBag = 0;
-                        //double totalAmounttaxSGSTBag = 0;
-                        //double totalMealTax = 0;
-                        //double totalBaggageTax = 0;
-                        //double taxMinusMeal = 0;
-                        //double taxMinusBaggage = 0;
-
 
                         for (int ch = 0; ch < chargesCount; ch++)
                         {
@@ -275,6 +267,8 @@ namespace OnionConsumeWebAPI.Controllers
                         List<SegmentReturn> segmentReturnsList = new List<SegmentReturn>();
                         for (int j = 0; j < SegmentReturnCount; j++)
                         {
+                            returnSeats.unitDesignator = string.Empty;
+                            returnSeats.SSRCode = string.Empty;
                             SegmentReturn segmentReturnobj = new SegmentReturn();
                             segmentReturnobj.isStandby = JsonObjPNRBooking.data.journeys[i].segments[j].isStandby;
                             segmentReturnobj.isHosted = JsonObjPNRBooking.data.journeys[i].segments[j].isHosted;
@@ -294,42 +288,74 @@ namespace OnionConsumeWebAPI.Controllers
                                 PassengerSegment passengerSegmentobj = new PassengerSegment();
                                 passengerSegmentobj.passengerKey = item.Value.passengerKey;
 
-                                passengerSegmentsList.Add(passengerSegmentobj);
+                                //passengerSegmentsList.Add(passengerSegmentobj);
+                                //int seatCount = item.Value.seats.Count;
+                                //int ssrCodeCount = item.Value.ssrs.Count;
+                                //List<ReturnSeats> returnSeatsList = new List<ReturnSeats>();
+                                //for (int q = 0; q < seatCount; q++)
+                                //{
+                                //    ReturnSeats returnSeatsObj = new ReturnSeats();
+                                //    returnSeatsObj.unitDesignator = item.Value.seats[q].unitDesignator;
+                                //    seatnumber = item.Value.seats[q].unitDesignator;
+                                //    if (string.IsNullOrEmpty(seatnumber))
+                                //    {
+                                //        seatnumber = "0000"; // Set to "0000" if not available
+                                //    }
+                                //    else
+                                //    {
+                                //        seatnumber = seatnumber.PadRight(4, '0'); // Right-pad with zeros if less than 4 characters
+                                //    }
+
+                                //    returnSeatsList.Add(returnSeatsObj);
+                                //}
+                                //passengerSegmentobj.seats = returnSeatsList;
+                                //List<SsrReturn> SrrcodereturnsList = new List<SsrReturn>();
+                                //for (int t = 0; t < ssrCodeCount; t++)
+                                //{
+                                //    SsrReturn ssrReturn = new SsrReturn();
+                                //    ssrReturn.ssrCode = item.Value.ssrs[t].ssrCode;
+                                //    var meal = MealImageList.GetAllmeal().Where(x => x.MealCode == ssrReturn.ssrCode).SingleOrDefault();
+                                //    if (meal != null)
+                                //    {
+                                //        ssrReturn.MealName = meal.MealImage;
+                                //    }
+                                //    SrrcodereturnsList.Add(ssrReturn);
+                                //}
+                                //passengerSegmentobj.SsrReturn = SrrcodereturnsList;
+                                var passengersegmentHashCount = JsonObjPNRBooking.data.journeys[i].segments[j].passengerSegment;
+                                var passengerReturnHashCount = ((Newtonsoft.Json.Linq.JContainer)passengersegmentCount).Count;
+
+                                //PassengerSegment passengerSegmentobj = new PassengerSegment();
+                                //passengerSegmentobj.passengerKey = itemSeat.Value.passengerKey;
                                 int seatCount = item.Value.seats.Count;
                                 int ssrCodeCount = item.Value.ssrs.Count;
                                 List<ReturnSeats> returnSeatsList = new List<ReturnSeats>();
                                 for (int q = 0; q < seatCount; q++)
                                 {
                                     ReturnSeats returnSeatsObj = new ReturnSeats();
-
                                     returnSeatsObj.unitDesignator = item.Value.seats[q].unitDesignator;
                                     seatnumber = item.Value.seats[q].unitDesignator;
-                                    if (string.IsNullOrEmpty(seatnumber))
-                                    {
-                                        seatnumber = "0000"; // Set to "0000" if not available
-                                    }
-                                    else
-                                    {
-                                        seatnumber = seatnumber.PadRight(4, '0'); // Right-pad with zeros if less than 4 characters
-                                    }
 
-                                    returnSeatsList.Add(returnSeatsObj);
+                                    // returnSeatsList.Add(returnSeatsObj);
+                                    htseatdata.Add(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination, returnSeatsObj.unitDesignator);
+                                    returnSeats.unitDesignator += returnSeatsObj.unitDesignator + ",";
                                 }
-                                passengerSegmentobj.seats = returnSeatsList;
                                 List<SsrReturn> SrrcodereturnsList = new List<SsrReturn>();
                                 for (int t = 0; t < ssrCodeCount; t++)
                                 {
                                     SsrReturn ssrReturn = new SsrReturn();
                                     ssrReturn.ssrCode = item.Value.ssrs[t].ssrCode;
-                                    var meal = MealImageList.GetAllmeal().Where(x => x.MealCode == ssrReturn.ssrCode).SingleOrDefault();
-                                    if (meal != null)
-                                    {
-                                        ssrReturn.MealName = meal.MealImage;
-                                    }
-                                    SrrcodereturnsList.Add(ssrReturn);
+                                    //var meal = MealImageList.GetAllmeal().Where(x => x.MealCode == ssrReturn.ssrCode).SingleOrDefault();
+                                    //if (meal != null)
+                                    //{
+                                    //    ssrReturn.MealName = meal.MealImage;
+                                    //}
+                                    //SrrcodereturnsList.Add(ssrReturn);
+                                    htmealdata.Add(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination, ssrReturn.ssrCode);
+                                    returnSeats.SSRCode += ssrReturn.ssrCode + ",";
+
                                 }
-                                passengerSegmentobj.SsrReturn = SrrcodereturnsList;
-                                //passengerSegmentsList.Add(passengerSegmentobj);
+
                             }
                             segmentReturnobj.passengerSegment = passengerSegmentsList;
 
@@ -405,8 +431,48 @@ namespace OnionConsumeWebAPI.Controllers
                                 legInfoReturn.departureTime = JsonObjPNRBooking.data.journeys[i].segments[j].legs[n].legInfo.departureTime;
                                 LegReturnobj.legInfo = legInfoReturn;
                                 legReturnsList.Add(LegReturnobj);
+                                //var passengersegmentHashCount = JsonObjPNRBooking.data.journeys[i].segments[j].passengerSegment;
+                                //var passengerReturnHashCount = ((Newtonsoft.Json.Linq.JContainer)passengersegmentCount).Count;
+                                //foreach (var itemSeat in JsonObjPNRBooking.data.journeys[i].segments[j].passengerSegment)
+                                //{
+                                //    PassengerSegment passengerSegmentobj = new PassengerSegment();
+                                //    passengerSegmentobj.passengerKey = itemSeat.Value.passengerKey;
+                                //    int seatCount = itemSeat.Value.seats.Count;
+                                //    int ssrCodeCount = itemSeat.Value.ssrs.Count;
+                                //    List<ReturnSeats> returnSeatsList = new List<ReturnSeats>();
+                                //    for (int q = 0; q < seatCount; q++)
+                                //    {
+                                //        ReturnSeats returnSeatsObj = new ReturnSeats();
+                                //        returnSeatsObj.unitDesignator = itemSeat.Value.seats[q].unitDesignator;
+                                //        seatnumber = itemSeat.Value.seats[q].unitDesignator;
+
+                                //       // returnSeatsList.Add(returnSeatsObj);
+                                //        htseatdata.Add(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].legs[n].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].legs[n].designator.destination, returnSeatsObj.unitDesignator);
+                                //        returnSeats.unitDesignator += returnSeatsObj.unitDesignator + ",";
+                                //    }
+                                //    List<SsrReturn> SrrcodereturnsList = new List<SsrReturn>();
+                                //    for (int t = 0; t < ssrCodeCount; t++)
+                                //    {
+                                //        SsrReturn ssrReturn = new SsrReturn();
+                                //        ssrReturn.ssrCode = itemSeat.Value.ssrs[t].ssrCode;
+                                //        //var meal = MealImageList.GetAllmeal().Where(x => x.MealCode == ssrReturn.ssrCode).SingleOrDefault();
+                                //        //if (meal != null)
+                                //        //{
+                                //        //    ssrReturn.MealName = meal.MealImage;
+                                //        //}
+                                //        //SrrcodereturnsList.Add(ssrReturn);
+                                //        htmealdata.Add(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].legs[n].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].legs[n].designator.destination, ssrReturn.ssrCode);
+                                //        returnSeats.SSRCode += ssrReturn.ssrCode + ",";
+
+                                //    }                              
+
+
+
+                                //}
 
                             }
+                            segmentReturnobj.unitdesignator = returnSeats.unitDesignator;
+                            segmentReturnobj.SSRCode = returnSeats.SSRCode;
                             segmentReturnobj.legs = legReturnsList;
                             segmentReturnsList.Add(segmentReturnobj);
 
@@ -423,7 +489,6 @@ namespace OnionConsumeWebAPI.Controllers
                         ReturnPassengers returnPassengersobj = new ReturnPassengers();
                         returnPassengersobj.passengerKey = items.Value.passengerKey;
                         returnPassengersobj.passengerTypeCode = items.Value.passengerTypeCode;
-                        //  passkeytypeobj.passengertypecount = items.Count;
                         returnPassengersobj.name = new Name();
                         returnPassengersobj.name.first = items.Value.name.first;
                         returnPassengersobj.name.last = items.Value.name.last;
@@ -438,11 +503,11 @@ namespace OnionConsumeWebAPI.Controllers
                         int julianDate = (currentDate - startOfYear).Days + 1;
                         if (string.IsNullOrEmpty(sequencenumber))
                         {
-                            sequencenumber = "0000"; // Set to "0000" if not available
+                            sequencenumber = "0000";
                         }
                         else
                         {
-                            sequencenumber = sequencenumber.PadRight(5, '0'); // Right-pad with zeros if less than 4 characters
+                            sequencenumber = sequencenumber.PadRight(5, '0');
                         }
 
                         BarcodeString = "M" + "1" + items.Value.name.last + "/" + items.Value.name.first + "" + BarcodePNR + "" + orides + carriercode + "" + flightnumber + "" + julianDate + "Y" + sequencenumber + "1" + "00";
@@ -455,27 +520,25 @@ namespace OnionConsumeWebAPI.Controllers
                         {
                             name.first = items.Value.infant.name.first;
                             name.last = items.Value.infant.name.last;
-                            //x.data.passengers["MCFBRFQ-"].infant.fees[0].code
                             infantsObject.name = name;
-                            //julian date
+
                             int Infantyear = 2024;
                             int Infantmonth = 2;
                             int Infantday = 20;
-                            // Calculate the number of days from January 1st to the given date
                             DateTime currentDatee = new DateTime(year, month, day);
                             DateTime startOfYeare = new DateTime(year, 1, 1);
                             int julianDatee = (currentDate - startOfYear).Days + 1;
                             if (string.IsNullOrEmpty(sequencenumber))
                             {
-                                sequencenumber = "0000"; // Set to "0000" if not available
+                                sequencenumber = "0000";
                             }
                             else
                             {
-                                sequencenumber = sequencenumber.PadRight(5, '0'); // Right-pad with zeros if less than 4 characters
+                                sequencenumber = sequencenumber.PadRight(5, '0');
                             }
                             BarcodeInfantString = "M" + "1" + items.Value.infant.name.last + "/" + items.Value.infant.name.first + "" + BarcodePNR + "" + orides + carriercode + "" + flightnumber + "" + julianDatee + "Y" + sequencenumber + "1" + "00";
                             var barcodeInfantImage = BarcodeUtility.BarcodereadUtility(BarcodeInfantString);
-                            returnPassengersobj.barcodestring = barcodeInfantImage;
+                            returnPassengersobj.BarcodeInfantString = barcodeInfantImage;
 
                         }
                         returnPassengersobj.infant = infantsObject;
@@ -492,6 +555,8 @@ namespace OnionConsumeWebAPI.Controllers
                     returnTicketBooking.taxMinusBaggage = taxMinusBaggage;
                     returnTicketBooking.totalMealTax = totalMealTax;
                     returnTicketBooking.totalAmountBaggage = totalAmountBaggage;
+                    returnTicketBooking.Seatdata = htseatdata;
+                    returnTicketBooking.Mealdata = htmealdata;
                     _AirLinePNRTicket.AirlinePNR.Add(returnTicketBooking);
 
 
@@ -569,8 +634,6 @@ namespace OnionConsumeWebAPI.Controllers
                     tb_PassengerTotalobj.Status = "0";
                     tb_PassengerTotalobj.CreatedDate = DateTime.Now;
                     tb_PassengerTotalobj.ModifiedDate = DateTime.Now;
-
-
                     var passangerCount = JsonObjPNRBooking.data.passengers;
                     int PassengerDataCount = ((Newtonsoft.Json.Linq.JContainer)passangerCount).Count;
                     List<tb_PassengerDetails> tb_PassengerDetailsList = new List<tb_PassengerDetails>();
@@ -592,9 +655,6 @@ namespace OnionConsumeWebAPI.Controllers
                         tb_Passengerobj.Status = "0";
                         tb_PassengerDetailsList.Add(tb_Passengerobj);
                     }
-
-
-
                     int JourneysCount = JsonObjPNRBooking.data.journeys.Count;
                     List<tb_journeys> tb_JourneysList = new List<tb_journeys>();
                     for (int i = 0; i < JourneysCount; i++)
@@ -616,7 +676,6 @@ namespace OnionConsumeWebAPI.Controllers
                         tb_JourneysObj.Status = "0";
                         tb_JourneysList.Add(tb_JourneysObj);
                     }
-
                     int SegmentReturnCountt = JsonObjPNRBooking.data.journeys[0].segments.Count;
                     List<tb_Segments> segmentReturnsListt = new List<tb_Segments>();
                     for (int j = 0; j < SegmentReturnCountt; j++)
