@@ -420,13 +420,9 @@
 
 
     <script type="text/javascript">
-      
 
-        window.onload = function () {
-            //alert("test");
-            debugger;
-            updateCombinedTotalRT();
-        };
+
+     
 
         //var totalfarepopup = localStorage.getItem('basetotalfare');
         //document.getElementById("TotalamountN").innerHTML = totalfarepopup;
@@ -434,23 +430,42 @@
 
         $(document).ready(function () {
 
+            // $('#toggleButton').on('click', function () {
+            //     $('#content').toggleClass('hidden');
+            // });
+            // $('#toggleButton2').on('click', function () {
+            //     $('#content2').toggleClass('hidden');
+            // });
+            // $('#toggleButton3').on('click', function () {
+            //     $('#content3').toggleClass('hidden');
+            // });
+            // $('#toggleButton4').on('click', function () {
+            //     $('#content4').toggleClass('hidden');
+            // });
+            // $('#toggleButton5').on('click', function () {
+            //     $('#content5').toggleClass('hidden');
+            // });
+            // $('#toggleButton6').on('click', function () {
+            //     $('#content6').toggleClass('hidden');
+            // });
             $('#toggleButton').on('click', function () {
-                $('#content').toggleClass('hidden');
-            });
-            $('#toggleButton2').on('click', function () {
-                $('#content2').toggleClass('hidden');
-            });
-            $('#toggleButton3').on('click', function () {
-                $('#content3').toggleClass('hidden');
-            });
-            $('#toggleButton4').on('click', function () {
-                $('#content4').toggleClass('hidden');
-            });
-            $('#toggleButton5').on('click', function () {
-                $('#content5').toggleClass('hidden');
-            });
-            $('#toggleButton6').on('click', function () {
-                $('#content6').toggleClass('hidden');
+                //$('#content').toggleClass('hidden');
+                $('#content').show();
+                $('#content2').hide();
+                var toggleButton2 = document.getElementById("toggleButton2");
+                toggleButton2.style.opacity = "0.2";
+                var toggleButton3To = document.getElementById("toggleButton3");
+                toggleButton3To.style.opacity = "0.2";
+                var content3To = document.getElementById("content3");
+                content3To.style.display = "none";
+                var SGtoggleButton4To = document.getElementById("toggleButton4");
+                SGtoggleButton4To.style.opacity = "0.2";
+                var SGcontent4To = document.getElementById("content4");
+                SGcontent4To.style.display = "none";
+
+                var GSTContinuebtn1 = document.querySelector("#Continuebtn");
+                GSTContinuebtn1.disabled = true;
+                GSTContinuebtn1.style.opacity = "0.2";
             });
 
         });
@@ -566,7 +581,7 @@
         //         // Optionally, you can add your custom logic here
         //         alert("Alt + Left Arrow disabled");
         //     }
-           
+
         // });
 
         document.addEventListener("keydown", function (event) {
@@ -579,10 +594,21 @@
             }
         });
 
-      
+        window.onload = function () {
+            updateCombinedTotalRT();
+            // var currentPageUrl = window.location.href;
+            // var targetPageUrl = 'http://localhost:5201/RoundTrip/RTFlightView'; // Replace with your actual about page URL
 
+            // if (currentPageUrl === targetPageUrl) {
+            //     window.history.pushState(null, null, window.location.href);
+            //     window.onpopstate = function (event) {
+            //         event.preventDefault();
+            //         window.history.pushState(null, null, window.location.href);
+            //     };
+            // }
+        }
 
-       
+        
 
     </script>
 

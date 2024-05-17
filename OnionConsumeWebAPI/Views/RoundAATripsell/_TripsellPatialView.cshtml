@@ -186,11 +186,18 @@
             $("#tabContentRT" + tabId).addClass("active");
             $(this).addClass("active");
         });
+
+
+        $("#tabBtnRT3").addClass("active");
         $("#tabBtnRT4").click(function () {
             $("#tabContentRT3").hide();
             $("#tabContentRT4").show();
+            $("#tabBtnRT4").addClass("active");
+             $("#tabBtnRT3").removeClass("active");
         });
         $("#tabBtnRT3").click(function () {
+            $("#tabBtnRT3").addClass("active");
+            $("#tabBtnRT4").removeClass("active");
             $("#tabContentRT3").show();
         });
 
@@ -556,8 +563,8 @@
                                                         <ul>
                                                             <li>1: CABIN BAG: 7 k.g</li>
                                                             <li>2: CHECK-IN: 25 k.g  (1 piece)</li>
-                                                            <li>3: CANCELLATION: 3500 :-  (upto 2 hrs prior from departure)</li>
-                                                            <li>4: DATE CHANGE: 3000 :-  FREE  (upto 2 hrs prior from departure)</li>
+                                                            <li>3: CANCELLATION: 500:- Before 3days upto 2 hrs from departure</li>
+                                                            <li>4: DATE CHANGE: 500:- Before 3days upto 2 hrs from departure</li>
                                                             <li>5: SEAT : (Free seats)</li>
                                                             <li>6: MEAL : (Free meal) per person</li>
                                                             @* <li>7: Category Class : (Business)</li>*@
@@ -574,10 +581,10 @@
                                                     <span class="tooltiptext">
                                                         <ul>
                                                             <li>1: CABIN BAG: 7 k.g</li>
-                                                            <li>2: CHECK-IN: 25 k.g  (1 piece)</li>
-                                                            <li>3: CANCELLATION: 3500 :-  (upto 2 hrs prior from departure)</li>
-                                                            <li>4: DATE CHANGE: 3000 :-  FREE  (upto 2 hrs prior from departure)</li>
-                                                            <li>5: SEAT : (Free seats)</li>
+                                                            <li>2: CHECK-IN: 15 k.g  (1 piece)</li>
+                                                            <li>3: CANCELLATION: 3500 :-  (3 days upto 2 hrs prior from departure)</li>
+                                                            <li>4: DATE CHANGE: 3000:- Before 3days upto 2 hrs from departure</li>
+                                                            <li>5: SEAT : Free seats</li>
                                                             <li>6: MEAL : (Free meal) per person</li>
                                                             @* <li>7: Category Class : (Business)</li>*@
                                                         </ul>
@@ -593,11 +600,30 @@
                                                     <span class="tooltiptext">
                                                         <ul>
                                                             <li>1: CABIN BAG: 7 k.g</li>
-                                                            <li>2: CHECK-IN: 25 k.g  (1 piece)</li>
-                                                            <li>3: CANCELLATION: 3500 :-  (upto 2 hrs prior from departure)</li>
-                                                            <li>4: DATE CHANGE: 3000 :-  FREE  (upto 2 hrs prior from departure)</li>
-                                                            <li>5: SEAT : (Free seats)</li>
-                                                            <li>6: MEAL : (Free meal) per person</li>
+                                                            <li>2: CHECK-IN: 15 k.g  (1 piece)</li>
+                                                            <li>3: CANCELLATION: 3500 :-  (3 days upto 2 hrs prior from departure)</li>
+                                                            <li>4: DATE CHANGE: 3000:- Before 3days upto 2 hrs from departure</li>
+                                                            <li>5: SEAT : Chargable</li>
+                                                            <li>6: MEAL : Chargable</li>
+                                                            @* <li>7: Category Class : (Business)</li>*@
+                                                        </ul>
+                                                    </span>
+                                                </span>
+
+                                            }
+                                            else if (item.segments[i].fares[f].productClass.Equals("A"))
+                                            {
+                                                //<div class="text-13 mt-1">Economy: @Faretype<b>Xpress Bizz</b></div>
+                                                <span class="tooltipF">
+                                                    Economy:  @Faretype<b>Family Fare</b>
+                                                    <span class="tooltiptext">
+                                                        <ul>
+                                                            <li>1: CABIN BAG: 7 k.g</li>
+                                                            <li>2: CHECK-IN: 15 k.g  (1 piece)</li>
+                                                            <li>3: CANCELLATION: 3500 (3 hrs before departure</li>
+                                                            <li>4: DATE CHANGE: 3200 (3 hrs before departure</li>
+                                                            <li>5: SEAT : Chargable</li>
+                                                            <li>6: MEAL : Chargable</li>
                                                             @* <li>7: Category Class : (Business)</li>*@
                                                         </ul>
                                                     </span>

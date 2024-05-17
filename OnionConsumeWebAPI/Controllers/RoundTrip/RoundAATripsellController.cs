@@ -164,7 +164,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
             string Passenegrtext = HttpContext.Session.GetString("Mainpassengervm");
             string Seattext = HttpContext.Session.GetString("Mainseatmapvm");
             string Mealtext = HttpContext.Session.GetString("Mainmealvm");
-             string passengerNamedetails = HttpContext.Session.GetString("PassengerNameDetails");
+            string passengerNamedetails = HttpContext.Session.GetString("PassengerNameDetails");
 
             #region 2
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Mainpassengervm")))
@@ -227,340 +227,370 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
         public async Task<IActionResult> PostReturnContactData(ContactModel contactobject)
         {
-            string tokenview = HttpContext.Session.GetString("AirasiaTokan");
 
-            if (!string.IsNullOrEmpty(tokenview))
+            string SelectedAirlinedata = HttpContext.Session.GetString("SelectedAirlineName");
+            string[] dataArray = JsonConvert.DeserializeObject<string[]>(SelectedAirlinedata);
+            for (int i = 0; i < dataArray.Length; i++)
             {
-                token = tokenview.Replace(@"""", string.Empty);
-                using (HttpClient client = new HttpClient())
+
+                string tokenview = HttpContext.Session.GetString("AirasiaTokan");
+
+                if (!string.IsNullOrEmpty(tokenview) && dataArray[i].ToLower() == "airasia")
                 {
-                    ContactModel _ContactModel = new ContactModel();
+                    token = tokenview.Replace(@"""", string.Empty);
+                    using (HttpClient client = new HttpClient())
+                    {
+                        ContactModel _ContactModel = new ContactModel();
+                        //  _ContactModel.emailAddress = passengerdetails.Email;
+                        _ContactModel.emailAddress = contactobject.emailAddress;
+                        _Phonenumber Phonenumber = new _Phonenumber();
+                        List<_Phonenumber> Phonenumberlist = new List<_Phonenumber>();
+                        Phonenumber.type = "Home";
+                        Phonenumber.number = contactobject.number;
+                        //Phonenumber.number = passengerdetails.mobile;
+                        Phonenumberlist.Add(Phonenumber);
+                        _Phonenumber Phonenumber1 = new _Phonenumber();
+                        Phonenumber1.type = "Other";
+                        Phonenumber1.number = contactobject.number;
+                        Phonenumberlist.Add(Phonenumber1);
+                        foreach (var item in Phonenumberlist)
+                        {
+                            _ContactModel.phoneNumbers = Phonenumberlist;
+                        }
+                        _ContactModel.contactTypeCode = "P";
+
+                        _Address Address = new _Address();
+                        Address.lineOne = "123 Main Street";
+                        Address.countryCode = "IN";
+                        Address.provinceState = "TN";
+                        Address.city = "Chennai";
+                        Address.postalCode = "600028";
+                        _ContactModel.address = Address;
+
+                        _Name Name = new _Name();
+                        Name.first = "Vadivel";
+                        Name.middle = "raja";
+                        Name.last = "VR";
+                        Name.title = "MR";
+                        _ContactModel.name = Name;
+
+                        var jsonContactRequest = JsonConvert.SerializeObject(_ContactModel, Formatting.Indented);
+                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                        HttpResponseMessage responseAddContact = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v1/booking/contacts", _ContactModel);
+                        if (responseAddContact.IsSuccessStatusCode)
+                        {
+                            var _responseAddContact = responseAddContact.Content.ReadAsStringAsync().Result;
+                            Logs logs1 = new Logs();
+                            logs1.WriteLogsR("Request: " + JsonConvert.SerializeObject(_ContactModel) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v1/booking/contacts" + "\n Response: " + JsonConvert.SerializeObject(_responseAddContact), "Update Contacts", "AirAsiaRT");
+
+                            var JsonObjAddContact = JsonConvert.DeserializeObject<dynamic>(_responseAddContact);
+                        }
+
+                    }
+                }
+
+                //SPICE JEt Return Contact APi Request
+                Logs logs = new Logs();
+                string Signature = HttpContext.Session.GetString("SpicejetSignautre");
+
+                if (!string.IsNullOrEmpty(Signature) && dataArray[i].ToLower() == "spicejet")
+                {
+                    Signature = Signature.Replace(@"""", string.Empty);
+                    UpdateContactsRequest _ContactModelSG = new UpdateContactsRequest();
                     //  _ContactModel.emailAddress = passengerdetails.Email;
-                    _ContactModel.emailAddress = contactobject.emailAddress;
-                    _Phonenumber Phonenumber = new _Phonenumber();
-                    List<_Phonenumber> Phonenumberlist = new List<_Phonenumber>();
-                    Phonenumber.type = "Home";
-                    Phonenumber.number = contactobject.number;
-                    //Phonenumber.number = passengerdetails.mobile;
-                    Phonenumberlist.Add(Phonenumber);
-                    _Phonenumber Phonenumber1 = new _Phonenumber();
-                    Phonenumber1.type = "Other";
-                    Phonenumber1.number = contactobject.number;
-                    Phonenumberlist.Add(Phonenumber1);
-                    foreach (var item in Phonenumberlist)
-                    {
-                        _ContactModel.phoneNumbers = Phonenumberlist;
-                    }
-                    _ContactModel.contactTypeCode = "P";
+                    _ContactModelSG.updateContactsRequestData = new UpdateContactsRequestData();
+                    _ContactModelSG.Signature = Signature;
+                    _ContactModelSG.ContractVersion = 420;
+                    _ContactModelSG.updateContactsRequestData.BookingContactList = new BookingContact[1];
+                    _ContactModelSG.updateContactsRequestData.BookingContactList[0] = new BookingContact();
+                    _ContactModelSG.updateContactsRequestData.BookingContactList[0].EmailAddress = contactobject.emailAddress;
+                    //if (contactobject.customerNumber != null)
+                    //{
+                        _ContactModelSG.updateContactsRequestData.BookingContactList[0].TypeCode = "G";
+                    _ContactModelSG.updateContactsRequestData.BookingContactList[0].CompanyName = "Spicejet";// contactobject.companyName;//"Indigo";
+                    _ContactModelSG.updateContactsRequestData.BookingContactList[0].CustomerNumber = "22AAAAA0000A1Z2";// contactobject.customerNumber; //GSTNumber Re_ Assistance required for SG API Integration\GST Logs.zip\GST Logs
+                    //}
+                    SpiceJetApiController objSpiceJet = new SpiceJetApiController();
+                    UpdateContactsResponse responseAddContactSG = await objSpiceJet.GetUpdateContactsAsync(_ContactModelSG);
+                    HttpContext.Session.SetString("ContactDetails", JsonConvert.SerializeObject(_ContactModelSG));
+                    string Str1 = JsonConvert.SerializeObject(responseAddContactSG);
 
-                    _Address Address = new _Address();
-                    Address.lineOne = "123 Main Street";
-                    Address.countryCode = "IN";
-                    Address.provinceState = "TN";
-                    Address.city = "Chennai";
-                    Address.postalCode = "600028";
-                    _ContactModel.address = Address;
-
-                    _Name Name = new _Name();
-                    Name.first = "Vadivel";
-                    Name.middle = "raja";
-                    Name.last = "VR";
-                    Name.title = "MR";
-                    _ContactModel.name = Name;
-
-                    var jsonContactRequest = JsonConvert.SerializeObject(_ContactModel, Formatting.Indented);
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                    HttpResponseMessage responseAddContact = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v1/booking/contacts", _ContactModel);
-                    if (responseAddContact.IsSuccessStatusCode)
-                    {
-                        var _responseAddContact = responseAddContact.Content.ReadAsStringAsync().Result;
-                        Logs logs1 = new Logs();
-                        logs1.WriteLogsR("Request: " + JsonConvert.SerializeObject(_ContactModel) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v1/booking/contacts" + "\n Response: " + JsonConvert.SerializeObject(_responseAddContact), "Update Contacts", "AirAsiaRT");
-
-                        var JsonObjAddContact = JsonConvert.DeserializeObject<dynamic>(_responseAddContact);
-                    }
-
+                    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_ContactModelSG) + "\n\n Response: " + JsonConvert.SerializeObject(responseAddContactSG), "UpdateContact", "SpiceJetRT");
                 }
-            }
 
-            //SPICE JEt Return Contact APi Request
-            Logs logs = new Logs();
-            string Signature = HttpContext.Session.GetString("SpicejetSignautre");
-
-            if (!string.IsNullOrEmpty(Signature))
-            {
-                Signature = Signature.Replace(@"""", string.Empty);
-                UpdateContactsRequest _ContactModelSG = new UpdateContactsRequest();
-                //  _ContactModel.emailAddress = passengerdetails.Email;
-                _ContactModelSG.updateContactsRequestData = new UpdateContactsRequestData();
-                _ContactModelSG.Signature = Signature;
-                _ContactModelSG.ContractVersion = 420;
-                _ContactModelSG.updateContactsRequestData.BookingContactList = new BookingContact[1];
-                _ContactModelSG.updateContactsRequestData.BookingContactList[0] = new BookingContact();
-                _ContactModelSG.updateContactsRequestData.BookingContactList[0].EmailAddress = contactobject.emailAddress;
-                if (contactobject.customerNumber != null)
+                if (i == 0)
                 {
-                    _ContactModelSG.updateContactsRequestData.BookingContactList[0].TypeCode = "G";
-                    _ContactModelSG.updateContactsRequestData.BookingContactList[0].CompanyName = contactobject.companyName;//"Indigo";
-                    _ContactModelSG.updateContactsRequestData.BookingContactList[0].CustomerNumber = contactobject.customerNumber; //GSTNumber Re_ Assistance required for SG API Integration\GST Logs.zip\GST Logs
+                    Signature = HttpContext.Session.GetString("IndigoSignature");
                 }
-                SpiceJetApiController objSpiceJet = new SpiceJetApiController();
-                UpdateContactsResponse responseAddContactSG = await objSpiceJet.GetUpdateContactsAsync(_ContactModelSG);
-                HttpContext.Session.SetString("ContactDetails", JsonConvert.SerializeObject(_ContactModelSG));
-                string Str1 = JsonConvert.SerializeObject(responseAddContactSG);
+                else
+                {
+                    Signature = HttpContext.Session.GetString("IndigoSignatureR");
+                }
+                if (!string.IsNullOrEmpty(Signature) && dataArray[i].ToLower() == "indigo")
+                {
+                    Signature = Signature.Replace(@"""", string.Empty);
+                    _updateContact obj = new _updateContact(httpContextAccessorInstance);
+                    IndigoBookingManager_.UpdateContactsResponse _responseAddContact6E = await obj.GetUpdateContacts(Signature, contactobject.emailAddress, contactobject.number, "", "");
+                    string Str1 = JsonConvert.SerializeObject(_responseAddContact6E);
+                }
 
-                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_ContactModelSG) + "\n\n Response: " + JsonConvert.SerializeObject(responseAddContactSG), "UpdateContact", "SpiceJetRT");
             }
 
-            Signature = HttpContext.Session.GetString("IndigoSignature");
-            if (!string.IsNullOrEmpty(Signature))
-            {
-                Signature = Signature.Replace(@"""", string.Empty);
-                _updateContact obj = new _updateContact(httpContextAccessorInstance);
-                IndigoBookingManager_.UpdateContactsResponse _responseAddContact6E = await obj.GetUpdateContacts(Signature, contactobject.emailAddress, contactobject.number, "", "");
-                string Str1 = JsonConvert.SerializeObject(_responseAddContact6E);
-            }
             return RedirectToAction("RoundAATripsellView", "RoundAATripsell");
         }
         [HttpPost]
         public async Task<IActionResult> PostReturnTravllerData(List<passkeytype> passengerdetails, List<Infanttype> infanttype)
         {
-            string tokenview = HttpContext.Session.GetString("AirasiaTokan");
-
-
-            using (HttpClient client = new HttpClient())
+            SSRAvailabiltyResponceModel Mealslist = null;
+            SeatMapResponceModel Seatmaplist = null;
+            ViewModel vm = new ViewModel();
+            string SelectedAirlinedata = HttpContext.Session.GetString("SelectedAirlineName");
+            string[] dataArray = JsonConvert.DeserializeObject<string[]>(SelectedAirlinedata);
+            for (int i1 = 0; i1 < dataArray.Length; i1++)
             {
-                if (!string.IsNullOrEmpty(tokenview))
+                string tokenview = HttpContext.Session.GetString("AirasiaTokan");
+
+
+                using (HttpClient client = new HttpClient())
                 {
-                    token = tokenview.Replace(@"""", string.Empty);
-                    PassengersModel _PassengersModel = new PassengersModel();
-                    for (int i = 0; i < passengerdetails.Count; i++)
+                    if (!string.IsNullOrEmpty(tokenview) && dataArray[i1].ToLower() == "airasia")
                     {
-                        if (passengerdetails[i].passengertypecode == "INFT")
-                            continue;
-                        if (passengerdetails[i].passengertypecode != null)
+                        token = tokenview.Replace(@"""", string.Empty);
+                        PassengersModel _PassengersModel = new PassengersModel();
+                        for (int i = 0; i < passengerdetails.Count; i++)
                         {
-                            Name name = new Name();
-                            _Info Info = new _Info();
-                            if (passengerdetails[i].title == "Mr")
+                            if (passengerdetails[i].passengertypecode == "INFT")
+                                continue;
+                            if (passengerdetails[i].passengertypecode != null)
                             {
-                                Info.gender = "Male";
-                            }
-                            else
-                            {
-                                Info.gender = "Female";
-                            }
+                                Name name = new Name();
+                                _Info Info = new _Info();
+                                if (passengerdetails[i].title == "Mr")
+                                {
+                                    Info.gender = "Male";
+                                }
+                                else
+                                {
+                                    Info.gender = "Female";
+                                }
 
-                            name.title = passengerdetails[i].title;
-                            name.first = passengerdetails[i].first;
-                            name.last = passengerdetails[i].last;
-                            name.middle = "";
-                            Info.dateOfBirth = "";
-                            Info.nationality = "IN";
-                            Info.residentCountry = "IN";
-                            _PassengersModel.name = name;
-                            _PassengersModel.info = Info;
-                            var jsonPassengers = JsonConvert.SerializeObject(_PassengersModel, Formatting.Indented);
-                            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                            HttpResponseMessage responsePassengers = await client.PutAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v3/booking/passengers/" + passengerdetails[i].passengerkey, _PassengersModel);
-                            if (responsePassengers.IsSuccessStatusCode)
-                            {
-                                var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
-                                Logs logs = new Logs();
-                                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_PassengersModel) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v3/booking/passengers/" + passengerdetails[i].passengerkey + "\n Response: " + JsonConvert.SerializeObject(_responsePassengers), "Update passenger", "AirAsiaRT");
-
-                                var JsonObjPassengers = JsonConvert.DeserializeObject<dynamic>(_responsePassengers);
-                            }
-                        }
-                    }
-
-                    int infantcount = 0;
-                    for (int k = 0; k < passengerdetails.Count; k++)
-                    {
-                        if (passengerdetails[k].passengertypecode == "INFT")
-                            infantcount++;
-
-                    }
-
-                    AddInFantModel _PassengersModel1 = new AddInFantModel();
-                    for (int i = 0; i < passengerdetails.Count; i++)
-                    {
-                        if (passengerdetails[i].passengertypecode == "ADT" || passengerdetails[i].passengertypecode == "CHD")
-                            continue;
-                        if (passengerdetails[i].passengertypecode == "INFT")
-                        {
-                            for (int k = 0; k < infantcount; k++)
-                            {
-
-
-                                _PassengersModel1.nationality = "IN";
-                                _PassengersModel1.dateOfBirth = "2023-10-01";
-                                _PassengersModel1.residentCountry = "IN";
-                                _PassengersModel1.gender = "Male";
-
-                                InfantName nameINF = new InfantName();
-                                nameINF.first = passengerdetails[i].first;
-                                nameINF.middle = "";
-                                nameINF.last = passengerdetails[i].last;
-                                nameINF.title = "Mr";
-                                nameINF.suffix = "";
-                                _PassengersModel1.name = nameINF;
-
-
-                                var jsonPassengers = JsonConvert.SerializeObject(_PassengersModel1, Formatting.Indented);
+                                name.title = passengerdetails[i].title;
+                                name.first = passengerdetails[i].first;
+                                name.last = passengerdetails[i].last;
+                                name.middle = "";
+                                Info.dateOfBirth = "";
+                                Info.nationality = "IN";
+                                Info.residentCountry = "IN";
+                                _PassengersModel.name = name;
+                                _PassengersModel.info = Info;
+                                var jsonPassengers = JsonConvert.SerializeObject(_PassengersModel, Formatting.Indented);
                                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                                HttpResponseMessage responsePassengers = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v3/booking/passengers/" + passengerdetails[k].passengerkey + "/infant", _PassengersModel1);
+                                HttpResponseMessage responsePassengers = await client.PutAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v3/booking/passengers/" + passengerdetails[i].passengerkey, _PassengersModel);
                                 if (responsePassengers.IsSuccessStatusCode)
                                 {
                                     var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
                                     Logs logs = new Logs();
-                                    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_PassengersModel1) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v3/booking/passengers/" + passengerdetails[k].passengerkey + "/infant" + "\n Response: " + JsonConvert.SerializeObject(_responsePassengers), "Update passenger_Infant", "AirAsiaRT");
+                                    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_PassengersModel) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v3/booking/passengers/" + passengerdetails[i].passengerkey + "\n Response: " + JsonConvert.SerializeObject(_responsePassengers), "Update passenger", "AirAsiaRT");
 
                                     var JsonObjPassengers = JsonConvert.DeserializeObject<dynamic>(_responsePassengers);
                                 }
-                                i++;
                             }
-
-                            // STRAT Get INFO
-                            // var jsonPassengers = JsonConvert.SerializeObject(_PassengersModel1, Formatting.Indented);
-                            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                            HttpResponseMessage responceGetBooking = await client.GetAsync(AppUrlConstant.URLAirasia + "/api/nsk/v1/booking");
-                            if (responceGetBooking.IsSuccessStatusCode)
-                            {
-                                var _responceGetBooking = responceGetBooking.Content.ReadAsStringAsync().Result;
-                                Logs logs = new Logs();
-                                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject("GetBookingRequest") + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v1/booking" + "\n Response: " + JsonConvert.SerializeObject(_responceGetBooking), "GetBooking", "AirAsiaRT");
-
-                                var JsonObjGetBooking = JsonConvert.DeserializeObject<dynamic>(_responceGetBooking);
-                            }
-                            //END
                         }
+
+                        int infantcount = 0;
+                        for (int k = 0; k < passengerdetails.Count; k++)
+                        {
+                            if (passengerdetails[k].passengertypecode == "INFT")
+                                infantcount++;
+
+                        }
+
+                        AddInFantModel _PassengersModel1 = new AddInFantModel();
+                        for (int i = 0; i < passengerdetails.Count; i++)
+                        {
+                            if (passengerdetails[i].passengertypecode == "ADT" || passengerdetails[i].passengertypecode == "CHD")
+                                continue;
+                            if (passengerdetails[i].passengertypecode == "INFT")
+                            {
+                                for (int k = 0; k < infantcount; k++)
+                                {
+
+
+                                    _PassengersModel1.nationality = "IN";
+                                    _PassengersModel1.dateOfBirth = "2023-10-01";
+                                    _PassengersModel1.residentCountry = "IN";
+                                    _PassengersModel1.gender = "Male";
+
+                                    InfantName nameINF = new InfantName();
+                                    nameINF.first = passengerdetails[i].first;
+                                    nameINF.middle = "";
+                                    nameINF.last = passengerdetails[i].last;
+                                    nameINF.title = "Mr";
+                                    nameINF.suffix = "";
+                                    _PassengersModel1.name = nameINF;
+
+
+                                    var jsonPassengers = JsonConvert.SerializeObject(_PassengersModel1, Formatting.Indented);
+                                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                    HttpResponseMessage responsePassengers = await client.PostAsJsonAsync(AppUrlConstant.URLAirasia + "/api/nsk/v3/booking/passengers/" + passengerdetails[k].passengerkey + "/infant", _PassengersModel1);
+                                    if (responsePassengers.IsSuccessStatusCode)
+                                    {
+                                        var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
+                                        Logs logs = new Logs();
+                                        logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_PassengersModel1) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v3/booking/passengers/" + passengerdetails[k].passengerkey + "/infant" + "\n Response: " + JsonConvert.SerializeObject(_responsePassengers), "Update passenger_Infant", "AirAsiaRT");
+
+                                        var JsonObjPassengers = JsonConvert.DeserializeObject<dynamic>(_responsePassengers);
+                                    }
+                                    i++;
+                                }
+
+                                // STRAT Get INFO
+                                // var jsonPassengers = JsonConvert.SerializeObject(_PassengersModel1, Formatting.Indented);
+                                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                HttpResponseMessage responceGetBooking = await client.GetAsync(AppUrlConstant.URLAirasia + "/api/nsk/v1/booking");
+                                if (responceGetBooking.IsSuccessStatusCode)
+                                {
+                                    var _responceGetBooking = responceGetBooking.Content.ReadAsStringAsync().Result;
+                                    Logs logs = new Logs();
+                                    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject("GetBookingRequest") + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v1/booking" + "\n Response: " + JsonConvert.SerializeObject(_responceGetBooking), "GetBooking", "AirAsiaRT");
+
+                                    var JsonObjGetBooking = JsonConvert.DeserializeObject<dynamic>(_responceGetBooking);
+                                }
+                                //END
+                            }
+                        }
+
+
+                        //SpiceJet Passenger DEtails Round Trip Request API
+                        HttpContext.Session.SetString("PassengerNameDetails", JsonConvert.SerializeObject(passengerdetails));
                     }
 
+                    string Signature = HttpContext.Session.GetString("SpicejetSignautre");
 
-                    //SpiceJet Passenger DEtails Round Trip Request API
-                    HttpContext.Session.SetString("PassengerNameDetails", JsonConvert.SerializeObject(passengerdetails));
-                }
-
-                string Signature = HttpContext.Session.GetString("SpicejetSignautre");
-
-                if (!string.IsNullOrEmpty(Signature))
-                {
-                    Signature = Signature.Replace(@"""", string.Empty);
-                    UpdatePassengersResponse updatePaxResp = null;
-                    UpdatePassengersRequest updatePaxReq = null;
-
-                    try
+                    if (!string.IsNullOrEmpty(Signature) && dataArray[i1].ToLower() == "spicejet")
                     {
-                        updatePaxReq = new UpdatePassengersRequest(); //Assign Signature generated from Session
-                        updatePaxReq.Signature = Signature;
-                        updatePaxReq.ContractVersion = 420;
-                        updatePaxReq.updatePassengersRequestData = new UpdatePassengersRequestData();
-                        updatePaxReq.updatePassengersRequestData.Passengers = GetPassenger(passengerdetails);
+                        Signature = Signature.Replace(@"""", string.Empty);
+                        UpdatePassengersResponse updatePaxResp = null;
+                        UpdatePassengersRequest updatePaxReq = null;
 
                         try
                         {
-                            SpiceJetApiController objSpiceJet = new SpiceJetApiController();
-                            updatePaxResp = await objSpiceJet.UpdatePassengers(updatePaxReq);
+                            updatePaxReq = new UpdatePassengersRequest(); //Assign Signature generated from Session
+                            updatePaxReq.Signature = Signature;
+                            updatePaxReq.ContractVersion = 420;
+                            updatePaxReq.updatePassengersRequestData = new UpdatePassengersRequestData();
+                            updatePaxReq.updatePassengersRequestData.Passengers = GetPassenger(passengerdetails);
 
-                            string Str2 = JsonConvert.SerializeObject(updatePaxResp);
-                            Logs logs = new Logs();
-                            logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(updatePaxReq) + "\n\n Response: " + JsonConvert.SerializeObject(updatePaxResp), "UpdatePassenger", "SpiceJetRT");
+                            try
+                            {
+                                SpiceJetApiController objSpiceJet = new SpiceJetApiController();
+                                updatePaxResp = await objSpiceJet.UpdatePassengers(updatePaxReq);
 
+                                string Str2 = JsonConvert.SerializeObject(updatePaxResp);
+                                Logs logs = new Logs();
+                                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(updatePaxReq) + "\n\n Response: " + JsonConvert.SerializeObject(updatePaxResp), "UpdatePassenger", "SpiceJetRT");
+
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
                         }
                         catch (Exception ex)
                         {
 
+
                         }
+                        HttpContext.Session.SetString("PassengerNameDetails", JsonConvert.SerializeObject(passengerdetails));
                     }
-                    catch (Exception ex)
+
+                    if (i1 == 0)
                     {
-
-
+                        Signature = HttpContext.Session.GetString("IndigoSignature");
                     }
-                    HttpContext.Session.SetString("PassengerNameDetails", JsonConvert.SerializeObject(passengerdetails));
-                }
-
-                Signature = HttpContext.Session.GetString("IndigoSignature");
-                if (!string.IsNullOrEmpty(Signature))
-                {
-                    Signature = Signature.Replace(@"""", string.Empty);
-                    _updateContact obj = new _updateContact(httpContextAccessorInstance);
-                    IndigoBookingManager_.UpdatePassengersResponse updatePaxResp = await obj.UpdatePassengers(Signature, passengerdetails);
-                    string Str2 = JsonConvert.SerializeObject(updatePaxResp);
-                }
-                SSRAvailabiltyResponceModel Mealslist = null;
-                SeatMapResponceModel Seatmaplist = null;
-                ViewModel vm = new ViewModel();
-                vm.SeatmaplistRT = new List<SeatMapResponceModel>();
-                vm.passeengerlistRT = new List<AirAsiaTripResponceModel>();
-                vm.MealslistRT = new List<SSRAvailabiltyResponceModel>();
-                string test = string.Empty;
-                string passengerInfant = HttpContext.Session.GetString("keypassengerItanary");
-                string passenger = HttpContext.Session.GetString("keypassenger");
-                string Passenegrtext = HttpContext.Session.GetString("Mainpassengervm");
-                string Seatmap = HttpContext.Session.GetString("Mainseatmapvm");
-                string Meals = HttpContext.Session.GetString("Mainmealvm");
-                string passengerNamedetails = HttpContext.Session.GetString("PassengerNameDetails");
-
-                if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Mainpassengervm")))
-                {
-                    test = HttpContext.Session.GetString("Mainpassengervm");
-
-                    foreach (Match item in Regex.Matches(test, @"<Start>(?<test>[\s\S]*?)<End>"))
+                    else
                     {
-                        passenger = item.Groups["test"].Value.ToString().Replace("/\"", "\"").Replace("\\\"", "\"").Replace("\\\\", "");
-                        if (passenger != null)
+                        Signature = HttpContext.Session.GetString("IndigoSignatureR");
+                    }
+                    if (!string.IsNullOrEmpty(Signature) && dataArray[i1].ToLower() == "indigo")
+                    {
+                        Signature = Signature.Replace(@"""", string.Empty);
+                        _updateContact obj = new _updateContact(httpContextAccessorInstance);
+                        IndigoBookingManager_.UpdatePassengersResponse updatePaxResp = await obj.UpdatePassengers(Signature, passengerdetails);
+                        string Str2 = JsonConvert.SerializeObject(updatePaxResp);
+                    }
+                    vm.SeatmaplistRT = new List<SeatMapResponceModel>();
+                    vm.passeengerlistRT = new List<AirAsiaTripResponceModel>();
+                    vm.MealslistRT = new List<SSRAvailabiltyResponceModel>();
+                    string test = string.Empty;
+                    string passengerInfant = HttpContext.Session.GetString("keypassengerItanary");
+                    string passenger = HttpContext.Session.GetString("keypassenger");
+                    string Passenegrtext = HttpContext.Session.GetString("Mainpassengervm");
+                    string Seatmap = HttpContext.Session.GetString("Mainseatmapvm");
+                    string Meals = HttpContext.Session.GetString("Mainmealvm");
+                    string passengerNamedetails = HttpContext.Session.GetString("PassengerNameDetails");
+
+                    if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Mainpassengervm")))
+                    {
+                        test = HttpContext.Session.GetString("Mainpassengervm");
+
+                        foreach (Match item in Regex.Matches(test, @"<Start>(?<test>[\s\S]*?)<End>"))
                         {
-                            passeengerlist = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
-                            vm.passeengerlistRT.Add(passeengerlist);
+                            passenger = item.Groups["test"].Value.ToString().Replace("/\"", "\"").Replace("\\\"", "\"").Replace("\\\\", "");
+                            if (passenger != null)
+                            {
+                                passeengerlist = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
+                                vm.passeengerlistRT.Add(passeengerlist);
+                            }
                         }
                     }
-                }
-                if (!string.IsNullOrEmpty(passengerNamedetails))
-                {
-                    List<passkeytype> passengerNamedetailsdata = (List<passkeytype>)JsonConvert.DeserializeObject(passengerNamedetails, typeof(List<passkeytype>));
-                    vm.passengerNamedetails = passengerNamedetailsdata;
-                }
-                if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Mainseatmapvm")))
-                {
-                    test = HttpContext.Session.GetString("Mainseatmapvm");
-                    Seatmap = string.Empty;
-                    foreach (Match item in Regex.Matches(test, @"<Start>(?<test>[\s\S]*?)<End>"))
+                    if (!string.IsNullOrEmpty(passengerNamedetails))
                     {
-                        Seatmap = item.Groups["test"].Value.ToString().Replace("/\"", "\"").Replace("\\\"", "\"").Replace("\\\\", "");
-                        if (Seatmap != null)
-                        {
-                            Seatmaplist = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
-                            vm.SeatmaplistRT.Add(Seatmaplist);
-                        }
+                        List<passkeytype> passengerNamedetailsdata = (List<passkeytype>)JsonConvert.DeserializeObject(passengerNamedetails, typeof(List<passkeytype>));
+                        vm.passengerNamedetails = passengerNamedetailsdata;
                     }
-                }
-
-                Meals = string.Empty;
-                Mealslist = null;
-                if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Mainmealvm")))
-                {
-                    test = HttpContext.Session.GetString("Mainmealvm");
-                    foreach (Match item in Regex.Matches(test, @"<Start>(?<test>[\s\S]*?)<End>"))
+                    if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Mainseatmapvm")))
                     {
-                        Meals = item.Groups["test"].Value.ToString().Replace("/\"", "\"").Replace("\\\"", "\"").Replace("\\\\", "");
-                        if (Meals != null)
+                        test = HttpContext.Session.GetString("Mainseatmapvm");
+                        Seatmap = string.Empty;
+                        foreach (Match item in Regex.Matches(test, @"<Start>(?<test>[\s\S]*?)<End>"))
                         {
-                            Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
-                            vm.MealslistRT.Add(Mealslist);
+                            Seatmap = item.Groups["test"].Value.ToString().Replace("/\"", "\"").Replace("\\\"", "\"").Replace("\\\\", "");
+                            if (Seatmap != null)
+                            {
+                                Seatmaplist = (SeatMapResponceModel)JsonConvert.DeserializeObject(Seatmap, typeof(SeatMapResponceModel));
+                                vm.SeatmaplistRT.Add(Seatmaplist);
+                            }
                         }
                     }
-                }
-                HttpContext.Session.SetString("PassengerNameDetails", JsonConvert.SerializeObject(passengerdetails));
-                return PartialView("_ServiceRequestsPartialView", vm);
 
-                //return RedirectToAction("RoundAATripsellView", "RoundAATripsell");
+                    Meals = string.Empty;
+                    Mealslist = null;
+                    if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Mainmealvm")))
+                    {
+                        test = HttpContext.Session.GetString("Mainmealvm");
+                        foreach (Match item in Regex.Matches(test, @"<Start>(?<test>[\s\S]*?)<End>"))
+                        {
+                            Meals = item.Groups["test"].Value.ToString().Replace("/\"", "\"").Replace("\\\"", "\"").Replace("\\\\", "");
+                            if (Meals != null)
+                            {
+                                Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
+                                vm.MealslistRT.Add(Mealslist);
+                            }
+                        }
+                    }
+                    //HttpContext.Session.SetString("PassengerNameDetails", JsonConvert.SerializeObject(passengerdetails));
+                    //return PartialView("_ServiceRequestsPartialView", vm);
+
+                    //return RedirectToAction("RoundAATripsellView", "RoundAATripsell");
+                }
             }
+            HttpContext.Session.SetString("PassengerNameDetails", JsonConvert.SerializeObject(passengerdetails));
+            return PartialView("_ServiceRequestsPartialView", vm);
         }
 
 
@@ -582,7 +612,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
             List<string> ConnetedBaggageSSrkey = new List<string>();
             for (int i = 0; i < BaggageSSrkey.Count; i++)
             {
-                ConnetedBaggageSSrkey.Add(BaggageSSrkey[i].Replace("_OneWay0", "_OneWay1").Replace("_RT0","_RT1"));
+                ConnetedBaggageSSrkey.Add(BaggageSSrkey[i].Replace("_OneWay0", "_OneWay1").Replace("_RT0", "_RT1"));
             }
             //ConnetedBaggageSSrkey = BaggageSSrkey;
             BaggageSSrkey.AddRange(ConnetedBaggageSSrkey);
@@ -1380,7 +1410,15 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 }
                                 else if (passeengerKeyList.journeys[0].Airlinename.ToLower() == "indigo")
                                 {
-                                    string tokenview = HttpContext.Session.GetString("IndigoSignature");//spelling 
+                                    string tokenview = string.Empty;
+                                    if (_a == 0)
+                                    {
+                                        tokenview = HttpContext.Session.GetString("IndigoSignature");//spelling 
+                                    }
+                                    else
+                                    {
+                                        tokenview = HttpContext.Session.GetString("IndigoSignatureR");//spelling 
+                                    }
                                     token = tokenview.Replace(@"""", string.Empty);
                                     _SellSSR obj_ = new _SellSSR(httpContextAccessorInstance);
                                     //List<string> BaggageSSrkey = new List<string>();
@@ -1904,9 +1942,17 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 }
                                 else if (passeengerKeyList.journeys[0].Airlinename.ToLower() == "indigo")
                                 {
+                                    string Signature = string.Empty;
                                     seatid = 0;
                                     _index = 0;
-                                    string Signature = HttpContext.Session.GetString("IndigoSignature");
+                                    if (p == 0)
+                                    {
+                                        Signature = HttpContext.Session.GetString("IndigoSignature");
+                                    }
+                                    else
+                                    {
+                                        Signature = HttpContext.Session.GetString("IndigoSignatureR");
+                                    }
                                     Signature = Signature.Replace(@"""", string.Empty);
                                     _SellSSR obj_ = new _SellSSR(httpContextAccessorInstance);
                                     IndigoBookingManager_.AssignSeatsResponse _AssignseatRes = await obj_.AssignSeat(Signature, passeengerKeyList, unitKey, p, keycount0, keycount1);

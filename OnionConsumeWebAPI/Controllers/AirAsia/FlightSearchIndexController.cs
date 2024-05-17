@@ -298,21 +298,21 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         var uniqueJourney = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i];
                         Designator Designatorobj = new Designator();
                         string queryorigin = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].designator.origin;
-                        origin = Citydata.GetAllcity().Where(x => x.cityCode == queryorigin).SingleOrDefault().cityName;
+                        origin = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
                         Designatorobj.origin = origin;
                         string querydestination = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].designator.destination;
-                        destination1 = Citydata.GetAllcity().Where(x => x.cityCode == querydestination).SingleOrDefault().cityName;
+                        destination1 = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
                         Designatorobj.destination = destination1;
 
                         Designatorobj.departure = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].designator.departure;
                         Designatorobj.arrival = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].designator.arrival;
-                        TimeSpan travelTimeDiff = Designatorobj.arrival - Designatorobj.departure;
+                        TimeSpan travelTimeDiff = Designatorobj.arrival- Designatorobj.departure ;
                         TimeSpan timeSpan = TimeSpan.Parse(travelTimeDiff.ToString());
                         if ((int)timeSpan.Minutes == 0)
                             formatTime = $"{(int)timeSpan.TotalHours} h";
                         else
                             formatTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
-                        Designatorobj.formatTime = timeSpan;
+                        Designatorobj.SetformatTime = formatTime;
                         var segmentscount = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments.Count;
                         List<DomainLayer.Model.Segment> Segmentobjlist = new List<DomainLayer.Model.Segment>();
 
@@ -342,18 +342,18 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 Designator legdesignatorobj = new Designator();
                                 queryorigin = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].designator.origin;
                                 querydestination = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].designator.destination;
-                                if (Citydata.GetAllcity().Where(x => x.cityCode == queryorigin).SingleOrDefault() != null)
+                                if (Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault() != null)
                                 {
-                                    origin = Citydata.GetAllcity().Where(x => x.cityCode == queryorigin).SingleOrDefault().cityCode;
+                                    origin = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
                                     legdesignatorobj.origin = origin;
                                 }
                                 else
                                 {
                                     legdesignatorobj.origin = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].designator.origin;
                                 }
-                                if (Citydata.GetAllcity().Where(x => x.cityCode == querydestination).SingleOrDefault() != null)
+                                if (Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault() != null)
                                 {
-                                    destination1 = Citydata.GetAllcity().Where(x => x.cityCode == querydestination).SingleOrDefault().cityCode;
+                                    destination1 = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
                                     legdesignatorobj.destination = destination1;
                                 }
                                 else
@@ -374,7 +374,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 LegInfo.departureTime = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].legInfo.departureTime;
                                 Legobj.legInfo = LegInfo;
 
-                            }
+                            }                         
                             Segmentobj.legs = Leglist;
                             Segmentobjlist.Add(Segmentobj);
 
@@ -559,7 +559,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
                 //list of spicejet flights
                 int count1 = 0;
-                if (_getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0].Length > 0)
+                if (_getAvailabilityVer2Response!=null && _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0].Length > 0)
                 {
                     count1 = _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys.Length;
                 }
@@ -587,12 +587,12 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         formatTime = $"{(int)timeSpan.TotalHours} h";
                     else
                         formatTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
-                    Designatorobj.formatTime = timeSpan;
+                    Designatorobj.SetformatTime = formatTime;
                     string queryorigin = _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0][0].DepartureStation;
-                    origin = Citydata.GetAllcity().Where(x => x.cityCode == queryorigin).SingleOrDefault().cityName;
+                    origin = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
                     Designatorobj.origin = origin;
                     string querydestination = _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0][0].ArrivalStation;
-                    destination1 = Citydata.GetAllcity().Where(x => x.cityCode == querydestination).SingleOrDefault().cityName;
+                    destination1 = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
                     Designatorobj.destination = destination1;
 
                     var segmentscount = _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment.Length;
@@ -614,10 +614,10 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         SegmentDesignatorobj.destination = _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].ArrivalStation; ;
 
                         //queryorigin = _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].DepartureStation;
-                        //origin = Citydata.GetAllcity().Where(x => x.cityCode == queryorigin).SingleOrDefault().cityName;
+                        //origin = Citynamelist.GetAllCityData().Where(x => x.cityCode == queryorigin).SingleOrDefault().cityName;
                         //SegmentDesignatorobj.origin = origin;
                         //querydestination = _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].ArrivalStation;
-                        //destination1 = Citydata.GetAllcity().Where(x => x.cityCode == querydestination).SingleOrDefault().cityName;
+                        //destination1 = Citynamelist.GetAllCityData().Where(x => x.cityCode == querydestination).SingleOrDefault().cityName;
                         //SegmentDesignatorobj.destination = destination1;
 
                         SegmentDesignatorobj.departure = _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].STD;
@@ -836,7 +836,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                 _GetAvailability objgetAvail_ = new _GetAvailability(httpContextAccessorInstance);
                 IndigoBookingManager_.GetAvailabilityVer2Response _IndigoAvailabilityResponseobj = await objgetAvail_.GetTripAvailability(_GetfligthModel, _IndigologonResponseobj, TotalCount, adultcount, childcount, infantcount, "IndigoOneWay");
                 int count2 = 0;
-                if (_IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0].Length > 0)
+                if (_IndigoAvailabilityResponseobj!=null &&_IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0].Length > 0)
                 {
                     count2 = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys.Length;
                 }
@@ -860,12 +860,12 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         formatTime = $"{(int)timeSpan.TotalHours} h";
                     else
                         formatTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
-                    Designatorobj.formatTime = timeSpan;
-                    string queryorigin = _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0][0].DepartureStation;
-                    origin = Citydata.GetAllcity().Where(x => x.cityCode == queryorigin).SingleOrDefault().cityName;
+                    Designatorobj.SetformatTime = formatTime;
+                    string queryorigin = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].DepartureStation;
+                    origin = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
                     Designatorobj.origin = origin;
-                    string querydestination = _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0][0].ArrivalStation;
-                    destination1 = Citydata.GetAllcity().Where(x => x.cityCode == querydestination).SingleOrDefault().cityName;
+                    string querydestination = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].ArrivalStation;
+                    destination1 = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
                     Designatorobj.destination = destination1;
 
                     var segmentscount = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment.Length;
@@ -883,10 +883,10 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         SegmentDesignatorobj.destination = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].ArrivalStation; ;
 
                         //queryorigin = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].DepartureStation;
-                        //origin = Citydata.GetAllcity().Where(x => x.cityCode == queryorigin).SingleOrDefault().cityName;
+                        //origin = Citynamelist.GetAllCityData().Where(x => x.cityCode == queryorigin).SingleOrDefault().cityName;
                         //SegmentDesignatorobj.origin = origin;
                         //querydestination = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].ArrivalStation;
-                        //destination1 = Citydata.GetAllcity().Where(x => x.cityCode == querydestination).SingleOrDefault().cityName;
+                        //destination1 = Citynamelist.GetAllCityData().Where(x => x.cityCode == querydestination).SingleOrDefault().cityName;
                         //SegmentDesignatorobj.destination = querydestination;
 
 
@@ -1057,7 +1057,13 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     SpiceJetAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
                     SimpleAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
                 }
-                string str2Return = JsonConvert.SerializeObject(_IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response);
+                string str2Return = string.Empty;
+                if (_IndigoAvailabilityResponseobj != null)
+                {
+                    str2Return = JsonConvert.SerializeObject(_IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response);
+                }
+                //OneWayTrip
+                HttpContext.Session.SetString("IndigoSignature", JsonConvert.SerializeObject(_IndigologonResponseobj.Signature));
 
                 #endregion
 
@@ -1415,7 +1421,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
 
                     count2 = 0;
-                    if (_getAvailabilityVer2ReturnResponse.GetTripAvailabilityVer2Response.Schedules[0].Length > 0)
+                    if (_getAvailabilityVer2ReturnResponse!=null && _getAvailabilityVer2ReturnResponse.GetTripAvailabilityVer2Response.Schedules[0].Length > 0)
                     {
 
                         count2 = _getAvailabilityVer2ReturnResponse.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys.Length;
@@ -1662,7 +1668,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     _GetfligthModel.beginDate = _GetfligthModel.endDate;
                     IndigoBookingManager_.GetAvailabilityVer2Response _IndigoAvailabilityResponseobjR = await objgetAvail_.GetTripAvailability(_GetfligthModel, _IndigologonResponseobjR, TotalCount, adultcount, childcount, infantcount);
                     count2 = 0;
-                    if (_IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0].Length > 0)
+                    if (_IndigoAvailabilityResponseobjR !=null && _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0].Length > 0)
                     {
                         count2 = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys.Length;
                     }
@@ -1680,9 +1686,9 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         Designatorobj.departure = DateTime.ParseExact(departureTime, "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture); //Convert.ToDateTime(departureTime);
                         Designatorobj.arrival = DateTime.ParseExact(arrivalTime, "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture); //Convert.ToDateTime(arrivalTime);
 
-                        string queryorigin = _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0][0].DepartureStation;
+                        string queryorigin = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].DepartureStation;
                         origin = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
-                        string querydestination = _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0][0].ArrivalStation;
+                        string querydestination = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].ArrivalStation;
                         destination1 = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
                         Designatorobj.destination = origin;
                         Designatorobj.origin = destination1;
@@ -1869,7 +1875,10 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         SpiceJetAvailibilityaAddResponcelistR.Add(_SimpleAvailibilityaAddResponceobjR);
                         SimpleAvailibilityaAddResponcelistR.Add(_SimpleAvailibilityaAddResponceobjR);
                     }
-                    str2Return = JsonConvert.SerializeObject(_IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response);
+                    if (_IndigoAvailabilityResponseobjR != null)
+                    {
+                        str2Return = JsonConvert.SerializeObject(_IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response);
+                    }
                     #endregion
                     #endregion
                     //end
@@ -1892,7 +1901,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     //Indigo
 
                     //RoundTrip
-                    HttpContext.Session.SetString("IndigoSignature", JsonConvert.SerializeObject(_IndigologonResponseobjR.Signature));
+                    HttpContext.Session.SetString("IndigoSignatureR", JsonConvert.SerializeObject(_IndigologonResponseobjR.Signature));
 
                     ////SpiceJet
                     TempData["SpiceJetmodel"] = JsonConvert.SerializeObject(SpiceJetAvailibilityaAddResponcelist);
@@ -1905,7 +1914,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     //Indigo
 
                     //OneWayTrip
-                    HttpContext.Session.SetString("IndigoSignature", JsonConvert.SerializeObject(_IndigologonResponseobj.Signature));
+                    //HttpContext.Session.SetString("IndigoSignature", JsonConvert.SerializeObject(_IndigologonResponseobj.Signature));
                     HttpContext.Session.SetString("OneWayFlightView", JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist));
                     HttpContext.Session.SetString("OneWayPassengerModel", JsonConvert.SerializeObject(_SimpleAvailabilityobj));
 

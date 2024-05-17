@@ -552,11 +552,11 @@
 
 
 
-        $("#exampleModalSeat").click(function (e) {
-            debugger;
+        $(".modelPopBtn").click(function (e) {
             e.preventDefault();
             $("#popbtnA2").hide();//RightNonstop
             $("#LeftCN").show();//LefttNonstop
+            
             $.ajax({
                 url: '@Url.Action("RTPostSeatMapModaldataView", "RoundAATripsell")',
                 type: "GET",
@@ -604,22 +604,22 @@
                                 @if (segmentcount == 1)
                                 {
                                     <div class="d-flex">
-                                        <div>
-                                            <button type="submit" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
-                                        </div>
+                                        
 
 
                                         <div id="LeftCN">
+                                            <button type="button" id="cancelNstop1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
                                             <button type="submit" id="Leftbtnfocus" class="btn  btn-primary">Continue</button>
                                         </div>
 
                                         <div id="RightCN1" style="display:none;">
+                                            <button type="button" id="cancelNstop2" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
                                             <button type="submit" id="rightbtnfocus" class="btn  btn-primary">Continue</button>
                                         </div>
 
                                         <div id="rightCN">
 
-
+                                            <button type="button" id="cancelNstop3" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
                                             <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
                                         </div>
                                     </div>
@@ -635,31 +635,31 @@
 
 
                                                 <div id="popbtnA">
-                                                    <button type="submit" id="cancelbtn1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
+                                                    <button type="button" id="cancelbtn1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
 
                                                     <button type="submit" id="btnfocus" class="btn  btn-primary">Continue</button>
 
                                                 </div>
                                                 <div id="popbtnA1">
 
-                                                    <button type="submit" id="cancelbtn2" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
+                                                    <button type="button" id="cancelbtn2" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
                                                     <button type="submit" id="btnfocusA1" class="btn  btn-primary">Continue</button>
 
                                                 </div>
                                                 <div id="popbtnA2" style="display:none">
-
+                                                    <button type="button" id="cancelbtnA2" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
                                                     <button type="submit" id="nonstopright" data-dismiss="modal" class="btn btnclose btn-primary">Continue!!</button>
                                                 </div>
 
                                                 <div id="popbtnB1">
 
-                                                    <button type="submit" id="cancelbtn3" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
+                                                    <button type="button" id="cancelbtn3" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
                                                     <button type="submit" id="btnfocusB1" class="btn  btn-primary">Continue</button>
 
                                                 </div>
 
                                                 <div id="popbtnB">
-                                                    <button type="submit" id="cancelbtn4" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
+                                                    <button type="button" id="cancelbtn4" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
                                                     <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue..</button>
 
                                                 </div>
@@ -859,7 +859,7 @@
                                             <div class="servc-content">
                                                 <div class="d-flex">
                                                     <div><img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /></div>
-                                                    <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
+                                                    <input type="button" id="exampleModalSeat" value="Seat Map" class="button modelPopBtn small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
 
                                                 </div>
                                                 <div class="output-div-input" id="outputDiv_@pas"></div>
@@ -1073,7 +1073,7 @@
                                             <div class="servc-content">
                                                 <div class="d-flex">
                                                     <div><img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /></div>
-                                                    <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
+                                                    <input type="button" id="exampleModalSeat" value="Seat Map" class="button modelPopBtn small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
                                                 </div>
                                                 <div class="output-div-input" id="outputDivConnect_@pas"></div>
                                             </div>
@@ -1244,7 +1244,7 @@
                                                 <div class="servc-content">
                                                     <div class="d-flex">
                                                         <div><img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /></div>
-                                                        <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
+                                                        <input type="button" id="exampleModalSeat" value="Seat Map" class="button modelPopBtn small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
 
                                                     </div>
                                                     <div class="output-div-input" id="outputDivRT_@pas"></div>
@@ -1457,7 +1457,7 @@
                                                 <div class="servc-content">
                                                     <div class="d-flex">
                                                         <div><img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /></div>
-                                                        <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
+                                                        <input type="button" id="exampleModalSeat" value="Seat Map" class="button modelPopBtn small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
                                                     </div>
                                                     <div class="output-div-input" id="outputDivConnectRT_@pas"></div>
                                                 </div>

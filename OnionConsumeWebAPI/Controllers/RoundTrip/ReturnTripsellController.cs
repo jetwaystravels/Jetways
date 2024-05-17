@@ -45,9 +45,10 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
             List<string> _Mealsdata = new List<string>();
             var flagsession = "NA";
             var airlinename = "";
+            string [] AirlineNamedesc=new string[2];
             for (int p = 0; p < fareKey.Count; p++)
             {
-
+                
                 if (fareKey[p].ToLower().Contains("indigo"))
                 {
                     flagsession = "6E";
@@ -75,6 +76,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                 string _JourneyKeyOneway = journeyKey[p];
                 string[] _Jparts = _JourneyKeyOneway.Split('@');
                 string _JourneykeyRTData = _Jparts[2];
+                string _journeySide= _Jparts[1];
+                AirlineNamedesc[p] = _JourneykeyRTData;
                 using (HttpClient client = new HttpClient())
                 {
                     if (_JourneykeyRTData.ToLower() == "airasia")
@@ -1082,7 +1085,14 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         Signature = string.Empty;
                         str3 = string.Empty;
                         TotalCount = 0;
-                        Signature = HttpContext.Session.GetString("IndigoSignature");
+                        if (_journeySide == "0j")
+                        {
+                            Signature = HttpContext.Session.GetString("IndigoSignature");
+                        }
+                        else
+                        {
+                            Signature = HttpContext.Session.GetString("IndigoSignatureR");
+                        }
                         Signature = Signature.Replace(@"""", string.Empty);
                         int adultcount = Convert.ToInt32(HttpContext.Session.GetString("adultCount"));
                         int childcount = Convert.ToInt32(HttpContext.Session.GetString("childCount"));
@@ -2283,11 +2293,19 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     #endregion
 
                     //Indigo Roundtrip SSR
-                    #region ssravailability
+                    #region Indigo ssravailability
                     if (_JourneykeyRTData.ToLower() == "indigo")
                     {
                         Signature = string.Empty;
-                        Signature = HttpContext.Session.GetString("IndigoSignature");
+                        if (_journeySide == "0j")
+                        {
+                            Signature = HttpContext.Session.GetString("IndigoSignature");
+                        }
+                        else
+                        {
+                            Signature = HttpContext.Session.GetString("IndigoSignatureR");
+                        }
+
                         Signature = Signature.Replace(@"""", string.Empty);
                         List<legSsrs> SSRAvailabiltyLegssrlist = new List<legSsrs>();
                         SSRAvailabiltyResponceModel SSRAvailabiltyResponceobj = null;
@@ -2400,7 +2418,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     #endregion
                 }
             }
-
+            
+            HttpContext.Session.SetString("SelectedAirlineName", JsonConvert.SerializeObject(AirlineNamedesc));
             HttpContext.Session.SetString("AirlineSelectedRT", JsonConvert.SerializeObject(airlinenameforcommit));
             HttpContext.Session.SetString("Mainpassengervm", JsonConvert.SerializeObject(MainPassengerdata));
             HttpContext.Session.SetString("Mainseatmapvm", JsonConvert.SerializeObject(MainSeatMapdata));

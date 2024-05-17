@@ -84,10 +84,11 @@ namespace OnionArchitectureAPI.Services.Indigo
                     {
                         logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(updatePaxReq) + "\n\n Response: " + JsonConvert.SerializeObject(updatePaxResp), "UpdatePassenger", "IndigoRT");
                     }
-                    return (UpdatePassengersResponse)updatePaxResp;
+                    //return (UpdatePassengersResponse)updatePaxResp;
                 }
                 catch (Exception ex)
                 {
+                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(updatePaxReq) + "\n\n Response: " + JsonConvert.SerializeObject(ex.ToString()), "UpdatePassengerException", "IndigoRT");
 
                 }
             }

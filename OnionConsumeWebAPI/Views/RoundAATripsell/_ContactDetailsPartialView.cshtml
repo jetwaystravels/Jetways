@@ -200,6 +200,9 @@
             gstToDisplay.style.display = "none";
             var gstNToDisplay = document.getElementById("error-message10");
             gstNToDisplay.style.display = "none";
+            document.getElementById('gstErrorMessage').innerText = "";
+            document.getElementById("gstname").value = "";
+            document.getElementById("gstnumber").value="";
             $(".hid-block").hide();
 
         }
@@ -460,11 +463,11 @@
 
     function validateInputgst(event) {
         const input = event.target.value;
-        const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
+        const regex = /^[a-zA-Z\s]*$/;      // /^[a-zA-Z\s]*$/;  // Regular expression to match alphabetic characters only
 
         if (!regex.test(input)) {
             document.getElementById('errorMessagegst').innerText = "";
-            event.target.value = input.replace(/[^a-zA-Z]/g, ''); // Remove non-alphabetic characters
+            event.target.value = input.replace(/[^a-zA-Z\s]/g, '');  //(/[^a-zA-Z]/g, ''); // Remove non-alphabetic characters
         } else {
             document.getElementById('errorMessagegst').innerText = "";
         }
@@ -489,9 +492,9 @@
         const regex = /^([0-9]){2}([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}([0-9]){1}([a-zA-Z]){1}([0-9]){1}?$/; // Regular expression for 15-character GST number validation
 
         if (gstNumber.trim() === "") {
-            document.getElementById('gstErrorMessage').innerText = "Enter a GST number.";
+            document.getElementById('gstErrorMessage').innerText = "Enter valid GST number.";
         } else if (!regex.test(gstNumber)) {
-            document.getElementById('gstErrorMessage').innerText = "Enter a valid 15-character GST number.";
+            document.getElementById('gstErrorMessage').innerText = "Enter valid GST number.";
         } else {
             document.getElementById('gstErrorMessage').innerText = "";
         }

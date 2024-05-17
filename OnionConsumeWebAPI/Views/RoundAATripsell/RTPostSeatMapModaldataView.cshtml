@@ -376,10 +376,20 @@
                 $('.feeSpan_' + i).text(parts[0]);
                 $('#outputDiv_' + i).text(parts[1]);
             }
-        }
+        } 
+
+       
 
         $('#cancelbtn1').click(function () {
-           
+            //alert("T1");
+            // Loop through each element and set its text to an empty string
+            for (var i = 0; i < checkedValues.length; i++) {
+                $('#outputDiv_' + i).text('');
+            }
+        });
+
+        $('#cancelNstop1').click(function () {
+            //alert("T1");
             // Loop through each element and set its text to an empty string
             for (var i = 0; i < checkedValues.length; i++) {
                 $('#outputDiv_' + i).text('');
@@ -426,6 +436,7 @@
             }
         }
         $('#cancelbtn2').click(function () {
+            //alert("T2");
             // Loop through each element and set its text to an empty string
             for (var i = 0; i < checkedValues2.length; i++) {
                 $('#outputDivConnect_' + i).text('');
@@ -470,9 +481,38 @@
                 $('.feeSpanRT_' + i).text(parts[0]);
                 $('#outputDivRT_' + i).text(parts[1]);
             }
-        }
+        } 
 
         $('#cancelbtn3').click(function () {
+            //alert("T3");
+            // Loop through each element and set its text to an empty string
+            for (var i = 0; i < checkedValuesRT.length; i++) {
+                $('#outputDivRT_' + i).text('');
+            }
+        });
+
+        
+
+        $('#cancelNstop2').click(function () {
+            //alert("T3");
+            // Loop through each element and set its text to an empty string
+            for (var i = 0; i < checkedValuesRT.length; i++) {
+                $('#outputDivRT_' + i).text('');
+            }
+        });
+
+        $('#cancelNstop3').click(function () {
+            //alert("T3");
+            // Loop through each element and set its text to an empty string
+            for (var i = 0; i < checkedValuesRT.length; i++) {
+                $('#outputDivRT_' + i).text('');
+            }
+        });
+        
+        
+
+        $('#cancelbtnA2').click(function () {
+            //alert("T3");
             // Loop through each element and set its text to an empty string
             for (var i = 0; i < checkedValuesRT.length; i++) {
                 $('#outputDivRT_' + i).text('');
@@ -519,12 +559,20 @@
         }
 
         $('#cancelbtn4').click(function () {
+            //alert("T4");
             // Loop through each element and set its text to an empty string
             for (var i = 0; i < checkedValues2RT.length; i++) {
                 $('#outputDivConnectRT_' + i).text('');
             }
         });
 
+        $('#cancelNstop3').click(function () {
+            //alert("T4");
+            // Loop through each element and set its text to an empty string
+            for (var i = 0; i < checkedValues2RT.length; i++) {
+                $('#outputDivConnectRT_' + i).text('');
+            }
+        });
         // End connceting second code
 
 

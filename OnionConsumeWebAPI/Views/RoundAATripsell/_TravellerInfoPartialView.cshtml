@@ -507,6 +507,11 @@
             // Example usage:
             if ($(".dobinput").is(":visible")) {
                 var dob = year.value + "-" + month.value + "-" + day.value;
+                if (year.value == "" || month.value == "" || day.value == "") 
+                {
+                    alert("please select day, month and year for infant date-of-birth")
+                    return false;
+                }
                 function validateInfantDOB(dob) {
                     // Convert the date string into a Date object
                     var dobDate = new Date(dob);
@@ -534,6 +539,8 @@
                 if (validateInfantDOB(dob)) {
                     //alert("Infant's date of birth is valid.");
                 } else {
+
+
                     alert("Infant can't be  greater than 2 years.");
                     return false;
                 }

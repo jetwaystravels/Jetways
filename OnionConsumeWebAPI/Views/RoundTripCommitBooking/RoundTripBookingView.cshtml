@@ -46,7 +46,7 @@
 <body>
     @{
 
-        if (Model.AirlinePNR.Count == 1)
+        if (Model.AirlinePNR.Count > 0)
         {
             for (int a = 0; a < Model.AirlinePNR.Count; a++)
             {
@@ -128,7 +128,12 @@
                                                                 @{
                                                                     string hashdata = @Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].journeys[i].segments[i1].designator.origin + "_" + @Model.AirlinePNR[a].journeys[i].segments[i1].designator.destination;
                                                                 }
-                                                                <li class="tlist-none"> <span>Seat No:</span><span class="fw-bold-600">@htseat[hashdata]</span></li>
+                                                                @{
+                                                                    if (htseat != null)
+                                                                    {
+                                                                        <li class="tlist-none"> <span>Seat No:</span><span class="fw-bold-600">@htseat[hashdata]</span></li>
+                                                                    }
+                                                                }
                                                             </ul>
                                                         </div>
                                                         <div class="Pdetail1">
@@ -136,7 +141,12 @@
                                                                 @{
                                                                     string hashmeal = @Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].journeys[i].segments[i1].designator.origin + "_" + @Model.AirlinePNR[a].journeys[i].segments[i1].designator.destination;
                                                                 }
-                                                                <li class="tlist-none"> <span>Meal Code:</span><span class="fw-bold-600">@htmeal[hashmeal]</span></li>
+                                                                @{
+                                                                    if (htmeal != null)
+                                                                    {
+                                                                        <li class="tlist-none"> <span>Meal Code:</span><span class="fw-bold-600">@htmeal[hashmeal]</span></li>
+                                                                    }
+                                                                }
                                                             </ul>
                                                         </div>
 

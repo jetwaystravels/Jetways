@@ -708,11 +708,18 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     }
                     else if (flagIndigo == true && data.Airline[k1].ToLower().Contains("indigo"))
                     {
-                        flagIndigo = false;
+                        //flagIndigo = false;
                         #region Indigo Commit
                         //Spicejet
                         token = string.Empty;
-                        tokenview = HttpContext.Session.GetString("IndigoSignature");
+                        if (k1 == 0)
+                        {
+                            tokenview = HttpContext.Session.GetString("IndigoSignature");
+                        }
+                        else
+                        {
+                            tokenview = HttpContext.Session.GetString("IndigoSignatureR");
+                        }
                         if (!string.IsNullOrEmpty(tokenview))
                         {
 
@@ -756,20 +763,20 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                         int childcount = Convert.ToInt32(HttpContext.Session.GetString("childCount"));
                                         int infantcount = Convert.ToInt32(HttpContext.Session.GetString("infantCount"));
                                         int TotalCount = adultcount + childcount;
-                                        //string _responceGetBooking = JsonConvert.SerializeObject(_getBookingResponse);
-                                        //string fileName = @"D:\a.txt";
-                                        //try
-                                        //{
-                                        //    using (StreamReader reader = new StreamReader(fileName))
-                                        //    {
-                                        //        _responceGetBooking = reader.ReadToEnd();
-                                        //    }
-                                        //}
-                                        //catch (Exception exp)
-                                        //{
-                                        //    //Console.WriteLine(exp.Message);
-                                        //}
-                                        //_getBookingResponse=Newtonsoft.Json.JsonConvert.DeserializeObject<IndigoBookingManager_.GetBookingResponse>(_responceGetBooking);
+                                        string _responceGetBooking = JsonConvert.SerializeObject(_getBookingResponse);
+                                        string fileName = @"D:\a.txt";
+                                        try
+                                        {
+                                            using (StreamReader reader = new StreamReader(fileName))
+                                            {
+                                                _responceGetBooking = reader.ReadToEnd();
+                                            }
+                                        }
+                                        catch (Exception exp)
+                                        {
+                                            //Console.WriteLine(exp.Message);
+                                        }
+                                        _getBookingResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<IndigoBookingManager_.GetBookingResponse>(_responceGetBooking);
                                         ReturnTicketBooking returnTicketBooking = new ReturnTicketBooking();
                                         var totalAmount = _getBookingResponse.Booking.BookingSum.TotalCost;
                                         returnTicketBooking.bookingKey = _getBookingResponse.Booking.BookingID.ToString();

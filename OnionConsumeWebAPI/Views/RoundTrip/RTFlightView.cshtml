@@ -420,16 +420,25 @@
                                     queryorigin = ViewData["origin"].ToString();
                                 }
                                 else
-                                    queryorigin = Model.SimpleAvailibilityaAddResponcelist[0].designator.origin;//ViewData["origin"].ToString();
-
+                                {
+                                    if (Model.SimpleAvailibilityaAddResponcelist.Count > 0)
+                                    {
+                                        queryorigin = Model.SimpleAvailibilityaAddResponcelist[0].designator.origin;//ViewData["origin"].ToString();
+                                    }
+                                }
                                 if (ViewData["destination"] != null)
                                 {
                                     querydestination = ViewData["destination"].ToString();
                                 }
                                 else
-                                    querydestination = Model.SimpleAvailibilityaAddResponcelist[0].designator.destination;//ViewData["origin"].ToString();
-                                string originL,destinationL = string.Empty;
-                                if(Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault()!=null)
+                                {
+                                    if (Model.SimpleAvailibilityaAddResponcelist.Count > 0)
+                                    {
+                                        querydestination = Model.SimpleAvailibilityaAddResponcelist[0].designator.destination;//ViewData["origin"].ToString();
+                                    }
+                                }
+                                string originL, destinationL = string.Empty;
+                                if (Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault() != null)
                                 {
                                     originL = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
                                     destinationL = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
@@ -444,8 +453,14 @@
                             }
                             <div class="col-xl-6 col-lg-6">
                                 <div class="shorting-bg-white">
-                                    <div class="fontSize16 d-flex justify-content-between"><div class="fw-600">@originL → @destinationL</div>  <div>@Model.SimpleAvailibilityaAddResponcelist[0].bookingdate</div></div>
-                                    <input type="hidden" id="leftdate" value="@Model.SimpleAvailibilityaAddResponcelist[0].bookingdate" />
+                                    @{
+                                        if(Model.SimpleAvailibilityaAddResponcelist.Count>0)
+                                        {
+                                            <div class="fontSize16 d-flex justify-content-between"><div class="fw-600">@originL → @destinationL</div>  <div>@Model.SimpleAvailibilityaAddResponcelist[0].bookingdate</div></div>
+
+                                            <input type="hidden" id="leftdate" value="@Model.SimpleAvailibilityaAddResponcelist[0].bookingdate" />
+                                        }
+                                    }
                                     <ul class="shorting-tab">
                                         <li><a href="#">Airlines </a></li>
                                         <li><a href="#">Depart</a></li>
@@ -904,16 +919,26 @@
                                     queryorigin = ViewData["origin"].ToString();
                                 }
                                 else
-                                    queryorigin = Model.SimpleAvailibilityaAddResponcelistR[0].designator.origin;//ViewData["origin"].ToString();
+                                {
+                                    if (Model.SimpleAvailibilityaAddResponcelistR.Count > 0)
+                                    {
+                                        queryorigin = Model.SimpleAvailibilityaAddResponcelistR[0].designator.origin;//ViewData["origin"].ToString();
+                                    }
+                                }
 
                                 if (ViewData["destination"] != null)
                                 {
                                     querydestination = ViewData["destination"].ToString();
                                 }
                                 else
-                                    querydestination = Model.SimpleAvailibilityaAddResponcelistR[0].designator.destination;//ViewData["origin"].ToString();
+                                {
+                                    if (Model.SimpleAvailibilityaAddResponcelistR.Count > 0)
+                                    {
+                                        querydestination = Model.SimpleAvailibilityaAddResponcelistR[0].designator.destination;//ViewData["origin"].ToString();
+                                    }
+                                }
 
-                                string originR=string.Empty;
+                                string originR = string.Empty;
                                 string destinationR = string.Empty;
 
                                 if (Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault() != null)
@@ -926,15 +951,21 @@
                                     originR = queryorigin;
                                     destinationR = querydestination;
                                 }
-                                //string originR = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
+                                    //string originR = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
                                 //string destinationR = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
 
                             }
 
                             <div class="col-xl-6 col-lg-6">
                                 <div class="shorting-bg-white">
-                                    <div class="fontSize1 d-flex justify-content-between"><div class="fw-600">@destinationR → @originR</div>  <div>@Model.SimpleAvailibilityaAddResponcelistR[0].bookingdate</div></div>
-                                    <input type="hidden" id="rightdate" value="@Model.SimpleAvailibilityaAddResponcelistR[0].bookingdate" />
+                                    @{
+                                        if(Model.SimpleAvailibilityaAddResponcelistR.Count>0)
+                                        {
+                                            <div class="fontSize1 d-flex justify-content-between"><div class="fw-600">@destinationR → @originR</div>  <div>@Model.SimpleAvailibilityaAddResponcelistR[0].bookingdate</div></div>
+
+                                            <input type="hidden" id="rightdate" value="@Model.SimpleAvailibilityaAddResponcelistR[0].bookingdate" />
+                                        }
+                                    }
                                     <ul class="shorting-tab">
                                         <li><a href="#">Airlines </a></li>
                                         <li><a href="#">Depart</a></li>
@@ -1039,13 +1070,13 @@
                                                         var arrivaltime = Model.SimpleAvailibilityaAddResponcelistR[j].designator.arrival;
                                                         string arrivaltimestr = arrivaltime.ToString();
                                                         var arrivalfinal = arrivaltimestr.Substring(11, 5);
-                                                       
+
                                                     }
                                                     <div class="lh-15 text-20 fw-700">@arrivalfinal</div>
                                                     <div class="text-12 lh-15 text-light-1">@Model.SimpleAvailibilityaAddResponcelistR[j].designator.destination</div>
 
                                                     <input type="hidden" class="arrivalreturn" value="@arrivalfinal" />
-                                                   
+
                                                     <input type="hidden" class="destinationreturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].designator.destination" />
                                                 </div>
 
@@ -1439,7 +1470,7 @@
                             </div>
                             <div class="fare-round ms-2">
                                 <div class="text-14 fw-600">₹<span id="faretotalsumreturndata"></span></div>
-                               @*  <div class="text-12 rtline"><a data-toggle="modal" data-target="#rt2exampleModal">Details</a></div> *@
+                                @*  <div class="text-12 rtline"><a data-toggle="modal" data-target="#rt2exampleModal">Details</a></div> *@
                                 <div class="text-12 rtline">
                                     <button id="openModalR" style="color:#fff">Details</button>
                                 </div>
@@ -3124,6 +3155,7 @@
             width: 40px;
             height: 40px;
         }
+
         .size-R {
             flex-shrink: 0;
             width: 40px;
