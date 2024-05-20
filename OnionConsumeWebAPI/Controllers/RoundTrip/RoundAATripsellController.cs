@@ -233,7 +233,15 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
             for (int i = 0; i < dataArray.Length; i++)
             {
 
-                string tokenview = HttpContext.Session.GetString("AirasiaTokan");
+                string tokenview = string.Empty;
+                if (i == 0)
+                {
+                    tokenview = HttpContext.Session.GetString("AirasiaTokan");
+                }
+                else
+                {
+                    tokenview = HttpContext.Session.GetString("AirasiaTokanR");
+                }
 
                 if (!string.IsNullOrEmpty(tokenview) && dataArray[i].ToLower() == "airasia")
                 {
@@ -292,7 +300,15 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
                 //SPICE JEt Return Contact APi Request
                 Logs logs = new Logs();
-                string Signature = HttpContext.Session.GetString("SpicejetSignautre");
+                string Signature = string.Empty;
+                if (i == 0)
+                {
+                    Signature = HttpContext.Session.GetString("SpicejetSignature");
+                }
+                else
+                {
+                    Signature = HttpContext.Session.GetString("SpicejetSignatureR");
+                }
 
                 if (!string.IsNullOrEmpty(Signature) && dataArray[i].ToLower() == "spicejet")
                 {
@@ -356,6 +372,15 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                 {
                     if (!string.IsNullOrEmpty(tokenview) && dataArray[i1].ToLower() == "airasia")
                     {
+                        tokenview = string.Empty;
+                        if (i1 == 0)
+                        {
+                            tokenview = HttpContext.Session.GetString("AirasiaTokan");
+                        }
+                        else
+                        {
+                            tokenview = HttpContext.Session.GetString("AirasiaTokanR");
+                        }
                         token = tokenview.Replace(@"""", string.Empty);
                         PassengersModel _PassengersModel = new PassengersModel();
                         for (int i = 0; i < passengerdetails.Count; i++)
@@ -469,8 +494,15 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         HttpContext.Session.SetString("PassengerNameDetails", JsonConvert.SerializeObject(passengerdetails));
                     }
 
-                    string Signature = HttpContext.Session.GetString("SpicejetSignautre");
-
+                    string Signature = string.Empty;
+                    if (i1 == 0)
+                    {
+                        Signature = HttpContext.Session.GetString("SpicejetSignature");
+                    }
+                    else
+                    {
+                        Signature = HttpContext.Session.GetString("SpicejetSignatureR");
+                    }
                     if (!string.IsNullOrEmpty(Signature) && dataArray[i1].ToLower() == "spicejet")
                     {
                         Signature = Signature.Replace(@"""", string.Empty);
@@ -705,7 +737,15 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 passeengerKeyList = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
                                 if (passeengerKeyList.journeys[0].Airlinename.ToLower() == "spicejet")
                                 {
-                                    string tokenview = HttpContext.Session.GetString("SpicejetSignautre");//spelling 
+                                    string tokenview = string.Empty;//spelling 
+                                    if (_a == 0)
+                                    {
+                                        tokenview = HttpContext.Session.GetString("SpicejetSignature");//spelling 
+                                    }
+                                    else
+                                    {
+                                        tokenview = HttpContext.Session.GetString("SpicejetSignatureR");//spelling 
+                                    }
                                     token = tokenview.Replace(@"""", string.Empty);
                                     passengerscount = passeengerKeyList.passengerscount;
                                     Logs logs = new Logs();
@@ -1310,9 +1350,17 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 else if (passeengerKeyList.journeys[0].Airlinename.ToLower() == "airasia")
                                 {
                                     mealid = 0;
-                                    string tokenview = HttpContext.Session.GetString("AirasiaTokan");
-                                    if (!string.IsNullOrEmpty(tokenview))
+                                    string tokenview = string.Empty;
+                                    if (string.IsNullOrEmpty(tokenview))
                                     {
+                                        if (_a == 0)
+                                        {
+                                            tokenview = HttpContext.Session.GetString("AirasiaTokan");//spelling 
+                                        }
+                                        else
+                                        {
+                                            tokenview = HttpContext.Session.GetString("AirasiaTokanR");//spelling 
+                                        }
                                         token = tokenview.Replace(@"""", string.Empty);
                                         if (token == "" || token == null)
                                         {
@@ -1562,7 +1610,16 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     journeyscount = passeengerKeyList.journeys.Count;
                                     AssignSeatsResponse _AssignseatRes = new AssignSeatsResponse();
                                     AssignSeatsRequest _AssignSeatReq = new AssignSeatsRequest();
-                                    string Signature = HttpContext.Session.GetString("SpicejetSignautre");
+                                    string Signature = string.Empty;
+                                    if (p == 0)
+                                    {
+                                        Signature = HttpContext.Session.GetString("SpicejetSignature");
+                                    }
+                                    else
+                                    {
+                                        Signature = HttpContext.Session.GetString("SpicejetSignatureR");
+                                    }
+                                    Signature = Signature.Replace(@"""", string.Empty);
                                     if (!string.IsNullOrEmpty(Signature))
                                     {
                                         Signature = Signature.Replace(@"""", string.Empty);
@@ -1661,7 +1718,15 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 else if (passeengerKeyList.journeys[0].Airlinename.ToLower() == "airasia")
                                 {
                                     //seatid = 0;
-                                    string tokenview = HttpContext.Session.GetString("AirasiaTokan");
+                                    string tokenview = string.Empty;
+                                    if (p == 0)
+                                    {
+                                        tokenview = HttpContext.Session.GetString("AirasiaTokan");//spelling 
+                                    }
+                                    else
+                                    {
+                                        tokenview = HttpContext.Session.GetString("AirasiaTokanR");//spelling 
+                                    }
                                     if (!string.IsNullOrEmpty(tokenview))
                                     {
                                         token = tokenview.Replace(@"""", string.Empty);

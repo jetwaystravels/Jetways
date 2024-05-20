@@ -49,9 +49,17 @@ namespace DomainLayer.Model
             new { citycode = "GWL", cityname = "Gwalior", airportname = "Gwalior Airport "},
             new { citycode = "GOI", cityname = "Goa", airportname = "Goa Dabolim International Airport "},
             new { citycode = "IXR", cityname = "Ranchi", airportname = "Surat International Airport "},
-            new { citycode = "BBI", cityname = "Bhubaneswar", airportname = " Birsa Munda Airport "},
-            new { citycode = "HYD", cityname = "Hyderabad", airportname = "Rajiv Gandhi International Airport "}
-            //new { citycode = "STV", cityname = "Surat", airportname = "Surat International Airport "},
+            new { citycode = "BBI", cityname = "Bhubaneswar", airportname = " Birsa Munda Airport"},
+            new { citycode = "HYD", cityname = "Hyderabad", airportname = "Rajiv Gandhi International Airport"},
+            new { citycode = "COK", cityname = "Kochi", airportname = "Cochin International Airport Limited"},
+            new { citycode = "BDQ", cityname = "Vadodara", airportname = "Vadodara Airport"},
+            new { citycode = "NAG", cityname = "Nagpur", airportname = "Dr. Babasaheb Ambedkar International Airport"},
+            new { citycode = "IXC", cityname = "Chandigarh", airportname = "Chandigarh Airport"},
+            new { citycode = "SXR", cityname = "Srinagar", airportname = "Srinagar International Airport"},
+            new { citycode = "DED", cityname = "Dehradun", airportname = "Jolly Grant Airport"},
+            new { citycode = "MAA", cityname = "Chennai", airportname = "Chennai International Airport"},
+            new { citycode = "CJB", cityname = "Coimbatore", airportname = "Coimbatore Airport"},
+            new { citycode = "RPR", cityname = "Raipur", airportname = "Raipur Airport"}
           
     
             // Add more data as needed...

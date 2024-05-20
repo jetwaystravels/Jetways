@@ -13,7 +13,7 @@ namespace Utility
                 {
                     System.IO.Directory.CreateDirectory(_path);
                 }
-                File.WriteAllText(_path + "\\" + name + "-" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".txt", logs);
+                File.WriteAllText(_path + "\\" + name + "-" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".txt", logs);
             }
             catch (Exception ex)
             {
@@ -30,7 +30,7 @@ namespace Utility
                 {
                     System.IO.Directory.CreateDirectory(_path);
                 }
-                File.WriteAllText(_path + "\\" + name + "-" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".txt", logs);
+                File.WriteAllText(_path + "\\" + name + "-" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".txt", logs);
             }
             catch (Exception ex)
             {

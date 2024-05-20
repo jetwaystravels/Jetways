@@ -45,10 +45,10 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
             List<string> _Mealsdata = new List<string>();
             var flagsession = "NA";
             var airlinename = "";
-            string [] AirlineNamedesc=new string[2];
+            string[] AirlineNamedesc = new string[2];
             for (int p = 0; p < fareKey.Count; p++)
             {
-                
+
                 if (fareKey[p].ToLower().Contains("indigo"))
                 {
                     flagsession = "6E";
@@ -76,14 +76,23 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                 string _JourneyKeyOneway = journeyKey[p];
                 string[] _Jparts = _JourneyKeyOneway.Split('@');
                 string _JourneykeyRTData = _Jparts[2];
-                string _journeySide= _Jparts[1];
+                string _journeySide = _Jparts[1];
                 AirlineNamedesc[p] = _JourneykeyRTData;
                 using (HttpClient client = new HttpClient())
                 {
                     if (_JourneykeyRTData.ToLower() == "airasia")
                     {
+                        string tokenview = string.Empty;
                         string infant = string.Empty;
-                        string tokenview = HttpContext.Session.GetString("AirasiaTokan");
+                        if (_journeySide == "0j")
+                        {
+                            tokenview = HttpContext.Session.GetString("AirasiaTokan");
+                        }
+                        else
+                        {
+                            tokenview = HttpContext.Session.GetString("AirasiaTokanR");
+                        }
+                        tokenview = tokenview.Replace(@"""", string.Empty);
                         if (tokenview == "" || tokenview == null)
                         {
                             return RedirectToAction("Index");
@@ -349,7 +358,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 AirAsiaTripResponceModel passeengerKeyListinfant = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passengerdatainfant, typeof(AirAsiaTripResponceModel));
 
                                 SimpleAvailabilityRequestModel _SimpleAvailabilityobject = new SimpleAvailabilityRequestModel();
-                                var jsonDataObject = TempData["PassengerModel"];
+                                //var jsonDataObject = TempData["PassengerModel"];
+                                var jsonDataObject = HttpContext.Session.GetString("PassengerModel");
                                 _SimpleAvailabilityobject = JsonConvert.DeserializeObject<SimpleAvailabilityRequestModel>(jsonDataObject.ToString());
 
                                 GetItenaryModel itenaryInfant = new GetItenaryModel();
@@ -644,7 +654,17 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         #region SpiceJetSellRequest
                         string stravailibitilityrequest = HttpContext.Session.GetString("SpicejetAvailibilityRequest");
                         GetAvailabilityRequest availibiltyRQ = JsonConvert.DeserializeObject<GetAvailabilityRequest>(stravailibitilityrequest);
-                        Signature = HttpContext.Session.GetString("SpicejetSignautre");
+                        Signature = string.Empty;
+                        str3 = string.Empty;
+                        TotalCount = 0;
+                        if (_journeySide == "0j")
+                        {
+                            Signature = HttpContext.Session.GetString("SpicejetSignature");
+                        }
+                        else
+                        {
+                            Signature = HttpContext.Session.GetString("SpicejetSignatureR");
+                        }
                         Signature = Signature.Replace(@"""", string.Empty);
                         int adultcount = Convert.ToInt32(HttpContext.Session.GetString("adultCount"));
                         int childcount = Convert.ToInt32(HttpContext.Session.GetString("childCount"));
@@ -808,7 +828,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 AAJourneyobj.segments = AASegmentlist;
                                 AAJourneyList.Add(AAJourneyobj);
                             }
-
+                            var passanger = _GetBookingFromStateRS1.BookingData.Passengers;
                             int passengercount = availibiltyRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxCount;
 
                             List<AAPassengers> passkeylist = new List<AAPassengers>();
@@ -824,9 +844,6 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     passkeylist.Add(passkeytypeobj);
                                     a++;
                                 }
-                                //passengerkey12 = passkeytypeobj.passengerKey;
-
-
                             }
                             //To do for basefare and taxes
 
@@ -940,89 +957,89 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
                             HttpContext.Session.SetString("journeySellKey", JsonConvert.SerializeObject(_JourneykeyData));
                             SimpleAvailabilityRequestModel _SimpleAvailabilityobj = new SimpleAvailabilityRequestModel();
-
-                            var jsonData = TempData["SpiceJetPassengerModel"];
+                            var jsonData = HttpContext.Session.GetString("SpiceJetPassengerModelR");
                             _SimpleAvailabilityobj = JsonConvert.DeserializeObject<SimpleAvailabilityRequestModel>(jsonData.ToString());
 
                             if (_getPriceItineraryRS != null)
                             {
-                                var passanger = _getPriceItineraryRS.Booking.Passengers;
-
-                                #region SellSSrInfant
-                                SellRequest sellSsrRequest = new SellRequest();
-                                SellRequestData sellreqd = new SellRequestData();
-                                sellSsrRequest.Signature = Signature;
-                                sellSsrRequest.ContractVersion = 420;
-                                sellreqd.SellBy = SellBy.SSR;
-                                sellreqd.SellBySpecified = true;
-                                sellreqd.SellSSR = new SellSSR();
-                                sellreqd.SellSSR.SSRRequest = new SSRRequest();
-                                journeyscount = _getPriceItineraryRS.Booking.Journeys.Length;
-                                for (int i = 0; i < journeyscount; i++)
+                                if (infantcount > 0)
                                 {
-                                    int segmentscount = _getPriceItineraryRS.Booking.Journeys[i].Segments.Length;
-                                    sellreqd.SellSSR.SSRRequest.SegmentSSRRequests = new SegmentSSRRequest[segmentscount];
-                                    for (int j = 0; j < segmentscount; j++)
+                                    #region SellSSrInfant
+                                    SellRequest sellSsrRequest = new SellRequest();
+                                    SellRequestData sellreqd = new SellRequestData();
+                                    sellSsrRequest.Signature = Signature;
+                                    sellSsrRequest.ContractVersion = 420;
+                                    sellreqd.SellBy = SellBy.SSR;
+                                    sellreqd.SellBySpecified = true;
+                                    sellreqd.SellSSR = new SellSSR();
+                                    sellreqd.SellSSR.SSRRequest = new SSRRequest();
+                                    journeyscount = _getPriceItineraryRS.Booking.Journeys.Length;
+                                    for (int i = 0; i < journeyscount; i++)
                                     {
-                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j] = new SegmentSSRRequest();
-                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].DepartureStation = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].DepartureStation;
-                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].ArrivalStation = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].ArrivalStation;
-                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].STD = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].STD;
-                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].STDSpecified = true;
-                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].FlightDesignator = new FlightDesignator();
-                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].FlightDesignator.CarrierCode = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].FlightDesignator.CarrierCode; ;
-                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].FlightDesignator.FlightNumber = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].FlightDesignator.FlightNumber;
-                                        //GetPassenger(passengerdetails);
-                                        int numinfant = 0;
-                                        if (!string.IsNullOrEmpty(HttpContext.Session.GetString("infantCount")))
+                                        int segmentscount = _getPriceItineraryRS.Booking.Journeys[i].Segments.Length;
+                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests = new SegmentSSRRequest[segmentscount];
+                                        for (int j = 0; j < segmentscount; j++)
                                         {
-                                            numinfant = Convert.ToInt32(HttpContext.Session.GetString("infantCount"));
-                                        }
-                                        //Paxes PaxNum = (Paxes)JsonConvert.DeserializeObject(numinfant, typeof(Paxes));
-                                        bool infant = false;
-                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[numinfant];
-
-                                        for (int j1 = 0; j1 < numinfant; j1++)
-                                        {
-
-                                            if (j1 < numinfant)
+                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j] = new SegmentSSRRequest();
+                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].DepartureStation = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].DepartureStation;
+                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].ArrivalStation = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].ArrivalStation;
+                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].STD = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].STD;
+                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].STDSpecified = true;
+                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].FlightDesignator = new FlightDesignator();
+                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].FlightDesignator.CarrierCode = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].FlightDesignator.CarrierCode; ;
+                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].FlightDesignator.FlightNumber = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].FlightDesignator.FlightNumber;
+                                            //GetPassenger(passengerdetails);
+                                            int numinfant = 0;
+                                            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("infantCount")))
                                             {
-                                                for (int i1 = 0; i1 < numinfant; i1++)//Paxnum 1 adult,1 child,1 infant 2 meal
+                                                numinfant = Convert.ToInt32(HttpContext.Session.GetString("infantCount"));
+                                            }
+                                            //Paxes PaxNum = (Paxes)JsonConvert.DeserializeObject(numinfant, typeof(Paxes));
+                                            bool infant = false;
+                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[numinfant];
+
+                                            for (int j1 = 0; j1 < numinfant; j1++)
+                                            {
+
+                                                if (j1 < numinfant)
                                                 {
-                                                    infantcount = numinfant;
-                                                    if (infantcount > 0 && i1 + 1 <= infantcount)
+                                                    for (int i1 = 0; i1 < numinfant; i1++)//Paxnum 1 adult,1 child,1 infant 2 meal
                                                     {
-                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1] = new PaxSSR();
-                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].ActionStatusCode = "NN";
-                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].SSRCode = "INFT";
-                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].PassengerNumberSpecified = true;
-                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].PassengerNumber = Convert.ToInt16(i1);
-                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].SSRNumber = Convert.ToInt16(0);
-                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].DepartureStation = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].DepartureStation;
-                                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].ArrivalStation = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].ArrivalStation;
-                                                        j1 = numinfant - 1;
+                                                        infantcount = numinfant;
+                                                        if (infantcount > 0 && i1 + 1 <= infantcount)
+                                                        {
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1] = new PaxSSR();
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].ActionStatusCode = "NN";
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].SSRCode = "INFT";
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].PassengerNumberSpecified = true;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].PassengerNumber = Convert.ToInt16(i1);
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].SSRNumber = Convert.ToInt16(0);
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].DepartureStation = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].DepartureStation;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].ArrivalStation = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].ArrivalStation;
+                                                            j1 = numinfant - 1;
+                                                        }
                                                     }
                                                 }
                                             }
+
+
                                         }
-
-
                                     }
-                                }
-                                sellSsrRequest.SellRequestData = sellreqd;
-                                SellResponse sellSsrResponse = null;
+                                    sellSsrRequest.SellRequestData = sellreqd;
+                                    SellResponse sellSsrResponse = null;
 
-                                objSpiceJet = new SpiceJetApiController();
-                                sellSsrResponse = await objSpiceJet.sellssR(sellSsrRequest);
+                                    objSpiceJet = new SpiceJetApiController();
+                                    sellSsrResponse = await objSpiceJet.sellssR(sellSsrRequest);
 
-                                str3 = JsonConvert.SerializeObject(sellSsrResponse);
-                                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSRInfant", "SpicejetRT");
+                                    str3 = JsonConvert.SerializeObject(sellSsrResponse);
+                                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSRInfant", "SpicejetRT");
 
 
-                                if (sellSsrResponse != null)
-                                {
-                                    //var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
-                                    var JsonsellSsrResponse = sellSsrResponse;
+                                    if (sellSsrResponse != null)
+                                    {
+                                        //var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
+                                        var JsonsellSsrResponse = sellSsrResponse;
+                                    }
                                 }
                                 #endregion
                             }
@@ -1048,7 +1065,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 int Inftbasefare = 0;
                                 int Inftcount = 0;
                                 int infttax = 0;
-                                if (_GetBookingFromStateRS.BookingData.Passengers[0].PassengerFees.Length > 0)
+                                if (_GetBookingFromStateRS.BookingData.Passengers.Length > 0 && _GetBookingFromStateRS.BookingData.Passengers[0].PassengerFees.Length > 0)
                                 {
                                     for (int i = 0; i < _GetBookingFromStateRS.BookingData.Passengers[0].PassengerFees[0].ServiceCharges.Length; i++)
                                     {
@@ -1068,11 +1085,10 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     AirAsiaTripResponceobj.infttax = infttax * infantcount;
                                 }
                             }
-                            HttpContext.Session.SetString("keypassengerItanary", JsonConvert.SerializeObject(AirAsiaTripResponceobj));
-
-                            //HttpContext.Session.SetString("keypassengerItanary", JsonConvert.SerializeObject(AirAsiaTripResponceobj));
-                            //HttpContext.Session.SetString("keypassengerItanary", JsonConvert.SerializeObject(AirAsiaTripResponceobj));
                             #endregion
+                            HttpContext.Session.SetString("keypassengerItanary", JsonConvert.SerializeObject(AirAsiaTripResponceobj));
+                            //HttpContext.Session.SetString("keypassengerItanary", JsonConvert.SerializeObject(AirAsiaTripResponceobj));
+                            //HttpContext.Session.SetString("keypassengerItanary", JsonConvert.SerializeObject(AirAsiaTripResponceobj));
                         }
                     }
 
@@ -1363,9 +1379,18 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
                     #region SeatMap
 
-                    #region SeatMap
+                    #region AirAsia SeatMap 
                     if (_JourneykeyRTData.ToLower() == "airasia")
                     {
+                        if (_journeySide == "0j")
+                        {
+                            token = HttpContext.Session.GetString("AirasiaTokan");
+                        }
+                        else
+                        {
+                            token = HttpContext.Session.GetString("AirasiaTokanR");
+                        }
+                        token = token.Replace(@"""", string.Empty);
                         TimeSpan timeSpan1 = new TimeSpan(0, 0, 0, 10);
                         string _JourneykeyDataAA = HttpContext.Session.GetString("journeySellKeyAA");
                         _JourneykeyDataAA = _JourneykeyDataAA.Replace(@"""", string.Empty);
@@ -1575,9 +1600,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         }
                     }
                     #endregion
-
                     //SpicejetSeat map
-                    #region SeatMap
+                    #region SeatMap Spicejet
                     if (_JourneykeyRTData.ToLower() == "spicejet")
                     {
                         GetSeatAvailabilityRequest _getseatAvailabilityRequest = new GetSeatAvailabilityRequest();
@@ -1629,6 +1653,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 SeatMapResponceModellist = new List<SeatMapResponceModel>();
                                 Fees Fees = new Fees();
                                 Seatmap Seatmapobj = new Seatmap();
+                                Seatmapobj.name = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Name;
+                                TempData["AirCraftName"] = Seatmapobj.name;
                                 Seatmapobj.arrivalStation = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].ArrivalStation;
                                 Seatmapobj.departureStation = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].DepartureStation;
                                 Seatmapobj.marketingCode = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].MarketingCode;
@@ -1680,9 +1706,18 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                             List<Servicecharge> feesgroupserviceChargeslist = new List<Servicecharge>();
                                             for (int l = 0; l < feesgroupserviceChargescount; l++)
                                             {
-                                                Servicecharge feesgroupserviceChargesobj = new Servicecharge();
-                                                compartmentsunitobj.servicechargefeeAmount += Convert.ToInt32(SeatGroup[x].SeatAvailabilityResponse.SeatGroupPassengerFees[k].PassengerFee.ServiceCharges[l].Amount);
+                                                // Servicecharge feesgroupserviceChargesobj = new Servicecharge();
+                                                if (l > 0)
+                                                {
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    compartmentsunitobj.servicechargefeeAmount += Convert.ToInt32(SeatGroup[x].SeatAvailabilityResponse.SeatGroupPassengerFees[k].PassengerFee.ServiceCharges[l].Amount);
+                                                }
+
                                             }
+                                            break;
                                         }
                                     }
                                     compartmentsunitobj.unitKey = compartmentsunitobj.designator;
@@ -1702,15 +1737,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     Decksobj.units = compartmentsunitlist;
                                 }
 
-                                //var groupscount = JsonObjSeatmap.data[x].fees[passengerkey12].groups;
-                                //var feesgroupcount = ((Newtonsoft.Json.Linq.JContainer)groupscount).Count;
-                                //string strText = Regex.Match(_responseSeatmap, @"data""[\s\S]*?fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup",
-                                // RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups["data"].Value;
-
-                                //string seatgroup = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[x].Compartments[0].Seats[i].SeatGroup.ToString();
-
                                 List<Groups> GroupsFeelist = new List<Groups>();
-
                                 int testcount = SeatGroup[x].SeatAvailabilityResponse.SeatGroupPassengerFees.Length;
                                 for (int i = 0; i < testcount; i++)
                                 {
@@ -1784,9 +1811,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     }
 
                     #endregion
-
                     //IndigoSeat map
-                    #region SeatMap
+                    #region SeatMap Indigo
                     if (_JourneykeyRTData.ToLower() == "indigo")
                     {
                         if (AirAsiaTripResponceobj == null)
@@ -1865,6 +1891,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                                     compartmentsunitobj.servicechargefeeAmount += Convert.ToInt32(SeatGroup[x].SeatAvailabilityResponse.SeatGroupPassengerFees[k].PassengerFee.ServiceCharges[l].Amount);
                                                 }
                                             }
+                                            break;
                                         }
                                     }
                                     compartmentsunitobj.unitKey = compartmentsunitobj.designator;
@@ -1951,6 +1978,15 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     #region Meals AirAsia
                     if (_JourneykeyRTData.ToLower() == "airasia")
                     {
+                        if (_journeySide == "0j")
+                        {
+                            token = HttpContext.Session.GetString("AirasiaTokan");
+                        }
+                        else
+                        {
+                            token = HttpContext.Session.GetString("AirasiaTokanR");
+                        }
+                        token = token.Replace(@"""", string.Empty);
                         string passengerdata = HttpContext.Session.GetString("keypassenger");
 
                         AirAsiaTripResponceModel passeengerKeyList = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passengerdata, typeof(AirAsiaTripResponceModel));
@@ -2126,6 +2162,17 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     #region ssravailability
                     if (_JourneykeyRTData.ToLower() == "spicejet")
                     {
+                        Signature = string.Empty;
+                        if (_journeySide == "0j")
+                        {
+                            Signature = HttpContext.Session.GetString("SpicejetSignature");
+                        }
+                        else
+                        {
+                            Signature = HttpContext.Session.GetString("SpicejetSignatureR");
+                        }
+
+                        Signature = Signature.Replace(@"""", string.Empty);
                         List<legSsrs> SSRAvailabiltyLegssrlist = new List<legSsrs>();
                         SSRAvailabiltyResponceModel SSRAvailabiltyResponceobj = null;
                         AirAsiaTripResponceModel passeengerlist = null;
@@ -2194,6 +2241,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             //******Vinay***********//
                             if (_res != null)
                             {
+                                Hashtable htSSr = new Hashtable();
+                                SpicejetMealImageList.GetAllmeal(htSSr);
                                 SSRAvailabiltyLegssrlist = new List<legSsrs>();
 
                                 SSRAvailabiltyResponceobj = new SSRAvailabiltyResponceModel();
@@ -2208,54 +2257,67 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                         legssrslist = new List<childlegssrs>();
                                         for (int j = 0; j < _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList.Length; j++)
                                         {
-                                            if (_res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].InventoryControlled == true)
+                                            //if (_res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].InventoryControlled == true)
+                                            //{
+                                            int legSsrscount = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].SSRLegList.Length;
+                                            try
                                             {
-                                                int legSsrscount = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].SSRLegList.Length;
-                                                try
+                                                //for (int i = 0; i < legSsrscount; i++)
+                                                //{
+
+                                                SSRAvailabiltyLegssrobj = new legSsrs();
+                                                SSRAvailabiltyLegssrobj.legKey = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].LegKey.ToString();
+                                                legDetailsobj = new legDetails();
+                                                legDetailsobj.destination = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].LegKey.ArrivalStation;
+                                                legDetailsobj.origin = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].LegKey.DepartureStation;
+                                                legDetailsobj.departureDate = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].LegKey.DepartureDate.ToString();
+                                                legidentifier legidentifierobj = new legidentifier();
+                                                legidentifierobj.identifier = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].LegKey.FlightNumber;
+                                                legidentifierobj.carrierCode = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].LegKey.CarrierCode;
+                                                legDetailsobj.legidentifier = legidentifierobj;
+                                                childlegssrs legssrs = new childlegssrs();
+                                                legssrs.ssrCode = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].SSRCode.ToString();
+                                                if (htSSr[legssrs.ssrCode] != null)
                                                 {
-                                                    for (int i = 0; i < legSsrscount; i++)
+                                                    legssrs.name = htSSr[legssrs.ssrCode].ToString();
+                                                }
+                                                legssrs.ssrCode = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].SSRCode.ToString();
+                                                legssrs.available = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].Available;
+                                                if (_res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].PaxSSRPriceList.Length > 0)
+                                                {
+                                                    legssrs.feeCode = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].PaxSSRPriceList[0].PaxFee.FeeCode;
+                                                    List<legpassengers> legpassengerslist = new List<legpassengers>();
+                                                    decimal Amount = decimal.Zero;
+                                                    legpassengers passengersdetail = new legpassengers();
+                                                    int i2 = 0;
+                                                    foreach (var items in _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].PaxSSRPriceList[0].PaxFee.ServiceCharges)
                                                     {
-
-                                                        SSRAvailabiltyLegssrobj = new legSsrs();
-                                                        SSRAvailabiltyLegssrobj.legKey = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].SSRLegList[i].LegKey.ToString();
-                                                        legDetailsobj = new legDetails();
-                                                        legDetailsobj.destination = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].SSRLegList[i].LegKey.ArrivalStation;
-                                                        legDetailsobj.origin = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].SSRLegList[i].LegKey.DepartureStation;
-                                                        legDetailsobj.departureDate = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].SSRLegList[i].LegKey.DepartureDate.ToString();
-                                                        legidentifier legidentifierobj = new legidentifier();
-                                                        legidentifierobj.identifier = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].SSRLegList[i].LegKey.FlightNumber;
-                                                        legidentifierobj.carrierCode = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].SSRLegList[i].LegKey.CarrierCode;
-                                                        legDetailsobj.legidentifier = legidentifierobj;
-                                                        childlegssrs legssrs = new childlegssrs();
-                                                        legssrs.ssrCode = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].SSRCode.ToString();
-                                                        legssrs.available = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].Available;
-                                                        if (_res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].PaxSSRPriceList.Length > 0)
+                                                        if (i2 > 0)
                                                         {
-                                                            legssrs.feeCode = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].PaxSSRPriceList[0].PaxFee.FeeCode;
-                                                            List<legpassengers> legpassengerslist = new List<legpassengers>();
-                                                            decimal Amount = decimal.Zero;
-                                                            legpassengers passengersdetail = new legpassengers();
-                                                            foreach (var items in _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].PaxSSRPriceList[0].PaxFee.ServiceCharges)
-                                                            {
-                                                                Amount += items.Amount;
-                                                                passengersdetail.price = Math.Round(Amount).ToString(); //Ammount
-
-                                                            }
-                                                            passengersdetail.passengerKey = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].PaxSSRPriceList[0].PassengerNumberList.ToString();
-                                                            passengersdetail.ssrKey = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].SSRCode;
-                                                            passengersdetail.Airline = Airlines.Spicejet;
-                                                            legpassengerslist.Add(passengersdetail);
-                                                            legssrs.legpassengers = legpassengerslist;
-                                                            legssrslist.Add(legssrs);
+                                                            break;
                                                         }
-
+                                                        else
+                                                        {
+                                                            Amount += items.Amount;
+                                                            passengersdetail.price = Math.Round(Amount).ToString(); //Ammount
+                                                        }
+                                                        i2++;
                                                     }
+                                                    passengersdetail.passengerKey = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].PaxSSRPriceList[0].PassengerNumberList.ToString();
+                                                    passengersdetail.ssrKey = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].SSRCode;
+                                                    passengersdetail.Airline = Airlines.Spicejet;
+                                                    legpassengerslist.Add(passengersdetail);
+                                                    legssrs.legpassengers = legpassengerslist;
+                                                    legssrslist.Add(legssrs);
                                                 }
-                                                catch (Exception ex)
-                                                {
 
-                                                }
+                                                //}
                                             }
+                                            catch (Exception ex)
+                                            {
+
+                                            }
+                                            //}
                                         }
                                         SSRAvailabiltyLegssrobj.legDetails = legDetailsobj;
                                         SSRAvailabiltyLegssrobj.legssrs = legssrslist;
@@ -2418,7 +2480,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     #endregion
                 }
             }
-            
+
             HttpContext.Session.SetString("SelectedAirlineName", JsonConvert.SerializeObject(AirlineNamedesc));
             HttpContext.Session.SetString("AirlineSelectedRT", JsonConvert.SerializeObject(airlinenameforcommit));
             HttpContext.Session.SetString("Mainpassengervm", JsonConvert.SerializeObject(MainPassengerdata));

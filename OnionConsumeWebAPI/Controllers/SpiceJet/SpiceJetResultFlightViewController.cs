@@ -553,7 +553,7 @@ namespace OnionConsumeWebAPI.Controllers
                     HttpContext.Session.SetString("journeySellKey", JsonConvert.SerializeObject(journeyKey));
                     SimpleAvailabilityRequestModel _SimpleAvailabilityobj = new SimpleAvailabilityRequestModel();
 
-                    var jsonData = TempData["SpiceJetPassengerModel"];
+                    var jsonData = HttpContext.Session.GetString("SpiceJetPassengerModel");
                     _SimpleAvailabilityobj = JsonConvert.DeserializeObject<SimpleAvailabilityRequestModel>(jsonData.ToString());
 
                     if (_getPriceItineraryRS != null)

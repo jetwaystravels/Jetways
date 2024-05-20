@@ -130,7 +130,7 @@ namespace OnionArchitectureAPI.Services.Indigo
             _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].IncludeTaxesAndFeesSpecified = true;
 
 
-            SetSessionValue("IndigoReturnSignature", JsonConvert.SerializeObject(_IndigologonResponseobj.Signature));
+            //SetSessionValue("IndigoReturnSignature", JsonConvert.SerializeObject(_IndigologonResponseobj.Signature));
             SetSessionValue("IndigoAvailibilityRequest", JsonConvert.SerializeObject(_getAvailabilityReturnRQ));
             SetSessionValue("IndigoPassengerModel", JsonConvert.SerializeObject(_getAvailabilityReturnRQ));
             //httpContext.Session.SetString("IndigoReturnSignature", JsonConvert.SerializeObject(_IndigologonResponseobj.Signature));

@@ -591,312 +591,318 @@
                                                 </div>
                                             </div>
 
+
                                             <div class="rtflight-dtl showBtn text-12"><a href="#">Flight Details <i class="fa fa-angle-down" data-unicode="f107"></i></a></div>
                                             <div class="hideme" style="display:none;">
-                                                <div class="tabs -underline-2 pt-30 lg:pt-30 sm:pt-30 js-tabs">
-                                                    <div class="tabs__controls row x-gap-2 y-gap-0 lg:x-gap-20 js-tabs-controls">
 
-                                                        <div class="col-auto">
-                                                            <button type="button" class="tabs__button text-12 text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button is-tab-el-active" data-tab-target=".-tab-item-1">Itinerary</button>
-                                                        </div>
+                                                <div class="d-flex justify-between items-center bg-listtab">
+                                                    <div class="text-12 active tabBG flightT1 text-light-1 fw-500">Itinerary</div>
+                                                    <div class="text-12 flightT2 text-light-1 fw-500">Fare Details</div>
+                                                    <div class="text-12 flightT3 text-light-1 fw-500">Baggage</div>
+                                                    <div class="text-12 flightT4 text-light-1 fw-500">Cancellation</div>
+                                                    <div class="text-12 flightT5 text-light-1 fw-500">Fare Rule</div>
+                                                </div>
 
-                                                        <div class="col-auto">
-                                                            <button type="button" class="tabs__button text-12 text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button" data-tab-target=".-tab-item-2">Fare Details</button>
-                                                        </div>
 
-                                                        <div class="col-auto">
-                                                            <button type="button" class="tabs__button text-12 text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button" data-tab-target=".-tab-item-3">Baggage</button>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <button type="button" class="tabs__button text-12 text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button" data-tab-target=".-tab-item-4">Cancellation</button>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <button type="button" class="tabs__button text-12 text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button" data-tab-target=".-tab-item-5">Fare Rule</button>
-                                                        </div>
 
-                                                    </div>
+                                                <div id="Fcontent1" class="Ftab1">
 
-                                                    <div class="tabs__content pt-20 js-tabs-content">
-                                                        @{
-                                                            string CompanyName = "";
-                                                            int SegmentDatacount = 0;
-                                                        }
-                                                        @for (int a = 0; a < Model.SimpleAvailibilityaAddResponcelist[j].segments.Count; a++)
+
+
+                                                    @{
+                                                        string CompanyName = "";
+                                                        int SegmentDatacount = 0;
+                                                    }
+                                                    @for (int a = 0; a < Model.SimpleAvailibilityaAddResponcelist[j].segments.Count; a++)
+                                                    {
+                                                        if (Model.SimpleAvailibilityaAddResponcelist[j].fareTotalsum <= 0)
+                                                            continue;
+                                                        CompanyName = "";
+                                                        @for (int b = 0; b < Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs.Count; b++)
                                                         {
-                                                            if (Model.SimpleAvailibilityaAddResponcelist[j].fareTotalsum <= 0)
-                                                                continue;
-                                                            CompanyName = "";
-                                                            @for (int b = 0; b < Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs.Count; b++)
-                                                            {
-                                                                <div class="tabs__pane -tab-item-1 is-tab-el-active">
-                                                                    <div class="col">
-                                                                        <div class="row y-gap-10 items-center">
-                                                                            <div class="dst-top">@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.origin<i class="fa fa-angle-double-right" aria-hidden="true"></i>@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.destination</div>
-                                                                            <div class="d-flex items-center">
-                                                                                <div class="climg pe-3">
-                                                                                    @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("SG"))
-                                                                                    {
+                                                            <div class="">
+                                                                <div class="col">
+                                                                    <div class="row y-gap-10 items-center">
+                                                                        <div class="dst-top text-15 fw-bold">@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.origin<i class="fa fa-angle-double-right" aria-hidden="true"></i>@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.destination</div>
+                                                                        <div class="d-flex text-12  items-center">
+                                                                            <div class="climg">
+                                                                                @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("SG"))
+                                                                                {
 
-                                                                                        <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
-                                                                                    }
-                                                                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("6E"))
-                                                                                    {
+                                                                                    <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
+                                                                                }
+                                                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("6E"))
+                                                                                {
 
-                                                                                        <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
-                                                                                    }
-                                                                                    else
-                                                                                    {
-                                                                                        <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
-                                                                                    }
-                                                                                </div>
-                                                                                <div class="colcrc">
-                                                                                    <div class="row x-gap-20 items-end">
-                                                                                        <div class="col-auto">
-                                                                                            <div class="inside-col">
-                                                                                                @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("SG"))
-                                                                                                {
-                                                                                                    CompanyName = "SpiceJet";
-                                                                                                }
-                                                                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("6E"))
-                                                                                                {
+                                                                                    <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
+                                                                                }
+                                                                            </div>
+                                                                            <div class="colcrc">
+                                                                                <div class="row ">
+                                                                                    <div class="col-auto">
+                                                                                        <div class="inside-col">
+                                                                                            @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("SG"))
+                                                                                            {
+                                                                                                CompanyName = "SpiceJet";
+                                                                                            }
+                                                                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("6E"))
+                                                                                            {
 
-                                                                                                    CompanyName = "Indigo";
-                                                                                                }
-                                                                                                else
-                                                                                                {
-                                                                                                    CompanyName = "Air India Expr...";
-                                                                                                }
-                                                                                                <div class="lh-15 fw-500">@CompanyName</div>
-                                                                                                @{
-                                                                                                    SegmentDatacount = Model.SimpleAvailibilityaAddResponcelist[j].segments.Count;
-                                                                                                    <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.identifier </div>
-                                                                                                }
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        @{
-                                                                                            departuretimefinal = @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.departureTime.ToString().Substring(11, 5);
-
-                                                                                            arrivalfinal = @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.arrivalTime.ToString().Substring(11, 5);
-
-                                                                                            formattedTime = string.Empty;
-                                                                                            arrivalDate = Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.arrival;
-                                                                                            departureDate = Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.departure;
-                                                                                            diff = (arrivalDate - departureDate);
-                                                                                            timeSpan = TimeSpan.Parse(diff.ToString());
-                                                                                            if ((int)timeSpan.Minutes == 0)
-                                                                                                formattedTime = $"{(int)timeSpan.TotalHours} h";
+                                                                                                CompanyName = "Indigo";
+                                                                                            }
                                                                                             else
                                                                                             {
-                                                                                                if ((int)timeSpan.Hours == 0)
-                                                                                                {
-                                                                                                    formattedTime = $"{(int)timeSpan.Minutes} m";
-                                                                                                }
-                                                                                                else
-                                                                                                {
-                                                                                                    formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
-                                                                                                }
+                                                                                                CompanyName = "Air India Exp..";
                                                                                             }
+                                                                                            <div class="lh-15 fw-500">@CompanyName</div>
+                                                                                            @{
+                                                                                                SegmentDatacount = Model.SimpleAvailibilityaAddResponcelist[j].segments.Count;
+                                                                                                <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.identifier </div>
+                                                                                            }
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    @{
+                                                                                        departuretimefinal = @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.departureTime.ToString().Substring(11, 5);
 
+                                                                                        arrivalfinal = @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.arrivalTime.ToString().Substring(11, 5);
 
+                                                                                        formattedTime = string.Empty;
+                                                                                        arrivalDate = Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.arrival;
+                                                                                        departureDate = Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.departure;
+                                                                                        diff = (arrivalDate - departureDate);
+                                                                                        timeSpan = TimeSpan.Parse(diff.ToString());
+                                                                                        if ((int)timeSpan.Minutes == 0)
+                                                                                            formattedTime = $"{(int)timeSpan.TotalHours} h";
+                                                                                        else
+                                                                                        {
+                                                                                            if ((int)timeSpan.Hours == 0)
+                                                                                            {
+                                                                                                formattedTime = $"{(int)timeSpan.Minutes} m";
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                                                                formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
+                                                                                            }
                                                                                         }
-                                                                                        <div class="col-auto">
-                                                                                            <div class="">@departuretimefinal</div>
-                                                                                            <div class="">@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.origin</div>
-                                                                                            <span>Terminal-@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.departureTerminal </span>
+
+
+                                                                                    }
+                                                                                    <div class="col-auto">
+                                                                                        <div class="fw-bold">@departuretimefinal</div>
+                                                                                        <div class="">@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.origin</div>
+                                                                                        <span>Terminal-@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.departureTerminal </span>
+                                                                                    </div>
+
+
+
+                                                                                    <div class="col-auto text-center">
+                                                                                        <div class="md:px-0">@formattedTime</div>
+                                                                                        <div class="flightLine">
+                                                                                            <div></div>
+                                                                                            <div></div>
                                                                                         </div>
+                                                                                        <div class="mt-1">&nbsp;</div>
+                                                                                    </div>
 
-
-
-                                                                                        <div class="col text-center">
-                                                                                            <div class="md:px-0">@formattedTime</div>
-                                                                                            <div class="flightLine">
-                                                                                                <div></div>
-                                                                                                <div></div>
-                                                                                            </div>
-                                                                                            <div class="mt-1">&nbsp;</div>
-                                                                                        </div>
-
-                                                                                        <div class="col-auto">
-                                                                                            <div class="lh-15 fw-500">@arrivalfinal</div>
-                                                                                            <div class="text-15 lh-15 text-light-1">@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.destination</div>
-                                                                                            <span>Terminal-@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.arrivalTerminal</span>
-                                                                                        </div>
+                                                                                    <div class="col-auto">
+                                                                                        <div class="lh-15  fw-bold">@arrivalfinal</div>
+                                                                                        <div class="lh-15 text-light-1">@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.destination</div>
+                                                                                        <span>Terminal-@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.arrivalTerminal</span>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-
-                                                            }
-                                                        }
-
-
-
-                                                        <div class="tabs__pane -tab-item-2">
-                                                            <div class="row y-gap-30">
-                                                                @{
-                                                                    DateTime originalDateTime = DateTime.Parse(@Model.SimpleAvailibilityaAddResponcelist[j].designator.departure.ToString());
-                                                                    // Convert to the desired format
-                                                                    string formattedDate = originalDateTime.ToString("dddd, dd MMM yyyy").ToUpper();
-                                                                }
-                                                                <div class="dst-top">@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin - @Model.SimpleAvailibilityaAddResponcelist[j].designator.destination (@formattedDate) </div>
-
-
-                                                                <div class="col-lg-4">
-                                                                    <div class="text-19 fw-600">Fare Rule</div>
-                                                                    @{
-                                                                        @for (var k = 0; k < Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual.Count; k++)
-                                                                        {
-                                                                            if (k > 0)
-                                                                            {
-                                                                                break;
-                                                                            }
-                                                                            decimal basic = @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].faretotal - @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].taxamount;
-                                                                            <table class="table mt-20">
-                                                                                <thead class="bg-light-2">
-                                                                                    <tr>
-                                                                                        <th>Fare Details</th>
-
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-
-                                                                                    <tr>
-                                                                                        <td>Basic(+)</td>
-                                                                                        <td>@basic.ToString("N0")</td>
-                                                                                    </tr>
-
-                                                                                    <tr>
-                                                                                        <td>Taxes(+)</td>
-                                                                                        <td>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].taxamount.ToString("N0")</td>
-                                                                                    </tr>
-
-
-                                                                                    <tr>
-                                                                                        <td>Total</td>
-                                                                                        <td>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].faretotal.ToString("N0")</td>
-                                                                                    </tr>
-                                                                                </tbody>
-                                                                            </table>
-                                                                        }
-                                                                    }
-                                                                </div>
                                                             </div>
-                                                        </div>
 
-                                                        <div class="tabs__pane -tab-item-3">
-                                                            <table class="table mt-20">
-                                                                <thead class="bg-light-2">
-                                                                    <tr>
-                                                                        <th>Airline</th>
-                                                                        <th>Pax Type</th>
-                                                                        <th>Check-in Baggage</th>
-                                                                        <th>Cabin Baggage</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td>
-                                                                            @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("SG"))
-                                                                            {
-                                                                                CompanyName = "SpiceJet";
-                                                                                <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
-                                                                            }
-                                                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("6E"))
-                                                                            {
-                                                                                CompanyName = "Indigo";
-                                                                                <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                                CompanyName = "Air India Expr...";
-                                                                                <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
-                                                                            }
+                                                        }
+                                                    }
 
-                                                                            @CompanyName <span>
-                                                                                @{
-                                                                                    SegmentDatacount = Model.SimpleAvailibilityaAddResponcelist[j].segments.Count;
+                                                </div>
 
-                                                                                    if (SegmentDatacount == 1)
-                                                                                    {
-                                                                                        <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.identifier </div>
-                                                                                    }
+                                                <!-----Ftab1 End----->
 
-                                                                                    if (SegmentDatacount == 2)
-                                                                                    {
-                                                                                        @for (var x = 0; x < SegmentDatacount; x++)
-                                                                                        {
-                                                                                            if (x == 0)
-                                                                                            {
+                                                <div id="Fcontent2" class="Ftab2" style="display:none;">
+                                                    <div class="row y-gap-10">
+                                                        @{
+                                                            DateTime originalDateTime = DateTime.Parse(@Model.SimpleAvailibilityaAddResponcelist[j].designator.departure.ToString());
+                                                            // Convert to the desired format
+                                                            string formattedDate = originalDateTime.ToString("dddd, dd MMM yyyy").ToUpper();
+                                                        }
+                                                        <div class="dst-top text-12">@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin - @Model.SimpleAvailibilityaAddResponcelist[j].designator.destination (@formattedDate) </div>
 
-                                                                                                <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier <b>,</b></div>
 
-                                                                                            }
-                                                                                            else
-                                                                                            {
-                                                                                                <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier</div>
+                                                        <div class="col-lg-4">
+                                                            <div class="text-19 fw-bold fw-600">Fare Rule</div>
+                                                            @{
+                                                                @for (var k = 0; k < Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual.Count; k++)
+                                                                {
+                                                                    if (k > 0)
+                                                                    {
+                                                                        break;
+                                                                    }
+                                                                    decimal basic = @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].faretotal - @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].taxamount;
+                                                                    <table class="table mt-20">
+                                                                        <thead class="bg-light-2">
+                                                                            <tr>
+                                                                                <th>Fare Details</th>
+                                                                                <th>Amount</th>
 
-                                                                                            }
+                                                                                <th></th>
+                                                                                <th></th>
+                                                                                <th></th>
+                                                                                <th></th>
+                                                                                <th></th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
 
-                                                                                        }
-                                                                                    }
-                                                                                }
+                                                                            <tr>
+                                                                                <td>Basic(+)</td>
+                                                                                <td>@basic.ToString("N0")</td>
+                                                                            </tr>
 
-                                                                            </span>
-                                                                        </td>
-                                                                        <td>Adult</td>
-                                                                        <td>15 Kg</td>
-                                                                        <td>7 Kg</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                            <div class="text-19 fw-600 pb-2">Terms &amp; Conditon</div>
-                                                            <ul class="list-disc y-gap-10">
-                                                                <li>For infants there is no baggage allowance.</li>
-                                                                <li>Airline can change Baggage Allowance.</li>
-                                                                <li>For Low Cost Carriers, international Check-in Baggage is 20 kg and for Gulf Sectors Baggage is 25-30 kg.</li>
-                                                                <li>If you have any query, feel free to Contact Us. Email: support@jetwaystravels.com</li>
-                                                            </ul>
-                                                        </div>
-                                                        <div class="tabs__pane -tab-item-4">
-                                                            <div class="dst-top">@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin - @Model.SimpleAvailibilityaAddResponcelist[j].designator.destination (@Model.SimpleAvailibilityaAddResponcelist[j].bookingdate)  </div>
-                                                            <table class="table mt-20">
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td>Cancellation Charges</td>
-                                                                        <td>Airline Free </td>
-                                                                        <td>Before Departure</td>
-                                                                        <td>As per Airline Fare rule</td>
-                                                                    </tr>
+                                                                            <tr>
+                                                                                <td>Taxes(+)</td>
+                                                                                <td>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].taxamount.ToString("N0")</td>
+                                                                            </tr>
 
-                                                                    <tr>
-                                                                        <td>Reschedule Charges </td>
-                                                                        <td>Airline Free </td>
-                                                                        <td>Before Departure</td>
-                                                                        <td>As per Airline Fare rule</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                            <div class="text-19 fw-600 pb-2">Terms &amp; Conditon</div>
-                                                            <ul class="list-disc y-gap-10">
-                                                                <li>Penalty is subject to 4 hour prior to departure and no changes are allowed after that.</li>
-                                                                <li>The charges will be on per passenger per sector.</li>
-                                                                <li>Rescheduling charges = Rescheduling/Change penalty+fare difference(if applicable)</li>
-                                                                <li>Partial cancellation is not allowed on the flilght tickets which are book under special discounted fares</li>
-                                                                <li>In case, the customer have not cancelled the ticket within the stipulated time or no show then only statutory taxes are refundable form the respective airlines</li>
-                                                                <li>For infants there is no baggage allowance</li>
-                                                                <li>In certain  situations of respricted cases, no amendments and cancellation is allowed.</li>
-                                                            </ul>
-                                                        </div>
 
-                                                        <div class="tabs__pane -tab-item-5">
-                                                            <div class="dst-top mb-3">Airline Fare Rule</div>
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris efficitur est id enim maximus aliquam sit amet nec mi. Sed vulputate lacus eros. Aliquam dictum ipsum leo, ut suscipit risus porttitor iaculis. Integer maximus dignissim mauris eget rhoncus. Sed scelerisque feugiat dui, et vehicula elit feugiat vel. Duis dignissim semper nibh, et pharetra tortor commodo ut. Ut eu efficitur elit. Nullam nec lacus et lacus interdum condimentum sit amet id velit. Aenean sagittis tortor nulla, ut dapibus augue scelerisque eu. Vivamus sit amet odio in mauris bibendum lobortis. Curabitur varius diam sit amet eleifend vehicula.</p>
-                                                            <p>Phasellus tortor augue, lobortis eu mauris aliquam, venenatis posuere lacus. Nam in justo eget ex vulputate posuere tincidunt ut nulla. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus luctus laoreet ex, sit amet imperdiet orci ultrices eu. Cras mattis at ex ac sodales. Vestibulum non nunc ut arcu volutpat convallis. Maecenas varius commodo ligula volutpat aliquam. Proin vehicula ultricies leo, eget imperdiet metus viverra non. Maecenas blandit, risus ut viverra blandit, neque risus porta mi, vel imperdiet lectus mauris vel elit. Ut vel fringilla tortor, a tempus ex. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed vitae eros diam. Sed tincidunt mauris quis erat malesuada efficitur non ac velit. Vivamus nec condimentum erat. Sed fringilla dui eget auctor interdum. Cras sed sem magna.</p>
+                                                                            <tr>
+                                                                                <td>Total</td>
+                                                                                <td>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].faretotal.ToString("N0")</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                }
+                                                            }
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <!-----Ftab2 End----->
+
+                                                <div id="Fcontent3" class="Ftab3" style="display:none;">
+                                                    <table class="table text-12 mt-20">
+                                                        <thead class="bg-light-2">
+                                                            <tr>
+                                                                <th>Airline</th>
+                                                                <th>Pax Type</th>
+                                                                <th>Check-in Baggage</th>
+                                                                <th>Cabin Baggage</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="d-flex flex-column text-12 width-110">
+                                                                    @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("SG"))
+                                                                    {
+                                                                        CompanyName = "SpiceJet";
+                                                                        <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
+                                                                    }
+                                                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("6E"))
+                                                                    {
+                                                                        CompanyName = "Indigo";
+                                                                        <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        CompanyName = "Air India Exp..";
+                                                                        <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
+                                                                    }
+
+                                                                    @CompanyName <span>
+                                                                        @{
+                                                                            SegmentDatacount = Model.SimpleAvailibilityaAddResponcelist[j].segments.Count;
+
+                                                                            if (SegmentDatacount == 1)
+                                                                            {
+                                                                                <div class="fliCode text-12"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.identifier </div>
+                                                                            }
+
+                                                                            if (SegmentDatacount == 2)
+                                                                            {
+                                                                                @for (var x = 0; x < SegmentDatacount; x++)
+                                                                                {
+                                                                                    if (x == 0)
+                                                                                    {
+
+                                                                                        <div class="fliCode text-12"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier <b>,</b></div>
+
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <div class="fliCode text-12"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier</div>
+
+                                                                                    }
+
+                                                                                }
+                                                                            }
+                                                                        }
+
+                                                                    </span>
+                                                                </td>
+                                                                <td>Adult</td>
+                                                                <td>15 Kg</td>
+                                                                <td>7 Kg</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <div class="text-19 fw-bold fw-600 pb-2">Terms &amp; Conditon</div>
+                                                    <ul class="list-disc y-gap-10">
+                                                        <li>For infants there is no baggage allowance.</li>
+                                                        <li>Airline can change Baggage Allowance.</li>
+                                                        <li>For Low Cost Carriers, international Check-in Baggage is 20 kg and for Gulf Sectors Baggage is 25-30 kg.</li>
+                                                        <li>If you have any query, feel free to Contact Us. Email: support@jetwaystravels.com</li>
+                                                    </ul>
+                                                </div>
+
+                                                <!-----Ftab3 End----->
+
+                                                <div id="Fcontent4" class="Ftab4" style="display:none;">
+                                                    <div class="dst-top text-12 fw-bold">@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin - @Model.SimpleAvailibilityaAddResponcelist[j].designator.destination (@Model.SimpleAvailibilityaAddResponcelist[j].bookingdate)  </div>
+                                                    <table class="table mt-20">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Cancellation Charges</td>
+                                                                <td>Airline Free </td>
+                                                                <td>Before Departure</td>
+                                                                <td>As per Airline Fare rule</td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>Reschedule Charges </td>
+                                                                <td>Airline Free </td>
+                                                                <td>Before Departure</td>
+                                                                <td>As per Airline Fare rule</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <div class="text-19 fw-600 pb-2">Terms &amp; Conditon</div>
+                                                    <ul class="list-disc y-gap-10">
+                                                        <li>Penalty is subject to 4 hour prior to departure and no changes are allowed after that.</li>
+                                                        <li>The charges will be on per passenger per sector.</li>
+                                                        <li>Rescheduling charges = Rescheduling/Change penalty+fare difference(if applicable)</li>
+                                                        <li>Partial cancellation is not allowed on the flilght tickets which are book under special discounted fares</li>
+                                                        <li>In case, the customer have not cancelled the ticket within the stipulated time or no show then only statutory taxes are refundable form the respective airlines</li>
+                                                        <li>For infants there is no baggage allowance</li>
+                                                        <li>In certain  situations of respricted cases, no amendments and cancellation is allowed.</li>
+                                                    </ul>
+                                                </div>
+
+                                                <!-----Ftab4 End----->
+                                                <div id="Fcontent5" class="Ftab5" style="display:none;">
+                                                    <div class="dst-top mb-3">Airline Fare Rule</div>
+                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                                    <p>Phasellus tortor augue, lobortis eu mauris aliquam, </p>
+                                                </div>
+
+                                                <!-----Ftab5 End----->
+
                                             </div>
 
                                         </div>
@@ -959,7 +965,7 @@
                             <div class="col-xl-6 col-lg-6">
                                 <div class="shorting-bg-white">
                                     @{
-                                        if(Model.SimpleAvailibilityaAddResponcelistR.Count>0)
+                                        if (Model.SimpleAvailibilityaAddResponcelistR.Count > 0)
                                         {
                                             <div class="fontSize1 d-flex justify-content-between"><div class="fw-600">@destinationR → @originR</div>  <div>@Model.SimpleAvailibilityaAddResponcelistR[0].bookingdate</div></div>
 
@@ -1091,10 +1097,318 @@
                                             </div>
 
                                             <div class="rtflight-dtl text-12 showBtn"><a href="#">Flight Details <i class="fa fa-angle-down" data-unicode="f107"></i></a></div>
-
                                             <div class="hideme" style="display:none;">
-                                                <div class="tabs -underline-2 pt-30 lg:pt-30 sm:pt-30 js-tabs">
-                                                    <div class="tabs__controls row x-gap-2 y-gap-0 lg:x-gap-20 js-tabs-controls">
+                                                <div class="d-flex justify-between items-center bg-listtab">
+                                                    <div class="text-12 active tabBG  flightT1RT text-light-1 fw-500">Itinerary</div>
+                                                    <div class="text-12 flightT2RT text-light-1 fw-500">Fare Details</div>
+                                                    <div class="text-12 flightT3RT text-light-1 fw-500">Baggage</div>
+                                                    <div class="text-12 flightT4RT text-light-1 fw-500">Cancellation</div>
+                                                    <div class="text-12 flightT5RT text-light-1 fw-500">Fare Rule</div>
+                                                </div>
+
+
+
+                                                <div id="Fcontent1RT" class="Ftab1RT">
+
+
+
+                                                    @{
+                                                        string CompanyName = "";
+                                                        int SegmentDatacount = 0;
+                                                    }
+                                                    @for (int a = 0; a < Model.SimpleAvailibilityaAddResponcelistR[j].segments.Count; a++)
+                                                    {
+                                                        if (Model.SimpleAvailibilityaAddResponcelistR[j].fareTotalsum <= 0)
+                                                            continue;
+                                                        CompanyName = "";
+                                                        @for (int b = 0; b < Model.SimpleAvailibilityaAddResponcelistR[j].segments[a].legs.Count; b++)
+                                                        {
+                                                            <div class="">
+                                                                <div class="col">
+                                                                    <div class="row y-gap-10 items-center">
+                                                                        <div class="dst-top text-15 fw-bold">@Model.SimpleAvailibilityaAddResponcelistR[j].segments[a].legs[b].designator.origin<i class="fa fa-angle-double-right" aria-hidden="true"></i>@Model.SimpleAvailibilityaAddResponcelistR[j].segments[a].legs[b].designator.destination</div>
+                                                                        <div class="d-flex text-12  items-center">
+                                                                            <div class="climg">
+                                                                                @if (Model.SimpleAvailibilityaAddResponcelistR[j].segments[a].identifier.carrierCode.Equals("SG"))
+                                                                                {
+
+                                                                                    <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
+                                                                                }
+                                                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].segments[a].identifier.carrierCode.Equals("6E"))
+                                                                                {
+
+                                                                                    <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
+                                                                                }
+                                                                            </div>
+                                                                            <div class="colcrc">
+                                                                                <div class="row ">
+                                                                                    <div class="col-auto">
+                                                                                        <div class="inside-col">
+                                                                                            @if (Model.SimpleAvailibilityaAddResponcelistR[j].segments[a].identifier.carrierCode.Equals("SG"))
+                                                                                            {
+                                                                                                CompanyName = "SpiceJet";
+                                                                                            }
+                                                                                            else if (Model.SimpleAvailibilityaAddResponcelistR[j].segments[a].identifier.carrierCode.Equals("6E"))
+                                                                                            {
+
+                                                                                                CompanyName = "Indigo";
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                                                                CompanyName = "Air India Exp..";
+                                                                                            }
+                                                                                            <div class="lh-15 fw-500">@CompanyName</div>
+                                                                                            @{
+                                                                                                SegmentDatacount = Model.SimpleAvailibilityaAddResponcelistR[j].segments.Count;
+                                                                                                <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelistR[j].segments[a].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelistR[j].segments[a].identifier.identifier </div>
+                                                                                            }
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    @{
+                                                                                        departuretimefinal = @Model.SimpleAvailibilityaAddResponcelistR[j].segments[a].legs[b].legInfo.departureTime.ToString().Substring(11, 5);
+
+                                                                                        arrivalfinal = @Model.SimpleAvailibilityaAddResponcelistR[j].segments[a].legs[b].legInfo.arrivalTime.ToString().Substring(11, 5);
+
+                                                                                        formattedTime = string.Empty;
+                                                                                        arrivalDate = Model.SimpleAvailibilityaAddResponcelistR[j].segments[a].legs[b].designator.arrival;
+                                                                                        departureDate = Model.SimpleAvailibilityaAddResponcelistR[j].segments[a].legs[b].designator.departure;
+                                                                                        diff = (arrivalDate - departureDate);
+                                                                                        timeSpan = TimeSpan.Parse(diff.ToString());
+                                                                                        if ((int)timeSpan.Minutes == 0)
+                                                                                            formattedTime = $"{(int)timeSpan.TotalHours} h";
+                                                                                        else
+                                                                                        {
+                                                                                            if ((int)timeSpan.Hours == 0)
+                                                                                            {
+                                                                                                formattedTime = $"{(int)timeSpan.Minutes} m";
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                                                                formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
+                                                                                            }
+                                                                                        }
+
+
+                                                                                    }
+                                                                                    <div class="col-auto">
+                                                                                        <div class="fw-bold">@departuretimefinal</div>
+                                                                                        <div class="">@Model.SimpleAvailibilityaAddResponcelistR[j].segments[a].legs[b].designator.origin</div>
+                                                                                        <span>Terminal-@Model.SimpleAvailibilityaAddResponcelistR[j].segments[a].legs[b].legInfo.departureTerminal </span>
+                                                                                    </div>
+
+
+
+                                                                                    <div class="col-auto text-center">
+                                                                                        <div class="md:px-0">@formattedTime</div>
+                                                                                        <div class="flightLine">
+                                                                                            <div></div>
+                                                                                            <div></div>
+                                                                                        </div>
+                                                                                        <div class="mt-1">&nbsp;</div>
+                                                                                    </div>
+
+                                                                                    <div class="col-auto">
+                                                                                        <div class="lh-15  fw-bold">@arrivalfinal</div>
+                                                                                        <div class="lh-15 text-light-1">@Model.SimpleAvailibilityaAddResponcelistR[j].segments[a].legs[b].designator.destination</div>
+                                                                                        <span>Terminal-@Model.SimpleAvailibilityaAddResponcelistR[j].segments[a].legs[b].legInfo.arrivalTerminal</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        }
+                                                    }
+
+                                                </div>
+
+                                                <!-----Ftab1 End----->
+
+                                                <div id="Fcontent2RT" class="Ftab2RT" style="display:none;">
+                                                    <div class="row y-gap-10">
+                                                        @{
+                                                            DateTime originalDateTime = DateTime.Parse(@Model.SimpleAvailibilityaAddResponcelistR[j].designator.departure.ToString());
+                                                            // Convert to the desired format
+                                                            string formattedDate = originalDateTime.ToString("dddd, dd MMM yyyy").ToUpper();
+                                                        }
+                                                        <div class="dst-top text-12">@Model.SimpleAvailibilityaAddResponcelistR[j].designator.origin - @Model.SimpleAvailibilityaAddResponcelistR[j].designator.destination (@formattedDate) </div>
+
+
+                                                        <div class="col-lg-4">
+                                                            <div class="text-19 fw-bold fw-600">Fare Rule</div>
+                                                            @{
+                                                                @for (var k = 0; k < Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual.Count; k++)
+                                                                {
+                                                                    if (k > 0)
+                                                                    {
+                                                                        break;
+                                                                    }
+                                                                    decimal basic = @Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[0].faretotal - @Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].taxamount;
+                                                                    <table class="table mt-20">
+                                                                        <thead class="bg-light-2">
+                                                                            <tr>
+                                                                                <th>Fare Details</th>
+                                                                                <th>Amount</th>
+
+                                                                                <th></th>
+                                                                                <th></th>
+                                                                                <th></th>
+                                                                                <th></th>
+                                                                                <th></th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+
+                                                                            <tr>
+                                                                                <td>Basic(+)</td>
+                                                                                <td>@basic.ToString("N0")</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>Taxes(+)</td>
+                                                                                <td>@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[0].taxamount.ToString("N0")</td>
+                                                                            </tr>
+
+
+                                                                            <tr>
+                                                                                <td>Total</td>
+                                                                                <td>@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[0].faretotal.ToString("N0")</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                }
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-----Ftab2 End----->
+
+                                                <div id="Fcontent3RT" class="Ftab3RT" style="display:none;">
+                                                    <table class="table text-12 mt-20">
+                                                        <thead class="bg-light-2">
+                                                            <tr>
+                                                                <th>Airline</th>
+                                                                <th>Pax Type</th>
+                                                                <th>Check-in Baggage</th>
+                                                                <th>Cabin Baggage</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="d-flex flex-column text-12 width-110">
+                                                                    @if (Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.carrierCode.Equals("SG"))
+                                                                    {
+                                                                        CompanyName = "SpiceJet";
+                                                                        <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
+                                                                    }
+                                                                    else if (Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.carrierCode.Equals("6E"))
+                                                                    {
+                                                                        CompanyName = "Indigo";
+                                                                        <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        CompanyName = "Air India Exp..";
+                                                                        <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
+                                                                    }
+
+                                                                    @CompanyName <span>
+                                                                        @{
+                                                                            SegmentDatacount = Model.SimpleAvailibilityaAddResponcelistR[j].segments.Count;
+
+                                                                            if (SegmentDatacount == 1)
+                                                                            {
+                                                                                <div class="fliCode text-12"> @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.identifier </div>
+                                                                            }
+
+                                                                            if (SegmentDatacount == 2)
+                                                                            {
+                                                                                @for (var x = 0; x < SegmentDatacount; x++)
+                                                                                {
+                                                                                    if (x == 0)
+                                                                                    {
+
+                                                                                        <div class="fliCode text-12"> @Model.SimpleAvailibilityaAddResponcelistR[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelistR[j].segments[x].identifier.identifier <b>,</b></div>
+
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <div class="fliCode text-12"> @Model.SimpleAvailibilityaAddResponcelistR[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelistR[j].segments[x].identifier.identifier</div>
+
+                                                                                    }
+
+                                                                                }
+                                                                            }
+                                                                        }
+
+                                                                    </span>
+                                                                </td>
+                                                                <td>Adult</td>
+                                                                <td>15 Kg</td>
+                                                                <td>7 Kg</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <div class="text-19 fw-bold fw-600 pb-2">Terms &amp; Conditon</div>
+                                                    <ul class="list-disc y-gap-10">
+                                                        <li>For infants there is no baggage allowance.</li>
+                                                        <li>Airline can change Baggage Allowance.</li>
+                                                        <li>For Low Cost Carriers, international Check-in Baggage is 20 kg and for Gulf Sectors Baggage is 25-30 kg.</li>
+                                                        <li>If you have any query, feel free to Contact Us. Email: support@jetwaystravels.com</li>
+                                                    </ul>
+                                                </div>
+
+                                                <!-----Ftab3 End----->
+
+                                                <div id="Fcontent4RT" class="Ftab4RT" style="display:none;">
+                                                    <div class="dst-top text-12 fw-bold">@Model.SimpleAvailibilityaAddResponcelistR[j].designator.origin - @Model.SimpleAvailibilityaAddResponcelistR[j].designator.destination (@Model.SimpleAvailibilityaAddResponcelistR[j].bookingdate)  </div>
+                                                    <table class="table mt-20">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Cancellation Charges</td>
+                                                                <td>Airline Free </td>
+                                                                <td>Before Departure</td>
+                                                                <td>As per Airline Fare rule</td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>Reschedule Charges </td>
+                                                                <td>Airline Free </td>
+                                                                <td>Before Departure</td>
+                                                                <td>As per Airline Fare rule</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <div class="text-19 fw-600 pb-2">Terms &amp; Conditon</div>
+                                                    <ul class="list-disc y-gap-10">
+                                                        <li>Penalty is subject to 4 hour prior to departure and no changes are allowed after that.</li>
+                                                        <li>The charges will be on per passenger per sector.</li>
+                                                        <li>Rescheduling charges = Rescheduling/Change penalty+fare difference(if applicable)</li>
+                                                        <li>Partial cancellation is not allowed on the flilght tickets which are book under special discounted fares</li>
+                                                        <li>In case, the customer have not cancelled the ticket within the stipulated time or no show then only statutory taxes are refundable form the respective airlines</li>
+                                                        <li>For infants there is no baggage allowance</li>
+                                                        <li>In certain  situations of respricted cases, no amendments and cancellation is allowed.</li>
+                                                    </ul>
+                                                </div>
+
+                                                <!-----Ftab4 End----->
+                                                <div id="Fcontent5RT" class="Ftab5RT" style="display:none;">
+                                                    <div class="dst-top mb-3">Airline Fare Rule</div>
+                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                                    <p>Phasellus tortor augue, lobortis eu mauris aliquam, </p>
+                                                </div>
+                                            </div>
+                                            <!-----Ftab5 End----->
+                                            @*
+                                        <div class="hideme" style="display:none;">
+                                        <div class="tabs -underline-2 pt-30 lg:pt-30 sm:pt-30 js-tabs">
+                                        <div class="tabs__controls row x-gap-2 y-gap-0 lg:x-gap-20 js-tabs-controls">
 
                                                         <div class="col-auto">
                                                             <button type="button" class="tabs__button text-12 text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button is-tab-el-active" data-tab-target=".-tab-item-1">Itinerary</button>
@@ -1254,7 +1568,7 @@
                                                                                 <thead class="bg-light-2">
                                                                                     <tr>
                                                                                         <th>Fare Details</th>
-
+                                                                                         <th>Amount</th>
                                                                                     </tr>
                                                                                 </thead>
                                                                                 <tbody>
@@ -1396,7 +1710,7 @@
                                                 </div>
                                             </div>
 
-
+                                        *@
                                         </div>
 
                                     }
@@ -3202,13 +3516,149 @@
                 color: #fff;
             }
 
+
+        /*List page tab css*/
+        .bg-listtab {
+            margin: 10px 0px;
+            background: #e7e7e7;
+            padding: 10px;
+        }
+
+        .flightT1, .flightT1RT, .flightT2, .flightT2RT, .flightT3, .flightT3RT, .flightT4, .flightT4RT, .flightT5, .flightT5RT {
+            cursor: pointer;
+        }
+
+        .tabBG {
+            background: #aeb0b5;
+            padding: 4px 8px;
+            border-radius: 2px;
+            color: #0a223d;
+        }
+
+
+        .width-110 {
+            width: 110px;
+        }
+
+        .climg {
+            margin-right: 10px;
+        }
     </style>
 
 
 
     <script>
 
-      
+
+
+        $('.flightT1').click(function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab2, .Ftab3, .Ftab4, .Ftab5').hide();
+                $('.flightT2, .flightT3, .flightT4, .flightT5').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab1').show();
+            }
+        });
+
+        $('.flightT2').click(function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab1, .Ftab3, .Ftab4, .Ftab5').hide();
+                $('.flightT1, .flightT3, .flightT4, .flightT5').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab2').show();
+            }
+        });
+
+        $('.flightT3').click(function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab1, .Ftab2, .Ftab4, .Ftab5').hide();
+                $('.flightT1, .flightT2, .flightT4, .flightT5').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab3').show();
+            }
+        });
+
+        $('.flightT4').click(function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab1, .Ftab2, .Ftab3, .Ftab5').hide();
+                $('.flightT1, .flightT2, .flightT3, .flightT5').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab4').show();
+            }
+        });
+
+        $('.flightT5').click(function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab1, .Ftab2, .Ftab3, .Ftab4').hide();
+                $('.flightT1, .flightT2, .flightT3, .flightT4').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab5').show();
+            }
+        });
+
+        // Return code Flight Details
+
+        $('.flightT1RT').click(function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab2RT, .Ftab3RT, .Ftab4RT, .Ftab5RT').hide();
+                $('.flightT2RT, .flightT3RT, .flightT4RT, .flightT5RT').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab1RT').show();
+            }
+        });
+
+        $('.flightT2RT').click(function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab1RT, .Ftab3RT, .Ftab4RT, .Ftab5RT').hide();
+                $('.flightT1RT, .flightT3RT, .flightT4RT, .flightT5RT').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab2RT').show();
+            }
+        });
+
+        $('.flightT3RT').click(function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab1RT, .Ftab2RT, .Ftab4RT, .Ftab5RT').hide();
+                $('.flightT1RT, .flightT2RT, .flightT4RT, .flightT5RT').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab3RT').show();
+            }
+        });
+
+        $('.flightT4RT').click(function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab1RT, .Ftab2RT, .Ftab3RT, .Ftab5RT').hide();
+                $('.flightT1RT, .flightT2RT, .flightT3RT, .flightT5RT').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab4RT').show();
+            }
+        });
+
+        $('.flightT5RT').click(function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab1RT, .Ftab2RT, .Ftab3RT, .Ftab4RT').hide();
+                $('.flightT1RT, .flightT2RT, .flightT3RT, .flightT4RT').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab5RT').show();
+            }
+        });
+
+
+
+
+
+
+
 
         $(function () {
             var today = new Date();
@@ -3264,7 +3714,7 @@
                 $("#modal, #overlay").fadeOut();
             });
 
-              $("#openModalR").click(function () {
+            $("#openModalR").click(function () {
                 $("#modalR, #overlayR").fadeIn();
             });
 
@@ -3417,7 +3867,7 @@
         // Auto-select the first radio button and trigger its change event
         $('input[type=radio][name=dynamicRadio]').first().prop('checked', true).trigger('change');
 
-     
+
 
         // Function to handle return radio button change and display data
         function handleReturnRadioChange() {
@@ -3470,7 +3920,7 @@
             var totalL = localStorage.getItem('TotalfareL');
             var TotalfareLR = parseInt(totalL) + parseInt(fareTotalsumR, 10);
             $('#totalfaretotalround').text(TotalfareLR);
-            
+
         }
 
         // Trigger change event on return radio button selection
@@ -3483,10 +3933,10 @@
 
 
         $('#ReturnButtonId').click(function () {
-            
+
 
             var arrivalTime = $('#arrivalData').text();
-            var returnFlightTime = $('#departurereturndata').text(); 
+            var returnFlightTime = $('#departurereturndata').text();
             var Leftdate = $('#leftdate').val();
             var rightdate = $('#rightdate').val();
             var LeftdateL = $('#arrivalDatadate').text();
@@ -3511,18 +3961,18 @@
 
                 else if (LeftdateL !== rightdateR) {
 
-                    alert('First Flight Arrive Next Date');
+                    alert('The selected flight timings are not compatible.');
 
                     return false;
                 }
-               
+
 
             }
 
 
-           
-            
-          
+
+
+
 
 
 
@@ -3693,7 +4143,7 @@
         function preback() { window.history.forward(); }
         setTimeout("preback()", 0);
         window.onupload = function () { null };
-       
+
         //For pop fare total ammount
         window.onload = function () {
             localStorage.clear();

@@ -53,7 +53,15 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
                     if (!string.IsNullOrEmpty(tokenview) && flagAirAsia == true && data.Airline[k1].ToLower().Contains("airasia"))
                     {
-                        flagAirAsia = false;
+                        //flagAirAsia = false;
+                        if (k1 == 0)
+                        {
+                            tokenview = HttpContext.Session.GetString("AirasiaTokan");
+                        }
+                        else
+                        {
+                            tokenview = HttpContext.Session.GetString("AirasiaTokanR");
+                        }
                         token = tokenview.Replace(@"""", string.Empty);
                         #region Commit Booking
                         string[] NotifyContacts = new string[1];
@@ -338,14 +346,44 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     }
                     else if (flagSpicejet == true && data.Airline[k1].ToLower().Contains("spicejet"))
                     {
-                        flagSpicejet = false;
+                        //flagSpicejet = false;
                         #region Spicejet Commit
                         //Spicejet
                         token = string.Empty;
-                        tokenview = HttpContext.Session.GetString("SpicejetSignautre");
+                        if (k1 == 0)
+                        {
+                            tokenview = HttpContext.Session.GetString("SpicejetSignature");
+                        }
+                        else
+                        {
+                            tokenview = HttpContext.Session.GetString("SpicejetSignatureR");
+                        }
+
                         if (!string.IsNullOrEmpty(tokenview))
                         {
+                            _commit objcommit = new _commit();
+                            #region GetState
+                            GetBookingFromStateResponse _GetBookingFromStateRS1 = null;
+                            GetBookingFromStateRequest _GetBookingFromStateRQ1 = null;
+                            _GetBookingFromStateRQ1 = new GetBookingFromStateRequest();
+                            _GetBookingFromStateRQ1.Signature = tokenview;
+                            _GetBookingFromStateRQ1.ContractVersion = 420;
 
+
+                            SpiceJetApiController objSpiceJet = new SpiceJetApiController();
+                            _GetBookingFromStateRS1 = await objSpiceJet.GetBookingFromState(_GetBookingFromStateRQ1);
+
+                            string strdata = JsonConvert.SerializeObject(_GetBookingFromStateRS1);
+                            decimal Totalpayment = 0M;
+                            if (_GetBookingFromStateRS1 != null)
+                            {
+                                Totalpayment = _GetBookingFromStateRS1.BookingData.BookingSum.TotalCost;
+                            }
+                            #endregion
+                            #region Addpayment For Api payment deduction
+                            //IndigoBookingManager_.AddPaymentToBookingResponse _BookingPaymentResponse = await objcommit.AddpaymenttoBook(token, Totalpayment);
+
+                            #endregion
                             token = tokenview.Replace(@"""", string.Empty);
                             string passengernamedetails = HttpContext.Session.GetString("PassengerNameDetails");
                             List<passkeytype> passeengerlist = (List<passkeytype>)JsonConvert.DeserializeObject(passengernamedetails, typeof(List<passkeytype>));
@@ -381,325 +419,374 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].CultureCode = "en-GB";
                                 _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].DistributionOption = DistributionOption.Email;
 
-                                SpiceJetApiController objSpiceJet = new SpiceJetApiController();
+                                objSpiceJet = new SpiceJetApiController();
                                 _BookingCommitResponse = await objSpiceJet.BookingCommit(_bookingCommitRequest);
-
-                                string Str3 = JsonConvert.SerializeObject(_BookingCommitResponse);
-                                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_bookingCommitRequest) + "\n\n Response: " + JsonConvert.SerializeObject(_BookingCommitResponse), "BookingCommit", "SpiceJetRT");
-
-                                GetBookingRequest getBookingRequest = new GetBookingRequest();
-                                GetBookingResponse _getBookingResponse = new GetBookingResponse();
-                                getBookingRequest.Signature = token;
-                                getBookingRequest.ContractVersion = 420;
-                                getBookingRequest.GetBookingReqData = new GetBookingRequestData();
-                                getBookingRequest.GetBookingReqData.GetBookingBy = GetBookingBy.RecordLocator;
-                                getBookingRequest.GetBookingReqData.GetByRecordLocator = new GetByRecordLocator();
-                                getBookingRequest.GetBookingReqData.GetByRecordLocator.RecordLocator = _BookingCommitResponse.BookingUpdateResponseData.Success.RecordLocator;
-
-                                _getBookingResponse = await objSpiceJet.GetBookingdetails(getBookingRequest);
-                                string _responceGetBooking = JsonConvert.SerializeObject(_getBookingResponse);
-
-                                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getBookingResponse) + "\n\n Response: " + JsonConvert.SerializeObject(_getBookingResponse), "GetBookingDetails", "SpiceJetRT");
-
-                                if (_getBookingResponse != null)
+                                if (_BookingCommitResponse != null && _BookingCommitResponse.BookingUpdateResponseData.Success.RecordLocator != null)
                                 {
-                                    ReturnTicketBooking returnTicketBooking = new ReturnTicketBooking();
-                                    //var resultsTripsell = responseTripsell.Content.ReadAsStringAsync().Result;
-                                    //var JsonObjTripsell = JsonConvert.DeserializeObject<dynamic>(resultsTripsell);
-                                    var totalAmount = _getBookingResponse.Booking.BookingSum.TotalCost;
-                                    returnTicketBooking.bookingKey = _getBookingResponse.Booking.BookingID.ToString();
-                                    Contacts _contact = new Contacts();
-                                    _contact.phoneNumbers = "8585858575";// _getBookingResponse.Booking.BookingContacts[1].HomePhone.ToString();
-                                    ReturnPaxSeats _unitdesinator = new ReturnPaxSeats();
-                                    if (_getBookingResponse.Booking.Journeys[0].Segments[0].PaxSeats != null && _getBookingResponse.Booking.Journeys[0].Segments[0].PaxSeats.Length > 0)
-                                    {
-                                        _unitdesinator.unitDesignatorPax = _getBookingResponse.Booking.Journeys[0].Segments[0].PaxSeats[0].UnitDesignator;
-                                        _contact.ReturnPaxSeats = _unitdesinator.unitDesignatorPax.ToString();
-                                    }
-                                    returnTicketBooking.airLines = "Spicejet";
-                                    returnTicketBooking.recordLocator = _getBookingResponse.Booking.RecordLocator;
+                                    string Str3 = JsonConvert.SerializeObject(_BookingCommitResponse);
+                                    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_bookingCommitRequest) + "\n\n Response: " + JsonConvert.SerializeObject(_BookingCommitResponse), "BookingCommit", "SpiceJetRT");
 
-                                    Contacts _contactobj = new Contacts();
-                                    int PhoneNumberCount = _getBookingResponse.Booking.BookingContacts.Length;
-                                    List<PhoneNumber> phoneNumberList = new List<PhoneNumber>();
-                                    for (int p = 0; p < PhoneNumberCount; p++)
+                                    GetBookingRequest getBookingRequest = new GetBookingRequest();
+                                    GetBookingResponse _getBookingResponse = new GetBookingResponse();
+                                    getBookingRequest.Signature = token;
+                                    getBookingRequest.ContractVersion = 420;
+                                    getBookingRequest.GetBookingReqData = new GetBookingRequestData();
+                                    getBookingRequest.GetBookingReqData.GetBookingBy = GetBookingBy.RecordLocator;
+                                    getBookingRequest.GetBookingReqData.GetByRecordLocator = new GetByRecordLocator();
+                                    getBookingRequest.GetBookingReqData.GetByRecordLocator.RecordLocator = _BookingCommitResponse.BookingUpdateResponseData.Success.RecordLocator;
+
+                                    _getBookingResponse = await objSpiceJet.GetBookingdetails(getBookingRequest);
+                                    string _responceGetBooking = JsonConvert.SerializeObject(_getBookingResponse);
+
+                                    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getBookingResponse) + "\n\n Response: " + JsonConvert.SerializeObject(_getBookingResponse), "GetBookingDetails", "SpiceJetRT");
+
+                                    if (_getBookingResponse != null)
                                     {
-                                        if (_getBookingResponse.Booking.BookingContacts[p].TypeCode == "P")
+                                        Hashtable htseatdata = new Hashtable();
+                                        Hashtable htmealdata = new Hashtable();
+                                        int adultcount = Convert.ToInt32(HttpContext.Session.GetString("adultCount"));
+                                        int childcount = Convert.ToInt32(HttpContext.Session.GetString("childCount"));
+                                        int infantcount = Convert.ToInt32(HttpContext.Session.GetString("infantCount"));
+                                        int TotalCount = adultcount + childcount;
+                                        //string _responceGetBooking = JsonConvert.SerializeObject(_getBookingResponse);
+                                        ReturnTicketBooking returnTicketBooking = new ReturnTicketBooking();
+                                        var totalAmount = _getBookingResponse.Booking.BookingSum.TotalCost;
+                                        returnTicketBooking.bookingKey = _getBookingResponse.Booking.BookingID.ToString();
+                                        Contacts _contact = new Contacts();
+                                        _contact.phoneNumbers = _getBookingResponse.Booking.BookingContacts[1].HomePhone.ToString();
+                                        ReturnPaxSeats _unitdesinator = new ReturnPaxSeats();
+                                        if (_getBookingResponse.Booking.Journeys[0].Segments[0].PaxSeats != null && _getBookingResponse.Booking.Journeys[0].Segments[0].PaxSeats.Length > 0)
                                         {
-                                            PhoneNumber phoneobject = new PhoneNumber();
-                                            phoneobject.number = _getBookingResponse.Booking.BookingContacts[p].HomePhone; ;
-                                            phoneNumberList.Add(phoneobject);
+                                            _unitdesinator.unitDesignatorPax = _getBookingResponse.Booking.Journeys[0].Segments[0].PaxSeats[0].UnitDesignator;
+                                            _contact.ReturnPaxSeats = _unitdesinator.unitDesignatorPax.ToString();
                                         }
-                                    }
+                                        returnTicketBooking.airLines = "Spicejet";
+                                        returnTicketBooking.recordLocator = _getBookingResponse.Booking.RecordLocator;
 
+                                        Breakdown breakdown = new Breakdown();
+                                        List<JourneyTotals> journeyBaseFareobj = new List<JourneyTotals>();
+                                        JourneyTotals journeyTotalsobj = new JourneyTotals();
 
+                                        PassengerTotals passengerTotals = new PassengerTotals();
+                                        ReturnSeats returnSeats = new ReturnSeats();
+                                        passengerTotals.specialServices = new SpecialServices();
+                                        var totalTax = "";
 
+                                        #region Itenary segment and legs
 
-                                    Breakdown breakdown = new Breakdown();
-                                    JourneyTotals journeyTotalsobj = new JourneyTotals();
-                                    List<JourneyTotals> journeyBaseFareobj = new List<JourneyTotals>();
-
-                                    PassengerTotals passengerTotals = new PassengerTotals();
-                                    ReturnSeats returnSeats = new ReturnSeats();
-                                    passengerTotals.specialServices = new SpecialServices();
-                                    var totalTax = "";// _getPriceItineraryRS.data.breakdown.journeys[journeyKey].totalTax;
-
-                                    #region Itenary segment and legs
-
-                                    int journeyscount = _getBookingResponse.Booking.Journeys.Length;
-                                    List<JourneysReturn> AAJourneyList = new List<JourneysReturn>();
-                                    for (int i = 0; i < journeyscount; i++)
-                                    {
-
-                                        JourneysReturn AAJourneyobj = new JourneysReturn();
-
-                                        //AAJourneyobj.flightType = JsonObjTripsell.data.journeys[i].flightType;
-                                        //AAJourneyobj.stops = JsonObjTripsell.data.journeys[i].stops;
-                                        AAJourneyobj.journeyKey = _getBookingResponse.Booking.Journeys[i].JourneySellKey;
-
-                                        int segmentscount = _getBookingResponse.Booking.Journeys[i].Segments.Length;
-                                        List<SegmentReturn> AASegmentlist = new List<SegmentReturn>();
-                                        for (int j = 0; j < segmentscount; j++)
+                                        int journeyscount = _getBookingResponse.Booking.Journeys.Length;
+                                        List<JourneysReturn> AAJourneyList = new List<JourneysReturn>();
+                                        for (int i = 0; i < journeyscount; i++)
                                         {
-                                            returnSeats.unitDesignator = string.Empty;
-                                            returnSeats.SSRCode = string.Empty;
-                                            DesignatorReturn AADesignatorobj = new DesignatorReturn();
-                                            AADesignatorobj.origin = _getBookingResponse.Booking.Journeys[i].Segments[0].DepartureStation;
-                                            AADesignatorobj.destination = _getBookingResponse.Booking.Journeys[i].Segments[segmentscount - 1].ArrivalStation;
-                                            AADesignatorobj.departure = _getBookingResponse.Booking.Journeys[i].Segments[0].STD;
-                                            AADesignatorobj.arrival = _getBookingResponse.Booking.Journeys[i].Segments[segmentscount - 1].STA;
-                                            AAJourneyobj.designator = AADesignatorobj;
 
+                                            JourneysReturn AAJourneyobj = new JourneysReturn();
 
-                                            SegmentReturn AASegmentobj = new SegmentReturn();
-                                            //AASegmentobj.isStandby = JsonObjTripsell.data.journeys[i].segments[j].isStandby;
-                                            //AASegmentobj.isHosted = JsonObjTripsell.data.journeys[i].segments[j].isHosted;
+                                            //AAJourneyobj.flightType = JsonObjTripsell.data.journeys[i].flightType;
+                                            //AAJourneyobj.stops = JsonObjTripsell.data.journeys[i].stops;
+                                            AAJourneyobj.journeyKey = _getBookingResponse.Booking.Journeys[i].JourneySellKey;
 
-                                            DesignatorReturn AASegmentDesignatorobj = new DesignatorReturn();
-
-                                            AASegmentDesignatorobj.origin = _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation;
-                                            AASegmentDesignatorobj.destination = _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation;
-                                            AASegmentDesignatorobj.departure = _getBookingResponse.Booking.Journeys[i].Segments[j].STD;
-                                            AASegmentDesignatorobj.arrival = _getBookingResponse.Booking.Journeys[i].Segments[j].STA;
-                                            AASegmentobj.designator = AASegmentDesignatorobj;
-
-                                            int fareCount = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares.Length;
-                                            List<FareReturn> AAFarelist = new List<FareReturn>();
-                                            for (int k = 0; k < fareCount; k++)
+                                            int segmentscount = _getBookingResponse.Booking.Journeys[i].Segments.Length;
+                                            List<SegmentReturn> AASegmentlist = new List<SegmentReturn>();
+                                            for (int j = 0; j < segmentscount; j++)
                                             {
-                                                FareReturn AAFareobj = new FareReturn();
-                                                AAFareobj.fareKey = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].FareSellKey;
-                                                AAFareobj.productClass = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].ProductClass;
+                                                returnSeats.unitDesignator = string.Empty;
+                                                returnSeats.SSRCode = string.Empty;
+                                                DesignatorReturn AADesignatorobj = new DesignatorReturn();
+                                                AADesignatorobj.origin = _getBookingResponse.Booking.Journeys[i].Segments[0].DepartureStation;
+                                                AADesignatorobj.destination = _getBookingResponse.Booking.Journeys[i].Segments[segmentscount - 1].ArrivalStation;
+                                                AADesignatorobj.departure = _getBookingResponse.Booking.Journeys[i].Segments[0].STD;
+                                                AADesignatorobj.arrival = _getBookingResponse.Booking.Journeys[i].Segments[segmentscount - 1].STA;
+                                                AAJourneyobj.designator = AADesignatorobj;
 
-                                                var passengerFares = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares;
 
-                                                int passengerFarescount = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares.Length;
-                                                List<PassengerFareReturn> PassengerfarelistRT = new List<PassengerFareReturn>();
-                                                double AdtAmount = 0.0;
-                                                double AdttaxAmount = 0.0;
-                                                double chdAmount = 0.0;
-                                                double chdtaxAmount = 0.0;
-                                                for (int l = 0; l < passengerFarescount; l++)
+                                                SegmentReturn AASegmentobj = new SegmentReturn();
+                                                //AASegmentobj.isStandby = JsonObjTripsell.data.journeys[i].segments[j].isStandby;
+                                                //AASegmentobj.isHosted = JsonObjTripsell.data.journeys[i].segments[j].isHosted;
+
+                                                DesignatorReturn AASegmentDesignatorobj = new DesignatorReturn();
+
+                                                AASegmentDesignatorobj.origin = _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation;
+                                                AASegmentDesignatorobj.destination = _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation;
+                                                AASegmentDesignatorobj.departure = _getBookingResponse.Booking.Journeys[i].Segments[j].STD;
+                                                AASegmentDesignatorobj.arrival = _getBookingResponse.Booking.Journeys[i].Segments[j].STA;
+                                                AASegmentobj.designator = AASegmentDesignatorobj;
+
+                                                int fareCount = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares.Length;
+                                                List<FareReturn> AAFarelist = new List<FareReturn>();
+                                                for (int k = 0; k < fareCount; k++)
                                                 {
-                                                    journeyTotalsobj = new JourneyTotals();
-                                                    PassengerFareReturn AAPassengerfareobject = new PassengerFareReturn();
-                                                    AAPassengerfareobject.passengerType = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].PaxType;
+                                                    FareReturn AAFareobj = new FareReturn();
+                                                    AAFareobj.fareKey = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].FareSellKey;
+                                                    AAFareobj.productClass = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].ProductClass;
 
-                                                    var serviceCharges1 = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges;
-                                                    int serviceChargescount = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges.Length;
-                                                    List<ServiceChargeReturn> AAServicechargelist = new List<ServiceChargeReturn>();
-                                                    for (int m = 0; m < serviceChargescount; m++)
+                                                    var passengerFares = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares;
+
+                                                    int passengerFarescount = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares.Length;
+                                                    List<PassengerFareReturn> PassengerfarelistRT = new List<PassengerFareReturn>();
+                                                    double AdtAmount = 0.0;
+                                                    double AdttaxAmount = 0.0;
+                                                    double chdAmount = 0.0;
+                                                    double chdtaxAmount = 0.0;
+                                                    for (int l = 0; l < passengerFarescount; l++)
                                                     {
-                                                        ServiceChargeReturn AAServicechargeobj = new ServiceChargeReturn();
-                                                        AAServicechargeobj.amount = Convert.ToInt32(_getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges[m].Amount);
+                                                        journeyTotalsobj = new JourneyTotals();
+                                                        PassengerFareReturn AAPassengerfareobject = new PassengerFareReturn();
+                                                        AAPassengerfareobject.passengerType = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].PaxType;
 
-                                                        if (_getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges[m].ChargeType.Equals("FarePrice"))
+                                                        var serviceCharges1 = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges;
+                                                        int serviceChargescount = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges.Length;
+                                                        List<ServiceChargeReturn> AAServicechargelist = new List<ServiceChargeReturn>();
+                                                        for (int m = 0; m < serviceChargescount; m++)
                                                         {
-                                                            journeyTotalsobj.totalAmount = Convert.ToInt32(_getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges[m].Amount);
+                                                            ServiceChargeReturn AAServicechargeobj = new ServiceChargeReturn();
+                                                            AAServicechargeobj.amount = Convert.ToInt32(_getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges[m].Amount);
+                                                            string _data = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges[m].ChargeType.ToString().ToLower().Trim();
+                                                            if (_data == "fareprice")
+                                                            {
+                                                                journeyTotalsobj.totalAmount = Convert.ToInt32(_getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges[m].Amount);
+                                                            }
+                                                            else
+                                                            {
+                                                                journeyTotalsobj.totalTax += Convert.ToInt32(_getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges[m].Amount);
+                                                            }
+                                                        }
+                                                        if (AAPassengerfareobject.passengerType.Equals("ADT"))
+                                                        {
+                                                            AdtAmount += journeyTotalsobj.totalAmount * adultcount;
+                                                            AdttaxAmount += journeyTotalsobj.totalTax * adultcount;
+                                                        }
+
+                                                        if (AAPassengerfareobject.passengerType.Equals("CHD"))
+                                                        {
+                                                            chdAmount += journeyTotalsobj.totalAmount * childcount;
+                                                            chdtaxAmount += journeyTotalsobj.totalTax * childcount;
+                                                        }
+                                                    }
+                                                    journeyTotalsobj.totalAmount = AdtAmount + chdAmount;
+                                                    journeyTotalsobj.totalTax = AdttaxAmount + chdtaxAmount;
+                                                    journeyBaseFareobj.Add(journeyTotalsobj);
+                                                    AAFareobj.passengerFares = PassengerfarelistRT;
+
+                                                    AAFarelist.Add(AAFareobj);
+                                                }
+                                                //breakdown.journeyTotals = journeyTotalsobj;
+                                                breakdown.passengerTotals = passengerTotals;
+                                                AASegmentobj.fares = AAFarelist;
+                                                IdentifierReturn AAIdentifierobj = new IdentifierReturn();
+
+                                                AAIdentifierobj.identifier = _getBookingResponse.Booking.Journeys[i].Segments[j].FlightDesignator.FlightNumber;
+                                                AAIdentifierobj.carrierCode = _getBookingResponse.Booking.Journeys[i].Segments[j].FlightDesignator.CarrierCode;
+
+                                                AASegmentobj.identifier = AAIdentifierobj;
+
+                                                var leg = _getBookingResponse.Booking.Journeys[i].Segments[j].Legs;
+                                                int legcount = _getBookingResponse.Booking.Journeys[i].Segments[j].Legs.Length;
+                                                List<LegReturn> AALeglist = new List<LegReturn>();
+                                                for (int n = 0; n < legcount; n++)
+                                                {
+                                                    LegReturn AALeg = new LegReturn();
+                                                    //AALeg.legKey = JsonObjTripsell.data.journeys[i].segments[j].legs[n].legKey;
+                                                    DesignatorReturn AAlegDesignatorobj = new DesignatorReturn();
+                                                    AAlegDesignatorobj.origin = _getBookingResponse.Booking.Journeys[i].Segments[j].Legs[n].DepartureStation;
+                                                    AAlegDesignatorobj.destination = _getBookingResponse.Booking.Journeys[i].Segments[j].Legs[n].ArrivalStation;
+                                                    AAlegDesignatorobj.departure = _getBookingResponse.Booking.Journeys[i].Segments[j].Legs[n].STD;
+                                                    AAlegDesignatorobj.arrival = _getBookingResponse.Booking.Journeys[i].Segments[j].Legs[n].STA;
+                                                    AALeg.designator = AAlegDesignatorobj;
+
+                                                    LegInfoReturn AALeginfoobj = new LegInfoReturn();
+                                                    AALeginfoobj.arrivalTerminal = _getBookingResponse.Booking.Journeys[i].Segments[j].Legs[n].LegInfo.ArrivalTerminal;
+                                                    AALeginfoobj.arrivalTime = _getBookingResponse.Booking.Journeys[i].Segments[j].Legs[n].LegInfo.PaxSTA;
+                                                    AALeginfoobj.departureTerminal = _getBookingResponse.Booking.Journeys[i].Segments[j].Legs[n].LegInfo.DepartureTerminal;
+                                                    AALeginfoobj.departureTime = _getBookingResponse.Booking.Journeys[i].Segments[j].Legs[n].LegInfo.PaxSTD;
+                                                    AALeg.legInfo = AALeginfoobj;
+                                                    AALeglist.Add(AALeg);
+
+                                                }
+                                                //vivek
+                                                foreach (var item1 in _getBookingResponse.Booking.Journeys[i].Segments[j].PaxSeats)
+                                                {
+                                                    try
+                                                    {
+                                                        if (!htseatdata.Contains(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation))
+                                                        {
+                                                            htseatdata.Add(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation, item1.UnitDesignator);
+                                                            returnSeats.unitDesignator += item1.UnitDesignator + ",";
+                                                        }
+                                                    }
+                                                    catch (Exception ex)
+                                                    {
+
+                                                    }
+                                                }
+                                                //SSR
+                                                foreach (var item1 in _getBookingResponse.Booking.Journeys[i].Segments[j].PaxSSRs)
+                                                {
+                                                    try
+                                                    {
+                                                        if (!htmealdata.Contains(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation))
+                                                        {
+                                                            htmealdata.Add(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation, item1.SSRCode);
+                                                            returnSeats.SSRCode += item1.SSRCode + ",";
+                                                        }
+                                                    }
+                                                    catch (Exception ex)
+                                                    {
+
+                                                    }
+                                                }
+                                                //vivek
+                                                //foreach (var item1 in _getBookingResponse.Booking.Journeys[i].Segments[j].PaxSeats)
+                                                //{
+                                                //    returnSeats.unitDesignator += item1.UnitDesignator + ",";
+                                                //}
+
+                                                //foreach (var item1 in _getBookingResponse.Booking.Journeys[i].Segments[j].PaxSSRs)
+                                                //{
+                                                //    returnSeats.SSRCode += item1.SSRCode + ",";
+                                                //}
+                                                //
+                                                AASegmentobj.unitdesignator = returnSeats.unitDesignator;
+                                                AASegmentobj.SSRCode = returnSeats.SSRCode;
+                                                AASegmentobj.legs = AALeglist;
+                                                AASegmentlist.Add(AASegmentobj);
+                                                breakdown.journeyfareTotals = journeyBaseFareobj;
+                                            }
+                                            AAJourneyobj.segments = AASegmentlist;
+                                            AAJourneyList.Add(AAJourneyobj);
+
+                                        }
+
+                                        #endregion
+                                        string stravailibitilityrequest = HttpContext.Session.GetString("SpicejetAvailibilityRequest");
+                                        GetAvailabilityRequest availibiltyRQ = JsonConvert.DeserializeObject<GetAvailabilityRequest>(stravailibitilityrequest);
+                                        var passanger = _getBookingResponse.Booking.Passengers;
+                                        int passengercount = availibiltyRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxCount;
+                                        ReturnPassengers passkeytypeobj = new ReturnPassengers();
+                                        List<ReturnPassengers> passkeylist = new List<ReturnPassengers>();
+
+
+                                        foreach (var item in _getBookingResponse.Booking.Passengers)
+                                        {
+                                            foreach (var item1 in item.PassengerFees)
+                                            {
+                                                if (item1.FeeCode.Equals("SEAT"))
+                                                {
+                                                    foreach (var item2 in item1.ServiceCharges)
+                                                    {
+                                                        if (item2.ChargeCode.Equals("SEAT"))
+                                                        {
+                                                            returnSeats.total += Convert.ToInt32(item2.Amount);
+                                                            //breakdown.passengerTotals.seats.total += Convert.ToInt32(item2.Amount);
                                                         }
                                                         else
                                                         {
-                                                            journeyTotalsobj.totalTax += Convert.ToInt32(_getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges[m].Amount);
+                                                            returnSeats.taxes += Convert.ToInt32(item2.Amount);
+                                                            //breakdown.passengerTotals.seats.taxes += Convert.ToInt32(item2.Amount);
                                                         }
-                                                        AAServicechargelist.Add(AAServicechargeobj);
                                                     }
-                                                    AAPassengerfareobject.serviceCharges = AAServicechargelist;
-                                                    PassengerfarelistRT.Add(AAPassengerfareobject);
+
                                                 }
-                                                journeyTotalsobj.totalAmount = AdtAmount + chdAmount;
-                                                journeyTotalsobj.totalTax = AdttaxAmount + chdtaxAmount;
-                                                journeyBaseFareobj.Add(journeyTotalsobj);
-                                                AAFareobj.passengerFares = PassengerfarelistRT;
-
-                                                AAFarelist.Add(AAFareobj);
-                                            }
-                                            //breakdown.journeyTotals = journeyTotalsobj;
-                                            breakdown.passengerTotals = passengerTotals;
-                                            AASegmentobj.fares = AAFarelist;
-                                            IdentifierReturn AAIdentifierobj = new IdentifierReturn();
-
-                                            AAIdentifierobj.identifier = _getBookingResponse.Booking.Journeys[i].Segments[j].FlightDesignator.FlightNumber;
-                                            AAIdentifierobj.carrierCode = _getBookingResponse.Booking.Journeys[i].Segments[j].FlightDesignator.CarrierCode;
-
-                                            AASegmentobj.identifier = AAIdentifierobj;
-
-                                            var leg = _getBookingResponse.Booking.Journeys[i].Segments[j].Legs;
-                                            int legcount = _getBookingResponse.Booking.Journeys[i].Segments[j].Legs.Length;
-                                            List<LegReturn> AALeglist = new List<LegReturn>();
-                                            for (int n = 0; n < legcount; n++)
-                                            {
-                                                LegReturn AALeg = new LegReturn();
-                                                //AALeg.legKey = JsonObjTripsell.data.journeys[i].segments[j].legs[n].legKey;
-                                                DesignatorReturn AAlegDesignatorobj = new DesignatorReturn();
-                                                AAlegDesignatorobj.origin = _getBookingResponse.Booking.Journeys[i].Segments[j].Legs[n].DepartureStation;
-                                                AAlegDesignatorobj.destination = _getBookingResponse.Booking.Journeys[i].Segments[j].Legs[n].ArrivalStation;
-                                                AAlegDesignatorobj.departure = _getBookingResponse.Booking.Journeys[i].Segments[j].Legs[n].STD;
-                                                AAlegDesignatorobj.arrival = _getBookingResponse.Booking.Journeys[i].Segments[j].Legs[n].STA;
-                                                AALeg.designator = AAlegDesignatorobj;
-
-                                                LegInfoReturn AALeginfoobj = new LegInfoReturn();
-                                                AALeginfoobj.arrivalTerminal = _getBookingResponse.Booking.Journeys[i].Segments[j].Legs[n].LegInfo.ArrivalTerminal;
-                                                AALeginfoobj.arrivalTime = _getBookingResponse.Booking.Journeys[i].Segments[j].Legs[n].LegInfo.PaxSTA;
-                                                AALeginfoobj.departureTerminal = _getBookingResponse.Booking.Journeys[i].Segments[j].Legs[n].LegInfo.DepartureTerminal;
-                                                AALeginfoobj.departureTime = _getBookingResponse.Booking.Journeys[i].Segments[j].Legs[n].LegInfo.PaxSTD;
-                                                AALeg.legInfo = AALeginfoobj;
-                                                AALeglist.Add(AALeg);
-
-                                            }
-                                            //vivek
-                                            foreach (var item1 in _getBookingResponse.Booking.Journeys[i].Segments[j].PaxSeats)
-                                            {
-                                                returnSeats.unitDesignator += item1.UnitDesignator + ",";
-                                            }
-
-                                            foreach (var item1 in _getBookingResponse.Booking.Journeys[i].Segments[j].PaxSSRs)
-                                            {
-                                                returnSeats.SSRCode += item1.SSRCode + ",";
-                                            }
-                                            //
-                                            AASegmentobj.unitdesignator = returnSeats.unitDesignator;
-                                            AASegmentobj.SSRCode = returnSeats.SSRCode;
-                                            AASegmentobj.legs = AALeglist;
-                                            AASegmentlist.Add(AASegmentobj);
-                                            breakdown.journeyfareTotals = journeyBaseFareobj;
-                                        }
-                                        AAJourneyobj.segments = AASegmentlist;
-                                        AAJourneyList.Add(AAJourneyobj);
-
-                                    }
-
-                                    #endregion
-                                    string stravailibitilityrequest = HttpContext.Session.GetString("SpicejetAvailibilityRequest");
-                                    GetAvailabilityRequest availibiltyRQ = JsonConvert.DeserializeObject<GetAvailabilityRequest>(stravailibitilityrequest);
-                                    var passanger = _getBookingResponse.Booking.Passengers;
-                                    int passengercount = availibiltyRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxCount;
-                                    ReturnPassengers passkeytypeobj = new ReturnPassengers();
-                                    List<ReturnPassengers> passkeylist = new List<ReturnPassengers>();
-                                    passkeytypeobj.name = new Name();
-                                    passkeytypeobj.name.first = _getBookingResponse.Booking.Passengers[0].Names[0].FirstName;
-
-                                    foreach (var item in _getBookingResponse.Booking.Passengers)
-                                    {
-                                        foreach (var item1 in item.PassengerFees)
-                                        {
-                                            if (item1.FeeCode.Equals("SEAT"))
-                                            {
-                                                foreach (var item2 in item1.ServiceCharges)
+                                                else if (item1.FeeCode.Equals("INFT"))
                                                 {
-                                                    if (item2.ChargeCode.Equals("SEAT"))
+                                                    JourneyTotals InfantfareTotals = new JourneyTotals();
+                                                    foreach (var item2 in item1.ServiceCharges)
                                                     {
-                                                        returnSeats.total += Convert.ToInt32(item2.Amount);
-                                                        //breakdown.passengerTotals.seats.total += Convert.ToInt32(item2.Amount);
+                                                        if (item2.ChargeCode.Equals("INFT"))
+                                                        {
+                                                            InfantfareTotals.totalAmount = Convert.ToInt32(item2.Amount);
+                                                        }
+                                                        else
+                                                        {
+                                                            InfantfareTotals.totalTax += 0;// Convert.ToInt32(item2.Amount);
+                                                        }
                                                     }
-                                                    else
+                                                    journeyBaseFareobj.Add(InfantfareTotals);
+                                                    breakdown.journeyfareTotals = journeyBaseFareobj;
+                                                }
+                                                else
+                                                {
+                                                    foreach (var item2 in item1.ServiceCharges)
                                                     {
-                                                        returnSeats.taxes += Convert.ToInt32(item2.Amount);
-                                                        //breakdown.passengerTotals.seats.taxes += Convert.ToInt32(item2.Amount);
+                                                        if ((!item2.ChargeCode.Equals("SEAT") || !item2.ChargeCode.Equals("INFT")) && !item2.ChargeType.ToString().ToLower().Contains("tax"))
+                                                        {
+                                                            passengerTotals.specialServices.total += Convert.ToInt32(item2.Amount);
+                                                            //breakdown.passengerTotals.seats.total += Convert.ToInt32(item2.Amount);
+                                                        }
+                                                        else
+                                                        {
+                                                            passengerTotals.specialServices.taxes += Convert.ToInt32(item2.Amount);
+                                                            //breakdown.passengerTotals.seats.taxes += Convert.ToInt32(item2.Amount);
+                                                        }
                                                     }
                                                 }
 
                                             }
-                                            else if (item1.FeeCode.Equals("INFT"))
-                                            {
-                                                JourneyTotals InfantfareTotals = new JourneyTotals();
-                                                foreach (var item2 in item1.ServiceCharges)
-                                                {
-                                                    if (item2.ChargeCode.Equals("INFT"))
-                                                    {
-                                                        InfantfareTotals.totalAmount = Convert.ToInt32(item2.Amount);
-                                                    }
-                                                    else
-                                                    {
-                                                        InfantfareTotals.totalTax += 0;// Convert.ToInt32(item2.Amount);
-                                                    }
-                                                }
-                                                journeyBaseFareobj.Add(InfantfareTotals);
-                                                breakdown.journeyfareTotals = journeyBaseFareobj;
-                                            }
-                                            else
-                                            {
-                                                foreach (var item2 in item1.ServiceCharges)
-                                                {
-                                                    if ((!item2.ChargeCode.Equals("SEAT") || !item2.ChargeCode.Equals("INFT")) && !item2.ChargeType.ToString().ToLower().Contains("tax"))
-                                                    {
-                                                        passengerTotals.specialServices.total += Convert.ToInt32(item2.Amount);
-                                                        //breakdown.passengerTotals.seats.total += Convert.ToInt32(item2.Amount);
-                                                    }
-                                                    else
-                                                    {
-                                                        passengerTotals.specialServices.taxes += Convert.ToInt32(item2.Amount);
-                                                        //breakdown.passengerTotals.seats.taxes += Convert.ToInt32(item2.Amount);
-                                                    }
-                                                }
-                                            }
-
-                                        }
-                                        passkeytypeobj = new ReturnPassengers();
-                                        passkeytypeobj.name = new Name();
-                                        passkeytypeobj.passengerTypeCode = item.PassengerTypeInfo.PaxType;
-                                        passkeytypeobj.name.first = item.Names[0].FirstName + " " + item.Names[0].LastName;
-                                        passkeytypeobj.MobNumber = "";
-                                        passkeylist.Add(passkeytypeobj);
-                                        if (item.Infant != null)
-                                        {
                                             passkeytypeobj = new ReturnPassengers();
                                             passkeytypeobj.name = new Name();
-                                            passkeytypeobj.passengerTypeCode = "INFT";
-                                            passkeytypeobj.name.first = item.Infant.Names[0].FirstName + " " + item.Infant.Names[0].LastName;
-                                            passkeytypeobj.MobNumber = "";
+                                            passkeytypeobj.passengerTypeCode = item.PassengerTypeInfo.PaxType;
+                                            passkeytypeobj.name.first = item.Names[0].FirstName + " " + item.Names[0].LastName;
+                                            for (int i = 0; i < passeengerlist.Count; i++)
+                                            {
+                                                if (passkeytypeobj.passengerTypeCode == passeengerlist[i].passengertypecode && passkeytypeobj.name.first.ToLower() == passeengerlist[i].first.ToLower() + " " + passeengerlist[i].last.ToLower())
+                                                {
+                                                    passkeytypeobj.MobNumber = passeengerlist[i].mobile;
+                                                    passkeytypeobj.passengerKey = passeengerlist[i].passengerkey;
+                                                    //passkeytypeobj.seats.unitDesignator = htseatdata[passeengerlist[i].passengerkey].ToString();
+                                                    break;
+                                                }
+
+                                            }
                                             passkeylist.Add(passkeytypeobj);
+                                            if (item.Infant != null)
+                                            {
+                                                passkeytypeobj = new ReturnPassengers();
+                                                passkeytypeobj.name = new Name();
+                                                passkeytypeobj.passengerTypeCode = "INFT";
+                                                passkeytypeobj.name.first = item.Infant.Names[0].FirstName + " " + item.Infant.Names[0].LastName;
+                                                for (int i = 0; i < passeengerlist.Count; i++)
+                                                {
+                                                    if (passkeytypeobj.passengerTypeCode == passeengerlist[i].passengertypecode && passkeytypeobj.name.first.ToLower() == passeengerlist[i].first.ToLower() + " " + passeengerlist[i].last.ToLower())
+                                                    {
+                                                        passkeytypeobj.MobNumber = passeengerlist[i].mobile;
+                                                        passkeytypeobj.passengerKey = passeengerlist[i].passengerkey;
+                                                        break;
+                                                    }
 
+                                                }
+                                                //passkeytypeobj.MobNumber = "";
+                                                passkeylist.Add(passkeytypeobj);
+
+                                            }
                                         }
+                                        double BasefareAmt = 0.0;
+                                        double BasefareTax = 0.0;
+                                        for (int i = 0; i < breakdown.journeyfareTotals.Count; i++)
+                                        {
+                                            BasefareAmt += breakdown.journeyfareTotals[i].totalAmount;
+                                            BasefareTax += breakdown.journeyfareTotals[i].totalTax;
+                                        }
+                                        breakdown.journeyTotals = new JourneyTotals();
+                                        breakdown.journeyTotals.totalAmount = Convert.ToDouble(BasefareAmt);
+                                        breakdown.passengerTotals.seats = new ReturnSeats();
+                                        //breakdown.passengerTotals.specialServices = new SpecialServices();
+                                        breakdown.passengerTotals.specialServices.total = passengerTotals.specialServices.total;
+                                        breakdown.passengerTotals.seats.total = returnSeats.total;
+                                        breakdown.passengerTotals.seats.taxes = returnSeats.taxes;
+                                        breakdown.journeyTotals.totalTax = Convert.ToDouble(BasefareTax);
+                                        breakdown.totalAmount = breakdown.journeyTotals.totalAmount + breakdown.journeyTotals.totalTax;
+                                        if (totalAmount != 0M)
+                                        {
+                                            breakdown.totalToCollect = Convert.ToDouble(totalAmount);
+                                        }
+                                        returnTicketBooking.breakdown = breakdown;
+                                        returnTicketBooking.journeys = AAJourneyList;
+                                        returnTicketBooking.passengers = passkeylist;
+                                        returnTicketBooking.passengerscount = passengercount;
+                                        returnTicketBooking.contacts = _contact;
+                                        returnTicketBooking.Seatdata = htseatdata;
+                                        returnTicketBooking.Mealdata = htmealdata;
+                                        _AirLinePNRTicket.AirlinePNR.Add(returnTicketBooking);
                                     }
-                                    double BasefareAmt = 0.0;
-                                    double BasefareTax = 0.0;
-                                    for (int i = 0; i < breakdown.journeyfareTotals.Count; i++)
-                                    {
-                                        BasefareAmt += breakdown.journeyfareTotals[i].totalAmount;
-                                        BasefareTax += breakdown.journeyfareTotals[i].totalTax;
-                                    }
-                                    breakdown.journeyTotals = new JourneyTotals();
-                                    breakdown.journeyTotals.totalAmount = Convert.ToDouble(BasefareAmt);
-                                    breakdown.passengerTotals.seats = new ReturnSeats();
-                                    //breakdown.passengerTotals.specialServices = new SpecialServices();
-                                    breakdown.passengerTotals.specialServices.total = passengerTotals.specialServices.total;
-                                    breakdown.passengerTotals.seats.total = returnSeats.total;
-                                    breakdown.passengerTotals.seats.taxes = returnSeats.taxes;
-                                    breakdown.journeyTotals.totalTax = Convert.ToDouble(BasefareTax);
-                                    breakdown.totalAmount = breakdown.journeyTotals.totalAmount + breakdown.journeyTotals.totalTax;
-                                    if (totalAmount != 0M)
-                                    {
-                                        breakdown.totalToCollect = Convert.ToDouble(totalAmount);
-                                    }
-                                    returnTicketBooking.breakdown = breakdown;
-                                    returnTicketBooking.journeys = AAJourneyList;
-                                    returnTicketBooking.passengers = passkeylist;
-                                    returnTicketBooking.passengerscount = passengercount;
-                                    returnTicketBooking.contacts = _contact;
-                                    //returnTicketBooking.PhoneNumbers = phoneNumberList;
-
-                                    //HttpContext.Session.SetString("SGkeypassengerRT", JsonConvert.SerializeObject(returnTicketBooking));
-                                    _AirLinePNRTicket.AirlinePNR.Add(returnTicketBooking);
                                 }
                                 #endregion
                             }

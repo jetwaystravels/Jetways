@@ -882,15 +882,6 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         SegmentDesignatorobj.origin = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].DepartureStation;
                         SegmentDesignatorobj.destination = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].ArrivalStation; ;
 
-                        //queryorigin = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].DepartureStation;
-                        //origin = Citynamelist.GetAllCityData().Where(x => x.cityCode == queryorigin).SingleOrDefault().cityName;
-                        //SegmentDesignatorobj.origin = origin;
-                        //querydestination = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].ArrivalStation;
-                        //destination1 = Citynamelist.GetAllCityData().Where(x => x.cityCode == querydestination).SingleOrDefault().cityName;
-                        //SegmentDesignatorobj.destination = querydestination;
-
-
-
                         SegmentDesignatorobj.departure = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].STD;
                         SegmentDesignatorobj.arrival = _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].AvailableSegment[l].STA;
                         Segmentobj.designator = SegmentDesignatorobj;
@@ -1172,6 +1163,31 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     _SimpleAvailabilityobjR.ssrCollectionsMode = "Leg";
                     _SimpleAvailabilityobjR.numberOfFaresPerJourney = 10;
                     var jsonR = JsonConvert.SerializeObject(_SimpleAvailabilityobjR, Formatting.Indented);
+
+                    login = new AirAsiaLogin();
+                    login.credentials = credentialsobj;
+
+                    TempData["AirAsiaLogin"] = login.credentials.Image;
+                    AirasiaTokan = new AirasiaTokan();
+                    AirasialoginRequest = JsonConvert.SerializeObject(login, Formatting.Indented);
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    responce = await client.PostAsJsonAsync(AppUrlConstant.AirasiaTokan, login);
+
+                    if (responce.IsSuccessStatusCode)
+                    {
+                        var results = responce.Content.ReadAsStringAsync().Result;
+                        var JsonObj = JsonConvert.DeserializeObject<dynamic>(results);
+                        AirasiaTokan.token = JsonObj.data.token;
+                        AirasiaTokan.idleTimeoutInMinutes = JsonObj.data.idleTimeoutInMinutes;
+                        //token = ((Newtonsoft.Json.Linq.JValue)value).Value.ToString();
+                    }
+                    logs.WriteLogs("Request: " + AirasialoginRequest + "\n Response: " + JsonConvert.SerializeObject(AirasiaTokan.token), "Logon", "AirAsiaRT");
+
+
+                    HttpContext.Session.SetString("AirasiaTokanR", JsonConvert.SerializeObject(AirasiaTokan.token));
+
+
+
 
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AirasiaTokan.token);
@@ -1690,8 +1706,8 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         origin = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
                         string querydestination = _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].ArrivalStation;
                         destination1 = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
-                        Designatorobj.destination = origin;
-                        Designatorobj.origin = destination1;
+                        Designatorobj.destination = destination1;
+                        Designatorobj.origin = origin;
                         //Designatorobj.departure = Convert.ToDateTime(departureTime);
                         //Designatorobj.arrival = Convert.ToDateTime(arrivalTime);
 
@@ -1777,7 +1793,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                                 }
                                                 else
                                                 {
-                                                    continue;
+                                                    // for pick farekey in case of amount is zero or priceamount is null in connected flight in RoundTrip
                                                 }
 
                                                 finalamount = 0;
@@ -1883,20 +1899,21 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     #endregion
                     //end
                     HttpContext.Session.SetString("LeftReturnViewFlightView", JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist));
+                    //Home page request
                     HttpContext.Session.SetString("PassengerModel", JsonConvert.SerializeObject(_SimpleAvailabilityobj));
                     //TempData["PassengerModel"] = JsonConvert.SerializeObject(_SimpleAvailabilityobj);
 
                     HttpContext.Session.SetString("RightReturnFlightView", JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelistR));
                     //AirAsia
-                    TempData["Mymodel"] = JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist);
-                    TempData["PassengerModel"] = JsonConvert.SerializeObject(_SimpleAvailabilityobj);
+                    //TempData["Mymodel"] = JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist);
+                    //TempData["PassengerModel"] = JsonConvert.SerializeObject(_SimpleAvailabilityobj);
 
 
                     //RoundTrip
-                    TempData["MymodelR"] = JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelistR);
-                    TempData["PassengerModelR"] = JsonConvert.SerializeObject(_SimpleAvailabilityobjR);
+                    //TempData["MymodelR"] = JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelistR);
+                    //TempData["PassengerModelR"] = JsonConvert.SerializeObject(_SimpleAvailabilityobjR);
                     HttpContext.Session.SetString("PassengerModelR", JsonConvert.SerializeObject(_SimpleAvailabilityobj));
-                    HttpContext.Session.SetString("SpicejetSignautre", JsonConvert.SerializeObject(_logonResponseobjR.Signature));
+                    HttpContext.Session.SetString("SpicejetSignatureR", JsonConvert.SerializeObject(_logonResponseobjR.Signature));
 
                     //Indigo
 
@@ -1904,9 +1921,9 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     HttpContext.Session.SetString("IndigoSignatureR", JsonConvert.SerializeObject(_IndigologonResponseobjR.Signature));
 
                     ////SpiceJet
-                    TempData["SpiceJetmodel"] = JsonConvert.SerializeObject(SpiceJetAvailibilityaAddResponcelist);
-                    TempData["SpiceJetPassengerModel"] = JsonConvert.SerializeObject(_getAvailabilityRQ);
-
+                    //TempData["SpiceJetmodel"] = JsonConvert.SerializeObject(SpiceJetAvailibilityaAddResponcelist);
+                    //TempData["SpiceJetPassengerModel"] = JsonConvert.SerializeObject(_getAvailabilityRQ);
+                    HttpContext.Session.SetString("SpiceJetPassengerModelR", JsonConvert.SerializeObject(_getAvailabilityRQ));
                     return RedirectToAction("RTFlightView", "RoundTrip");
                 }
                 else
@@ -1920,12 +1937,13 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
                     // TempData["Mymodel"] = JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist);
                     //TempData["PassengerModel"] = JsonConvert.SerializeObject(_SimpleAvailabilityobj);
-                    HttpContext.Session.SetString("Mymodel", JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist));
+                    //HttpContext.Session.SetString("Mymodel", JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist));
                     HttpContext.Session.SetString("PassengerModel", JsonConvert.SerializeObject(_SimpleAvailabilityobj));
 
                     ////SpiceJet
-                    TempData["SpiceJetmodel"] = JsonConvert.SerializeObject(SpiceJetAvailibilityaAddResponcelist);
-                    TempData["SpiceJetPassengerModel"] = JsonConvert.SerializeObject(_getAvailabilityRQ);
+                    //TempData["SpiceJetmodel"] = JsonConvert.SerializeObject(SpiceJetAvailibilityaAddResponcelist);
+                    //TempData["SpiceJetPassengerModel"] = JsonConvert.SerializeObject(_getAvailabilityRQ);
+                    HttpContext.Session.SetString("SpiceJetPassengerModel", JsonConvert.SerializeObject(_getAvailabilityRQ));
                     return RedirectToAction("FlightView", "ResultFlightView");
 
 

@@ -40,16 +40,13 @@ namespace DomainLayer.Model
             htSSr.Add("XBPC", "15 Kg");
             htSSr.Add("XBPD", "30 Kg");
             htSSr.Add("XBPE", "3 Kg");
-            htSSr.Add("VLML", "Awadhi Chicken Biryani with Mirch Salan(Chargable meal code");
             htSSr.Add("VGPI", "Awadhi Chicken Biryani with Mirch Salan(Free meal code");
             htSSr.Add("VGNI", "Bajra Khichdi with Matar Bhaji (Diabetic-friendly)(Chargable meal code");
-            htSSr.Add("VGAN", "Bajra Khichdi with Matar Bhaji (Diabetic-friendly)(Free meal code");
             htSSr.Add("VCSW", "Chicken Junglee Sandwich(Chargable meal code");
             htSSr.Add("VCNX", "Chicken Junglee Sandwich(Free meal code");
             htSSr.Add("VCN2", "Chicken Nuggets with Fried Potatoes(Chargable meal code");
             htSSr.Add("VCN1", "Chicken Nuggets with Fried Potatoes(Free meal code");
             htSSr.Add("UMNR", "Herb Grilled Fish Fillet(Chargable meal code");
-            htSSr.Add("TCSW", "Herb Grilled Fish Fillet(Free  meal code");
             htSSr.Add("STUD", "Herb Roast Vegetable Roll(Chargable meal code");
             htSSr.Add("SRCT", "Herb Roast Vegetable Roll(Free meal code");
             htSSr.Add("SPEQ", "Hyderabadi Mutton Biryani with Mirch Salan(Chargable meal code");
@@ -60,28 +57,58 @@ namespace DomainLayer.Model
             htSSr.Add("PRI2", "Matar-Paneer-Bhurji-with-Aloo-Paratha(Free meal code");
             htSSr.Add("PRI1", "Mini Idlis, Medu Vada and Upma(Chargable meal code");
             htSSr.Add("NUSW", "Mini Idlis, Medu Vada and Upma(Free meal code");
-            htSSr.Add("LCVG", "Murg Tikka Masala with Lachha Paratha(Chargable meal code");
             htSSr.Add("LBG", "Murg Tikka Masala with Lachha Paratha(Free  meal code");
-            htSSr.Add("JNML", "Paneer Makhani with Jeera Aloo _ Vegetable Pulao(Chargable meal code");
             htSSr.Add("IXBC", "Paneer Makhani with Jeera Aloo _ Vegetable Pulao (Free meal code");
             htSSr.Add("IXBB", "Seasonal Fresh Fruits Platter (Chargable meal code");
             htSSr.Add("IXBA", "Seasonal Fresh Fruits Platter (Free meal code");
             htSSr.Add("IGPR", "Shôndesh Tiramisù(Chargable meal code");
             htSSr.Add("IFNR", "Shôndesh Tiramisù(Free meal code");
-            htSSr.Add("GFNV", "Vegan Moilee Curry with Coconut Rice (1)(Chargable meal code");
             htSSr.Add("FFWD", "Vegan Moilee Curry with Coconut Rice (1)(Chargable meal code");
-            htSSr.Add("DBVG", "Vegetable Manchurian with Fried Rice (Chargable meal code");
-            htSSr.Add("DBNV", "Vegetable Manchurian with Fried Rice (Free meal code");
-
             htSSr.Add("CPML", "Mini Idlis, Medu Vada and Upma(Free meal code");
-            htSSr.Add("CJSW", "Murg Tikka Masala with Lachha Paratha(Chargable meal code");
-            htSSr.Add("CHVM", "Murg Tikka Masala with Lachha Paratha(Free  meal code");
             htSSr.Add("CHTI", "Paneer Makhani with Jeera Aloo _ Vegetable Pulao(Chargable meal code");
-            htSSr.Add("CHNM", "Paneer Makhani with Jeera Aloo _ Vegetable Pulao (Free meal code");
             htSSr.Add("CHKI", "Seasonal Fresh Fruits Platter (Chargable meal code");
             htSSr.Add("AGSW", "Seasonal Fresh Fruits Platter (Free meal code");
             htSSr.Add("ABHF", "Shôndesh Tiramisù(Chargable meal code");
-            
+
+            htSSr.Add("CJSW", "Chicken Junglee Sandwich");
+            htSSr.Add("JNML", "Jain Meal / Tomato Cucumber");
+            htSSr.Add("VLML", "Veg Lactose Meal /Paneer Bhatti");
+            htSSr.Add("VGAN", "Vegan Meal  / 2 Dips with Baked Pita");
+            htSSr.Add("CHVM", "KIDDIE DELIGHT -Veg");
+            htSSr.Add("CHNM", "KIDDIE DELIGHT  Non -Veg");
+            htSSr.Add("CHNS", "Sesame Chicken");
+            htSSr.Add("TCSW", "Tomato Cucumber Cheese Lettuce Sandwich");
+            htSSr.Add("BEER", "Beer - 330 ML (2 Cans)");
+            htSSr.Add("WHSK", "Whiskey – 50 ML (2 Miniatures)");
+            htSSr.Add("CNWT", "CASHEW (SALTED) 50 GMS");
+            htSSr.Add("CCWT", "Unibic Chocolate Chips Cookies-75");
+            htSSr.Add("CTSW", "Chicken Tikka Sandwich");
+            htSSr.Add("PTSW", "Paneer Tikka Sandwich");
+            htSSr.Add("VGTR", "Veg Trio Sandwich");
+            htSSr.Add("NVTR", "Non veg trio sandwich");
+            htSSr.Add("CKKU", "Chicken Keema with Kulcha");
+            htSSr.Add("PITA", "2 Dips with Baked Pita");
+            htSSr.Add("CHCT", "Chicken cucumber tomato sandwich");
+            htSSr.Add("BHPS", "Bhatti Paneer Salad");
+            htSSr.Add("POHA", "Poha Combo");
+            htSSr.Add("UPMA", "Rava Upma Combo");
+            htSSr.Add("ZCHK", "Nissin Zesty Chicken Keema Noodle");
+            htSSr.Add("COMI", "Cornflakes with Milk");
+            htSSr.Add("MUYO", "Muesli with yogurt ");
+            htSSr.Add("VBIR", "Veg Biryani Combo");
+            htSSr.Add("PBMR", "Paneer Butter masala");
+            htSSr.Add("AOAT", "Apple Oat Meal");
+            htSSr.Add("SAKD", "Sabudana Khichdi ");
+            htSSr.Add("CHCR", "Chicken Curry Rice");
+            htSSr.Add("NLVG", "Non Lactose meal / 2 Dips with Baked Pita");
+            htSSr.Add("LCVG", "Low Calorie Veg /Paneer Bhatti");
+            htSSr.Add("VPAV", "Vada Pav");
+            htSSr.Add("SAVA", "Sambar Vada");
+            htSSr.Add("CHBR", "Chicken BiryanI");
+            htSSr.Add("DBNV", "Diabitic N.Veg / Chicken Supreme Salad");
+            htSSr.Add("DBVG", "Diabetic Veg Meal / Paneer Bhatt");
+            htSSr.Add("GFNV", "Gluten free / Chicken Supreme Salad");
+
             return htSSr;
 
         }
