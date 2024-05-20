@@ -41,15 +41,27 @@
                     // DiffTime = (ArrivalTime - DepartureTime);
                     DiffTime = (DepartureTime - ArrivalTime);
                     time = TimeSpan.Parse(DiffTime.ToString());
-                    if ((int)time.Minutes == 0)
+                    if ((int)time.TotalHours == 0)
                     {
-                        formatTime = $"{(int)time.TotalHours}h";
-
+                        formatTime = $"{(int)time.TotalMinutes} m";
+                    }
+                    else if ((int)time.Minutes == 0)
+                    {
+                        formatTime = $"{(int)time.TotalHours} h";
                     }
                     else
                     {
                         formatTime = $"{(int)time.TotalHours} h : {(int)time.Minutes} m";
                     }
+                    // if ((int)time.Minutes == 0)
+                    // {
+                    //     formatTime = $"{(int)time.TotalHours}h";
+
+                    // }
+                    // else
+                    // {
+                    //     formatTime = $"{(int)time.TotalHours} h : {(int)time.Minutes} m";
+                        // }
                     <div class="py-15 px-20 rounded-4 text-15 bg-green-1 flex-center">
                         Change planes at <span class="fw-600"><div></div>  (@item.segments[i].designator.origin),</span> Connecting Time: <span class="fw-600">@formatTime</span>
                     </div>
@@ -70,15 +82,27 @@
                                     //DiffTime = (ArrivalTime - DepartureTime);
                                     DiffTime = (DepartureTime - ArrivalTime);
                                     time = TimeSpan.Parse(DiffTime.ToString());
-                                    if ((int)time.Minutes == 0)
+                                    if ((int)time.TotalHours == 0)
                                     {
-                                        formatTime = $"{(int)time.TotalHours}h";
-
+                                        formatTime = $"{(int)time.TotalMinutes} m";
+                                    }
+                                    else if ((int)time.Minutes == 0)
+                                    {
+                                        formatTime = $"{(int)time.TotalHours} h";
                                     }
                                     else
                                     {
                                         formatTime = $"{(int)time.TotalHours} h : {(int)time.Minutes} m";
                                     }
+                                    // if ((int)time.Minutes == 0)
+                                    // {
+                                    //     formatTime = $"{(int)time.TotalHours}h";
+
+                                    // }
+                                    // else
+                                    // {
+                                    //     formatTime = $"{(int)time.TotalHours} h : {(int)time.Minutes} m";
+                                    // }
                                     <div class="py-15 px-20 rounded-4 text-15 bg-green-1 flex-center">
                                         Change planes at <span class="fw-600"> <div></div> (@item.segments[i].legs[j].designator.origin),</span> Connecting Time: <span class="fw-600">@formatTime</span>
                                     </div>

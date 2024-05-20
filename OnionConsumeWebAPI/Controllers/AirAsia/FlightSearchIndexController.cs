@@ -344,7 +344,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 querydestination = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].designator.destination;
                                 if (Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault() != null)
                                 {
-                                    origin = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
+                                    origin = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().citycode;
                                     legdesignatorobj.origin = origin;
                                 }
                                 else
@@ -353,7 +353,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 }
                                 if (Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault() != null)
                                 {
-                                    destination1 = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
+                                    destination1 = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().citycode;
                                     legdesignatorobj.destination = destination1;
                                 }
                                 else

@@ -166,23 +166,23 @@
 
                                                         </ul>
                                                     </div>
-                                                    <div class="Pdetail1">
-                                                        <ul class="td-inline">
-                                                            <li class="tlist-none"> <span>Mobile No:</span><span class="fw-bold-600">@Model.AirlinePNR[0].PhoneNumbers[0].number</span></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="Pdetail1">
-                                                        <ul class="td-inline">
-                                                            @{
-                                                                var imageUrlInfant = @Model.AirlinePNR[0].passengers[p].BarcodeInfantString;
-                                                                var Infantbarcode = ViewData["Barcode"] as string;
-                                                            }
-                                                            @if (!string.IsNullOrEmpty(imageUrlInfant))
-                                                            {
-                                                                <img src="@imageUrlInfant" alt="Infantbarcode" />
-                                                            }
-                                                        </ul>
-                                                    </div>
+                                                    @*  <div class="Pdetail1">
+                                <ul class="td-inline">
+                                <li class="tlist-none"> <span>Mobile No:</span><span class="fw-bold-600">@Model.AirlinePNR[0].PhoneNumbers[0].number</span></li>
+                                </ul>
+                                </div>
+                                <div class="Pdetail1">
+                                <ul class="td-inline">
+                                @{
+                                var imageUrlInfant = @Model.AirlinePNR[0].passengers[p].BarcodeInfantString;
+                                var Infantbarcode = ViewData["Barcode"] as string;
+                                }
+                                @if (!string.IsNullOrEmpty(imageUrlInfant))
+                                {
+                                <img src="@imageUrlInfant" alt="Infantbarcode" />
+                                }
+                                </ul>
+                                </div> *@
 
 
                                                 </div>

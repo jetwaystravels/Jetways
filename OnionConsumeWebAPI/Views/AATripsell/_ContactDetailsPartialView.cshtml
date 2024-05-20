@@ -130,8 +130,9 @@
 
         if (buttonlead.checked) {
             // alert("Checked!!")
-
+            debugger;
             var firstLeadPass = document.querySelector('.firstNClass').value;
+            alert(firstLeadPass);
             var lastLeadPass = document.querySelector('.lastNClass').value;
             var emaiLeadPass = document.querySelector('.emailNClass').value;
             var phoneLeadPass = document.querySelector('.phoneNClass').value;
@@ -152,10 +153,6 @@
             localStorage.setItem('Leadpassenger4', phoneLeadPass);
         }
     });
-
-
-
-
     //GST Checkbox Function
     var buttongst = document.getElementById('GSTButton2');
     buttongst.addEventListener('click', function (e) {
@@ -482,34 +479,6 @@
         }
 
     }
-
-        // function validateGST(event) {
-        //     debugger;
-        //     const gstNumber = event.target.value.toUpperCase();
-        //     const regex = /^([0-9]){2}([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}([0-9]){1}([a-zA-Z]){1}([0-9]){1}?$/;
-
-        //     if (gstNumber.trim() === "") {
-        //         document.getElementById('gstErrorMessage').innerText = "Enter a GST number.";
-        //     } else if (!regex.test(gstNumber)) {
-        //         document.getElementById('gstErrorMessage').innerText = "Enter a valid 15-character GST number.";
-        //     } else {
-        //         document.getElementById('gstErrorMessage').innerText = "";
-        //     }
-        //     var gstnofocus = document.getElementById("gstnumber").value;
-
-        //     if (gstnofocus == "") {
-        //         var gstnoToDisplay = document.getElementById("error-message10");
-        //         gstnoToDisplay.style.display = "block";
-        //         document.getElementById("gstnumber").focus();
-        //         return false;
-        //     }
-        //     else {
-        //         var gstnoToDisplay = document.getElementById("error-message10");
-        //         gstnoToDisplay.style.display = "none";
-        //     }
-
-        // }
-
 </script>
 
 

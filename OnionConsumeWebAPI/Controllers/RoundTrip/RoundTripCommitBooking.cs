@@ -764,19 +764,19 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                         int infantcount = Convert.ToInt32(HttpContext.Session.GetString("infantCount"));
                                         int TotalCount = adultcount + childcount;
                                         string _responceGetBooking = JsonConvert.SerializeObject(_getBookingResponse);
-                                        string fileName = @"D:\a.txt";
-                                        try
-                                        {
-                                            using (StreamReader reader = new StreamReader(fileName))
-                                            {
-                                                _responceGetBooking = reader.ReadToEnd();
-                                            }
-                                        }
-                                        catch (Exception exp)
-                                        {
-                                            //Console.WriteLine(exp.Message);
-                                        }
-                                        _getBookingResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<IndigoBookingManager_.GetBookingResponse>(_responceGetBooking);
+                                        //string fileName = @"D:\a.txt";
+                                        //try
+                                        //{
+                                        //    using (StreamReader reader = new StreamReader(fileName))
+                                        //    {
+                                        //        _responceGetBooking = reader.ReadToEnd();
+                                        //    }
+                                        //}
+                                        //catch (Exception exp)
+                                        //{
+                                        //    //Console.WriteLine(exp.Message);
+                                        //}
+                                        //_getBookingResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<IndigoBookingManager_.GetBookingResponse>(_responceGetBooking);
                                         ReturnTicketBooking returnTicketBooking = new ReturnTicketBooking();
                                         var totalAmount = _getBookingResponse.Booking.BookingSum.TotalCost;
                                         returnTicketBooking.bookingKey = _getBookingResponse.Booking.BookingID.ToString();
