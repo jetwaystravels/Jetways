@@ -20,6 +20,7 @@ using OnionArchitectureAPI.Services.Indigo;
 using static DomainLayer.Model.ReturnTicketBooking;
 using IndigoBookingManager_;
 using OnionConsumeWebAPI.Extensions;
+using System.Collections;
 
 namespace OnionConsumeWebAPI.Controllers.Indigo
 {
@@ -81,6 +82,9 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
 
                         if (_getBookingResponse != null)
                         {
+
+                            Hashtable htseatdata = new Hashtable();
+                            Hashtable htmealdata = new Hashtable();
                             int adultcount = Convert.ToInt32(HttpContext.Session.GetString("adultCount"));
                             int childcount = Convert.ToInt32(HttpContext.Session.GetString("childCount"));
                             int infantcount = Convert.ToInt32(HttpContext.Session.GetString("infantCount"));
@@ -248,16 +252,51 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                                         AALeglist.Add(AALeg);
 
                                     }
+
+                                    //vivek
                                     //vivek
                                     foreach (var item1 in _getBookingResponse.Booking.Journeys[i].Segments[j].PaxSeats)
                                     {
-                                        returnSeats.unitDesignator += item1.UnitDesignator + ",";
-                                    }
+                                        try
+                                        {
+                                            if (!htseatdata.Contains(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation))
+                                            {
+                                                htseatdata.Add(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation, item1.UnitDesignator);
+                                                returnSeats.unitDesignator += item1.UnitDesignator + ",";
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
 
+                                        }
+                                    }
+                                    //SSR
                                     foreach (var item1 in _getBookingResponse.Booking.Journeys[i].Segments[j].PaxSSRs)
                                     {
-                                        returnSeats.SSRCode += item1.SSRCode + ",";
+                                        try
+                                        {
+                                            if (!htmealdata.Contains(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation))
+                                            {
+                                                htmealdata.Add(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation, item1.SSRCode);
+                                                returnSeats.SSRCode += item1.SSRCode + ",";
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+
+                                        }
                                     }
+
+
+                                    //foreach (var item1 in _getBookingResponse.Booking.Journeys[i].Segments[j].PaxSeats)
+                                    //{
+                                    //    returnSeats.unitDesignator += item1.UnitDesignator + ",";
+                                    //}
+
+                                    //foreach (var item1 in _getBookingResponse.Booking.Journeys[i].Segments[j].PaxSSRs)
+                                    //{
+                                    //    returnSeats.SSRCode += item1.SSRCode + ",";
+                                    //}
                                     //
                                     AASegmentobj.unitdesignator = returnSeats.unitDesignator;
                                     AASegmentobj.SSRCode = returnSeats.SSRCode;
@@ -337,7 +376,18 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                                 passkeytypeobj.name = new Name();
                                 passkeytypeobj.passengerTypeCode = item.PassengerTypeInfo.PaxType;
                                 passkeytypeobj.name.first = item.Names[0].FirstName + " " + item.Names[0].LastName;
-                                passkeytypeobj.MobNumber = "";
+                                //passkeytypeobj.MobNumber = "";
+                                for (int i = 0; i < passeengerlist.Count; i++)
+                                {
+                                    if (passkeytypeobj.passengerTypeCode == passeengerlist[i].passengertypecode && passkeytypeobj.name.first.ToLower() == passeengerlist[i].first.ToLower() + " " + passeengerlist[i].last.ToLower())
+                                    {
+                                        passkeytypeobj.MobNumber = passeengerlist[i].mobile;
+                                        passkeytypeobj.passengerKey = passeengerlist[i].passengerkey;
+                                        //passkeytypeobj.seats.unitDesignator = htseatdata[passeengerlist[i].passengerkey].ToString();
+                                        break;
+                                    }
+
+                                }
                                 passkeylist.Add(passkeytypeobj);
                                 if (item.Infant != null)
                                 {
@@ -345,7 +395,18 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                                     passkeytypeobj.name = new Name();
                                     passkeytypeobj.passengerTypeCode = "INFT";
                                     passkeytypeobj.name.first = item.Infant.Names[0].FirstName + " " + item.Infant.Names[0].LastName;
-                                    passkeytypeobj.MobNumber = "";
+                                    //passkeytypeobj.MobNumber = "";
+                                    for (int i = 0; i < passeengerlist.Count; i++)
+                                    {
+                                        if (passkeytypeobj.passengerTypeCode == passeengerlist[i].passengertypecode && passkeytypeobj.name.first.ToLower() == passeengerlist[i].first.ToLower() + " " + passeengerlist[i].last.ToLower())
+                                        {
+                                            passkeytypeobj.MobNumber = passeengerlist[i].mobile;
+                                            passkeytypeobj.passengerKey = passeengerlist[i].passengerkey;
+                                            //passkeytypeobj.seats.unitDesignator = htseatdata[passeengerlist[i].passengerkey].ToString();
+                                            break;
+                                        }
+
+                                    }
                                     passkeylist.Add(passkeytypeobj);
 
                                 }
@@ -376,6 +437,8 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                             returnTicketBooking.passengers = passkeylist;
                             returnTicketBooking.passengerscount = passengercount;
                             returnTicketBooking.contacts = _contact;
+                            returnTicketBooking.Seatdata = htseatdata;
+                            returnTicketBooking.Mealdata = htmealdata;
                             _AirLinePNRTicket.AirlinePNR.Add(returnTicketBooking);
 
 

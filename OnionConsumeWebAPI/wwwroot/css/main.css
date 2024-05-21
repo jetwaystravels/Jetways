@@ -13747,79 +13747,43 @@ flight loader
 
 .cs-loader {
     position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
     width: 100%;
+    height: 100%;
+    top: 0%;
+    left: 0%;
     z-index: 999;
     background: #fff;
-    opacity: .9;
+    /*top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;*/
 }
 
 .cs-loader-inner {
-    transform: translateY(-50%);
-    top: 50%;
+    /*transform: translateY(-50%);*/
+    transform: translate(-50%, 50%);
+    animation: move 4s infinite linear;
     position: absolute;
+    top: 20%;
+    left: 30%;
     width: calc(100%);
     color: #FFF;
-    padding: 0 100px;
     text-align: center;
+   
 }
 
-    .cs-loader-inner .load-text {
-        color: #616060;
-        text-transform: capitalize;
-        font-weight: 700;
-        padding-left: 50px;
-    }
 
-    .cs-loader-inner label {
-        font-size: 20px;
-        opacity: 0;
-        display: inline-block;
-    }
 
-@keyframes lol {
-    0% {
-        opacity: 3;
-        transform: translateX(100px);
-    }
+@keyframes move {
 
-    33% {
-        opacity: 5;
-        transform: translateX(1px);
-    }
-
-    66% {
-        opacity: 5;
-        transform: translateX(1px);
-    }
-
-    100% {
-        opacity: 3;
-        transform: translateX(100px);
-    }
-}
-
-@-webkit-keyframes lol {
-    0% {
-        opacity: 5;
-        -webkit-transform: translateX(100px);
-    }
-
-    33% {
-        opacity: 3;
-        -webkit-transform: translateX(0px);
-    }
-
-    66% {
+    50% {
+        left: 50%;
         opacity: 1;
-        -webkit-transform: translateX(0px);
     }
 
     100% {
-        opacity: 3;
-        -webkit-transform: translateX(100px);
+        left: 70%;
+        opacity: 0;
     }
 }
 
@@ -13852,3 +13816,259 @@ flight loader
     -webkit-animation: lol 4s 200ms infinite ease-in-out;
     animation: lol 2s 300ms infinite ease-in-out;
 }
+
+
+/* ******************************
+Flight Ticket
+****************************** */
+
+.flight-tckt-main {
+    width: 855px;
+    margin: auto;
+}
+
+    .flight-tckt-main .top {
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding: 20px 0 0;
+        border-bottom: #C7C7C7 1px solid;
+        margin-bottom: 25px;
+    }
+
+    .flight-tckt-main .fr {
+        line-height: 22px;
+        font-size: 14px;
+        font-weight: 400;
+        padding-bottom: 6px;
+    }
+
+        .flight-tckt-main .fr h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+    .flight-tckt-main h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #EF0000;
+        text-transform: uppercase;
+        padding: 0 0 15px 0;
+    }
+
+.itinerary-section {
+    background: #FEF7F7;
+    padding: 15px;
+    color: #4F4E4E;
+    margin-bottom: 18px;
+}
+
+    .itinerary-section .Dst-name {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+        .itinerary-section .Dst-name span.red {
+            color: #EF0000;
+            display: inline-block;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .itinerary-section .Dst-name span {
+            font-size: 12px;
+            display: block;
+            font-weight: 500;
+            line-height: 16px;
+        }
+
+    .itinerary-section .time {
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .itinerary-section .logo {
+        margin: 7px 15px;
+    }
+
+    .itinerary-section .airline-N {
+        line-height: 20px;
+        margin-top: 3px;
+    }
+
+    .itinerary-section .bdr {
+        border-bottom: #F6DBDB 1px solid;
+        padding: 10px 0 10px 0;
+    }
+
+        .itinerary-section .bdr:last-child {
+            border-bottom: none;
+        }
+
+.ticket-info {
+    position: relative;
+    margin-bottom: 18px;
+}
+
+    .ticket-info table.table td {
+        font-size: 13px;
+        text-align: center;
+        font-weight: 500;
+        padding: 10px 5px 4px 5px;
+    }
+
+    .ticket-info .table {
+        position: relative;
+    }
+
+    .ticket-info .table-bordered thead td, .table-bordered thead th {
+        border-bottom-width: 2px;
+        background: #FCE1E1;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 17px 9px;
+    }
+
+    .ticket-info .table-bordered td, .table-bordered th {
+        border: 2px solid #FCE1E1;
+    }
+
+.table-bordered td, .table-bordered th {
+    border: 2px solid #FCE1E1 !important;
+}
+
+.ticket-info .table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #FCE1E1;
+}
+
+.ticket-info table.table th:first-child {
+    border-radius: 0;
+}
+
+.ticket-info table.table th:last-child {
+    border-radius: 0;
+}
+
+.ticket-info span {
+    position: absolute;
+    z-index: 999999;
+    top: 43px;
+    left: 112px;
+    width: 149px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.ticket-info .col-one {
+    font-size: 12px;
+    line-height: 0px;
+    padding-bottom: 13px;
+    text-align: center;
+}
+
+
+.Flight-Inclusion {
+    position: relative;
+    margin-bottom: 18px;
+}
+
+    .Flight-Inclusion table.table td {
+        font-size: 13px;
+        text-align: center;
+        font-weight: 500;
+        padding: 11px 9px 9px;
+    }
+
+    .Flight-Inclusion .table {
+        position: relative;
+    }
+
+    .Flight-Inclusion .table-bordered thead td, .table-bordered thead th {
+        border-bottom-width: 2px;
+        background: #FCE1E1;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 17px 9px;
+    }
+
+    .Flight-Inclusion .table-bordered td, .table-bordered th {
+        border: 2px solid #FCE1E1;
+    }
+
+.table-bordered td, .table-bordered th {
+    border: 2px solid #FCE1E1 !important;
+}
+
+.Flight-Inclusion .table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #FCE1E1;
+}
+
+.Flight-Inclusion table.table th:first-child {
+    border-radius: 0;
+}
+
+.Flight-Inclusion table.table th:last-child {
+    border-radius: 0;
+}
+
+.Flight-Inclusion span {
+    position: absolute;
+    z-index: 999999;
+    top: 43px;
+    left: 128px;
+    width: 164px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+    .Flight-Inclusion span.baggage {
+        position: absolute;
+        z-index: 999999;
+        top: 43px;
+        left: 389px;
+        width: 220px;
+        text-align: center;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+.Flight-Inclusion .col-one {
+    font-size: 12px;
+    line-height: 0px;
+    padding-bottom: 13px;
+    text-align: center;
+}
+
+.Flight-Inclusion .fare td {
+    text-align: left !important;
+    padding: 11px 9px 9px;
+}
+
+    .Flight-Inclusion .fare td:last-child {
+        text-align: right !important;
+    }
+
+.flight-tckt-main .t-c {
+    font-size: 12px;
+    line-height: 21px;
+}
+
+.flight-tckt-main .btm {
+    background: #FDE1E1;
+    padding: 6px;
+    text-align: center;
+    font-size: 12px;
+    margin: 25px 0 15px;
+    font-weight: 400;
+}
+
+
+
