@@ -220,6 +220,7 @@
     @{
         for (int k = 0; k < Model.passeengerlistRT.Count; k++)
         {
+            string AirCraftname = string.Empty;
             var AirLinename = Model.passeengerlistRT[k].journeys[0].Airlinename;
 
 
@@ -270,6 +271,7 @@
             {
                 for (int i = 0; i < item.segments.Count; i++)
                 {
+                    AirCraftname = @Model.SeatmaplistRT[k].datalist[i].seatMap.name;
                     if (i == 1)
                     {
                         formattedTime = string.Empty;
@@ -317,12 +319,10 @@
                                         <div class="w-28 d-flex justify-center mr-15">
                                             @if (item.segments[i].identifier.carrierCode.Equals("SG"))
                                             {
-
                                                 <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
                                             }
                                             else if (item.segments[i].identifier.carrierCode.Equals("6E"))
                                             {
-
                                                 <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
                                             }
                                             else
@@ -332,7 +332,7 @@
                                             @* <img class="size-30" src="~/img/flight-logo-icon/1.webp" alt="image">*@
                                         </div>
 
-                                        <div class="text-14 text-light-1"> @AirLinename @item.segments[i].identifier.carrierCode @item.segments[i].identifier.identifier <span class="airliname">@Model.SeatmaplistRT[i].datalist[0].seatMap.name</span></div>
+                                        <div class="text-14 text-light-1"> @AirLinename @item.segments[i].identifier.carrierCode @item.segments[i].identifier.identifier <span class="airliname">@AirCraftname</span></div>
                                     </div>
 
                                     <div class="relative z-0">
