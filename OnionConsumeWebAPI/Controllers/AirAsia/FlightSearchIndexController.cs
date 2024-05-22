@@ -452,7 +452,9 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 var expandoconverter = new ExpandoObjectConverter();
                                 dynamic obj = JsonConvert.DeserializeObject<ExpandoObject>(uniqueJourney.ToString(), expandoconverter);
                                 string jsonresult = JsonConvert.SerializeObject(obj);
+                                //to do
                                 _SimpleAvailibilityaAddResponceobj = JsonConvert.DeserializeObject<SimpleAvailibilityaAddResponce>(jsonresult);
+                               
                                 _SimpleAvailibilityaAddResponceobj.designator = Designatorobj;
                                 _SimpleAvailibilityaAddResponceobj.segments = Segmentobjlist;
                                 _SimpleAvailibilityaAddResponceobj.arrivalTerminal = arrivalTerminal;
@@ -811,7 +813,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
 
                     var bookingdate = "2023-12-10T00:00:00";
-                    _SimpleAvailibilityaAddResponceobj.bookingdate = Convert.ToDateTime(bookingdate).ToString("dddd, dd MMM yyyy");
+                    _SimpleAvailibilityaAddResponceobj.bookingdate = Convert.ToDateTime(_getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0][0].DepartureDate).ToString("dddd, dd MMM yyyy");
                     _SimpleAvailibilityaAddResponceobj.fareTotalsum = Math.Round(fareTotalsum, 0);
 
                     _SimpleAvailibilityaAddResponceobj.journeyKey = journeyKey;
@@ -1041,7 +1043,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     _SimpleAvailibilityaAddResponceobj.segments = Segmentobjlist;
                     DateTime currentDate = DateTime.Now;
                     var bookingdate1 = currentDate; //"2023-12-10T00:00:00";
-                    _SimpleAvailibilityaAddResponceobj.bookingdate = Convert.ToDateTime(bookingdate1).ToString("dddd, dd MMM yyyy");
+                    _SimpleAvailibilityaAddResponceobj.bookingdate = Convert.ToDateTime(_IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0][0].DepartureDate).ToString("dddd, dd MMM yyyy");
                     _SimpleAvailibilityaAddResponceobj.fareTotalsum = Math.Round(fareTotalsum, 0);
                     _SimpleAvailibilityaAddResponceobj.journeyKey = journeyKey;
                     _SimpleAvailibilityaAddResponceobj.faresIndividual = fareIndividualsconnectedList;// fareIndividualsList;
@@ -1884,7 +1886,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         _SimpleAvailibilityaAddResponceobjR.segments = Segmentobjlist;
                         DateTime currentDate = DateTime.Now;
                         var bookingdate = currentDate; //"2023-12-10T00:00:00";
-                        _SimpleAvailibilityaAddResponceobjR.bookingdate = Convert.ToDateTime(bookingdate).ToString("dddd, dd MMM yyyy");
+                        _SimpleAvailibilityaAddResponceobjR.bookingdate = Convert.ToDateTime(_IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].DepartureDate).ToString("dddd, dd MMM yyyy");
                         _SimpleAvailibilityaAddResponceobjR.fareTotalsum = Math.Round(fareTotalsum, 0);
                         _SimpleAvailibilityaAddResponceobjR.journeyKey = journeyKey;
                         _SimpleAvailibilityaAddResponceobjR.faresIndividual = fareIndividualsconnectedList;// fareIndividualsList;

@@ -13866,6 +13866,7 @@ Flight Ticket
     padding: 15px;
     color: #4F4E4E;
     margin-bottom: 18px;
+    border: 1px solid #fee1e1;
 }
 
     .itinerary-section .Dst-name {
