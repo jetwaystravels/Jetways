@@ -13751,6 +13751,7 @@ flight loader
     height: 100%;
     top: 0%;
     left: 0%;
+    opacity:.7;
     z-index: 999;
     background: #fff;
     /*top: 0;
