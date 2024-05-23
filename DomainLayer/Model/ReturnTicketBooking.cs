@@ -45,7 +45,7 @@ namespace DomainLayer.Model
         public string emailAddress { get; set; }
         public Hashtable Seatdata { get; set; }
         public Hashtable Mealdata { get; set; }
-
+        public Hashtable Bagdata { get; set; }
         public class Address
         {
             public string lineOne { get; set; }

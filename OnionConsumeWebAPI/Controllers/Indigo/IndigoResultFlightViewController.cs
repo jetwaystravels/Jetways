@@ -559,6 +559,8 @@ namespace OnionConsumeWebAPI.Controllers
                                             {
                                                 legssrs.name = htSSr[legssrs.ssrCode].ToString();
                                             }
+                                            else
+                                                continue;
                                             //legssrs.ssrType = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[0].AvailablePaxSSRList[j].ssrType;
                                             //legssrs.name = JsonObjresponseSSRAvailabilty.data.legSsrs[i].ssrs[j].name;
                                             //legssrs.limitPerPassenger = JsonObjresponseSSRAvailabilty.data.legSsrs[i].ssrs[j].limitPerPassenger;

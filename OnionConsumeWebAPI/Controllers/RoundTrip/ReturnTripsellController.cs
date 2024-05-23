@@ -2417,6 +2417,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                             {
                                                 legssrs.name = htSSr[legssrs.ssrCode].ToString();
                                             }
+                                            else
+                                                continue;
 
                                             legssrs.ssrCode = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].SSRCode.ToString();
                                             legssrs.available = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].Available;

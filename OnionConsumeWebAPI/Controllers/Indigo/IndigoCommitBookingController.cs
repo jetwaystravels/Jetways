@@ -85,6 +85,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
 
                             Hashtable htseatdata = new Hashtable();
                             Hashtable htmealdata = new Hashtable();
+                            Hashtable htbagdata = new Hashtable();
                             int adultcount = Convert.ToInt32(HttpContext.Session.GetString("adultCount"));
                             int childcount = Convert.ToInt32(HttpContext.Session.GetString("childCount"));
                             int infantcount = Convert.ToInt32(HttpContext.Session.GetString("infantCount"));
@@ -283,6 +284,14 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                                                 }
                                                 returnSeats.SSRCode += item1.SSRCode + ",";
                                             }
+
+                                            else if (!htbagdata.Contains(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation))
+                                            {
+                                                
+                                                    htbagdata.Add(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation, item1.SSRCode);
+                                                
+                                                returnSeats.SSRCode += item1.SSRCode + ",";
+                                            }
                                         }
                                         catch (Exception ex)
                                         {
@@ -442,6 +451,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                             returnTicketBooking.contacts = _contact;
                             returnTicketBooking.Seatdata = htseatdata;
                             returnTicketBooking.Mealdata = htmealdata;
+                            returnTicketBooking.Bagdata = htbagdata;
                             _AirLinePNRTicket.AirlinePNR.Add(returnTicketBooking);
 
 

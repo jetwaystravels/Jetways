@@ -162,7 +162,7 @@
                     {
                         if (!ht0.Contains(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator))
                         {
-                            ht0.Add(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator, Model.Seatmaplist.datalist[k].seatMap.decks.units[j].servicechargefeeAmount);
+                            ht0.Add(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator, Math.Round(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].servicechargefeeAmount, 0) + "_" + Model.Seatmaplist.datalist[k].seatMap.decks.units[j].availability);
                         }
 
                     }
@@ -170,7 +170,7 @@
                     {
                         if (!ht1.Contains(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator))
                         {
-                            ht1.Add(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator, Model.Seatmaplist.datalist[k].seatMap.decks.units[j].servicechargefeeAmount);
+                            ht1.Add(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator, Math.Round(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].servicechargefeeAmount, 0) + "_" + Model.Seatmaplist.datalist[k].seatMap.decks.units[j].availability);
                         }
 
                     }
@@ -231,10 +231,31 @@
                                                         }
                                                         else
                                                         {
-                                                            string feeamountF1 = ht0[data].ToString();
+                                                            string[] arrayofseat = ht0[data].ToString().Split("_");
+                                                            string feeamountF1 = string.Empty;
+                                                            string seatavailability = string.Empty;
+                                                            if (arrayofseat.Length > 1)
+                                                            {
+                                                                feeamountF1 = arrayofseat[0].Trim();
+                                                                seatavailability = arrayofseat[1].Trim();
+                                                            }
                                                             if (feeamountF1 == "0")
                                                             {
                                                                 <li class="seat-li free-seat tooltip">
+                                                                    <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+                                                                    <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@data _OneWay0 _@l" id="unitKey" />
+                                                                    <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                                </li>
+                                                            }
+                                                            else if (seatavailability != "5")
+                                                            {
+                                                                <li class="seat-li chkbox">
+                                                                    <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
+                                                                </li>
+                                                            }
+                                                            else if (Convert.ToDouble(feeamountF1) >= 120 && Convert.ToDouble(feeamountF1)<=350)
+                                                            {
+                                                                <li class="seat-li lowcomfort tooltip">
                                                                     <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
                                                                     <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@data _OneWay0 _@l" id="unitKey" />
                                                                     <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
@@ -316,12 +337,34 @@
                                                         }
                                                         else
                                                         {
-                                                            string feeamountF1 = ht1[data].ToString();
+                                                            string[] arrayofseat = ht1[data].ToString().Split("_");
+                                                            string feeamountF1 = string.Empty;
+                                                            string seatavailability = string.Empty;
+                                                            if (arrayofseat.Length > 1)
+                                                            {
+                                                                feeamountF1 = arrayofseat[0].Trim();
+                                                                seatavailability = arrayofseat[1].Trim();
+                                                            }
+                                                            //string feeamountF1 = ht1[data].ToString();
                                                             if (feeamountF1 == "0")
                                                             {
                                                                 <li class="seat-li free-seat tooltip">
                                                                     <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
                                                                     <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@data _OneWay1 _@l" id="unitKey" />
+                                                                    <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                                </li>
+                                                            }
+                                                            else if (seatavailability != "5")
+                                                            {
+                                                                <li class="seat-li chkbox">
+                                                                    <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
+                                                                </li>
+                                                            }
+                                                            else if (Convert.ToDouble(feeamountF1) >= 120 && Convert.ToDouble(feeamountF1) <= 350)
+                                                            {
+                                                                <li class="seat-li lowcomfort tooltip">
+                                                                    <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+                                                                    <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@data _OneWay0 _@l" id="unitKey" />
                                                                     <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
                                                                 </li>
                                                             }
@@ -429,6 +472,17 @@
         color: #E93329 !important;
         border-bottom: 1px solid #E93329 !important;
     }
+
+    .service-section .seat-section .inner-section .seat-li.lowcomfort {
+        background: #6ec3fb;
+        text-align: center;
+    }
+
+    /* .colorseat
+    {
+        background: #9fd4f7;
+        text-align: center;
+    } */
 </style>
 <script type="text/javascript">
     /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/

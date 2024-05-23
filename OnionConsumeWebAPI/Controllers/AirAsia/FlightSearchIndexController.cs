@@ -453,7 +453,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 dynamic obj = JsonConvert.DeserializeObject<ExpandoObject>(uniqueJourney.ToString(), expandoconverter);
                                 string jsonresult = JsonConvert.SerializeObject(obj);
                                 //to do
-                                _SimpleAvailibilityaAddResponceobj = JsonConvert.DeserializeObject<SimpleAvailibilityaAddResponce>(jsonresult);
+                                //_SimpleAvailibilityaAddResponceobj = JsonConvert.DeserializeObject<SimpleAvailibilityaAddResponce>(jsonresult);
 
                                 _SimpleAvailibilityaAddResponceobj.designator = Designatorobj;
                                 _SimpleAvailibilityaAddResponceobj.segments = Segmentobjlist;

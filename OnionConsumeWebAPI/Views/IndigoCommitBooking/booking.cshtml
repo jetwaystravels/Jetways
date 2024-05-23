@@ -528,7 +528,7 @@
 
                     Hashtable htseat = Model.AirlinePNR[a].Seatdata;
                     Hashtable htmeal = Model.AirlinePNR[a].Mealdata;
-
+                    Hashtable htbag = Model.AirlinePNR[a].Bagdata;
                     <div class="container">
                         <div class="flight-tckt-main">
                             <div class="top">
@@ -585,7 +585,7 @@
                                                     <div class="Dst-name">
                                                         <span class="red">@origin</span> @departuretime <span>
                                                             <strong>@departuredate</strong>
-                                                        </span> <span>Terminal - @Model.AirlinePNR[a].journeys[i].segments[i1].legs[0].legInfo.departureTerminal</span>
+                                                        </span> <span>Terminal @Model.AirlinePNR[a].journeys[i].segments[i1].legs[0].legInfo.departureTerminal</span>
                                                         <span>@originairport</span>
                                                     </div>
                                                 </div>
@@ -608,7 +608,7 @@
                                                 </div>
 
                                                 <div class="col">
-                                                    <div class="Dst-name"><span class="red">@arrival</span> @arrivaltime <span><strong>@arrivaldate</strong></span> <span>Terminal - @Model.AirlinePNR[a].journeys[i].segments[i1].legs[0].legInfo.arrivalTerminal</span>
+                                                    <div class="Dst-name"><span class="red">@arrival</span> @arrivaltime <span><strong>@arrivaldate</strong></span> <span>Terminal @Model.AirlinePNR[a].journeys[i].segments[i1].legs[0].legInfo.arrivalTerminal</span>
                                                         <span>@arrivalairport</span>
                                                     </div>
                                                 </div>
@@ -718,9 +718,16 @@
                                                         {
                                                             <td>@htmeal[hashdata]</td>
                                                         }
+
+                                                        if (htbag != null)
+                                                        {
+                                                            <td>@htbag[hashdata]</td>
+                                                            <td>@htbag[hashdata]</td>
+                                                            
+                                                        }
+
+                                                        
                                                     }
-                                                    <td>AD1WSM</td>
-                                                    <td>AD1WSM/1/1</td>
                                                     <td>Confirm</td>
                                                 </tr>
 
@@ -815,6 +822,8 @@
             }
         }
     </form>
+
+
     <!---New ticket Design End------>
 
     @*
@@ -826,8 +835,8 @@
             </div>
         </div>
     </div>
-    *@
 
+    *@
 
 </body>
 </html>
