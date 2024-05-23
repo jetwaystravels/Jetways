@@ -8,11 +8,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>AirAsia</title>
+    <title>Indigo</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="~/css/style_ticket.css" rel="stylesheet" />
+    <link href="~/css/main.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style_ticket.css">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -41,669 +42,336 @@
                 border-top: 1px dashed #000;
                 margin-top: 0px;
             }
-
-        .img-height img {
-            height: 80px !important;
-        }
     </style>
 </head>
 <body>
+    <!---New Tikec design- Start----->
+
     <form asp-action="PostTicketBooking" asp-controller="AirLinesTicket" method="post">
-
-        <div id="printableArea">
+        @{
+            Hashtable htseat = Model.AirlinePNR[0].Seatdata;
+            Hashtable htmeal = Model.AirlinePNR[0].Mealdata;
             <div class="container">
-                <div class="row mt-5">
-                    <div class="d-flex flex-row justify-content-end">
-                        <div class="Tlogo">
-                            @*  <img src="~/img/logo.png"> *@
-                            <!--<img class="crazyFrog"></img>-->
-                        </div>
+
+                <div class="flight-tckt-main">
+                    <div class="top">
+                        <label><img src="~/img/logo/logo.png" alt="brand-logo"></label>
+                        <label class="fr">
+                            <h4>E-Ticket </h4>
+                            Jetways Travel Booking <strong>@Model.AirlinePNR[0].bookingKey</strong> <br> PNR. <span style="color: #EF0000;font-size: 16px;font-weight: 600;">@Model.AirlinePNR[0].recordLocator</span>
+                            <br> Booking Date :@Model.AirlinePNR[0].info.bookedDate <span style="font-size: 16px;font-weight: 600;"></span>
+                        </label>
                     </div>
-                </div>
-            </div>
+                    <h3>Itinerary and Reservation Details</h3>
+                    <div class="itinerary-section">
+                        <div class="col">
 
-            <!----------Legal Entity Section-------------->
-            <section class="container mt-1">
-                <div class="row border-dot">
-                    <div class="d-flex flex-row align-items-center justify-content-between">
-                        <div class="d-flex align-items-center">
-                            <span class="mb-0">Trip ID</span>
-                            <span class="mb-0  ms-1 fw-bold-600">@Model.AirlinePNR[0].bookingKey</span>
-                        </div>
-                        <div class="pnrdiv">
-                            <div class="TPNR d-flex">
-                                <div class="mb-0 fw-bold-600" id="Tpnr">Airline PNR : </div><div id="PNR" class="ms-2 t-color fw-bold-600 "><span class="mb-0">@Model.AirlinePNR[0].recordLocator</span></div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-
-            <!-------------Air Line PNR Section ------------->
-            <section class="container mt-1">
-                <div class="row border-dot pt-2">
-                    @{
-                        Hashtable htseat = Model.AirlinePNR[0].Seatdata;
-                        Hashtable htmeal = Model.AirlinePNR[0].Mealdata;
-                    }
-                    @for (int j = 0; j < Model.AirlinePNR[0].journeys.Count; j++)
-                    {
-                        @for (int s = 0; s < Model.AirlinePNR[0].journeys[j].segments.Count; s++)
-                        {
-
-                            <div class="pass">
-                                <div class="d-flex flex-row justify-content-between flex-wrap">
-                                    <div class="TPNR">
-                                        <span class="mb-0 fw-bold-600"><span id="depart"> @Model.AirlinePNR[0].journeys[j].segments[s].designator.origin</span><span> to</span><span id="tarrive"> @Model.AirlinePNR[0].journeys[j].segments[s].designator.destination</span></span>
-                                    </div>
-                                </div>
-
-                                <div class="col-12 border-width"></div>
-
-                                <div class="col-12 border-width"></div>
-
-                                <!------Passengers-Detail-Section--------->
-                                @for (int p = 0; p < Model.AirlinePNR[0].passengers.Count; p++)
+                            @for (int j = 0; j < @Model.AirlinePNR[0].journeys.Count; j++)
+                            {
+                                @for (int s = 0; s < @Model.AirlinePNR[0].journeys[j].segments.Count; s++)
                                 {
-                                    <div class="col-12 PDetail">
-                                        <div class="d-flex flex-row justify-content-between">
-                                            <div class="Pdetail1">
+                                    <div class="row x-gap-20 bdr">
+                                        <div class="col-auto">
+                                            <div class="logo"><img class="size-35" src="~/img/clogo.png" alt="logo"></div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="airline-N">Air India Expr..<br> @Model.AirlinePNR[0].journeys[j].segments[s].identifier.carrierCode-@Model.AirlinePNR[0].journeys[j].segments[s].identifier.identifier</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            @{
+                                                string origin = "";
+                                                string originairport = "";
+                                                string queryorigin = Model.AirlinePNR[0].journeys[j].segments[s].designator.origin;
+                                                if (Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault() != null)
+                                                {
+                                                    origin = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
+                                                    originairport = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().airportname;
+                                                }
 
-                                                <ul class="td-inline">
-                                                    <li class="tlist-none"><span id="Adult1">Passengers @Model.AirlinePNR[0].passengers[p].passengerTypeCode</span></li>
-                                                    <li class="tlist-none"><span id="Pname1" class="fw-bold-600">@Model.AirlinePNR[0].passengers[p].name.first</span></li>
-                                                    @* <li class="tlist-none"><span>(Adult)</span></li> *@
-                                                </ul>
-                                            </div>
 
-                                            <div class="Pdetail1">
-                                                <ul class="td-inline">
-                                                    <li class="tlist-none"> <span>Mobile No:</span><span class="fw-bold-600">@Model.AirlinePNR[0].PhoneNumbers[0].number</span></li>
-                                                </ul>
-                                            </div>
-                                            <div class="Pdetail1">
-                                                <ul class="td-inline">
-                                                    @{
-                                                        string hashdata = @Model.AirlinePNR[0].passengers[p].passengerKey + "_" + @Model.AirlinePNR[0].journeys[j].segments[s].designator.origin + "_" + @Model.AirlinePNR[0].journeys[j].segments[s].designator.destination;
-                                                    }
-                                                    <li class="tlist-none"> <span>Seat No:</span><span class="fw-bold-600">@htseat[hashdata]</span></li>
-                                                </ul>
-                                            </div>
-                                            <div class="Pdetail1">
-                                                <ul class="td-inline">
-                                                    @{
-                                                        string hashdataMeal = @Model.AirlinePNR[0].passengers[p].passengerKey + "_" + @Model.AirlinePNR[0].journeys[j].segments[s].designator.origin + "_" + @Model.AirlinePNR[0].journeys[j].segments[s].designator.destination;
-                                                    }
+                                                string departuretime = @Model.AirlinePNR[0].journeys[j].segments[s].designator.departure.ToString().Substring(11, 5);
+                                                string departuredate = @Model.AirlinePNR[0].journeys[j].segments[s].designator.departure.ToString().Substring(0, 10);
 
-                                                    <li class="tlist-none"> <span>Meal No:</span><span class="fw-bold-600">@htmeal[hashdataMeal]</span></li>
-                                                </ul>
+                                                //Arrival  code
+                                                string arrival = "";
+                                                string arrivalairport = "";
+                                                string queryarrival = Model.AirlinePNR[0].journeys[j].segments[s].designator.destination;
+                                                if (Citynamelist.GetAllCityData().Where(x => x.citycode == queryarrival).SingleOrDefault() != null)
+                                                {
+                                                    arrival = Citynamelist.GetAllCityData().Where(x => x.citycode == queryarrival).SingleOrDefault().cityname;
+                                                    arrivalairport = Citynamelist.GetAllCityData().Where(x => x.citycode == queryarrival).SingleOrDefault().airportname;
+                                                }
+
+                                                string arrivaltime = @Model.AirlinePNR[0].journeys[j].segments[s].designator.arrival.ToString().Substring(11, 5);
+                                                string arrivaldate = @Model.AirlinePNR[0].journeys[j].segments[s].designator.arrival.ToString().Substring(0, 10);
+                                            }
+                                            <div class="Dst-name">
+                                                <span class="red">@origin</span> @departuretime <span>
+                                                    <strong>@departuredate</strong>
+                                                </span> <span>Terminal - @Model.AirlinePNR[0].journeys[j].segments[s].legs[0].legInfo.departureTerminal</span>
+                                                <span>@originairport</span>
                                             </div>
-                                            <div class="Pdetail1">
-                                                <ul class="td-inline">
-                                                    @{
-                                                        var imageUrl1 = @Model.AirlinePNR[0].passengers[p].barcodestring;
-                                                        // string imageUrl1 = ViewData["ImageBytes"] as string;
-                                                        string barcode = ViewData["Barcode"] as string;
-                                                    }
-                                                    @if (!string.IsNullOrEmpty(imageUrl1))
+                                        </div>
+
+                                        <div class="col-auto text-center">
+                                            @{
+
+                                                string formattedTime = string.Empty;
+                                                var arrivalDate = Model.AirlinePNR[0].journeys[j].segments[s].designator.arrival;
+                                                var departureDate = Model.AirlinePNR[0].journeys[j].segments[s].designator.departure;
+                                                var diff = (arrivalDate - departureDate);
+                                                TimeSpan timeSpan = TimeSpan.Parse(diff.ToString());
+                                                if ((int)timeSpan.Minutes == 0)
+                                                    formattedTime = $"{(int)timeSpan.TotalHours} h";
+                                                else
+                                                    formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
+                                            }
+                                            <img src="~/img/arrow-line-fr.png" alt="icon">
+                                            <div class="time">@formattedTime</div>
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="Dst-name">
+                                                <span class="red">@arrival</span> @arrivaltime <span><strong>@arrivaldate</strong></span> <span>Terminal - @Model.AirlinePNR[0].journeys[j].segments[s].legs[0].legInfo.arrivalTerminal</span>
+                                                <span>@arrivalairport</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                            }
+
+                        </div>
+                    </div>
+
+
+                    <div class="ticket-info">
+                        <h3>PASSENGER AND TICKET INFORMATION </h3>
+                        <table class="table table-bordered">
+                            <thead>
+                                <span>Fllight Detail</span>
+                                <tr>
+                                    <th scope="col">Passenger</th>
+                                    <th scope="col" class="col-one">Sector</th>
+                                    <th scope="col" class="col-one">Airline </th>
+                                    <th scope="col">Seat No</th>
+                                    <th scope="col">Mobile</th>
+                                    <th scope="col">Ticket Number</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Bar code</th>
+                                </tr>
+                            </thead>
+                            @for (int p = 0; p < Model.AirlinePNR[0].passengers.Count; p++)
+                            {
+                                @for (int ps = 0; ps < @Model.AirlinePNR[0].journeys[0].segments.Count; ps++)
+                                {
+                                    <tbody>
+                                        <tr>
+                                            @{
+                                                if (ps == 0)
+                                                {
+                                                    <td>@Model.AirlinePNR[0].passengers[p].name.first (@Model.AirlinePNR[0].passengers[p].passengerTypeCode)</td>
+                                                }
+                                                else
+                                                {
+                                                    <td></td>
+                                                }
+
+
+                                            }
+                                            <td>@Model.AirlinePNR[0].journeys[0].segments[ps].designator.origin - @Model.AirlinePNR[0].journeys[0].segments[ps].designator.destination </td>
+                                            <td>@Model.AirlinePNR[0].journeys[0].segments[ps].identifier.carrierCode - @Model.AirlinePNR[0].journeys[0].segments[ps].identifier.identifier</td>
+                                            @{
+                                                string hashdata = Model.AirlinePNR[0].passengers[p].passengerKey + "_" + @Model.AirlinePNR[0].journeys[0].segments[ps].designator.origin + "_" + @Model.AirlinePNR[0].journeys[0].segments[ps].designator.destination;
+
+                                                if (htseat != null)
+                                                {
+                                                    <td>@htseat[hashdata]</td>
+                                                }
+                                            }
+                                            <td>@Model.AirlinePNR[0].PhoneNumbers[0].number</td>
+                                            <td>AD1WSM/1/1</td>
+                                            <td>Confirm</td>
+                                            <td>
+                                                @{
+                                                    var imageUrl1 = @Model.AirlinePNR[0].passengers[p].barcodestring;
+                                                    // string imageUrl1 = ViewData["ImageBytes"] as string;
+                                                    string barcode = ViewData["Barcode"] as string;
+                                                }
+                                                @if (!string.IsNullOrEmpty(imageUrl1))
+                                                {
+                                                    <img src="@imageUrl1" alt="barcode" />
+                                                }
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            @{
+                                                if (Model.AirlinePNR[0].passengers[p].infant != null)
+                                                {
+                                                    if (Model.AirlinePNR[0].passengers[p].infant.name != null)
                                                     {
-                                                        <img src="@imageUrl1" alt="barcode" />
+                                                        <td>@Model.AirlinePNR[0].passengers[p].infant.name.first (INFT)</td>
+
                                                     }
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        @if (Model.AirlinePNR[0].passengers[p].infant != null)
-                                        {
-                                            @if (Model.AirlinePNR[0].passengers[p].infant.name != null)
-                                            {
-                                                <div class="d-flex flex-row justify-content-between">
-                                                    <div class="Pdetail1">
+                                                }
+                                            }
+                                        </tr>
 
-                                                        <ul class="td-inline">
-                                                            <li class="tlist-none"><span id="Adult1">Passengers INFT</span></li>
-                                                            <li class="tlist-none"><span id="Pname1" class="fw-bold-600">@Model.AirlinePNR[0].passengers[p].infant.name.first</span></li>
-
-                                                        </ul>
-                                                    </div>
-                                                    @*  <div class="Pdetail1">
-                                <ul class="td-inline">
-                                <li class="tlist-none"> <span>Mobile No:</span><span class="fw-bold-600">@Model.AirlinePNR[0].PhoneNumbers[0].number</span></li>
-                                </ul>
-                                </div>
-                                <div class="Pdetail1">
-                                <ul class="td-inline">
-                                @{
-                                var imageUrlInfant = @Model.AirlinePNR[0].passengers[p].BarcodeInfantString;
-                                var Infantbarcode = ViewData["Barcode"] as string;
+                                    </tbody>
                                 }
-                                @if (!string.IsNullOrEmpty(imageUrlInfant))
+                            }
+                        </table>
+                    </div>
+
+
+
+
+                    <div class="Flight-Inclusion">
+                        <h3>Flight Inclusion</h3>
+                        <table class="table table-bordered" style="margin-bottom: 0.4rem;">
+                            <thead>
+                                <span>Fllight Detail</span>
+                                <span class="baggage">Baggage</span>
+                                <tr>
+                                    <th scope="col">Passenger</th>
+                                    <th scope="col" class="col-one">Sector</th>
+                                    <th scope="col" class="col-one">Airline </th>
+                                    <th scope="col">Meal Type</th>
+                                    <th scope="col" class="col-one">Check In </th>
+                                    <th scope="col" class="col-one">Cabin</th>
+                                    <th scope="col">Insurance Status</th>
+                                </tr>
+                            </thead>
+                            @for (int i2 = 0; i2 < Model.AirlinePNR[0].passengers.Count; i2++)
+                            {
+                                @for (int i3 = 0; i3 < @Model.AirlinePNR[0].journeys[0].segments.Count; i3++)
                                 {
-                                <img src="@imageUrlInfant" alt="Infantbarcode" />
-                                }
-                                </ul>
-                                </div> *@
-
-
-                                                </div>
+                                    <tbody>
+                                        <tr>
+                                            @{
+                                                if (i3 == 0)
+                                                {
+                                                    <td>@Model.AirlinePNR[0].passengers[i2].name.first (@Model.AirlinePNR[0].passengers[i2].passengerTypeCode)</td>
+                                                }
+                                                else
+                                                {
+                                                    <td></td>
+                                                }
                                             }
-                                        }
-                                    </div>
-                                }
-                            </div>
+                                            <td>@Model.AirlinePNR[0].journeys[0].segments[i3].designator.origin - @Model.AirlinePNR[0].journeys[0].segments[i3].designator.destination </td>
+                                            <td>@Model.AirlinePNR[0].journeys[0].segments[i3].identifier.carrierCode - @Model.AirlinePNR[0].journeys[0].segments[i3].identifier.identifier</td>
 
-                        }
-                    }
-                    <div class="col-12 border-width mt-1"></div>
-                    <!--------------Non-Stop------------------------->
-                    @for (int j = 0; j < @Model.AirlinePNR[0].journeys.Count; j++)
-                    {
-                        @for (int s1 = 0; s1 < @Model.AirlinePNR[0].journeys[j].segments.Count; s1++)
-                        {
-                            <div class="row mt-1">
+                                            @{
+                                                string hashdata = @Model.AirlinePNR[0].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[0].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[0].journeys[0].segments[i3].designator.destination;
 
-                                <div class="col-3">
-
-                                    <div class="Clogo">
-                                        <div class="Clogo2">
-                                            @if (@Model.AirlinePNR[0].airLines == "Air Asia")
-                                            {
-                                                <img src="~/img/clogo.png">
+                                                if (htmeal != null)
+                                                {
+                                                    <td>@htmeal[hashdata]</td>
+                                                }
                                             }
+                                            <td>AD1WSM</td>
+                                            <td>AD1WSM/1/1</td>
+                                            <td>Confirm</td>
+                                        </tr>
 
-                                        </div><span id="CName" class="fw-bold-600"> @Model.AirlinePNR[0].journeys[j].segments[s1].identifier.carrierCode</span> |
-                                        <span id="Cnomer" class="fw-bold-600">@Model.AirlinePNR[0].journeys[j].segments[s1].identifier.identifier</span>
-                                    </div>
-                                    <div class="TEconomy">
-                                        <span id="eco-class">Corpate Fare : </span>
-                                        <span id="Cnomer" class="fw-bold-600"> Economy</span>
-                                    </div>
+                                    </tbody>
+                                }
+                            }
+                        </table>
 
-                                </div>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col" style="background:none; text-align:center;">Fare Details</th>
+                                    <th scope="col" style="background:none; text-align:center;">Amount (INR)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="fare">
+                                @if (Model.AirlinePNR[0].breakdown.totalAmountSum > 0)
+                                {
+                                    <tr>
+                                        <td>Total Basic Fare:</td>
+                                        <td>Rs.>@Model.AirlinePNR[0].breakdown.totalAmountSum</td>
+                                    </tr>
+                                }
+                                else if (Model.AirlinePNR[0].breakdown.baseTotalAmount > 0)
+                                {
+                                    <tr>
+                                        <td>Total Basic Fare:</td>
+                                        <td>Rs.>@Model.AirlinePNR[0].breakdown.baseTotalAmount</td>
+                                    </tr>
 
+                                }
+                                @if (Model.AirlinePNR[0].breakdown.totaltax > 0)
+                                {
+                                    <tr>
+                                        <td>Airline taxes and fees</td>
+                                        <td>Rs. @Model.AirlinePNR[0].breakdown.totaltax</td>
+                                    </tr>
+                                }
+                                else if (Model.AirlinePNR[0].breakdown.BaseTotalTax > 0)
+                                {
+                                    <tr>
+                                        <td>Airline taxes and fees</td>
+                                        <td>Rs.@Model.AirlinePNR[0].breakdown.BaseTotalTax</td>
+                                    </tr>
 
-                                <div class="col-3">
-                                    <h3 id="citycode" class="fw-bold-700 mb-0 t-color">@Model.AirlinePNR[0].journeys[j].segments[s1].designator.origin</h3>
-                                    @{
-                                        string origin = "";
-                                        string queryorigin = Model.AirlinePNR[0].journeys[j].segments[s1].designator.origin;
-                                        if (Citydata.GetAllcity().Where(x => x.cityCode == queryorigin).SingleOrDefault() != null)
-                                        {
-                                            origin = Citydata.GetAllcity().Where(x => x.cityCode == queryorigin).SingleOrDefault().cityName;
-                                        }
-
-                                    }
-                                    @{
-                                        var allCityData = Citynamelist.GetAllCityData();
-                                        string QueryOriginAirportName = Model.AirlinePNR[0].journeys[j].segments[s1].designator.origin;
-                                        string QueryDestinationAirportName = Model.AirlinePNR[0].journeys[j].segments[s1].designator.destination;
-
-                                        var originCity = allCityData.SingleOrDefault(x => x.citycode == QueryOriginAirportName);
-                                        var destinationCity = allCityData.SingleOrDefault(x => x.citycode == QueryDestinationAirportName);
-
-                                        if (originCity != null)
-                                        {
-                                            Model.AirlinePNR[0].journeys[j].segments[s1].designator.origin = originCity.airportname;
-                                        }
-                                        if (destinationCity != null)
-                                        {
-                                            Model.AirlinePNR[0].journeys[j].segments[s1].designator.destination = destinationCity.airportname;
-                                        }
-                                    }
-
-                                    <div>@origin</div>
-                                    <div class="col-12 border-width"></div>
-                                    <div class="fw-bold-600">@Model.AirlinePNR[0].journeys[j].segments[s1].designator.departure</div>
-                                    <div class="col-12 border-width"></div>
-                                    <p class="mb-0">@originCity?.airportname</p>
-                                    <p class="mb-0">Terminal: <span class="fw-bold-700 t-color">@Model.AirlinePNR[0].journeys[j].segments[s1].legs[0].legInfo.departureTerminal</span></p>
-
-                                </div>
-                                <div class="col-2 t-center">
-                                    @{
-
-                                        string formattedTime = string.Empty;
-                                        var arrivalDate = Model.AirlinePNR[0].journeys[j].segments[s1].designator.arrival;
-                                        var departureDate = Model.AirlinePNR[0].journeys[j].segments[s1].designator.departure;
-                                        var diff = (arrivalDate - departureDate);
-                                        TimeSpan timeSpan = TimeSpan.Parse(diff.ToString());
-                                        if ((int)timeSpan.Minutes == 0)
-                                            formattedTime = $"{(int)timeSpan.TotalHours} h";
-                                        else
-                                            formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
-                                    }
-                                    <div id="Ttiming" class="fw-bold-600">@formattedTime</div>
-
-                                    <div class="arrow-icon"><i class="fas fa-arrow-right"></i></div>
-                                    @{
-                                        // var stops = Model.AirlinePNR[0].journeys[j].stops;
-                                        // if (stops == 1)
-                                        // {
-                                        //     <div class="mt-1">1 Stop via @Model.AirlinePNR[0].journeys[j].segments[s1].legs[0].designator.destination </div>
-                                        // }
-                                    }
-                                    <!--<p class="mb-0">Economy</p>--->
-                                    <!--<p>Status: <span class="fw-bold-600 t-color">Confirmed</span></p>-->
-                                </div>
-                                <div class="col-4">
-                                    <h3 id="citycode" class="fw-bold-700 mb-0 t-color">@QueryDestinationAirportName</h3>
-                                    @{
-                                        string destination = "";
-                                        //string querydestination = Model.AirlinePNR[0].journeys[j].segments[s1].designator.destination;
-                                        if (Citydata.GetAllcity().Where(x => x.cityCode == QueryDestinationAirportName).SingleOrDefault() != null)
-                                        {
-                                            destination = Citydata.GetAllcity().Where(x => x.cityCode == QueryDestinationAirportName).SingleOrDefault().cityName;
-                                        }
-
-                                    }
-
-                                    <div>@destination</div>
-                                    <div class="col-12 border-width"></div>
-                                    <div class="fw-bold-600">@Model.AirlinePNR[0].journeys[j].segments[s1].designator.arrival</div>
-                                    <div class="col-12 border-width"></div>
-                                    <p class="mb-0">@destinationCity?.airportname</p>
-                                    <p class="mb-0">Terminal: <span class="fw-bold-700 t-color">@Model.AirlinePNR[0].journeys[j].segments[s1].legs[0].legInfo.arrivalTerminal</span></p>
-                                </div>
-
-                            </div>
-
-                            //Seat meal
-                            // <div class="row">
-                            //     <div class="col-12 mt-1">
-                            //         <div class="col-12 border-width"></div>
-                            //         <div class="d-flex flex-row justify-content-between px-2 py-1">
-                            //             @{
-                            //                 var passengerSegmentsList = Model.AirlinePNR[0].journeys[j].segments[s1]?.passengerSegment;
-
-                            //                 if (passengerSegmentsList != null)
-                            //                 {
-                            //                     foreach (var passengerSegment in passengerSegmentsList)
-                            //                     {
-
-                            //                         @foreach (var seat in passengerSegment.seats)
-                            //                         {
-                            //                             <div class="tseat5d d-flex align-items-center">
-                            //                                 <span><img src="~/img/pseat.png"></span>
-                            //                                 <div class="seat5d ps-2">
-                            //                                     <span class="fw-bold-600"> Seat  @seat.unitDesignator</span>
-                            //                                 </div>
-                            //                             </div>
-
-                            //                         }
-                            //                     }
-                            //                 }
-                            //                 else
-                            //                 {
-                            //                     <p>No Select Seats.</p>
-                            //                 }
-                            //             }
-                            //             @foreach (var mealsitem in passengerSegmentsList)
-                            //             {
-                            //                 @foreach (var ssrReturn in mealsitem.SsrReturn)
-                            //                 {
-                            //                     if (ssrReturn.MealName != null)
-                            //                     {
-                            //                         if (ssrReturn.ssrCode.StartsWith("V", StringComparison.OrdinalIgnoreCase))
-                            //                         {
-                            //                             <div class="tseat5d d-flex align-items-center">
-                            //                                 <span><img src="~/img/pmeal.png"></span>
-                            //                                 <div class="pmeal ps-2">
-                            //                                     <span class="fw-bold-600">
-
-                            //                                     </span>
-                            //                                     <span class="fw-bold-600">
-                            //                                         :
-                            //                                     </span>
-
-                            //                                     <span class="fw-bold-600">@ssrReturn.MealName</span>
-                            //                                 </div>
-                            //                             </div>
-                            //                         }
-                            //                     }
-                            //                 }
-                            //             }
-                            //             <div class="tseat5d d-flex align-items-center">
-                            //                 <span><img src="~/img/pbaggage.png"></span>
-                            //                 <div class="baggag ps-2 ">
-                            //                     @foreach (var mealsitem in passengerSegmentsList)
-                            //                     {
-                            //                         @foreach (var ssrReturn in mealsitem.SsrReturn)
-                            //                         {
-                            //                             if (ssrReturn.MealName != null)
-                            //                             {
-                            //                                 @if (ssrReturn.ssrCode.StartsWith("P", StringComparison.OrdinalIgnoreCase))
-                            //                                 {
-                            //                                     <div class="bgagg-kg">
-                            //                                         <span>Baggage:</span> <span class="fw-bold-600"> @ssrReturn.MealName</span>
-                            //                                         <span>Check-In -</span> <span class="fw-bold-600"> 0Kgs</span>
-                            //                                     </div>
-                            //                                 }
-                            //                             }
-                            //                         }
-                            //                     }
-
-                            //                     <div class="bgagg-kg">
-                            //                         <span>Extra Baggage: </span> <span class="fw-bold-600"> NA</span>
-                            //                     </div>
-                            //                     @foreach (var mealsitems in passengerSegmentsList)
-                            //                     {
-                            //                         @foreach (var ssrReturnn in mealsitems.SsrReturn)
-                            //                         {
-                            //                             @if (ssrReturnn.ssrCode.StartsWith("W", StringComparison.OrdinalIgnoreCase))
-                            //                             {
-
-                            //                                 <div class="bgagg-kg">
-                            //                                     <span>Special request: </span> <span class="fw-bold-600">@ssrReturnn.MealName </span>
-                            //                                 </div>
-                            //                             }
-                            //                         }
-                            //                     }
-                            //                 </div>
-                            //             </div>
-                            //         </div>
-
-
-
-
-
-
-                            //     </div>
-                            // </div>
-                        }
-                    }
-                    <!--------Passengers-D-End-------->
-                </div>
-
-                <!-----GST-DETAILS-------->
-                @{
-                    if (@Model.AirlinePNR[0].customerNumber != null)
-                    {
-                        <div class="row mt-2">
-                            <div class="col-12">
-                                <span class="fw-bold-600">GST Details</span>
-                            </div>
-                            <div class="col-12 border-dot">
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <div class="T-ID ">
-                                            GST Number
-                                        </div>
-                                        <div class="T-ID fw-bold-600">
-                                            <span>@Model.AirlinePNR[0].customerNumber</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto border-right"></div>
-                                    <div class="col-auto">
-                                        <div class="T-ID ">
-                                            GST Name
-                                        </div>
-                                        <div class="T-ID fw-bold-600">
-                                            <span> @Model.AirlinePNR[0].companyName</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto border-right"></div>
-                                    <div class="col-auto">
-                                        <div class="T-ID ">
-                                            GST Email
-                                        </div>
-                                        <div class="T-ID fw-bold-600">
-                                            <span>@Model.AirlinePNR[0].emailAddress</span>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    }
-                }
-
-                <!--------Pricing-Details------------->
-                <div class="row mt-2">
-                    <div class="col-12">
-                        <span class="fw-bold-600">Pricing Details</span>
+                                }
+                                <tr>
+                                    <td>Discount:</td>
+                                    <td>Rs.(-) 0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Insurance Fee:</td>
+                                    <td>Rs. 0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Addon Meal Amount:</td>
+                                    <td>Rs.@Model.AirlinePNR[0].totalAmount</td>
+                                </tr>
+                                <tr>
+                                    <td>Addon Bagg Amount:</td>
+                                    <td>Rs. 0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Seat Amount:</td>
+                                    <td>Rs. @Model.AirlinePNR[0].breakdown.passengerTotals.seats.total</td>
+                                </tr>
+                                <tr>
+                                    <td>Seat Amount Tax:</td>
+                                    <td>Rs. @Model.AirlinePNR[0].breakdown.passengerTotals.seats.taxes</td>
+                                </tr>
+                                <tr style="background:#FCE1E1;">
+                                    <td style="text-transform:uppercase;"><strong>total</strong></td>
+                                    <td><strong>Rs. @Model.AirlinePNR[0].breakdown.balanceDue</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="col-12 border-dot">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="T-ID fw-bold-600">
-                                    Mode of Payment:
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="T-ID fw-bold-600">
-                                    Bill to Company
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 border-width"></div>
-                            <div class="col-5">
-                                <div class="row mt-2">
-                                    <div class="col-7">
-                                        <span>Base Price</span>
-                                    </div>
-                                    @if (Model.AirlinePNR[0].breakdown.totalAmountSum > 0)
-                                    {
-                                        <div class="col-5">
-                                            <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.totalAmountSum</span>
-                                        </div>
-                                    }
-                                    else if (Model.AirlinePNR[0].breakdown.baseTotalAmount > 0)
-                                    {
-                                        <div class="col-5">
-                                            <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.baseTotalAmount</span>
-                                        </div>
-                                    }
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col-7">
-                                        <span>Airline taxes and Fees</span>
-                                    </div>
-                                    @if (Model.AirlinePNR[0].breakdown.totaltax > 0)
-                                    {
-                                        <div class="col-5">
-                                            <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.totaltax</span>
-                                        </div>
-                                    }
-                                    else if (Model.AirlinePNR[0].breakdown.BaseTotalTax > 0)
-                                    {
-                                        <div class="col-5">
-                                            <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.BaseTotalTax</span>
-                                        </div>
-                                    }
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col-auto">
-                                        <span>(Basic:57.00, PHF:50.00, TTF:201.00, ASF: 236.00, UDF:723.00, Airline GST: 302.00)</span>
-                                    </div>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col-7">
-                                        <span>6E (CCU-MAA) Airline GST</span>
-                                    </div>
-                                    <div class="col-5">
-                                        <span class="fw-bold-600">IGST 302</span>
-                                    </div>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col-7">
-                                        <span>Commissionable Tax</span>
-                                    </div>
-                                    <div class="col-5">
-                                        <span class="fw-bold-600">0</span>
-                                    </div>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col-7">
-                                        <span>Non-Commissionable Tax</span>
-                                    </div>
-                                    <div class="col-5">
-                                        <span class="fw-bold-600">15,62</span>
-                                    </div>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col-7">
-                                        <span>Airline Service Charge</span>
-                                    </div>
-                                    <div class="col-5">
-                                        <span class="fw-bold-600">0</span>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="col-2 border-right"></div>
-
-                            <div class="col-5">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="row">
-                                            <div class="col-9">
-                                                <span>Meal/Seat/Baggage/Misc Charges</span> <br>
-                                                @*  <span>Meal:0</span><br>
-                                                <span>Seat:@Model.AirlinePNR[0].breakdown.passengerTotals.seats.total</span><br>
-                                                <span>Seat Tax:@Model.AirlinePNR[0].breakdown.passengerTotals.seats.taxes</span><br>
-                                                <span>Baggage:0</span><br>
-                                                <span>Misc Charges: 0</span>*@
-                                            </div>
-                                            <div class="col-3">
-                                                <span class="fw-bold-600">0</span>
-                                            </div>
-                                            <div class="col-9">
-                                                <span class="fw-bold-600">Meal:</span>
-                                            </div>
-                                            <div class="col-3">
-                                                <span class="fw-bold-600">@Model.AirlinePNR[0].totalAmount</span>
-                                            </div>
-                                            <div class="col-9">
-                                                <span class="fw-bold-600">Meal Tax:</span>
-                                            </div>
-                                            <div class="col-3">
-                                                <span class="fw-bold-600">0</span>
-                                            </div>
-                                            <div class="col-9">
-                                                <span class="fw-bold-600">Seat :</span>
-                                            </div>
-                                            <div class="col-3">
-                                                <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.passengerTotals.seats.total</span>
-                                            </div>
-                                            <div class="col-9">
-                                                <span class="fw-bold-600">Seat Tax :</span>
-                                            </div>
-                                            <div class="col-3">
-                                                <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.passengerTotals.seats.taxes</span>
-                                            </div>
-                                            <div class="col-9">
-                                                <span class="fw-bold-600">Baggage:</span>
-                                            </div>
-                                            <div class="col-3">
-                                                <span class="fw-bold-600">@Model.AirlinePNR[0].totalAmountBaggage</span>
-                                            </div>
-                                            <div class="col-9">
-                                                <span class="fw-bold-600">Misc Charges:</span>
-                                            </div>
-                                            <div class="col-3">
-                                                <span class="fw-bold-600">0</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12">
-                                        <div class="row mt-2">
-                                            <div class="col-9">
-                                                <span>Finance Charges(s)</span>
-                                            </div>
-                                            <div class="col-3">
-                                                <span class="fw-bold-600">0</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 border-width"></div>
-                        </div>
-
-                        <!-----------------Toatl-Price-------------------------->
-
-                        <div class="row">
-                            <div class="col-5">
-                                <div class="row mt-2">
-                                    <div class="col-9">
-                                        <span class="fw-bold-600">Total Fare</span>
-                                    </div>
-                                    @if (Model.AirlinePNR[0].breakdown.totalplusAmountSumtax > 0)
-                                    {
-                                        <div class="col-3">
-                                            <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.totalplusAmountSumtax</span>
-                                        </div>
-                                    }
-                                    else if (Model.AirlinePNR[0].breakdown.ToatalBasePrice > 0)
-                                    {
-                                        <div class="col-3">
-                                            <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.ToatalBasePrice</span>
-                                        </div>
-
-                                    }
-                                </div>
-                            </div>
-                            <div class="col-auto"></div>
-                            <div class="col-5">
-                                <div class="row mt-2">
-                                    <div class="col-9">
-                                        <span class="fw-bold-600">Add-ons and Service Fee</span>
-                                    </div>
-                                    <div class="col-3">
-                                        <span class="fw-bold-600">0</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mt-2">
-                            <div class="col-12 border-width"></div>
-                        </div>
-                        <div class="d-flex flex-row justify-content-between">
-                            <div class="totalprice">
-                                <span class="fw-bold-600">Total Price (tatal Fare + Add-ons and Service Fee)</span>
-                            </div>
-                            <div class="totalprice">
-                                <span class="fw-bold-600">@Model.AirlinePNR[0].breakdown.balanceDue</span>
-                            </div>
-                        </div>
-
+                    <div class="t-c">
+                        <h3 style="color:inherit;">Terms &amp; Conditions:</h3>
+                        <ul>
+                            <li><span>-&nbsp;&nbsp;</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim</li>
+                            <li><span>-&nbsp;&nbsp;</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim</li>
+                            <li><span>-&nbsp;&nbsp;</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim consectetur adipiscing elit. Morbi dignissim</li>
+                            <li><span>-&nbsp;&nbsp;</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim</li>
+                            <li><span>-&nbsp;&nbsp;</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim consectetur adipiscing elit. Morbi dignissim</li>
+                            <li><span>-&nbsp;&nbsp;</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim</li>
+                        </ul>
                     </div>
+                    <div class="btm">Jetways Travels, UGF 5, Indra Prakash Building 21, B.K. Road, Connaught Place, New Delhi 110001. <strong>+91-9090909090</strong></div>
                 </div>
-
-                <div class="row border-dot my-4 py-2">
-                    <div class="col-12">
-                        <span class="fw-bold-600">Jetways Travels,</span>
-                        UGF 5, INDRA PRAKASH BUILDING 21, B.K. ROAD, CONNAUGHT PLACE, New Delhi 110001. <a class="tl-link" href="tel: 9090909090">+91-9090909090</a>
-                    </div>
-                </div>
-
-                <!------------------------------------>
-            </section>
-        </div>
-
-    </form>
-
-    <div id="scissors"></div>
-
-    <div class="container">
-        <div class="row mb-5">
-            <div class="col-12">
-                <!--<button id="savePDFbutton" onclick="savePDF()"> save pdf</button>-->
-                <input type="button" onclick="printDiv('printableArea')" value="Print and Save Ticket!" />
             </div>
-        </div>
-    </div>
 
+
+        }
+    </form>
+    <!---New ticket Design End------>
 
 
 </body>
 </html>
-
-
 <script type="text/javascript">
 
     //JsBarcode("#barcode", "1234", {
@@ -714,12 +382,12 @@
     //displayValue: false
     //});
 
-    // JsBarcode("#barcode", "Vinay", {
-    //     width: 1,
-    //     height: 30,
-    //     displayValue: false
+    JsBarcode("#barcode", "Vinay", {
+        width: 1,
+        height: 30,
+        displayValue: false
 
-    // });
+    });
 
     //-----PDF-Filegenrate-Code-----------
     //var testDivElement = document.getElementById('someHtml');
@@ -739,6 +407,8 @@
     //});
     //};
 
+
+
     function printDiv(divName) {
 
         var printContents = document.getElementById(divName).innerHTML;
@@ -752,6 +422,16 @@
         document.body.innerHTML = originalContents;
 
     }
+
 </script>
+
+
+
+
+
+
+
+
+
 
 

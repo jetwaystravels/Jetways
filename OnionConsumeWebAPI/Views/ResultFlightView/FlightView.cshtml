@@ -10,6 +10,7 @@
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <!-- Title  -->
     <title>Jetways Travels</title>
     <!-- Favicon  -->
@@ -22,8 +23,10 @@
     <link href="~/css/roundviewpage.css" rel="stylesheet" />
     <link href="~/css/indexvny.css" rel="stylesheet" />
     <script src="~/js/custom.js/indexpage.js"></script>
+
 </head>
 <body>
+
     <main id="filternonstopWay">
         <!-- ***** Header Start ***** -->
         <header class="navbar navbar-sticky navbar-expand-lg inner-bg">
@@ -192,7 +195,7 @@
                                                     <label style="margin-bottom: 0.1rem;">Return</label>
                                                     <span class="input-group-text" id="basic-addon1">
 
-                                                        <input id="Oneway-endDate" name="endDate" type="text" value="@Model.simpleAvailabilityRequestModelEdit.endDate" class="form-control" disabled>
+                                                        <input id="Oneway-endDate" name="endDate" type="text" class="form-control" disabled>
                                                     </span>
                                                 </div>
                                                 <div class="col-12 col-md-10 col-lg-2 space travellers">
@@ -346,779 +349,26 @@
                         <div class="shorting-bg-white" style="padding: 0px 15px 15px 15px;">
                             <ul class="shorting-tab">
                                 <li>
-                                    <a asp-controller="ResultFlightView" asp-action="FlightView" asp-route-sortOrder="@ViewBag.NameSortParam">
-                                        Airlines
-                                        @if (ViewBag.NameSortParam == "name_desc")
-                                        {
-                                            <span class="oi oi-sort-descending"></span>
-                                        }
-                                        else if (ViewBag.NameSortParam == "name_asc")
-                                        {
-                                            <span class="oi oi-sort-ascending"></span>
-                                        }
-                                       
-                                    </a>
+                                    <a href="#" class="sort-link" data-sort="name_desc">Airlines</a>
                                 </li>
                                 <li>
-                                    <a asp-controller="ResultFlightView" asp-action="FlightView" asp-route-sortOrder="@ViewBag.DepartSortParam">
-                                        Depart
-                                        @if (ViewBag.PriceSortParam == "deprt_desc")
-                                        {
-                                            <span class="oi oi-sort-descending"></span>
-                                        }
-                                        else if (ViewBag.NameSortParam == "deprt_asc")
-                                        {
-                                            <span class="oi oi-sort-ascending"></span>
-                                        }
-                                    </a>
+                                    <a href="#" class="sort-link" data-sort="deprt_desc"> Depart</a>
                                 </li>
                                 <li>
-                                    <a asp-controller="ResultFlightView" asp-action="FlightView" asp-route-sortOrder="@ViewBag.durationSortParam">
-                                        Duration
-                                        @if (ViewBag.PriceSortParam == "duration_desc")
-                                        {
-                                            <span class="oi oi-sort-descending"></span>
-                                        }
-                                        else if (ViewBag.NameSortParam == "duration_asc")
-                                        {
-                                            <span class="oi oi-sort-ascending"></span>
-                                        }
-                                    </a>
+                                    <a href="#" class="sort-link" data-sort="duration_desc">Duration</a>
                                 </li>
                                 <li>
-                                    <a asp-controller="ResultFlightView" asp-action="FlightView" asp-route-sortOrder="@ViewBag.arriveSortParam">
-                                        Arrive
-                                        @if (ViewBag.PriceSortParam == "arrive_desc")
-                                        {
-                                            <span class="oi oi-sort-descending"></span>
-                                        }
-                                        else if (ViewBag.NameSortParam == "arrive_asc")
-                                        {
-                                            <span class="oi oi-sort-ascending"></span>
-                                        }
-                                    </a>
+                                    <a href="#" class="sort-link" data-sort="arrive_desc">Arrive</a>
                                 </li>
-                                @*  <li><a href="#">Airlines </a></li> *@
-                                @*  <li><a href="#">Depart</a></li>
-                                <li><a href="#">Duration</a></li>
-                                <li><a href="#">Arrive</a></li> *@
                                 <li>
-                                    <a asp-controller="ResultFlightView" asp-action="FlightView" asp-route-sortOrder="@ViewBag.PriceSortParam">
-                                        Price
-                                        @if (ViewBag.PriceSortParam == "price_desc")
-                                        {
-                                            <span class="oi oi-sort-descending"></span>
-                                        }
-                                        else if (ViewBag.NameSortParam == "price_asc")
-                                        {
-                                            <span class="oi oi-sort-ascending"></span>
-                                        }
-                                    </a>
+                                    <a href="#" class="sort-link" data-sort="price_desc">Price</a>
                                 </li>
+
                             </ul>
                         </div>
-
-                        @for (var j = 0; j < Model.SimpleAvailibilityaAddResponcelist.Count; j++)
-                        {
-                            if (Model.SimpleAvailibilityaAddResponcelist[j].fareTotalsum <= 0)
-                                continue;
-                            //var collapseId = "ViewPriceCollapse" + Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.identifier.Trim();
-                            var collapseId = "ViewPriceCollapse" + @j;
-                            var CompanyName = "";
-                            <div class="py-20 px-20 bg-white mt-20">
-                                <div class="row y-gap-30 justify-between">
-                                    <div class="col">
-                                        <div class="row y-gap-10 items-center">
-
-                                            <div class="col-sm-auto">
-
-                                                @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("SG"))
-                                                {
-
-                                                    <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
-                                                }
-                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("6E"))
-                                                {
-
-                                                    <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
-                                                }
-                                                else
-                                                {
-                                                    <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
-                                                }
-
-                                            </div>
-
-                                            <div class="col">
-                                                <div class="row x-gap-20 items-end">
-                                                    <div class="col-auto">
-
-                                                        @{
-                                                            @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("SG"))
-                                                            {
-                                                                CompanyName = "SpiceJet";
-                                                            }
-                                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("6E"))
-                                                            {
-
-                                                                CompanyName = "Indigo";
-                                                            }
-                                                            else
-                                                            {
-                                                                CompanyName = "Air India Expr...";
-                                                            }
-
-
-                                                        }
-
-                                                        <div class="lh-15 fw-500">@CompanyName</div>
-                                                        @{
-                                                            var SegmentDatacount = Model.SimpleAvailibilityaAddResponcelist[j].segments.Count;
-
-                                                            if (SegmentDatacount == 1)
-                                                            {
-                                                                <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.identifier </div>
-                                                            }
-
-                                                            if (SegmentDatacount == 2)
-                                                            {
-                                                                @for (var x = 0; x < SegmentDatacount; x++)
-                                                                {
-                                                                    if (x == 0)
-                                                                    {
-
-                                                                        <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier <b>,</b></div>
-
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier</div>
-
-                                                                    }
-
-                                                                }
-                                                            }
-                                                        }
-                                                    </div>
-
-                                                    <div class="col-auto">
-
-                                                        @{
-                                                            var departuretime = @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].designator.departure;
-                                                            string departuretimestr = departuretime.ToString();
-                                                            var departuretimefinal = departuretimestr.Substring(11, 5);
-                                                        }
-                                                        <div class="">@departuretimefinal</div>
-                                                        <div class="">@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin</div>
-                                                    </div>
-                                                    @{
-                                                        string formattedTime = string.Empty;
-                                                        var arrivalDate = Model.SimpleAvailibilityaAddResponcelist[j].designator.arrival;
-                                                        var departureDate = Model.SimpleAvailibilityaAddResponcelist[j].designator.departure;
-                                                        var diff = (arrivalDate - departureDate);
-                                                        TimeSpan timeSpan = TimeSpan.Parse(diff.ToString());
-                                                        if ((int)timeSpan.Minutes == 0)
-                                                            formattedTime = $"{(int)timeSpan.TotalHours} h";
-                                                        else
-                                                            formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
-
-                                                    }
-                                                    <div class="col text-center">
-                                                        <div class="px-20 md:px-0">@formattedTime</div>
-                                                        <div class="flightLine">
-                                                            <div></div>
-                                                            <div></div>
-                                                        </div>
-                                                        @{
-                                                            var stops = Model.SimpleAvailibilityaAddResponcelist[j].stops;
-                                                            if (stops == 0)
-                                                            {
-                                                                <div class="mt-1">Non Stop</div>
-                                                            }
-                                                            if (stops == 1)
-                                                            {
-                                                                <div class="mt-1">1 Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination </div>
-                                                            }
-                                                            if (stops == 2)
-                                                            {
-                                                                for (int l = 0; l < @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs.Count; l++)
-                                                                {
-                                                                    if (l == 0)
-                                                                    {
-                                                                        <div class="mt-1">2 Stop Via  @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[l].designator.destination  <b>,</b></div>
-                                                                    }
-                                                                    else if (l == 1)
-                                                                    {
-                                                                        <span> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[l].designator.destination</span>
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                        
-                                                    </div>
-
-                                                    <div class="col-auto">
-
-                                                        @{
-                                                            var arrivaltime = Model.SimpleAvailibilityaAddResponcelist[j].designator.arrival;
-                                                            string arrivaltimestr = arrivaltime.ToString();
-                                                            var arrivalfinal = arrivaltimestr.Substring(11, 5);
-                                                        }
-
-                                                        <div class="lh-15 fw-500">@arrivalfinal</div>
-                                                        <div class="text-15 lh-15 text-light-1">@Model.SimpleAvailibilityaAddResponcelist[j].designator.destination</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-auto">
-                                        <div class="d-flex items-center h-full">
-                                            <div class="pl-30 border-left-light h-full md:d-none"></div>
-
-                                            <div>
-
-                                                <div class="text-center md:text-left mb-10">
-
-                                                    <div class="price">₹ @Model.SimpleAvailibilityaAddResponcelist[j].fareTotalsum.ToString("N0")</div>
-                                                    <p class="text-8 text-center" style="margin-top:-6px;">per adult</p>
-                                                </div>
-
-                                                <div>
-
-                                                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">View Price<i class="fa fa-angle-double-down ml-2"></i></button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="collapse multi-collapse" id="@collapseId">
-                                    <table class="table mt-20">
-                                        <thead class="bg-light-2">
-                                            <tr>
-                                                <th>FARES</th>
-                                                <th>CABIN BAG</th>
-                                                <th>CHECK-IN</th>
-                                                <th>CANCELLATION </th>
-                                                <th>DATE CHANGE </th>
-                                                <th>SEAT</th>
-                                                <th>MEAL</th>
-                                                <th>&nbsp;</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @{
-                                                @for (var k = 0; k < Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual.Count; k++)
-                                                {
-                                                    string Faretype = string.Empty;
-                                                    if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Indigo)
-                                                    {
-                                                        if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("J"))
-                                                            Faretype = "Flexi Plus";
-                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("R"))
-                                                            Faretype = "Saver";
-                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("O"))
-                                                            Faretype = "Super 6E";
-                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("A"))
-                                                            Faretype = "Family Fare";
-                                                        else
-                                                            Faretype = "Saver Fare";
-                                                    }
-                                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Spicejet)
-                                                    {
-
-                                                        if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("RS"))
-                                                            Faretype = "Spice Saver";
-                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SF"))
-                                                            Faretype = "Spice Flex";
-                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SC"))
-                                                            Faretype = "Spice max";
-                                                        else
-                                                            Faretype = "Saver Fare";
-                                                    }
-                                                    else
-                                                    {
-                                                        if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("EC"))
-                                                            Faretype = "Xpress Value";
-                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("HF"))
-                                                            Faretype = "Vista Flex";
-                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("LT"))
-                                                            Faretype = "Xpress lite";
-                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("VV"))
-                                                            Faretype = "Xpress Bizz";
-                                                        else
-                                                            Faretype = "Saver Fare";
-
-                                                    }
-                                                    <tr>
-                                                        <td>
-                                                            <div><strong>@Faretype (@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass)</strong></div>
-                                                            <div>offered by airline.</div>
-                                                        </td>
-                                                        @if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "EC" || Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "R" || Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "RS")
-                                                        {
-                                                            <td>7 Kg</td>
-                                                            <td><strong>15 kg (1 piece)</strong></td>
-                                                            <td>
-                                                              
-                                                                <div>3500 (upto 2 hrs prior from departure)</div>
-                                                            </td>
-                                                            <td>
-                                                               
-                                                                <div>3000 (upto 2 hrs prior from departure)</div>
-                                                            </td>
-                                                            <td>
-                                                                <div>
-                                                                    (Chargable)
-                                                                </div>
-                                                               
-                                                            </td>
-                                                            <td>
-                                                                <div>
-                                                                    (Chargable)
-                                                                </div>
-                                                            </td>
-
-                                                        }
-                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "HF" || Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "J" || Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "O" || Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "SF")
-                                                        {
-                                                            <td>7 Kg</td>
-                                                            <td><strong>15 kg (1 piece)</strong></td>
-                                                            <td>
-                                                               
-                                                                <div>3500 (upto 2 hrs prior from departure)</div>
-                                                            </td>
-                                                            <td>
-                                                              
-                                                                <div>
-                                                                    FREE (upto 2 hrs prior from departure)
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div>
-
-                                                                    Standard seats free
-                                                                </div>
-                                                              
-                                                            </td>
-                                                            <td>
-                                                                <div>
-
-                                                                    (Free meal) per person
-                                                                </div>
-                                                            </td>
-
-                                                        }
-                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "LT")
-                                                        {
-                                                            <td>0</td>
-                                                            <td><strong>0</strong></td>
-                                                            <td>
-                                                               
-                                                                <div>
-                                                                    --
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                              
-                                                                <div>
-                                                                    --
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div>
-                                                                    --
-                                                                </div>
-                                                               
-                                                            </td>
-                                                            <td>
-                                                                <div>
-                                                                    --
-                                                                </div>
-                                                            </td>
-
-                                                        }
-                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "VV"|| Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "A" || Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "SC")
-                                                        {
-                                                            <td>7 Kg</td>
-                                                            <td>
-                                                                <strong>
-                                                                    25 k.g  (1 piece)
-                                                                </strong>
-                                                            </td>
-                                                            <td>
-                                                             
-                                                                <div>3500 (upto 2 hrs prior from departure)</div>
-                                                            </td>
-                                                            <td>
-                                                              
-                                                                <div>3000 (upto 2 hrs prior from departure)</div>
-                                                            </td>
-                                                            <td>
-                                                                <div>
-
-                                                                    (Free seats)
-                                                                </div>
-                                                                
-                                                            </td>
-                                                            <td>
-                                                                <div>
-                                                                    (Free meal) per person
-                                                                </div>
-                                                            </td>
-
-                                                        }
-                                                        <td>
-                                                            <div class="text-center md:text-left mb-10">
-                                                                <div class="price">₹ @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal.ToString("N0")</div>
-                                                                <p class="text-8 text-center">per adult</p>
-                                                            </div>
-
-                                                            @{
-                                                                if (@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("SG"))
-                                                                {
-                                                                    <form asp-action="SpicejetTripsell" asp-controller="SpiceJetResultFlightView">
-                                                                        <input type="hidden" id="fareKey" name="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
-                                                                        <input type="hidden" id="journeyKey" name="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
-                                                                        <input type="hidden" id="taxes" name="taxes" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].taxamount" />
-
-                                                                        <input type="submit" value="Book Now" class="button small-btn">
-                                                                    </form>
-                                                                }
-                                                                else if (@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("6E"))
-                                                                {
-                                                                    <form asp-action="IndigoTripsell" asp-controller="IndigoResultFlightView">
-                                                                        <input type="hidden" id="fareKey" name="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
-                                                                        <input type="hidden" id="journeyKey" name="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
-
-                                                                        <input type="submit" value="Book Now" class="button small-btn">
-                                                                    </form>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <form asp-controller="FlightSearchIndex" asp-action="Tripsell">
-                                                                        <input type="hidden" id="fareKey" name="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
-                                                                        <input type="hidden" id="journeyKey" name="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
-
-                                                                        <input type="submit" asp-action="Tripsell" value="Book Now" class="button small-btn">
-                                                                    </form>
-                                                                }
-                                                            }
-
-                                                        </td>
-
-                                                    </tr>
-                                                }
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div class="flight-dtl showBtn"><a href="#">Flight Details <i class="fa fa-angle-down" data-unicode="f107"></i></a></div>
-                                <div class="hideme" style="display:none;">
-                                    <div class="tabs -underline-2 pt-30 lg:pt-30 sm:pt-30 js-tabs">
-                                        <div class="tabs__controls row x-gap-2 y-gap-0 lg:x-gap-20 js-tabs-controls">
-
-                                            <div class="col-auto">
-                                                <button type="button" class="tabs__button text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button is-tab-el-active" data-tab-target=".-tab-item-1">Itinerary</button>
-                                            </div>
-
-                                            <div class="col-auto">
-                                                <button type="button" class="tabs__button text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button" data-tab-target=".-tab-item-2">Fare Details</button>
-                                            </div>
-
-                                            <div class="col-auto">
-                                                <button type="button" class="tabs__button text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button" data-tab-target=".-tab-item-3">Baggage</button>
-                                            </div>
-                                            <div class="col-auto">
-                                                <button type="button" class="tabs__button text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button" data-tab-target=".-tab-item-4">Cancellation</button>
-                                            </div>
-                                            <div class="col-auto">
-                                                <button type="button" class="tabs__button text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button" data-tab-target=".-tab-item-5">Fare Rule</button>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="tabs__content pt-20 js-tabs-content">
-
-                                            @for (int a = 0; a < Model.SimpleAvailibilityaAddResponcelist[j].segments.Count; a++)
-                                            {
-                                                @for (int b = 0; b < Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs.Count; b++)
-                                                {
-                                                    <div class="tabs__pane -tab-item-1 is-tab-el-active">
-                                                        <div class="col">
-                                                            <div class="row y-gap-10 items-center">
-                                                                <div class="dst-top">@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.origin<i class="fa fa-angle-double-right" aria-hidden="true"></i>@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.destination</div>
-                                                                <div class="col-sm-auto">
-                                                                    @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("SG"))
-                                                                    {
-
-                                                                        <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
-                                                                    }
-                                                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("6E"))
-                                                                    {
-
-                                                                        <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
-                                                                    }
-                                                                </div>
-                                                                <div class="col">
-                                                                    <div class="row x-gap-20 items-end">
-                                                                        <div class="col-auto">
-                                                                            <div class="inside-col">
-                                                                                @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("SG"))
-                                                                                {
-                                                                                    CompanyName = "SpiceJet";
-                                                                                }
-                                                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("6E"))
-                                                                                {
-
-                                                                                    CompanyName = "Indigo";
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    CompanyName = "Air India Expr...";
-                                                                                }
-                                                                                <div class="lh-15 fw-500">@CompanyName</div>
-                                                                                @{
-                                                                                    SegmentDatacount = Model.SimpleAvailibilityaAddResponcelist[j].segments.Count;
-                                                                                    
-                                                                                    <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.identifier </div>
-                                                                                    
-                                                                                }
-                                                                            </div>
-                                                                        </div>
-                                                                        @{
-                                                                            departuretimefinal = @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.departureTime.ToString().Substring(11, 5);
-
-                                                                            arrivalfinal = @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.arrivalTime.ToString().Substring(11, 5);
-
-                                                                            formattedTime = string.Empty;
-                                                                            arrivalDate = Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.arrival;
-                                                                            departureDate = Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.departure;
-                                                                            diff = (arrivalDate - departureDate);
-                                                                            timeSpan = TimeSpan.Parse(diff.ToString());
-                                                                            if ((int)timeSpan.Minutes == 0)
-                                                                                formattedTime = $"{(int)timeSpan.TotalHours} h";
-                                                                            else
-                                                                            {
-                                                                                if ((int)timeSpan.Hours == 0)
-                                                                                {
-                                                                                    formattedTime = $"{(int)timeSpan.Minutes} m";
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
-                                                                                }
-                                                                            }
-
-
-                                                                        }
-                                                                        <div class="col-auto">
-                                                                            <div class="">@departuretimefinal</div>
-                                                                            <div class="">@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.origin</div>
-                                                                            <span>Terminal-@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.departureTerminal </span>
-                                                                        </div>
-
-
-
-                                                                        <div class="col text-center">
-                                                                            <div class="px-20 md:px-0">@formattedTime</div>
-                                                                            <div class="flightLine">
-                                                                                <div></div>
-                                                                                <div></div>
-                                                                            </div>
-                                                                            <div class="mt-1">&nbsp;</div>
-                                                                        </div>
-
-                                                                        <div class="col-auto">
-                                                                            <div class="lh-15 fw-500">@arrivalfinal</div>
-                                                                            <div class="text-15 lh-15 text-light-1">@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.destination</div>
-                                                                            <span>Terminal-@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.arrivalTerminal</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                }
-                                            }
-
-
-                                            <div class="tabs__pane -tab-item-2">
-                                                <div class="row y-gap-30">
-                                                    @{
-                                                        DateTime originalDateTime = DateTime.Parse(@Model.SimpleAvailibilityaAddResponcelist[j].designator.departure.ToString());
-                                                        // Convert to the desired format
-                                                        string formattedDate = originalDateTime.ToString("dddd, dd MMM yyyy").ToUpper();
-                                                    }
-                                                    <div class="dst-top">@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin - @Model.SimpleAvailibilityaAddResponcelist[j].designator.destination (@formattedDate) </div>
-
-
-                                                    <div class="col-lg-4">
-                                                        <div class="text-19 fw-600">Fare Rule</div>
-                                                        @{
-                                                            @for (var k = 0; k < Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual.Count; k++)
-                                                            {
-                                                                if (k > 0)
-                                                                {
-                                                                    break;
-                                                                }
-                                                                decimal basic = @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].faretotal - @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].taxamount;
-                                                                <table class="table mt-20">
-                                                                    <thead class="bg-light-2">
-                                                                        <tr>
-                                                                            <th>Fare Details</th>
-
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-
-                                                                        <tr>
-                                                                            <td>Basic(+)</td>
-                                                                            <td>@basic.ToString("N0")</td>
-                                                                        </tr>
-
-                                                                        <tr>
-                                                                            <td>Taxes(+)</td>
-                                                                            <td>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].taxamount.ToString("N0")</td>
-                                                                        </tr>
-
-
-                                                                        <tr>
-                                                                            <td>Total</td>
-                                                                            <td>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].faretotal.ToString("N0")</td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            }
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="tabs__pane -tab-item-3">
-                                                <table class="table mt-20">
-                                                    <thead class="bg-light-2">
-                                                        <tr>
-                                                            <th>Airline</th>
-                                                            <th>Pax Type</th>
-                                                            <th>Check-in Baggage</th>
-                                                            <th>Cabin Baggage</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("SG"))
-                                                                {
-                                                                    CompanyName = "SpiceJet";
-                                                                    <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
-                                                                }
-                                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("6E"))
-                                                                {
-                                                                    CompanyName = "Indigo";
-                                                                    <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
-                                                                }
-                                                                else
-                                                                {
-                                                                    CompanyName = "Air India Expr...";
-                                                                    <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
-                                                                }
-
-                                                                @CompanyName <span>
-                                                                    @{
-                                                                        SegmentDatacount = Model.SimpleAvailibilityaAddResponcelist[j].segments.Count;
-
-                                                                        if (SegmentDatacount == 1)
-                                                                        {
-                                                                            <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.identifier </div>
-                                                                        }
-
-                                                                        if (SegmentDatacount == 2)
-                                                                        {
-                                                                            @for (var x = 0; x < SegmentDatacount; x++)
-                                                                            {
-                                                                                if (x == 0)
-                                                                                {
-
-                                                                                    <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier <b>,</b></div>
-
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier</div>
-
-                                                                                }
-
-                                                                            }
-                                                                        }
-                                                                    }
-
-                                                                </span>
-                                                            </td>
-                                                            <td>Adult</td>
-                                                            <td>15 Kg</td>
-                                                            <td>7 Kg</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                                <div class="text-19 fw-600 pb-2">Terms &amp; Conditon</div>
-                                                <ul class="list-disc y-gap-10">
-                                                    <li>For infants there is no baggage allowance.</li>
-                                                    <li>Airline can change Baggage Allowance.</li>
-                                                    <li>For Low Cost Carriers, international Check-in Baggage is 20 kg and for Gulf Sectors Baggage is 25-30 kg.</li>
-                                                    <li>If you have any query, feel free to Contact Us. Email: support@jetwaystravels.com</li>
-                                                </ul>
-                                            </div>
-                                            <div class="tabs__pane -tab-item-4">
-                                                <div class="dst-top">@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin - @Model.SimpleAvailibilityaAddResponcelist[j].designator.destination (@Model.SimpleAvailibilityaAddResponcelist[j].bookingdate)  </div>
-                                                <table class="table mt-20">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>Cancellation Charges</td>
-                                                            <td>Airline Free </td>
-                                                            <td>Before Departure</td>
-                                                            <td>As per Airline Fare rule</td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>Reschedule Charges </td>
-                                                            <td>Airline Free </td>
-                                                            <td>Before Departure</td>
-                                                            <td>As per Airline Fare rule</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                                <div class="text-19 fw-600 pb-2">Terms &amp; Conditon</div>
-                                                <ul class="list-disc y-gap-10">
-                                                    <li>Penalty is subject to 4 hour prior to departure and no changes are allowed after that.</li>
-                                                    <li>The charges will be on per passenger per sector.</li>
-                                                    <li>Rescheduling charges = Rescheduling/Change penalty+fare difference(if applicable)</li>
-                                                    <li>Partial cancellation is not allowed on the flilght tickets which are book under special discounted fares</li>
-                                                    <li>In case, the customer have not cancelled the ticket within the stipulated time or no show then only statutory taxes are refundable form the respective airlines</li>
-                                                    <li>For infants there is no baggage allowance</li>
-                                                    <li>In certain  situations of respricted cases, no amendments and cancellation is allowed.</li>
-                                                </ul>
-                                            </div>
-
-                                            <div class="tabs__pane -tab-item-5">
-                                                <div class="dst-top mb-3">Airline Fare Rule</div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris efficitur est id enim maximus aliquam sit amet nec mi. Sed vulputate lacus eros. Aliquam dictum ipsum leo, ut suscipit risus porttitor iaculis. Integer maximus dignissim mauris eget rhoncus. Sed scelerisque feugiat dui, et vehicula elit feugiat vel. Duis dignissim semper nibh, et pharetra tortor commodo ut. Ut eu efficitur elit. Nullam nec lacus et lacus interdum condimentum sit amet id velit. Aenean sagittis tortor nulla, ut dapibus augue scelerisque eu. Vivamus sit amet odio in mauris bibendum lobortis. Curabitur varius diam sit amet eleifend vehicula.</p>
-                                                <p>Phasellus tortor augue, lobortis eu mauris aliquam, venenatis posuere lacus. Nam in justo eget ex vulputate posuere tincidunt ut nulla. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus luctus laoreet ex, sit amet imperdiet orci ultrices eu. Cras mattis at ex ac sodales. Vestibulum non nunc ut arcu volutpat convallis. Maecenas varius commodo ligula volutpat aliquam. Proin vehicula ultricies leo, eget imperdiet metus viverra non. Maecenas blandit, risus ut viverra blandit, neque risus porta mi, vel imperdiet lectus mauris vel elit. Ut vel fringilla tortor, a tempus ex. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed vitae eros diam. Sed tincidunt mauris quis erat malesuada efficitur non ac velit. Vivamus nec condimentum erat. Sed fringilla dui eget auctor interdum. Cras sed sem magna.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                        }
-
+                        <div id="flight-results">
+                            @Html.Partial("_FlightResultsSortingPartialView", Model)
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2822,17 +2072,145 @@
                 background-position: 5px center;
                 padding-left: 40px;
             }
+
     </style>
     <script>
-        $(function () {
-            var today = new Date();
-            var dd = String(today.getDate() + 1).padStart(2, '0');
-            var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-            var yyyy = today.getFullYear();
-            var currentDate = yyyy + '-' + mm + '-' + dd;
 
-            // Set the current date as the default value in the input field
-            $("#Oneway-date").val(currentDate);
+        //Flight Detail js code
+        $(document).on('click', '.flightT1', function () {
+            if (!$(this).hasClass('active')) {
+
+                $('.Ftab2, .Ftab3, .Ftab4, .Ftab5').hide();
+                $('.flightT2, .flightT3, .flightT4, .flightT5').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab1').show();
+            }
+        });
+
+        $(document).on('click', '.flightT2', function () {
+            if (!$(this).hasClass('active')) {
+
+                $('.Ftab1, .Ftab3, .Ftab4, .Ftab5').hide();
+                $('.flightT1, .flightT3, .flightT4, .flightT5').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab2').show();
+            }
+        });
+
+        $(document).on('click', '.flightT3', function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab1, .Ftab2, .Ftab4, .Ftab5').hide();
+                $('.flightT1, .flightT2, .flightT4, .flightT5').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab3').show();
+            }
+        });
+
+        $(document).on('click', '.flightT4', function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab1, .Ftab2, .Ftab3, .Ftab5').hide();
+                $('.flightT1, .flightT2, .flightT3, .flightT5').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab4').show();
+            }
+        });
+
+        $(document).on('click', '.flightT5', function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab1, .Ftab2, .Ftab3, .Ftab4').hide();
+                $('.flightT1, .flightT2, .flightT3, .flightT4').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab5').show();
+            }
+        });
+
+
+        $(document).on('click', '.showBtn', function (event) {
+            event.preventDefault(); // Prevent default behavior of anchor tag
+
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+                $('.hideme').slideUp(1);
+            } else {
+                $('.hideme').slideUp(1);
+                $('.showBtn').removeClass('active');
+                $(this).addClass('active');
+                $(this).next().filter('.hideme').slideDown(1);
+            }
+        });
+
+
+        // $(document).on('click', '.showBtn', function () {
+
+        //     //$('.hideme').hide();
+        //     if ($(this).hasClass('active')) {
+        //         $(this).removeClass('active');
+        //         $('.hideme').slideUp(1);
+        //     } else {
+        //         $('.hideme').slideUp(1);
+        //         $('.showBtn').removeClass('active');
+        //         $(this).addClass('active');
+        //         $(this).next().filter('.hideme').slideDown(1);
+        //     }
+        // });
+
+
+
+
+
+
+
+
+        // Get all sort link elements
+        const sortLinks = document.querySelectorAll('.sort-link');
+        const sortOrders = {
+            name: 'desc',
+            price: 'desc',
+            arrival: 'desc',
+            duration: 'desc',
+            deprt: 'desc'
+        };
+
+        // Add click event listener to each sort link
+        sortLinks.forEach(sortLink => {
+            debugger;
+            sortLink.addEventListener('click', function (e) {
+                e.preventDefault();
+                debugger;
+                const sortType = this.dataset.sort.split('_')[0];
+                const currentSortOrder = sortOrders[sortType];
+                sortOrders[sortType] = currentSortOrder === 'desc' ? 'asc' : 'desc';
+                const newSortOrder = currentSortOrder === 'desc' ? `${sortType}_desc` : `${sortType}_asc`;
+                this.dataset.sort = newSortOrder;
+                performSorting(newSortOrder);
+
+                // Make AJAX request to post the sorting order to the controller
+                postSortOrder(newSortOrder);
+            });
+        });
+
+        function performSorting(sortOrder) {
+            debugger;
+            var sortOrderName = sortOrder;
+            $.ajax({
+                url: '@Url.Action("FlightView", "ResultFlightView")',
+                type: 'POST',
+                data: { sortOrderName: sortOrderName },
+                success: function (data) {
+                    $('#flight-results').html(data);
+
+                },
+                error: function (xhr, status, error) {
+
+                }
+            });
+        }
+        $(function () {
             $("#Oneway-date").datepicker({
                 dateFormat: 'yy-mm-dd',
                 numberOfMonths: 2,
@@ -2842,23 +2220,23 @@
         });
 
 
-        //////**********End Date DatePicker**********
-        $(function () {
-            var today = new Date();
-            var dd = String(today.getDate() + 1).padStart(2, '0');
-            var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-            var yyyy = today.getFullYear();
-            var currentDate = yyyy + '-' + mm + '-' + dd;
+        // //////**********End Date DatePicker**********
+        // $(function () {
+        //     var today = new Date();
+        //     var dd = String(today.getDate() + 1).padStart(2, '0');
+        //     var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+        //     var yyyy = today.getFullYear();
+        //     var currentDate = yyyy + '-' + mm + '-' + dd;
 
-            // Set the current date as the default value in the input field
-            $("#Oneway-endDate").val(currentDate);
-            $("#Oneway-endDate").datepicker({
-                dateFormat: 'yy-mm-dd',
-                numberOfMonths: 2,
-                maxDate: '+2m',
-                minDate: '0'
-            });
-        });
+        //     // Set the current date as the default value in the input field
+        //     $("#Oneway-endDate").val(currentDate);
+        //     $("#Oneway-endDate").datepicker({
+        //         dateFormat: 'yy-mm-dd',
+        //         numberOfMonths: 2,
+        //         maxDate: '+2m',
+        //         minDate: '0'
+        //     });
+        // });
 
 
 
@@ -2923,65 +2301,48 @@
             }
         });
 
-        $(document).ready(function () {
-            $('.rplc-btn').on('click', function () {
-                debugger;
-                // Get values from the first input box
-                var flyingFromValue = $('#myInput').val();
-                // Get values from the second input box
-                var flyingToValue = $('#myInput1').val();
-                // Swap values between the two input boxes
-                $('#myInput').val(flyingToValue);
-                $('#myInput1').val(flyingFromValue);
-            });
 
-
-
-
-            $('.showBtn').click(function () {
-                //$('.hideme').hide();
-                if ($(this).hasClass('active')) {
-                    $(this).removeClass('active');
-                    $('.hideme').slideUp(1);
-                } else {
-                    $('.hideme').slideUp(1);
-                    $('.showBtn').removeClass('active');
-                    $(this).addClass('active');
-                    $(this).next().filter('.hideme').slideDown(1);
-                }
-            });
+        $('.rplc-btn').on('click', function () {
+            debugger;
+            // Get values from the first input box
+            var flyingFromValue = $('#myInput').val();
+            // Get values from the second input box
+            var flyingToValue = $('#myInput1').val();
+            // Swap values between the two input boxes
+            $('#myInput').val(flyingToValue);
+            $('#myInput1').val(flyingFromValue);
         });
+
+
+
+
+
 
         //**********Chosen Departure Code Start ****************//
         //*****************************************************//
-        $(document).ready(function () {
-            $('#autodropdownOneWayId').chosen();
-            $('.chosen-drop').hide();
-            $('#autodropdownOneWayId').trigger('chosen:open');
 
-            $('#myInput').on('click', function (event) {
-                event.stopPropagation();
-                $('.chosen-drop').show();
-                $('.autodropdownOneWay input').attr('placeholder', ' From');
-                $('.autodropdownOneWay').show();
-                $('.autoarrivalOneway').hide();
-                var chosenInput = document.querySelector('.chosen-search input');
-                chosenInput.focus();
-            });
+        $('#autodropdownOneWayId').chosen();
+        $('.chosen-drop').hide();
+        $('#autodropdownOneWayId').trigger('chosen:open');
 
-
-            $(document.body).on('click', function (event) {
-                if (!$(event.target).closest('.chosen-drop').length && !$(event.target).is('#myInput')) {
-                    $('.chosen-drop').hide();
-                }
-            });
+        $('#myInput').on('click', function (event) {
+            event.stopPropagation();
+            $('.chosen-drop').show();
+            $('.autodropdownOneWay input').attr('placeholder', ' From');
+            $('.autodropdownOneWay').show();
+            $('.autoarrivalOneway').hide();
+            var chosenInput = document.querySelector('.chosen-search input');
+            chosenInput.focus();
         });
 
 
-
+        $(document.body).on('click', function (event) {
+            if (!$(event.target).closest('.chosen-drop').length && !$(event.target).is('#myInput')) {
+                $('.chosen-drop').hide();
+            }
+        });
 
         function onewayDropdown() {
-            //$('.chosen-drop').toggle();
             var chosenInput = document.querySelector('.chosen-search input');
             chosenInput.focus();
             if ($('.chosen-drop').is(':visible')) {
@@ -2992,7 +2353,6 @@
 
         function OnewaySelection() {
             $('.chosen-search input').focus();
-            //alert("Hello Test");
             var dropdown = document.getElementById("autodropdownOneWayId");
             var selectedValue = dropdown.value;
             var selectedOption = dropdown.options[dropdown.selectedIndex];
@@ -3000,41 +2360,35 @@
             var cityName = cityDetails[0].trim();
             var cityCode = cityDetails[1].trim();
             var airportName = cityDetails[2].trim();
-
-            //alert("Selected City Name: " + cityName);
-            //alert("Selected City Code: " + cityCode);
-            //alert("Selected Airport Name: " + airportName);
             document.getElementById("myInput").value = cityCode;
-            //document.getElementById("airportName").innerHTML = airportName;
             $('.chosen-drop').hide();
-            //$('.autodropdownOneWay').hide();
             dropdown.selectedIndex = -1;
         }
 
 
         //**********Chosen Arrival Code Start ****************//
         //*****************************************************//
-        $(document).ready(function () {
-            $('#arrivalItemOnewayId').chosen();
-            $('#arrivalItemOnewayId').trigger('chosen:open');
 
-            $('#myInput1').on('click', function (event) {
-                event.stopPropagation();
-                $('.chosen-drop').show();
-                $('.autoarrivalOneway input').attr('placeholder', 'To');
-                $('.autoarrivalOneway').show();
-                $('.autodropdownOneWay').hide();
-                var chosenInput3 = document.querySelector('.autoarrivalOneway input');
-                chosenInput3.focus();
-            });
+        $('#arrivalItemOnewayId').chosen();
+        $('#arrivalItemOnewayId').trigger('chosen:open');
 
-            $(document.body).on('click', function (event) {
-                if (!$(event.target).closest('.chosen-drop').length && !$(event.target).is('#myInput1')) {
-                    $('.chosen-drop').hide();
-                }
-            });
-
+        $('#myInput1').on('click', function (event) {
+            event.stopPropagation();
+            $('.chosen-drop').show();
+            $('.autoarrivalOneway input').attr('placeholder', 'To');
+            $('.autoarrivalOneway').show();
+            $('.autodropdownOneWay').hide();
+            var chosenInput3 = document.querySelector('.autoarrivalOneway input');
+            chosenInput3.focus();
         });
+
+        $(document.body).on('click', function (event) {
+            if (!$(event.target).closest('.chosen-drop').length && !$(event.target).is('#myInput1')) {
+                $('.chosen-drop').hide();
+            }
+        });
+
+
 
 
 
@@ -3059,53 +2413,31 @@
             var cityName = cityDetails[0].trim();
             var cityCode = cityDetails[1].trim();
             var airportName = cityDetails[2].trim();
-
-            //alert("Selected City Name: " + cityName);
-            //alert("Selected City Code: " + cityCode);
-            //alert("Selected Airport Name: " + airportName);
             document.getElementById("myInput1").value = cityCode;
-            //document.getElementById("airportArval").innerHTML = airportName;
             $('.chosen-drop').hide();
             dropdown.selectedIndex = -1;
         }
 
-
-
-
-    </script>
-
-    <script>
         // Set the date we're counting down to
         var countDownDate = new Date().getTime();
         countDownDate += 15 * 60 * 1000;
-        // var countDownDate = new Date().getTime();
-        // var countDownDate += 15 * 60 * 1000;
-        // Update the count down every 1 second
         var x = setInterval(function () {
 
-            // Get today's date and time
             var now = new Date().getTime();
-            //now += 15 * 60 * 1000;
-            // Find the distance between now and the count down date
             var distance = countDownDate - now;
-
             // Time calculations for days, hours, minutes and seconds
             var days = Math.floor(distance / (1000 * 60 * 60 * 24));
             var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            // Display the result in the element with id="demo"
-            // document.getElementById("demo").innerHTML = days + "d " + hours + "h "
-            //     + minutes + "m " + seconds + "s ";
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);;
             document.getElementById("demo").innerHTML = minutes + "m " + seconds + "s ";
-
-            // If the count down is finished, write some text
             if (distance < 0) {
                 clearInterval(x);
                 document.getElementById("demo").innerHTML = "EXPIRED";
             }
         }, 1000);
+
+
     </script>
 
 </body>

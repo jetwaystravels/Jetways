@@ -119,6 +119,9 @@ namespace OnionConsumeWebAPI.Controllers
                     ReturnTicketBooking returnTicketBooking = new ReturnTicketBooking();
                     returnTicketBooking.recordLocator = JsonObjPNRBooking.data.recordLocator;
                     BarcodePNR = JsonObjPNRBooking.data.recordLocator;
+                    Info info = new Info();
+                    info.bookedDate = JsonObjPNRBooking.data.info.bookedDate;
+                    returnTicketBooking.info = info;
                     if (BarcodePNR.Length < 7)
                     {
                         BarcodePNR = BarcodePNR.PadRight(7);
