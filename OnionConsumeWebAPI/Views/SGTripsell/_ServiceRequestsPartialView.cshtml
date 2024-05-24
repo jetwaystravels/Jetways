@@ -53,34 +53,34 @@
         // //Start :MealKey post
 
 
-            // $('.select-option .servc-bordr').change((e) => {
-            //     var selectedOptions = $('.select-option .servc-bordr option:selected');
+        // $('.select-option .servc-bordr').change((e) => {
+        //     var selectedOptions = $('.select-option .servc-bordr option:selected');
 
 
-            //     var mealCodes = [];
-            //     var prices = [];
+        //     var mealCodes = [];
+        //     var prices = [];
 
-            //     selectedOptions.each(function () {
-            //         var optionValue = $(this).val();
-            //         var parts = optionValue.split('_');
+        //     selectedOptions.each(function () {
+        //         var optionValue = $(this).val();
+        //         var parts = optionValue.split('_');
 
-            //         mealCodes.push(parts[0] + "_0");
-            //         prices.push(parseFloat(parts[1]));
-            //     });
-            //     alert(mealCodes);
-            //     localStorage.setItem("MealssrKeyCount", JSON.stringify(mealCodes));
-            //     document.getElementById("hiddenSsrKey").value = mealCodes.join(',');
+        //         mealCodes.push(parts[0] + "_0");
+        //         prices.push(parseFloat(parts[1]));
+        //     });
+        //     alert(mealCodes);
+        //     localStorage.setItem("MealssrKeyCount", JSON.stringify(mealCodes));
+        //     document.getElementById("hiddenSsrKey").value = mealCodes.join(',');
 
-            //     // Calculate total price
-            //     var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
-            //     $('#AddMeal').text(totalPrice.toFixed(2));
+        //     // Calculate total price
+        //     var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
+        //     $('#AddMeal').text(totalPrice.toFixed(2));
 
-            //     updateCombinedTotal();
-            //     // Display meal codes and prices in separate alerts
-            //     // alert("Meal Codes: " + mealCodes.join(','));
-            //     //alert("Prices: " + prices.join(','));
+        //     updateCombinedTotal();
+        //     // Display meal codes and prices in separate alerts
+        //     // alert("Meal Codes: " + mealCodes.join(','));
+        //     //alert("Prices: " + prices.join(','));
 
-            // });
+        // });
 
 
         $('.servc-bordrm1').change(function () {
@@ -109,39 +109,39 @@
 
 
         });
-   
 
 
 
 
-            // $('.select-option2 .servc-bordr').change((e) => {
-            //     // Collect selected values and append "_1" to each
-            //     var selected = $('.select-option2 .servc-bordr').map(function () {
-            //         return $(this).find("option:selected").map(function () {
-            //             return this.value + "_1";  // Appending "_1" for some specific reason (similar to your original request)
-            //         }).get();
-            //     }).get();
 
-            //     // Extract prices from the selected values for total calculation
-            //     var prices = $('.select-option2 .servc-bordr').map(function () {
-            //         return $(this).find("option:selected").map(function () {
-            //             var parts = this.value.split('_');
-            //             return parseFloat(parts[1]);  // Extract the price part and convert to float
-            //         }).get();
-            //     }).get();
+        // $('.select-option2 .servc-bordr').change((e) => {
+        //     // Collect selected values and append "_1" to each
+        //     var selected = $('.select-option2 .servc-bordr').map(function () {
+        //         return $(this).find("option:selected").map(function () {
+        //             return this.value + "_1";  // Appending "_1" for some specific reason (similar to your original request)
+        //         }).get();
+        //     }).get();
 
-            //     // Calculate the total price
-            //     var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
+        //     // Extract prices from the selected values for total calculation
+        //     var prices = $('.select-option2 .servc-bordr').map(function () {
+        //         return $(this).find("option:selected").map(function () {
+        //             var parts = this.value.split('_');
+        //             return parseFloat(parts[1]);  // Extract the price part and convert to float
+        //         }).get();
+        //     }).get();
 
-            //     // Update the DOM elements with the selected values and total price
-            //     alert(selected);  // Display selected options for debugging
-            //     localStorage.setItem("MealssrKeyCount2", JSON.stringify(selected));
-            //     document.getElementById("hiddenSsrKey2").value = selected.join(','); // Joining selected values into a string
+        //     // Calculate the total price
+        //     var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
 
-            //     // Display total price in a specified element, ensure you have an element with this ID
-            //     $('#AddMeal2').text(totalPrice.toFixed(2));
-            //     updateCombinedTotal();
-            // });
+        //     // Update the DOM elements with the selected values and total price
+        //     alert(selected);  // Display selected options for debugging
+        //     localStorage.setItem("MealssrKeyCount2", JSON.stringify(selected));
+        //     document.getElementById("hiddenSsrKey2").value = selected.join(','); // Joining selected values into a string
+
+        //     // Display total price in a specified element, ensure you have an element with this ID
+        //     $('#AddMeal2').text(totalPrice.toFixed(2));
+        //     updateCombinedTotal();
+        // });
 
         $('.select-option2 .servc-bordrCon').change((e) => {
             debugger;
@@ -345,12 +345,12 @@
         background: #b5cbe7;
     }
 
-    .select-width{
-        max-width:120px;
+    .select-width {
+        max-width: 120px;
     }
 
     .MWidth {
-        width: 1024px!important;
+        width: 1024px !important;
         margin-left: -50%;
     }
 
@@ -379,10 +379,12 @@
             max-width: 94px;
         }
 
-    .wdth-100{width:100px;}
+    .wdth-100 {
+        width: 100px;
+    }
 
     .btngry {
-        background-color: #808080!important;
+        background-color: #808080 !important;
     }
 </style>
 
@@ -403,8 +405,8 @@
                         </div>
                         <div class="modal-bodyy mbody-padding">
                         </div>
-                       @*  <div class="modal-footer fbody-padding">
-                            <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
+                        @*  <div class="modal-footer fbody-padding">
+                        <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
                         </div> *@
                         <div class="modal-footer fbody-padding">
                             @{
@@ -423,22 +425,22 @@
                                     {
                                         @if (i == 1)
                                         {
-                                                    <div class="d-flex">
-                                                        <div>
-                                                            <button type="submit" id="" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
-                                                        </div>
+                                            <div class="d-flex">
+                                                <div>
+                                                    <button type="submit" id="" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
+                                                </div>
 
-                                                        <div id="popbtnA">
+                                                <div id="popbtnA">
 
 
-                                                            <button type="submit" id="btnfocus" class="btn  btn-primary">Continue</button>
+                                                    <button type="submit" id="btnfocus" class="btn  btn-primary">Continue</button>
 
-                                                        </div>
-                                                        <div id="popbtnB" style="display:none;">
-                                                            <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
+                                                </div>
+                                                <div id="popbtnB" style="display:none;">
+                                                    <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
 
-                                                        </div>
-                                                    </div>
+                                                </div>
+                                            </div>
                                         }
 
                                     }
@@ -450,14 +452,14 @@
             </div>
 
         </div>
-   </div>
+    </div>
 </section>
 
 
 
 <div class="flight-box-content rounded-4 p-0">
     <div class="tabs -pills-3 js-tabs">
-   
+
         <div class="tabs__content pt-0 js-tabs-content">
             <div class="tabs__pane -tab-item-1 is-tab-el-active">
                 <div class="journey-box">
@@ -515,26 +517,26 @@
                     </ul>
                 </div>
                 <div class="row" id="tabnew1">
-                   
+
                     <div class="col-lg-12">
                         <section class="container">
                             <div class="row border-service">
 
                                 <div class="d-flex justify-content-between bg-servc py-2">
                                     <div class="serv-header">
-                                       Traveller
+                                        Traveller
                                     </div>
                                     <div class="serv-header">
-                                         Meal
+                                        Meal
                                     </div>
                                     <div class="serv-header">
-                                       Seat
+                                        Seat
                                     </div>
                                     <div class="serv-header">
-                                         Baggage
+                                        Baggage
                                     </div>
                                     <div class="serv-header">
-                                         Special Request
+                                        Special Request
                                     </div>
                                 </div>
                                 @{
@@ -562,7 +564,7 @@
                                         string ssrkey = string.Empty;
                                         <div class="d-flex justify-content-between py-3">
                                             <div class="servc-content width-90">
-                                                 <!--Travellor @pas-->
+                                                <!--Travellor @pas-->
                                                 @if (Model.passengerNamedetails != null)
                                                 {
                                                     string name = Model.passengerNamedetails[pas].first;
@@ -605,34 +607,34 @@
                                                         // }
 
                                                     }
-                                                        }
-                                                        <div class="d-flex">
-                                                            <div><img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /></div>
+                                                }
+                                                <div class="d-flex">
+                                                    <div><img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /></div>
                                                     <select id="ddlMealOptions" class="servc-bordr servc-bordrm1">
-                                                                <option selected="selected" value="">Please Select</option>
+                                                        <option selected="selected" value="">Please Select</option>
                                                         @foreach (var option in mealOptions)
-                                                    {
-                                                                <option  value="@option.Value" data-ssrkey=@ssrkey>
-                                                                    @option.Text
-                                                                </option>
-                                                    }
-                                                        </select>
-                                                        <input type="hidden" id="hiddenSsrKey" name="ssrKey" value="" />
-                                                        </div>
-                                                        @*<select id="mealid" class="servc-bordr select-width" asp-items="@mealOptions"></select>*@
+                                                        {
+                                                            <option value="@option.Value" data-ssrkey=@ssrkey>
+                                                                @option.Text
+                                                            </option>
+                                                        }
+                                                    </select>
+                                                    <input type="hidden" id="hiddenSsrKey" name="ssrKey" value="" />
+                                                </div>
+                                                @*<select id="mealid" class="servc-bordr select-width" asp-items="@mealOptions"></select>*@
 
-                                                    </div>
-                                                    <div class="servc-content">
-                                                    <div class="d-flex">
-                                                            <div><img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /></div>
-                                                            <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
+                                            </div>
+                                            <div class="servc-content">
+                                                <div class="d-flex">
+                                                    <div><img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /></div>
+                                                    <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
 
-                                                        </div>
-                                                        <div class="output-div-input" id="outputDiv_@pas"></div>
-                                                    </div>
-                                                    <div class="servc-content select-baggage">
+                                                </div>
+                                                <div class="output-div-input" id="outputDiv_@pas"></div>
+                                            </div>
+                                            <div class="servc-content select-baggage">
 
-                                                        @{
+                                                @{
                                                     List<SelectListItem> BaggageOptions = new List<SelectListItem>();
 
                                                     // string Sssrcode = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].ssrCode;
@@ -670,31 +672,31 @@
                                                         }
                                                     }
 
-                                                                }
-                                                                <div class="d-flex">
-                                                                    <img src="~/img/pbaggage.png" style="width:20px;height:20px;margin-right:10px;" />
+                                                }
+                                                <div class="d-flex">
+                                                    <img src="~/img/pbaggage.png" style="width:20px;height:20px;margin-right:10px;" />
                                                     <select id="ddlbagOptions" class="servc-bordr servc-bordrbaggage">
-                                                                <option selected="selected" value="">Please Select</option>
-                                                                    @foreach (var option in BaggageOptions)
+                                                        <option selected="selected" value="">Please Select</option>
+                                                        @foreach (var option in BaggageOptions)
                                                         {
-                                                                            <option value="@option.Value" data-bagkey=@bagkey>
-                                                                                @option.Text
-                                                                            </option>
+                                                            <option value="@option.Value" data-bagkey=@bagkey>
+                                                                @option.Text
+                                                            </option>
                                                         }
-                                                                    </select>
-                                                                    <input type="hidden" id="hiddenbagKey" name="bagkey" value="" />
-                                                                </div>
-                                                            </div>
-                                                            <div class="servc-content">
-                                                                <select class="servc-bordr wdth-100">
-                                                                    <option></option>
-                                                                    <option>Meal1</option>
-                                                                    <option>Meal2</option>
-                                                                    <option>Meal3</option>
-                                                                    <option>Meal4</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
+                                                    </select>
+                                                    <input type="hidden" id="hiddenbagKey" name="bagkey" value="" />
+                                                </div>
+                                            </div>
+                                            <div class="servc-content">
+                                                <select class="servc-bordr wdth-100">
+                                                    <option></option>
+                                                    <option>Meal1</option>
+                                                    <option>Meal2</option>
+                                                    <option>Meal3</option>
+                                                    <option>Meal4</option>
+                                                </select>
+                                            </div>
+                                        </div>
 
                                     }
                                 }
@@ -703,7 +705,7 @@
 
 
 
-                               
+
                             </div>
                         </section>
                     </div>
@@ -711,24 +713,24 @@
 
                 <!----Connceting new design Code start---->
                 <div class="row" id="tabnew2">
-                   
+
                     <div class="col-lg-12">
                         <section class="container">
                             <div class="row border-service">
-                           
+
                                 <div class="d-flex justify-content-between bg-servc py-2">
                                     <div class="serv-header">
                                         Traveller
                                     </div>
                                     <div class="serv-header">
-                                      Meal
+                                        Meal
                                     </div>
                                     <div class="serv-header">
                                         Seat
                                     </div>
-                                  
+
                                     <div class="serv-header">
-                                         Special Request
+                                        Special Request
                                     </div>
                                 </div>
                                 @{
@@ -750,21 +752,21 @@
                                     for (int pas = 0; pas < passengerdata2; pas++)
                                     {
                                         string ssrkey = string.Empty;
-                                                <div class="d-flex justify-content-between py-3">
+                                        <div class="d-flex justify-content-between py-3">
 
-                                                    <div class="servc-content width-90">
-                                                        <!--Travellor @pas-->
-                                                        @if (Model.passengerNamedetails != null)
+                                            <div class="servc-content width-90">
+                                                <!--Travellor @pas-->
+                                                @if (Model.passengerNamedetails != null)
                                                 {
                                                     string name = Model.passengerNamedetails[pas].first;
-                                                            <span>@name</span>
+                                                    <span>@name</span>
                                                 }
-                                                    </div>
-                                                    <div class="servc-content select-option2">
+                                            </div>
+                                            <div class="servc-content select-option2">
 
 
 
-                                                        @{
+                                                @{
                                                     List<SelectListItem> mealOptions = new List<SelectListItem>();
 
                                                     for (int s = 0; s < Model.Meals.legSsrs[0].legssrs.Count; s++)
@@ -798,42 +800,42 @@
                                                         // }
 
                                                     }
-                                                                }
-                                                                <div class="d-flex">
-                                                                    <div><img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /></div>
+                                                }
+                                                <div class="d-flex">
+                                                    <div><img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /></div>
                                                     <select id="ddlMealOptions2" class="servc-bordr servc-bordrCon">
-                                                                <option selected="selected" value="">Please Select</option>
-                                                                @foreach (var option in mealOptions)
-                                                    {
-                                                                        <option value="@option.Value" data-ssrkey=@ssrkey>
-                                                                            @option.Text
-                                                                        </option>
-                                                    }
-                                                                </select>
-                                                                <input type="hidden" id="hiddenSsrKey2" name="ssrKey" value="" />
-                                                                </div>
-                                                                @*<select id="mealid" class="servc-bordr select-width" asp-items="@mealOptions"></select>*@
+                                                        <option selected="selected" value="">Please Select</option>
+                                                        @foreach (var option in mealOptions)
+                                                        {
+                                                            <option value="@option.Value" data-ssrkey=@ssrkey>
+                                                                @option.Text
+                                                            </option>
+                                                        }
+                                                    </select>
+                                                    <input type="hidden" id="hiddenSsrKey2" name="ssrKey" value="" />
+                                                </div>
+                                                @*<select id="mealid" class="servc-bordr select-width" asp-items="@mealOptions"></select>*@
 
-                                                            </div>
-                                                            <div class="servc-content">
-                                                                <div class="d-flex">
-                                                                    <div><img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /></div>
-                                                                   <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
-                                                                </div>
-                                                                 <div class="output-div-input" id="outputDivConnect_@pas"></div>
-                                                            </div>
+                                            </div>
+                                            <div class="servc-content">
+                                                <div class="d-flex">
+                                                    <div><img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /></div>
+                                                    <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
+                                                </div>
+                                                <div class="output-div-input" id="outputDivConnect_@pas"></div>
+                                            </div>
 
-                                                            <div class="servc-content">
-                                                               
-                                                            <select class="servc-bordr wdth-100">
-                                                                    <option></option>
-                                                                    <option>Meal1</option>
-                                                                    <option>Meal2</option>
-                                                                    <option>Meal3</option>
-                                                                    <option>Meal4</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
+                                            <div class="servc-content">
+
+                                                <select class="servc-bordr wdth-100">
+                                                    <option></option>
+                                                    <option>Meal1</option>
+                                                    <option>Meal2</option>
+                                                    <option>Meal3</option>
+                                                    <option>Meal4</option>
+                                                </select>
+                                            </div>
+                                        </div>
 
                                     }
                                 }

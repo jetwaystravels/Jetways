@@ -140,34 +140,34 @@
         // //Start :MealKey post
 
 
-            // $('.select-option .servc-bordr').change((e) => {
-            //     var selectedOptions = $('.select-option .servc-bordr option:selected');
+        // $('.select-option .servc-bordr').change((e) => {
+        //     var selectedOptions = $('.select-option .servc-bordr option:selected');
 
 
-            //     var mealCodes = [];
-            //     var prices = [];
+        //     var mealCodes = [];
+        //     var prices = [];
 
-            //     selectedOptions.each(function () {
-            //         var optionValue = $(this).val();
-            //         var parts = optionValue.split('_');
+        //     selectedOptions.each(function () {
+        //         var optionValue = $(this).val();
+        //         var parts = optionValue.split('_');
 
-            //         mealCodes.push(parts[0] + "_OneWay0");
-            //         prices.push(parseFloat(parts[1]));
-            //     });
-            //     //alert(mealCodes);
-            //     localStorage.setItem("MealssrKeyCount", JSON.stringify(mealCodes));
-            //     document.getElementById("hiddenSsrKey").value = mealCodes.join(',');
+        //         mealCodes.push(parts[0] + "_OneWay0");
+        //         prices.push(parseFloat(parts[1]));
+        //     });
+        //     //alert(mealCodes);
+        //     localStorage.setItem("MealssrKeyCount", JSON.stringify(mealCodes));
+        //     document.getElementById("hiddenSsrKey").value = mealCodes.join(',');
 
-            //     // Calculate total price
-            //     var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
-            //     $('#AddMeal').text(totalPrice.toFixed(2));
+        //     // Calculate total price
+        //     var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
+        //     $('#AddMeal').text(totalPrice.toFixed(2));
 
-            //     // Display meal codes and prices in separate alerts
-            //     // alert("Meal Codes: " + mealCodes.join(','));
-            //     //alert("Prices: " + prices.join(','));
-            //     updateCombinedTotal();
+        //     // Display meal codes and prices in separate alerts
+        //     // alert("Meal Codes: " + mealCodes.join(','));
+        //     //alert("Prices: " + prices.join(','));
+        //     updateCombinedTotal();
 
-            // });
+        // });
 
         $('.servc-bordrm1').change(function () {
             debugger;
@@ -199,36 +199,36 @@
 
 
 
-    
-
-            // $('.select-option2 .servc-bordr').change((e) => {
-
-            //     var selected = $('.select-option2 .servc-bordr').map(function () {
-            //         return $(this).find("option:selected").map(function () {
-            //             return this.value + "_OneWay1";
-            //         }).get();
-            //     }).get();
 
 
-            //     var prices = $('.select-option2 .servc-bordr').map(function () {
-            //         return $(this).find("option:selected").map(function () {
-            //             var parts = this.value.split('_');
-            //             return parseFloat(parts[1]);
-            //         }).get();
-            //     }).get();
+        // $('.select-option2 .servc-bordr').change((e) => {
 
-            //     // Calculate the total price
-            //     var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
+        //     var selected = $('.select-option2 .servc-bordr').map(function () {
+        //         return $(this).find("option:selected").map(function () {
+        //             return this.value + "_OneWay1";
+        //         }).get();
+        //     }).get();
 
-            //     // Update the DOM elements with the selected values and total price
-            //     //alert(selected);  // Display selected options for debugging
-            //     localStorage.setItem("MealssrKeyCount2", JSON.stringify(selected));
-            //     document.getElementById("hiddenSsrKey2").value = selected.join(','); // Joining selected values into a string
 
-            //     // Display total price in a specified element, ensure you have an element with this ID
-            //     $('#AddMeal2').text(totalPrice.toFixed(2));
-            //     updateCombinedTotal();
-            // });
+        //     var prices = $('.select-option2 .servc-bordr').map(function () {
+        //         return $(this).find("option:selected").map(function () {
+        //             var parts = this.value.split('_');
+        //             return parseFloat(parts[1]);
+        //         }).get();
+        //     }).get();
+
+        //     // Calculate the total price
+        //     var totalPrice = prices.reduce((acc, curr) => acc + curr, 0);
+
+        //     // Update the DOM elements with the selected values and total price
+        //     //alert(selected);  // Display selected options for debugging
+        //     localStorage.setItem("MealssrKeyCount2", JSON.stringify(selected));
+        //     document.getElementById("hiddenSsrKey2").value = selected.join(','); // Joining selected values into a string
+
+        //     // Display total price in a specified element, ensure you have an element with this ID
+        //     $('#AddMeal2').text(totalPrice.toFixed(2));
+        //     updateCombinedTotal();
+        // });
 
         $('.select-option2 .servc-bordrCon').change((e) => {
             debugger;
@@ -452,7 +452,7 @@
                         <div class="modal-mfareheader d-flex justify-between">
                             <h2 class="text-22 fw-600">Seat Details</h2>
                             @* <button type="button" class="btnclose" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true" style="font-size: 21px;">&times;</span>
+                            <span aria-hidden="true" style="font-size: 21px;">&times;</span>
                             </button> *@
                         </div>
                         <div class="modal-bodyy mbody-padding">
@@ -469,10 +469,10 @@
                                         <div>
                                             <button type="submit" id="" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
                                         </div>
-                                    <div>
-                                        A
-                                        <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
-                                    </div>
+                                        <div>
+                                            A
+                                            <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
+                                        </div>
                                     </div>
                                 }
                                 else
@@ -640,11 +640,11 @@
                                                         string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
                                                         string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode + "_" + Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price + "_OneWay0";
                                                         string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " ₹" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                         string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) ||
-                                                         Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase) ||
-                                                         Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase)).ToString();
+                                                        string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) ||
+                                                        Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase) ||
+                                                        Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase)).ToString();
 
-                                                       // string Mcode = Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase).ToString();
+                                                        // string Mcode = Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase).ToString();
                                                         if (Mcode.ToLower() == "true")
                                                         {
                                                             continue;
@@ -675,7 +675,7 @@
                                                         <option selected="selected" value="">Please Select</option>
                                                         @foreach (var option in mealOptions)
                                                         {
-                                                            <option  value="@option.Value" data-ssrkey=@ssrkey>
+                                                            <option value="@option.Value" data-ssrkey=@ssrkey>
                                                                 @option.Text
                                                             </option>
                                                         }
@@ -738,7 +738,7 @@
                                                     <img src="~/img/pbaggage.png" style="width:20px;height:20px;margin-right:10px;" />
                                                     <select id="ddlbagOptions" class="servc-bordr servc-bordrbaggage">
                                                         <option selected="selected" value="">Please Select</option>
-                                                    @foreach (var option in BaggageOptions)
+                                                        @foreach (var option in BaggageOptions)
                                                         {
                                                             <option value="@option.Value" data-bagkey=@bagkey>
                                                                 @option.Text
@@ -866,9 +866,9 @@
                                                     <div><img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /></div>
                                                     <select id="ddlMealOptions2" class="servc-bordr servc-bordrCon">
                                                         <option selected="selected" value="">Please Select</option>
-                                                    @foreach (var option in mealOptions)
+                                                        @foreach (var option in mealOptions)
                                                         {
-                                                            <option  value="@option.Value" data-ssrkey=@ssrkey>
+                                                            <option value="@option.Value" data-ssrkey=@ssrkey>
                                                                 @option.Text
                                                             </option>
                                                         }

@@ -2242,7 +2242,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             if (_res != null)
                             {
                                 Hashtable htSSr = new Hashtable();
-                                SpicejetMealImageList.GetAllmeal(htSSr);
+                                SpicejetMealImageList.GetAllmealSG(htSSr);
                                 SSRAvailabiltyLegssrlist = new List<legSsrs>();
 
                                 SSRAvailabiltyResponceobj = new SSRAvailabiltyResponceModel();
@@ -2281,6 +2281,9 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                                 {
                                                     legssrs.name = htSSr[legssrs.ssrCode].ToString();
                                                 }
+                                                else
+                                                    continue;
+
                                                 legssrs.ssrCode = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].SSRCode.ToString();
                                                 legssrs.available = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].Available;
                                                 if (_res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].PaxSSRPriceList.Length > 0)

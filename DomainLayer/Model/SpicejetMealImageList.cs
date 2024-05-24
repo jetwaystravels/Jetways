@@ -70,6 +70,7 @@ namespace DomainLayer.Model
             //htSSr.Add("AGSW", "Seasonal Fresh Fruits Platter (Free meal code");
             //htSSr.Add("ABHF", "Shôndesh Tiramisù(Chargable meal code");
 
+            //Indigo
             htSSr.Add("CJSW", "Chicken Junglee Sandwich");
             htSSr.Add("JNML", "Jain Meal / Tomato Cucumber");
             htSSr.Add("VLML", "Veg Lactose Meal /Paneer Bhatti");
@@ -112,19 +113,77 @@ namespace DomainLayer.Model
             return htSSr;
 
         }
+        public static Hashtable GetAllmealSG(Hashtable htSSr)
+        {
+            //List<SpicejetMealImageList> mealdatalist = new List<SpicejetMealImageList>();
 
-            //foreach (var data in mealDataCollection)
+            //var mealDataCollection = new[]
             //{
-            //    SpicejetMealImageList mealItem = new SpicejetMealImageList
-            //    {
-            //        MealCode = data.MealCode,
-            //        MealImage = data.MealImage
-            //    };
 
-            //    mealdatalist.Add(mealItem);
-            //}
+            //new { MealCode = "VGSW", MealImage = "Cucumber, tomato & cheese in multigrain bread (180 gms)"},
+            //new { MealCode = "NVSW", MealImage = "Chicken Junglee in Marble Bread  (180 gms)"},
+            //new { MealCode = "NVML", MealImage = "Masala Omelette with grilled chicken sausages & Hash Brown (190 gms)"},
+            //new { MealCode = "VGML", MealImage = "Vegetable Upma with Sambar, Medu vada & Steamed Idli along with Coconut Chutney (205 gms)"},
 
-         
-        
+            //htSSr.Add("VGSW", "Cucumber, tomato & cheese in multigrain bread (180 gms)");
+            //htSSr.Add("NVSW", "Chicken Junglee in Marble Bread  (180 gms)");
+            htSSr.Add("EB03", "3 kg");
+            htSSr.Add("EB05", "5 kg");
+            htSSr.Add("EB10", "10 kg");
+            htSSr.Add("EB15", "15 kg");
+            htSSr.Add("EB20", "20 kg");
+            htSSr.Add("EB25", "25 kg");
+            htSSr.Add("EB30", "30 kg");
+            htSSr.Add("XBPA", "5 Kg");
+            htSSr.Add("XBPJ", "20 Kg");
+            htSSr.Add("XBPB", "10 Kg");
+            htSSr.Add("XBPC", "15 Kg");
+            htSSr.Add("XBPD", "30 Kg");
+            htSSr.Add("XBPE", "3 Kg");
+
+            //SpiceJet
+            htSSr.Add("NVML", "Murg lababdar on bed of palak pulao & Dal panchrattni (260 gms)");
+            htSSr.Add("VGML", "Masala Dosa with Tomato onion uttapam and kanjivaram mini idli in sambar along with Coconut Chutney (220 gms)");
+            htSSr.Add("VGSW", "Cucumber, tomato & cheese in multigrain bread (180 gms)");
+            htSSr.Add("NCC1", "Grilled Chicken Breast with Mushroom Sauce, Yellow Rice, Sautéed Carrots & Beans Baton (270 gms)");
+            htSSr.Add("NCC2", "Chicken in Red Thai Curry with Steamed Rice (200 gms)");
+            htSSr.Add("NCC6", "Chicken schezwan on bed of fried rice (210 gms)");
+            htSSr.Add("NCC4", "Tandoori Chicken tangri with chicken haryali tikka & vegetable shami kebab. (225 gms)");
+            htSSr.Add("NCC5", "Tawa Fish masala on bed of  Steamed rice with tadka masoor dal (260  gms)");
+            htSSr.Add("VCC5", "Vegetable Pasta in Neapolitan sauce (280 gms)");
+            htSSr.Add("VCC2", "Vegtable in Red Thai Curry with Steamed Rice (200 gms)");
+            htSSr.Add("VCC6", "Vegetable Daliya (280 gms)");
+            htSSr.Add("JNML", "Jain Hot Meal");
+            htSSr.Add("JNSW", "Jain Cold Sandwich (current Cucumber and Tomato sandwich) ");
+            htSSr.Add("DNVL", "Non - Vegetarian Diabetic Hot Meal");
+            htSSr.Add("DBML", "Vegetarian Diabetic Hot Meal");
+            htSSr.Add("GFNV", "Non - Vegetarian Gluten-free Hot Meal");
+            htSSr.Add("GFVG", "Vegetarian Gluten-free Hot Meal");
+            htSSr.Add("GFCM", "Vegetarian Gluten-free Cold Meal (Dhokla)");
+            htSSr.Add("NVRT", "Navratra Hot Meal");
+            htSSr.Add("FPML", "Fruit Platter");
+            htSSr.Add("LCVS", "Low cal salad Vegetarian");
+            htSSr.Add("LCNS", "Low cal salad Non - Vegetarian");
+            htSSr.Add("CHML", "Kid's meal");
+            htSSr.Add("NACH", "CHIPS");
+            htSSr.Add("COOK", "COOKIES");
+
+            return htSSr;
+
+        }
+
+        //foreach (var data in mealDataCollection)
+        //{
+        //    SpicejetMealImageList mealItem = new SpicejetMealImageList
+        //    {
+        //        MealCode = data.MealCode,
+        //        MealImage = data.MealImage
+        //    };
+
+        //    mealdatalist.Add(mealItem);
+        //}
+
+
+
     }
 }
