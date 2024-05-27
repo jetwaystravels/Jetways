@@ -72,7 +72,7 @@
                                 {
                                     <div class="row x-gap-20 bdr">
                                         <div class="col-auto">
-                                            <div class="logo"><img class="size-35" src="~/img/clogo.png" alt="logo"></div>
+                                            <div class="logo"><img class="size-35" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="logo"></div>
                                         </div>
                                         <div class="col">
                                             <div class="airline-N">Air India Expr..<br> @Model.AirlinePNR[0].journeys[j].segments[s].identifier.carrierCode-@Model.AirlinePNR[0].journeys[j].segments[s].identifier.identifier</div>
@@ -181,6 +181,7 @@
                                             }
                                             <td>@Model.AirlinePNR[0].journeys[0].segments[ps].designator.origin - @Model.AirlinePNR[0].journeys[0].segments[ps].designator.destination </td>
                                             <td>@Model.AirlinePNR[0].journeys[0].segments[ps].identifier.carrierCode - @Model.AirlinePNR[0].journeys[0].segments[ps].identifier.identifier</td>
+
                                             @{
                                                 string hashdata = Model.AirlinePNR[0].passengers[p].passengerKey + "_" + @Model.AirlinePNR[0].journeys[0].segments[ps].designator.origin + "_" + @Model.AirlinePNR[0].journeys[0].segments[ps].designator.destination;
 
@@ -189,7 +190,7 @@
                                                     <td>@htseat[hashdata]</td>
                                                 }
                                             }
-                                            <td>@Model.AirlinePNR[0].PhoneNumbers[0].number</td>
+                                            <td>@Model.AirlinePNR[0].passengers[p].MobNumber</td>
                                             <td>AD1WSM/1/1</td>
                                             <td>Confirm</td>
                                             <td>
@@ -198,35 +199,23 @@
                                                     // string imageUrl1 = ViewData["ImageBytes"] as string;
                                                     string barcode = ViewData["Barcode"] as string;
                                                 }
-                                                @if (!string.IsNullOrEmpty(imageUrl1))
+                                                @if (Model.AirlinePNR[0].passengers[p].passengerTypeCode == "ADT" || Model.AirlinePNR[0].passengers[p].passengerTypeCode == "CHD")
                                                 {
-                                                    <img src="@imageUrl1" alt="barcode" />
+                                                    @if (!string.IsNullOrEmpty(imageUrl1))
+                                                    {
+                                                        <img src="@imageUrl1" alt="barcode" />
+                                                    }
                                                 }
                                             </td>
 
                                         </tr>
-                                        <tr>
-                                            @{
-                                                if (Model.AirlinePNR[0].passengers[p].infant != null)
-                                                {
-                                                    if (Model.AirlinePNR[0].passengers[p].infant.name != null)
-                                                    {
-                                                        <td>@Model.AirlinePNR[0].passengers[p].infant.name.first (INFT)</td>
 
-                                                    }
-                                                }
-                                            }
-                                        </tr>
 
                                     </tbody>
                                 }
                             }
                         </table>
                     </div>
-
-
-
-
                     <div class="Flight-Inclusion">
                         <h3>Flight Inclusion</h3>
                         <table class="table table-bordered" style="margin-bottom: 0.4rem;">
@@ -270,6 +259,7 @@
                                                     <td>@htmeal[hashdata]</td>
                                                 }
                                             }
+                                            <td>@Model.AirlinePNR[0].passengers[i2].MobNumber</td>
                                             <td>AD1WSM</td>
                                             <td>AD1WSM/1/1</td>
                                             <td>Confirm</td>

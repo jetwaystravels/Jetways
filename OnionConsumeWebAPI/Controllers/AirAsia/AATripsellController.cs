@@ -246,6 +246,7 @@ namespace OnionConsumeWebAPI.Controllers
                             name.title = passengerdetails[i].title;
                             name.first = passengerdetails[i].first;
                             name.last = passengerdetails[i].last;
+                            name.mobile = passengerdetails[i].mobile;
                             name.middle = "";
                             Info.dateOfBirth = "";
                             Info.nationality = "IN";

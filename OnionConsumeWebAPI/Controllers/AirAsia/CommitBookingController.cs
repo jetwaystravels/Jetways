@@ -117,6 +117,8 @@ namespace OnionConsumeWebAPI.Controllers
                     var _responcePNRBooking = responcepnrBooking.Content.ReadAsStringAsync().Result;
                     var JsonObjPNRBooking = JsonConvert.DeserializeObject<dynamic>(_responcePNRBooking);
                     ReturnTicketBooking returnTicketBooking = new ReturnTicketBooking();
+                    string PassengerData = HttpContext.Session.GetString("PassengerName");
+                    List<passkeytype> PassengerDataDetailsList = JsonConvert.DeserializeObject<List<passkeytype>>(PassengerData);
                     returnTicketBooking.recordLocator = JsonObjPNRBooking.data.recordLocator;
                     BarcodePNR = JsonObjPNRBooking.data.recordLocator;
                     Info info = new Info();
@@ -461,8 +463,21 @@ namespace OnionConsumeWebAPI.Controllers
                         returnPassengersobj.passengerKey = items.Value.passengerKey;
                         returnPassengersobj.passengerTypeCode = items.Value.passengerTypeCode;
                         returnPassengersobj.name = new Name();
-                        returnPassengersobj.name.first = items.Value.name.first;
-                        returnPassengersobj.name.last = items.Value.name.last;
+                        returnPassengersobj.name.first = items.Value.name.first + " " + items.Value.name.last;
+                        //returnPassengersobj.name.last = items.Value.name.last;
+                        for (int i = 0; i < PassengerDataDetailsList.Count; i++)
+                        {
+                            if (returnPassengersobj.passengerTypeCode == PassengerDataDetailsList[i].passengertypecode && returnPassengersobj.name.first.ToLower() == PassengerDataDetailsList[i].first.ToLower() + " " + PassengerDataDetailsList[i].last.ToLower())
+                            {
+                                returnPassengersobj.MobNumber = PassengerDataDetailsList[i].mobile;
+                                returnPassengersobj.passengerKey = PassengerDataDetailsList[i].passengerkey;
+
+                                break;
+                            }
+
+                        }
+                        ReturnpassengersList.Add(returnPassengersobj);
+
                         //julian date
                         int year = 2024;
                         int month = 2;
@@ -485,35 +500,70 @@ namespace OnionConsumeWebAPI.Controllers
                         BarcodeUtility BarcodeUtility = new BarcodeUtility();
                         var barcodeImage = BarcodeUtility.BarcodereadUtility(BarcodeString);
                         returnPassengersobj.barcodestring = barcodeImage;
-                        InfantReturn infantsObject = new InfantReturn();
-                        Name name = new Name();
+                        //InfantReturn infantsObject = new InfantReturn();
                         if (items.Value.infant != null)
                         {
-                            name.first = items.Value.infant.name.first;
-                            name.last = items.Value.infant.name.last;
-                            infantsObject.name = name;
+                            returnPassengersobj = new ReturnPassengers();
+                            returnPassengersobj.name = new Name();
+                            returnPassengersobj.passengerTypeCode = "INFT";
+                            returnPassengersobj.name.first = items.Value.infant.name.first + " " + items.Value.infant.name.last;
+                            //passkeytypeobj.MobNumber = "";
+                            for (int i = 0; i < PassengerDataDetailsList.Count; i++)
+                            {
+                                if (returnPassengersobj.passengerTypeCode == PassengerDataDetailsList[i].passengertypecode && returnPassengersobj.name.first.ToLower() == PassengerDataDetailsList[i].first.ToLower() + " " + PassengerDataDetailsList[i].last.ToLower())
+                                {
+                                    returnPassengersobj.passengerKey = PassengerDataDetailsList[i].passengerkey;
+                                    break;
+                                }
 
-                            //int Infantyear = 2024;
-                            //int Infantmonth = 2;
-                            //int Infantday = 20;
-                            //DateTime currentDatee = new DateTime(year, month, day);
-                            //DateTime startOfYeare = new DateTime(year, 1, 1);
-                            //int julianDatee = (currentDate - startOfYear).Days + 1;
-                            //if (string.IsNullOrEmpty(sequencenumber))
-                            //{
-                            //    sequencenumber = "0000";
-                            //}
-                            //else
-                            //{
-                            //    sequencenumber = sequencenumber.PadRight(5, '0');
-                            //}
-                            //BarcodeInfantString = "M" + "1" + items.Value.infant.name.last + "/" + items.Value.infant.name.first + "" + BarcodePNR + "" + orides + carriercode + "" + flightnumber + "" + julianDatee + "Y" + sequencenumber + "1" + "00";
-                            //var barcodeInfantImage = BarcodeUtility.BarcodereadUtility(BarcodeInfantString);
-                            //returnPassengersobj.BarcodeInfantString = barcodeInfantImage;
+                            }
+                            ReturnpassengersList.Add(returnPassengersobj);
 
                         }
-                        returnPassengersobj.infant = infantsObject;
-                        ReturnpassengersList.Add(returnPassengersobj);
+                        //Name name = new Name();
+                        //if (items.Value.infant != null)
+                        //{
+                        //    name.first = items.Value.infant.name.first;
+                        //    name.last = items.Value.infant.name.last;
+                        //    infantsObject.name = name;                           
+
+                        //}
+
+
+                        //returnPassengersobj.infant = infantsObject;
+                        //ReturnpassengersList.Add(returnPassengersobj);
+                        //for (int i = 0; i < PassengerDataDetailsList.Count; i++)
+                        //{
+                        //    if (returnPassengersobj.passengerTypeCode == PassengerDataDetailsList[i].passengertypecode && returnPassengersobj.name.first.ToLower() == PassengerDataDetailsList[i].first.ToLower() + " " + PassengerDataDetailsList[i].last.ToLower())
+                        //    {
+                        //        //returnPassengersobj.MobNumber = PassengerDataDetailsList[i].mobile;
+                        //        returnPassengersobj.passengerKey = PassengerDataDetailsList[i].passengerkey;
+                        //        //passkeytypeobj.seats.unitDesignator = htseatdata[passeengerlist[i].passengerkey].ToString();
+                        //        break;
+                        //    }
+
+                        //}
+                        //ReturnpassengersList.Add(returnPassengersobj);
+                        //if (items.Value.infant != null)
+                        //{
+                        //    returnPassengersobj = new ReturnPassengers();
+                        //    returnPassengersobj.name = new Name();
+                        //    returnPassengersobj.passengerTypeCode = "INFT";
+                        //    returnPassengersobj.name.first = items.Value.infant.name.first + " " + items.Value.infant.name.last; 
+                        //    //passkeytypeobj.MobNumber = "";
+                        //    for (int i = 0; i < PassengerDataDetailsList.Count; i++)
+                        //    {
+                        //        if (returnPassengersobj.passengerTypeCode == PassengerDataDetailsList[i].passengertypecode && returnPassengersobj.name.first.ToLower() == PassengerDataDetailsList[i].first.ToLower() + " " + PassengerDataDetailsList[i].last.ToLower())
+                        //        {
+                        //            //returnPassengersobj.MobNumber = PassengerDataDetailsList[i].mobile;
+                        //            returnPassengersobj.passengerKey = PassengerDataDetailsList[i].passengerkey;                                  
+                        //            break;
+                        //        }
+
+                        //    }
+                        //    ReturnpassengersList.Add(returnPassengersobj);
+
+                        //}
                     }
 
                     returnTicketBooking.breakdown = breakdown;
