@@ -114,7 +114,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     _contact.phoneNumbers = _getBookingResponse.Booking.BookingContacts[0].HomePhone.ToString();
                     if (_unitdesinator.unitDesignatorPax != null)
                         _contact.ReturnPaxSeats = _unitdesinator.unitDesignatorPax.ToString();
-                    returnTicketBooking.airLines = "Spice Jet";
+                    returnTicketBooking.airLines = "SpiceJet";
                     returnTicketBooking.recordLocator = _getBookingResponse.Booking.RecordLocator;
 
                     Breakdown breakdown = new Breakdown();

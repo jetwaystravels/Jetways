@@ -137,7 +137,7 @@
 
                                     <div class="Clogo">
                                         <div class="Clogo2">
-                                            @if (Model.AirlinePNR[0].airLines.ToString().ToLower().Equals("spicejet"))
+                                            @if (Model.AirlinePNR[0].airLines.ToString().Trim().ToLower().Equals("spicejet"))
                                             {
 
                                                 <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">

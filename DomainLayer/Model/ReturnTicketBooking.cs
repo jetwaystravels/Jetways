@@ -13,6 +13,7 @@ namespace DomainLayer.Model
         public string airLines { get; set; }
         public bool selfServiceMoveAvailable { get; set; }
         public string bookingKey { get; set; }
+        public DateTime bookingdate{ get; set; }
         public string recordLocator { get; set; }
         public string currencyCode { get; set; }
         public object systemCode { get; set; }
