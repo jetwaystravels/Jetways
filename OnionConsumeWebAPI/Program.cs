@@ -18,6 +18,10 @@ builder.Services.AddSession(Option =>
 
 });
 
+builder.Services.AddDistributedRedisCache(option =>
+{
+    option.Configuration = "localhost:6379";
+});
 
 
 builder.Services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0).AddSessionStateTempDataProvider();
