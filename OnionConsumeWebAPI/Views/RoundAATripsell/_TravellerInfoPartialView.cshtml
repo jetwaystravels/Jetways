@@ -25,22 +25,22 @@
                     <select name="passengerdetails[@i].Title" class="form-control" asp-items="@ViewBag.Title"></select>
                 </div>
                 @* <div class="col-md-3">
-                    <div class="form-input">
-                        @{
-                            if (Model.passeengerlistRT[0].passengers[i].passengerKey == "0")
-                            {
-                                <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlistRT[1].passengers[i].passengerKey" required />
-                            }
-                            else
-                            {
-                                <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlistRT[0].passengers[i].passengerKey" required />
-                            }
-                        }
-                        <input type="text" name="passengerdetails[@i].First" required />
-                        <label class="lh-1 text-16 text-light-1">First & middle name</label>
-                    </div>
-                    <div style="color:red; display:none; margin-top:8px">First name is required</div>
-                </div> *@
+            <div class="form-input">
+            @{
+            if (Model.passeengerlistRT[0].passengers[i].passengerKey == "0")
+            {
+            <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlistRT[1].passengers[i].passengerKey" required />
+            }
+            else
+            {
+            <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlistRT[0].passengers[i].passengerKey" required />
+            }
+            }
+            <input type="text" name="passengerdetails[@i].First" required />
+            <label class="lh-1 text-16 text-light-1">First & middle name</label>
+            </div>
+            <div style="color:red; display:none; margin-top:8px">First name is required</div>
+            </div> *@
                 <div class="col-md-3 inputFirstname">
                     <div class="form-input">
 
@@ -50,12 +50,12 @@
                     <p id="error-Fname" class="error-message error-CFname" style="display:none">Enter first name</p>
                     <p class="errorMessageT1" style="color: red;font-size:13px;"></p>
                 </div>
-               @*  <div class="col-md-3">
-                    <div class="form-input">
-                        <input type="text" name="passengerdetails[@i].Last" required />
-                        <label class="lh-1 text-16 text-light-1">Last name</label>
-                    </div>
-                </div> *@
+                @*  <div class="col-md-3">
+            <div class="form-input">
+            <input type="text" name="passengerdetails[@i].Last" required />
+            <label class="lh-1 text-16 text-light-1">Last name</label>
+            </div>
+            </div> *@
                 <div class="col-md-3">
                     <div class="form-input">
 
@@ -507,11 +507,20 @@
             // Example usage:
             if ($(".dobinput").is(":visible")) {
                 var dob = year.value + "-" + month.value + "-" + day.value;
-                if (year.value == "" || month.value == "" || day.value == "") 
-                {
-                    alert("please select day, month and year for infant date-of-birth")
+                if (day.value == "") {
+                    alert("Please select day for infant date-of-birth")
                     return false;
                 }
+
+                if (month.value == "") {
+                    alert("Please select month for infant date-of-birth")
+                    return false;
+                }
+                if (year.value == "") {
+                    alert("Please select year for infant date-of-birth")
+                    return false;
+                }
+
                 function validateInfantDOB(dob) {
                     // Convert the date string into a Date object
                     var dobDate = new Date(dob);
@@ -714,12 +723,12 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        function showForm() {            
+        function showForm() {
             $('#passengerForm').show();
-            
-        }       
+
+        }
         $("#editData").click(function () {
-            $("#dataPopup").hide();            
+            $("#dataPopup").hide();
         });
         $("#showReviewPopup").click(function (e) {
             e.preventDefault(); // Prevent the form from submitting
@@ -739,12 +748,12 @@
                 enteredData += "First Name: " + firstName + "<br>";
                 enteredData += "Last Name: " + lastName + "</p>";
 
-            }         
-          
+            }
+
             $("#enteredData").html(enteredData);
-            
+
             $('#dataPopup').modal('show');
-        });        
+        });
         $("#ContinueData").click(function () {
             $('#passengers_id').hide(); //Contact Details Div Hide
             var formData = new FormData($("#passengerForm")[0]);
@@ -754,17 +763,17 @@
                 data: formData,
                 processData: false,
                 contentType: false,
-                success: function (result) {                    
+                success: function (result) {
                 },
                 error: function (error) {
-                   
+
                 }
             });
         });
 
 
     });
-                
+
 </script> *@
 
 

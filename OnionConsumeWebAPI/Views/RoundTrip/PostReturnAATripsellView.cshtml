@@ -30,7 +30,7 @@
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
- 
+
     let fareKey = [];
     let journeyKey = [];
 
@@ -203,7 +203,7 @@
         document.getElementById("popuptatalfare").innerHTML = 0;
     });
 
-  
+
 </script>
 
 
@@ -213,7 +213,8 @@
         <div class="overlay" id="animationOverlay">
             <div class="loader"></div>
             <div class="iconanimate">
-                <img id="flightImage" src="~/img/flytk.png" alt="Flight" style="display:none">
+                <div id="flightImage"  style="display:none">
+                    </div>
                 <div class="cs-loader-main" id="loader">
                     <div class="cs-loader">
                         <div class="cs-loader-inner">
@@ -747,7 +748,7 @@
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs 3000 :- Before 3days upto 2 hrs from departure</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Free meal (per person)</li>
-                                                           
+
                                                         </ul>
                                                     }
 
@@ -760,7 +761,7 @@
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs 3000:- Before 3days upto 2 hrs from departure</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargable</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Chargable</li>
-                                                         
+
                                                         </ul>
                                                     }
 
@@ -773,20 +774,20 @@
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs 500:- Before 3days upto 2 hrs from departure</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Free meal (per person)</li>
-                                                            
+
                                                         </ul>
                                                     }
 
                                                     if (@Faretype == "Family Fare")
                                                     {
                                                         <ul>
-                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag -</li>
-                                                            <li><img src="~/img/included.png" alt="icon">Check in -</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs -</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs -</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- -</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- -</li>
-                                                          
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag - 7 k.g</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in - 15 k.g  (1 piece)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - 3500 (3 hrs before departure</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs - 3200 (3 hrs before departure</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargable</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Chargable</li>
+
                                                         </ul>
                                                     }
 
@@ -800,7 +801,7 @@
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs 3350:- (within 96 hrs from Departure)</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
-                                                           
+
                                                         </ul>
                                                     }
 
@@ -813,7 +814,7 @@
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs 3350:- (within 96 hrs from Departure)</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
-                                                        
+
                                                         </ul>
                                                     }
 
@@ -826,7 +827,7 @@
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs 3350:- (within 96 hrs from Departure)</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
-                                                         
+
                                                         </ul>
                                                     }
 
@@ -840,7 +841,7 @@
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs 3000 :-  (upto 2 hrs prior from departure)</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargable</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Chargable</li>
-                                                            
+
                                                         </ul>
                                                     }
                                                     if (@Faretype == "Vista Flex")
@@ -852,7 +853,7 @@
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs FREE  (upto 2 hrs prior from departure)</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Standard seats free</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- (Free meal) per person</li>
-                                                            
+
                                                         </ul>
                                                     }
                                                     if (@Faretype == "Xpress lite")
@@ -864,7 +865,7 @@
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs -</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- -</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- -</li>
-                                                           
+
                                                         </ul>
                                                     }
 
@@ -877,7 +878,7 @@
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs 3000 :-  (upto 2 hrs prior from departure)</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- (Free meal) per person</li>
-                                                          
+
                                                         </ul>
                                                     }
 

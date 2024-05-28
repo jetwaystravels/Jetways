@@ -68,9 +68,9 @@
     }
 
     /*   .active {
-            color: #E93329 !important;
-            border-bottom: 1px solid #E93329 !important;
-        } */
+                    color: #E93329 !important;
+                    border-bottom: 1px solid #E93329 !important;
+                } */
 
     .select-option {
         max-width: 120px;
@@ -554,9 +554,13 @@
 
         $(".modelPopBtn").click(function (e) {
             e.preventDefault();
-            $("#popbtnA2").hide();//RightNonstop
-            $("#LeftCN").show();//LefttNonstop
-            
+            $("#leftNstop2").off("click");
+            $("#leftConnect2").off("click");
+            $("#leftConnect_2").off("click");
+            $("#rightconnect2").off("click");
+            $("#Lrightconnect2").off("click");
+            $("#RightNonstop2").off("click");
+            $("#rightNstop2").off("click");
             $.ajax({
                 url: '@Url.Action("RTPostSeatMapModaldataView", "RoundAATripsell")',
                 type: "GET",
@@ -604,24 +608,25 @@
                                 @if (segmentcount == 1)
                                 {
                                     <div class="d-flex">
-                                        
-
-
-                                        <div id="LeftCN">
-                                            <button type="button" id="cancelNstop1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
-                                            <button type="submit" id="Leftbtnfocus" class="btn  btn-primary">Continue</button>
+                                        <div id="LeftNonstop">
+                                            <button type="button" id="leftNstop1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
+                                            <button type="button" id="leftNstop2" class="btn  btn-primary">Continue</button>
                                         </div>
 
-                                        <div id="RightCN1" style="display:none;">
-                                            <button type="button" id="cancelNstop2" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
-                                            <button type="submit" id="rightbtnfocus" class="btn  btn-primary">Continue</button>
+                                        <!---Right Side Button---->
+                                        <div id="rightNonstop" style="display:none;">
+                                            <button type="button" id="rightNstop1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
+                                            <button type="button" id="rightNstop2" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
+                                        </div>
+                                        <div id="LrightConnect1" style="display:none;">
+                                            <button type="button" id="Lrightconnect1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
+                                            <button type="submit" id="Lrightconnect2" class="btn  btn-primary">Continue</button>
+                                        </div>
+                                        <div id="LrightConnect2" style="display:none;">
+                                            <button type="button" id="Lrightconnect_1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
+                                            <button type="submit" id="Lrightconnect_2" data-dismiss="modal" class="btn btnclose btn-primary">Continue..</button>
                                         </div>
 
-                                        <div id="rightCN">
-
-                                            <button type="button" id="cancelNstop3" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
-                                            <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
-                                        </div>
                                     </div>
                                 }
                                 else
@@ -632,36 +637,26 @@
                                         @if (i == 1)
                                         {
                                             <div class="d-flex">
-
-
-                                                <div id="popbtnA">
-                                                    <button type="button" id="cancelbtn1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
-
-                                                    <button type="submit" id="btnfocus" class="btn  btn-primary">Continue</button>
-
+                                                <div id="leftConnect">
+                                                    <button type="button" id="leftConnect1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
+                                                    <button type="submit" id="leftConnect2" class="btn  btn-primary">Continue</button>
                                                 </div>
-                                                <div id="popbtnA1">
-
-                                                    <button type="button" id="cancelbtn2" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
-                                                    <button type="submit" id="btnfocusA1" class="btn  btn-primary">Continue</button>
-
+                                                <div id="leftConnect_2" style="display:none;">
+                                                    <button type="button" id="leftConnect_1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
+                                                    <button type="submit" id="leftConnectbtn_2" class="btn  btn-primary">Continue</button>
                                                 </div>
-                                                <div id="popbtnA2" style="display:none">
-                                                    <button type="button" id="cancelbtnA2" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
-                                                    <button type="submit" id="nonstopright" data-dismiss="modal" class="btn btnclose btn-primary">Continue!!</button>
+                                                <div id="rightConnect1" style="display:none;">
+                                                    <button type="button" id="rightconnect1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
+                                                    <button type="submit" id="rightconnect2" class="btn  btn-primary">Continue</button>
+                                                </div>
+                                                <div id="rightConnect2" style="display:none;">
+                                                    <button type="button" id="rightconnect_1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
+                                                    <button type="submit" id="rightconnect_2" data-dismiss="modal" class="btn btnclose btn-primary">Continue..</button>
                                                 </div>
 
-                                                <div id="popbtnB1">
-
-                                                    <button type="button" id="cancelbtn3" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
-                                                    <button type="submit" id="btnfocusB1" class="btn  btn-primary">Continue</button>
-
-                                                </div>
-
-                                                <div id="popbtnB">
-                                                    <button type="button" id="cancelbtn4" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
-                                                    <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue..</button>
-
+                                                <div id="RightNonstop" style="display:none;">
+                                                    <button type="button" id="RightNonstop1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
+                                                    <button type="submit" id="RightNonstop2" data-dismiss="modal" class="btn btnclose btn-primary">Continue..</button>
                                                 </div>
                                             </div>
                                         }
@@ -791,15 +786,15 @@
                                                 @{
 
                                                     List<SelectListItem> mealOptions = new List<SelectListItem>();
-                                                    //for (int l = 0; l < Model.MealslistRT[0].legSsrs.Count; l++)
-                                                    //{
-                                                        for (int s = 0; s < Model.MealslistRT[0].legSsrs[0].legssrs.Count; s++)
+                                                    for (int l = 0; l < Model.MealslistRT[0].legSsrs.Count; l++)
+                                                    {
+                                                        for (int s = 0; s < Model.MealslistRT[0].legSsrs[l].legssrs.Count; s++)
                                                         {
-                                                            string ssrprice = Model.MealslistRT[0].legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                            string Mealcode = Model.MealslistRT[0].legSsrs[0].legssrs[s].ssrCode + "_" + Model.MealslistRT[0].legSsrs[0].legssrs[s].legpassengers[0].price + "_" + "OneWay0" + "_" + Model.MealslistRT[0].legSsrs[0].legssrs[s].legpassengers[0].Airline;
-                                                            AirLine = Model.MealslistRT[0].legSsrs[0].legssrs[s].legpassengers[0].Airline.ToString();
-                                                            string Mealname = Model.MealslistRT[0].legSsrs[0].legssrs[s].name + " ₹" + @Model.MealslistRT[0].legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                            ssrkeyAA = Model.MealslistRT[0].legSsrs[0].legssrs[s].legpassengers[0].ssrKey + "_" + @Model.MealslistRT[0].legSsrs[0].legssrs[s].legpassengers[0].price + "_" + "OneWay0" + "_" + Model.MealslistRT[0].legSsrs[0].legssrs[s].legpassengers[0].Airline;
+                                                            string ssrprice = Model.MealslistRT[0].legSsrs[l].legssrs[s].legpassengers[0].price;
+                                                            string Mealcode = Model.MealslistRT[0].legSsrs[l].legssrs[s].ssrCode + "_" + Model.MealslistRT[0].legSsrs[l].legssrs[s].legpassengers[0].price + "_" + "OneWay0" + "_" + Model.MealslistRT[0].legSsrs[l].legssrs[s].legpassengers[0].Airline;
+                                                            AirLine = Model.MealslistRT[0].legSsrs[l].legssrs[s].legpassengers[0].Airline.ToString();
+                                                            string Mealname = Model.MealslistRT[0].legSsrs[l].legssrs[s].name + " ₹" + @Model.MealslistRT[0].legSsrs[l].legssrs[s].legpassengers[0].price;
+                                                            ssrkeyAA = Model.MealslistRT[0].legSsrs[l].legssrs[s].legpassengers[0].ssrKey + "_" + @Model.MealslistRT[0].legSsrs[l].legssrs[s].legpassengers[0].price + "_" + "OneWay0" + "_" + Model.MealslistRT[0].legSsrs[l].legssrs[s].legpassengers[0].Airline;
                                                             string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) ||
                                                             Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase) ||
                                                             Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase)).ToString();
@@ -838,7 +833,7 @@
                                                             // }
 
                                                         }
-                                                    //}
+                                                    }
                                                 }
                                                 <div class="d-flex">
                                                     <div><img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /></div>

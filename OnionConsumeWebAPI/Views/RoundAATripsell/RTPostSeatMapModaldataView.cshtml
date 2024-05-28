@@ -51,60 +51,32 @@
         text-align: center;
     }
 
-   /*  .active {
-        color: #E93329 !important;
-        border-bottom: 1px solid #E93329 !important;
-    } */
+    /*  .active {
+            color: #E93329 !important;
+            border-bottom: 1px solid #E93329 !important;
+        } */
 </style>
 
 <script src="~/js/custom.js/roundtripsell.js"></script>
 <script type="text/javascript">
     /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
     $(document).ready(function () {
-        $("#rightCN").hide();
-        $("#seattab1waypopup").click(function () {
-            $("#tabshow1popup").show();
-            $("#tabshowRT1").hide();
-            $("#rightCN").hide();
-            $("#LeftCN").show();
-            $("#passtab1").show();
-            $("#tabshowRT2").hide();
-            $("#passtab1RT").hide();
-            $("#passtab2RT").hide();
-            $("#popbtnA2").hide();//RightNonstop
-            $("#seattab1waypopup").addClass('activeblue');
-            $("#seattabRT1waypopup").removeClass('activeblue');
-            $("#tabshowRT2").removeClass('activeblue');
-            $("#tabshowRT1").removeClass('activeblue');
-            $("#seattabRT2").removeClass('activeblue');
-            $("#seattabRT1Popup").removeClass('activeblue');
-        });
-        $("#seattabRT1waypopup").click(function () {
-            $("#rightCN").show();
-            $("#tabshow1popup").hide();
-            $("#tabshow2popup").hide();
-            $("#passtab1").hide();
-            $("#passtab2").hide();
-            $("#passtab1RT").show();
-            $("#tabshowRT1").show();
-            $("#LeftCN").hide();
-            $("#seattabRT1waypopup").addClass('activeblue');
-            $("#seattab1waypopup").removeClass('activeblue');
-            $("#seattab1Popup").removeClass('activeblue');
-            $("#seattab2Popup").removeClass('activeblue');
-        });
 
+        //$("#passtab1").hide();
         $("#passtab2").hide();
         $("#passtab1RT").hide();
         $("#passtab2RT").hide();
+        $("#tabshow1").show();
+        $("#LeftNonstop").show();
+        $("#leftConnect").show();
+        $("#leftConnect_2").hide();
         $("#tabshow2popup").hide();
-        $("#tabshowRT1").hide();
-        $("#tabshowRT2").hide();
-        $("#popbtnA").show();
-        $("#popbtnA1").hide();
-        $("#popbtnB1").hide();
-        $("#popbtnB").hide();
-        $("#seattab1Popup").click(function () {
+        $("#RightNonstop").hide();
+        $("#rightNonstop").hide();
+        $("#LrightConnect2").hide();
+        $("#rightConnect2").hide();
+        $("#seattab1waypopup").click(function () {
+            //alert("Left One Way");
             $("#tabshow1popup").show();
             $("#tabshow2popup").hide();
             $("#tabshowRT1").hide();
@@ -113,22 +85,74 @@
             $("#passtab2").hide();
             $("#passtab1RT").hide();
             $("#passtab2RT").hide();
-            $("#popbtnA").show();
-            $("#popbtnA1").hide();
-            $("#popbtnB1").hide();
-            $("#popbtnB").hide();
-            $("#popbtnA2").hide();//RightNonstop
-
-            $("#seattab1Popup").addClass('activeblue');
-            $("#seattab2Popup").removeClass('activeblue');
+            $("#seattab1waypopup").addClass('activeblue');
+            $("#seattabRT1waypopup").removeClass('activeblue');
             $("#seattabRT1Popup").removeClass('activeblue');
             $("#seattabRT2Popup").removeClass('activeblue');
-            $("#tabshowRT2").removeClass('activeblue');
-            $("#tabshowRT1").removeClass('activeblue');
+
+            if ($("#tabshow1popup").is(":visible")) {
+                $("#LeftNonstop").show();
+                $("#rightNonstop").hide();
+                $("#LrightConnect1").hide();
+                $("#LrightConnect2").hide();
+
+            }
+        });
+        $("#seattabRT1waypopup").click(function () {
+            alert("Right One Way");
+            debugger;
+            $("#tabshow1popup").hide();
+            $("#tabshow2popup").hide();
+            $("#tabshowRT1").show();
+            $("#tabshowRT2").hide();
+            $("#passtab1").hide();
+            $("#passtab2").hide();
+            $("#passtab1RT").show();
+            $("#passtab2RT").hide();
+            $("#seattabRT1waypopup").addClass('activeblue');
+            $("#seattab1waypopup").removeClass('activeblue');
+            $("#seattab2Popup").removeClass('activeblue');
+            $("#seattab1waypopup").removeClass('activeblue');
+            $("#seattab1Popup").removeClass('activeblue');
+
+            if ($("#tabshowRT1").is(":visible")) {
+                $("#rightNonstop").show();
+                $("#RightNonstop").show();
+                $("#LeftNonstop").hide();
+                $("#leftConnect").hide();
+                $("#leftConnect_2").hide();
+
+            }
+        });
+
+
+        $("#seattab1Popup").click(function () {
+            alert("Left Segment1");
+            $("#tabshow1popup").show();
+            $("#tabshow2popup").hide();
+            $("#tabshowRT1").hide();
+            $("#tabshowRT2").hide();
+            $("#passtab1").show();
+            $("#passtab2").hide();
+            $("#passtab1RT").hide();
+            $("#passtab2RT").hide();
+            $("#leftConnect").show();
+            $("#leftConnect_2").hide();
+            $("#rightConnect1").hide();
+            $("#rightConnect2").hide();
+            $("#RightNonstop").hide();
+            $("#seattab1Popup").addClass('activeblue');
+            $("#seattab2Popup").removeClass('activeblue');
+            $("#seattabRT1waypopup").removeClass('activeblue');
+            $("#seattabRT1Popup").removeClass('activeblue');
+            $("#seattabRT2Popup").removeClass('activeblue');
+
 
         });
 
         $("#seattab2Popup").click(function () {
+            alert("Left Segment2");
+            $("#tabshow1popup").hide();
             $("#tabshow2popup").show();
             $("#tabshowRT1").hide();
             $("#tabshowRT2").hide();
@@ -136,178 +160,188 @@
             $("#passtab2").show();
             $("#passtab1RT").hide();
             $("#passtab2RT").hide();
-            $("#popbtnA").hide();
-            $("#popbtnA1").show();
-            $("#popbtnB1").hide();
-            $("#popbtnB").hide();
-            $("#popbtnA2").hide();//RightNonstop
-
+            $("#leftConnect").hide();
+            $("#leftConnect_2").show();
+            $("#RightNonstop").hide();
+            $("#rightConnect1").hide();
+            $("#rightConnect2").hide();
             $("#seattab2Popup").addClass('activeblue');
             $("#seattab1Popup").removeClass('activeblue');
+            $("#seattabRT1waypopup").removeClass('activeblue');
             $("#seattabRT1Popup").removeClass('activeblue');
             $("#seattabRT2Popup").removeClass('activeblue');
-            $("#seattabRT2").removeClass('activeblue');
-            $("#seattabRT1").removeClass('activeblue');
-            $("#seattab1waypopup").removeClass('activeblue');
-            $("#seattabRT1waypopup").removeClass('activeblue');
-            $("#tabshow1popup").hide();
+
         });
         $("#seattabRT1Popup").click(function () {
-            debugger;
-            $("#tabshow2popup").hide();
+            alert("right RT Segment1");
             $("#tabshow1popup").hide();
+            $("#tabshow2popup").hide();
             $("#tabshowRT1").show();
             $("#tabshowRT2").hide();
             $("#passtab1").hide();
             $("#passtab2").hide();
             $("#passtab1RT").show();
-            $("#popbtnA").hide();
-            $("#popbtnA1").hide();
-            $("#popbtnB1").show(); 
-            $("#popbtnB").hide();
-           
             $("#passtab2RT").hide();
-            $("#popbtnA2").hide();//RightNonstop
-            $("#RightCN1").show();//Rightconnect first
-            $("#rightCN").hide();//Rightconnect first
-            $("#LeftCN").hide();//Rightconnect
+            $("#leftConnect").hide();
+            $("#leftConnect_2").hide();
+            $("#LeftNonstop").hide();
+            $("#rightConnect1").show();
+            $("#rightConnect2").hide();
+            $("#LrightConnect1").show();
+            $("#LrightConnect2").hide();
             $("#seattabRT1Popup").addClass('activeblue');
-            $("#seattabRT2Popup").removeClass('activeblue');
-            $("#seattab2Popup").removeClass('activeblue');
             $("#seattab1Popup").removeClass('activeblue');
+            $("#seattab2Popup").removeClass('activeblue');
             $("#seattab1waypopup").removeClass('activeblue');
+            $("#seattabRT2Popup").removeClass('activeblue');
 
         });
         $("#seattabRT2Popup").click(function () {
-            $("#tabshow2popup").hide();
+            alert("right RT Segment2");
             $("#tabshow1popup").hide();
+            $("#tabshow2popup").hide();
             $("#tabshowRT1").hide();
             $("#tabshowRT2").show();
             $("#passtab1").hide();
             $("#passtab2").hide();
             $("#passtab1RT").hide();
             $("#passtab2RT").show();
-            $("#rightCN").show();
-            $("#popbtnA").hide();
-            $("#popbtnA1").hide();
-            $("#popbtnB1").hide();
-            $("#popbtnB").show();
-            $("#popbtnA2").hide();//RightNonstop
-            $("#LeftCN").hide();//Rightconnect
-            $("#RightCN1").hide();//Rightconnect
+            $("#leftConnect").hide();
+            $("#LeftNonstop").hide();
+            $("#leftConnect_2").hide();
+            $("#rightConnect1").hide();
+            $("#rightConnect2").show();
+            $("#LrightConnect1").hide();
+            $("#LrightConnect2").show();
             $("#seattabRT2Popup").addClass('activeblue');
-            $("#seattabRT1Popup").removeClass('activeblue');
-            $("#seattab2Popup").removeClass('activeblue');
             $("#seattab1Popup").removeClass('activeblue');
+            $("#seattab2Popup").removeClass('activeblue');
             $("#seattab1waypopup").removeClass('activeblue');
+            $("#seattabRT1Popup").removeClass('activeblue');
+
         });
 
 
-        $("#btnfocus").click(function () {
-            // confirm("Do you want select connect seat?");
-            // $("#seattab2Popup").click();
+
+
+        // ********Hide Show Popup button Contine *********************
+
+        $("#leftNstop2").click(function () {
             debugger;
-            var confirmation = confirm("Do you want to select a connecting seat?");
-            
-            if (confirmation==true) {
-                $("#seattab2Popup").click();
-            } else {
-               
-                return false;
-            }
-        });
-      
-
-
-        $("#btnfocusA1").click(function () {
-            debugger;
-            //confirm("Do you want select Return seat?");
-            var confirmation = confirm("Do you want to select a connecting seat?");
-
+            var confirmation = confirm("Do you want to select a connecting seat?"); // Non Stop Left Side
             if (confirmation == true) {
-                if ($("#seattabRT1Popup").is(":visible")) {
-                    $("#seattabRT1Popup").click();
-                } else if ($("#seattabRT1waypopup").is(":visible")) {
-
+                if ($("#seattabRT1waypopup").is(":visible")) {
+                    $("#rightNonstop").show();
+                    $("#LeftNonstop").hide();
                     $("#seattabRT1waypopup").click();
-                    $("#popbtnA2").show();
-                    $("#popbtnA1").hide();
-
-
-                }
-            } else {
-
-                return false;
-            }
-            // $("#seattabRT1Popup").click();
-            // $("#seattabRT1waypopup").click();
-           
-
-        });
-        $("#btnfocusB1").click(function () {
-            //confirm("Do you want select connect seat?");
-            //$("#seattabRT2Popup").click();
-            var confirmation = confirm("Do you want to select a connecting seat?");
-
-            if (confirmation == true) {
-                $("#seattabRT2Popup").click();
-            } else {
-
-                return false;
-            }
-        });
-
-
-
-        $("#Leftbtnfocus").click(function () {
-            //confirm("Do you want select connect seat?");
-            var confirmation = confirm("Do you want to select a connecting seat?");
-
-            if (confirmation == true) {
-                if ($("#seattabRT1Popup").is(":visible")) {
+                } else if ($("#seattabRT1Popup").is(":visible")) {
+                    //$("#rightConnect1").show();
+                    $("#LrightConnect1").show();
+                    $("#LrightConnect2").hide();
+                    $("#LeftNonstop").hide();
                     $("#seattabRT1Popup").click();
-                    $("#RightCN1").show();
-                    //$("#popbtnB1").show();
-                } else if ($("#seattabRT2Popup").is(":visible")) {
+                }
+            }
 
+            else {
+
+                return false;
+            }
+        });
+
+        $("#leftConnect2").click(function () {
+            var confirmation = confirm("Do you want to select a connecting seat?"); // Non Stop Left Side
+            if (confirmation == true) {
+                if ($("#seattab2Popup").is(":visible")) {
+                    $("#leftConnect").hide();
+                    $("#leftConnect_2").show();
+                    $("#seattab2Popup").click();
+                }
+
+            }
+            else {
+                return false;
+            }
+        });
+
+        $("#leftConnectbtn_2").click(function () {
+            debugger;
+            var confirmation = confirm("Do you want to select a connecting seat?"); // Non Stop Left Side
+            if (confirmation == true) {
+                if ($("#seattabRT1waypopup").is(":visible")) {
+                    $("#RightNonstop").show();
+                    $("#leftConnect").hide();
+                    $("#leftConnect_2").hide();
+                    $("#rightConnect1").hide();
+                    $("#rightConnect2").hide();
+                    $("#seattabRT1waypopup").click();
+                } else if ($("#seattabRT1Popup").is(":visible")) {
+                    $("#leftConnect").hide();
+                    $("#leftConnect_2").hide();
+                    $("#rightConnect1").show();
+                    $("#rightNonstop").hide();
+                    $("#rightConnect2").hide();
+                    $("#seattabRT1Popup").click();
+                }
+            }
+            else {
+                return false;
+            }
+        });
+
+        $("#rightconnect2").click(function () {
+            var confirmation = confirm("Do you want to select a connecting seat?"); // Non Stop Left Side
+            if (confirmation == true) {
+                if ($("#seattabRT2Popup").is(":visible")) {
+                    $("#leftConnect").hide();
+                    $("#leftConnect_2").hide();
+                    $("#rightConnect1").hide();
+                    $("#rightConnect2").show();
                     $("#seattabRT2Popup").click();
-                    $("#RightCN1").hide();
-                    //$("#popbtnA2").show();
-
-                    //$("#popbtnB").show();
-
-
                 }
-                else if ($("#seattabRT1waypopup").is(":visible")) {
-
-                    $("#seattabRT1waypopup").click();
-
-                }
-            } else {
-
+            }
+            else {
                 return false;
             }
-
-           
-
         });
 
-        $("#rightbtnfocus").click(function () {
-            //confirm("Do you want select connect seat?");
-            var confirmation = confirm("Do you want to select a connecting seat?");
-
+        $("#Lrightconnect2").click(function () {
+            var confirmation = confirm("Do you want to select a connecting seat?"); // Non Stop Left Side
             if (confirmation == true) {
-                $("#seattabRT2Popup").click();
-                $("#RightCN1").hide();
-                $("#rightCN").show();
-            } else {
-
+                if ($("#seattabRT2Popup").is(":visible")) {
+                    $("#leftConnect").hide();
+                    $("#leftConnect_2").hide();
+                    $("#rightConnect1").hide();
+                    $("#rightConnect2").show();
+                    $("#LrightConnect1").hide();
+                    $("#LrightConnect2").show();
+                    $("#seattabRT2Popup").click();
+                }
+            }
+            else {
                 return false;
             }
-           
         });
 
-    });
+
+
+        $("#RightNonstop2").click(function () {
+            $("#leftConnect").show();
+            $("#RightNonstop").hide();
+            //$("#LeftNonstop").show();
+
+        });
+        $("#rightNstop2").click(function () {
+            $("#LeftNonstop").show();
+            $("#rightNonstop").hide();
+            //$("#LeftNonstop").show();
+
+        });
+
+
+
+
+        });
 </script>
 
 
@@ -345,35 +379,10 @@
         });
 
 
+
         var checkedValues = ['', '', '', '', '', '', '', '', ''];
-        $('.mycheck').change(function () {
-            if ($(this).is(':checked')) {
-                for (var i = 0; i < 9; i++) {
-                    if (checkedValues[i] === '') {
-                        checkedValues[i] = $(this).val();
-                        break;
-                    }
-                }
-            } else {
-                var index = checkedValues.indexOf($(this).val());
-                console.log(index)
-                if (index !== -1) {
-                    checkedValues[index] = '';
-                }
-            }
-            $('#input_0').val(checkedValues[0]);
-            $('#input_1').val(checkedValues[1]);
-            $('#input_2').val(checkedValues[2]);
-            $('#input_3').val(checkedValues[3]);
-            $('#input_4').val(checkedValues[4]);
-            $('#input_5').val(checkedValues[5]);
-            $('#input_6').val(checkedValues[6]);
-            $('#input_7').val(checkedValues[7]);
-            $('#input_8').val(checkedValues[8]);
-            updateInputsAndSpans(checkedValues);
 
-        });
-
+        // Function to update inputs and spans
         function updateInputsAndSpans(checkedValues) {
             for (var i = 0; i < checkedValues.length; i++) {
                 var parts = checkedValues[i].split('_');
@@ -381,11 +390,63 @@
                 $('.feeSpan_' + i).text(parts[0]);
                 $('#outputDiv_' + i).text(parts[1]);
             }
-        } 
+        }
 
-       
+        // Function to update local storage
+        function updateLocalStorage() {
+            localStorage.setItem("checkedValues", JSON.stringify(checkedValues));
+        }
 
-        $('#cancelbtn1').click(function () {
+        // Restore checked state and values from local storage on page load
+        var storedValues = JSON.parse(localStorage.getItem("checkedValues"));
+        if (storedValues) {
+            checkedValues = storedValues;
+            updateInputsAndSpans(checkedValues);
+        }
+
+        $('.mycheck').change(function () {
+            var value = $(this).val();
+            var isChecked = $(this).is(':checked');
+
+            if (isChecked) {
+                // Find an empty slot and store the value
+                for (var i = 0; i < checkedValues.length; i++) {
+                    if (checkedValues[i] === '') {
+                        checkedValues[i] = value;
+                        break;
+                    }
+                }
+            } else {
+                // Remove the value from the array
+                var index = checkedValues.indexOf(value);
+                if (index !== -1) {
+                    checkedValues[index] = '';
+                }
+            }
+
+            // Update the inputs and spans
+            updateInputsAndSpans(checkedValues);
+
+            // Update local storage
+            updateLocalStorage();
+        });
+
+
+
+
+        $('#leftNstop1').click(function () {
+            //alert("T1");
+            // Loop through each element and set its text to an empty string
+            for (var i = 0; i < checkedValues.length; i++) {
+                $('#outputDiv_' + i).text('');
+                $('#unitKey' + checkedValues[i]).prop('checked', false);
+                localStorage.removeItem('checkedValues');
+            }
+
+
+        });
+
+        $('#leftConnect1').click(function () {
             //alert("T1");
             // Loop through each element and set its text to an empty string
             for (var i = 0; i < checkedValues.length; i++) {
@@ -393,16 +454,31 @@
             }
         });
 
-        $('#cancelNstop1').click(function () {
-            //alert("T1");
-            // Loop through each element and set its text to an empty string
-            for (var i = 0; i < checkedValues.length; i++) {
-                $('#outputDiv_' + i).text('');
-            }
-        });
 
-        //Connceting 2 seat Code js
         var checkedValues2 = ['', '', '', '', '', '', '', '', ''];
+
+        // Function to update inputs and spans for checkedValues2
+        function updateInputsAndSpans2(checkedValues2) {
+            for (var i = 0; i < checkedValues2.length; i++) {
+                var parts = checkedValues2[i].split('_');
+                $('#inputConnect_' + i).val(parts[1]);
+                $('.feeSpanConnect_' + i).text(parts[0]);
+                $('#outputDivConnect_' + i).text(parts[1]);
+            }
+        }
+
+        // Function to update local storage for checkedValues2
+        function updateLocalStorage2() {
+            localStorage.setItem("checkedValues2", JSON.stringify(checkedValues2));
+        }
+
+        // Restore checked state and values from local storage on page load for checkedValues2
+        var storedValues2 = JSON.parse(localStorage.getItem("checkedValues2"));
+        if (storedValues2) {
+            checkedValues2 = storedValues2;
+            updateInputsAndSpans2(checkedValues2);
+        }
+
         $('.mycheck2').change(function () {
             if ($(this).is(':checked')) {
                 for (var i = 0; i < 9; i++) {
@@ -413,44 +489,51 @@
                 }
             } else {
                 var index = checkedValues2.indexOf($(this).val());
-                console.log(index)
                 if (index !== -1) {
                     checkedValues2[index] = '';
                 }
             }
-            $('#inputConnect_0').val(checkedValues2[0]);
-            $('#inputConnect_1').val(checkedValues2[1]);
-            $('#inputConnect_2').val(checkedValues2[2]);
-            $('#inputConnect_3').val(checkedValues2[3]);
-            $('#inputConnect_4').val(checkedValues2[4]);
-            $('#inputConnect_5').val(checkedValues2[5]);
-            $('#inputConnect_6').val(checkedValues2[6]);
-            $('#inputConnect_7').val(checkedValues2[7]);
-            $('#inputConnect_8').val(checkedValues2[8]);
-
             updateInputsAndSpans2(checkedValues2);
-
+            updateLocalStorage2();
         });
 
-        function updateInputsAndSpans2(checkedValues2) {
-            for (var i = 0; i < checkedValues2.length; i++) {
-                var parts = checkedValues2[i].split('_');
-                $('#inputConnect_' + i).val(parts[1]);
-                $('.feeSpanConnect_' + i).text(parts[0]);
-                $('#outputDivConnect_' + i).text(parts[1]);
-            }
-        }
-        $('#cancelbtn2').click(function () {
-            //alert("T2");
+
+        $('#leftConnect_1').click(function () {
+            //alert("T1");
             // Loop through each element and set its text to an empty string
             for (var i = 0; i < checkedValues2.length; i++) {
                 $('#outputDivConnect_' + i).text('');
             }
         });
 
-        //Return Code seat validation
+
+
+        //*********************Return Code seat validation***************
 
         var checkedValuesRT = ['', '', '', '', '', '', '', '', ''];
+
+        // Function to update inputs and spans for checkedValuesRT
+        function updateInputsAndSpansRT(checkedValuesRT) {
+            for (var i = 0; i < checkedValuesRT.length; i++) {
+                var parts = checkedValuesRT[i].split('_');
+                $('#inputRT_' + i).val(parts[1]);
+                $('.feeSpanRT_' + i).text(parts[0]);
+                $('#outputDivRT_' + i).text(parts[1]);
+            }
+        }
+
+        // Function to update local storage for checkedValuesRT
+        function updateLocalStorageRT() {
+            localStorage.setItem("checkedValuesRT", JSON.stringify(checkedValuesRT));
+        }
+
+        // Restore checked state and values from local storage on page load for checkedValuesRT
+        var storedValuesRT = JSON.parse(localStorage.getItem("checkedValuesRT"));
+        if (storedValuesRT) {
+            checkedValuesRT = storedValuesRT;
+            updateInputsAndSpansRT(checkedValuesRT);
+        }
+
         $('.mycheckRT').change(function () {
             if ($(this).is(':checked')) {
                 for (var i = 0; i < 9; i++) {
@@ -461,70 +544,73 @@
                 }
             } else {
                 var index = checkedValuesRT.indexOf($(this).val());
-                console.log(index)
                 if (index !== -1) {
                     checkedValuesRT[index] = '';
                 }
             }
-            $('#inputRT_0').val(checkedValuesRT[0]);
-            $('#inputRT_1').val(checkedValuesRT[1]);
-            $('#inputRT_2').val(checkedValuesRT[2]);
-            $('#inputRT_3').val(checkedValuesRT[3]);
-            $('#inputRT_4').val(checkedValuesRT[4]);
-            $('#inputRT_5').val(checkedValuesRT[5]);
-            $('#inputRT_6').val(checkedValuesRT[6]);
-            $('#inputRT_7').val(checkedValuesRT[7]);
-            $('#inputRT_8').val(checkedValuesRT[8]);
             updateInputsAndSpansRT(checkedValuesRT);
-
+            updateLocalStorageRT();
         });
 
-        function updateInputsAndSpansRT(checkedValuesRT) {
+        $('#rightNstop1').click(function () {
             for (var i = 0; i < checkedValuesRT.length; i++) {
-                var parts = checkedValuesRT[i].split('_');
-                $('#inputRT_' + i).val(parts[1]);
-                $('.feeSpanRT_' + i).text(parts[0]);
-                $('#outputDivRT_' + i).text(parts[1]);
+                $('#outputDivRT_' + i).text('');
             }
-        } 
+            //localStorage.removeItem('checkedValuesRT');
+        });
 
-        $('#cancelbtn3').click(function () {
-            //alert("T3");
+        $('#Lrightconnect1').click(function () {
+
+            for (var i = 0; i < checkedValuesRT.length; i++) {
+                $('#outputDivRT_' + i).text('');
+            }
+        });
+        $('#rightconnect1').click(function () {
+            //alert("T1");
             // Loop through each element and set its text to an empty string
             for (var i = 0; i < checkedValuesRT.length; i++) {
                 $('#outputDivRT_' + i).text('');
             }
         });
 
-        
-
-        $('#cancelNstop2').click(function () {
-            //alert("T3");
-            // Loop through each element and set its text to an empty string
+        $('#RightNonstop1').click(function () {
             for (var i = 0; i < checkedValuesRT.length; i++) {
                 $('#outputDivRT_' + i).text('');
             }
         });
 
-        $('#cancelNstop3').click(function () {
-            //alert("T3");
-            // Loop through each element and set its text to an empty string
-            for (var i = 0; i < checkedValuesRT.length; i++) {
-                $('#outputDivRT_' + i).text('');
-            }
-        });
-        
-        
-
-        $('#cancelbtnA2').click(function () {
-            //alert("T3");
-            // Loop through each element and set its text to an empty string
-            for (var i = 0; i < checkedValuesRT.length; i++) {
-                $('#outputDivRT_' + i).text('');
-            }
-        });
+        // $('#cancelbtn3').click(function () {
+        //     //alert("T3");
+        //     // Loop through each element and set its text to an empty string
+        //     for (var i = 0; i < checkedValuesRT.length; i++) {
+        //         $('#outputDivRT_' + i).text('');
+        //     }
+        // });
 
         var checkedValues2RT = ['', '', '', '', '', '', '', '', ''];
+
+        // Function to update inputs and spans for checkedValues2RT
+        function updateInputsAndSpans2RT(checkedValues2RT) {
+            for (var i = 0; i < checkedValues2RT.length; i++) {
+                var parts = checkedValues2RT[i].split('_');
+                $('#inputConnectRT_' + i).val(parts[1]);
+                $('.feeSpanConnectRT_' + i).text(parts[0]);
+                $('#outputDivConnectRT_' + i).text(parts[1]);
+            }
+        }
+
+        // Function to update local storage for checkedValues2RT
+        function updateLocalStorage2RT() {
+            localStorage.setItem("checkedValues2RT", JSON.stringify(checkedValues2RT));
+        }
+
+        // Restore checked state and values from local storage on page load for checkedValues2RT
+        var storedValues2RT = JSON.parse(localStorage.getItem("checkedValues2RT"));
+        if (storedValues2RT) {
+            checkedValues2RT = storedValues2RT;
+            updateInputsAndSpans2RT(checkedValues2RT);
+        }
+
         $('.mycheck2RT').change(function () {
             if ($(this).is(':checked')) {
                 for (var i = 0; i < 9; i++) {
@@ -535,35 +621,24 @@
                 }
             } else {
                 var index = checkedValues2RT.indexOf($(this).val());
-                console.log(index)
                 if (index !== -1) {
                     checkedValues2RT[index] = '';
                 }
             }
-            $('#inputConnectRT_0').val(checkedValues2RT[0]);
-            $('#inputConnectRT_1').val(checkedValues2RT[1]);
-            $('#inputConnectRT_2').val(checkedValues2RT[2]);
-            $('#inputConnectRT_3').val(checkedValues2RT[3]);
-            $('#inputConnectRT_4').val(checkedValues2RT[4]);
-            $('#inputConnectRT_5').val(checkedValues2RT[5]);
-            $('#inputConnectRT_6').val(checkedValues2RT[6]);
-            $('#inputConnectRT_7').val(checkedValues2RT[7]);
-            $('#inputConnectRT_8').val(checkedValues2RT[8]);
-
             updateInputsAndSpans2RT(checkedValues2RT);
-
+            updateLocalStorage2RT();
         });
 
-        function updateInputsAndSpans2RT(checkedValues2RT) {
-            for (var i = 0; i < checkedValues2RT.length; i++) {
-                var parts = checkedValues2RT[i].split('_');
-                $('#inputConnectRT_' + i).val(parts[1]);
-                $('.feeSpanConnectRT_' + i).text(parts[0]);
-                $('#outputDivConnectRT_' + i).text(parts[1]);
-            }
-        }
 
-        $('#cancelbtn4').click(function () {
+
+        $('#Lrightconnect_1').click(function () {
+            //alert("T4");
+            // Loop through each element and set its text to an empty string
+            for (var i = 0; i < checkedValues2RT.length; i++) {
+                $('#outputDivConnectRT_' + i).text('');
+            }
+        });
+        $('#rightconnect_1').click(function () {
             //alert("T4");
             // Loop through each element and set its text to an empty string
             for (var i = 0; i < checkedValues2RT.length; i++) {
@@ -571,14 +646,16 @@
             }
         });
 
-        $('#cancelNstop3').click(function () {
-            //alert("T4");
-            // Loop through each element and set its text to an empty string
-            for (var i = 0; i < checkedValues2RT.length; i++) {
-                $('#outputDivConnectRT_' + i).text('');
-            }
-        });
+
+
+
         // End connceting second code
+        var selectedIds = JSON.parse(localStorage.getItem("selectedIds"));
+        if (selectedIds) {
+            selectedIds.forEach(function (id) {
+                $('input[name="unitKey"][value="' + id + '"]').prop('checked', true);
+            });
+        }
 
 
         $('input[name="unitKey"]').on('change', function () {
@@ -853,7 +930,7 @@
 
                             if (!ht0.Contains(Model.SeatmaplistRT[0].datalist[k].seatMap.decks.units[j].designator))
                             {
-                                ht0.Add(Model.SeatmaplistRT[0].datalist[k].seatMap.decks.units[j].designator, Math.Round(Model.SeatmaplistRT[0].datalist[k].seatMap.decks.units[j].servicechargefeeAmount,0) + "_@" + Model.SeatmaplistRT[0].datalist[k].seatMap.decks.units[j].unitKey + "_@" + Model.SeatmaplistRT[0].datalist[k].seatMap.decks.units[j].Airline + "_@" + Model.SeatmaplistRT[0].datalist[k].seatMap.decks.units[j].availability);
+                                ht0.Add(Model.SeatmaplistRT[0].datalist[k].seatMap.decks.units[j].designator, Math.Round(Model.SeatmaplistRT[0].datalist[k].seatMap.decks.units[j].servicechargefeeAmount, 0) + "_@" + Model.SeatmaplistRT[0].datalist[k].seatMap.decks.units[j].unitKey + "_@" + Model.SeatmaplistRT[0].datalist[k].seatMap.decks.units[j].Airline + "_@" + Model.SeatmaplistRT[0].datalist[k].seatMap.decks.units[j].availability);
                             }
                         }
 
@@ -864,7 +941,7 @@
                         {
                             if (!ht1.Contains(Model.SeatmaplistRT[0].datalist[k].seatMap.decks.units[j].designator))
                             {
-                                ht1.Add(Model.SeatmaplistRT[0].datalist[k].seatMap.decks.units[j].designator, Math.Round(Model.SeatmaplistRT[0].datalist[k].seatMap.decks.units[j].servicechargefeeAmount,0) + "_@" + Model.SeatmaplistRT[0].datalist[k].seatMap.decks.units[j].unitKey + "_@" + Model.SeatmaplistRT[0].datalist[k].seatMap.decks.units[j].Airline + "_@" + Model.SeatmaplistRT[0].datalist[k].seatMap.decks.units[j].availability);
+                                ht1.Add(Model.SeatmaplistRT[0].datalist[k].seatMap.decks.units[j].designator, Math.Round(Model.SeatmaplistRT[0].datalist[k].seatMap.decks.units[j].servicechargefeeAmount, 0) + "_@" + Model.SeatmaplistRT[0].datalist[k].seatMap.decks.units[j].unitKey + "_@" + Model.SeatmaplistRT[0].datalist[k].seatMap.decks.units[j].Airline + "_@" + Model.SeatmaplistRT[0].datalist[k].seatMap.decks.units[j].availability);
                             }
                         }
 
@@ -1099,7 +1176,7 @@
                         {
                             if (!htRT0.Contains(Model.SeatmaplistRT[1].datalist[k].seatMap.decks.units[j].designator))
                             {
-                                htRT0.Add(Model.SeatmaplistRT[1].datalist[k].seatMap.decks.units[j].designator, Math.Round(Model.SeatmaplistRT[1].datalist[k].seatMap.decks.units[j].servicechargefeeAmount,0) + "_@" + Model.SeatmaplistRT[1].datalist[k].seatMap.decks.units[j].unitKey + "_@" + Model.SeatmaplistRT[1].datalist[k].seatMap.decks.units[j].Airline + "_@" + Model.SeatmaplistRT[1].datalist[k].seatMap.decks.units[j].availability);
+                                htRT0.Add(Model.SeatmaplistRT[1].datalist[k].seatMap.decks.units[j].designator, Math.Round(Model.SeatmaplistRT[1].datalist[k].seatMap.decks.units[j].servicechargefeeAmount, 0) + "_@" + Model.SeatmaplistRT[1].datalist[k].seatMap.decks.units[j].unitKey + "_@" + Model.SeatmaplistRT[1].datalist[k].seatMap.decks.units[j].Airline + "_@" + Model.SeatmaplistRT[1].datalist[k].seatMap.decks.units[j].availability);
                             }
                         }
 
