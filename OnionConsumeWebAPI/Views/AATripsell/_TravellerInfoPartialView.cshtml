@@ -38,7 +38,7 @@
                         <input type="text" class="contactFname" maxlength="32" oninput="validateInputT(event ,@i)" id="LeadPass1" placeholder="First & middle name" name="passengerdetails[@i].First" required />
 
                     </div>
-                    <p id="error-Fname" class="error-message error-CFname" style="display:none">Enter first name</p>
+                    <p id="error-Fname-@i" class="error-message error-CFname" style="display:none">Enter first name</p>
                     <p id="error-Sname" class="errorr-message error-SFname" style="display:none">Two Adult Name can't be Same ' </p>
                     <p class="errorMessageT1" style="color: red;font-size:13px;"></p>
                 </div>
@@ -327,33 +327,114 @@
             e.preventDefault();
             debugger;
             /*******Validation Start*********/
+
             var contactFnames = document.querySelectorAll(".contactFname");
-            var foundDuplicate = false;
             var emptyFirstNames = [];
+            contactFnames.forEach(function (element) {
+                element.addEventListener("input", function () {
+                    removeError(element);
+                });
+            });
+            function removeError(element) {
+                var errorMessage = element.parentNode.querySelector(".error-message");
+                if (errorMessage) {
+                    errorMessage.parentNode.removeChild(errorMessage);
+                }
+                element.classList.remove("error-input");
+            }
+
             contactFnames.forEach(function (element, index) {
-                var firstName = element.value;
+                var firstName = element.value.trim();
+                if (firstName === "") {
+                    emptyFirstNames.push(index);
+                    return;
+                }
                 for (var i = index + 1; i < contactFnames.length; i++) {
-                    debugger;
-                    if (firstName == contactFnames[i].value) {
-                        alert("More than One Adults name Can't be Same!!");
-                        foundDuplicate = true;
+                    if (firstName === contactFnames[i].value.trim()) {
+                        showError(element, "More than one adult's name can't be the same!!");
                         return;
                     }
                 }
-                if (firstName == "") {
-                    debugger;
-
-                    // FirstNameValidation();
-                    var firstnameToDisplay = document.getElementById("error-Fname");
-                    firstnameToDisplay.style.display = "block";
-                    element.focus();
-                    foundDuplicate = true;
-                    return;
-                }
             });
-            if (foundDuplicate) {
+
+            if (emptyFirstNames.length > 0) {
+                var errorIndex = emptyFirstNames[0];
+                showError(contactFnames[errorIndex], "This field is required");
+                errorIndex.focus();
+            }
+            function showError(element, message) {
+                debugger;
+                var errorSpan = document.createElement("span");
+                errorSpan.className = "error-message";
+                errorSpan.textContent = message;
+
+                element.parentNode.insertBefore(errorSpan, element.nextSibling);
+                element.classList.add("error-input");
+                element.focus();
                 return false;
             }
+
+
+
+            // var contactFnames = document.querySelectorAll(".contactFname");
+            // var foundDuplicate = false;
+            // var emptyFirstNames = [];
+            // contactFnames.forEach(function (element, index) {
+            //     debugger;
+            //     var firstName = element.value.trim(); // Trim to remove any leading/trailing whitespace
+            //     if (firstName === "") {
+            //         emptyFirstNames.push(index); // Store the index of empty first names
+            //         return; // Skip further validation for empty names
+            //     }
+            //     for (var i = index + 1; i < contactFnames.length; i++) {
+            //         debugger;
+            //         if (firstName === contactFnames[i].value.trim()) {
+            //             alert("More than one adult's name can't be the same!!");
+            //             foundDuplicate = true;
+            //             return;
+            //         }
+            //     }
+            // });
+
+
+            // // Handle empty first names
+            // if (emptyFirstNames.length > 0) {
+            //     debugger;
+            //     var errorIndex = emptyFirstNames[0];
+            //     var emptyNameValidationMsg = "This field is required " + (errorIndex + 1);
+            //     alert(emptyNameValidationMsg);
+            //     element.focus();
+            // }
+
+
+            // var contactFnames = document.querySelectorAll(".contactFname");
+            // var foundDuplicate = false;
+            // var emptyFirstNames = [];
+            // contactFnames.forEach(function (element, index) {
+            //     var firstName = element.value;
+            //     for (var i = index + 1; i < contactFnames.length; i++) {
+            //         debugger;
+            //         if (firstName == contactFnames[i].value) {
+            //             alert("More than One Adults name Can't be Same!!");
+            //             foundDuplicate = true;
+            //             return;
+            //         }
+
+            //         if (firstName == "") {
+
+
+            //             FirstNameValidation();
+            //             var firstnameToDisplay = document.getElementById("error-Fname");
+            //             firstnameToDisplay.style.display = "block";
+            //             element.focus();
+            //             foundDuplicate = true;
+            //             return;
+            //         }
+            //     }
+            // });
+            // if (foundDuplicate) {
+            //     return false;
+            // }
 
             var lastName = document.querySelector(".contactLname").value;
             if (lastName == "") {
@@ -417,7 +498,6 @@
                 }
                 return infantsValid;
             }
-
             /*******Validation End*********/
             var enteredData = "";
             for (var i = 0; i < @Model.passeengerlist.passengers.Count; i++) {
@@ -490,8 +570,6 @@
     });
 
 </script>
-
-
 <style>
     .modal-body p {
         border-radius: 6px;
