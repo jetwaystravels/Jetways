@@ -536,7 +536,7 @@
                                 <label class="fr">
                                     <h4>E-Ticket </h4>
                                     Jetways Travel Booking <strong>@Model.AirlinePNR[a].bookingKey</strong> <br> PNR. <span style="color: #EF0000;font-size: 16px;font-weight: 600;">@Model.AirlinePNR[a].recordLocator</span>
-                                    <br> Booking Date : <span style="font-size: 16px;font-weight: 600;"></span>
+                                    <br> Booking Date : <span style="font-size: 16px;font-weight: 600;">@Model.AirlinePNR[a].bookingdate</span>
                                 </label>
                             </div>
                             <h3>Itinerary and Reservation Details</h3>
@@ -603,8 +603,9 @@
                                                         else
                                                             formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
                                                     }
-                                                    <img src="~/img/arrow-line-fr.png" alt="icon">
+                                                  
                                                     <div class="time">@formattedTime</div>
+                                                    <img src="~/img/arrow-line-fr.png" alt="icon">
                                                 </div>
 
                                                 <div class="col">

@@ -452,6 +452,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                             returnTicketBooking.Seatdata = htseatdata;
                             returnTicketBooking.Mealdata = htmealdata;
                             returnTicketBooking.Bagdata = htbagdata;
+                            returnTicketBooking.bookingdate = _getBookingResponse.Booking.BookingInfo.BookingDate;
                             _AirLinePNRTicket.AirlinePNR.Add(returnTicketBooking);
 
 

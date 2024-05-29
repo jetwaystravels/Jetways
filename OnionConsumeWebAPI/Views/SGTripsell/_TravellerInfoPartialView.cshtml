@@ -26,6 +26,7 @@
 
             <div><label class="text-16 fw-600">@Model.passeengerlist.passengers[i].passengerTypeCode</label></div>
             <input type="hidden" name="passengerdetails[@i].passengertypecode" value="@Model.passeengerlist.passengers[i].passengerTypeCode" />
+            <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlist.passengers[i].passengerKey" />
             <div class="row">
                 <div class="col-md-1">
                     <select name="passengerdetails[@i].Title" class="form-control" asp-items="@ViewBag.Title"></select>
@@ -58,7 +59,7 @@
                             <p class="error-message error-emailname" style="display:none">Enter your email</p>
                                     </div>
                             <div class="col-md-2">
-                            <div class="form-input"><input type="text" id="contactphoneID" oninput="validatePhoneNumberTr(event)" class="contactphone" placeholder="phone" name="" required /></div>
+                            <div class="form-input"><input type="text" id="contactphoneID" oninput="validatePhoneNumberTr(event)" class="contactphone" name="passengerdetails[@i].mobile" placeholder="phone" name="" required /></div>
                             <p class="error-message error-phoneN" style="display:none">Enter your phone</p>
                             <p class="phoneErrorMessageTr" style="color: red; font-size:13px;"></p>
                             </div>

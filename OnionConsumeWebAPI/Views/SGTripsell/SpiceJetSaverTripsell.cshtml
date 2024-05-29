@@ -25,13 +25,9 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-
+    <script src="~/js/custom.js/spicejet.js"></script>
     <style>
-        .whst_app i {
-            color: green;
-            font-size: 22px;
-        }
-
+       
         .bg-h2 {
             background: #366480;
             color: #fff;
@@ -543,6 +539,10 @@
             $('[data-toggle="tooltip"]').tooltip()
         })
 
+
+        window.onload = function () {
+            updateCombinedTotal();
+        }
     </script>
 
 

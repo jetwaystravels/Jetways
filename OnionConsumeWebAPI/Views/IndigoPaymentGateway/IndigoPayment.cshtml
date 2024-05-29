@@ -906,10 +906,10 @@
 			//var value = localStorage.getItem('myValue');
 			// Display the value on the page
 			//document.getElementById("value-output").innerHTML = value;
-			var seatFare = localStorage.getItem('seatPayment');
-			var baseFare = localStorage.getItem('basePayment1');
-			var basemeal = localStorage.getItem('mealTotal1');
-			var basebag = localStorage.getItem('bagTotal1');
+			var seatFare = localStorage.getItem('seatPayment')||0;
+			var baseFare = localStorage.getItem('basePayment1') || 0;
+			var basemeal = localStorage.getItem('mealTotal1') || 0;
+			var basebag = localStorage.getItem('bagTotal1') || 0;
 			//alert(baseFare);
 			//alert(basemeal);
 			//alert(basebag);

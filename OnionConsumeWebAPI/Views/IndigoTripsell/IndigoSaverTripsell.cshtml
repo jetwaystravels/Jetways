@@ -408,6 +408,7 @@
 
     <!-- Include Bootstrap JavaScript -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="~/js/custom.js/indigooneway.js"></script>
 
     <style>
         .hidden {
@@ -524,7 +525,9 @@
             $('[data-toggle="tooltip"]').tooltip()
         })
        
-
+        window.onload = function () {
+            updateCombinedTotal();
+        }
        
     </script>
 
