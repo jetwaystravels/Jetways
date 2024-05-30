@@ -76,7 +76,7 @@ $(document).ready(function () {
         $('.autodropdown').hide();
         var chosenInput2 = document.querySelector('.autoarrival input');
         chosenInput2.focus();
-       
+
 
     });
 
@@ -313,35 +313,75 @@ $(document).ready(function () {
             $('#end-date').css('visibility', 'visible');
             //Date Picker end date
 
+            //var returndate = new Date();
+            //var returndd = String(returndate.getDate() + 2).padStart(2, '0');
+            //var returnmm = String(returndate.getMonth() + 1).padStart(2, '0');
+            //var returnyyyy = returndate.getFullYear();
+            //var returncurrentDate = returnyyyy + '-' + returnmm + '-' + returndd;
+            //$("#end-date").val(returncurrentDate);
+
+            //$("#end-date").datepicker(
+            //    {
+            //        dateFormat: 'yy-mm-dd',
+            //        numberOfMonths: 2,
+            //        maxDate: '+3m',
+            //        minDate: '0'
+            //    });
+
+            //$("#start-date").val(returncurrentDate);
+
             var returndate = new Date();
-            var returndd = String(returndate.getDate() + 2).padStart(2, '0');
-            var returnmm = String(returndate.getMonth() + 1).padStart(2, '0');
+            returndate.setDate(returndate.getDate() + 2); // Add 2 days to the current date
+            debugger;
+            var returndd = returndate.getDate(); // Note: Don't pad with 0
+            var returnmm = returndate.getMonth() + 1; // Note: Don't pad with 0
             var returnyyyy = returndate.getFullYear();
-            var returncurrentDate = returnyyyy + '-' + returnmm + '-' + returndd;
+
+            // Check if the return day exceeds the maximum number of days in the month
+            if (returndd > new Date(returnyyyy, returnmm, 0).getDate()) {
+                returndd = new Date(returnyyyy, returnmm, 0).getDate(); // Set to the last day of the month
+            }
+
+            // Format the date to yyyy-mm-dd, ensuring each part is padded with a leading zero if necessary
+            var returncurrentDate = returnyyyy + '-' + (returnmm < 10 ? '0' + returnmm : returnmm) + '-' + (returndd < 10 ? '0' + returndd : returndd);
+
+            var startdate = new Date();
+            startdate.setDate(startdate.getDate() + 1);
+            var startdd = startdate.getDate(); // Note: Don't pad with 0
+            var startnmm = startdate.getMonth() + 1; // Note: Don't pad with 0
+            var startyyyy = startdate.getFullYear();
+
+            // Check if the return day exceeds the maximum number of days in the month
+            if (startdd > new Date(startyyyy, startnmm, 0).getDate()) {
+                startdd = new Date(startyyyy, startnmm, 0).getDate(); // Set to the last day of the month
+            }
+
+            // Format the date to yyyy-mm-dd, ensuring each part is padded with a leading zero if necessary
+            var startcurrentDate = startyyyy + '-' + (startnmm < 10 ? '0' + startnmm : startnmm) + '-' + (startdd < 10 ? '0' + startdd : startdd);
+
             $("#end-date").val(returncurrentDate);
 
-            $("#end-date").datepicker(
+            $("#end-date").datepicker({
+                dateFormat: 'yy-mm-dd',
+                numberOfMonths: 2,
+                maxDate: '+3m',
+                minDate: '0'
+            });
+
+            $("#start-date").val(startcurrentDate);
+            $("#start-date").datepicker(
                 {
                     dateFormat: 'yy-mm-dd',
                     numberOfMonths: 2,
-                    maxDate: '+3m',
-                    minDate: '0'
+                    maxDate: '+2m',
+                    minDate: '0',
+                    onSelect: function (selectedDate) {
+                        var endDate = $('#end-date');
+                        endDate.datepicker('option', 'minDate', selectedDate);
+                        endDate.datepicker('setDate', selectedDate);
+
+                    }
                 });
-
-            $("#start-date").val(returncurrentDate);
-            $("#start-date").datepicker(
-                {
-                dateFormat: 'yy-mm-dd',
-                numberOfMonths: 2,
-                maxDate: '+2m',
-                minDate: '0',
-                onSelect: function (selectedDate) {
-                    var endDate = $('#end-date');
-                    endDate.datepicker('option', 'minDate', selectedDate);
-                    endDate.datepicker('setDate', selectedDate);
-
-                }
-              });
 
             const elementToHide = document.querySelector('.rounddateinput');
             elementToHide.style.display = 'none'; // Hide the element
@@ -477,7 +517,7 @@ $(document).ready(function () {
         });
     });
 
-   
+
 
 
 

@@ -1986,7 +1986,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         //Redis
                         searlizetext = JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelist);
                         // encodedlist = Encoding.UTF8.GetBytes(searlizetext);
-                        var option = new DistributedCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(14)).SetAbsoluteExpiration(TimeSpan.FromMinutes(14));
+                        var option = new DistributedCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(1)).SetAbsoluteExpiration(TimeSpan.FromSeconds(1));
                         //await _distributedCache.SetAsync(KeyName, encodedlist, option);
                         //await _distributedCache.SetStringAsync(KeyName, encodedlist, option);
                         await _distributedCache.SetStringAsync(KeyName, searlizetext, option);
