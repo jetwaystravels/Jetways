@@ -155,11 +155,14 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     if (response.IsSuccessStatusCode)
                     {
                         var results = response.Content.ReadAsStringAsync().Result;
-
-
-                        credentialsobj = JsonConvert.DeserializeObject<_credentials>(results);
-
-
+                        var JsonObject = JsonConvert.DeserializeObject<List<_credentials>>(results);
+                        if (JsonObject[0].FlightCode == 1)
+                        {
+                            credentialsobj.username = JsonObject[0].username;
+                            credentialsobj.password = JsonObject[0].password;
+                            credentialsobj.domain = JsonObject[0].domain;
+                            credentialsobj.Image = JsonObject[0].Image;
+                        }
                     }
 
                     AirAsiaLogin login = new AirAsiaLogin();
@@ -504,6 +507,312 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         }
 
                     }
+                    #region Akasha
+
+                    _credentialsAkasha _CredentialsAkasha = new _credentialsAkasha();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var results = response.Content.ReadAsStringAsync().Result;
+                        var JsonObject = JsonConvert.DeserializeObject<List<_credentials>>(results);
+                        if (JsonObject[1].FlightCode == 2)
+                        {
+                            _CredentialsAkasha.username = JsonObject[1].username;
+                            _CredentialsAkasha.password = JsonObject[1].password;
+                            _CredentialsAkasha.domain = JsonObject[1].domain;
+                        }
+
+
+                    }
+                    AakashaLogin loginobject = new AakashaLogin();
+                    loginobject.credentialsAakasha = _CredentialsAkasha;
+                    //TempData["AirAsiaLogin"] = login.credentials.Image;
+                    AirasiaTokan = new AirasiaTokan();
+                    AirasialoginRequest = JsonConvert.SerializeObject(loginobject, Formatting.Indented);
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    HttpResponseMessage responcedata = await client.PostAsJsonAsync(AppUrlConstant.AkasaTokan, loginobject);
+                    if (responcedata.IsSuccessStatusCode)
+                    {
+                        var results = responcedata.Content.ReadAsStringAsync().Result;
+                        var JsonObj = JsonConvert.DeserializeObject<dynamic>(results);
+                        AirasiaTokan.token = JsonObj.data.token;
+                        AirasiaTokan.idleTimeoutInMinutes = JsonObj.data.idleTimeoutInMinutes;
+
+                    }
+                    HttpContext.Session.SetString("AkasaTokan", JsonConvert.SerializeObject(AirasiaTokan.token));
+                    _SimpleAvailabilityobj = new DomainLayer.Model.SimpleAvailabilityRequestModel();
+                    _SimpleAvailabilityobj.origin = _GetfligthModel.origin;
+                    _SimpleAvailabilityobj.destination = _GetfligthModel.destination;
+                    _SimpleAvailabilityobj.searchDestinationMacs = true;
+                    _SimpleAvailabilityobj.searchOriginMacs = true;
+                    _SimpleAvailabilityobj.beginDate = _GetfligthModel.beginDate;
+                    _SimpleAvailabilityobj.endDate = _GetfligthModel.endDate; //"2023-12-20";//_GetfligthModel.endDate;
+                    _SimpleAvailabilityobj.getAllDetails = true;
+                    _SimpleAvailabilityobj.taxesAndFees = "TaxesAndFees";
+                    _codes = new Codessimple();
+                    _typeslist = new List<Typesimple>();
+                    if (_GetfligthModel.passengercount != null)
+                    {
+                        AdtType = _GetfligthModel.passengercount.adulttype;
+                        AdtCount = _GetfligthModel.passengercount.adultcount;
+                        chdtype = _GetfligthModel.passengercount.childtype;
+                        chdcount = _GetfligthModel.passengercount.childcount;
+                        infanttype = _GetfligthModel.passengercount.infanttype;
+                        infantcount = _GetfligthModel.passengercount.infantcount;
+                    }
+                    else
+                    {
+                        AdtType = _GetfligthModel.adulttype;
+                        AdtCount = _GetfligthModel.adultcount;
+                        chdtype = _GetfligthModel.childtype;
+                        chdcount = _GetfligthModel.childcount;
+                        infanttype = _GetfligthModel.infanttype;
+                        infantcount = _GetfligthModel.infantcount;
+                    }
+                    if (AdtType == "ADT" && AdtCount != 0)
+                    {
+                        Typesimple Types = new Typesimple();
+                        Types.type = AdtType;
+                        Types.count = AdtCount;
+                        _typeslist.Add(Types);
+                    }
+                    if (chdtype == "CHD" && chdcount != 0)
+                    {
+                        Typesimple Types = new Typesimple();
+                        Types.type = chdtype;
+                        Types.count = chdcount;
+                        _typeslist.Add(Types);
+                    }
+                    if (infanttype == "INFT" && infantcount != 0)
+                    {
+                        Typesimple TypesR = new Typesimple();
+                        TypesR.type = infanttype;
+                        TypesR.count = infantcount;
+                        _typeslist.Add(TypesR);
+                    }
+                    _Passengerssimple = new Passengerssimple();
+                    _Passengerssimple.types = _typeslist;
+                    _SimpleAvailabilityobj.passengers = _Passengerssimple;
+                    _SimpleAvailabilityobj.codes = _codes;
+                    sortOptions = new string[1];
+                    sortOptions[0] = "NoSort";
+                    fareTypes = new string[3];
+                    fareTypes[0] = "R";
+                    fareTypes[1] = "V";
+                    fareTypes[2] = "S";
+                    productClasses = new string[3];
+                    productClasses[0] = "EC";
+                    productClasses[1] = "AV";
+                    productClasses[2] = "SP";
+                    Filters = new Filters();
+                    Filters.compressionType = "1";
+                    Filters.groupByDate = false;
+                    Filters.carrierCode = "QP";
+                    Filters.type = "ALL";
+                    Filters.sortOptions = sortOptions;
+                    Filters.maxConnections = 4;
+                    Filters.fareTypes = fareTypes;
+                    Filters.productClasses = productClasses;
+                    _SimpleAvailabilityobj.filters = Filters;
+                    _SimpleAvailabilityobj.numberOfFaresPerJourney = 4;
+                    json = JsonConvert.SerializeObject(_SimpleAvailabilityobj, Formatting.Indented);
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AirasiaTokan.token);
+                    HttpResponseMessage responceAkasaAir = await client.PostAsJsonAsync(AppUrlConstant.AkasaAirSearchSimple, _SimpleAvailabilityobj);
+                    //uniqueidx = 0;
+                    if (responceAkasaAir.IsSuccessStatusCode)
+                    {
+
+                        var resultsAkasaAir = responceAkasaAir.Content.ReadAsStringAsync().Result;
+                        var JsonAkasaAir = JsonConvert.DeserializeObject<dynamic>(resultsAkasaAir);
+                        dynamic jsonAkasaAir = JObject.Parse(resultsAkasaAir);
+
+                        var oriDes = _GetfligthModel.origin + "|" + _GetfligthModel.destination;
+                        TempData["origin"] = _SimpleAvailabilityobj.origin;
+                        TempData["destination"] = _SimpleAvailabilityobj.destination;
+                        if (jsonAkasaAir.data.results != null && ((JArray)jsonAkasaAir.data.results).Count > 0)
+                        {
+                            var finddate = JsonAkasaAir.data.results[0].trips[0].date;
+                            var bookingdate = finddate.ToString("dddd, dd MMMM yyyy");
+                            int count = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes].Count;
+                            TempData["count"] = count;
+                            for (int i = 0; i < JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes].Count; i++)
+                            {
+                                string journeyKey = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].journeyKey;
+                                var uniqueJourney = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i];
+
+                                Designator AkasaDesignatorobj = new Designator();
+                                string queryorigin = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].designator.origin;
+                                origin = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
+                                AkasaDesignatorobj.origin = origin;
+                                string querydestination = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].designator.destination;
+                                destination1 = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
+                                AkasaDesignatorobj.destination = destination1;
+
+                                AkasaDesignatorobj.departure = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].designator.departure;
+                                AkasaDesignatorobj.arrival = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].designator.arrival;
+                                TimeSpan travelTimeDiff = AkasaDesignatorobj.arrival - AkasaDesignatorobj.departure;
+                                TimeSpan timeSpan = TimeSpan.Parse(travelTimeDiff.ToString());
+                                if ((int)timeSpan.Minutes == 0)
+                                    formatTime = $"{(int)timeSpan.TotalHours} h";
+                                else
+                                    formatTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
+                                AkasaDesignatorobj.SetformatTime = formatTime;
+                                var segmentscount = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments.Count;
+                                List<DomainLayer.Model.Segment> Segmentobjlist = new List<DomainLayer.Model.Segment>();
+
+                                for (int l = 0; l < segmentscount; l++)
+                                {
+                                    DomainLayer.Model.Segment AkasaSegmentobj = new DomainLayer.Model.Segment();
+                                    Designator AkasaSegmentDesignatorobj = new Designator();
+                                    //queryorigin = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].designator.origin;
+                                    // querydestination = JsonObj.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].designator.destination;                       
+
+                                    AkasaSegmentDesignatorobj.origin = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].designator.origin;
+                                    AkasaSegmentDesignatorobj.destination = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].designator.destination;
+                                    AkasaSegmentDesignatorobj.departure = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].designator.departure;
+                                    AkasaSegmentDesignatorobj.arrival = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].designator.arrival;
+                                    AkasaSegmentobj.designator = AkasaSegmentDesignatorobj;
+                                    Identifier AkasaIdentifier = new Identifier();
+                                    AkasaIdentifier.identifier = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].identifier.identifier;
+                                    AkasaIdentifier.carrierCode = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].identifier.carrierCode;
+                                    AkasaSegmentobj.identifier = AkasaIdentifier;
+
+                                    int Akasalegscount = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs.Count;
+                                    List<DomainLayer.Model.Leg> AkasaLeglist = new List<DomainLayer.Model.Leg>();
+
+                                    for (int m = 0; m < Akasalegscount; m++)
+                                    {
+                                        DomainLayer.Model.Leg AkasaLegobj = new DomainLayer.Model.Leg();
+                                        Designator Akasalegdesignatorobj = new Designator();
+                                        queryorigin = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].designator.origin;
+                                        querydestination = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].designator.destination;
+                                        if (Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault() != null)
+                                        {
+                                            origin = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().citycode;
+                                            Akasalegdesignatorobj.origin = origin;
+                                        }
+                                        else
+                                        {
+                                            Akasalegdesignatorobj.origin = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].designator.origin;
+                                        }
+                                        if (Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault() != null)
+                                        {
+                                            destination1 = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().citycode;
+                                            Akasalegdesignatorobj.destination = destination1;
+                                        }
+                                        else
+                                        {
+                                            Akasalegdesignatorobj.destination = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].designator.destination;
+                                        }
+
+                                        Akasalegdesignatorobj.departure = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].designator.departure;
+                                        Akasalegdesignatorobj.arrival = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].designator.arrival;
+                                        AkasaLegobj.designator = Akasalegdesignatorobj;
+                                        AkasaLegobj.legKey = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].legKey;
+                                        AkasaLegobj.flightReference = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].flightReference;
+                                        AkasaLeglist.Add(AkasaLegobj);
+                                        DomainLayer.Model.LegInfo AkasaLegInfo = new DomainLayer.Model.LegInfo();
+                                        AkasaLegInfo.arrivalTerminal = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].legInfo.arrivalTerminal;
+                                        AkasaLegInfo.departureTerminal = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].legInfo.departureTerminal;
+                                        AkasaLegInfo.arrivalTime = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].legInfo.arrivalTime;
+                                        AkasaLegInfo.departureTime = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].legInfo.departureTime;
+                                        AkasaLegobj.legInfo = AkasaLegInfo;
+
+                                    }
+                                    AkasaSegmentobj.legs = AkasaLeglist;
+                                    Segmentobjlist.Add(AkasaSegmentobj);
+
+                                }
+                                var arrivalTerminal = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[0].legs[0].legInfo.arrivalTerminal;
+                                var departureTerminal = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[0].legs[0].legInfo.departureTerminal;
+                                int AkasaFareCount = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].fares.Count;
+                                _SimpleAvailibilityaAddResponceobj = new SimpleAvailibilityaAddResponce();
+                                if (AkasaFareCount > 0)
+                                {
+                                    List<FareIndividual> AkasafareIndividualsList = new List<FareIndividual>();
+
+                                    for (int j = 0; j < AkasaFareCount; j++)
+                                    {
+                                        //x.data.results[0].trips[0].journeysAvailableByMarket["DEL|BLR"][0].fares[0].fareAvailabilityKey
+
+
+                                        FareIndividual AkasafareIndividual = new FareIndividual();
+
+
+                                        string fareAvailabilityKey = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].fares[j].fareAvailabilityKey;
+                                        //fareIndividual.faretotal = JsonObj.data.faresAvailable[fareAvailabilityKey].faretotal;
+                                        Total Akasatotal = new Total();
+                                        var bookingamount = JsonAkasaAir.data.faresAvailable[fareAvailabilityKey].totals.fareTotal;
+
+                                        string fareAvailabilityKeyhead = JsonAkasaAir.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].fares[0].fareAvailabilityKey;
+                                        var fareAvilableCount = JsonAkasaAir.data.faresAvailable[fareAvailabilityKey].fares.Count;
+                                        var isGoverning = JsonAkasaAir.data.faresAvailable[fareAvailabilityKey].fares[0].isGoverning;
+
+                                        var procuctclass = JsonAkasaAir.data.faresAvailable[fareAvailabilityKey].fares[0].productClass;
+
+                                        var passengertype = JsonAkasaAir.data.faresAvailable[fareAvailabilityKey].fares[0].passengerFares[0].passengerType;
+
+                                        int passengercount = adultcount + chdcount;
+                                        var perpersontotal = JsonAkasaAir.data.faresAvailable[fareAvailabilityKey].totals.fareTotal;
+                                        var fareAmount = perpersontotal / passengercount;
+                                        var perpersontotalclasswise = JsonAkasaAir.data.faresAvailable[fareAvailabilityKey].totals.fareTotal;
+                                        if (j == 0)
+                                        {
+                                            fareTotalsum = perpersontotalclasswise / passengercount;
+                                        }
+
+                                        //END
+                                        decimal discountamount = JsonAkasaAir.data.faresAvailable[fareAvailabilityKey].fares[0].passengerFares[0].discountedFare;
+
+                                        int servicecharge = JsonAkasaAir.data.faresAvailable[fareAvailabilityKey].fares[0].passengerFares[0].serviceCharges.Count;
+                                        decimal finalamount = 0;
+                                        for (int k = 1; k < servicecharge; k++)
+                                        {
+
+                                            decimal amount = JsonAkasaAir.data.faresAvailable[fareAvailabilityKey].fares[0].passengerFares[0].serviceCharges[k].amount;
+                                            finalamount += amount;
+
+                                        }
+                                        //TempData["fareTotalsum"] = fareTotalsum;
+
+                                        decimal taxamount = finalamount;
+                                        AkasafareIndividual.taxamount = taxamount;
+                                        AkasafareIndividual.faretotal = fareAmount;
+                                        AkasafareIndividual.discountamount = discountamount;
+                                        AkasafareIndividual.passengertype = passengertype;
+                                        AkasafareIndividual.fareKey = fareAvailabilityKey;
+                                        AkasafareIndividual.procuctclass = procuctclass;
+                                        AkasafareIndividualsList.Add(AkasafareIndividual);
+
+                                    }
+
+                                    var expandoconverter = new ExpandoObjectConverter();
+                                    dynamic obj = JsonConvert.DeserializeObject<ExpandoObject>(uniqueJourney.ToString(), expandoconverter);
+                                    string jsonresult = JsonConvert.SerializeObject(obj);
+                                    //to do
+                                    _SimpleAvailibilityaAddResponceobj = JsonConvert.DeserializeObject<SimpleAvailibilityaAddResponce>(jsonresult);
+
+                                    _SimpleAvailibilityaAddResponceobj.designator = AkasaDesignatorobj;
+                                    _SimpleAvailibilityaAddResponceobj.segments = Segmentobjlist;
+                                    _SimpleAvailibilityaAddResponceobj.arrivalTerminal = arrivalTerminal;
+                                    _SimpleAvailibilityaAddResponceobj.departureTerminal = departureTerminal;
+                                    _SimpleAvailibilityaAddResponceobj.bookingdate = bookingdate;
+                                    _SimpleAvailibilityaAddResponceobj.fareTotalsum = fareTotalsum;
+                                    _SimpleAvailibilityaAddResponceobj.journeyKey = journeyKey;
+                                    _SimpleAvailibilityaAddResponceobj.faresIndividual = AkasafareIndividualsList;
+                                    _SimpleAvailibilityaAddResponceobj.uniqueId = i;
+                                    _SimpleAvailibilityaAddResponceobj.Airline = Airlines.AkasaAir;
+                                    _SimpleAvailibilityaAddResponceobj.uniqueId = uniqueidx;
+
+                                    uniqueidx++;
+                                    //SimpleAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
+                                    SimpleAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
+                                }
+                            }
+                        }
+
+                    }
+                    #endregion
                     #region spicejet
                     List<SimpleAvailibilityaAddResponce> SpiceJetAvailibilityaAddResponcelist = new List<SimpleAvailibilityaAddResponce>();
                     //Logon 
@@ -1192,17 +1501,28 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         FiltersR.compressionType = "CompressByProductClass";
                         FiltersR.sortOptions = sortOptions;
                         FiltersR.maxConnections = 10;
-                        FiltersR.fareTypes = fareTypes;
-                        FiltersR.productClasses = productClasses;
-                        _SimpleAvailabilityobjR.filters = Filters;
+                        FiltersR.fareTypes = fareTypesR;
+                        FiltersR.productClasses = productClassesR;
+                        _SimpleAvailabilityobjR.filters = FiltersR;
                         _SimpleAvailabilityobjR.taxesAndFees = "Taxes";
                         _SimpleAvailabilityobjR.ssrCollectionsMode = "Leg";
                         _SimpleAvailabilityobjR.numberOfFaresPerJourney = 10;
                         var jsonR = JsonConvert.SerializeObject(_SimpleAvailabilityobjR, Formatting.Indented);
+                        //To do
+                        var result1s = response.Content.ReadAsStringAsync().Result;
+                        var JsonObject = JsonConvert.DeserializeObject<List<_credentials>>(result1s);
+                        if (JsonObject[0].FlightCode == 1)
+                        {
+                            credentialsobj.username = JsonObject[0].username;
+                            credentialsobj.password = JsonObject[0].password;
+                            credentialsobj.domain = JsonObject[0].domain;
+                            credentialsobj.Image = JsonObject[0].Image;
+                        }
 
                     login = new AirAsiaLogin();
                     login.credentials = credentialsobj;
 
+                        //till here
                         TempData["AirAsiaLogin"] = login.credentials.Image;
                         AirasiaTokan = new AirasiaTokan();
                         AirasialoginRequest = JsonConvert.SerializeObject(login, Formatting.Indented);
@@ -1384,6 +1704,297 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
 
                         }
+                        //To do
+                        // Akasa Code Start Round **************
+                        #region Akasa
+                        // Login Token Genrate
+                        
+                        AirAsiaLogin loginAkasaR = new AirAsiaLogin();
+
+                         result1s = response.Content.ReadAsStringAsync().Result;
+                         JsonObject = JsonConvert.DeserializeObject<List<_credentials>>(result1s);
+                        if (JsonObject[1].FlightCode == 2)
+                        {
+                            credentialsobj.username = JsonObject[1].username;
+                            credentialsobj.password = JsonObject[1].password;
+                            credentialsobj.domain = JsonObject[1].domain;
+                            credentialsobj.Image = JsonObject[1].Image;
+                        }
+
+                        loginAkasaR.credentials = credentialsobj;
+                        //TempData["AkasaLogin"] = login.credentials.Image;
+                        //AkasaTokan AkasaTokan = new AkasaTokan();
+                        AirasiaTokan AkasaTokanR = new AirasiaTokan();
+                        var AkasaloginRequestdataR = JsonConvert.SerializeObject(loginAkasaR, Formatting.Indented);
+                        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                        HttpResponseMessage responceAkasaR = await client.PostAsJsonAsync(AppUrlConstant.AkasaTokan, loginAkasaR);
+                        if (responcedata.IsSuccessStatusCode)
+                        {
+                            var results = responcedata.Content.ReadAsStringAsync().Result;
+                            var JsonObj = JsonConvert.DeserializeObject<dynamic>(results);
+                            AkasaTokanR.token = JsonObj.data.token;
+                            AkasaTokanR.idleTimeoutInMinutes = JsonObj.data.idleTimeoutInMinutes;
+
+                        }
+
+                        //till here
+                        //GetAvailibility****************
+                        _SimpleAvailabilityobjR = new DomainLayer.Model.SimpleAvailabilityRequestModel();
+                        _SimpleAvailabilityobjR.origin = _GetfligthModel.destination;
+                        _SimpleAvailabilityobjR.destination = _GetfligthModel.origin;
+                        _SimpleAvailabilityobjR.searchDestinationMacs = true;
+                        _SimpleAvailabilityobjR.searchOriginMacs = true;
+                        _SimpleAvailabilityobjR.beginDate = _GetfligthModel.endDate;
+                        _SimpleAvailabilityobj.endDate = _GetfligthModel.endDate; //"2023-12-20";//_GetfligthModel.endDate;
+                        _SimpleAvailabilityobjR.getAllDetails = true;
+                        _SimpleAvailabilityobjR.taxesAndFees = "TaxesAndFees";
+                        _codesR = new Codessimple();
+                        _typeslistR = new List<Typesimple>();
+                        if (_GetfligthModel.passengercount != null)
+                        {
+                            AdtTypeR = _GetfligthModel.passengercount.adulttype;
+                            AdtCountR = _GetfligthModel.passengercount.adultcount;
+                            chdtypeR = _GetfligthModel.passengercount.childtype;
+                            chdcountR = _GetfligthModel.passengercount.childcount;
+                            infanttypeR = _GetfligthModel.passengercount.infanttype;
+                            infantcountR = _GetfligthModel.passengercount.infantcount;
+                        }
+                        else
+                        {
+                            AdtTypeR = _GetfligthModel.adulttype;
+                            AdtCountR = _GetfligthModel.adultcount;
+                            chdtypeR = _GetfligthModel.childtype;
+                            chdcountR = _GetfligthModel.childcount;
+                            infanttypeR = _GetfligthModel.infanttype;
+                            infantcountR = _GetfligthModel.infantcount;
+                        }
+                        if (AdtTypeR == "ADT" && AdtCountR != 0)
+                        {
+                            Typesimple TypesR = new Typesimple();
+                            TypesR.type = AdtType;
+                            TypesR.count = AdtCount;
+
+                            _typeslistR.Add(TypesR);
+                        }
+                        if (chdtypeR == "CHD" && chdcountR != 0)
+                        {
+                            Typesimple TypesR = new Typesimple();
+                            TypesR.type = chdtype;
+                            TypesR.count = chdcount;
+
+                            _typeslistR.Add(TypesR);
+                        }
+                        if (infanttypeR == "INFT" && infantcountR != 0)
+                        {
+                            Typesimple TypesR = new Typesimple();
+                            TypesR.type = infanttype;
+                            TypesR.count = infantcount;
+
+                            _typeslistR.Add(TypesR);
+                        }
+
+
+                        _PassengerssimpleR = new Passengerssimple();
+                        _PassengerssimpleR.types = _typeslist;
+                        _SimpleAvailabilityobjR.passengers = _Passengerssimple;
+
+                        //_codes.currencyCode = "INR";
+                        _SimpleAvailabilityobjR.codes = _codes;
+                        //_SimpleAvailabilityobjR.sourceOrganization = "";
+                        ///_SimpleAvailabilityobjR.currentSourceOrganization = "";
+                        //_SimpleAvailabilityobjR.promotionCode = "";
+                        sortOptionsR = new string[1];
+                        sortOptionsR[0] = "NoSort";
+                        fareTypesR = new string[3];
+                        fareTypesR[0] = "R";
+                        fareTypesR[1] = "V";
+                        fareTypesR[2] = "S";
+                        productClassesR = new string[3];
+                        productClassesR[0] = "EC";
+                        productClassesR[1] = "AV";
+                        productClassesR[2] = "SP";
+                        FiltersR = new Filters();
+                        //FiltersR.exclusionType = "Default";
+                        //FiltersR.loyalty = "MonetaryOnly";
+                        // FiltersR.includeAllotments = true;
+                        //FiltersR.connectionType = "Both";
+                        FiltersR.compressionType = "1";
+                        FiltersR.groupByDate = false;
+                        FiltersR.carrierCode = "QP";
+                        FiltersR.type = "ALL";
+                        FiltersR.sortOptions = sortOptionsR;
+                        FiltersR.maxConnections = 4;
+                        FiltersR.fareTypes = fareTypesR;
+                        FiltersR.productClasses = productClassesR;
+                        _SimpleAvailabilityobjR.filters = FiltersR;
+                        //_SimpleAvailabilityobjR.taxesAndFees = "Taxes";
+                        //_SimpleAvailabilityobjR.ssrCollectionsMode = "Leg";
+                        _SimpleAvailabilityobjR.numberOfFaresPerJourney = 4;
+                        jsonR = JsonConvert.SerializeObject(_SimpleAvailabilityobjR, Formatting.Indented);
+
+                        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AkasaTokanR.token);
+                        responceR = await client.PostAsJsonAsync(AppUrlConstant.AkasasearchsimpleR, _SimpleAvailabilityobjR);
+                        if (responceR.IsSuccessStatusCode)
+                        {
+                            var resultsR = responceR.Content.ReadAsStringAsync().Result;
+
+                            var JsonObjR = JsonConvert.DeserializeObject<dynamic>(resultsR);
+
+
+                            var oriDes = _GetfligthModel.destination + "|" + _GetfligthModel.origin;
+                            TempData["originR"] = _SimpleAvailabilityobj.origin;
+                            TempData["destinationR"] = _SimpleAvailabilityobj.destination;
+                            // data binding 
+                            if (JsonObjR.data.results != null && ((JArray)JsonObjR.data.results).Count > 0)
+                            {
+                                var finddate = JsonObjR.data.results[0].trips[0].date;
+                                var bookingdate = finddate.ToString("dddd, dd MMMM yyyy");
+
+
+
+                                int count = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes].Count;
+                                TempData["countr"] = count;
+
+
+
+                                for (int i = 0; i < JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes].Count; i++)
+                                {
+
+                                    string journeyKey = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].journeyKey;
+                                    //journeyKey1 = ((Newtonsoft.Json.Linq.JValue)journeyKey).Value.ToString();
+                                    var destination = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i];
+                                    Designator Designatorobj = new Designator();
+                                    Designatorobj.origin = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].designator.origin;
+                                    Designatorobj.destination = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].designator.destination;
+                                    Designatorobj.departure = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].designator.departure;
+                                    Designatorobj.arrival = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].designator.arrival;
+
+                                    var segmentscount = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments.Count;
+                                    List<DomainLayer.Model.Segment> Segmentobjlist = new List<DomainLayer.Model.Segment>();
+
+                                    for (int l = 0; l < segmentscount; l++)
+                                    {
+                                        DomainLayer.Model.Segment Segmentobj = new DomainLayer.Model.Segment();
+                                        Designator SegmentDesignatorobj = new Designator();
+                                        SegmentDesignatorobj.origin = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].designator.origin;
+                                        SegmentDesignatorobj.destination = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].designator.destination;
+                                        SegmentDesignatorobj.departure = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].designator.departure;
+                                        SegmentDesignatorobj.arrival = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].designator.arrival;
+                                        Segmentobj.designator = SegmentDesignatorobj;
+                                        Identifier Identifier = new Identifier();
+                                        Identifier.identifier = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].identifier.identifier;
+                                        Identifier.carrierCode = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].identifier.carrierCode;
+                                        Segmentobj.identifier = Identifier;
+
+                                        int legscount = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs.Count;
+                                        List<DomainLayer.Model.Leg> Leglist = new List<DomainLayer.Model.Leg>();
+                                        for (int m = 0; m < legscount; m++)
+                                        {
+                                            DomainLayer.Model.Leg Legobj = new DomainLayer.Model.Leg();
+                                            Designator legdesignatorobj = new Designator();
+                                            legdesignatorobj.origin = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].designator.origin;
+                                            legdesignatorobj.destination = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].designator.destination;
+                                            legdesignatorobj.departure = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].designator.departure;
+                                            legdesignatorobj.arrival = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].designator.arrival;
+                                            Legobj.designator = legdesignatorobj;
+                                            Legobj.legKey = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].legKey;
+                                            Legobj.flightReference = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].flightReference;
+                                            Leglist.Add(Legobj);
+                                            DomainLayer.Model.LegInfo LegInfo = new DomainLayer.Model.LegInfo();
+                                            LegInfo.arrivalTerminal = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].legInfo.arrivalTerminal;
+                                            LegInfo.departureTerminal = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].legInfo.departureTerminal;
+                                            LegInfo.arrivalTime = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].legInfo.arrivalTime;
+                                            LegInfo.departureTime = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[l].legs[m].legInfo.departureTime;
+                                            Legobj.legInfo = LegInfo;
+
+                                        }
+                                        //  Leglist.Add(Legobj);
+                                        Segmentobj.legs = Leglist;
+                                        Segmentobjlist.Add(Segmentobj);
+
+                                    }
+
+
+                                    var arrivalTerminal = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[0].legs[0].legInfo.arrivalTerminal;
+                                    var departureTerminal = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].segments[0].legs[0].legInfo.departureTerminal;
+                                    int FareCount = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].fares.Count;
+
+
+                                    if (FareCount > 0)
+                                    {
+                                        List<FareIndividual> fareIndividualsList = new List<FareIndividual>();
+
+                                        for (int j = 0; j < FareCount; j++)
+                                        {
+                                            //x.data.results[0].trips[0].journeysAvailableByMarket["DEL|BLR"][0].fares[0].fareAvailabilityKey
+
+
+                                            FareIndividual fareIndividual = new FareIndividual();
+
+                                            string fareAvailabilityKey = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].fares[j].fareAvailabilityKey;
+                                            string fareAvailabilityKeyhead = JsonObjR.data.results[0].trips[0].journeysAvailableByMarket[oriDes][i].fares[0].fareAvailabilityKey;
+                                            var fareAvilableCount = JsonObjR.data.faresAvailable[fareAvailabilityKey].fares.Count;
+                                            var isGoverning = JsonObjR.data.faresAvailable[fareAvailabilityKey].fares[0].isGoverning;
+                                            var procuctclass = JsonObjR.data.faresAvailable[fareAvailabilityKey].fares[0].productClass;
+                                            var passengertype = JsonObjR.data.faresAvailable[fareAvailabilityKey].fares[0].passengerFares[0].passengerType;
+                                            var fareAmount = JsonObjR.data.faresAvailable[fareAvailabilityKey].fares[0].passengerFares[0].fareAmount;
+                                            fareTotalsum = JsonObjR.data.faresAvailable[fareAvailabilityKeyhead].fares[0].passengerFares[0].fareAmount;
+
+
+
+                                            decimal discountamount = JsonObjR.data.faresAvailable[fareAvailabilityKey].fares[0].passengerFares[0].discountedFare;
+
+                                            int servicecharge = JsonObjR.data.faresAvailable[fareAvailabilityKey].fares[0].passengerFares[0].serviceCharges.Count;
+                                            decimal finalamount = 0;
+                                            for (int k = 1; k < servicecharge; k++)
+                                            {
+
+                                                decimal amount = JsonObjR.data.faresAvailable[fareAvailabilityKey].fares[0].passengerFares[0].serviceCharges[k].amount;
+                                                finalamount += amount;
+
+                                            }
+                                            //TempData["fareTotalsum"] = fareTotalsum;
+
+                                            decimal taxamount = finalamount;
+                                            fareIndividual.taxamount = taxamount;
+                                            fareIndividual.faretotal = fareAmount;
+                                            fareIndividual.discountamount = discountamount;
+                                            fareIndividual.passengertype = passengertype;
+                                            fareIndividual.fareKey = fareAvailabilityKey;
+                                            fareIndividual.procuctclass = procuctclass;
+                                            fareIndividualsList.Add(fareIndividual);
+
+                                        }
+
+                                        var expandoconverter = new ExpandoObjectConverter();
+                                        dynamic objR = JsonConvert.DeserializeObject<ExpandoObject>(destination.ToString(), expandoconverter);
+                                        string jsonresultR = JsonConvert.SerializeObject(objR);
+                                        _SimpleAvailibilityaAddResponceobjR = JsonConvert.DeserializeObject<SimpleAvailibilityaAddResponce>(jsonresultR);
+                                        _SimpleAvailibilityaAddResponceobjR.designator = Designatorobj;
+                                        _SimpleAvailibilityaAddResponceobjR.segments = Segmentobjlist;
+
+                                        _SimpleAvailibilityaAddResponceobjR.arrivalTerminal = arrivalTerminal;
+                                        _SimpleAvailibilityaAddResponceobjR.departureTerminal = departureTerminal;
+                                        _SimpleAvailibilityaAddResponceobjR.bookingdate = bookingdate;
+                                        _SimpleAvailibilityaAddResponceobjR.fareTotalsum = fareTotalsum;
+                                        _SimpleAvailibilityaAddResponceobjR.journeyKey = journeyKey;
+                                        _SimpleAvailibilityaAddResponceobjR.uniqueId = i;
+                                        _SimpleAvailibilityaAddResponceobjR.faresIndividual = fareIndividualsList;
+                                        _SimpleAvailibilityaAddResponceobjR.uniqueId = uniqueidx;
+                                        _SimpleAvailibilityaAddResponceobjR.Airline = Airlines.AkasaAir;
+                                        uniqueidx++;
+                                        SimpleAvailibilityaAddResponcelistR.Add(_SimpleAvailibilityaAddResponceobjR);
+                                    }
+                                }
+                            }
+
+
+                        }
+
+                        #endregion
+                        // Akasa Code End Round******************
+
                         //Roundtripcode for SpiceJet
                         #region spicejet
                         List<SimpleAvailibilityaAddResponce> SpiceJetAvailibilityaAddResponcelistR = new List<SimpleAvailibilityaAddResponce>();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DomainLayer.Model;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
 using RepositoryLayer.DbContextLayer;
 using ServiceLayer.Service.Interface;
@@ -19,9 +20,11 @@ namespace ServiceLayer.Service.Implementation
             this._dbContext = dbContext;
         }
 
-        public _credentials GetAllCredentialRepo()
+        public List<_credentials> GetAllCredentialRepo()
         {
-            return this._dbContext.tblflightlogin.FirstOrDefault();
+            var dataLogin = _dbContext.tblflightlogin.ToList();
+            return dataLogin;
+            //return this._dbContext.tblflightlogin.FirstOrDefault();
         }
     }
 }

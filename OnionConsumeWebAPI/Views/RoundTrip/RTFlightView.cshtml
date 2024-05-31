@@ -487,6 +487,11 @@
 
                                                         <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
                                                     }
+                                                    else if (Model.SimpleAvailibilityaAddResponcelistR[j].Airline.ToString().ToLower().Equals("akasaair"))
+                                                    {
+
+                                                        <img class="size-40" src="~/img/flight-logo-icon/akasa.png" alt="image">
+                                                    }
                                                     else
                                                     {
                                                         <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
@@ -635,6 +640,11 @@
                                                                                 {
 
                                                                                     <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
+                                                                                }
+                                                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("QP"))
+                                                                                {
+
+                                                                                    <img class="size-40" src="~/img/flight-logo-icon/akasa.png" alt="image">
                                                                                 }
                                                                                 else
                                                                                 {
@@ -808,6 +818,11 @@
                                                                     {
                                                                         CompanyName = "Indigo";
                                                                         <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
+                                                                    }
+                                                                     else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("QP"))
+                                                                    {
+                                                                        CompanyName = "AkasaAir";
+                                                                        <img class="size-40" src="~/img/flight-logo-icon/akasa.png" alt="image">
                                                                     }
                                                                     else
                                                                     {
@@ -998,6 +1013,11 @@
 
                                                         <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
                                                     }
+                                                    else if (Model.SimpleAvailibilityaAddResponcelistR[j].Airline.ToString().ToLower().Equals("akasaair"))
+                                                    {
+
+                                                        <img class="size-40" src="~/img/flight-logo-icon/akasa.png" alt="image">
+                                                    }
                                                     else
                                                     {
                                                         <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
@@ -1139,6 +1159,11 @@
 
                                                                                     <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
                                                                                 }
+                                                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].segments[a].identifier.carrierCode.Equals("QP"))
+                                                                                {
+
+                                                                                    <img class="size-40" src="~/img/flight-logo-icon/akasa.png" alt="image">
+                                                                                }
                                                                                 else
                                                                                 {
                                                                                     <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
@@ -1156,6 +1181,11 @@
                                                                                             {
 
                                                                                                 CompanyName = "Indigo";
+                                                                                            }
+                                                                                             else if (Model.SimpleAvailibilityaAddResponcelistR[j].segments[a].identifier.carrierCode.Equals("QP"))
+                                                                                            {
+
+                                                                                                CompanyName = "AkasaAir";
                                                                                             }
                                                                                             else
                                                                                             {
@@ -1311,6 +1341,11 @@
                                                                     {
                                                                         CompanyName = "Indigo";
                                                                         <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
+                                                                    }
+                                                                    else if (Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.carrierCode.Equals("QP"))
+                                                                    {
+                                                                        CompanyName = "AkasaAir";
+                                                                        <img class="size-40" src="~/img/flight-logo-icon/akasa.png" alt="image">
                                                                     }
                                                                     else
                                                                     {
@@ -3850,7 +3885,14 @@
             } else if (AirlineNameL == 'Airasia') {
                 imageSrc = '../img/flight-logo-icon/1.webp';
 
-            } else {
+            }
+            else if (AirlineNameL == 'AkasaAir') {
+                imageSrc = '../img/flight-logo-icon/akasa.png';
+
+            }
+            
+            
+            else {
                 // If none of the above conditions match, you can set a default image source here
                 imageSrc = ''; // Set a default image source or leave it blank if you don't want to show any image
             }
@@ -3909,7 +3951,12 @@
             } else if (AirlineNameR == 'Airasia') {
                 imageSrc = '../img/flight-logo-icon/1.webp';
 
-            } else {
+            } 
+             else if (AirlineNameR == 'AkasaAir') {
+                imageSrc = '../img/flight-logo-icon/akasa.png';
+
+            }
+            else {
                 // If none of the above conditions match, you can set a default image source here
                 imageSrc = ''; // Set a default image source or leave it blank if you don't want to show any image
             }

@@ -7,6 +7,8 @@
         public static string BaseURL = "http://localhost:5225/";
 
         public static string URLAirasia = "https://dotrezapi.test.I5.navitaire.com";
+        
+        public static string URLAkasaAir = " https://tbnk-reyalrb.qp.akasaair.com";
 
         public static string AirasiaTokan = URLAirasia + "/api/nsk/v1/token";
 
@@ -33,7 +35,10 @@
         public static string AirasiaPNRBooking = URLAirasia + "/api/nsk/v1/booking/retrieve/byRecordLocator/";
 
 
-
+        public static string AkasaTokan = URLAkasaAir + "/api/nsk/v2/token";
+        public static string AkasaAirSearchSimple = URLAkasaAir + "/api/nsk/v4/availability/search/simple";
+        public static string AkasaAirTripsell = URLAkasaAir + "/api/nsk/v4/trip/sell";
+        public static string AkasasearchsimpleR = URLAkasaAir + "/api/nsk/v4/availability/search/simple";
 
 
 

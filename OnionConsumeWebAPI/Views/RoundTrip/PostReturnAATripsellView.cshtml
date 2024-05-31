@@ -264,6 +264,12 @@
 
                                                             <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
                                                         }
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline.ToString().ToLower().Equals("akasaair"))
+                                                        {
+
+                                                            <img class="size-40" src="~/img/flight-logo-icon/akasa.png" alt="image">
+                                                        }
+
                                                         else
                                                         {
                                                             <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
@@ -608,6 +614,11 @@
 
                                                             <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
                                                         }
+                                                        else if (Model.SimpleAvailibilityaAddResponcelistR[j].Airline.ToString().ToLower().Equals("akasaair"))
+                                                        {
+
+                                                            <img class="size-40" src="~/img/flight-logo-icon/akasa.png" alt="image">
+                                                        }
                                                         else
                                                         {
                                                             <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
@@ -706,6 +717,19 @@
                                                     Faretype = "Spice max";
                                                 else
                                                     Faretype = "Saver Fare";
+                                            }
+                                            // Akasa fair Details
+                                            else if (Model.SimpleAvailibilityaAddResponcelistR[j].Airline == Airlines.AkasaAir)
+                                            {
+
+                                                if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("R"))
+                                                    Faretype = "Saver";
+                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("V"))
+                                                    Faretype = "Flexi";
+                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("S"))
+                                                    Faretype = "max";
+                                                else
+                                                    Faretype = "Saver";
                                             }
                                             else
                                             {
@@ -882,7 +906,32 @@
                                                         </ul>
                                                     }
 
+                                                    //Spice Jet Detail
+                                                    if (@Faretype == "Saver")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 15 Kgs  (1 piece)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs 3600:- (within 96 hrs from Departure)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs 3350:- (within 96 hrs from Departure)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
 
+                                                        </ul>
+                                                    }
+
+                                                    if (@Faretype == "Flexi")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 15 Kgs  (1 piece)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs 3600:- (within 96 hrs from Departure)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs 3350:- (within 96 hrs from Departure)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
 
                                                 }
 

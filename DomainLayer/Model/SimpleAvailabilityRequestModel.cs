@@ -31,8 +31,9 @@ namespace DomainLayer.Model
         public int numberOfFaresPerJourney { get; set; }
         public passengercount passengercount { get; set; }
 
-
-
+        public bool searchDestinationMacs { get; set; }
+        public bool searchOriginMacs { get; set; }
+        public bool getAllDetails { get; set; }
 
     }
     public class passengercount
@@ -75,6 +76,14 @@ namespace DomainLayer.Model
         public int maxConnections { get; set; }
         public string[] fareTypes { get; set; }
         public string[] productClasses { get; set; }
+
+        // Akasa Property
+        public bool groupByDate { get; set; }
+        public string carrierCode { get; set; }
+        public string type { get; set; }
+
+
+
     }
 
 
