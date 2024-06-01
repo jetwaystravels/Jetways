@@ -82,7 +82,14 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
         [Route("")]
         public async Task<IActionResult> SearchResultFlight(SimpleAvailabilityRequestModel _GetfligthModel)
         {
-            KeyName = _GetfligthModel.origin + "_" + _GetfligthModel.destination + "_" + _GetfligthModel.beginDate + "_" + _GetfligthModel.passengercount.adultcount;
+            if (_GetfligthModel.passengercount != null)
+            {
+                KeyName = _GetfligthModel.origin + "_" + _GetfligthModel.destination + "_" + _GetfligthModel.beginDate + "_" + _GetfligthModel.adultcount;
+            }
+            else
+            {
+                KeyName = _GetfligthModel.origin + "_" + _GetfligthModel.destination + "_" + _GetfligthModel.beginDate + "_" + _GetfligthModel.adultcount;
+            }
             List<SimpleAvailibilityaAddResponce> SimpleAvailibilityaAddResponcelist = new List<SimpleAvailibilityaAddResponce>();
             if (_GetfligthModel == null)
             {

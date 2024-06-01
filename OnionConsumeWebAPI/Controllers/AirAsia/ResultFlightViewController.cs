@@ -342,7 +342,7 @@ namespace OnionConsumeWebAPI.Controllers
                             AASegmentobj.isHosted = JsonObjTripsell.data.journeys[i].segments[j].isHosted;
 
                             AADesignator AASegmentDesignatorobj = new AADesignator();
-                            var cityname = Citydata.GetAllcity().Where(x => x.cityCode == "DEL");
+                            var cityname = Citynamelist.GetAllCityData().Where(x => x.citycode == "DEL");
                             AASegmentDesignatorobj.origin = JsonObjTripsell.data.journeys[i].segments[j].designator.origin;
                             AASegmentDesignatorobj.destination = JsonObjTripsell.data.journeys[i].segments[j].designator.destination;
                             AASegmentDesignatorobj.departure = JsonObjTripsell.data.journeys[i].segments[j].designator.departure;

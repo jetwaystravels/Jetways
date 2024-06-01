@@ -91,15 +91,15 @@
                                                 var departuretimefinal = departuretimestr.Substring(11, 5);
                                                 string queryorigin = item.segments[i].legs[j].designator.origin;
                                                 string querydestination = item.segments[i].legs[j].designator.destination;
-                                                if (Citydata.GetAllcity().Where(x => x.cityCode == queryorigin).SingleOrDefault() != null)
+                                                if (Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault() != null)
                                                 {
-                                                    string origin = Citydata.GetAllcity().Where(x => x.cityCode == queryorigin).SingleOrDefault().cityName;
+                                                    string origin = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
                                                     item.segments[i].legs[j].designator.origin = origin;
                                                 }
 
-                                                if (Citydata.GetAllcity().Where(x => x.cityCode == querydestination).SingleOrDefault() != null)
+                                                if (Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault() != null)
                                                 {
-                                                    string destination1 = Citydata.GetAllcity().Where(x => x.cityCode == querydestination).SingleOrDefault().cityName;
+                                                    string destination1 = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
                                                     item.segments[i].legs[j].designator.destination = destination1;
                                                 }
 

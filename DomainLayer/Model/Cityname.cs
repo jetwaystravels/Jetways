@@ -48,6 +48,7 @@ namespace DomainLayer.Model
             new { citycode = "STV", cityname = "Surat", airportname = " Surat International Airport "},
             new { citycode = "GWL", cityname = "Gwalior", airportname = "Gwalior Airport "},
             new { citycode = "GOI", cityname = "Goa", airportname = "Goa Dabolim International Airport "},
+            new { citycode = "GOX", cityname = "Goa", airportname = "North Goa -MOPA Airport "},
             new { citycode = "IXR", cityname = "Ranchi", airportname = "Surat International Airport "},
             new { citycode = "BBI", cityname = "Bhubaneswar", airportname = " Birsa Munda Airport"},
             new { citycode = "HYD", cityname = "Hyderabad", airportname = "Rajiv Gandhi International Airport"},
