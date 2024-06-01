@@ -152,17 +152,35 @@
                                     }
                                     if (stops == 2)
                                     {
-                                        for (int l = 0; l < @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs.Count; l++)
-                                        {
-                                            if (l == 0)
+
+                                        //for (int l = 0; l < @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs.Count; l++)
+                                        //{
+
+                                            if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs.Count == 2)
                                             {
-                                                <div class="mt-1">2 Stop Via  @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[l].designator.destination  <b>,</b></div>
+                                                <div class="mt-1"> 2 Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.origin  ,@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination</div>
                                             }
-                                            else if (l == 1)
+                                            else
                                             {
-                                                <span> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[l].designator.destination</span>
+                                                // <div class="mt-1">2 Stop via  @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination  <b>,</b></div>
+
                                             }
-                                        }
+
+                                        //}
+
+                                        //for (int l = 0; l < @Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs.Count; l++)
+                                        //{
+
+                                            if (Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs.Count == 2)
+                                            {
+                                                <div class="mt-1"> 2 Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.origin  ,@Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination</div>
+                                            }
+                                            else
+                                            {
+                                                // <div class="mt-1">2 Stop via  @Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination  <b>,</b></div>
+
+                                            }
+                                       // }
                                     }
                                 }
 
