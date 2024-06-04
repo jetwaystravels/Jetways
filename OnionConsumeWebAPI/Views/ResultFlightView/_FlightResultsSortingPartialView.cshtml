@@ -591,7 +591,7 @@
                     <div class="dst-top text-12">@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin - @Model.SimpleAvailibilityaAddResponcelist[j].designator.destination (@formattedDate) </div>
 
 
-                    <div class="col-lg-4">
+                    <div class="col-lg-12">
                         <div class="text-19 fw-bold fw-600">Fare Rule</div>
                         @{
                             @for (var k = 0; k < Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual.Count; k++)
@@ -604,32 +604,26 @@
                                 <table class="table mt-20">
                                     <thead class="bg-light-2">
                                         <tr>
-                                            <th>Fare Details</th>
-                                            <th>Amount</th>
-
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
+                                            <th><strong>Fare Details</strong></th>
+                                            <th style="text-align:right;"><strong>Amount</strong></th>
                                         </tr>
                                     </thead>
                                     <tbody>
 
                                         <tr>
                                             <td>Basic(+)</td>
-                                            <td>@basic.ToString("N0")</td>
+                                            <td align="right">@basic.ToString("N0")</td>
                                         </tr>
 
                                         <tr>
                                             <td>Taxes(+)</td>
-                                            <td>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].taxamount.ToString("N0")</td>
+                                            <td align ="right">@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].taxamount.ToString("N0")</td>
                                         </tr>
 
 
                                         <tr>
                                             <td>Total</td>
-                                            <td>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].faretotal.ToString("N0")</td>
+                                            <td align="right">@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].faretotal.ToString("N0")</td>
                                         </tr>
                                     </tbody>
                                 </table>

@@ -588,7 +588,7 @@
 
 
             <!-- Modal -->
-            <div class="modal fade" id="sgexampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade sgexampleModal-bx" id="sgexampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content MWidth">
                         <div class="modal-mfareheader d-flex justify-between">
@@ -603,67 +603,89 @@
                         <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
                         </div> *@
                         <div class="modal-footer fbody-padding">
-                            @{
-                                int segmentcount = Model.passeengerlistRT[0].journeys[0].segments.Count;
-                                @if (segmentcount == 1)
-                                {
-                                    <div class="d-flex">
-                                        <div id="LeftNonstop">
-                                            <button type="button" id="leftNstop1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
-                                            <button type="button" id="leftNstop2" class="btn  btn-primary">Continue</button>
-                                        </div>
+                            <div class="row legendHolder-box">
+                                <div class="col-lg-8">  
+                                        <ul>
 
-                                        <!---Right Side Button---->
-                                        <div id="rightNonstop" style="display:none;">
-                                            <button type="button" id="rightNstop1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
-                                            <button type="button" id="rightNstop2" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
-                                        </div>
-                                        <div id="LrightConnect1" style="display:none;">
-                                            <button type="button" id="Lrightconnect1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
-                                            <button type="submit" id="Lrightconnect2" class="btn  btn-primary">Continue</button>
-                                        </div>
-                                        <div id="LrightConnect2" style="display:none;">
-                                            <button type="button" id="Lrightconnect_1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
-                                            <button type="submit" id="Lrightconnect_2" data-dismiss="modal" class="btn btnclose btn-primary">Continue..</button>
-                                        </div>
+                                            <li style="padding:0;"><strong>Legend:</strong></li>
+                                            <li><span class="free"></span>Free Seats</li>
+                                            <li><span class="midcomfort"></span>&#8377; 150 - &#8377; 350</li>
+                                            <li><span class="comfort"></span>&#8377; 400 - &#8377; 800</li>
+                                            <li><span class="booked"></span>Occupied</li>
 
-                                    </div>
-                                }
-                                else
-                                {
+                                        </ul>
+                                
+                               
+                            </div>
 
-                                    @for (int i = 0; i < segmentcount; i++)
-                                    {
-                                        @if (i == 1)
+                                <div class="col-lg-4">
+
+                                    @{
+                                        int segmentcount = Model.passeengerlistRT[0].journeys[0].segments.Count;
+                                        @if (segmentcount == 1)
                                         {
                                             <div class="d-flex">
-                                                <div id="leftConnect">
-                                                    <button type="button" id="leftConnect1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
-                                                    <button type="submit" id="leftConnect2" class="btn  btn-primary">Continue</button>
-                                                </div>
-                                                <div id="leftConnect_2" style="display:none;">
-                                                    <button type="button" id="leftConnect_1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
-                                                    <button type="submit" id="leftConnectbtn_2" class="btn  btn-primary">Continue</button>
-                                                </div>
-                                                <div id="rightConnect1" style="display:none;">
-                                                    <button type="button" id="rightconnect1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
-                                                    <button type="submit" id="rightconnect2" class="btn  btn-primary">Continue</button>
-                                                </div>
-                                                <div id="rightConnect2" style="display:none;">
-                                                    <button type="button" id="rightconnect_1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
-                                                    <button type="submit" id="rightconnect_2" data-dismiss="modal" class="btn btnclose btn-primary">Continue..</button>
+                                                <div id="LeftNonstop">
+                                                    <button type="button" id="leftNstop1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
+                                                    <button type="button" id="leftNstop2" class="btn  btn-primary">Continue</button>
                                                 </div>
 
-                                                <div id="RightNonstop" style="display:none;">
-                                                    <button type="button" id="RightNonstop1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
-                                                    <button type="submit" id="RightNonstop2" data-dismiss="modal" class="btn btnclose btn-primary">Continue..</button>
+                                                <!---Right Side Button---->
+                                                <div id="rightNonstop" style="display:none;">
+                                                    <button type="button" id="rightNstop1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
+                                                    <button type="button" id="rightNstop2" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
                                                 </div>
+                                                <div id="LrightConnect1" style="display:none;">
+                                                    <button type="button" id="Lrightconnect1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
+                                                    <button type="submit" id="Lrightconnect2" class="btn  btn-primary">Continue</button>
+                                                </div>
+                                                <div id="LrightConnect2" style="display:none;">
+                                                    <button type="button" id="Lrightconnect_1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
+                                                    <button type="submit" id="Lrightconnect_2" data-dismiss="modal" class="btn btnclose btn-primary">Continue..</button>
+                                                </div>
+
                                             </div>
                                         }
+                                        else
+                                        {
 
+                                            @for (int i = 0; i < segmentcount; i++)
+                                            {
+                                                @if (i == 1)
+                                                {
+                                                    <div class="d-flex">
+                                                        <div id="leftConnect">
+                                                            <button type="button" id="leftConnect1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
+                                                            <button type="submit" id="leftConnect2" class="btn  btn-primary">Continue</button>
+                                                        </div>
+                                                        <div id="leftConnect_2" style="display:none;">
+                                                            <button type="button" id="leftConnect_1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
+                                                            <button type="submit" id="leftConnectbtn_2" class="btn  btn-primary">Continue</button>
+                                                        </div>
+                                                        <div id="rightConnect1" style="display:none;">
+                                                            <button type="button" id="rightconnect1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
+                                                            <button type="submit" id="rightconnect2" class="btn  btn-primary">Continue</button>
+                                                        </div>
+                                                        <div id="rightConnect2" style="display:none;">
+                                                            <button type="button" id="rightconnect_1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
+                                                            <button type="submit" id="rightconnect_2" data-dismiss="modal" class="btn btnclose btn-primary">Continue..</button>
+                                                        </div>
+
+                                                        <div id="RightNonstop" style="display:none;">
+                                                            <button type="button" id="RightNonstop1" data-dismiss="modal" class="btn  btngry btnclose">Cancel</button>
+                                                            <button type="submit" id="RightNonstop2" data-dismiss="modal" class="btn btnclose btn-primary">Continue..</button>
+                                                        </div>
+                                                    </div>
+                                                }
+
+                                            }
+                                        }
                                     }
-                                }
-                            }
+                                </div>
+                                <p><strong>Disclaimer:</strong> Seat allotment is the sole prerogative of the airline and can't be guaranteed by jetwaystravel.com</p>
+
+                            </div>
+                          
                         </div>
                     </div>
                 </div>

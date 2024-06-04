@@ -1539,6 +1539,7 @@ Flight Search AREA
             border-bottom: #CDD3D8 1px solid;
             padding-bottom: 35px;
             border-radius: 0.15rem;
+            cursor:pointer;
         }
 
             .search-area .search-box .input-group-text span {
@@ -1616,6 +1617,7 @@ Flight Search AREA
 
         .search-area .search-box .text-15 {
             font-size: 15px;
+            cursor:pointer;
         }
 
         .search-area .search-box .searchMenu-guests {
@@ -1626,9 +1628,12 @@ Flight Search AREA
             background: #fff;
         }
 
-        .search-area .search-box input.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
-            color: #000;
-        }
+        .kk button{vertical-align:middle;}
+        select:focus {border:none; outline:none;}
+
+.search-area .search-box input.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #000;
+}
 
         .search-area .search-box input.form-control::-ms-input-placeholder { /* Microsoft Edge */
             color: #000;
@@ -3114,6 +3119,11 @@ FOOTER AREA CSS
     .search-result .bg-white .flightLine {
         margin-top: 8px;
         background: #D1DEE6;
+    }
+
+    .search-result .bg-white .fare-round .r-stop {
+        font-size: 12px;
+        font-weight: 600;
     }
 
 .search-result .flightLine > *:nth-child(2) {

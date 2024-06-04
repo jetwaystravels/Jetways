@@ -13276,7 +13276,8 @@ Start Seat Map section
     padding: 0px 0 0px 0px;
     /* border-radius: 143px 0 0 143px;*/
     border: #DEE0E4 1px solid;
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
     white-space: nowrap;
     height: 293px;
     position: relative;
@@ -13354,7 +13355,7 @@ Start Seat Map section
 
 
         .service-section .seat-section .inner-section .seat-li.midcomfort {
-            background: #48A5E9;
+            background: rgb(201, 186, 255);
             text-align: center;
         }
 
@@ -13441,7 +13442,7 @@ Start Seat Map section
 .service-section .legendHolder-box {
     background: #F2F3F4;
     padding: 15px;
-    margin: 20px 0;
+    margin: 0;
     text-align: center;
     border: #DEE0E4 1px solid;
     border-radius: 4px;
@@ -13463,18 +13464,35 @@ Start Seat Map section
     .service-section .legendHolder-box p {
         font-size: 15px;
         text-align: center;
-        padding-top: 8px;
+        padding-top: 6px;
+        border-top: #DEE0E4 1px solid;
+        margin-top: 8px;
     }
 
-    .service-section .legendHolder-box ul li .free {
-        background: #34ddc9;
-        vertical-align: middle;
-        width: 19px;
-        height: 19px;
-        border-radius: 50%;
-        margin-right: 5px;
-        display: inline-block;
+.modal-content .nav .nav-item .nav-link {
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 1rem 0 0;
+}
+
+
+    .modal-content .nav .nav-item .nav-link.activeblue {
+        background-color: #d1c3c4 !important;
+        height: 30px !important;
+        padding: 5px 10px !important;
+        border-radius: 30px !important;
+        margin-top: 10px;
     }
+
+.modal-content .legendHolder-box ul li .free {
+    background: #34ddc9;
+    vertical-align: middle;
+    width: 19px;
+    height: 19px;
+    border-radius: 50%;
+    margin-right: 5px;
+    display: inline-block;
+}
 
     .service-section .legendHolder-box ul li .midcomfort {
         background: #78c4ff;
@@ -13751,7 +13769,7 @@ flight loader
     height: 100%;
     top: 0%;
     left: 0%;
-    opacity:.7;
+    opacity:0.87;
     z-index: 999;
     background: #fff;
     /*top: 0;
@@ -13767,10 +13785,9 @@ flight loader
     position: absolute;
     top: 20%;
     left: 30%;
-    width: calc(100%);
+    /*width: calc(100%);*/
     color: #FFF;
     text-align: center;
-   
 }
 
 
@@ -13826,6 +13843,8 @@ Flight Ticket
 .flight-tckt-main {
     width: 855px;
     margin: auto;
+    border: #ddd 1px dotted;
+    padding: 15px;
 }
 
     .flight-tckt-main .top {

@@ -93,7 +93,7 @@
 
         .tooltipF .tooltiptext {
             visibility: hidden;
-            width: 220px;
+            width: 280px;
             background-color: #366480;
             color: #fff;
             text-align: left;
@@ -103,9 +103,13 @@
             z-index: 1;
             top: 0;
             left: 100%;
-            font-size: 12px;
+            font-size: 11px;
             margin-left: 6px; /* Adjust as needed */
         }
+
+        .tooltipF .tooltiptext ul li{line-height:22px;}
+
+
 
         .tooltipF:hover .tooltiptext {
             visibility: visible;
@@ -319,15 +323,15 @@
                                         <div class="w-28 d-flex justify-center mr-15">
                                             @if (item.segments[i].identifier.carrierCode.Equals("SG"))
                                             {
-                                                <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
+                                                <img class="size-30" src="~/img/flight-logo-icon/SG.png" alt="image">
                                             }
                                             else if (item.segments[i].identifier.carrierCode.Equals("6E"))
                                             {
-                                                <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
+                                                <img class="size-30" src="~/img/flight-logo-icon/6E.png" alt="image">
                                             }
                                             else
                                             {
-                                                <img class="size-40" src="~/img/flight-logo-icon/1.webp" alt="image">
+                                                <img class="size-30" src="~/img/flight-logo-icon/1.webp" alt="image">
                                             }
                                             @* <img class="size-30" src="~/img/flight-logo-icon/1.webp" alt="image">*@
                                         </div>
@@ -486,12 +490,12 @@
                                                     Economy:  @Faretype<b>Xpress Value</b>
                                                     <span class="tooltiptext">
                                                         <ul>
-                                                            <li>1: CABIN BAG: 7 k.g</li>
-                                                            <li>2: CHECK-IN: 15 k.g  (1 piece)</li>
-                                                            <li>3: CANCELLATION: 3500 :-  (upto 2 hrs prior from departure)</li>
-                                                            <li>4: DATE CHANGE: 3000 :-  (upto 2 hrs prior from departure)</li>
-                                                            <li>5: SEAT : (Chargable)</li>
-                                                            <li>6: MEAL : (Chargable)</li>
+                                                            <li>1: Cabin Bag: 7 k.g</li>
+                                                            <li>2: Check-In: 15 k.g  (1 piece)</li>
+                                                            <li>3: Cancellation: 3500 :-  (upto 2 hrs prior from departure)</li>
+                                                            <li>4: Date Change: 3000 :-  (upto 2 hrs prior from departure)</li>
+                                                            <li>5: Seat: (Chargable)</li>
+                                                            <li>6: Meal: (Chargable)</li>
                                                             @* <li>7: Category Class : (Economy)</li>*@
                                                         </ul>
                                                     </span>
@@ -504,12 +508,12 @@
                                                     Economy:  @Faretype<b>Vista Flex</b>
                                                     <span class="tooltiptext">
                                                         <ul>
-                                                            <li>1: CABIN BAG: 7 k.g</li>
-                                                            <li>2: CHECK-IN: 15 k.g  (1 piece)</li>
-                                                            <li>3: CANCELLATION: 3500 :-  (upto 2 hrs prior from departure)</li>
-                                                            <li>4: DATE CHANGE: 3000 :-  FREE  (upto 2 hrs prior from departure)</li>
-                                                            <li>5: SEAT : Standard seats free</li>
-                                                            <li>6: MEAL : Free meal) per person</li>
+                                                            <li>1: Cabin Bag: 7 k.g</li>
+                                                            <li>2: Check-In: 15 k.g  (1 piece)</li>
+                                                            <li>3: Cancellation: 3500 :-  (upto 2 hrs prior from departure)</li>
+                                                            <li>4: Date Change: 3000 :-  FREE  (upto 2 hrs prior from departure)</li>
+                                                            <li>5: Seat: Standard seats free</li>
+                                                            <li>6: Meal: Free meal) per person</li>
                                                             @* <li>7: Category Class : (Economy)</li>*@
                                                         </ul>
                                                     </span>
@@ -523,12 +527,12 @@
                                                     Economy:  @Faretype<b>Xpress lite</b>
                                                     <span class="tooltiptext">
                                                         <ul>
-                                                            <li>1: CABIN BAG: 0</li>
-                                                            <li>2: CHECK-IN: 0</li>
-                                                            <li>3: CANCELLATION: </li>
-                                                            <li>4: DATE CHANGE: </li>
-                                                            <li>5: SEAT : </li>
-                                                            <li>6: MEAL : </li>
+                                                            <li>1: Cabin Bag: 0</li>
+                                                            <li>2: Check-In: 0</li>
+                                                            <li>3: Cancellation:-</li>
+                                                            <li>4: Date Change: </li>
+                                                            <li>5: Seat: </li>
+                                                            <li>6: Meal: </li>
                                                             @* <li>7: Category Class :</li>*@
                                                         </ul>
                                                     </span>
@@ -541,7 +545,7 @@
                                                     Economy:  @Faretype<b>Xpress Bizz</b>
                                                     <span class="tooltiptext">
                                                         <ul>
-                                                            <li>1: CABIN BAG: 7 k.g</li>
+                                                            <li>1: Cabin Bag: 7 k.g</li>
                                                             <li>2: CHECK-IN: 25 k.g  (1 piece)</li>
                                                             <li>3: CANCELLATION: 3500 :-  (upto 2 hrs prior from departure)</li>
                                                             <li>4: DATE CHANGE: 3000 :-  FREE  (upto 2 hrs prior from departure)</li>

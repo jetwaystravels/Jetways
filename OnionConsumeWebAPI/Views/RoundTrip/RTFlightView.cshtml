@@ -543,11 +543,11 @@
                                                             var stops = Model.SimpleAvailibilityaAddResponcelist[j].stops;
                                                             if (stops == 0)
                                                             {
-                                                                <div class="mt-1">Non Stop</div>
+                                                                <div class="mt-1 r-stop">Non Stop</div>
                                                             }
                                                             if (stops == 1)
                                                             {
-                                                                <div class="mt-1">1 Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination </div>
+                                                                <div class="mt-1 r-stop">1 Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination </div>
                                                             }
                                                             if (stops == 2)
                                                             {
@@ -555,11 +555,11 @@
                                                                 {
                                                                     if (l == 0)
                                                                     {
-                                                                        <div class="mt-1">2 Stop Via  @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[l].designator.destination  <b>,</b></div>
+                                                                        <div class="mt-1 r-stop">2 Stop Via  @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[l].designator.destination  <b>,</b></div>
                                                                     }
                                                                     else if (l == 1)
                                                                     {
-                                                                        <span> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[l].designator.destination</span>
+                                                                        <span class="r-stop"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[l].designator.destination</span>
                                                                     }
                                                                 }
                                                             }
@@ -1066,11 +1066,11 @@
                                                             var stops = Model.SimpleAvailibilityaAddResponcelistR[j].stops;
                                                             if (stops == 0)
                                                             {
-                                                                <div class="mt-1">Non Stop</div>
+                                                                <div class="mt-1 r-stop">Non Stop</div>
                                                             }
                                                             if (stops == 1)
                                                             {
-                                                                <div class="mt-1">1 Stop via @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].legs[0].designator.destination </div>
+                                                                <div class="mt-1 r-stop">1 Stop via @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].legs[0].designator.destination </div>
                                                             }
                                                             if (stops == 2)
                                                             {
@@ -1078,11 +1078,11 @@
                                                                 {
                                                                     if (l == 0)
                                                                     {
-                                                                        <div class="mt-1">2 Stop Via  @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].legs[l].designator.destination  <b>,</b></div>
+                                                                        <div class="mt-1 r-stop">2 Stop Via  @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].legs[l].designator.destination  <b>,</b></div>
                                                                     }
                                                                     else if (l == 1)
                                                                     {
-                                                                        <span> @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].legs[l].designator.destination</span>
+                                                                        <span class="r-stop"> @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].legs[l].designator.destination</span>
                                                                     }
                                                                 }
                                                             }

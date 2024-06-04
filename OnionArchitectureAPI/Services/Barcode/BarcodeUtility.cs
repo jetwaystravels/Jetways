@@ -17,11 +17,13 @@ namespace OnionArchitectureAPI.Services.Barcode
             BarcodeWriter barcodeWriter = new BarcodeWriter
             {
                 Format = BarcodeFormat.PDF_417,
-                Options = new EncodingOptions
-                {
-                    Width = 300,
-                    Height = 100
-                }
+                //Options = new EncodingOptions
+                //{
+                //    Width = 300,
+                //    Height = 100,
+                //    Margin = 10
+
+                //}
             };
 
             Bitmap barcodeBitmap = barcodeWriter.Write(BarcodeString);

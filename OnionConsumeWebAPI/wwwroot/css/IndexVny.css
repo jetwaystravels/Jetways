@@ -155,17 +155,35 @@
 #myInput {
     font-size: 20px !important;
     font-weight: 600;
+    cursor:pointer;
 }
 
 #myInput1 {
     font-size: 20px !important;
     font-weight: 600;
+    cursor: pointer;
 }
 
     #myInput1::placeholder {
         font-size: 15px;
         font-weight: 400;
     }
+.input-group-text #start-date {
+    position: relative;
+    top: 10px;
+    text-align: center;
+    padding-left: 0;
+}
+
+.input-group-text #end-date {
+    position: relative;
+    top: 10px;
+    text-align: center;
+    padding-left: 0;
+}
+
+
+
 
 
 
