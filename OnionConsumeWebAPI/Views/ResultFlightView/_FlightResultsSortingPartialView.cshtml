@@ -171,7 +171,7 @@
                                         //for (int l = 0; l < @Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs.Count; l++)
                                         //{
 
-                                            if (Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs.Count == 2)
+                                        if (Model.SimpleAvailibilityaAddResponcelist[j].segments.Count>1 && Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs.Count == 2)
                                             {
                                                 <div class="mt-1"> 2 Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.origin  ,@Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination</div>
                                             }
