@@ -148,39 +148,68 @@
                                     }
                                     if (stops == 1)
                                     {
-                                        <div class="mt-1">1 Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination </div>
+                                        <div class="d-flex justify-center align-items-center">
+                                            <div>@stops Stop via &nbsp;</div>
+                                            <div class="mt-1"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination </div>
+                                        </div>
                                     }
                                     if (stops == 2)
                                     {
+                                        <div class="d-flex justify-center align-items-center">
+                                            <div>@stops Stop via &nbsp;</div>
 
-                                        //for (int l = 0; l < @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs.Count; l++)
-                                        //{
 
-                                            if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs.Count == 2)
+                                            @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs.Count == 2)
                                             {
-                                                <div class="mt-1"> 2 Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.origin  ,@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination</div>
+                                                <div class="mt-1"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination,@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[1].designator.destination </div>
+
                                             }
                                             else
                                             {
-                                                // <div class="mt-1">2 Stop via  @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination  <b>,</b></div>
+                                                <div class="mt-1"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination  <b>,</b></div>
 
                                             }
 
-                                        //}
 
-                                        //for (int l = 0; l < @Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs.Count; l++)
-                                        //{
 
-                                        if (Model.SimpleAvailibilityaAddResponcelist[j].segments.Count>1 && Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs.Count == 2)
+                                            @if (Model.SimpleAvailibilityaAddResponcelist[j].segments.Count > 1 && Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs.Count == 2)
                                             {
-                                                <div class="mt-1"> 2 Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.origin  ,@Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination</div>
+                                                <div class="mt-1"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination</div>
                                             }
                                             else
                                             {
                                                 // <div class="mt-1">2 Stop via  @Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination  <b>,</b></div>
 
                                             }
-                                       // }
+                                        </div>
+
+                                    }
+                                    if (stops == 3)
+                                    {
+                                        <div class="d-flex justify-center align-items-center">
+                                            <div>@stops Stop via &nbsp;</div>
+
+                                        @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs.Count == 2)
+                                        {
+                                            <div class="mt-1">@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination  ,@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[1].designator.destination</div>
+                                        }
+                                        else
+                                        {
+                                            // <div class="mt-1">2 Stop via  @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination  <b>,</b></div>
+
+                                        }
+
+
+                                        @if (Model.SimpleAvailibilityaAddResponcelist[j].segments.Count > 1 && Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs.Count == 2)
+                                        {
+                                            <div class="mt-1">,@Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination</div>
+                                        }
+                                        else
+                                        {
+                                            // <div class="mt-1">2 Stop via  @Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination  <b>,</b></div>
+
+                                        }
+                                        </div>
                                     }
                                 }
 
@@ -265,6 +294,18 @@
                                 else
                                     Faretype = "Saver Fare";
                             }
+                            else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.AkasaAir)
+                            {
+
+                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("EC"))
+                                    Faretype = " Saver Fare";
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("AV"))
+                                    Faretype = " Saver Fare";
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SP"))
+                                    Faretype = " Saver Fare";
+                                else
+                                    Faretype = "Saver Fare";
+                            }
                             else
                             {
                                 if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("EC"))
@@ -305,6 +346,35 @@
                                     <td>
                                         <div>
                                             (Chargable)
+                                        </div>
+                                    </td>
+
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "AV")
+                                {
+                                    <td>0</td>
+                                    <td><strong>0</strong></td>
+                                    <td>
+
+                                        <div>
+                                            --
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div>
+                                            --
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            --
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            --
                                         </div>
                                     </td>
 
@@ -423,7 +493,15 @@
                                                 <input type="submit" value="Book Now" class="button small-btn">
                                             </form>
                                         }
+                                        else if (@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("QP"))
+                                        {
+                                            <form asp-action="AkasaAirTripsell" asp-controller="AKResultFlight">
+                                                <input type="hidden" id="fareKey" name="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
+                                                <input type="hidden" id="journeyKey" name="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
 
+                                                <input type="submit" value="Book Now" class="button small-btn">
+                                            </form>
+                                        }
                                         else
                                         {
                                             <form asp-controller="FlightSearchIndex" asp-action="Tripsell">
@@ -507,6 +585,11 @@
                                                         {
 
                                                             CompanyName = "Indigo";
+                                                        }
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("QP"))
+                                                        {
+
+                                                            CompanyName = "AkasaAir";
                                                         }
                                                         else
                                                         {
@@ -617,7 +700,7 @@
 
                                         <tr>
                                             <td>Taxes(+)</td>
-                                            <td align ="right">@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].taxamount.ToString("N0")</td>
+                                            <td align="right">@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].taxamount.ToString("N0")</td>
                                         </tr>
 
 
@@ -659,8 +742,8 @@
                                 }
                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("QP"))
                                 {
-                                    CompanyName = "Indigo";
-                                    <img class="size-40" src="~/img/flight-logo-icon/akasa.png" alt="image">
+                                    CompanyName = "AkasaAir";
+                                    <img class="size-40" src="~/img/flight-logo-icon/64px-akasa_air_logo_with_slogan.png" alt="image">
                                 }
                                 else
                                 {

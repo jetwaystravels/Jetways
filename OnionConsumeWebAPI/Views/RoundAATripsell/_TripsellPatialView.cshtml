@@ -93,7 +93,7 @@
 
         .tooltipF .tooltiptext {
             visibility: hidden;
-            width: 280px;
+            width: 220px;
             background-color: #366480;
             color: #fff;
             text-align: left;
@@ -103,13 +103,9 @@
             z-index: 1;
             top: 0;
             left: 100%;
-            font-size: 11px;
+            font-size: 12px;
             margin-left: 6px; /* Adjust as needed */
         }
-
-        .tooltipF .tooltiptext ul li{line-height:22px;}
-
-
 
         .tooltipF:hover .tooltiptext {
             visibility: visible;
@@ -328,6 +324,10 @@
                                             else if (item.segments[i].identifier.carrierCode.Equals("6E"))
                                             {
                                                 <img class="size-30" src="~/img/flight-logo-icon/6E.png" alt="image">
+                                            }
+                                             else if (item.segments[i].identifier.carrierCode.Equals("QP"))
+                                            {
+                                                <img class="size-30" src="~/img/flight-logo-icon/akasa.png" alt="image">
                                             }
                                             else
                                             {
@@ -698,16 +698,21 @@
                             @if (item.segments[i].identifier.carrierCode.Equals("SG"))
                             {
 
-                                <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
+                                <img class="size-30" src="~/img/flight-logo-icon/SG.png" alt="image">
                             }
                             else if (item.segments[i].identifier.carrierCode.Equals("6E"))
                             {
 
-                                <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
+                                <img class="size-30" src="~/img/flight-logo-icon/6E.png" alt="image">
+                            }
+                            else if (item.segments[i].identifier.carrierCode.Equals("QP"))
+                            {
+
+                                <img class="size-30" src="~/img/flight-logo-icon/akasa.png" alt="image">
                             }
                             else
                             {
-                                <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
+                                <img class="size-30" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
                             }
                         }
 
@@ -1121,6 +1126,12 @@
 
                                 <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
                             }
+                            else if (item.segments[i].identifier.carrierCode.Equals("QP"))
+                            {
+
+                                <img class="size-40" src="~/img/flight-logo-icon/akasa.png" alt="image">
+                            }
+
                             else
                             {
                                 <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">

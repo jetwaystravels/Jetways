@@ -1735,15 +1735,16 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         var AkasaloginRequestdataR = JsonConvert.SerializeObject(loginAkasaR, Formatting.Indented);
                         client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                         HttpResponseMessage responceAkasaR = await client.PostAsJsonAsync(AppUrlConstant.AkasaTokan, loginAkasaR);
-                        if (responcedata.IsSuccessStatusCode)
+                        if (responceAkasaR.IsSuccessStatusCode)
                         {
-                            var results = responcedata.Content.ReadAsStringAsync().Result;
+                            var results = responceAkasaR.Content.ReadAsStringAsync().Result;
                             var JsonObj = JsonConvert.DeserializeObject<dynamic>(results);
                             AkasaTokanR.token = JsonObj.data.token;
                             AkasaTokanR.idleTimeoutInMinutes = JsonObj.data.idleTimeoutInMinutes;
 
                         }
-
+                        //AkasaTokan Return Flight**********
+                        HttpContext.Session.SetString("AkasaTokanR", JsonConvert.SerializeObject(AkasaTokanR.token));
                         //till here
                         //GetAvailibility****************
                         _SimpleAvailabilityobjR = new DomainLayer.Model.SimpleAvailabilityRequestModel();

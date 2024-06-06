@@ -10,6 +10,24 @@ namespace DomainLayer.Model
     {
         public bool notifyContacts { get; set; }
         public string[] contactTypesToNotify { get; set; }
+        public string receivedBy { get; set; }
+        public bool restrictionOverride { get; set; }
+        public string hold { get; set; }
+        public string comments { get; set; }
+
+
+    }
+	public class AkasaAirCommitBooking
+	{
+
+        public string receivedBy { get; set; }
+        public bool restrictionOverride { get; set; }
+        public string hold { get; set; }
+        public bool notifyContacts { get; set; }
+        public string comments { get; set; }
+        public string contactTypesToNotify { get; set; }
+ 
+
     }
 
 }

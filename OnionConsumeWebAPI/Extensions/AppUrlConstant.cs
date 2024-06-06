@@ -7,8 +7,6 @@
         public static string BaseURL = "http://localhost:5225/";
 
         public static string URLAirasia = "https://dotrezapi.test.I5.navitaire.com";
-        
-        public static string URLAkasaAir = " https://tbnk-reyalrb.qp.akasaair.com";
 
         public static string AirasiaTokan = URLAirasia + "/api/nsk/v1/token";
 
@@ -34,14 +32,29 @@
         public static string AirasiaCommitBooking = URLAirasia + "/api/nsk/v3/booking";
         public static string AirasiaPNRBooking = URLAirasia + "/api/nsk/v1/booking/retrieve/byRecordLocator/";
 
+        //AkasaAir URL
 
+        public static string URLAkasaAir = "https://tbnk-reyalrb.qp.akasaair.com";
         public static string AkasaTokan = URLAkasaAir + "/api/nsk/v2/token";
         public static string AkasaAirSearchSimple = URLAkasaAir + "/api/nsk/v4/availability/search/simple";
         public static string AkasaAirTripsell = URLAkasaAir + "/api/nsk/v4/trip/sell";
         public static string AkasasearchsimpleR = URLAkasaAir + "/api/nsk/v4/availability/search/simple";
+        public static string AkasaGetBoking = URLAkasaAir + "/api/nsk/v3/booking";
+        public static string AkasaCommitBooking = URLAkasaAir + "/api/nsk/v1/booking";
+        public static string AkasaPNRBooking = URLAkasaAir + "/api/nsk/v1/booking";
+        //public static string AkasaPNRBooking = URLAkasaAir + "/api/nsk/v1/booking/retrieve/byRecordLocator/";
 
 
-
+       //Deepa Pal
+        public static string AkasaAirContactDetails = URLAkasaAir + "/api/nsk/v1/booking/contacts";
+        public static string AkasaAirPassengerDetails = URLAkasaAir + "/api/nsk/v3/booking/passengers/";
+        public static string AkasaAirInfantDetails = URLAkasaAir + "/api/nsk/v2/bookings/quote";
+        public static string AkasaAirSeatMap = URLAkasaAir + "/api/nsk/v2/booking/seatmaps/segment/";
+        public static string AkasaAirMealBaggage = URLAkasaAir + "/api/nsk/v2/booking/ssrs/availability";
+        public static string AkasaAirMealSeatAssign = URLAkasaAir + "/api/nsk/v2/booking/passengers/";
+        public static string AkasaAirCommitBooking = URLAkasaAir + "/api/nsk/v3/booking";
+        public static string AkasaAirGetBooking = URLAkasaAir + "/api/nsk/v1/booking";
+        public static string AkasaAirPNRBooking = URLAkasaAir + "/api/nsk/v1/booking/retrieve/byRecordLocator/";
 
 
     }

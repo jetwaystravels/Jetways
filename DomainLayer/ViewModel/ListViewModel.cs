@@ -28,5 +28,13 @@ namespace DomainLayer.ViewModel
         public SimpleAvailabilityRequestModel simpleAvailabilityRequestModelEdit { get; set; }
         public List<passkeytype> passkeytype { get; set; }
         public List<passkeytype> passengerNamedetails { get; set; }
+
+
+        //AkasaAirModel
+        public AirAsiaTripResponceModel AkPassenger { set; get; }
+        public SeatMapResponceModel AkSeatmaplist { set; get; }
+        public SSRAvailabiltyResponceModel AkMealslist { set; get; }
+        public SSRAvailabiltyResponceModel AkBaggageDetails { set; get; }
+        public AirAsiaTripResponceModel AkpasseengerItanary { set; get; }
     }
 }
