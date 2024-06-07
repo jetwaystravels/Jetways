@@ -1227,6 +1227,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         decimal discountamount = 0M;
                         decimal finalamount = 0;
                         decimal taxamount = 0M;
+                        int IndoStopcounter = 0;
                         for (int l = 0; l < segmentscount; l++)
                         {
                             DomainLayer.Model.Segment Segmentobj = new DomainLayer.Model.Segment();
@@ -1268,6 +1269,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 _SimpleAvailibilityaAddResponceobj.arrivalTerminal = arrivalTerminal;
                                 _SimpleAvailibilityaAddResponceobj.departureTerminal = departureTerminal;
                             }
+                            IndoStopcounter += legscount;
                             Segmentobj.legs = Leglist;
                             Segmentobjlist.Add(Segmentobj);
                             FareIndividual fareIndividual = new FareIndividual();
@@ -1362,14 +1364,14 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             #endregion
                         }
                         fareIndividualsconnectedList = fareIndividualsList;
-                        int StopCounter = 0;
-                        if (Segmentobjlist.Count == 1)
-                        {
-                            if (Segmentobjlist[0].legs.Count >= 1)
-                                StopCounter = Segmentobjlist[0].legs.Count;
-                        }
-                        else
-                            StopCounter = Segmentobjlist.Count;
+                        //int StopCounter = 0;
+                        //if (Segmentobjlist.Count == 1)
+                        //{
+                            //if (Segmentobjlist[0].legs.Count >= 1)
+                                //StopCounter = Segmentobjlist[0].legs.Count;
+                        //}
+                        //else
+                            //StopCounter = Segmentobjlist.Count;
 
 
                         fareTotalsum = 0;
@@ -1385,7 +1387,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         {
                             fareTotalsum = ViewPriceNew[0];
                         }
-                        _SimpleAvailibilityaAddResponceobj.stops = StopCounter - 1;
+                        _SimpleAvailibilityaAddResponceobj.stops = IndoStopcounter - 1;
                         _SimpleAvailibilityaAddResponceobj.designator = Designatorobj;
                         _SimpleAvailibilityaAddResponceobj.segments = Segmentobjlist;
                         DateTime currentDate = DateTime.Now;

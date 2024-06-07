@@ -72,7 +72,8 @@ namespace DomainLayer.Model
             new { citycode = "IXB", cityname = "Bagdogra", airportname = "Bagdogra Airport"},
             new { citycode = "AMD", cityname = "Ahmedabad", airportname = "Sardar Vallabhbhai Patel International Airport India"},
             new { citycode = "RPR", cityname = "Raipur", airportname = "Raipur Airport"},
-            new { citycode = "IXD", cityname = "Prayagraj", airportname = "Allahabad Airport"}
+            new { citycode = "IXD", cityname = "Prayagraj", airportname = "Allahabad Airport"},
+            new { citycode = "IMF", cityname = "Imphal", airportname = "Tulihal International Airport"}
     
             // Add more data as needed...
         };

@@ -60,10 +60,10 @@
         margin-left: -50%;
     }
 
-    .active {
+    /* .active {
         color: #E93329 !important;
         border-bottom: 1px solid #E93329 !important;
-    }
+    } */
 
     .select-option {
         max-width: 120px;
@@ -91,6 +91,10 @@
 
     .btngry {
         background-color: #808080 !important;
+    }
+
+    #seattab1 {
+     margin: 0px 15px!important;
     }
 </style>
 <script type="text/javascript">
@@ -398,7 +402,7 @@
 
 
 
-        $("#exampleModalSeat").click(function (e) {
+        $(".exampleModalCSeat").click(function (e) {
 
             e.preventDefault();
             $.ajax({
@@ -674,7 +678,7 @@
                                             <div class="servc-content">
                                                 <div class="d-flex">
                                                     <div><img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /></div>
-                                                    <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
+                                                    <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn exampleModalCSeat" data-toggle="modal" data-target="#sgexampleModal">
 
                                                 </div>
                                                 <div class="output-div-input" id="outputDiv_@pas"></div>
@@ -822,7 +826,9 @@
                                                         string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode + "_" + Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price + "_OneWay1";
                                                         string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " ₹" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
 
-                                                        string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) || Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase)).ToString();
+                                                        string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) ||
+                                                        Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase) ||
+                                                        Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase)).ToString();
                                                         if (Mcode.ToLower() == "true")
                                                         {
                                                             continue;
@@ -867,7 +873,7 @@
                                             <div class="servc-content">
                                                 <div class="d-flex">
                                                     <div><img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /></div>
-                                                    <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
+                                                    <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn exampleModalCSeat" data-toggle="modal" data-target="#sgexampleModal">
                                                 </div>
                                                 <div class="output-div-input" id="outputDivConnect_@pas"></div>
                                             </div>

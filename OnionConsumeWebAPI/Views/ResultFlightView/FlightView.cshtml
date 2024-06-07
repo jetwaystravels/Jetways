@@ -2437,7 +2437,9 @@
             }
         }, 1000);
 
-
+        function preback() { window.history.forward(); }
+        setTimeout("preback()", 0);
+        window.onupload = function () { null };
     </script>
 
 </body>

@@ -393,6 +393,20 @@
             // Example usage:
             if ($(".dobinput").is(":visible")) {
                 var dob = year.value + "-" + month.value + "-" + day.value;
+                if (day.value == "") {
+                    alert("Please select day for infant date-of-birth")
+                    return false;
+                }
+
+                if (month.value == "") {
+                    alert("Please select month for infant date-of-birth")
+                    return false;
+                }
+                if (year.value == "") {
+                    alert("Please select year for infant date-of-birth")
+                    return false;
+                }
+
                 function validateInfantDOB(dob) {
                     // Convert the date string into a Date object
                     var dobDate = new Date(dob);

@@ -264,9 +264,9 @@
 
 
 
-        $("#exampleModalSeat").click(function (e) {
-
+        $(".exampleModalCSeat").click(function (e) {
             e.preventDefault();
+            $("#btnfocus").off("click");
             $.ajax({
                 url: '@Url.Action("PostSeatMapModaldataView", "SGTripsell")',
                 type: "GET",
@@ -384,9 +384,9 @@
                     <div class="modal-content MWidth">
                         <div class="modal-mfareheader d-flex justify-between">
                             <h2 class="text-22 fw-600">Seat Details</h2>
-                            <button type="button" class="btnclose" data-dismiss="modal" aria-label="Close">
+                            @* <button type="button" class="btnclose" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true" style="font-size: 21px;">&times;</span>
-                            </button>
+                            </button> *@
                         </div>
                         <div class="modal-bodyy mbody-padding">
                         </div>
@@ -398,8 +398,8 @@
                                 int segmentcount = Model.passeengerlist.journeys[0].segments.Count;
                                 @if (segmentcount == 1)
                                 {
-                                    <div>
-                                        A
+                                    <div class="d-flex">
+                                        <button type="submit" id="" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
                                         <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
                                     </div>
                                 }
@@ -411,17 +411,16 @@
                                         @if (i == 1)
                                         {
                                             <div class="d-flex">
-                                                <div>
-                                                    <button type="submit" id="" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
-                                                </div>
+                                                
 
                                                 <div id="popbtnA">
 
-
+                                                    <button type="submit" id="" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
                                                     <button type="submit" id="btnfocus" class="btn  btn-primary">Continue</button>
 
                                                 </div>
                                                 <div id="popbtnB" style="display:none;">
+                                                    <button type="submit" id="" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
                                                     <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
 
                                                 </div>
@@ -612,7 +611,7 @@
                                             <div class="servc-content">
                                                 <div class="d-flex">
                                                     <div><img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /></div>
-                                                    <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
+                                                    <input type="button" id="exampleModalSeat" value="Seat Map" class="button exampleModalCSeat small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
 
                                                 </div>
                                                 <div class="output-div-input" id="outputDiv_@pas"></div>
@@ -805,7 +804,7 @@
                                             <div class="servc-content">
                                                 <div class="d-flex">
                                                     <div><img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /></div>
-                                                    <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
+                                                    <input type="button" id="exampleModalSeat" value="Seat Map" class="button exampleModalCSeat small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
                                                 </div>
                                                 <div class="output-div-input" id="outputDivConnect_@pas"></div>
                                             </div>

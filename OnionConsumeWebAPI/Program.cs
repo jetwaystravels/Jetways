@@ -1,4 +1,5 @@
 using Microsoft.CodeAnalysis.Options;
+using OnionConsumeWebAPI.ErrorHandling;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +38,7 @@ var app = builder.Build();
 //    app.UseExceptionHandler("/Home/Error");
 //}
 app.UseStaticFiles();
+app.UseMiddleware<ExceptionHandling>();
 app.UseSession();
 app.UseRouting();
 app.UseAuthorization();

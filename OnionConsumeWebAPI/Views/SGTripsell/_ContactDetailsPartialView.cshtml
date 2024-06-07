@@ -180,6 +180,14 @@
 
         } else {
             //alert("Checkbox is unchecked");
+            //debugger;
+            var gstToDisplay = document.getElementById("error-message9");
+            gstToDisplay.style.display = "none";
+            var gstNToDisplay = document.getElementById("error-message10");
+            gstNToDisplay.style.display = "none";
+            document.getElementById('gstErrorMessage').innerText = "";
+            document.getElementById("gstname").value = "";
+            document.getElementById("gstnumber").value = "";
             $(".hid-block").hide();
         }
     });
@@ -282,7 +290,45 @@
                 return false;
             }
 
-        
+            var buttongst = document.getElementById('GSTButton');
+            if (buttongst.checked == true) {
+
+                let gstnamefocus = document.getElementById("gstname").value;
+
+                if (gstnamefocus == "") {
+                    var gstToDisplay = document.getElementById("error-message9");
+                    gstToDisplay.style.display = "block";
+                    document.getElementById("gstname").focus();
+                    return false;
+                }
+                else {
+                    var gstToDisplay = document.getElementById("error-message9");
+                    gstToDisplay.style.display = "none";
+                }
+
+                let gstnofocus = document.getElementById("gstnumber").value;
+
+                if (gstnofocus == "") {
+                    var gstnoToDisplay = document.getElementById("error-message10");
+                    gstnoToDisplay.style.display = "block";
+                    document.getElementById("gstnumber").focus();
+                    return false;
+                }
+
+                var gstNumberPattern = /^([0-9]){2}([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}([0-9]){1}([a-zA-Z]){1}([0-9]){1}?$/; // Assumes a 10-digit number
+
+                if (!gstNumberPattern.test(gstnofocus)) {
+                    document.getElementById('gstErrorMessage').innerText = "Enter valid GST number.";
+                    return false;
+                }
+                else {
+                    var gstnoToDisplay = document.getElementById("error-message10");
+                    gstnoToDisplay.style.display = "none";
+                }
+
+
+            }
+
 
 
 
@@ -424,41 +470,54 @@
 
     function validateInputgst(event) {
         const input = event.target.value;
-        const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
+        const regex = /^[a-zA-Z\s]*$/;      // /^[a-zA-Z\s]*$/;  // Regular expression to match alphabetic characters only
 
         if (!regex.test(input)) {
             document.getElementById('errorMessagegst').innerText = "";
-            event.target.value = input.replace(/[^a-zA-Z]/g, ''); // Remove non-alphabetic characters
+            event.target.value = input.replace(/[^a-zA-Z\s]/g, '');  //(/[^a-zA-Z]/g, ''); // Remove non-alphabetic characters
         } else {
             document.getElementById('errorMessagegst').innerText = "";
         }
+
+        var gstnamefocus = document.getElementById("gstname").value;
+
+        if (gstnamefocus == "") {
+            var gstToDisplay = document.getElementById("error-message9");
+            gstToDisplay.style.display = "block";
+            document.getElementById("gstname").focus();
+            return false;
+        }
+        else {
+            var gstToDisplay = document.getElementById("error-message9");
+            gstToDisplay.style.display = "none";
+        }
+
     }
 
     function validateGST(event) {
         const gstNumber = event.target.value.toUpperCase(); // Convert to uppercase for consistency
-        //const regex = /^[0-9A-Z]{15}$/; // Regular expression for 15-character GST number validation
         const regex = /^([0-9]){2}([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}([0-9]){1}([a-zA-Z]){1}([0-9]){1}?$/; // Regular expression for 15-character GST number validation
 
         if (gstNumber.trim() === "") {
-            document.getElementById('gstErrorMessage').innerText = "Enter a GST number.";
+            document.getElementById('gstErrorMessage').innerText = "Enter valid GST number.";
+
+
         } else if (!regex.test(gstNumber)) {
-            document.getElementById('gstErrorMessage').innerText = "Enter a valid 15-character GST number.";
+            document.getElementById('gstErrorMessage').innerText = "Enter valid GST number.";
         } else {
             document.getElementById('gstErrorMessage').innerText = "";
         }
+        var gstnofocus = document.getElementById("gstnumber").value;
 
-        let gstnamefocus = document.getElementById("gstname").value;
-
-        if (gstnamefocus == "") {
-            //alert("Enter Origin Name");
-            let gstToDisplay = document.getElementById("error-message9");
-            gstToDisplay.style.display = "block";
-            document.getElementById("emailAddres9").focus();
+        if (gstnofocus == "") {
+            var gstnoToDisplay = document.getElementById("error-message10");
+            gstnoToDisplay.style.display = "block";
+            document.getElementById("gstnumber").focus();
             return false;
         }
         else {
-            let gstToDisplay = document.getElementById("error-message9");
-            gstToDisplay.style.display = "none";
+            var gstnoToDisplay = document.getElementById("error-message10");
+            gstnoToDisplay.style.display = "none";
         }
     }
 </script>

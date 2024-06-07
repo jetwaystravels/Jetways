@@ -106,8 +106,10 @@
     var departureDate = Model.passeengerlist.journeys[0].designator.departure;
     var diff = (arrivalDate - departureDate);
     TimeSpan timeSpan = TimeSpan.Parse(diff.ToString());
-    if ((int)timeSpan.Minutes == 0)
+    if ((int)timeSpan.Minutes == 0 && (int)timeSpan.Hours != 0)
         formattedTime = $"{(int)timeSpan.TotalHours} h";
+    else if ((int)timeSpan.Hours == 0 && (int)timeSpan.Minutes != 0)
+        formattedTime = $"{(int)timeSpan.Minutes} m";
     else
         formattedTime = $"{(int)timeSpan.TotalHours} h : {(int)timeSpan.Minutes} m";
 }
@@ -134,8 +136,10 @@
                     departureDate = item.segments[i].designator.departure;
                     diff = (departureDate - arrivalDate);
                     timeSpan = TimeSpan.Parse(diff.ToString());
-                    if ((int)timeSpan.Minutes == 0)
+                    if ((int)timeSpan.Minutes == 0 && (int)timeSpan.Hours != 0)
                         formattedTime = $"{(int)timeSpan.TotalHours} h";
+                    else if ((int)timeSpan.Hours == 0 && (int)timeSpan.Minutes != 0)
+                        formattedTime = $"{(int)timeSpan.Minutes} m";
                     else
                         formattedTime = $"{(int)timeSpan.TotalHours} h : {(int)timeSpan.Minutes} m";
 
@@ -157,8 +161,10 @@
                                     departureDate = item.segments[i].legs[j].designator.departure;
                                     diff = (departureDate - arrivalDate);
                                     timeSpan = TimeSpan.Parse(diff.ToString());
-                                    if ((int)timeSpan.Minutes == 0)
+                                    if ((int)timeSpan.Minutes == 0 && (int)timeSpan.Hours != 0)
                                         formattedTime = $"{(int)timeSpan.TotalHours} h";
+                                    else if ((int)timeSpan.Hours == 0 && (int)timeSpan.Minutes != 0)
+                                        formattedTime = $"{(int)timeSpan.Minutes} m";
                                     else
                                         formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
 
@@ -171,7 +177,7 @@
                                         <img class="size-30" src="~/img/flight-logo-icon/6E.png" alt="image">
                                     </div>
 
-                                    <div class="text-14 text-light-1"> Indigo @item.segments[i].identifier.carrierCode @item.segments[i].identifier.identifier <span class="airliname">@Model.Seatmaplist.datalist[0].seatMap.name</span></div>
+                                    <div class="text-14 text-light-1"> Indigo @item.segments[i].identifier.carrierCode @item.segments[i].identifier.identifier <span class="airliname">@Model.Seatmaplist.datalist[i].seatMap.name</span></div>
                                 </div>
 
                                 <div class="relative z-0">
@@ -234,15 +240,17 @@
                                                 @*<div class="lh-14 fw-500">@item.segments[i].legs[j].designator.origin <span class="text-13 ml-2 fw-600">( @formatteddepartureDate<span class="text-13 text-light-1 ml-2"> Indira Gandhi, T-@item.segments[i].legs[j].legInfo.departureTerminal </span> )</span></div>*@
                                                 <div class="lh-14 fw-500">
                                                     @QueryOriginAirportName<span class="text-13 ml-2 fw-600">
-                                                        ( @formatteddepartureDate<span class="text-13 text-light-1 ml-2">@originCity?.airportname</span><span class="text-13 ml-2 fw-600">
-                                                            @if (@item.segments[i].legs[j].legInfo.departureTerminal != null)
+                                                        ( @formatteddepartureDate<span class="text-13 text-light-1 ml-2">@originCity?.airportname</span>
+                                                            @if (@item.segments[i].legs[j].legInfo.departureTerminal != null && @item.segments[i].legs[j].legInfo.departureTerminal != "")
                                                             {
-                                                                <span>, T-</span>
+                                                                <span class="text-13 ml-2 fw-600">
+                                                                    <span>, T-</span>
 
-                                                                @item.segments[i].legs[j].legInfo.departureTerminal
+                                                                    @item.segments[i].legs[j].legInfo.departureTerminal
+                                                                </span>
                                                             }
-                                                        </span>)
-                                                    </span>
+                                                            )
+                                                        </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -283,12 +291,13 @@
                                                     <span class="text-13 ml-2 fw-600">
                                                         (@formattedarrivalDate
                                                         <span class="text-13 text-light-1 ml-2">@destinationCity?.airportname</span>
-                                                        <span class="text-13 ml-2 fw-600">
-                                                            @if (@item.segments[i].legs[j].legInfo.arrivalTerminal != null)
-                                                            {
+                                                        @if (@item.segments[i].legs[j].legInfo.arrivalTerminal != null && @item.segments[i].legs[j].legInfo.arrivalTerminal != "")
+                                                        {
+                                                            <span class="text-13 ml-2 fw-600">
                                                                 <span>, T-</span> @item.segments[i].legs[j].legInfo.arrivalTerminal
-                                                            }
-                                                        </span>)
+                                                            </span>
+                                                        }
+                                                        )
 
                                                     </span>
                                                 </div>
