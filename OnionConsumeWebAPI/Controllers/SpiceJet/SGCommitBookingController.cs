@@ -129,6 +129,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     PassengerTotals passengerTotals = new PassengerTotals();
                     ReturnSeats returnSeats = new ReturnSeats();
                     passengerTotals.specialServices = new SpecialServices();
+                    passengerTotals.baggage = new SpecialServices();
                     var totalTax = "";// _getPriceItineraryRS.data.breakdown.journeys[journeyKey].totalTax;
 
                     int journeyscount = _getBookingResponse.Booking.Journeys.Length;
@@ -308,9 +309,10 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
                                     else if (!htbagdata.Contains(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation))
                                     {
-
-                                        htbagdata.Add(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation, item1.SSRCode);
-
+                                        if (item1.SSRCode != "INFT")
+                                        {
+                                            htbagdata.Add(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation, item1.SSRCode);
+                                        }
                                         returnSeats.SSRCode += item1.SSRCode + ",";
                                     }
                                 }
@@ -384,9 +386,15 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             {
                                 foreach (var item2 in item1.ServiceCharges)
                                 {
-                                    if ((!item2.ChargeCode.Equals("SEAT") || !item2.ChargeCode.Equals("INFT")) && !item2.ChargeType.ToString().ToLower().Contains("tax"))
+                                    if ((!item2.ChargeCode.Equals("SEAT") || !item2.ChargeCode.Equals("INFT")) && !item2.ChargeType.ToString().ToLower().Contains("tax") && item2.ChargeCode.StartsWith("X", StringComparison.OrdinalIgnoreCase) == false)
+                                    //if ((!item2.ChargeCode.Equals("SEAT") || !item2.ChargeCode.Equals("INFT")) && !item2.ChargeType.ToString().ToLower().Contains("tax"))
                                     {
                                         passengerTotals.specialServices.total += Convert.ToInt32(item2.Amount);
+                                        //breakdown.passengerTotals.seats.total += Convert.ToInt32(item2.Amount);
+                                    }
+                                    if (item2.ChargeCode.StartsWith("X", StringComparison.OrdinalIgnoreCase) == true)
+                                    {
+                                        passengerTotals.baggage.total += Convert.ToInt32(item2.Amount);
                                         //breakdown.passengerTotals.seats.total += Convert.ToInt32(item2.Amount);
                                     }
                                     else
@@ -439,6 +447,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     breakdown.passengerTotals.seats = new ReturnSeats();
                     //breakdown.passengerTotals.specialServices = new SpecialServices();
                     breakdown.passengerTotals.specialServices.total = passengerTotals.specialServices.total;
+                    breakdown.passengerTotals.baggage.total = passengerTotals.baggage.total;
                     breakdown.passengerTotals.seats.total = returnSeats.total;
                     breakdown.passengerTotals.seats.taxes = returnSeats.taxes;
                     breakdown.journeyTotals.totalTax = Convert.ToDouble(BasefareTax);

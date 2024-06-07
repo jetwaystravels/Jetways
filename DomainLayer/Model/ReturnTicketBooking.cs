@@ -601,6 +601,7 @@ namespace DomainLayer.Model
         {
             public object services { get; set; }
             public SpecialServices specialServices { get; set; }
+            public SpecialServices baggage { get; set; }
             public ReturnSeats seats { get; set; }
             public object upgrades { get; set; }
             public object spoilage { get; set; }
