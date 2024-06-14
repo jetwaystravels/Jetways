@@ -1379,6 +1379,16 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                             {
                                                 AAServicecharge AAServicechargeobj = new AAServicecharge();
                                                 AAServicechargeobj.amount = Convert.ToInt32(_GetBookingFromStateRS1.BookingData.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges[m].Amount);
+                                                AAServicechargeobj.code = _GetBookingFromStateRS1.BookingData.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges[m].ChargeCode;
+                                                if (AAPassengerfareobj.passengerType.Equals("CHD") && AAServicechargeobj.code.Contains("PRCT"))
+                                                {
+                                                    if (AAServicechargelist[0].amount != null && AAServicechargeobj.amount != null)
+                                                    {
+                                                        AAServicechargelist[0].amount = AAServicechargelist[0].amount - AAServicechargeobj.amount;
+                                                    }
+                                                    continue;
+                                                }
+
                                                 AAServicechargelist.Add(AAServicechargeobj);
                                             }
 

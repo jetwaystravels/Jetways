@@ -13,6 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="~/css/style_ticket.css" rel="stylesheet" />
+    <link href="~/css/main.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style_ticket.css">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -49,9 +50,9 @@
 
     <form asp-action="PostTicketBooking" asp-controller="AirLinesTicket" method="post">
         @{
-            if (Model.AirlinePNR[0].journeys.Count > 0)
+            if (Model.AirlinePNR.Count > 0)
             {
-                for (int a = 0; a < Model.AirlinePNR[0].journeys.Count; a++)
+                for (int a = 0; a < Model.AirlinePNR.Count; a++)
                 {
 
                     Hashtable htseat = Model.AirlinePNR[a].Seatdata;
@@ -171,6 +172,15 @@
                                     {
                                         @for (int i3 = 0; i3 < @Model.AirlinePNR[a].journeys[0].segments.Count; i3++)
                                         {
+                                            string barcodeimageUrl = string.Empty;
+                                            if (Model.AirlinePNR[a].passengers[i2].barcodestringlst != null && Model.AirlinePNR[a].passengers[i2].barcodestringlst.Count > 0 && i3 == 0)
+                                            {
+                                                barcodeimageUrl = @Model.AirlinePNR[a].passengers[i2].barcodestringlst[0].Trim();
+                                            }
+                                            else if (Model.AirlinePNR[a].passengers[i2].barcodestringlst != null && Model.AirlinePNR[a].passengers[i2].barcodestringlst.Count > 0 && i3 == 1)
+                                            {
+                                                barcodeimageUrl = @Model.AirlinePNR[a].passengers[i2].barcodestringlst[1].Trim();
+                                            }
                                             <tbody>
                                                 <tr>
                                                     @{
@@ -206,17 +216,38 @@
                                                     <td>Confirm</td>
                                                     @if (i3 == 1)
                                                     {
-                                                        <td></td>
-                                                    }
-                                                    else
-                                                    {
-                                                        @if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "INFT")
+                                                        if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "INFT")
                                                         {
                                                             <td></td>
                                                         }
                                                         else
                                                         {
-                                                            <td><img src="~/img/bar-code.png" alt="icon"></td>
+                                                            if (barcodeimageUrl != "")
+                                                            {
+                                                                <td><img src="@barcodeimageUrl" alt="barcode"></td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td></td>
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "INFT")
+                                                        {
+                                                            <td></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            if (barcodeimageUrl != "")
+                                                            {
+                                                                <td><img src="@barcodeimageUrl" alt="barcode"></td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td></td>
+                                                            }
                                                         }
                                                     }
                                                 </tr>
@@ -233,7 +264,7 @@
                                 <table class="table table-bordered" style="margin-bottom: 0.4rem;">
                                     <thead>
                                         <span>Fllight Detail</span>
-                                        <span class="baggage">Baggage</span>
+
                                         <tr>
                                             <th scope="col">Passenger</th>
                                             <th scope="col" class="col-one">Sector</th>

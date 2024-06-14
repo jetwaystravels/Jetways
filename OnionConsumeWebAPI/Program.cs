@@ -13,7 +13,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 //builder.Environment.EnvironmentName = "Production";
 builder.Services.AddSession(Option =>
 {
-    Option.IdleTimeout = TimeSpan.FromMinutes(1);
+    Option.IdleTimeout = TimeSpan.FromMinutes(15);
     Option.Cookie.HttpOnly = true;
     Option.Cookie.IsEssential = true;
 

@@ -16,11 +16,14 @@ using System;
 using Bookingmanager_;
 using Utility;
 using Sessionmanager;
+using OnionArchitectureAPI.Services.Barcode;
 using OnionArchitectureAPI.Services.Indigo;
 using static DomainLayer.Model.ReturnTicketBooking;
 using IndigoBookingManager_;
 using OnionConsumeWebAPI.Extensions;
 using System.Collections;
+using static DomainLayer.Model.SeatMapResponceModel;
+using static DomainLayer.Model.ReturnAirLineTicketBooking;
 
 namespace OnionConsumeWebAPI.Controllers.Indigo
 {
@@ -33,9 +36,18 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
 
 
         string token = string.Empty;
+        String BarcodePNR = string.Empty;
         string ssrKey = string.Empty;
         string journeyKey = string.Empty;
         string uniquekey = string.Empty;
+        string BarcodeString = string.Empty;
+        string BarcodeInfantString = string.Empty;
+        string orides = string.Empty;
+        string carriercode = string.Empty;
+        string flightnumber = string.Empty;
+        string seatnumber = string.Empty;
+        string sequencenumber = string.Empty;
+        DateTime Journeydatetime = new DateTime();
         string bookingKey = string.Empty;
 
         public async Task<IActionResult> booking()
@@ -105,7 +117,11 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                                 _contact.ReturnPaxSeats = _unitdesinator.unitDesignatorPax.ToString();
                             returnTicketBooking.airLines = "Indigo";
                             returnTicketBooking.recordLocator = _getBookingResponse.Booking.RecordLocator;
-
+                            BarcodePNR = _getBookingResponse.Booking.RecordLocator;
+                            if (BarcodePNR.Length < 7)
+                            {
+                                BarcodePNR = BarcodePNR.PadRight(7);
+                            }
                             Breakdown breakdown = new Breakdown();
                             List<JourneyTotals> journeyBaseFareobj = new List<JourneyTotals>();
                             JourneyTotals journeyTotalsobj = new JourneyTotals();
@@ -123,7 +139,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                             {
 
                                 JourneysReturn AAJourneyobj = new JourneysReturn();
-
+                                //orides= _getBookingResponse.Booking.Journeys[i].
                                 //AAJourneyobj.flightType = JsonObjTripsell.data.journeys[i].flightType;
                                 //AAJourneyobj.stops = JsonObjTripsell.data.journeys[i].stops;
                                 AAJourneyobj.journeyKey = _getBookingResponse.Booking.Journeys[i].JourneySellKey;
@@ -264,7 +280,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                                             if (!htseatdata.Contains(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation))
                                             {
                                                 htseatdata.Add(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation, item1.UnitDesignator);
-                                                returnSeats.unitDesignator += item1.UnitDesignator + ",";
+                                                returnSeats.unitDesignator += item1.PassengerNumber + "_" + item1.UnitDesignator + ",";
                                             }
                                         }
                                         catch (Exception ex)
@@ -331,15 +347,95 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                             int passengercount = availibiltyRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxCount;
                             ReturnPassengers passkeytypeobj = new ReturnPassengers();
                             List<ReturnPassengers> passkeylist = new List<ReturnPassengers>();
-
+                            string flightreference = string.Empty;
+                            List<string> barcodeImage = new List<string>();
                             foreach (var item in _getBookingResponse.Booking.Passengers)
                             {
+                                barcodeImage = new List<string>();
+                                passkeytypeobj = new ReturnPassengers();
+                                passkeytypeobj.name = new Name();
                                 foreach (var item1 in item.PassengerFees)
                                 {
                                     if (item1.FeeCode.Equals("SEAT"))
                                     {
+                                        flightreference = item1.FlightReference;
+                                        string[] parts = flightreference.Split(' ');
+
+                                        if (parts.Length > 3)
+                                        {
+                                            carriercode = parts[1]; // "6E" + "774"
+                                            flightnumber = parts[2];
+                                            orides = parts[3];
+                                        }
+                                        else
+                                        {
+                                            // Combine parts for the flight code
+                                            carriercode = parts[1].Substring(0, 2); // "6E" + "774"
+                                            flightnumber = parts[1].Substring(2);
+                                            orides = parts[2];
+                                        }
+                                        if (flightnumber.Length < 5)
+                                        {
+                                            flightnumber = flightnumber.PadRight(5);
+                                        }
+                                        if (carriercode.Length < 3)
+                                        {
+                                            carriercode = carriercode.PadRight(3);
+                                        }
+
+                                        //barCode
+                                        //julian date
+                                        Journeydatetime = DateTime.Parse(_getBookingResponse.Booking.Journeys[0].Segments[0].STD.ToString());
+                                        int year = Journeydatetime.Year;
+                                        int month = Journeydatetime.Month;
+                                        int day = Journeydatetime.Day;
+
+                                        // Calculate the number of days from January 1st to the given date
+                                        DateTime currentDate = new DateTime(year, month, day);
+                                        DateTime startOfYear = new DateTime(year, 1, 1);
+                                        int julianDate = (currentDate - startOfYear).Days + 1;
+                                        if (string.IsNullOrEmpty(sequencenumber))
+                                        {
+                                            sequencenumber = "0000";
+                                        }
+                                        else
+                                        {
+                                            sequencenumber = sequencenumber.PadRight(5, '0');
+                                        }
+
+                                        Hashtable seatassignhashtable = new Hashtable();
+                                        string[] entries = returnSeats.unitDesignator.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                        foreach (string entry in entries)
+                                        {
+                                            // Split each entry by underscore
+                                            string[] keyValue = entry.Split('_');
+                                            if (keyValue.Length == 2)
+                                            {
+                                                string key = keyValue[0];
+                                                string value = keyValue[1];
+                                                // Add to the hashtable
+                                                seatassignhashtable.Add(key, value);
+                                            }
+                                        }
+                                        if (htseatdata.ContainsKey(item.PassengerNumber.ToString()+"_"+ orides.Substring(0,3)+"_"+orides.Substring(3)))
+                                        {
+                                            seatnumber = htseatdata[item.PassengerNumber.ToString() + "_" + orides.Substring(0, 3) + "_" + orides.Substring(3)].ToString();
+                                            if (string.IsNullOrEmpty(seatnumber))
+                                            {
+                                                seatnumber = "0000"; // Set to "0000" if not available
+                                            }
+                                            else
+                                            {
+                                                seatnumber = seatnumber.PadRight(4, '0'); // Right-pad with zeros if less than 4 characters
+                                            }
+
+                                            BarcodeString = "M" + "1" + item.Names[0].LastName + "/" + item.Names[0].FirstName + " " + BarcodePNR + "" + orides + carriercode + "" + flightnumber + "" + julianDate + "Y" + seatnumber + " " + sequencenumber + "1" + "00";
+                                            BarcodeUtility BarcodeUtility = new BarcodeUtility();
+                                            barcodeImage.Add(BarcodeUtility.BarcodereadUtility(BarcodeString));
+                                        }
                                         foreach (var item2 in item1.ServiceCharges)
                                         {
+
                                             if (item2.ChargeCode.Equals("SEAT"))
                                             {
                                                 returnSeats.total += Convert.ToInt32(item2.Amount);
@@ -391,8 +487,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                                         }
                                     }
                                 }
-                                passkeytypeobj = new ReturnPassengers();
-                                passkeytypeobj.name = new Name();
+                                passkeytypeobj.barcodestringlst = barcodeImage;
                                 passkeytypeobj.passengerTypeCode = item.PassengerTypeInfo.PaxType;
                                 passkeytypeobj.name.first = item.Names[0].FirstName + " " + item.Names[0].LastName;
                                 //passkeytypeobj.MobNumber = "";
@@ -429,6 +524,8 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                                     passkeylist.Add(passkeytypeobj);
 
                                 }
+                                //}
+                                returnTicketBooking.passengers = passkeylist;
                             }
 
                             double BasefareAmt = 0.0;
@@ -443,7 +540,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                             breakdown.passengerTotals.seats = new ReturnSeats();
                             //breakdown.passengerTotals.specialServices = new SpecialServices();
                             breakdown.passengerTotals.specialServices.total = passengerTotals.specialServices.total;
-                            breakdown.passengerTotals.baggage.total= passengerTotals.baggage.total;
+                            breakdown.passengerTotals.baggage.total = passengerTotals.baggage.total;
                             breakdown.passengerTotals.seats.total = returnSeats.total;
                             breakdown.passengerTotals.seats.taxes = returnSeats.taxes;
                             breakdown.journeyTotals.totalTax = Convert.ToDouble(BasefareTax);
@@ -454,7 +551,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                             }
                             returnTicketBooking.breakdown = breakdown;
                             returnTicketBooking.journeys = AAJourneyList;
-                            returnTicketBooking.passengers = passkeylist;
+                            //returnTicketBooking.passengers = passkeylist;
                             returnTicketBooking.passengerscount = passengercount;
                             returnTicketBooking.contacts = _contact;
                             returnTicketBooking.Seatdata = htseatdata;

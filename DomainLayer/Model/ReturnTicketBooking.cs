@@ -550,6 +550,7 @@ namespace DomainLayer.Model
         }
         public class ReturnPassengers
         {
+            public List<string> barcodestringlst { get; set; }
             public string barcodestring { get; set; }
             public string BarcodeInfantString { get; set; }
             public string passengerKey { get; set; }

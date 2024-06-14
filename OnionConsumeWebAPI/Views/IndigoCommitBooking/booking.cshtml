@@ -169,6 +169,15 @@
                                     {
                                         @for (int i3 = 0; i3 < @Model.AirlinePNR[a].journeys[0].segments.Count; i3++)
                                         {
+                                            string barcodeimageUrl = string.Empty;
+                                            if (Model.AirlinePNR[a].passengers[i2].barcodestringlst != null && Model.AirlinePNR[a].passengers[i2].barcodestringlst.Count>0 && i3 == 0)
+                                            {
+                                                barcodeimageUrl = @Model.AirlinePNR[a].passengers[i2].barcodestringlst[0].Trim();
+                                            }
+                                            else if (Model.AirlinePNR[a].passengers[i2].barcodestringlst != null && Model.AirlinePNR[a].passengers[i2].barcodestringlst.Count > 0 && i3 == 1)
+                                            {
+                                                barcodeimageUrl = @Model.AirlinePNR[a].passengers[i2].barcodestringlst[1].Trim();
+                                            }
                                             <tbody>
                                                 <tr>
                                                     @{
@@ -203,17 +212,38 @@
                                                     <td>Confirm</td>
                                                     @if (i3 == 1)
                                                     {
-                                                        <td></td>
-                                                    }
-                                                    else
-                                                    {
-                                                        @if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "INFT")
+                                                        if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "INFT")
                                                         {
                                                             <td></td>
                                                         }
                                                         else
                                                         {
-                                                            <td><img src="~/img/bar-code.png" alt="icon"></td>
+                                                            if (barcodeimageUrl != "")
+                                                            {
+                                                                <td><img src="@barcodeimageUrl" alt="barcode"></td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td></td>
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "INFT")
+                                                        {
+                                                            <td></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            if (barcodeimageUrl != "")
+                                                            {
+                                                                <td><img src="@barcodeimageUrl" alt="barcode"></td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td></td>
+                                                            }
                                                         }
                                                     }
                                                 </tr>
