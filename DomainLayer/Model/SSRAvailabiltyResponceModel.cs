@@ -63,8 +63,7 @@ namespace DomainLayer.Model
     {
         public string segmentKey { get; set; }
         public segmentDetails segmentDetails { get; set; }
-
-        public segSsrs segmentssrs { get; set; }
+        public List<segSsrs> segmentssrs { get; set; }
     }
     public class segmentDetails
     {
@@ -73,9 +72,6 @@ namespace DomainLayer.Model
 
         public string origin { get; set; }
         public string departureDate { get; set; }
-
-
-
     }
     public class segidentifier
     {
@@ -88,7 +84,7 @@ namespace DomainLayer.Model
     public class segSsrs
     {
         public string ssrCode { get; set; }
-        public segpassengers[] segpassengers { get; set; }
+        public List<segpassengers> segpassengers { get; set; }
         public int ssrType { get; set; }
         public string name { get; set; }
         public int limitPerPassenger { get; set; }
@@ -103,6 +99,7 @@ namespace DomainLayer.Model
     }
     public class segpassengers
     {
+        public Airlines Airline { get; set; }
         public string ssrKey { get; set; }
         public string passengerKey { get; set; }
         public string price { get; set; }
@@ -152,7 +149,6 @@ namespace DomainLayer.Model
         public string ssrKey { get; set; }
         public string passengerKey { get; set; }
         public string price { get; set; }
-
         public string ssrKeydesc { get; set; }
     }
 

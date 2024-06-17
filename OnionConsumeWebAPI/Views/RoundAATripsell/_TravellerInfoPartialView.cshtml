@@ -3,7 +3,6 @@
     Layout = null;
     var data = Model;
 }
-
 <div class="py-15 px-20 rounded-4 text-15 bg-blue-1-05 mb-10">
     <div class="d-flex justify-content-end" style="margin-bottom:-15px;"><button id="checkboxLead" class="checkbox-button2" onclick="toggleCheckbox()"></button></div>
     <form id="passengerFormRT">
@@ -19,80 +18,60 @@
             <div><label class="text-16 fw-600">@Model.passeengerlistRT[0].passengers[i].passengerTypeCode</label></div>
             <input type="hidden" name="passengerdetails[@i].passengertypecode" value="@Model.passeengerlistRT[0].passengers[i].passengerTypeCode" />
             <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlistRT[0].passengers[i].passengerKey" />
-
             <div class="row">
+
                 <div class="col-md-1">
-                    <select name="passengerdetails[@i].Title" class="form-control" asp-items="@ViewBag.Title"></select>
+                    <select name="passengerdetails[@i].Title" class="form-control text-center" asp-items="@ViewBag.Title"></select>
                 </div>
-                @* <div class="col-md-3">
-            <div class="form-input">
-            @{
-            if (Model.passeengerlistRT[0].passengers[i].passengerKey == "0")
-            {
-            <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlistRT[1].passengers[i].passengerKey" required />
-            }
-            else
-            {
-            <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlistRT[0].passengers[i].passengerKey" required />
-            }
-            }
-            <input type="text" name="passengerdetails[@i].First" required />
-            <label class="lh-1 text-16 text-light-1">First & middle name</label>
-            </div>
-            <div style="color:red; display:none; margin-top:8px">First name is required</div>
-            </div> *@
-                <div class="col-md-3 inputFirstname">
-                    <div class="form-input">
-
-                        <input type="text" class="contactFname" maxlength="32" oninput="validateInputT(event)" id="LeadPass[@i]" placeholder="First & middle name" name="passengerdetails[@i].First" required />
-
-                    </div>
-                    <p id="error-Fname" class="error-message error-CFname" style="display:none">Enter first name</p>
-                    <p class="errorMessageT1" style="color: red;font-size:13px;"></p>
-                </div>
-                @*  <div class="col-md-3">
-            <div class="form-input">
-            <input type="text" name="passengerdetails[@i].Last" required />
-            <label class="lh-1 text-16 text-light-1">Last name</label>
-            </div>
-            </div> *@
                 <div class="col-md-3">
-                    <div class="form-input">
 
-                        <input type="text" class="contactLname" oninput="validateInputTr(event)" maxlength="32" placeholder="Last name" name="passengerdetails[@i].Last" required />
+                    <div class="form-input">
+                        @{
+                            if (Model.passeengerlistRT[0].passengers[i].passengerKey == "0")
+                            {
+                                <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlistRT[0].passengers[i].passengerKey" required />
+                            }
+                            else
+                            {
+                                <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlistRT[0].passengers[i].passengerKey" required />
+                            }
+                        }
+                        <input type="text" class="contactFname validate-field" data-validate="name" maxlength="32" oninput="validateInputT(event ,@i)" id="LeadPass[@i]" placeholder="First & middle name" name="passengerdetails[@i].First" required />
 
                     </div>
-                    <p id="error-Lname" class="error-message error-CLname" style="display:none">Enter last name</p>
-                    <p class="errorMessageT2" style="color: red;font-size:13px;"></p>
+                    <p id="error-Fname" class="error-message  error-CFname" style="display: none;">Enter First Name</p>
+                </div>
+                <div class="col-md-3">
+
+                    <div class="form-input">
+                        <input type="text" class="contactLname validate-field" data-validate="last" oninput="validateInputT(event,@i)" maxlength="32" placeholder="Last name" name="passengerdetails[@i].Last" required />
+
+                    </div>
+                    <p id="error-Lname" class="error-message error-CLname" style="display:none">Enter Last Name</p>
 
                 </div>
                 @{
-                    if (@Model.passeengerlistRT[0].passengers[i].passengerTypeCode == "ADT" || @Model.passeengerlistRT[0].passengers[i].passengerTypeCode == "CHD")
+                    if (Model.passeengerlistRT[0].passengers[i].passengerTypeCode == "ADT" || Model.passeengerlistRT[0].passengers[i].passengerTypeCode == "CHD")
                     {
                         <div class="col-md-3">
-                            <div class="form-input"><input type="text" maxlength="266" oninput="validateEmailTr(event)" id="contactemailID" class="contactemail" placeholder="email" name="" required /></div>
-                            <p class="emailErrorMessageTr" style="color: red; font-size:13px;"></p>
-                            <p class="error-message error-emailname" style="display:none">Enter your email</p>
+                            <div class="form-input"><input type="text" data-validate="email" class="contactemail validate-field" maxlength="266" oninput="validateInputT(event,@i)" id="contactemailID" placeholder="email" name="" required /></div>
                         </div>
+                        <p class="error-message error-emailname" style="display:none">Enter your email</p>
                         <div class="col-md-2">
-                            <div class="form-input"><input type="text" id="contactphoneID" oninput="validatePhoneNumberTr(event)" class="contactphone" placeholder="phone" name="passengerdetails[@i].mobile" required /></div>
-                            <p class="error-message error-phoneN" style="display:none">Enter your phone</p>
-                            <p class="phoneErrorMessageTr" style="color: red; font-size:13px;"></p>
+                            <div class="form-input"><input type="text" data-validate="phone" id="contactphoneID" class="contactphone validate-field" oninput="validateInputT(event,@i)" placeholder="phone" name="passengerdetails[@i].mobile" required /></div>
                         </div>
+
+                        <p class="error-message error-phoneN" style="display:none">Enter your phone</p>
                     }
-                }
-                @{
-
-
                     if (@Model.passeengerlistRT[0].passengers[i].passengerTypeCode == "INFT")
                     {
-                        <div class="col-md-4">
+                        <div class="col-md-4 infant-dob-input ">
                             <div class="form-input dobinput d-flex">
                                 <div class="dob-picker">
-                                    <select class="brd-none day-select" required>
+                                    <select class="brd-none day-select" name="passengerdetails[@i].day" required>
                                         <option value="" disabled selected>Day</option>
                                     </select>
-                                    <select class="brd-none month-select" required>
+                                    <select class="brd-none month-select" name="passengerdetails[@i].month" required>
                                         <option value="" disabled selected>Month</option>
                                         <option value="1">January</option>
                                         <option value="2">February</option>
@@ -107,28 +86,46 @@
                                         <option value="11">November</option>
                                         <option value="12">December</option>
                                     </select>
-                                    <select class="brd-none year-select" required>
+                                    <select class="brd-none year-select" name="passengerdetails[@i].year" required>
                                         <option value="" disabled selected>Year</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
-
                     }
-
-
                 }
-            </div>
+            </div>          
         }
         <div class="d-flex justify-content-end">
             <button type="button" class="btn btn-primary mt-15" id="showReviewPopup">Save</button>
         </div>
     </form>
-
 </div>
+<div class="modal fade" id="dataPopup" tabindex="-1" role="dialog" aria-labelledby="dataPopupLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content pb-3">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dataPopupLabel">Please review your details to ensure accuracy.</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="enteredData">
+            </div>
+            <div class="d-flex justify-content-end">
+                <div class="editbtn me-3">
+                    <button type="button" data-dismiss="modal" class="btn btn-primary w-20" id="editData">Edit</button>
+                </div>
+                <div class="countibtn me-3">
+                    <button type="button" data-dismiss="modal" class="btn btn-primary w-20" id="ContinueData">Continue</button>
+                </div>
+            </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        </div>
+    </div>
+</div>
 <!-- Include Bootstrap JavaScript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style>
     .modal-body p {
@@ -187,145 +184,175 @@
 
 </style>
 <script type="text/javascript">
-
     function validateInputT(event) {
-        //     //alert("test");
-        const input = event.target.value;
-        const regex = /^[a-zA-Z]*$/;
-        if (!regex.test(input)) {
-            // Replace non-alphabetic characters with an empty string
-            //input.value = value.replace(/[^a-zA-Z]/g, '');
-            event.target.value = input.replace(/[^a-zA-Z]/g, '');
-        }
-        else {
-            // Clear any existing error messages
-            const errorMessageElements = document.querySelectorAll('.errorMessageT1');
-            errorMessageElements.forEach(function (element) {
-                element.innerText = '';
-            });
-        }
-        // Attach event listeners to all input elements with the class 'validateT'
-        const inputElements = document.querySelectorAll('.validateT');
-        inputElements.forEach(function (input) {
-            input.addEventListener('input', function () {
-                validateInputT(input);
-            });
+        debugger;
+        const element = event.target;
+        const value = element.value.trim();
+        const validateType = element.getAttribute('data-validate');
+        const validators = {
+            name: /^[a-zA-Z\s]*$/,
+            email: /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
+            phone: /^\d{10}$/
+        };
 
-        });
+        const messages = {
+            name: 'Enter First Name',
+            last: 'Enter Last Name',
+            email: 'Enter valid email.',
+            phone: 'Enter valid phone number.',
+            duplicate: 'Duplicate names are not allowed.'
+        };
+        if (value === "") {
+            debugger;
+            showError(element, messages[validateType]);
+            return;
+        } else {
+            removeError(element);
+        }
 
+        if (!validators[validateType].test(value)) {
+            debugger;
+            showError(element, messages[validateType]);
+        } else {
+            removeError(element);
+        }
+        // Finally, check for duplicates in name fields
+        if (validateType === 'name') {
+            debugger;
+            const allNames = document.querySelectorAll(`[data-validate="${validateType}"]`);
+            const duplicate = Array.from(allNames).filter((el) => el.value.trim() === value && el !== element);
+            if (duplicate.length > 0) {
+                debugger;
+                showError(element, messages['duplicate']);
+                return;
+            } else {
+                debugger;
+                removeError(element);
+            }
+        }
+    }
+    function showError(element, message) {
+        debugger;
+        let errorMessage = element.parentNode.querySelector('.error-message');
+        if (!errorMessage) {
+            errorMessage = document.createElement('p');
+            errorMessage.className = 'error-message';
+            element.parentNode.appendChild(errorMessage);
+        }
+        errorMessage.textContent = message;
+        errorMessage.style.display = 'block';
+        element.classList.add('error-input');
+    }
+    function removeError(element) {
+        debugger;
+        const errorMessage = element.parentNode.querySelector('.error-message');
+        if (errorMessage) {
+            errorMessage.style.display = 'none';
+        }
+        element.classList.remove('error-input');
     }
 
 
-
     // function validateInputT(event) {
+    //     //     //alert("test");
+    //     const input = event.target.value;
+    //     const regex = /^[a-zA-Z]*$/;
+    //     if (!regex.test(input)) {
+    //         // Replace non-alphabetic characters with an empty string
+    //         //input.value = value.replace(/[^a-zA-Z]/g, '');
+    //         event.target.value = input.replace(/[^a-zA-Z]/g, '');
+    //     }
+    //     else {
+    //         // Clear any existing error messages
+    //         const errorMessageElements = document.querySelectorAll('.errorMessageT1');
+    //         errorMessageElements.forEach(function (element) {
+    //             element.innerText = '';
+    //         });
+    //     }
+    //     // Attach event listeners to all input elements with the class 'validateT'
+    //     const inputElements = document.querySelectorAll('.validateT');
+    //     inputElements.forEach(function (input) {
+    //         input.addEventListener('input', function () {
+    //             validateInputT(input);
+    //         });
+
+    //     });
+
+    // }  
+
+    // function validateInputTr(event) {
     //     const input = event.target.value;
     //     const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
 
     //     if (!regex.test(input)) {
-    //         document.querySelectorAll('.errorMessageT1').innerText = "";
-    //         event.target.value = input.replace(/[^a-zA-Z]/g, '');   //Remove non-alphabetic characters
+    //         document.querySelector('.errorMessageT2').innerText = "";
+    //         event.target.value = input.replace(/[^a-zA-Z]/g, ''); // Remove non-alphabetic characters
     //     } else {
-    //         document.querySelectorAll('.errorMessageT1').innerText = "";
+    //         document.querySelector('.errorMessageT2').innerText = "";
     //     }
-
-    //     var firstName = document.querySelector(".contactFname").value;
-    //     if (firstName == "") {
+    //     var lastName = document.querySelector(".contactLname").value;
+    //     if (lastName == "") {
     //         //alert("Enter Origin Name");
-    //         var firstnameToDisplay = document.querySelector('.error-CFname');
-    //         firstnameToDisplay.style.display = "block";
-    //         document.querySelector(".contactFname").focus();
+    //         var lastnameToDisplay = document.querySelector('.error-CLname');
+    //         lastnameToDisplay.style.display = "block";
+    //         document.querySelector(".contactLname").focus();
     //         return false;
     //     }
     //     else {
-    //         var firstnameToDisplay = document.querySelector('.error-CFname');
-    //         firstnameToDisplay.style.display = "none";
+    //         var lastnameToDisplay = document.querySelector('.error-CLname');
+    //         lastnameToDisplay.style.display = "none";
     //     }
+
+
     // }
 
-    function validateInputTr(event) {
-        const input = event.target.value;
-        const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
+    // function validateEmailTr(event) {
+    //     const email = event.target.value;
+    //     const regex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/; // Regular expression for basic email validation
 
-        if (!regex.test(input)) {
-            document.querySelector('.errorMessageT2').innerText = "";
-            event.target.value = input.replace(/[^a-zA-Z]/g, ''); // Remove non-alphabetic characters
-        } else {
-            document.querySelector('.errorMessageT2').innerText = "";
-        }
-        var lastName = document.querySelector(".contactLname").value;
-        if (lastName == "") {
-            //alert("Enter Origin Name");
-            var lastnameToDisplay = document.querySelector('.error-CLname');
-            lastnameToDisplay.style.display = "block";
-            document.querySelector(".contactLname").focus();
-            return false;
-        }
-        else {
-            var lastnameToDisplay = document.querySelector('.error-CLname');
-            lastnameToDisplay.style.display = "none";
-        }
+    //     if (!regex.test(email)) {
+    //         document.querySelector('.emailErrorMessageTr').innerText = "valid email";
+    //     } else {
+    //         document.querySelector('.emailErrorMessageTr').innerText = "";
+    //     }
 
+    //     var emailName = document.querySelector(".contactemail").value;
+    //     if (emailName == "") {
+    //         //alert("Enter Origin Name");
+    //         var emailNameToDisplay = document.querySelector('.error-emailname');
+    //         emailNameToDisplay.style.display = "block";
+    //         document.querySelector(".contactemail").focus();
+    //         return false;
+    //     }
+    //     else {
+    //         var emailNameToDisplay = document.querySelector('.error-emailname');
+    //         emailNameToDisplay.style.display = "none";
+    //     }
 
-    }
+    // }
 
-    function validateEmailTr(event) {
-        const email = event.target.value;
-        const regex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/; // Regular expression for basic email validation
+    // function validatePhoneNumberTr(event) {
+    //     const phoneNumber = event.target.value;
+    //     const regex = /^\d{10}$/; // Regular expression for 10-digit phone number validation
 
-        if (!regex.test(email)) {
-            document.querySelector('.emailErrorMessageTr').innerText = "valid email";
-        } else {
-            document.querySelector('.emailErrorMessageTr').innerText = "";
-        }
+    //     if (!regex.test(phoneNumber)) {
+    //         document.querySelector('.phoneErrorMessageTr').innerText = "valid number.";
+    //     } else {
+    //         document.querySelector('.phoneErrorMessageTr').innerText = "";
+    //     }
+    //     let phoneTRfocus = document.querySelector('.contactphone').value;
+    //     if (phoneTRfocus == "") {
 
-        var emailName = document.querySelector(".contactemail").value;
-        if (emailName == "") {
-            //alert("Enter Origin Name");
-            var emailNameToDisplay = document.querySelector('.error-emailname');
-            emailNameToDisplay.style.display = "block";
-            document.querySelector(".contactemail").focus();
-            return false;
-        }
-        else {
-            var emailNameToDisplay = document.querySelector('.error-emailname');
-            emailNameToDisplay.style.display = "none";
-        }
-
-    }
-
-    function validatePhoneNumberTr(event) {
-        const phoneNumber = event.target.value;
-        const regex = /^\d{10}$/; // Regular expression for 10-digit phone number validation
-
-        if (!regex.test(phoneNumber)) {
-            document.querySelector('.phoneErrorMessageTr').innerText = "valid number.";
-        } else {
-            document.querySelector('.phoneErrorMessageTr').innerText = "";
-        }
-        let phoneTRfocus = document.querySelector('.contactphone').value;
-        if (phoneTRfocus == "") {
-
-            let phoneTrToDisplay = document.querySelector('.error-phoneN');
-            phoneTrToDisplay.style.display = "block";
-            document.querySelector('.contactphone').focus();
-            return false;
-        }
-        else {
-            let phoneTrToDisplay = document.querySelector('.error-phoneN');
-            phoneTrToDisplay.style.display = "none";
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
+    //         let phoneTrToDisplay = document.querySelector('.error-phoneN');
+    //         phoneTrToDisplay.style.display = "block";
+    //         document.querySelector('.contactphone').focus();
+    //         return false;
+    //     }
+    //     else {
+    //         let phoneTrToDisplay = document.querySelector('.error-phoneN');
+    //         phoneTrToDisplay.style.display = "none";
+    //     }
+    // }
     var buttonLead = document.getElementById('checkboxLead');
     buttonLead.addEventListener('click', function (e) {
         e.preventDefault();
@@ -351,9 +378,6 @@
             phoneInputsT.forEach(function (input) {
                 input.value = phoneLeadPass;
             });
-
-
-
         } else {
             alert("Checkbox is unchecked");
 
@@ -376,10 +400,6 @@
 
         }
     });
-
-
-
-
     document.addEventListener('DOMContentLoaded', function (event) {
         event.preventDefault();
         const daySelect = document.querySelector('.day-select');
@@ -407,24 +427,16 @@
         populateDayOptions();
         populateYearOptions();
     });
-
     function getSelectedDayValue() {
         var daySelect = document.querySelector('.day-select');
         return daySelect.value;
     }
-
     function getSelectedYearValue() {
         var yearSelect = document.querySelector('.year-select');
         return yearSelect.value;
 
     }
-
-
-
-
-
 </script>
-
 <script type="text/javascript">
     $(document).ready(function () {
         function showForm() {
@@ -433,78 +445,109 @@
         $("#editData").click(function () {
             $("#dataPopup").hide();
         });
+        // function showError(input, message) {
+            
+        //     var errorDiv = document.createElement('div');
+        //     errorDiv.textContent = message;
+        //     errorDiv.classList.add('error-message');
+        //     errorDiv.style.color = 'red';           
+        //     input.parentNode.parentNode.insertBefore(errorDiv, input.parentNode.nextSibling);          
+        //     input.addEventListener('input', function () {
+        //         if (input.value.trim() !== '') {
+        //             errorDiv.style.display = 'none';e
+        //         }
+        //     });
+        // }
+        // function clearError(input) {
+        //     // Find and remove the error message div if it exists
+        //     var errorDiv = input.parentNode.parentNode.querySelector('.error-message');
+        //     if (errorDiv) {
+        //         errorDiv.parentNode.removeChild(errorDiv);
+        //     }
+        // }
+        // function FirstNameVal() {
+        //     debugger;
+        //     var inputs = document.querySelectorAll('.contactFname');
+        //     var isValid = true;
+        //     var errorInputs = [];
+        //     for (var i = 0; i < inputs.length; i++) {
+        //         if (!inputs[i].value.trim()) {
+        //             isValid = false;
+        //             errorInputs.push(inputs[i]);
+        //         } else {
+        //             clearError(inputs[i]);
+        //         }               
+        //     }
+        //     if (!isValid) {
+        //         showError(errorInputs[0], 'This field is required');
+        //         errorInputs[0].focus();              
+        //         return false;
+        //     } else {
 
-        function showError(input, message) {
-            // Create a new div for error message
-            var errorDiv = document.createElement('div');
-            errorDiv.textContent = message;
-            errorDiv.classList.add('error-message'); // Add a class name to the error div
-            errorDiv.style.color = 'red';
+        //         // alert('All inputs are valid!');
+        //         // You might want to submit the form or take other actions here
+        //     }
 
-            // Insert the error div after the input's parent div
-            input.parentNode.parentNode.insertBefore(errorDiv, input.parentNode.nextSibling);
-
-            // Add event listener to input to hide error message when input is filled
-            input.addEventListener('input', function () {
-                if (input.value.trim() !== '') {
-                    errorDiv.style.display = 'none'; // Hide error message
-                }
-            });
-        }
-
-
-        function clearError(input) {
-            // Find and remove the error message div if it exists
-            var errorDiv = input.parentNode.parentNode.querySelector('.error-message');
-            if (errorDiv) {
-                errorDiv.parentNode.removeChild(errorDiv);
-            }
-        }
-
-        function FirstNameVal() {
-            var inputs = document.querySelectorAll('.contactFname');
-            var isValid = true;
-            var errorInputs = [];
-
-            for (var i = 0; i < inputs.length; i++) {
-                if (!inputs[i].value.trim()) {
-                    isValid = false;
-                    errorInputs.push(inputs[i]);
-                } else {
-                    clearError(inputs[i]);
-                }
-                // Add more validation checks as needed
-            }
-
-            if (!isValid) {
-                showError(errorInputs[0], 'This field is required');
-                errorInputs[0].focus();
-                //document.querySelector(".contactFname").focus();
-                //inputs.focus();
-                return false;
-            } else {
-
-                // alert('All inputs are valid!');
-                // You might want to submit the form or take other actions here
-            }
-
-        }
-
-
-
-
+        // }
         $("#showReviewPopup").click(function (e) {
             e.preventDefault();
+            debugger;
+            /*******Validation Start*********/
+            const fieldsToValidate = [
+                { className: 'contactFname', errorMessage: 'Enter First Name' },
+                { className: 'contactLname', errorMessage: 'Enter Last Name' },
+                { className: 'contactemail', errorMessage: 'Enter Email Name' },
+                { className: 'contactphone', errorMessage: 'Enter The Phone Number' }
+            ];
+            let firstInvalidElement = null;
+            fieldsToValidate.forEach(field => {
+                debugger;
+                const elements = document.querySelectorAll(`.${field.className}`);
+                elements.forEach(element => {
+                    element.addEventListener("input", function () {
+                        removeError(element);
+                    });
 
+                    if (element.value.trim() === "") {
+                        debugger;
+                        showError(element, field.errorMessage);
+                        if (!firstInvalidElement) {
+                            firstInvalidElement = element;
+                        }
+                    }
+                });
+            });
+            if (firstInvalidElement) {
+                firstInvalidElement.focus();
+                return false;
+            } else {
+                // document.getElementById('passengerForm').submit();
+            }
+            function removeError(element) {
+                debugger;
+                const errorMessage = element.parentNode.querySelector(".error-message");
+                if (errorMessage) {
+                    errorMessage.style.display = 'none';
+                }
+                element.classList.remove("error-input");
+            }
+            function showError(element, message) {
+                debugger;
+                let errorMessage = element.parentNode.querySelector(".error-message");
+                if (!errorMessage) {
+                    errorMessage = document.createElement("p");
+                    errorMessage.className = "error-message";
+                    element.parentNode.appendChild(errorMessage);
+                }
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                element.classList.add("error-input");
+            }
 
+            // Infant Case
             var day = document.querySelector('.day-select');
             var month = document.querySelector('.month-select');
-            var year = document.querySelector('.year-select');
-
-            //alert("Day" +day.value);
-            //alert("Month" +month.value);
-            //alert("Year" + year.value);
-            // Example usage:
+            var year = document.querySelector('.year-select');          
             if ($(".dobinput").is(":visible")) {
                 var dob = year.value + "-" + month.value + "-" + day.value;
                 if (day.value == "") {
@@ -520,20 +563,15 @@
                     alert("Please select year for infant date-of-birth")
                     return false;
                 }
-
                 function validateInfantDOB(dob) {
                     // Convert the date string into a Date object
                     var dobDate = new Date(dob);
-
                     // Get the current date
                     var currentDate = new Date();
-
                     // Calculate the difference in milliseconds between the current date and the date of birth
                     var timeDiff = currentDate.getTime() - dobDate.getTime();
-
                     // Calculate the difference in years
                     var yearsDiff = timeDiff / (1000 * 3600 * 24 * 365.25);
-
                     // Check if the age is less than 2 years (24 months)
                     if (yearsDiff < 2) {
                         return true; // Infant is valid
@@ -548,72 +586,14 @@
                 if (validateInfantDOB(dob)) {
                     //alert("Infant's date of birth is valid.");
                 } else {
-
-
                     alert("Infant can't be  greater than 2 years.");
                     return false;
                 }
             }
-            /*******Validation Start*********/
-
-            // var firstName = document.querySelector(".contactFname").value;
-            // if (firstName == "") {
-            //     //alert("Enter Origin Name");
-            //     var firstnameToDisplay = document.getElementById("error-Fname");
-            //     firstnameToDisplay.style.display = "block";
-            //     document.querySelector(".contactFname").focus();
-            //     return false;
-            // }
-            FirstNameVal();
-
-            var lastName = document.querySelector(".contactLname").value;
-            if (lastName == "") {
-                //alert("Enter Origin Name");
-                var lastnameToDisplay = document.getElementById("error-Lname");
-                lastnameToDisplay.style.display = "block";
-                document.querySelector(".contactLname").focus();
-                return false;
-            }
-
-            var emailName = document.querySelector(".contactemail").value;
-            if (emailName == "") {
-                //alert("Enter Origin Name");
-                var emailNameToDisplay = document.querySelector('.error-emailname');
-                emailNameToDisplay.style.display = "block";
-                document.querySelector(".contactemail").focus();
-                return false;
-            }
-
-            let phonefocus = document.querySelector('.contactphone').value;
-            if (phonefocus == "") {
-
-                let phoneToDisplay = document.querySelector('.error-phoneN');
-                phoneToDisplay.textContent = "Please enter your phone number";
-                phoneToDisplay.style.display = "block";
-                document.querySelector('.contactphone').focus();
-                return false;
-            }
-            var mobileNumberPattern = /^\d{10}$/; // Assumes a 10-digit number
-
-            if (!mobileNumberPattern.test(phonefocus)) {
-                alert("Please enter a valid 10-digit mobile number.");
-                return false;
-            }
-
-            // var day = document.querySelector('.day-select').value;
-            // var month = document.querySelector('.month-select').value;
-            // var year = document.querySelector('.year-select').value;
-
-            // // Check if any of the dropdowns have default values
-            // if (day === "" || month === "" || year === "") {
-            //     // Display error message or take necessary action
-            //     alert("Please select a valid date of birth.");
-            //     return false; // Prevent form submission
-            // }
-
-            /*******Validation End*********/
-
-
+             
+                    
+          
+                /*******Validation End*********/
             var enteredData = "";
             for (var i = 0; i < @Model.passeengerlistRT[0].passengers.Count; i++) {
                 var firstName = $("input[name='passengerdetails[" + i + "].First']").val();
@@ -641,11 +621,7 @@
             var contentToDisplay = document.getElementById("content");
             contentToDisplay.style.display = "none";
             var content2To = document.getElementById("content2");
-            content2To.style.display = "none";
-            // var toggleButton3To = document.getElementById("toggleButton3");
-            // toggleButton3To.style.opacity = "1.0";
-            // var content3To = document.getElementById("content3");
-            // content3To.style.display = "block";
+            content2To.style.display = "none";           
             var toggleButton4To = document.getElementById("toggleButton4");
             toggleButton4To.style.opacity = "1.0";
             var GSTcontent5To = document.getElementById("content4");
@@ -655,8 +631,7 @@
             GSTContinuebtn1.disabled = false;
             GSTContinuebtn1.style.opacity = "1.0";
 
-            var formData = new FormData($("#passengerFormRT")[0]);
-            //alert(formData);
+            var formData = new FormData($("#passengerFormRT")[0]);           
             $.ajax({
                 url: "/RoundAATripsell/PostReturnTravllerData",
                 type: "POST",
@@ -664,12 +639,12 @@
                 processData: false,
                 contentType: false,
                 success: function (result) {
-                    //alert(result);
+                  
                     $('#RTServiceRequestdata').html(result);
-                    // Handle the response from the server if needed
+                   
                 },
                 error: function (error) {
-                    // Handle any errors here
+                    
                 }
             });
         });
@@ -678,129 +653,6 @@
     });
 
 </script>
-@* <script type="text/javascript">
 
-    document.addEventListener('DOMContentLoaded', function (event) {
-        event.preventDefault();
-        const daySelect = document.querySelector('.day-select');
-        const yearSelect = document.querySelector('.year-select');
-
-        function populateDayOptions() {
-            for (let i = 1; i <= 31; i++) {
-                const option = document.createElement('option');
-                option.value = i;
-                option.textContent = i;
-                daySelect.appendChild(option);
-            }
-        }
-
-        function populateYearOptions() {
-            const currentYear = new Date().getFullYear();
-            const maxInfantAge = 100;
-            for (let i = currentYear; i >= currentYear - maxInfantAge; i--) {
-                const option = document.createElement('option');
-                option.value = i;
-                option.textContent = i;
-                yearSelect.appendChild(option);
-            }
-        }
-
-        // Call the functions to populate day and year options
-        populateDayOptions();
-        populateYearOptions();
-    });
-
-    function getSelectedDayValue() {
-        const daySelect = document.querySelector('.day-select');
-        return daySelect.value;
-    }
-
-    function getSelectedYearValue() {
-        const yearSelect = document.querySelector('.year-select');
-        return yearSelect.value;
-    }
-</script>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        function showForm() {
-            $('#passengerForm').show();
-
-        }
-        $("#editData").click(function () {
-            $("#dataPopup").hide();
-        });
-        $("#showReviewPopup").click(function (e) {
-            e.preventDefault(); // Prevent the form from submitting
-             // Collect the entered data from the form
-            var enteredData = "";
-            for (var i = 0; i < @Model.passeengerlistRT[0].passengers.Count; i++) {
-                var firstName = $("input[name='passengerdetails[" + i + "].First']").val();
-                var lastName = $("input[name='passengerdetails[" + i + "].Last']").val();
-                var title = $("select[name='passengerdetails[" + i + "].Title']").val();
-                var Passengertypecode = $("input[name='passengerdetails[" + i + "].passengertypecode']").val();
-
-                if (Passengertypecode == "ADT") { Passengertypecode = "Adult"; }
-                if (Passengertypecode == "CHD") { Passengertypecode = "Child"; }
-
-                enteredData += "<p><strong>Passenger " + (i + 1) + ": (" + Passengertypecode + ")</strong><br>";
-                enteredData += "Title: " + title + "<br>";
-                enteredData += "First Name: " + firstName + "<br>";
-                enteredData += "Last Name: " + lastName + "</p>";
-
-            }
-
-            $("#enteredData").html(enteredData);
-
-            $('#dataPopup').modal('show');
-        });
-        $("#ContinueData").click(function () {
-            $('#passengers_id').hide(); //Contact Details Div Hide
-            var formData = new FormData($("#passengerForm")[0]);
-            $.ajax({
-                url: "/RoundAATripsell/PostReturnTravllerData",
-                type: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (result) {
-                },
-                error: function (error) {
-
-                }
-            });
-        });
-
-
-    });
-
-</script> *@
-
-
-<div class="modal fade" id="dataPopup" tabindex="-1" role="dialog" aria-labelledby="dataPopupLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content pb-3">
-            <div class="modal-header">
-                <h5 class="modal-title" id="dataPopupLabel">Please review your details to ensure accuracy.</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="enteredData">
-                <!-- Display the entered data here -->
-
-            </div>
-            <div class="d-flex justify-content-end">
-                <div class="editbtn me-3">
-                    <button type="button" data-dismiss="modal" class="btn btn-primary w-20" id="editData">Edit</button>
-                </div>
-                <div class="countibtn me-3">
-                    <button type="button" data-dismiss="modal" class="btn btn-primary w-20" id="ContinueData">Continue</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
 
 

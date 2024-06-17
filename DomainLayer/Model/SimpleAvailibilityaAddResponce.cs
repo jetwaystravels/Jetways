@@ -54,6 +54,9 @@ namespace DomainLayer.Model
         public TimeSpan formatTime { get; set; }
         public string SetformatTime { get; set; }
         public DateTime arrival { get; set; }
+        public string Arrival { get; set; }
+        public string ArrivalDate { get; set; }
+        public string ArrivalTime { get; set; }
         public DateTime departure { get; set; }
     }
     

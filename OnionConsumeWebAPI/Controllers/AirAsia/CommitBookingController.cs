@@ -25,6 +25,8 @@ using ZXing;
 using ZXing.Windows.Compatibility;
 using OnionArchitectureAPI.Services.Barcode;
 using System.Collections;
+using System.Globalization;
+using Microsoft.AspNetCore.Http;
 
 namespace OnionConsumeWebAPI.Controllers
 {
@@ -114,6 +116,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                     Hashtable htseatdata = new Hashtable();
                     Hashtable htmealdata = new Hashtable();
+                    Hashtable htBagdata = new Hashtable();
                     var _responcePNRBooking = responcepnrBooking.Content.ReadAsStringAsync().Result;
                     var JsonObjPNRBooking = JsonConvert.DeserializeObject<dynamic>(_responcePNRBooking);
                     ReturnTicketBooking returnTicketBooking = new ReturnTicketBooking();
@@ -318,14 +321,33 @@ namespace OnionConsumeWebAPI.Controllers
                                 {
                                     SsrReturn ssrReturn = new SsrReturn();
                                     ssrReturn.ssrCode = item.Value.ssrs[t].ssrCode;
-                                    //var meal = MealImageList.GetAllmeal().Where(x => x.MealCode == ssrReturn.ssrCode).SingleOrDefault();
-                                    //if (meal != null)
-                                    //{
-                                    //    ssrReturn.MealName = meal.MealImage;
-                                    //}
-                                    //SrrcodereturnsList.Add(ssrReturn);
-                                    htmealdata.Add(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination, ssrReturn.ssrCode);
-                                    returnSeats.SSRCode += ssrReturn.ssrCode + ",";
+                                    if (ssrReturn.ssrCode.StartsWith("P"))
+                                    {
+                                        continue;
+                                    }
+                                    else
+                                    {
+
+                                        htmealdata.Add(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination, ssrReturn.ssrCode);
+                                        returnSeats.SSRCode += ssrReturn.ssrCode + ",";
+                                    }
+
+
+                                }
+                                for (int t = 0; t < ssrCodeCount; t++)
+                                {
+                                    SsrReturn ssrReturn = new SsrReturn();
+                                    ssrReturn.ssrCode = item.Value.ssrs[t].ssrCode;
+                                    if (ssrReturn.ssrCode.StartsWith("V"))
+                                    {
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        htBagdata.Add(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination, ssrReturn.ssrCode);
+                                        returnSeats.SSRCode += ssrReturn.ssrCode + ",";
+                                    }
+
 
                                 }
 
@@ -403,45 +425,7 @@ namespace OnionConsumeWebAPI.Controllers
                                 legInfoReturn.departureTerminal = JsonObjPNRBooking.data.journeys[i].segments[j].legs[n].legInfo.departureTerminal;
                                 legInfoReturn.departureTime = JsonObjPNRBooking.data.journeys[i].segments[j].legs[n].legInfo.departureTime;
                                 LegReturnobj.legInfo = legInfoReturn;
-                                legReturnsList.Add(LegReturnobj);
-                                //var passengersegmentHashCount = JsonObjPNRBooking.data.journeys[i].segments[j].passengerSegment;
-                                //var passengerReturnHashCount = ((Newtonsoft.Json.Linq.JContainer)passengersegmentCount).Count;
-                                //foreach (var itemSeat in JsonObjPNRBooking.data.journeys[i].segments[j].passengerSegment)
-                                //{
-                                //    PassengerSegment passengerSegmentobj = new PassengerSegment();
-                                //    passengerSegmentobj.passengerKey = itemSeat.Value.passengerKey;
-                                //    int seatCount = itemSeat.Value.seats.Count;
-                                //    int ssrCodeCount = itemSeat.Value.ssrs.Count;
-                                //    List<ReturnSeats> returnSeatsList = new List<ReturnSeats>();
-                                //    for (int q = 0; q < seatCount; q++)
-                                //    {
-                                //        ReturnSeats returnSeatsObj = new ReturnSeats();
-                                //        returnSeatsObj.unitDesignator = itemSeat.Value.seats[q].unitDesignator;
-                                //        seatnumber = itemSeat.Value.seats[q].unitDesignator;
-
-                                //       // returnSeatsList.Add(returnSeatsObj);
-                                //        htseatdata.Add(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].legs[n].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].legs[n].designator.destination, returnSeatsObj.unitDesignator);
-                                //        returnSeats.unitDesignator += returnSeatsObj.unitDesignator + ",";
-                                //    }
-                                //    List<SsrReturn> SrrcodereturnsList = new List<SsrReturn>();
-                                //    for (int t = 0; t < ssrCodeCount; t++)
-                                //    {
-                                //        SsrReturn ssrReturn = new SsrReturn();
-                                //        ssrReturn.ssrCode = itemSeat.Value.ssrs[t].ssrCode;
-                                //        //var meal = MealImageList.GetAllmeal().Where(x => x.MealCode == ssrReturn.ssrCode).SingleOrDefault();
-                                //        //if (meal != null)
-                                //        //{
-                                //        //    ssrReturn.MealName = meal.MealImage;
-                                //        //}
-                                //        //SrrcodereturnsList.Add(ssrReturn);
-                                //        htmealdata.Add(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].legs[n].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].legs[n].designator.destination, ssrReturn.ssrCode);
-                                //        returnSeats.SSRCode += ssrReturn.ssrCode + ",";
-
-                                //    }                              
-
-
-
-                                //}
+                                legReturnsList.Add(LegReturnobj);                               
 
                             }
                             segmentReturnobj.unitdesignator = returnSeats.unitDesignator;
@@ -477,11 +461,13 @@ namespace OnionConsumeWebAPI.Controllers
 
                         }
                         ReturnpassengersList.Add(returnPassengersobj);
-
+                      
+                        string dateString=JsonObjPNRBooking.data.journeys[0].designator.departure;                        
+                        DateTime date = DateTime.ParseExact(dateString, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
                         //julian date
-                        int year = 2024;
-                        int month = 2;
-                        int day = 20;
+                        int year = date.Year;
+                        int month = date.Month;
+                        int day = date.Day;
 
                         // Calculate the number of days from January 1st to the given date
                         DateTime currentDate = new DateTime(year, month, day);
@@ -520,50 +506,7 @@ namespace OnionConsumeWebAPI.Controllers
                             ReturnpassengersList.Add(returnPassengersobj);
 
                         }
-                        //Name name = new Name();
-                        //if (items.Value.infant != null)
-                        //{
-                        //    name.first = items.Value.infant.name.first;
-                        //    name.last = items.Value.infant.name.last;
-                        //    infantsObject.name = name;                           
-
-                        //}
-
-
-                        //returnPassengersobj.infant = infantsObject;
-                        //ReturnpassengersList.Add(returnPassengersobj);
-                        //for (int i = 0; i < PassengerDataDetailsList.Count; i++)
-                        //{
-                        //    if (returnPassengersobj.passengerTypeCode == PassengerDataDetailsList[i].passengertypecode && returnPassengersobj.name.first.ToLower() == PassengerDataDetailsList[i].first.ToLower() + " " + PassengerDataDetailsList[i].last.ToLower())
-                        //    {
-                        //        //returnPassengersobj.MobNumber = PassengerDataDetailsList[i].mobile;
-                        //        returnPassengersobj.passengerKey = PassengerDataDetailsList[i].passengerkey;
-                        //        //passkeytypeobj.seats.unitDesignator = htseatdata[passeengerlist[i].passengerkey].ToString();
-                        //        break;
-                        //    }
-
-                        //}
-                        //ReturnpassengersList.Add(returnPassengersobj);
-                        //if (items.Value.infant != null)
-                        //{
-                        //    returnPassengersobj = new ReturnPassengers();
-                        //    returnPassengersobj.name = new Name();
-                        //    returnPassengersobj.passengerTypeCode = "INFT";
-                        //    returnPassengersobj.name.first = items.Value.infant.name.first + " " + items.Value.infant.name.last; 
-                        //    //passkeytypeobj.MobNumber = "";
-                        //    for (int i = 0; i < PassengerDataDetailsList.Count; i++)
-                        //    {
-                        //        if (returnPassengersobj.passengerTypeCode == PassengerDataDetailsList[i].passengertypecode && returnPassengersobj.name.first.ToLower() == PassengerDataDetailsList[i].first.ToLower() + " " + PassengerDataDetailsList[i].last.ToLower())
-                        //        {
-                        //            //returnPassengersobj.MobNumber = PassengerDataDetailsList[i].mobile;
-                        //            returnPassengersobj.passengerKey = PassengerDataDetailsList[i].passengerkey;                                  
-                        //            break;
-                        //        }
-
-                        //    }
-                        //    ReturnpassengersList.Add(returnPassengersobj);
-
-                        //}
+                      
                     }
 
                     returnTicketBooking.breakdown = breakdown;
@@ -578,6 +521,7 @@ namespace OnionConsumeWebAPI.Controllers
                     returnTicketBooking.totalAmountBaggage = totalAmountBaggage;
                     returnTicketBooking.Seatdata = htseatdata;
                     returnTicketBooking.Mealdata = htmealdata;
+                    returnTicketBooking.Bagdata = htBagdata;
                     _AirLinePNRTicket.AirlinePNR.Add(returnTicketBooking);
 
 

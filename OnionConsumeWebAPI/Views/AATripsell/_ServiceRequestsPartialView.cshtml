@@ -543,15 +543,21 @@
                                                     List<SelectListItem> mealOptions = new List<SelectListItem>();
                                                     for (int s = 0; s < Model.Meals.legSsrs[0].legssrs.Count; s++)
                                                     {
-
-                                                        string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                        string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
-                                                        string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " ₹" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                        ssrkey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].ssrKey + "_" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price; ;
-                                                        string passengerKey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].passengerKey;
-                                                        if (ssrkey != null)
+                                                        for (int sm = 0; sm < Model.Meals.legSsrs[0].legssrs[s].legpassengers.Count; sm++)
                                                         {
-                                                            mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
+                                                            string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[sm].price;
+                                                            string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
+                                                            string MealcodeData = Mealcode.StartsWith("V", StringComparison.OrdinalIgnoreCase).ToString();
+                                                            string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " ₹" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[sm].price;
+                                                            ssrkey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].ssrKey + "_" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].price; ;
+                                                            string passengerKey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].passengerKey;
+                                                            if (MealcodeData != "False")
+                                                            {
+                                                                if (ssrkey != null)
+                                                                {
+                                                                    mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
+                                                                }
+                                                            }
                                                         }
 
                                                     }
@@ -584,25 +590,32 @@
 
                                             @{
                                                 List<SelectListItem> BaggageOptions = new List<SelectListItem>();
+                                               
 
                                                 for (int s = 0; s < Model.Baggage.journeySsrsBaggage[0].baggageSsr.Count; s++)
                                                 {
-                                                    string priceBaggage = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].price;
-                                                    string Sssrcode = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].ssrCode;
-                                                    string bagcode = Sssrcode.StartsWith("P", StringComparison.OrdinalIgnoreCase).ToString();
-                                                    var bagname = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].name + "@" + Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].price;
-                                                    bagkey = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].ssrKey + "_" + Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].price;
-                                                    if (bagcode != "False")
+                                                    for (int pb = 0; pb < Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage.Count; pb++)
                                                     {
-                                                        if (bagname.Contains("Xtra-Carry-On") || bagname.Contains(" Xcess Baggage"))
+
+
+                                                        string priceBaggage = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[pb].price;
+                                                        string Sssrcode = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].ssrCode;
+                                                        string bagcode = Sssrcode.StartsWith("P", StringComparison.OrdinalIgnoreCase).ToString();
+                                                        var bagname = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].name + "@" + Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].price;
+                                                        bagkey = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[pa].ssrKey + "_" + Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[pa].price;
+                                                        string passengerKey = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[pa].passengerKey;
+                                                        if (bagcode != "False")
                                                         {
-                                                            string[] parts = bagname.Split(new string[] { "Xtra-Carry-On", "Xcess Baggage" }, StringSplitOptions.RemoveEmptyEntries);
-                                                            string formattedName = string.Join(" ", parts).Trim();
-                                                            BaggageOptions.Add(new SelectListItem { Text = formattedName, Value = bagkey });
-                                                        }
-                                                        else
-                                                        {
-                                                            BaggageOptions.Add(new SelectListItem { Text = bagname, Value = bagkey });
+                                                            if (bagname.Contains("Xtra-Carry-On") || bagname.Contains(" Xcess Baggage"))
+                                                            {
+                                                                string[] parts = bagname.Split(new string[] { "Xtra-Carry-On", "Xcess Baggage" }, StringSplitOptions.RemoveEmptyEntries);
+                                                                string formattedName = string.Join(" ", parts).Trim();
+                                                                BaggageOptions.Add(new SelectListItem { Text = formattedName, Value = bagkey });
+                                                            }
+                                                            else
+                                                            {
+                                                                BaggageOptions.Add(new SelectListItem { Text = bagname, Value = bagkey });
+                                                            }
                                                         }
                                                     }
 
@@ -726,15 +739,22 @@
                                                         List<SelectListItem> mealOptions = new List<SelectListItem>();
                                                         for (int s = 0; s < Model.Meals.legSsrs[1].legssrs.Count; s++)
                                                         {
-
-                                                            string ssrprice = Model.Meals.legSsrs[1].legssrs[s].legpassengers[0].price;
-                                                            string Mealcode = Model.Meals.legSsrs[1].legssrs[s].ssrCode;
-                                                            string Mealname = Model.Meals.legSsrs[1].legssrs[s].name + " @" + @Model.Meals.legSsrs[1].legssrs[s].legpassengers[0].price;
-                                                            ssrkey = Model.Meals.legSsrs[1].legssrs[s].legpassengers[pas].ssrKey + "_" + @Model.Meals.legSsrs[1].legssrs[s].legpassengers[0].price;
-                                                            string passengerKey = Model.Meals.legSsrs[1].legssrs[s].legpassengers[pas].passengerKey;
-                                                            if (ssrkey != null)
+                                                            for (int m = 0; m < Model.Meals.legSsrs[1].legssrs[s].legpassengers.Count; m++)
                                                             {
-                                                                mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
+
+                                                                string ssrprice = Model.Meals.legSsrs[1].legssrs[s].legpassengers[m].price;
+                                                                string Mealcode = Model.Meals.legSsrs[1].legssrs[s].ssrCode;
+                                                                string MealData = Mealcode.StartsWith("V", StringComparison.OrdinalIgnoreCase).ToString();
+                                                                string Mealname = Model.Meals.legSsrs[1].legssrs[s].name + " @" + @Model.Meals.legSsrs[1].legssrs[s].legpassengers[m].price;
+                                                                ssrkey = Model.Meals.legSsrs[1].legssrs[s].legpassengers[pas].ssrKey + "_" + @Model.Meals.legSsrs[1].legssrs[s].legpassengers[pas].price;
+                                                                string passengerKey = Model.Meals.legSsrs[1].legssrs[s].legpassengers[pas].passengerKey;
+                                                                if (MealData != "False")
+                                                                {
+                                                                    if (ssrkey != null)
+                                                                    {
+                                                                        mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
+                                                                    }
+                                                                }
                                                             }
 
                                                         }

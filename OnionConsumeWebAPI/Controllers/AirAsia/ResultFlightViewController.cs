@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Drawing.Drawing2D;
 using System.Globalization;
@@ -79,10 +80,10 @@ namespace OnionConsumeWebAPI.Controllers
                     OnewaydeserializedObjects = OnewaydeserializedObjects.OrderBy(d => d.designator.departure).ToList();
                     break;
                 case "arrive_desc":
-                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderByDescending(d => d.designator.arrival).ToList();
+                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderByDescending(d => d.designator.ArrivalTime).ToList();
                     break;
                 case "arrive_asc":
-                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderBy(d => d.designator.arrival).ToList();
+                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderBy(d => d.designator.ArrivalTime).ToList();
                     break;
                 case "duration_desc":
                     OnewaydeserializedObjects = OnewaydeserializedObjects.OrderByDescending(d => d.designator.formatTime).ToList();
@@ -128,93 +129,7 @@ namespace OnionConsumeWebAPI.Controllers
             }
             viewModelobject.SimpleAvailibilityaAddResponcelist = OnewaydeserializedObjects;
             return PartialView("_FlightResultsSortingPartialView", viewModelobject);
-        }
-
-        [HttpPost]
-        public IActionResult FlightView011(List<int> FilterId, List<string> FilterIdAirLine, List<string> Airline)
-        {
-            ViewModel viewModelobject = new ViewModel();
-            string OnewayFlightData = HttpContext.Session.GetString("OneWayFlightView");
-            List<SimpleAvailibilityaAddResponce> OnewaydeserializedObjects = null;
-            OnewaydeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(OnewayFlightData);
-            // Process the filter values
-            if (FilterId != null && FilterId.Count > 0)
-            {
-                foreach (int value in FilterId)
-                {
-                    switch (value)
-                    {
-                        case 0:
-
-                            OnewaydeserializedObjects = OnewaydeserializedObjects.Where(x => FilterId.Contains(x.stops)).ToList();
-                            break;
-                        case 1:
-
-                            OnewaydeserializedObjects = OnewaydeserializedObjects.Where(x => FilterId.Contains(x.stops)).ToList();
-                            break;
-                        case 2:
-
-                            OnewaydeserializedObjects = OnewaydeserializedObjects.Where(x => FilterId.Contains(x.stops)).ToList();
-                            break;
-                        default:
-                            OnewaydeserializedObjects = OnewaydeserializedObjects.Where(x => FilterId.Contains(x.stops)).ToList();
-                            break;
-                    }
-                }
-                string OneWayFlightEditData = HttpContext.Session.GetString("OneWayPassengerModel");
-                SimpleAvailabilityRequestModel simpleAvailabilityRequestModel = null;
-                if (!string.IsNullOrEmpty(OneWayFlightEditData))
-                {
-                    simpleAvailabilityRequestModel = JsonConvert.DeserializeObject<SimpleAvailabilityRequestModel>(OneWayFlightEditData);
-                }
-                viewModelobject.simpleAvailabilityRequestModelEdit = simpleAvailabilityRequestModel;
-                viewModelobject.SimpleAvailibilityaAddResponcelist = OnewaydeserializedObjects;
-                return View(viewModelobject);
-            }
-            else if (Airline.Count > 0 && Airline.Count >= 0)
-            {
-
-                ViewModel viewModelobjectt = new ViewModel();
-                string OnewayFlightDataa = HttpContext.Session.GetString("OneWayFlightView");
-                List<SimpleAvailibilityaAddResponce> OnewaydeserializedObjectss = null;
-                OnewaydeserializedObjectss = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(OnewayFlightDataa);
-                var FilterAirLineData = OnewaydeserializedObjectss.Where(x => Airline.Contains(x.Airline.ToString())).ToList();
-
-
-                string OneWayFlightEditData = HttpContext.Session.GetString("OneWayPassengerModel");
-                SimpleAvailabilityRequestModel simpleAvailabilityRequestModel = null;
-                if (!string.IsNullOrEmpty(OneWayFlightEditData))
-                {
-                    simpleAvailabilityRequestModel = JsonConvert.DeserializeObject<SimpleAvailabilityRequestModel>(OneWayFlightEditData);
-                }
-                viewModelobjectt.simpleAvailabilityRequestModelEdit = simpleAvailabilityRequestModel;
-                viewModelobjectt.SimpleAvailibilityaAddResponcelist = FilterAirLineData;
-                return View(viewModelobjectt);
-            }
-            else
-            {
-
-                ViewModel viewModelobj = new ViewModel();
-                string OnewayData = HttpContext.Session.GetString("OneWayFlightView");
-                List<SimpleAvailibilityaAddResponce> OnewaydeserializedObject = null;
-                OnewaydeserializedObject = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(OnewayData);
-                viewModelobj.SimpleAvailibilityaAddResponcelist = OnewaydeserializedObject;
-
-
-                string OneWayFlightEditData = HttpContext.Session.GetString("OneWayPassengerModel");
-                SimpleAvailabilityRequestModel simpleAvailabilityRequestModel = null;
-                if (!string.IsNullOrEmpty(OneWayFlightEditData))
-                {
-                    simpleAvailabilityRequestModel = JsonConvert.DeserializeObject<SimpleAvailabilityRequestModel>(OneWayFlightEditData);
-                }
-                viewModelobj.simpleAvailabilityRequestModelEdit = simpleAvailabilityRequestModel;
-
-                return View(viewModelobj);
-            }
-            //return View();
-
-
-        }
+        }        
         [HttpPost]
         public async Task<ActionResult> Tripsell(string fareKey, string journeyKey)
         {
@@ -993,6 +908,11 @@ namespace OnionConsumeWebAPI.Controllers
                 List<Trip> Tripslist = new List<Trip>();
                 Trip Tripobj = new Trip();
                 Tripobj.origin = passeengerKeyList.journeys[0].designator.origin;
+                Tripobj.destination = passeengerKeyList.journeys[0].designator.destination;
+                //Tripobj.departureDate = passeengerKeyList.journeys[0].designator.departure;
+                Tripobj.departureDate = passeengerKeyList.journeys[0].designator.departure.ToString("yyyy-MM-dd HH:mm:ss");
+
+
                 List<TripIdentifier> TripIdentifierlist = new List<TripIdentifier>();
                 TripIdentifier TripIdentifierobj = new TripIdentifier();
                 TripIdentifierobj.carrierCode = passeengerKeyList.journeys[0].segments[0].identifier.carrierCode;
@@ -1012,6 +932,60 @@ namespace OnionConsumeWebAPI.Controllers
                     var JsonObjresponseSSRAvailabilty = JsonConvert.DeserializeObject<dynamic>(_responseSSRAvailabilty);
                     var journeyKey1 = JsonObjresponseSSRAvailabilty.data.journeySsrs[0].journeyKey;
                     journeyKey = ((Newtonsoft.Json.Linq.JValue)journeyKey1).Value.ToString();
+
+                    #region Segment 
+                    int SegmentBaggageCount = JsonObjresponseSSRAvailabilty.data.segmentSsrs.Count;
+                    List<segmentSsrs> segmentSsrsList = new List<segmentSsrs>();
+                    for(int sj = 0;  sj < SegmentBaggageCount; sj++)
+                    {
+                        segmentSsrs segmentobj = new  segmentSsrs();
+                        segmentobj.segmentKey = JsonObjresponseSSRAvailabilty.data.segmentSsrs[sj].segmentKey;
+                        segmentDetails segmentDetailsobj = new segmentDetails();
+                        segmentDetailsobj.origin = JsonObjresponseSSRAvailabilty.data.segmentSsrs[sj].segmentDetails.origin;
+                        segmentDetailsobj.destination = JsonObjresponseSSRAvailabilty.data.segmentSsrs[sj].segmentDetails.destination;
+                        segmentDetailsobj.departureDate = JsonObjresponseSSRAvailabilty.data.segmentSsrs[sj].segmentDetails.departureDate;
+
+                        segidentifier segidentifierobj = new segidentifier();
+                        segidentifierobj.identifier = JsonObjresponseSSRAvailabilty.data.segmentSsrs[sj].segmentDetails.identifier.identifier;
+                        segidentifierobj.carrierCode = JsonObjresponseSSRAvailabilty.data.segmentSsrs[sj].segmentDetails.identifier.carrierCode;
+                        segmentDetailsobj.segmentidentifier = segidentifierobj;
+
+                        int SegBaggageCount = JsonObjresponseSSRAvailabilty.data.segmentSsrs[sj].ssrs.Count;
+                        List<segSsrs> SegSsrsList = new List<segSsrs>();
+                        for (int seg = 0; seg < SegBaggageCount; seg++)
+                        {
+                            segSsrs SegSsrObj = new segSsrs();
+                            SegSsrObj.ssrCode = JsonObjresponseSSRAvailabilty.data.segmentSsrs[sj].ssrs[seg].ssrCode;
+                            SegSsrObj.ssrType = JsonObjresponseSSRAvailabilty.data.segmentSsrs[sj].ssrs[seg].ssrType;
+                            SegSsrObj.name = JsonObjresponseSSRAvailabilty.data.segmentSsrs[sj].ssrs[seg].name;
+                            SegSsrObj.limitPerPassenger = JsonObjresponseSSRAvailabilty.data.segmentSsrs[sj].ssrs[seg].limitPerPassenger;
+                            SegSsrObj.available = JsonObjresponseSSRAvailabilty.data.segmentSsrs[sj].ssrs[seg].available;
+                            SegSsrObj.feeCode = JsonObjresponseSSRAvailabilty.data.segmentSsrs[sj].ssrs[seg].feeCode;
+                            SegSsrObj.seatRestriction = JsonObjresponseSSRAvailabilty.data.segmentSsrs[sj].ssrs[seg].seatRestriction;
+
+                            List<segpassengers> passengersSegBaggageList = new List<segpassengers>();
+                            foreach (var itemObject in JsonObjresponseSSRAvailabilty.data.segmentSsrs[sj].ssrs[seg].passengersAvailability)
+                            {
+                                segpassengers Segpassengerobj = new segpassengers();
+                                Segpassengerobj.passengerKey = itemObject.Value.passengerKey;
+                                Segpassengerobj.price = itemObject.Value.price;
+                                Segpassengerobj.ssrKey = itemObject.Value.ssrKey;
+                                passengersSegBaggageList.Add(Segpassengerobj);
+                            }
+                            SegSsrObj.segpassengers = passengersSegBaggageList;
+                            SegSsrsList.Add(SegSsrObj);
+
+                        }
+                        segmentobj.segmentDetails = segmentDetailsobj;
+                        segmentobj.segmentssrs = SegSsrsList;
+                        segmentSsrsList.Add(segmentobj);
+
+                    }
+                    SSRAvailabiltyResponceobj.segmentSsrs = segmentSsrsList;
+                    HttpContext.Session.SetString("BaggageDetailsData", JsonConvert.SerializeObject(SSRAvailabiltyResponceobj));
+
+
+                    #endregion
                     int JouneyBaggage = JsonObjresponseSSRAvailabilty.data.journeySsrs.Count;
                     List<JourneyssrBaggage> journeyssrBaggagesList = new List<JourneyssrBaggage>();
                     for (int k = 0; k < JouneyBaggage; k++)

@@ -153,42 +153,49 @@
                                 <h3>PASSENGER AND TICKET INFORMATION </h3>
                                 <table class="table table-bordered">
                                     <thead>
-                                        <span>Fllight Detail</span>
+                                       
                                         <tr>
-                                            <th scope="col">Passenger</th>
-                                            <th scope="col" class="col-one">Sector</th>
-                                            <th scope="col" class="col-one">Airline </th>
-                                            <th scope="col">Seat No</th>
-                                            <th scope="col">Mobile</th>
-                                            <th scope="col">Ticket Number</th>
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Bar code</th>
+                                         
+                                            <th rowspan="2" class="align-middle">Passenger</th>
+                                            <th colspan="2" class="text-center">Fllight Detail</th>
+                                            <th rowspan="2" class="align-middle">Seat No</th>
+                                            <th rowspan="2" class="align-middle">Airline</th>
+                                            <th rowspan="2" class="align-middle">Ticket Number</th>
+                                            <th rowspan="2" class="align-middle">Status</th>
+                                            <th rowspan="2" class="align-middle barcode">Bar code</th>
+                                        </tr>
+                                        <tr>
+                                            <th class="col-one">Sector</th>
+                                            <th class="col-one">Airline</th>
+
                                         </tr>
                                     </thead>
-                                    @for (int i2 = 0; i2 < Model.AirlinePNR[a].passengers.Count; i2++)
-                                    {
-                                        @for (int i3 = 0; i3 < @Model.AirlinePNR[a].journeys[0].segments.Count; i3++)
-                                        {
-                                            string barcodeimageUrl = string.Empty;
-                                            if (Model.AirlinePNR[a].passengers[i2].barcodestringlst != null && Model.AirlinePNR[a].passengers[i2].barcodestringlst.Count>0 && i3 == 0)
-                                            {
-                                                barcodeimageUrl = @Model.AirlinePNR[a].passengers[i2].barcodestringlst[0].Trim();
-                                            }
-                                            else if (Model.AirlinePNR[a].passengers[i2].barcodestringlst != null && Model.AirlinePNR[a].passengers[i2].barcodestringlst.Count > 0 && i3 == 1)
-                                            {
-                                                barcodeimageUrl = @Model.AirlinePNR[a].passengers[i2].barcodestringlst[1].Trim();
-                                            }
+                               
                                             <tbody>
+                                        @for (int i2 = 0; i2 < Model.AirlinePNR[a].passengers.Count; i2++)
+                                        {
+                                            @for (int i3 = 0; i3 < @Model.AirlinePNR[a].journeys[0].segments.Count; i3++)
+                                            {
+                                                string barcodeimageUrl = string.Empty;
+                                                if (Model.AirlinePNR[a].passengers[i2].barcodestringlst != null && Model.AirlinePNR[a].passengers[i2].barcodestringlst.Count > 0 && i3 == 0)
+                                                {
+                                                    barcodeimageUrl = @Model.AirlinePNR[a].passengers[i2].barcodestringlst[0].Trim();
+                                                }
+                                                else if (Model.AirlinePNR[a].passengers[i2].barcodestringlst != null && Model.AirlinePNR[a].passengers[i2].barcodestringlst.Count > 0 && i3 == 1)
+                                                {
+                                                    //barcodeimageUrl = @Model.AirlinePNR[a].passengers[i2].barcodestringlst[1].Trim();
+                                                }
                                                 <tr>
                                                     @{
                                                         if (i3 == 0)
                                                         {
-                                                            <td>@Model.AirlinePNR[a].passengers[i2].name.first (@Model.AirlinePNR[a].passengers[i2].passengerTypeCode)</td>
+                                                            <td rowspan="2" style="vertical-align:middle;">@Model.AirlinePNR[a].passengers[i2].name.first (@Model.AirlinePNR[a].passengers[i2].passengerTypeCode)</td>
+                                                            
                                                         }
-                                                        else
-                                                        {
-                                                            <td></td>
-                                                        }
+                                                        // else
+                                                        // {
+                                                        //     <td></td>
+                                                        // }
                                                     }
                                                     <td>@Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin - @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination </td>
                                                     <td>@Model.AirlinePNR[a].journeys[0].segments[i3].identifier.carrierCode - @Model.AirlinePNR[a].journeys[0].segments[i3].identifier.identifier</td>
@@ -202,11 +209,11 @@
                                                     }
                                                     @if (i3 == 1)
                                                     {
-                                                        <td></td>
+                                                        // <td></td>
                                                     }
                                                     else
                                                     {
-                                                        <td>@Model.AirlinePNR[a].passengers[i2].MobNumber</td>
+                                                        <td rowspan="2" style="vertical-align:middle;">@Model.AirlinePNR[a].passengers[i2].MobNumber</td>
                                                     }
                                                     <td>AD1WSM/1/1</td>
                                                     <td>Confirm</td>
@@ -220,12 +227,12 @@
                                                         {
                                                             if (barcodeimageUrl != "")
                                                             {
-                                                                <td><img src="@barcodeimageUrl" alt="barcode"></td>
+                                                                <td rowspan="2" style="vertical-align:middle;"><img src="@barcodeimageUrl" alt="barcode"></td>
                                                             }
-                                                            else
-                                                            {
-                                                                <td></td>
-                                                            }
+                                                            // else
+                                                            // {
+                                                            //     <td></td>
+                                                            // }
                                                         }
                                                     }
                                                     else
@@ -238,19 +245,19 @@
                                                         {
                                                             if (barcodeimageUrl != "")
                                                             {
-                                                                <td><img src="@barcodeimageUrl" alt="barcode"></td>
+                                                                <td rowspan="2" style="vertical-align:middle;"><img src="@barcodeimageUrl" alt="barcode"></td>
                                                             }
-                                                            else
-                                                            {
-                                                                <td></td>
-                                                            }
+                                                            // else
+                                                            // {
+                                                            //     <td></td>
+                                                            // }
                                                         }
                                                     }
                                                 </tr>
-
-                                            </tbody>
+                                            }
                                         }
-                                    }
+                                            </tbody>
+                                    
                                 </table>
                             </div>
 

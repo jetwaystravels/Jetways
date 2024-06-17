@@ -515,6 +515,7 @@
                         $('#total').text(total.toFixed(2));
                         document.getElementById("total").value = total.toFixed(2);
                         const seatmap1 = document.getElementById("total").value;
+                        updateCombinedTotal();
                         break;
                     }
                 }
@@ -524,8 +525,8 @@
                 console.log(index)
                 if (index !== -1) {
                     checkedValues[index] = '';
-                    total -= parseFloat($(this).val()); // Subtract the unchecked value from total
-                    $('#total').text(total.toFixed(2)); // Update total display
+                    total -= parseFloat($(this).val());
+                    $('#total').text(total.toFixed(2)); 
                     document.getElementById("total").value = total.toFixed(2);
                     const seatmap1 = document.getElementById("total").value;
                 }
@@ -554,14 +555,11 @@
             }
         }
         $('#cancelButton').click(function () {
-            debugger;
-            // Reset checkedValues to empty strings and total to 0
+            debugger;            
             checkedValues = ['', '', '', '', '', '', '', '', '', ''];
-            total = 0;
-            // Update total display
+            total = 0;          
             $('#total').text(total.toFixed(2));
-            document.getElementById("total").value = total.toFixed(2);
-            // Clear seat inputs and spans
+            document.getElementById("total").value = total.toFixed(2);           
             updateInputsAndSpans(checkedValues);
         });
         $('#flighticon').click(function () {
@@ -583,7 +581,7 @@
 
             var seatdataCon = [];
             for (var j = 0; j < checkedValues2.length; j++) {
-                // debugger;
+                debugger;
                 var parts = checkedValues2[j].split('_');
                 $('#outputDivConnect_' + j).text(parts[2]);
                 $('#outputDivvvtwo_' + j).text(parts[1]);
@@ -610,6 +608,7 @@
                         $('#total').text(total.toFixed(2));
                         document.getElementById("total").value = total.toFixed(2);
                         const seatmap1 = document.getElementById("total").value;
+                        updateCombinedTotal();                        
                         break;
                     }
                 }
