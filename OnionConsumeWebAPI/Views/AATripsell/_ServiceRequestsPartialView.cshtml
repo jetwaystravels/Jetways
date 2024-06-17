@@ -360,11 +360,69 @@
         margin-left: -50%;
     }
 
-    /*  .active {
-                color: #E93329 !important;
-                border-bottom: #E93329 1px solid !important;
-            }  */
+    .btngry {
+        background-color: #808080 !important;
+    }
+
+    .select-width {
+        max-width: 120px;
+    }
+
+
+    .select-option {
+        max-width: 120px;
+    }
+
+        .select-option .servc-bordr {
+            max-width: 150px;
+        }
+
+    .width-90 {
+        width: 60px;
+    }
+
+    .select-option2 {
+        max-width: 120px;
+    }
+
+        .select-option2 .servc-bordr {
+            max-width: 150px;
+        }
+
+    .checkout .bg-white.service-section input {
+        max-width: 150px !important;
+        font-size: 0.9rem;
+        padding: 3px;
+    }
+
+    .checkout .bg-white.service-section {
+        font-size: 0.9rem;
+    }
+
+        .checkout .bg-white.service-section .seat {
+            display: inline-flex;
+            padding-left: 50px;
+        }
+
+        .checkout .bg-white.service-section .output-div-input {
+            margin: 3px;
+            font-weight: 600;
+            color: #085AC0;
+            width: 26px;
+        }
+
+        .checkout .bg-white.service-section .servc-content span {
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+    .servc-bordrm1 option {
+        font-size: 12px;
+    }
+
+
 </style>
+
 <section id="myContainer1">
     <div class="container">
         <div class="row">
@@ -378,13 +436,30 @@
                             <div class="modal-bodyy mbody-padding">
                             </div>
                             <div class="modal-footer fbody-padding">
+                                <div class="row legendHolder-box">
+                                    <div class="col-lg-8">
+                                        <ul>
+
+                                            <li style="padding:0;"><strong>Legend:</strong></li>
+                                            <li><span class="free"></span>Free Seats</li>
+                                            <li><span class="midcomfort"></span>&#8377; 150 - &#8377; 350</li>
+                                            <li><span class="comfort"></span>&#8377; 400 - &#8377; 800</li>
+                                            <li><span class="booked"></span>Occupied</li>
+
+                                        </ul>
+
+
+                                    </div>
+
+                                    <div class="col-lg-4">
+
                                 @{
                                     int segmentcount = Model.passeengerlist.journeys[0].segments.Count;
                                     @if (segmentcount == 1)
                                     {
                                         <div class="d-flex">
                                             <div>
-                                                <button type="submit" id="cancelButton" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
+                                                        <button type="submit" id="cancelButton" data-dismiss="modal" class="btn btn-dark btngry btnclose">Cancel</button>
                                             </div>
                                             <div>
 
@@ -401,7 +476,7 @@
                                             {
                                                 <div class="d-flex">
                                                     <div>
-                                                        <button type="submit" id="cancelButton" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
+                                                        <button type="submit" id="cancelButton" data-dismiss="modal" class="btn btn-dark btngry btnclose">Cancel</button>
                                                     </div>
 
                                                     <div id="popbtnA">
@@ -420,6 +495,12 @@
                                         }
                                     }
                                 }
+
+                            </div>
+
+                                    <p><strong>Disclaimer:</strong> Seat allotment is the sole prerogative of the airline and can't be guaranteed by jetwaystravel.com</p>
+
+                            </div>
                             </div>
 
 
@@ -488,16 +569,16 @@
                                         Traveller
                                     </div>
                                     <div class="serv-header">
-                                        Meal
+                                        <img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" />  Meal
                                     </div>
                                     <div class="serv-header">
-                                        Seat
+                                        <img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" />Seat
                                     </div>
                                     <div class="serv-header">
-                                        Baggage
+                                        <img src="~/img/pbaggage.png" style="width:20px;height:20px;margin-right:10px;" /> Baggage
                                     </div>
                                     <div class="serv-header">
-                                        Speacial Request
+                                        Special Request
                                     </div>
                                 </div>
                                 @{
@@ -529,7 +610,7 @@
                                     <div class="d-flex justify-content-between py-3">
 
 
-                                        <div class="servc-content">
+                                        <div class="servc-content width-90">
                                             @Model.passkeytype[pa].first
                                         </div>
 
@@ -562,7 +643,7 @@
 
                                                     }
                                                     <div class="d-flex">
-                                                        <div><img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /></div>
+                                                       
                                                         <select id="ddlMealOptions" class="servc-bordr">
                                                             <option value=""><b>Please select Meal</b></option>
                                                             @foreach (var option in mealOptions)
@@ -579,8 +660,8 @@
                                             </div>
 
                                         }
-                                        <div class="servc-content">
-                                            <div><img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /></div>
+                                        <div class="servc-content seat">
+                                           
                                             <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn exampleModalSeatdata" data-toggle="modal" data-target="#rrrtexampleModal">
 
                                             <div class="output-div-input" id="outputDiv_@pa"></div>
@@ -624,7 +705,7 @@
                                                 }
                                             }
                                             <div class="d-flex">
-                                                <img src="~/img/pbaggage.png" style="width:20px;height:20px;margin-right:10px;" />
+                                                
                                                 <select id="ddlbagOptions" class="servc-bordrbaggage">
                                                     <option value=""><b>Please select Baggage</b></option>
                                                     @foreach (var option in BaggageOptions)
@@ -689,14 +770,14 @@
                                         Traveller
                                     </div>
                                     <div class="serv-header">
-                                        Meal
+                                        <img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /> Meal
                                     </div>
                                     <div class="serv-header">
-                                        Seat
+                                        <img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /> Seat
                                     </div>
 
                                     <div class="serv-header">
-                                        Speacial Request
+                                        Special Request
                                     </div>
                                 </div>
                                 @{
@@ -728,7 +809,7 @@
 
                                         <div class="d-flex justify-content-between py-3">
 
-                                            <div class="servc-content">
+                                            <div class="servc-content width-90">
                                                 @Model.passkeytype[pas].first
                                             </div>
                                             <div class="servc-content select-option2">
@@ -759,7 +840,7 @@
 
                                                         }
                                                         <div class="d-flex">
-                                                            <div><img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /></div>
+                                                            
                                                             <select id="ddlMealOptions" class="servc-bordrCon">
                                                                 <option value=""><b>Please select Meal</b></option>
                                                                 @foreach (var option in mealOptions)
@@ -780,9 +861,9 @@
 
 
 
-                                            <div class="servc-content">
+                                            <div class="servc-content seat">
                                                 <div class="d-flex">
-                                                    <div><img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /></div>
+                                                    
                                                     <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn exampleModalSeatdata" data-toggle="modal" data-target="#rrrtexampleModal">
                                                 </div>
                                                 <div class="output-div-input" id="outputDivConnect_@pas"></div>

@@ -77,7 +77,7 @@
     }
 
         .select-option .servc-bordr {
-            max-width: 94px;
+            max-width: 150px;
         }
 
     .width-90 {
@@ -89,7 +89,7 @@
     }
 
         .select-option2 .servc-bordr {
-            max-width: 112px;
+            max-width: 150px;
         }
 
     .servc-bordrm2 {
@@ -97,7 +97,7 @@
     }
 
     .servc-bordrConm1 {
-        max-width: 112px;
+        max-width: 150px;
     }
 
     .servc-bordrbaggage {
@@ -115,6 +115,38 @@
     .btngry {
         background-color: #808080 !important;
     }
+
+    .checkout .bg-white.service-section input {
+        max-width: 150px !important;
+        font-size: 0.9rem;
+        padding: 3px;
+    }
+
+    .checkout .bg-white.service-section {
+        font-size: 0.9rem;
+    }
+
+        .checkout .bg-white.service-section .seat {
+            display: inline-flex;
+        }
+
+        .checkout .bg-white.service-section .output-div-input {
+            margin: 3px;
+            font-weight: 600;
+            color: #085AC0;
+            width: 26px;
+        }
+
+        .checkout .bg-white.service-section .servc-content span {
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+    .servc-bordrm1 option {
+        font-size: 12px;
+    }
+
+
 </style>
 <script src="~/js/custom.js/customnew.js"></script>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -752,13 +784,13 @@
                                         Traveller
                                     </div>
                                     <div class="serv-header">
-                                        Meal
+                                        <img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" />  Meal
                                     </div>
                                     <div class="serv-header">
-                                        Seat
+                                        <img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" />Seat
                                     </div>
                                     <div class="serv-header">
-                                        Baggage
+                                        <img src="~/img/pbaggage.png" style="width:20px;height:20px;margin-right:10px;" /> Baggage
                                     </div>
                                     <div class="serv-header">
                                         Special Request
@@ -858,9 +890,9 @@
                                                     }
                                                 }
                                                 <div class="d-flex">
-                                                    <div><img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /></div>
+                                                    
                                                     <select id="ddlMealOptions" class="servc-bordr servc-bordrm1">
-                                                        <option selected="selected" value="">Please Select</option>
+                                                        <option selected="selected" value="">Please select meal</option>
                                                         @foreach (var option in mealOptions)
                                                         {
                                                             <option value="@option.Value" data-ssrkey=@ssrkey>
@@ -873,9 +905,9 @@
                                                 @*<select id="mealid" class="servc-bordr select-width" asp-items="@mealOptions"></select>*@
 
                                             </div>
-                                            <div class="servc-content">
+                                            <div class="servc-content seat">
                                                 <div class="d-flex">
-                                                    <div><img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /></div>
+                                                   
                                                     <input type="button" id="exampleModalSeat" value="Seat Map" class="button modelPopBtn small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
 
                                                 </div>
@@ -935,9 +967,9 @@
 
                                                 }
                                                 <div class="d-flex">
-                                                    <img src="~/img/pbaggage.png" style="width:20px;height:20px;margin-right:10px;" />
+                                                    
                                                     <select id="ddlbagOptions" class="servc-bordr servc-bordrbaggage">
-                                                        <option selected="selected" value="">Please Select</option>
+                                                        <option selected="selected" value="">Please select meal</option>
                                                         @foreach (var option in BaggageOptions)
                                                         {
                                                             <option value="@option.Value" data-bagkey=@bagkey>
@@ -984,10 +1016,10 @@
                                         Traveller
                                     </div>
                                     <div class="serv-header">
-                                        Meal
+                                        <img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /> Meal
                                     </div>
                                     <div class="serv-header">
-                                        Seat
+                                        <img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /> Seat
                                     </div>
 
                                     <div class="serv-header">
@@ -1072,9 +1104,9 @@
                                                     }
                                                 }
                                                 <div class="d-flex">
-                                                    <div><img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /></div>
+                                                   
                                                     <select id="ddlMealOptions2" class="servc-bordr servc-bordrCon">
-                                                        <option selected="selected" value="">Please Select</option>
+                                                        <option selected="selected" value="">Please select meal</option>
                                                         @foreach (var option in mealOptions)
                                                         {
                                                             <option value="@option.Value" data-ssrkey=@ssrkey>
@@ -1087,9 +1119,9 @@
                                                 @*<select id="mealid" class="servc-bordr select-width" asp-items="@mealOptions"></select>*@
 
                                             </div>
-                                            <div class="servc-content">
+                                            <div class="servc-content seat">
                                                 <div class="d-flex">
-                                                    <div><img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /></div>
+                                                   
                                                     <input type="button" id="exampleModalSeat" value="Seat Map" class="button modelPopBtn small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
                                                 </div>
                                                 <div class="output-div-input" id="outputDivConnect_@pas"></div>
@@ -1134,13 +1166,13 @@
                                             Traveller
                                         </div>
                                         <div class="serv-header">
-                                            Meal
+                                            <img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" />  Meal
                                         </div>
                                         <div class="serv-header">
-                                            Seat
+                                            <img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" />Seat
                                         </div>
                                         <div class="serv-header">
-                                            Baggage
+                                            <img src="~/img/pbaggage.png" style="width:20px;height:20px;margin-right:10px;" /> Baggage
                                         </div>
                                         <div class="serv-header">
                                             Special Request
@@ -1243,9 +1275,9 @@
                                                         }
                                                     }
                                                     <div class="d-flex">
-                                                        <div><img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /></div>
+                                                       
                                                         <select id="ddlMealOptions" class="servc-bordr servc-bordrm2">
-                                                            <option selected="selected" value="">Please Select</option>
+                                                            <option selected="selected" value="">Please select meal</option>
                                                             @foreach (var option in mealOptions)
                                                             {
                                                                 <option value="@option.Value" data-ssrkey=@ssrkey>
@@ -1258,9 +1290,9 @@
                                                     @*<select id="mealid" class="servc-bordr select-width" asp-items="@mealOptions"></select>*@
 
                                                 </div>
-                                                <div class="servc-content">
+                                                <div class="servc-content seat">
                                                     <div class="d-flex">
-                                                        <div><img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /></div>
+                                                       
                                                         <input type="button" id="exampleModalSeat" value="Seat Map" class="button modelPopBtn small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
 
                                                     </div>
@@ -1320,9 +1352,9 @@
 
                                                     }
                                                     <div class="d-flex">
-                                                        <img src="~/img/pbaggage.png" style="width:20px;height:20px;margin-right:10px;" />
+                                                        
                                                         <select id="ddlbagOptions" class="servc-bordr servc-bordrbaggagem2">
-                                                            <option selected="selected" value="">Please Select</option>
+                                                            <option selected="selected" value="">Please select meal</option>
                                                             @foreach (var option in BaggageOptions)
                                                             {
                                                                 <option value="@option.Value" data-bagkey=@bagkey>
@@ -1369,10 +1401,10 @@
                                             Traveller
                                         </div>
                                         <div class="serv-header">
-                                            Meal
+                                            <img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /> Meal
                                         </div>
                                         <div class="serv-header">
-                                            Seat
+                                            <img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /> Seat
                                         </div>
 
                                         <div class="serv-header">
@@ -1456,9 +1488,9 @@
                                                         }
                                                     }
                                                     <div class="d-flex">
-                                                        <div><img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /></div>
+                                                       
                                                         <select id="ddlMealOptions2" class="servc-bordr servc-bordrConm1">
-                                                            <option selected="selected" value="">Please Select</option>
+                                                            <option selected="selected" value="">Please select meal</option>
                                                             @foreach (var option in mealOptions)
                                                             {
                                                                 <option value="@option.Value" data-ssrkey=@ssrkey>
@@ -1471,9 +1503,9 @@
                                                     @*<select id="mealid" class="servc-bordr select-width" asp-items="@mealOptions"></select>*@
 
                                                 </div>
-                                                <div class="servc-content">
+                                                <div class="servc-content seat">
                                                     <div class="d-flex">
-                                                        <div><img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /></div>
+                                                        
                                                         <input type="button" id="exampleModalSeat" value="Seat Map" class="button modelPopBtn small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
                                                     </div>
                                                     <div class="output-div-input" id="outputDivConnectRT_@pas"></div>
