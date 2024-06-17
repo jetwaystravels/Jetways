@@ -36,9 +36,10 @@
                             }
                         }
                         <input type="text" class="contactFname validate-field" data-validate="name" maxlength="32" oninput="validateInputT(event ,@i)" id="LeadPass1" placeholder="First & middle name" name="passengerdetails[@i].First" required />
-                       
+
                     </div>
                     <p id="error-Fname" class="error-message  error-CFname" style="display: none;"></p>
+                    <p class="error-message-val error-phoneN" style="display:none"></p>
                 </div>
                 <div class="col-md-3">
 
@@ -47,7 +48,7 @@
 
                     </div>
                     <p id="error-Lname" class="error-message error-CLname" style="display:none"></p>
-                   
+
                 </div>
                 @{
                     if (Model.passeengerlist.passengers[i].passengerTypeCode == "ADT" || Model.passeengerlist.passengers[i].passengerTypeCode == "CHD")
@@ -59,7 +60,6 @@
                         <div class="col-md-2">
                             <div class="form-input"><input type="text" data-validate="phone" id="contactphoneID" class="contactphone validate-field" oninput="validateInputT(event,@i)" placeholder="phone" name="passengerdetails[@i].mobile" required /></div>
                         </div>
-
                         <p class="error-message error-phoneN" style="display:none"></p>
                     }
                     if (@Model.passeengerlist.passengers[i].passengerTypeCode == "INFT")
@@ -96,7 +96,7 @@
             </div>
         }
         <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-primary mt-15" id="showReviewPopup">Save</button>         
+            <button type="button" class="btn btn-primary mt-15" id="showReviewPopup">Save</button>
         </div>
     </form>
 
@@ -139,30 +139,30 @@
         const validators = {
             name: /^[a-zA-Z\s]*$/,
             last: /^[a-zA-Z\s]*$/,
-            email: /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,          
+            email: /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
             phone: /^\d{10}$/
         };
 
         const messages = {
             name: 'Enter First Name',
-            last:'Enter Last Name',
+            last: 'Enter Last Name',
             email: 'Enter valid email.',
             phone: 'Enter valid phone number.',
             duplicate: 'Duplicate names are not allowed.'
         };
         if (value === "") {
             debugger;
-            showError(element, messages[validateType]);
-            return;
+            showErrorVal(element, messages[validateType]);
+            return false;
         } else {
-            removeError(element);
+            removeErrorVal(element);
         }
 
         if (!validators[validateType].test(value)) {
             debugger;
-            showError(element, messages[validateType]);
+            showErrorVal(element, messages[validateType]);
         } else {
-            removeError(element);
+            removeErrorVal(element);
         }
         // Finally, check for duplicates in name fields
         if (validateType === 'name') {
@@ -171,29 +171,29 @@
             const duplicate = Array.from(allNames).filter((el) => el.value.trim() === value && el !== element);
             if (duplicate.length > 0) {
                 debugger;
-                showError(element, messages['duplicate']);
-                return;
+                showErrorVal(element, messages['duplicate']);
+                return false;
             } else {
                 debugger;
-                removeError(element);
+                removeErrorVal(element);
             }
         }
     }
-    function showError(element, message) {
+    function showErrorVal(element, message) {
         debugger;
-        let errorMessage = element.parentNode.querySelector('.error-message');
+        let errorMessage = element.parentNode.querySelector('.error-message-val');
         if (!errorMessage) {
             errorMessage = document.createElement('p');
-            errorMessage.className = 'error-message';
+            errorMessage.className = 'error-message-val';
             element.parentNode.appendChild(errorMessage);
         }
         errorMessage.textContent = message;
         errorMessage.style.display = 'block';
         element.classList.add('error-input');
     }
-    function removeError(element) {
+    function removeErrorVal(element) {
         debugger;
-        const errorMessage = element.parentNode.querySelector('.error-message');
+        const errorMessage = element.parentNode.querySelector('.error-message-val');
         if (errorMessage) {
             errorMessage.style.display = 'none';
         }
@@ -212,7 +212,7 @@
     //     }
 
     //     var firstName = document.querySelector(".contactFname").value;
-    //     if (firstName == "") {  
+    //     if (firstName == "") {
     //         debugger;
     //         var firstnameToDisplay = document.querySelector('.error-CFname');
     //         firstnameToDisplay.style.display = "block";
@@ -226,11 +226,11 @@
     // }
     // function validateInputTr(event) {
     //     const input = event.target.value;
-    //     const regex = /^[a-zA-Z]*$/; 
+    //     const regex = /^[a-zA-Z]*$/;
 
     //     if (!regex.test(input)) {
     //         document.querySelector('.error-message').innerText = "";
-    //         event.target.value = input.replace(/[^a-zA-Z]/g, ''); 
+    //         event.target.value = input.replace(/[^a-zA-Z]/g, '');
     //     } else {
     //         document.querySelector('.error-message').innerText = "";
     //     }
@@ -256,7 +256,7 @@
     //     }
 
     //     var emailName = document.querySelector(".contactemail").value;
-    //     if (emailName == "") {           
+    //     if (emailName == "") {
     //         var emailNameToDisplay = document.querySelector('.error-emailname');
     //         emailNameToDisplay.style.display = "block";
     //         document.querySelector(".contactemail").focus();
@@ -410,28 +410,28 @@
             } else {
                 // document.getElementById('passengerForm').submit();
             }
-            // function DataremoveError(element) {
-            //     debugger;
-            //     const errorMessage = element.parentNode.querySelector(".error-message");
-            //     if (errorMessage) {
-            //         errorMessage.style.display = 'none';
-            //     }
-            //     element.classList.remove("error-input");
-            // }
-            // function showError(element, message) {
-            //     debugger;
-            //     let errorMessage = element.parentNode.querySelector(".error-message");
-            //     if (!errorMessage) {
-            //         errorMessage = document.createElement("p");
-            //         errorMessage.className = "error-message";
-            //         element.parentNode.appendChild(errorMessage);
-            //     }
-            //     errorMessage.textContent = message;
-            //     errorMessage.style.display = 'block';
-            //     element.classList.add("error-input");
-            // }  
+            function removeError(element) {
+                debugger;
+                const errorMessage = element.parentNode.querySelector(".error-message");
+                if (errorMessage) {
+                    errorMessage.style.display = 'none';
+                }
+                element.classList.remove("error-input");
+            }
+            function showError(element, message) {
+                debugger;
+                let errorMessage = element.parentNode.querySelector(".error-message");
+                if (!errorMessage) {
+                    errorMessage = document.createElement("p");
+                    errorMessage.className = "error-message";
+                    element.parentNode.appendChild(errorMessage);
+                }
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                element.classList.add("error-input");
+            }
             // Infant Date
-                
+
             if ($(".dobinput").is(":visible")) {
                 debugger;
                 if (!validateMultipleInfantDOBs()) {
@@ -545,20 +545,26 @@
 
 </script>
 <style>
-   /*  .error-message {
-        color: red;
-        font-size: 0.9em;
-        display: block;
-    }
+    /*  .error-message {
+            color: red;
+            font-size: 0.9em;
+            display: block;
+        }
 
-    .error-input {
-        border-color: red;
-    } */
+        .error-input {
+            border-color: red;
+        } */
 
     .error-message {
         color: red;
         font-size: 12px;
-      
+        margin: 5px 0 0 0;
+        display: none;
+    }
+
+    .error-message-val {
+        color: red;
+        font-size: 12px;
         margin: 5px 0 0 0;
         display: none;
     }

@@ -1,8 +1,7 @@
-﻿@* <form asp-action="ContectDetails" asp-controller="AATripsell" method="post"> *@
+﻿
 <form id="contactForm">
-    @* @Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
-    <div class="row y-gap-10 row mt-2 py-3 mb-3">
 
+    <div class="row y-gap-10 row mt-2 py-3 mb-3">
 
         <div class="col-md-3">
             <div class="form-input ">
@@ -130,7 +129,6 @@
 
         if (buttonlead.checked) {
             // alert("Checked!!")
-            debugger;
             var firstLeadPass = document.querySelector('.firstNClass').value;
             alert(firstLeadPass);
             var lastLeadPass = document.querySelector('.lastNClass').value;
@@ -189,7 +187,6 @@
     $(document).ready(function () {
         $(".pagelaodSg").click(function (e) {
             e.preventDefault();
-            debugger;
             var laedpas = localStorage.getItem('Leadpassenger1');
             document.querySelector(".contactFname").value = laedpas;
             var laedpasLast = localStorage.getItem('Leadpassenger2');
@@ -245,53 +242,53 @@
 
             }
 
-            // let phonefocus = document.getElementById("number").value;
-            // if (phonefocus == "") {
+            let phonefocus = document.getElementById("number").value;
+            if (phonefocus == "") {
 
-            //     let phoneEToDisplay = document.getElementById("error-message8");
-            //     phoneEToDisplay.style.display = "block";
-            //     document.getElementById('phoneNumberErrorMessage').innerText = "";
-            //     document.getElementById("number").focus();
+                let phoneEToDisplay = document.getElementById("error-message8");
+                phoneEToDisplay.style.display = "block";
+                document.getElementById('phoneNumberErrorMessage').innerText = "";
+                document.getElementById("number").focus();
 
-            //     return false;
-            // }
-            // var mobileNumberPattern = /^\d{10}$/; // Assumes a 10-digit number
+                return false;
+            }
+            var mobileNumberPattern = /^\d{10}$/; // Assumes a 10-digit number
 
-            // if (!mobileNumberPattern.test(phonefocus)) {
-            //     alert("Please enter a valid 10-digit mobile number.");
-            //     return false;
-            // }
+            if (!mobileNumberPattern.test(phonefocus)) {
+                alert("Please enter a valid 10-digit mobile number.");
+                return false;
+            }
 
-            // var buttongst = document.getElementById('GSTButton2');
-            // if (buttongst.checked == true) {
-            //     let gstnamefocus = document.getElementById("gstname").value;
+            var buttongst = document.getElementById('GSTButton2');
+            if (buttongst.checked == true) {
+                let gstnamefocus = document.getElementById("gstname").value;
 
-            //     if (gstnamefocus == "") {
-            //         var gstToDisplay = document.getElementById("error-message9");
-            //         gstToDisplay.style.display = "block";
-            //         document.getElementById("gstname").focus();
-            //         return false;
-            //     }
-            //     else {
-            //         var gstToDisplay = document.getElementById("error-message9");
-            //         gstToDisplay.style.display = "none";
-            //     }
+                if (gstnamefocus == "") {
+                    var gstToDisplay = document.getElementById("error-message9");
+                    gstToDisplay.style.display = "block";
+                    document.getElementById("gstname").focus();
+                    return false;
+                }
+                else {
+                    var gstToDisplay = document.getElementById("error-message9");
+                    gstToDisplay.style.display = "none";
+                }
 
-            //     let gstnofocus = document.getElementById("gstnumber").value;
+                let gstnofocus = document.getElementById("gstnumber").value;
 
-            //     if (gstnofocus == "") {
-            //         var gstnoToDisplay = document.getElementById("error-message10");
-            //         gstnoToDisplay.style.display = "block";
-            //         document.getElementById("gstnumber").focus();
-            //         return false;
-            //     }
-            //     else {
-            //         var gstnoToDisplay = document.getElementById("error-message10");
-            //         gstnoToDisplay.style.display = "none";
-            //     }
+                if (gstnofocus == "") {
+                    var gstnoToDisplay = document.getElementById("error-message10");
+                    gstnoToDisplay.style.display = "block";
+                    document.getElementById("gstnumber").focus();
+                    return false;
+                }
+                else {
+                    var gstnoToDisplay = document.getElementById("error-message10");
+                    gstnoToDisplay.style.display = "none";
+                }
 
 
-            // }
+            }
             var contactFormData = new FormData($("#contactForm")[0]);
             //alert("form data:"+ contactFormData);
             $.ajax({
@@ -371,7 +368,6 @@
     }
     //Contact Email
     function validateEmail(event) {
-        debugger;
         var email = event.target.value;
         var regex = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if (!regex.test(email)) {
@@ -399,11 +395,10 @@
     }
     // Phone number
     function validatePhoneNumber(event) {
-        debugger;
         const phoneNumber = event.target.value;
         const regex = /^(0|91)?[6-9][0-9]{9}$/;
         if (!regex.test(phoneNumber)) {
-            debugger;
+
             document.getElementById('phoneNumberErrorMessage').innerText = "Invalid Phone Number";
             let phoneToDisplay = document.getElementById("error-message8");
             phoneToDisplay.style.display = "none";
@@ -453,17 +448,17 @@
     //Gst Number
 
     function validateGST(event) {
-        debugger;
+
         const gstNumber = event.target.value.toUpperCase();
         var regex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
         if (gstNumber.trim() === "") {
-            debugger;
+
             document.getElementById('gstErrorMessage').innerText = "";
         } else if (!regex.test(gstNumber)) {
-            debugger;
+
             document.getElementById('gstErrorMessage').innerText = "Invalid GST number..";
         } else {
-            debugger;
+
             document.getElementById('gstErrorMessage').innerText = "";
         }
         var gstnofocus = document.getElementById("gstnumber").value;
