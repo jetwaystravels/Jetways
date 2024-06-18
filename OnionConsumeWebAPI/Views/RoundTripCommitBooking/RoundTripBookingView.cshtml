@@ -149,7 +149,7 @@
                                                         else
                                                             formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
                                                     }
-                                                   
+
                                                     <div class="time">@formattedTime</div>
                                                     <img src="~/img/arrow-line-fr.png" alt="icon">
                                                 </div>
@@ -173,33 +173,47 @@
                                 <h3>PASSENGER AND TICKET INFORMATION </h3>
                                 <table class="table table-bordered">
                                     <thead>
-                                        <span>Fllight Detail</span>
                                         <tr>
-                                            <th scope="col">Passenger</th>
-                                            <th scope="col" class="col-one">Sector</th>
-                                            <th scope="col" class="col-one">Airline </th>
-                                            <th scope="col">Seat No</th>
-                                            <th scope="col">Mobile</th>
-                                            <th scope="col">Ticket Number</th>
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Bar code</th>
+
+                                            <th rowspan="2" class="align-middle">Passenger</th>
+                                            <th colspan="2" class="text-center">Fllight Detail</th>
+                                            <th rowspan="2" class="align-middle">Seat No</th>
+                                            <th rowspan="2" class="align-middle">Mobile  Number</th>
+                                            <th rowspan="2" class="align-middle">Ticket Number</th>
+                                            <th rowspan="2" class="align-middle">Status</th>
+                                            <th rowspan="2" class="align-middle barcode">Bar code</th>
+                                        </tr>
+                                        <tr>
+                                            <th class="col-one">Sector</th>
+                                            <th class="col-one">Airline</th>
+
                                         </tr>
                                     </thead>
-                                    @for (int i2 = 0; i2 < Model.AirlinePNR[a].passengers.Count; i2++)
-                                    {
-                                        @for (int i3 = 0; i3 < @Model.AirlinePNR[a].journeys[0].segments.Count; i3++)
+
+                                    <tbody>
+                                        @for (int i2 = 0; i2 < Model.AirlinePNR[a].passengers.Count; i2++)
                                         {
-                                            <tbody>
+                                            @for (int i3 = 0; i3 < @Model.AirlinePNR[a].journeys[0].segments.Count; i3++)
+                                            {
                                                 <tr>
                                                     @{
                                                         if (i3 == 0)
                                                         {
-                                                            <td>@Model.AirlinePNR[a].passengers[i2].name.first (@Model.AirlinePNR[a].passengers[i2].passengerTypeCode)</td>
+                                                            int segmentscountname = @Model.AirlinePNR[a].journeys[0].segments.Count;
+                                                            if (segmentscountname == 1)
+                                                            {
+                                                                <td rowspan="1" style="vertical-align:middle;">@Model.AirlinePNR[a].passengers[i2].name.first (@Model.AirlinePNR[a].passengers[i2].passengerTypeCode)</td>
+                                                            }
+                                                            if (segmentscountname == 2)
+                                                            {
+                                                                <td rowspan="2" style="vertical-align:middle;">@Model.AirlinePNR[a].passengers[i2].name.first (@Model.AirlinePNR[a].passengers[i2].passengerTypeCode)</td>
+                                                            }
+
                                                         }
-                                                        else
-                                                        {
-                                                            <td></td>
-                                                        }
+                                                        @*else
+                                {
+                                <td></td>
+                                }*@
                                                     }
                                                     <td>@Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin - @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination </td>
                                                     <td>@Model.AirlinePNR[a].journeys[0].segments[i3].identifier.carrierCode - @Model.AirlinePNR[a].journeys[0].segments[i3].identifier.identifier</td>
@@ -216,10 +230,10 @@
                                                     <td>Confirm</td>
                                                     <td><img src="~/img/bar-code.png" alt="icon"></td>
                                                 </tr>
-
-                                            </tbody>
+                                            }
                                         }
-                                    }
+                                    </tbody>
+
                                 </table>
                             </div>
 
@@ -228,33 +242,47 @@
                                 <h3>Flight Inclusion</h3>
                                 <table class="table table-bordered" style="margin-bottom: 0.4rem;">
                                     <thead>
-                                        <span>Fllight Detail</span>
-                                        <span class="baggage">Baggage</span>
                                         <tr>
-                                            <th scope="col">Passenger</th>
-                                            <th scope="col" class="col-one">Sector</th>
-                                            <th scope="col" class="col-one">Airline </th>
-                                            <th scope="col">Meal Type</th>
-                                            <th scope="col" class="col-one">Check In </th>
-                                            <th scope="col" class="col-one">Cabin</th>
-                                            <th scope="col">Insurance Status</th>
+
+                                            <th rowspan="2" class="align-middle">Passenger</th>
+                                            <th colspan="2" class="text-center">Fllight Detail</th>
+                                            <th rowspan="2" class="align-middle">Meal Type</th>
+
+                                            <th rowspan="2" class="align-middle">Extra Bag(KD)</th>
+                                            <th rowspan="2" class="align-middle">Insurance Status</th>
+
+                                        </tr>
+                                        <tr>
+                                            <th class="col-one">Sector</th>
+                                            <th class="col-one">Airline</th>
+
                                         </tr>
                                     </thead>
-                                    @for (int i2 = 0; i2 < Model.AirlinePNR[a].passengers.Count; i2++)
-                                    {
-                                        @for (int i3 = 0; i3 < @Model.AirlinePNR[a].journeys[0].segments.Count; i3++)
+
+                                    <tbody>
+                                        @for (int i2 = 0; i2 < Model.AirlinePNR[a].passengers.Count; i2++)
                                         {
-                                            <tbody>
+                                            @for (int i3 = 0; i3 < @Model.AirlinePNR[a].journeys[0].segments.Count; i3++)
+                                            {
                                                 <tr>
                                                     @{
                                                         if (i3 == 0)
                                                         {
-                                                            <td>@Model.AirlinePNR[a].passengers[i2].name.first (@Model.AirlinePNR[a].passengers[i2].passengerTypeCode)</td>
+                                                            int segmentscount = @Model.AirlinePNR[a].journeys[0].segments.Count;
+                                                            if (segmentscount == 1)
+                                                            {
+                                                                <td rowspan="1" style="vertical-align:middle;">@Model.AirlinePNR[a].passengers[i2].name.first (@Model.AirlinePNR[a].passengers[i2].passengerTypeCode)</td>
+                                                            }
+                                                            if (segmentscount == 2)
+                                                            {
+                                                                <td rowspan="2" style="vertical-align:middle;">@Model.AirlinePNR[a].passengers[i2].name.first (@Model.AirlinePNR[a].passengers[i2].passengerTypeCode)</td>
+                                                            }
+
                                                         }
-                                                        else
-                                                        {
-                                                            <td></td>
-                                                        }
+                                                        @* else
+                                {
+                                <td></td>
+                                }*@
                                                     }
                                                     <td>@Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin - @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination </td>
                                                     <td>@Model.AirlinePNR[a].journeys[0].segments[i3].identifier.carrierCode - @Model.AirlinePNR[a].journeys[0].segments[i3].identifier.identifier</td>
@@ -270,7 +298,7 @@
                                                         if (htbag != null)
                                                         {
                                                             <td>@htbag[hashdata]</td>
-                                                            <td>@htbag[hashdata]</td>
+
 
                                                         }
 
@@ -278,10 +306,10 @@
                                                     }
                                                     <td>Confirm</td>
                                                 </tr>
-
-                                            </tbody>
+                                            }
                                         }
-                                    }
+                                    </tbody>
+
                                 </table>
 
                                 <table class="table table-bordered">
