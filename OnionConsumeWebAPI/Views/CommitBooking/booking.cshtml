@@ -128,7 +128,7 @@
                                                 else
                                                     formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
                                             }
-                                           
+
                                             <div class="time">@formattedTime</div>
                                             <img src="~/img/arrow-line-fr.png" alt="icon">
                                         </div>
@@ -280,37 +280,25 @@
                                 }
                             }
                         </table>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Company Number </th>
-                                    <th scope="col" class="col-one">GST NUmber</th>
-                                    <th scope="col" class="col-one">Email  </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-
-                                    @{
-                                        if (@Model.AirlinePNR[0].customerNumber != null)
-                                        {
-
-
+                        @if (@Model.AirlinePNR[0].customerNumber != null)
+                        {
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Company Number </th>
+                                        <th scope="col" class="col-one">GST NUmber</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        @{
                                             <td>@Model.AirlinePNR[0].companyName</td>
-
-
                                             <td>@Model.AirlinePNR[0].customerNumber</td>
-
-
-                                            <td>@Model.AirlinePNR[0].emailAddress</td>
-
                                         }
-                                    }
-
-                                </tr>
-                            </tbody>
-                        </table>
-
+                                    </tr>
+                                </tbody>
+                            </table>
+                        }
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
