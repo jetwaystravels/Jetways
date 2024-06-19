@@ -52,10 +52,18 @@
         text-align: center;
     }
 
+    .modal-content .nav .nav-item .nav-link {
+        font-size: 0.8rem;
+        cursor: pointer;
+        padding: 1rem 0 0;
+        margin: 0px 10px !important;
+    }
+
+
     /*  .active {
-            color: #E93329 !important;
-            border-bottom: 1px solid #E93329 !important;
-        } */
+                color: #E93329 !important;
+                border-bottom: 1px solid #E93329 !important;
+            } */
 </style>
 
 <script src="~/js/custom.js/roundtripsell.js"></script>
@@ -342,7 +350,7 @@
 
 
 
-        });
+    });
 </script>
 
 
@@ -390,7 +398,10 @@
                 $('#input_' + i).val(parts[1]);
                 $('.feeSpan_' + i).text(parts[0]);
                 $('#outputDiv_' + i).text(parts[1]);
+
             }
+
+
         }
 
         // Function to update local storage
@@ -440,7 +451,8 @@
             // Loop through each element and set its text to an empty string
             for (var i = 0; i < checkedValues.length; i++) {
                 $('#outputDiv_' + i).text('');
-                $('#unitKey' + checkedValues[i]).prop('checked', false);
+                //$('#unitKey' + checkedValues[i]).prop('checked', false);
+                $('#unitKey' + i).prop('checked', false);
                 localStorage.removeItem('checkedValues');
             }
 
@@ -450,9 +462,25 @@
         $('#leftConnect1').click(function () {
             //alert("T1");
             // Loop through each element and set its text to an empty string
+            // for (var i = 0; i < checkedValues.length; i++) {
+            //     $('#outputDiv_' + i).text('');
+
+            // }
             for (var i = 0; i < checkedValues.length; i++) {
+                checkedValues[i] = '';
                 $('#outputDiv_' + i).text('');
+
             }
+
+
+
+            // Update the inputs and spans to reflect the cleared values
+            updateInputsAndSpans(checkedValues);
+
+            // Update local storage to keep changes persistent
+            updateLocalStorage();
+
+
         });
 
 
@@ -714,14 +742,14 @@
             if (seatmaap2 != 2)
             {
                 <li class="nav-item">
-                    <div id="seattab1waypopup" class="nav-link me-3 activeblue">@Model.passeengerlistRT[0].journeys[0].segments[0].designator.origin-@Model.passeengerlistRT[0].journeys[0].segments[0].designator.destination</div>
+                    <div id="seattab1waypopup" class="nav-link  me-3 activeblue">@Model.passeengerlistRT[0].journeys[0].segments[0].designator.origin-@Model.passeengerlistRT[0].journeys[0].segments[0].designator.destination</div>
                 </li>
             }
             else
             {
                 <li class="nav-item d-flex">
-                    <div id="seattab1Popup" class="nav-link activeblue">@Model.passeengerlistRT[0].journeys[0].segments[0].designator.origin-@Model.passeengerlistRT[0].journeys[0].segments[0].designator.destination</div>
-                    <div id="seattab2Popup" class="nav-link">@Model.passeengerlistRT[0].journeys[0].segments[1].designator.origin-@Model.passeengerlistRT[0].journeys[0].segments[1].designator.destination</div>
+                    <div id="seattab1Popup" class="nav-link connbtn activeblue">@Model.passeengerlistRT[0].journeys[0].segments[0].designator.origin-@Model.passeengerlistRT[0].journeys[0].segments[0].designator.destination</div>
+                    <div id="seattab2Popup" class="nav-link connbtn">@Model.passeengerlistRT[0].journeys[0].segments[1].designator.origin-@Model.passeengerlistRT[0].journeys[0].segments[1].designator.destination</div>
                 </li>
             }
             //RoundTrip
@@ -735,8 +763,8 @@
             else
             {
                 <li class="nav-item d-flex">
-                    <div id="seattabRT1Popup" class="nav-link">@Model.passeengerlistRT[1].journeys[0].segments[0].designator.origin-@Model.passeengerlistRT[1].journeys[0].segments[0].designator.destination</div>
-                    <div id="seattabRT2Popup" class="nav-link">@Model.passeengerlistRT[1].journeys[0].segments[1].designator.origin-@Model.passeengerlistRT[1].journeys[0].segments[1].designator.destination</div>
+                    <div id="seattabRT1Popup" class="nav-link connbtn">@Model.passeengerlistRT[1].journeys[0].segments[0].designator.origin-@Model.passeengerlistRT[1].journeys[0].segments[0].designator.destination</div>
+                    <div id="seattabRT2Popup" class="nav-link connbtn">@Model.passeengerlistRT[1].journeys[0].segments[1].designator.origin-@Model.passeengerlistRT[1].journeys[0].segments[1].designator.destination</div>
                 </li>
             }
 
@@ -1404,7 +1432,7 @@
 
         }
         @* <div class="wing-right">&nbsp;</div>*@
-      
+
     </div>
 </div>
 

@@ -193,7 +193,7 @@
             $("#tabContentRT3").hide();
             $("#tabContentRT4").show();
             $("#tabBtnRT4").addClass("active");
-             $("#tabBtnRT3").removeClass("active");
+            $("#tabBtnRT3").removeClass("active");
         });
         $("#tabBtnRT3").click(function () {
             $("#tabBtnRT3").addClass("active");
@@ -325,7 +325,7 @@
                                             {
                                                 <img class="size-30" src="~/img/flight-logo-icon/6E.png" alt="image">
                                             }
-                                             else if (item.segments[i].identifier.carrierCode.Equals("QP"))
+                                            else if (item.segments[i].identifier.carrierCode.Equals("QP"))
                                             {
                                                 <img class="size-30" src="~/img/flight-logo-icon/akasa.png" alt="image">
                                             }
@@ -635,6 +635,85 @@
 
                                             }
 
+                                            //Spice Jet
+                                            else if (item.segments[i].fares[f].productClass.Equals("RS"))
+                                            {
+                                                //<div class="text-13 mt-1">Economy: @Faretype<b>Xpress Bizz</b></div>
+                                                <span class="tooltipF">
+                                                    Economy:  @Faretype<b>Spice Plus</b>
+                                                    <span class="tooltiptext">
+                                                        <ul>
+                                                            <li>1: Cabin Bag: 7 k.g</li>
+                                                            <li>2: Check-In: 15 k.g  (1 piece)</li>
+                                                            <li>3: Cancellation: 3600 Rs (within 96 hrs from Departure)</li>
+                                                            <li>4: Date Change: 3350 RS (within 96 hrs from Departure)</li>
+                                                            <li>5: Seat : Free seats</li>
+                                                            <li>6: Meal : Complimentary meal</li>
+                                                            @* <li>7: Category Class : (Business)</li>*@
+                                                        </ul>
+                                                    </span>
+                                                </span>
+
+                                            }
+                                            else if (item.segments[i].fares[f].productClass.Equals("SF"))
+                                            {
+                                                //<div class="text-13 mt-1">Economy: @Faretype<b>Xpress Bizz</b></div>
+                                                <span class="tooltipF">
+                                                    Economy:  @Faretype<b>Spice Flex</b>
+                                                    <span class="tooltiptext">
+                                                        <ul>
+                                                            <li>1: Cabin Bag: 7 k.g</li>
+                                                            <li>2: Check-In: 15 k.g  (1 piece)</li>
+                                                            <li>3: Cancellation: 3600 Rs (within 96 hrs from Departure)</li>
+                                                            <li>4: Date Change: 3350 RS (within 96 hrs from Departure)</li>
+                                                            <li>5: Seat : Free seats</li>
+                                                            <li>6: Meal : Complimentary meal</li>
+                                                            @* <li>7: Category Class : (Business)</li>*@
+                                                        </ul>
+                                                    </span>
+                                                </span>
+
+                                            }
+                                            else if (item.segments[i].fares[f].productClass.Equals("SC"))
+                                            {
+                                                //<div class="text-13 mt-1">Economy: @Faretype<b>Xpress Bizz</b></div>
+                                                <span class="tooltipF">
+                                                    Economy:  @Faretype<b>Spice Max</b>
+                                                    <span class="tooltiptext">
+                                                        <ul>
+                                                            <li>1: Cabin Bag: 7 k.g</li>
+                                                            <li>2: Check-In: 15 k.g  (1 piece)</li>
+                                                            <li>3: Cancellation: 3600 Rs (within 96 hrs from Departure)</li>
+                                                            <li>4: Date Change: 3350 RS (within 96 hrs from Departure)</li>
+                                                            <li>5: Seat : Free seats</li>
+                                                            <li>6: Meal : Complimentary meal</li>
+                                                            @* <li>7: Category Class : (Business)</li>*@
+                                                        </ul>
+                                                    </span>
+                                                </span>
+
+                                            }
+                                            else if (item.segments[i].fares[f].productClass.Equals("SS"))
+                                            {
+                                                //<div class="text-13 mt-1">Economy: @Faretype<b>Xpress Bizz</b></div>
+                                                <span class="tooltipF">
+                                                    Economy:  @Faretype<b>Saver Fare</b>
+                                                    <span class="tooltiptext">
+                                                        <ul>
+                                                            <li>1: Cabin Bag: 7 k.g</li>
+                                                            <li>2: Check-In: 15 k.g  (1 piece)</li>
+                                                            <li>3: Cancellation: 3600 Rs (within 96 hrs from Departure)</li>
+                                                            <li>4: Date Change: 3350 RS (within 96 hrs from Departure)</li>
+                                                            <li>5: Seat : Free seats</li>
+                                                            <li>6: Meal : Complimentary meal</li>
+                                                            @* <li>7: Category Class : (Business)</li>*@
+                                                        </ul>
+                                                    </span>
+                                                </span>
+
+                                            }
+
+
                                             else
                                             {
                                                 //<div class="text-13 mt-1">Economy: @Faretype<b>Saver Fare</b></div>
@@ -874,6 +953,26 @@
                                         </table>
 
                                     }
+                                    //Spice Jet
+                                    else if (item.segments[i].fares[f].productClass.Equals("RS") || item.segments[i].fares[f].productClass.Equals("SF") || item.segments[i].fares[f].productClass.Equals("SC") || item.segments[i].fares[f].productClass.Equals("SS"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>within 96 hrs from Departure</td>
+                                                <td>Rs.3600</td>
+
+                                            </tr>
+
+                                        </table>
+                                    }
+
+
+
                                     else
                                     {
                                         <table style="width:100%">
@@ -1053,7 +1152,7 @@
                                         </table>
 
                                     }
-                                    else if (item.segments[j].fares[k].productClass.Equals("RS") || item.segments[j].fares[k].productClass.Equals("SF") || item.segments[j].fares[k].productClass.Equals("SC")|| item.segments[j].fares[k].productClass.Equals("SS"))
+                                    else if (item.segments[j].fares[k].productClass.Equals("RS") || item.segments[j].fares[k].productClass.Equals("SF") || item.segments[j].fares[k].productClass.Equals("SC") || item.segments[j].fares[k].productClass.Equals("SS"))
                                     {
                                         <table style="width:100%">
                                             <tr>

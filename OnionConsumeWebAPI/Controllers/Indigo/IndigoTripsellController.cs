@@ -252,27 +252,35 @@ namespace OnionConsumeWebAPI.Controllers
 
         //    return RedirectToAction("Tripsell", "AATripsell");
         //}
-        public async Task<IActionResult> PostUnitkey(List<string> unitKey, List<string> ssrKey,List<string> BaggageSSrkey)
+        public async Task<IActionResult> PostUnitkey(List<string> unitKey, List<string> ssrKey,List<string> BaggageSSrkey, List<string> FastfarwardAddon, List<string> PPBGAddon)
         {
-            if (BaggageSSrkey[0] == null)
+            if (BaggageSSrkey.Count > 0 && BaggageSSrkey[0] == null)
             {
                 BaggageSSrkey = new List<string>();
             }
-            if (ssrKey[0] == null)
+            if (ssrKey.Count > 0 && ssrKey[0] == null)
             {
                 ssrKey = new List<string>();
             }
-            if (unitKey[0] == null)
+            if (unitKey.Count > 0 && unitKey[0] == null )
             {
                 unitKey = new List<string>();
             }
-            List<string> ConnetedBaggageSSrkey = new List<string>();
-            for (int i = 0; i < BaggageSSrkey.Count; i++)
+            if (FastfarwardAddon.Count > 0 && FastfarwardAddon[0]==null)
             {
-                ConnetedBaggageSSrkey.Add(BaggageSSrkey[i].Replace("_OneWay0", "_OneWay1"));
+                FastfarwardAddon = new List<string>();
             }
+            if (PPBGAddon.Count > 0 && PPBGAddon[0] == null)
+            {
+                PPBGAddon = new List<string>();
+            }
+            //List<string> ConnetedBaggageSSrkey = new List<string>();
+            //for (int i = 0; i < BaggageSSrkey.Count; i++)
+            //{
+            //ConnetedBaggageSSrkey.Add(BaggageSSrkey[i].Replace("_OneWay0", "_OneWay1"));
+            //}
             //ConnetedBaggageSSrkey = BaggageSSrkey;
-            BaggageSSrkey.AddRange(ConnetedBaggageSSrkey);
+            //BaggageSSrkey.AddRange(ConnetedBaggageSSrkey);
 
             string tokenview = HttpContext.Session.GetString("IndigoSignature");
             token = tokenview.Replace(@"""", string.Empty);
@@ -287,10 +295,9 @@ namespace OnionConsumeWebAPI.Controllers
             {
                 if (ssrKey.Count > 0)
                 {
-
                     #region SellSSr
                     _SellSSR obj_ = new _SellSSR(httpContextAccessorInstance);
-                    IndigoBookingManager_.SellResponse sellSsrResponse = await obj_.sellssr(token, passeengerKeyList, ssrKey, BaggageSSrkey, 0, "OneWay");
+                    IndigoBookingManager_.SellResponse sellSsrResponse = await obj_.sellssr(token, passeengerKeyList, ssrKey, BaggageSSrkey, FastfarwardAddon,PPBGAddon, 0, "OneWay");
                     #endregion
 
                 }
@@ -372,6 +379,10 @@ namespace OnionConsumeWebAPI.Controllers
             public List<ssrsKey> SSRbaggagecodeOneWayII { get; set; }
             public List<ssrsKey> SSRbaggagecodeRTI { get; set; }
             public List<ssrsKey> SSRbaggagecodeRTII { get; set; }
+            public List<ssrsKey> SSRffwOneWayI { get; set; }
+            public List<ssrsKey> SSRffwcodeRTI { get; set; }
+            public List<ssrsKey> PPBGOneWayI { get; set; }
+            public List<ssrsKey> PPBGcodeRTI { get; set; }
         }
 
         public class ssrsKey

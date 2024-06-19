@@ -8,7 +8,7 @@ $(document).ready(function () {
     $("#tabshowRT2").hide();
     $("#tabshow1RT").hide();
     $("#tabshow2RT").hide();
-    
+
     $("#seattab1way").click(function () {
         $("#tabshow1").show();
         $("#tabshow1RT").hide();
@@ -33,7 +33,7 @@ $(document).ready(function () {
         $("#seattab2").removeClass('activeblue');
     });
 
-  
+
     $("#seattab1").click(function () {
         $("#tabshow1").show();
         $("#tabshow2").hide();
@@ -44,15 +44,16 @@ $(document).ready(function () {
         $("#seattab1").addClass('activeblue');
         $("#seattab2").removeClass('activeblue');
         $("#tabshowRT2").removeClass('activeblue');
-        $("#tabshowRT1").removeClass('activeblue'); 
-        $("#seattabRT2").removeClass('activeblue'); 
+        $("#tabshowRT1").removeClass('activeblue');
+        $("#seattabRT1").removeClass('activeblue');
+        $("#seattabRT2").removeClass('activeblue');
 
     });
 
     $("#seattab2").click(function () {
         $("#tabshow2").show();
-        $("#tabshowRT1").hide(); 
-        $("#tabshowRT2").hide(); 
+        $("#tabshowRT1").hide();
+        $("#tabshowRT2").hide();
         $("#tabshow2RT").hide();
         $("#tabshow1RT").hide();
         $("#seattab2").addClass('activeblue');
@@ -89,7 +90,7 @@ $(document).ready(function () {
         $("#seattab1way").removeClass('activeblue');
     });
 
-   
+
 
 });
 
@@ -129,7 +130,7 @@ function updateCombinedTotalRT() {
     //Servive Request Code Start
 
 
-   
+
 
 
 

@@ -35,6 +35,7 @@ namespace OnionArchitectureAPI.Services.Indigo
                 _seatRequest.OverrideSTDSpecified = true;
                 _seatRequest.OverrideSTD = AirAsiaTripResponceobj.journeys[0].segments[i].designator.departure;
                 _seatRequest.CarrierCode = AirAsiaTripResponceobj.journeys[0].segments[i].identifier.carrierCode;
+                _seatRequest.EnforceSeatGroupRestrictions = false;
                 _getseatAvailabilityRequest.SeatAvailabilityRequest = _seatRequest;
                 _getapi _obj = new _getapi();
                 _getSeatAvailabilityResponse = await _obj.GetseatAvailability(_getseatAvailabilityRequest);

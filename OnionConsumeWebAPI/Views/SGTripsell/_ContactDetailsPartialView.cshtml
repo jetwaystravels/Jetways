@@ -1,6 +1,4 @@
-﻿@* <form asp-action="ContectDetails" asp-controller="AATripsell" method="post"> *@
-<form id="contactFormSG">
-    @* @Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+﻿<form id="contactFormSG">
     <div class="row y-gap-10 row mt-2 py-3 mb-3">
 
 
@@ -11,15 +9,15 @@
             <p id="error-message1" class="error-message" style="display:none">Enter First name</p>
             <p id="errorMessage" style="color: red;font-size:13px;"></p>
         </div>
-     
+
         <div class="col-md-3">
             <div class="form-input ">
                 <input type="text" name="last" maxlength="32" id="last" oninput="validateInput2(event)" class="lastNClass" placeholder="Last Name">
             </div>
             <p id="error-message2" class="error-message" style="display:none">Enter Last name</p>
-             <p id="errorMessage2" style="color: red;font-size:13px;"></p>
+            <p id="errorMessage2" style="color: red;font-size:13px;"></p>
         </div>
-    
+
 
         <div class="col-md-3">
             <div class="form-input">
@@ -48,7 +46,7 @@
                 </div>
                 <div class="ms-3">
                     Do you have GST  <button id="GSTButton" class="checkbox-button ms-2"></button>
-                   
+
                 </div>
             </div>
             <div><input type="submit" class="btn btn-primary pagelaodSg" value="Save" /></div>
@@ -62,8 +60,8 @@
         </div>
         <div class="col-md-3">
             <div class="form-input">
-               
-                <input type="text" id="gstname" maxlength="32" name="companyName" oninput="validateInputgst(event)" class="companyName hid-block hidden"  placeholder="Company Name">
+
+                <input type="text" id="gstname" maxlength="32" name="companyName" oninput="validateInputgst(event)" class="companyName hid-block hidden" placeholder="Company Name">
             </div>
             <p id="errorMessagegst" style="color: red;font-size:13px;"></p>
             <p id="error-message9" class="error-message" style="display:none">Enter Company Name</p>
@@ -76,7 +74,7 @@
             <p id="error-message10" class="error-message" style="display:none">Enter GST Number</p>
 
         </div>
-       
+
 
     </div>
 </form>
@@ -115,20 +113,15 @@
 
     button.addEventListener('click', function (e) {
         e.preventDefault();
-
         button.checked = !button.checked;
-
-
         if (button.checked) {
             button.classList.add('checked');
         } else {
             button.classList.remove('checked');
         }
 
-
         if (button.checked) {
             // alert("Checked!!")
-
             var firstLeadPass = document.querySelector('.firstNClass').value;
             var lastLeadPass = document.querySelector('.lastNClass').value;
             var emaiLeadPass = document.querySelector('.emailNClass').value;
@@ -150,37 +143,21 @@
             localStorage.setItem('Leadpassenger4', phoneLeadPass);
         }
     });
-
-
-
-
     //GST Checkbox Function
     var buttongst = document.getElementById('GSTButton');
-
-
     buttongst.addEventListener('click', function (e) {
         e.preventDefault();
-
         buttongst.checked = !buttongst.checked;
-
-
         if (buttongst.checked) {
-
             buttongst.classList.add('checked');
-           
+
         } else {
             buttongst.classList.remove('checked');
         }
-
-
         if (buttongst.checked) {
             //alert("Checked!!")
-            $(".hid-block").show();
-
-
+            $(".hid-block").show()
         } else {
-            //alert("Checkbox is unchecked");
-            //debugger;
             var gstToDisplay = document.getElementById("error-message9");
             gstToDisplay.style.display = "none";
             var gstNToDisplay = document.getElementById("error-message10");
@@ -191,15 +168,7 @@
             $(".hid-block").hide();
         }
     });
-
-
-
-
     //****************GST END*************************** */
-
-
-
-
 
     $(document).ready(function () {
         $(".pagelaodSg").click(function (e) {
@@ -245,7 +214,7 @@
                 firstToDisplay.style.display = "none";
             }
 
-         
+
             var lastfocus = document.getElementById("last").value;
             if (lastfocus == "") {
                 //alert("Enter Origin Name");
@@ -328,10 +297,6 @@
 
 
             }
-
-
-
-
             var contactFormData = new FormData($("#contactFormSG")[0]);
             //alert("form data:"+ contactFormData);
             $.ajax({
@@ -356,31 +321,23 @@
                     // Handle any errors here
                 }
             });
-            //return true;
-
-
-
         });
 
-    
-
     });
-
-   
+    // firstname
     function validateInput(event) {
-        const input = event.target.value;
-        const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
-
+        var input = event.target.value;
+        var regex = /^[A-Za-z.]{3,32}$/;
         if (!regex.test(input)) {
+
             document.getElementById('errorMessage').innerText = "";
-            event.target.value = input.replace(/[^a-zA-Z]/g, ''); // Remove non-alphabetic characters
+            event.target.value = input.replace(/[^a-zA-Z]/g, '');
         } else {
             document.getElementById('errorMessage').innerText = "";
         }
 
         var firstfocus = document.getElementById("first").value;
         if (firstfocus == "") {
-            //alert("Enter Origin Name");
             var firstToDisplay = document.getElementById("error-message1");
             firstToDisplay.style.display = "block";
             document.getElementById("first").focus();
@@ -391,19 +348,19 @@
             firstToDisplay.style.display = "none";
         }
     }
+    //last Name
     function validateInput2(event) {
         const input = event.target.value;
-        const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
+        const regex = /^[A-Za-z.]{3,32}$/;
 
         if (!regex.test(input)) {
             document.getElementById('errorMessage2').innerText = "";
-            event.target.value = input.replace(/[^a-zA-Z]/g, ''); // Remove non-alphabetic characters
+            event.target.value = input.replace(/[^a-zA-Z]/g, '');
         } else {
             document.getElementById('errorMessage2').innerText = "";
         }
         var lastfocus = document.getElementById("last").value;
         if (lastfocus == "") {
-            //alert("Enter Origin Name");
             var firstToDisplay = document.getElementById("error-message2");
             firstToDisplay.style.display = "block";
             document.getElementById("last").focus();
@@ -416,23 +373,22 @@
 
 
     }
-
-      function validateEmail(event) {
-          const email = event.target.value;
-          //const regex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/; // Regular expression for basic email validation
-          //const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/; // Regular expression for basic email validation
+    //Contact Email
+    function validateEmail(event) {
+        var email = event.target.value;
         var regex = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-          if (!regex.test(email)) {
-            document.getElementById('emailErrorMessage').innerText = "valid email";
+        if (!regex.test(email)) {
+            document.getElementById('emailErrorMessage').innerText = "Invalid Email Address";
+            let emailToDisplay = document.getElementById("error-message7");
+            emailToDisplay.style.display = "none";
+            document.getElementById("emailAddress").focus();
             return false;
+
         } else {
             document.getElementById('emailErrorMessage').innerText = "";
-          }
-
+        }
         let emailfocus = document.getElementById("emailAddress").value;
-
         if (emailfocus == "") {
-            //alert("Enter Origin Name");
             let emailToDisplay = document.getElementById("error-message7");
             emailToDisplay.style.display = "block";
             document.getElementById("emailAddress").focus();
@@ -443,23 +399,26 @@
             emailToDisplay.style.display = "none";
         }
 
-
-      }
-
+    }
+    // Phone number
     function validatePhoneNumber(event) {
         const phoneNumber = event.target.value;
-        const regex = /^\d{10}$/; // Regular expression for 10-digit phone number validation
-
+        const regex = /^(0|91)?[6-9][0-9]{9}$/;
         if (!regex.test(phoneNumber)) {
-            document.getElementById('phoneNumberErrorMessage').innerText = "valid number";
+
+            document.getElementById('phoneNumberErrorMessage').innerText = "Invalid Phone Number";
+            let phoneToDisplay = document.getElementById("error-message8");
+            phoneToDisplay.style.display = "none";
         } else {
             document.getElementById('phoneNumberErrorMessage').innerText = "";
         }
+
         let phonefocus = document.getElementById("number").value;
         if (phonefocus == "") {
 
             let phoneToDisplay = document.getElementById("error-message8");
             phoneToDisplay.style.display = "block";
+            document.getElementById('phoneNumberErrorMessage').innerText = "";
             document.getElementById("number").focus();
             return false;
         }
@@ -468,20 +427,19 @@
             phoneToDisplay.style.display = "none";
         }
     }
-
+    //Gst Compamy
     function validateInputgst(event) {
-        const input = event.target.value;
-        const regex = /^[a-zA-Z\s]*$/;      // /^[a-zA-Z\s]*$/;  // Regular expression to match alphabetic characters only
 
+        const input = event.target.value;
+        //const regex = /^[a-zA-Z]*$/;
+        var regex = /^[a-zA-Z0-9\s.,'-]{1,100}$/;
         if (!regex.test(input)) {
             document.getElementById('errorMessagegst').innerText = "";
-            event.target.value = input.replace(/[^a-zA-Z\s]/g, '');  //(/[^a-zA-Z]/g, ''); // Remove non-alphabetic characters
+            //event.target.value = input.replace(/[^a-zA-Z]/g, '');
         } else {
             document.getElementById('errorMessagegst').innerText = "";
         }
-
         var gstnamefocus = document.getElementById("gstname").value;
-
         if (gstnamefocus == "") {
             var gstToDisplay = document.getElementById("error-message9");
             gstToDisplay.style.display = "block";
@@ -494,22 +452,22 @@
         }
 
     }
-
+    //Gst Number
     function validateGST(event) {
-        const gstNumber = event.target.value.toUpperCase(); // Convert to uppercase for consistency
-        const regex = /^([0-9]){2}([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}([0-9]){1}([a-zA-Z]){1}([0-9]){1}?$/; // Regular expression for 15-character GST number validation
 
+        const gstNumber = event.target.value.toUpperCase();
+        var regex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
         if (gstNumber.trim() === "") {
-            document.getElementById('gstErrorMessage').innerText = "Enter valid GST number.";
 
-
+            document.getElementById('gstErrorMessage').innerText = "";
         } else if (!regex.test(gstNumber)) {
-            document.getElementById('gstErrorMessage').innerText = "Enter valid GST number.";
+
+            document.getElementById('gstErrorMessage').innerText = "Invalid GST number..";
         } else {
+
             document.getElementById('gstErrorMessage').innerText = "";
         }
         var gstnofocus = document.getElementById("gstnumber").value;
-
         if (gstnofocus == "") {
             var gstnoToDisplay = document.getElementById("error-message10");
             gstnoToDisplay.style.display = "block";
@@ -520,6 +478,27 @@
             var gstnoToDisplay = document.getElementById("error-message10");
             gstnoToDisplay.style.display = "none";
         }
+
     }
+</script>
+<script type="text/javascript">
+    document.getElementById('number').addEventListener('keypress', function (event) {
+        const input = event.target;
+        const value = input.value;
+        let phonefocus = document.getElementById("number").value;
+        if (phonefocus == "") {
+
+            let phoneToDisplay = document.getElementById("error-message8");
+            phoneToDisplay.style.display = "block";
+            document.getElementById('phoneNumberErrorMessage').innerText = "";
+            document.getElementById("number").focus();
+            return false;
+        }
+        const regex = /^[1-9]\d{0,9}$/;
+        const nextValue = value.slice(0, input.selectionStart) + event.key + value.slice(input.selectionEnd);
+        if (!regex.test(nextValue)) {
+            event.preventDefault(); // Prevent the keypress event
+        }
+    });
 </script>
 

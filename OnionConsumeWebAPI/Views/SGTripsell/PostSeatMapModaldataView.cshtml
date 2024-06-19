@@ -163,7 +163,7 @@
                     {
                         if (!ht0.Contains(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator))
                         {
-                            ht0.Add(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator, Math.Round(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].servicechargefeeAmount,0) + "_" + Model.Seatmaplist.datalist[k].seatMap.decks.units[j].availability);
+                            ht0.Add(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].designator, Math.Round(Model.Seatmaplist.datalist[k].seatMap.decks.units[j].servicechargefeeAmount, 0) + "_" + Model.Seatmaplist.datalist[k].seatMap.decks.units[j].availability);
                         }
 
                     }
@@ -407,7 +407,7 @@
 
         @* ----------End--------- *@
         @*  <div class="wing-right">&nbsp;</div> *@
-      
+
     </div>
 </div>
 
@@ -465,6 +465,11 @@
         background: #6ec3fb;
         text-align: center;
     }
+
+    #seattab1 {
+        margin: 0px 12px;
+    }
+
 </style>
 <script type="text/javascript">
     /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
@@ -475,7 +480,7 @@
         $("#popbtnB").hide();
         $("#popbtnA").show();
         $("#seattab1").click(function () {
-            alert("A");
+            //alert("A");
             $("#tabshow1").show();
             $("#tabshow2").hide();
             $("#passtab1").show();
@@ -488,7 +493,7 @@
         });
 
         $("#seattab2").click(function () {
-            alert("B");
+            //alert("B");
             $("#tabshow2").css("display", "block");
             $("#seattab2").addClass('active');
             $("#seattab1").removeClass('active');

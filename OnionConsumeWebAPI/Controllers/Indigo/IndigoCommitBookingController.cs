@@ -295,7 +295,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                                         {
                                             if (!htmealdata.Contains(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation))
                                             {
-                                                if (item1.SSRCode != "INFT")
+                                                if (item1.SSRCode != "INFT" && item1.SSRCode != "FFWD")
                                                 {
                                                     htmealdata.Add(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation, item1.SSRCode);
                                                 }
@@ -304,7 +304,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
 
                                             else if (!htbagdata.Contains(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation))
                                             {
-                                                if (item1.SSRCode != "INFT")
+                                                if (item1.SSRCode != "INFT" && item1.SSRCode != "FFWD")
                                                 {
                                                     htbagdata.Add(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation, item1.SSRCode);
                                                 }

@@ -26,12 +26,28 @@ namespace OnionArchitectureAPI.Services.Indigo
         _getapi _obj = new _getapi();
         int passengerscount = 0;
         int journeyscount = 0;
-        public async Task<IndigoBookingManager_.SellResponse> sellssr(string Signature, AirAsiaTripResponceModel passeengerKeyList, List<string> ssrKey, List<string> BaggageSSrkey, int _a,string _Airline="")
+        public async Task<IndigoBookingManager_.SellResponse> sellssr(string Signature, AirAsiaTripResponceModel passeengerKeyList, List<string> ssrKey, List<string> BaggageSSrkey, List<string> FastfarwardAddon, List<string> PPBGAddon, int _a, string _Airline = "")
         {
             passengerscount = passeengerKeyList.passengerscount;
             SellResponse sellSsrResponse = null;
             using (HttpClient client = new HttpClient())
             {
+                //PPBGAddon.Add("PPBG_OneWay0");
+                for (int i = 0; i < passeengerKeyList.passengers.Count; i++)
+                {
+                    if (passeengerKeyList.passengers[i].passengerTypeCode == "INFT")
+                        continue;
+                    if (_a == 0)
+                    {
+                        FastfarwardAddon.Add("FFWD_OneWay0");
+                    }
+                    else
+                    {
+                        FastfarwardAddon.Add("FFWD__RT0");
+                    }
+
+                }
+                
                 if (ssrKey.Count >= 0)
                 {
 
@@ -77,11 +93,15 @@ namespace OnionArchitectureAPI.Services.Indigo
                             _obj.SSRbaggagecodeOneWayII = new List<ssrsKey>();
                             _obj.SSRbaggagecodeRTI = new List<ssrsKey>();
                             _obj.SSRbaggagecodeRTII = new List<ssrsKey>();
+                            _obj.SSRffwcodeRTI = new List<ssrsKey>();
+                            _obj.PPBGcodeRTI = new List<ssrsKey>();
+                            _obj.SSRffwOneWayI = new List<ssrsKey>();
+                            _obj.PPBGOneWayI = new List<ssrsKey>();
                             for (int k = 0; k < ssrKey.Count; k++)
                             {
-                                if(ssrKey[k]== null)
-                                { 
-                                    continue; 
+                                if (ssrKey[k] == null)
+                                {
+                                    continue;
                                 }
                                 if (ssrKey[k].ToLower().Contains("airasia"))
                                     continue;
@@ -203,9 +223,66 @@ namespace OnionArchitectureAPI.Services.Indigo
                                 //}
 
                             }
+                            for (int k = 0; k < FastfarwardAddon.Count; k++)
+                            {
+                                string[] sskeydata = new string[2];
+                                if (FastfarwardAddon[k].Contains("_OneWay0"))
+                                {
+                                    //split
+                                    string[] wordsArray = FastfarwardAddon[k].ToString().Split('_');
+                                    if (wordsArray.Length > 1 && !string.IsNullOrEmpty(wordsArray[0]))
+                                    {
+                                        sskeydata = FastfarwardAddon[k].Split("_");
+                                        ssrsKey _objffw0 = new ssrsKey();
+                                        _objffw0.key = sskeydata[0];
+                                        _obj.SSRffwOneWayI.Add(_objffw0);
+                                    }
+                                }
+                                else if (FastfarwardAddon[k].Contains("_RT0"))
+                                {
+                                    string[] wordsArray = FastfarwardAddon[k].ToString().Split('_');
+                                    if (wordsArray.Length > 1 && !string.IsNullOrEmpty(wordsArray[0]))
+                                    {
+                                        sskeydata = FastfarwardAddon[k].Split("_");
+                                        ssrsKey _objffwRT1 = new ssrsKey();
+                                        _objffwRT1.key = sskeydata[0];
+                                        _obj.SSRffwcodeRTI.Add(_objffwRT1);
+                                    }
+                                }
+
+                            }
+                            //Priority Boarding
+                            for (int k = 0; k < PPBGAddon.Count; k++)
+                            {
+                                string[] sskeydata = new string[2];
+                                if (PPBGAddon[k].Contains("_OneWay0"))
+                                {
+                                    //split
+                                    string[] wordsArray = PPBGAddon[k].ToString().Split('_');
+                                    if (wordsArray.Length > 1 && !string.IsNullOrEmpty(wordsArray[0]))
+                                    {
+                                        sskeydata = PPBGAddon[k].Split("_");
+                                        ssrsKey _objppbg0 = new ssrsKey();
+                                        _objppbg0.key = sskeydata[0];
+                                        _obj.PPBGOneWayI.Add(_objppbg0);
+                                    }
+                                }
+                                else if (PPBGAddon[k].Contains("_RT0"))
+                                {
+                                    string[] wordsArray = PPBGAddon[k].ToString().Split('_');
+                                    if (wordsArray.Length > 1 && !string.IsNullOrEmpty(wordsArray[0]))
+                                    {
+                                        sskeydata = PPBGAddon[k].Split("_");
+                                        ssrsKey _objppbg1 = new ssrsKey();
+                                        _objppbg1.key = sskeydata[0];
+                                        _obj.PPBGcodeRTI.Add(_objppbg1);
+                                    }
+                                }
+
+                            }
                             if (j == 0 && _a == 0)
                             {
-                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[PaxNum.Infant_.Count + _obj.SSRcodeOneWayI.Count + _obj.SSRbaggagecodeOneWayI.Count];
+                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[PaxNum.Infant_.Count + _obj.SSRcodeOneWayI.Count + _obj.SSRbaggagecodeOneWayI.Count + _obj.SSRffwOneWayI.Count + _obj.PPBGOneWayI.Count];
                             }
                             else if (j == 1 && _a == 0)
                             {
@@ -213,7 +290,7 @@ namespace OnionArchitectureAPI.Services.Indigo
                             }
                             else if (j == 0 && _a == 1)
                             {
-                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[PaxNum.Infant_.Count + _obj.SSRcodeRTI.Count + _obj.SSRbaggagecodeRTI.Count];
+                                sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs = new PaxSSR[PaxNum.Infant_.Count + _obj.SSRcodeRTI.Count + _obj.SSRbaggagecodeRTI.Count + _obj.SSRffwcodeRTI.Count + _obj.PPBGcodeRTI.Count];
                             }
                             else if (j == 1 && _a == 1)
                             {
@@ -229,7 +306,7 @@ namespace OnionArchitectureAPI.Services.Indigo
 
                                 if (TotalPaxcount > 0)
                                 {
-                                    for (int j1 = 0; j1 < PaxNum.Infant_.Count + _obj.SSRcodeOneWayI.Count + _obj.SSRbaggagecodeOneWayI.Count; j1++)
+                                    for (int j1 = 0; j1 < PaxNum.Infant_.Count + _obj.SSRcodeOneWayI.Count + _obj.SSRbaggagecodeOneWayI.Count + _obj.SSRffwOneWayI.Count + _obj.PPBGOneWayI.Count; j1++)
                                     {
 
                                         if (j1 < PaxNum.Infant_.Count)
@@ -312,6 +389,68 @@ namespace OnionArchitectureAPI.Services.Indigo
                                                         }
                                                     }
                                                 }
+                                                if (_obj.SSRffwOneWayI.Count > 0)
+                                                {
+                                                    for (int k = 0; k < PaxNum.Adults_.Count + PaxNum.Childs_.Count; k++)//Paxnum 1 adult,1 child,1 infant 2 meal
+                                                    {
+                                                        int baggagecount = _obj.SSRffwOneWayI.Count;
+                                                        if (baggagecount > 0 && k + 1 <= baggagecount)
+                                                        {
+                                                            idx++;
+                                                            string[] wordsArray = _obj.SSRffwOneWayI[k].key.ToString().Split(' ');
+                                                            //alert(wordsArray);
+                                                            //var meal = null;
+                                                            string ssrCodeKey = "";
+                                                            if (wordsArray.Length > 1)
+                                                            {
+                                                                ssrCodeKey = wordsArray[0];
+                                                                ssrCodeKey = ssrCodeKey.Replace(@"""", "");
+                                                            }
+                                                            else
+                                                                ssrCodeKey = _obj.SSRffwOneWayI[k].key.ToString();
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx] = new PaxSSR();
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ActionStatusCode = "NN";
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRCode = ssrCodeKey;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumberSpecified = true;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumber = Convert.ToInt16(k);
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRNumber = Convert.ToInt16(0);
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
+
+                                                        }
+                                                    }
+                                                }
+                                                if (_obj.PPBGOneWayI.Count > 0)
+                                                {
+                                                    for (int k = 0; k < PaxNum.Adults_.Count + PaxNum.Childs_.Count; k++)//Paxnum 1 adult,1 child,1 infant 2 meal
+                                                    {
+                                                        int baggagecount = _obj.PPBGOneWayI.Count;
+                                                        if (baggagecount > 0 && k + 1 <= baggagecount)
+                                                        {
+                                                            idx++;
+                                                            string[] wordsArray = _obj.PPBGOneWayI[k].key.ToString().Split(' ');
+                                                            //alert(wordsArray);
+                                                            //var meal = null;
+                                                            string ssrCodeKey = "";
+                                                            if (wordsArray.Length > 1)
+                                                            {
+                                                                ssrCodeKey = wordsArray[0];
+                                                                ssrCodeKey = ssrCodeKey.Replace(@"""", "");
+                                                            }
+                                                            else
+                                                                ssrCodeKey = _obj.PPBGOneWayI[k].key.ToString();
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx] = new PaxSSR();
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ActionStatusCode = "NN";
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRCode = ssrCodeKey;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumberSpecified = true;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumber = Convert.ToInt16(k);
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRNumber = Convert.ToInt16(0);
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
+
+                                                        }
+                                                    }
+                                                }
                                             }
                                             j1 = idx;
                                         }
@@ -381,7 +520,7 @@ namespace OnionArchitectureAPI.Services.Indigo
                                             }
                                             if (_obj.SSRbaggagecodeOneWayII.Count > 0)
                                             {
-                                                if(idx>0)
+                                                if (idx > 0)
                                                     idx++;
                                                 for (int k = 0; k < PaxNum.Adults_.Count + PaxNum.Childs_.Count; k++)//Paxnum 1 adult,1 child,1 infant 2 meal
                                                 {
@@ -424,7 +563,7 @@ namespace OnionArchitectureAPI.Services.Indigo
 
                                 if (TotalPaxcount > 0)
                                 {
-                                    for (int j1 = 0; j1 < PaxNum.Infant_.Count + _obj.SSRcodeRTI.Count + _obj.SSRbaggagecodeRTI.Count; j1++)
+                                    for (int j1 = 0; j1 < PaxNum.Infant_.Count + _obj.SSRcodeRTI.Count + _obj.SSRbaggagecodeRTI.Count + _obj.SSRffwcodeRTI.Count + _obj.PPBGcodeRTI.Count; j1++)
                                     {
 
                                         if (j1 < PaxNum.Infant_.Count)
@@ -478,13 +617,13 @@ namespace OnionArchitectureAPI.Services.Indigo
                                                 }
                                                 if (_obj.SSRbaggagecodeRTI.Count > 0)
                                                 {
-                                                    idx++;
+                                                    
                                                     for (int k = 0; k < PaxNum.Adults_.Count + PaxNum.Childs_.Count; k++)//Paxnum 1 adult,1 child,1 infant 2 meal
                                                     {
                                                         int baggagecount = _obj.SSRbaggagecodeRTI.Count;
                                                         if (baggagecount > 0 && k + 1 <= baggagecount)
                                                         {
-
+                                                            idx++;
                                                             string[] wordsArray = _obj.SSRbaggagecodeRTI[k].key.ToString().Split(' ');
                                                             //alert(wordsArray);
                                                             //var meal = null;
@@ -504,7 +643,67 @@ namespace OnionArchitectureAPI.Services.Indigo
                                                             sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRNumber = Convert.ToInt16(0);
                                                             sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
                                                             sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
+                                                        }
+                                                    }
+                                                }
+                                                if (_obj.SSRffwcodeRTI.Count > 0)
+                                                {
+                                                    for (int k = 0; k < PaxNum.Adults_.Count + PaxNum.Childs_.Count; k++)//Paxnum 1 adult,1 child,1 infant 2 meal
+                                                    {
+                                                        int baggagecount = _obj.SSRffwcodeRTI.Count;
+                                                        if (baggagecount > 0 && k + 1 <= baggagecount)
+                                                        {
                                                             idx++;
+                                                            string[] wordsArray = _obj.SSRffwcodeRTI[k].key.ToString().Split(' ');
+                                                            //alert(wordsArray);
+                                                            //var meal = null;
+                                                            string ssrCodeKey = "";
+                                                            if (wordsArray.Length > 1)
+                                                            {
+                                                                ssrCodeKey = wordsArray[0];
+                                                                ssrCodeKey = ssrCodeKey.Replace(@"""", "");
+                                                            }
+                                                            else
+                                                                ssrCodeKey = _obj.SSRffwcodeRTI[k].key.ToString();
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx] = new PaxSSR();
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ActionStatusCode = "NN";
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRCode = ssrCodeKey;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumberSpecified = true;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumber = Convert.ToInt16(k);
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRNumber = Convert.ToInt16(0);
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
+                                                        }
+                                                    }
+                                                }
+                                                if (_obj.PPBGcodeRTI.Count > 0)
+                                                {
+                                                    
+                                                    for (int k = 0; k < PaxNum.Adults_.Count + PaxNum.Childs_.Count; k++)//Paxnum 1 adult,1 child,1 infant 2 meal
+                                                    {
+                                                        int baggagecount = _obj.PPBGcodeRTI.Count;
+                                                        if (baggagecount > 0 && k + 1 <= baggagecount)
+                                                        {
+                                                            idx++;
+                                                            string[] wordsArray = _obj.PPBGcodeRTI[k].key.ToString().Split(' ');
+                                                            //alert(wordsArray);
+                                                            //var meal = null;
+                                                            string ssrCodeKey = "";
+                                                            if (wordsArray.Length > 1)
+                                                            {
+                                                                ssrCodeKey = wordsArray[0];
+                                                                ssrCodeKey = ssrCodeKey.Replace(@"""", "");
+                                                            }
+                                                            else
+                                                                ssrCodeKey = _obj.PPBGcodeRTI[k].key.ToString();
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx] = new PaxSSR();
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ActionStatusCode = "NN";
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRCode = ssrCodeKey;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumberSpecified = true;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumber = Convert.ToInt16(k);
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRNumber = Convert.ToInt16(0);
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
                                                         }
                                                     }
                                                 }
@@ -654,7 +853,7 @@ namespace OnionArchitectureAPI.Services.Indigo
         }
 
 
-        public async Task<IndigoBookingManager_.AssignSeatsResponse> AssignSeat(string Signature, AirAsiaTripResponceModel passeengerKeyList, List<string> unitKey, int p,int keycount0,int keycount1,string _Airlineway="")
+        public async Task<IndigoBookingManager_.AssignSeatsResponse> AssignSeat(string Signature, AirAsiaTripResponceModel passeengerKeyList, List<string> unitKey, int p, int keycount0, int keycount1, string _Airlineway = "")
         {
             journeyscount = passeengerKeyList.journeys.Count;
             AssignSeatsResponse _AssignseatRes = new AssignSeatsResponse();
@@ -796,6 +995,10 @@ namespace OnionArchitectureAPI.Services.Indigo
             public List<ssrsKey> SSRcodeOneWayII { get; set; }
             public List<ssrsKey> SSRcodeRTI { get; set; }
             public List<ssrsKey> SSRcodeRTII { get; set; }
+            public List<ssrsKey> SSRffwOneWayI { get; set; }
+            public List<ssrsKey> SSRffwcodeRTI { get; set; }
+            public List<ssrsKey> PPBGOneWayI { get; set; }
+            public List<ssrsKey> PPBGcodeRTI { get; set; }
         }
 
         public class ssrsKey

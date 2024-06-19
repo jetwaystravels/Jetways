@@ -6,7 +6,7 @@
 <div class="py-15 px-20 rounded-4 text-15 bg-blue-1-05 mb-10">
     <div class="d-flex justify-content-end" style="margin-bottom:-15px;"><button id="checkboxLead" class="checkbox-button2" onclick="toggleCheckbox()"></button></div>
 
-    <form asp-action="AKTravellerInfo" asp-controller="AKTripsell" method="post" id="passengerForm">
+    <form asp-action="TravllerDetails" asp-controller="AATripsell" method="post" id="passengerForm">
         @for (var i = 0; i < Model.AkPassenger.passengers.Count; i++)
         {
             <input type="hidden" name="passengers[@i].origin" value="@Model.AkPassenger.journeys[0].designator.origin" />
@@ -35,40 +35,36 @@
                                 <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.AkPassenger.passengers[i].passengerKey" required />
                             }
                         }
-                        <input type="text" class="contactFname" maxlength="32" oninput="validateInputT(event ,@i)" id="LeadPass1" placeholder="First & middle name" name="passengerdetails[@i].First" required />
+                        <input type="text" class="contactFname validate-field" data-validate="name" maxlength="32" oninput="validateInputT(event ,@i)" id="LeadPass1" placeholder="First & middle name" name="passengerdetails[@i].First" required />
 
                     </div>
-                    <p id="error-Fname-@i" class="error-message error-CFname" style="display:none">Enter first name</p>
-                    <p id="error-Sname" class="errorr-message error-SFname" style="display:none">Two Adult Name can't be Same ' </p>
-                    <p class="errorMessageT1" style="color: red;font-size:13px;"></p>
+                    <p id="error-Fname" class="error-message  error-CFname" style="display: none;"></p>
+                    <p class="error-message-val " style="display:none"></p>
                 </div>
                 <div class="col-md-3">
 
                     <div class="form-input">
-                        <input type="text" class="contactLname" oninput="validateInputTr(event)" maxlength="32" placeholder="Last name" name="passengerdetails[@i].Last" required />
+                        <input type="text" class="contactLname validate-field" data-validate="last" oninput="validateInputT(event,@i)" maxlength="32" placeholder="Last name" name="passengerdetails[@i].Last" required />
 
                     </div>
-                    <p id="error-Lname" class="error-message error-CLname" style="display:none">Enter last name</p>
-                    <p class="errorMessageT2" style="color: red;font-size:13px;"></p>
+                    <p id="error-Lname" class="error-message error-CLname" style="display:none"></p>
+
                 </div>
                 @{
                     if (Model.AkPassenger.passengers[i].passengerTypeCode == "ADT" || Model.AkPassenger.passengers[i].passengerTypeCode == "CHD")
                     {
                         <div class="col-md-3">
-                            <div class="form-input"><input type="text" maxlength="266" oninput="validateEmailTr(event)" id="contactemailID" class="contactemail" placeholder="email" name="" required /></div>
-                            <p class="emailErrorMessageTr" style="color: red; font-size:13px;"></p>
-                            <p class="error-message error-emailname" style="display:none">Enter your email</p>
+                            <div class="form-input"><input type="text" data-validate="email" class="contactemail validate-field" maxlength="266" oninput="validateInputT(event,@i)" id="contactemailID" placeholder="email" name="" required /></div>
                         </div>
-                        <div class="col-md-2">
-                            <div class="form-input"><input type="text" id="contactphoneID" oninput="validatePhoneNumberTr(event)" class="contactphone" placeholder="phone" name="passengerdetails[@i].mobile" required /></div>
-                            <p class="error-message error-phoneN" style="display:none">Enter your phone</p>
-                            <p class="phoneErrorMessageTr" style="color: red; font-size:13px;"></p>
+                        <p class="error-message error-emailname" style="display:none"></p>
+                        <p class="error-message-val " style="display:none"></p>
+
+                        <div class="col-md-2 ">
+                            <div class="form-input"><input type="text" data-validate="phone" maxlength="10" id="contactphoneID" class="contactphone validate-field" oninput="validateInputT(event,@i)" placeholder="phone" name="passengerdetails[@i].mobile" required /></div>
                         </div>
+                        <p class="error-message error-phoneN" style="display:none"></p>
+                        <p class="error-message-val" style="display:none"></p>
                     }
-                }
-
-
-                @{
                     if (@Model.AkPassenger.passengers[i].passengerTypeCode == "INFT")
                     {
                         <div class="col-md-4 infant-dob-input ">
@@ -96,22 +92,24 @@
                                         <option value="" disabled selected>Year</option>
                                     </select>
                                 </div>
-                            </div>
-                        </div>
-                    }
 
+                            </div>
+                            <div class="validation-message-Required error-message" style="color: red; display: none;"></div>
+                        </div>
+
+
+                    }
                 }
             </div>
         }
         <div class="d-flex justify-content-end">
             <button type="button" class="btn btn-primary mt-15" id="showReviewPopup">Save</button>
-            @*<button type="button" class="btn btn-primary mt-15" id="saveButton">Save</button>*@
-
-
         </div>
     </form>
 
 </div>
+
+
 <div class="modal fade" id="dataPopup" tabindex="-1" role="dialog" aria-labelledby="dataPopupLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content pb-3">
@@ -144,95 +142,140 @@
 <script type="text/javascript">
 
     function validateInputT(event) {
-        const input = event.target.value;
-        const regex = /^[a-zA-Z]*$/;
+        const element = event.target;
+        const value = element.value.trim();
+        const validateType = element.getAttribute('data-validate');
+        const validators = {
+            name: /^[a-zA-Z\s]*$/,
+            last: /^[a-zA-Z\s]*$/,
+            email: /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
+            phone: /^\d{10}$/
+        };
 
-        if (!regex.test(input)) {
-            document.querySelectorAll('.errorMessageT1').innerText = "";
-            event.target.value = input.replace(/[^a-zA-Z]/g, '');
-        } else {
-            document.querySelectorAll('.errorMessageT1').innerText = "";
-        }
+        const messages = {
+            name: 'Enter First Name',
+            last: 'Enter Last Name',
+            email: 'Enter valid email.',
+            phone: 'Enter valid phone number.',
+            duplicate: 'Duplicate names are not allowed.'
+        };
 
-        var firstName = document.querySelector(".contactFname").value;
-        if (firstName == "") {
-            //alert("Enter Origin Name");
-            var firstnameToDisplay = document.querySelector('.error-CFname');
-            firstnameToDisplay.style.display = "block";
-            document.querySelector(".contactFname").focus();
+        if (value === "") {
+            showErrorVal(element, messages[validateType]);
             return false;
+        } else {
+            removeErrorVal(element);
         }
-        else {
-            var firstnameToDisplay = document.querySelector('.error-CFname');
-            firstnameToDisplay.style.display = "none";
+
+        if (!validators[validateType].test(value)) {
+            showErrorVal(element, messages[validateType]);
+        } else {
+            removeErrorVal(element);
+        }
+
+        if (validateType === 'name') {
+            const allNames = document.querySelectorAll(`[data-validate="${validateType}"]`);
+            const duplicate = Array.from(allNames).filter((el) => el.value.trim() === value && el !== element);
+            if (duplicate.length > 0) {
+                showErrorVal(element, messages['duplicate']);
+                return false;
+            } else {
+                removeErrorVal(element);
+            }
         }
     }
-    function validateInputTr(event) {
-        const input = event.target.value;
-        const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
+    function showErrorVal(element, message) {
+        const parentElement = element.closest('.col-md-3, .col-md-2');
+        let errorMessage = parentElement.querySelector('.error-message-val');
 
-        if (!regex.test(input)) {
-            document.querySelector('.errorMessageT2').innerText = "";
-            event.target.value = input.replace(/[^a-zA-Z]/g, ''); // Remove non-alphabetic characters
-        } else {
-            document.querySelector('.errorMessageT2').innerText = "";
+        if (!errorMessage) {
+            errorMessage = document.createElement('p');
+            errorMessage.className = 'error-message-val';
+            parentElement.appendChild(errorMessage);
         }
-        var lastName = document.querySelector(".contactLname").value;
-        if (lastName == "") {
-            var lastnameToDisplay = document.querySelector('.error-CLname');
-            lastnameToDisplay.style.display = "block";
-            document.querySelector(".contactLname").focus();
+
+        errorMessage.textContent = message;
+        errorMessage.style.display = 'block';
+        element.classList.add('error-input');
+        if (element.offsetParent !== null) {
+            element.focus();
             return false;
         }
-        else {
-            var lastnameToDisplay = document.querySelector('.error-CLname');
-            lastnameToDisplay.style.display = "none";
-        }
     }
-    function validateEmailTr(event) {
-        const email = event.target.value;
-        const regex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
-        if (!regex.test(email)) {
-            document.querySelector('.emailErrorMessageTr').innerText = "valid email";
-        } else {
-            document.querySelector('.emailErrorMessageTr').innerText = "";
+    function removeErrorVal(element) {
+        const parentElement = element.closest('.col-md-3, .col-md-2');
+        const errorMessage = parentElement.querySelector('.error-message-val');
+        if (errorMessage) {
+            errorMessage.style.display = 'none';
         }
-
-        var emailName = document.querySelector(".contactemail").value;
-        if (emailName == "") {
-            //alert("Enter Origin Name");
-            var emailNameToDisplay = document.querySelector('.error-emailname');
-            emailNameToDisplay.style.display = "block";
-            document.querySelector(".contactemail").focus();
-            return false;
-        }
-        else {
-            var emailNameToDisplay = document.querySelector('.error-emailname');
-            emailNameToDisplay.style.display = "none";
-        }
-
+        element.classList.remove('error-input');
     }
-    function validatePhoneNumberTr(event) {
-        const phoneNumber = event.target.value;
-        const regex = /^\d{10}$/;
-        if (!regex.test(phoneNumber)) {
-            document.querySelector('.phoneErrorMessageTr').innerText = "valid number.";
-        } else {
-            document.querySelector('.phoneErrorMessageTr').innerText = "";
-        }
-        let phoneTRfocus = document.querySelector('.contactphone').value;
-        if (phoneTRfocus == "") {
+    // function validateInputT(event) {
+    //     const element = event.target;
+    //     const value = element.value.trim();
+    //     const validateType = element.getAttribute('data-validate');
+    //     const validators = {
+    //         name: /^[a-zA-Z\s]*$/,
+    //         last: /^[a-zA-Z\s]*$/,
+    //         email: /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
+    //         phone: /^\d{10}$/
+    //     };
 
-            let phoneTrToDisplay = document.querySelector('.error-phoneN');
-            phoneTrToDisplay.style.display = "block";
-            document.querySelector('.contactphone').focus();
-            return false;
-        }
-        else {
-            let phoneTrToDisplay = document.querySelector('.error-phoneN');
-            phoneTrToDisplay.style.display = "none";
-        }
-    }
+    //     const messages = {
+    //         name: 'Enter First Name',
+    //         last: 'Enter Last Name',
+    //         email: 'Enter valid email.',
+    //         phone: 'Enter valid phone number.',
+    //         duplicate: 'Duplicate names are not allowed.'
+    //     };
+    //     if (value === "") {
+    //         showErrorVal(element, messages[validateType]);
+    //         return false;
+    //     } else {
+    //         removeErrorVal(element);
+    //     }
+
+    //     if (!validators[validateType].test(value)) {
+    //         showErrorVal(element, messages[validateType]);
+    //     } else {
+    //         removeErrorVal(element);
+    //     }
+
+    //     if (validateType === 'name') {
+
+    //         const allNames = document.querySelectorAll(`[data-validate="${validateType}"]`);
+    //         const duplicate = Array.from(allNames).filter((el) => el.value.trim() === value && el !== element);
+    //         if (duplicate.length > 0) {
+    //             showErrorVal(element, messages['duplicate']);
+    //             return false;
+    //         } else {
+    //             removeErrorVal(element);
+    //         }
+    //     }
+    // }
+    // function showErrorVal(element, message) {
+    //     let errorMessage = element.parentNode.querySelector('.error-message-val');
+    //     if (!errorMessage) {
+    //         errorMessage = document.createElement('p');
+    //         errorMessage.className = 'error-message-val';
+    //         element.parentNode.appendChild(errorMessage);
+
+    //     }
+    //     errorMessage.textContent = message;
+    //     errorMessage.style.display = 'block';
+    //     element.classList.add('error-input');
+    //     if (element.offsetParent !== null) {
+    //         element.focus();
+    //         return false;
+    //     }
+    // }
+    // function removeErrorVal(element) {
+    //     const errorMessage = element.parentNode.querySelector('.error-message-val');
+    //     if (errorMessage) {
+    //         errorMessage.style.display = 'none';
+    //     }
+    //     element.classList.remove('error-input');
+    // }
     var buttonLead = document.getElementById('checkboxLead');
     buttonLead.addEventListener('click', function (e) {
         e.preventDefault();
@@ -258,9 +301,6 @@
             phoneInputsT.forEach(function (input) {
                 input.value = phoneLeadPass;
             });
-
-
-
         } else {
             alert("Checkbox is unchecked");
 
@@ -326,115 +366,132 @@
             e.preventDefault();
             debugger;
             /*******Validation Start*********/
-            
-            var contactFnames = document.querySelectorAll(".contactFname");
-            var emptyFirstNames = [];
-            contactFnames.forEach(function (element) {
-                element.addEventListener("input", function () {
-                    removeError(element);
+            const fieldsToValidate = [
+                { className: 'contactFname', errorMessage: 'First name is required ' },
+                { className: 'contactLname', errorMessage: 'Last  name is required' },
+                { className: 'contactemail', errorMessage: 'Email  name is required' },
+                { className: 'contactphone', errorMessage: 'Phone number is required' }
+            ];
+            let firstInvalidElement = null;
+            fieldsToValidate.forEach(field => {
+                const elements = document.querySelectorAll(`.${field.className}`);
+                elements.forEach(element => {
+                    element.addEventListener("input", function () {
+                        removeError(element);
+                    });
+                    if (element.value.trim() === "") {
+                        showError(element, field.errorMessage);
+                        if (!firstInvalidElement) {
+                            firstInvalidElement = element;
+                        }
+                    }
                 });
             });
+            if (firstInvalidElement) {
+                firstInvalidElement.focus();
+                return false;
+            } else {
+                // document.getElementById('passengerForm').submit();
+            }
+            // function removeError(element) {
+            //     const errorMessage = element.parentNode.querySelector(".error-message");
+            //     if (errorMessage) {
+            //         errorMessage.style.display = 'none';
+            //     }
+            //     element.classList.remove("error-input");
+            // }
+            // function showError(element, message) {
+            //     let parentElement = element.closest('.col-md-3');
+
+            //     const errorMessageval = element.parentNode.querySelector('.error-message-val');
+            //     if (errorMessageval) {
+            //         errorMessageval.style.display = "none";
+            //     }
+
+            //     let errorMessage = element.parentNode.querySelector(".error-message");
+            //     if (!errorMessage) {
+            //         errorMessage = document.createElement("p");
+            //         errorMessage.className = "error-message";
+            //         parentElement.appendChild(errorMessage);
+            //     }
+
+            //     errorMessage.textContent = message;
+            //     errorMessage.style.display = 'block';
+            //     element.classList.add("error-input");
+            // }
             function removeError(element) {
-                var errorMessage = element.parentNode.querySelector(".error-message");
+                const parentElement = element.closest('.col-md-3,.col-md-2');
+                const errorMessage = parentElement.querySelector(".error-message");
                 if (errorMessage) {
-                    errorMessage.parentNode.removeChild(errorMessage);
+                    errorMessage.style.display = 'none';
                 }
                 element.classList.remove("error-input");
             }
-            contactFnames.forEach(function (element, index) {
-                var firstName = element.value.trim();
-                if (firstName === "") {
-                    emptyFirstNames.push(index);
-                    return;
-                }
-                for (var i = index + 1; i < contactFnames.length; i++) {
-                    if (firstName === contactFnames[i].value.trim()) {
-                        showError(element, "More than one adult's name can't be the same!!");
-                        return;
-                    }
-                }
-            });
-            if (emptyFirstNames.length > 0) {
-                debugger;
-                var errorIndex = emptyFirstNames[0];              
-                showError(contactFnames[errorIndex], "This field is required");
-                contactFnames[errorIndex].focus();
-                return false;
-                //errorIndex.focus();
-                
-            }
             function showError(element, message) {
-                debugger;
-                var errorSpan = document.createElement("span");
-                errorSpan.className = "error-message";
-                errorSpan.textContent = message;
-                element.parentNode.insertBefore(errorSpan, element.nextSibling);
-                element.classList.add("error-input");
-                element.focus();
-                return false;
-            }
+                const parentElement = element.closest('.col-md-3 ,.col-md-2');
+                let errorMessage = parentElement.querySelector(".error-message");
 
-
-            var lastName = document.querySelector(".contactLname").value;
-            if (lastName == "") {
-                var lastnameToDisplay = document.getElementById("error-Lname");
-                lastnameToDisplay.style.display = "block";
-                document.querySelector(".contactLname").focus();
-                return false;
-            }
-            let phonefocus = document.querySelector('.contactphone').value;
-            if (phonefocus == "") {
-
-                let phoneToDisplay = document.querySelector('.error-phoneN');
-                phoneToDisplay.textContent = "Please enter your phone number";
-                phoneToDisplay.style.display = "block";
-                document.querySelector('.contactphone').focus();
-                return false;
-            }
-            var mobileNumberPattern = /^\d{10}$/;
-
-            if (!mobileNumberPattern.test(phonefocus)) {
-                alert("Please enter a valid 10-digit mobile number.");
-                return false;
-            }
-            if ($(".dobinput").is(":visible")) {
-                debugger;
-                if (!validateMultipleInfantDOBs()) {
-                    return false;
+                if (!errorMessage) {
+                    errorMessage = document.createElement("p");
+                    errorMessage.className = "error-message";
+                    parentElement.appendChild(errorMessage);
                 }
+
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                element.classList.add("error-input");
+            }
+            //Infant
+            if (!validateMultipleInfantDOBs()) {
+                return false;
             }
             function validateInfantDOB(dob) {
-                debugger;
+                if (!dob) {
+                    return false;
+                }
                 var dobDate = new Date(dob);
                 var currentDate = new Date();
-                var timeDiff = currentDate.getTime() - dobDate.getTime();
-                let yearsDiff = timeDiff / (1000 * 3600 * 24 * 365.25);
-                yearsDiff = Math.round(yearsDiff);
-                return yearsDiff <= 2;
 
+                if (isNaN(dobDate.getTime())) {
+                    return false;
+                }
+                var ageDiff = currentDate.getFullYear() - dobDate.getFullYear();
+                var monthDiff = currentDate.getMonth() - dobDate.getMonth();
+                var dayDiff = currentDate.getDate() - dobDate.getDate();
+                if (ageDiff > 2) {
+                    return false;
+                }
+                if (ageDiff === 2) {
+                    if (monthDiff > 0 || (monthDiff === 0 && dayDiff >= 0)) {
+                        return false;
+                    }
+                }
+                return true;
             }
             function validateMultipleInfantDOBs() {
-
                 var infantsValid = true;
-
+                debugger;
                 $(".dobinput:visible").each(function () {
                     debugger;
                     var day = $(this).find('.day-select').val();
                     var month = $(this).find('.month-select').val();
                     var year = $(this).find('.year-select').val();
                     var dob = year + "-" + month + "-" + day;
-
-                    if (!validateInfantDOB(dob)) {
-
+                    var validationMessageReq = $(this).closest('.infant-dob-input').find('.validation-message-Required');
+                    if (!day || !month || !year) {
+                        debugger;
+                        validationMessageReq.text(" date fields are required.");
+                        validationMessageReq.show();
                         infantsValid = false;
-                        return false;
+                    } else if (!validateInfantDOB(dob)) {
+                        debugger;
+                        validationMessageReq.text("Infant age cannot be greater than 2 years..");
+                        validationMessageReq.show();
+                        infantsValid = false;
+                    } else {
+                        validationMessageReq.hide();
                     }
                 });
-
-                if (!infantsValid) {
-
-                    alert("Infant can't be  greater than 2 years.");
-                }
                 return infantsValid;
             }
             /*******Validation End*********/
@@ -510,6 +567,24 @@
 
 </script>
 <style>
+    .error-message {
+        color: red;
+        font-size: 12px;
+        margin: 5px 0 0 0;
+        display: none;
+    }
+
+    .error-message-val {
+        color: red;
+        font-size: 12px;
+        margin: 5px 0 0 0;
+        display: none;
+    }
+
+    .error-input {
+        border: 1px solid red;
+    }
+
     .modal-body p {
         border-radius: 6px;
         box-shadow: 0 0 10px 0 rgb(0 0 0 / 9%);
