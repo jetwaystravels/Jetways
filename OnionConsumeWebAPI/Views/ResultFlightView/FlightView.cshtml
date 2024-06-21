@@ -202,20 +202,29 @@
                                                     <label style="margin-bottom: 0.1rem;">Travellers </label>
                                                     <div class="searchMenu-guests js-form-dd js-form-counters">
                                                         <div data-x-dd-click="searchMenu-guests">
-
                                                             <div class="text-15 text-light-1 ls-2 lh-16">
-                                                                <span class="js-count-adult" id="count_adult">@Model.simpleAvailabilityRequestModelEdit.passengers.types[0].count</span> adults
+                                                                <span class="js-count-adult  text-16 text-light-1 fw-400" id="count_adult">@Model.simpleAvailabilityRequestModelEdit.passengers.types[0].count</span> adults
                                                                 @if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 1)
                                                                 {
-                                                                    <span class="js-count-child" id="count_child">@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count </span>
+                                                                    <span class="js-count-child  text-16 text-light-1 fw-400" id="count_child">@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count </span>
 
                                                                     <span>children</span>
 
                                                                 }
+                                                                else
+                                                                {
+                                                                    <span class="js-count-child text-16 text-light-1 fw-400" id="count_child">0</span>
+                                                                    <span>children</span>
+                                                                }
                                                                 @if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 2)
                                                                 {
-                                                                    <span class="js-count-infents" id="count_infant">@Model.simpleAvailabilityRequestModelEdit.passengers.types[2].count</span>
+                                                                    <span class="js-count-infents  text-16 text-light-1 fw-400" id="count_infant">@Model.simpleAvailabilityRequestModelEdit.passengers.types[2].count</span>
 
+                                                                    <span>infant</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span class="js-count-infents text-16 text-light-1 fw-400" id="count_infant">0</span>
                                                                     <span>infant</span>
                                                                 }
                                                             </div>

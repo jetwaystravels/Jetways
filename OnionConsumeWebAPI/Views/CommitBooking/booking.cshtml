@@ -329,36 +329,32 @@
                             </tbody>
 
                         </table>
+                        @if (@Model.AirlinePNR[0].customerNumber != null)
+                        {
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th scope="col">Company Number </th>
-                                    <th scope="col" class="col-one">GST NUmber</th>
-                                    <th scope="col" class="col-one">Email  </th>
+                                    <th scope="col" class="col-one">GST NUmber</th>                                   
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
 
-                                    @{
-                                        if (@Model.AirlinePNR[0].customerNumber != null)
-                                        {
+                                    @{                                      
 
 
                                             <td>@Model.AirlinePNR[0].companyName</td>
 
+                                            <td>@Model.AirlinePNR[0].customerNumber</td>                                          
 
-                                            <td>@Model.AirlinePNR[0].customerNumber</td>
-
-
-                                            <td>@Model.AirlinePNR[0].emailAddress</td>
-
-                                        }
+                                        
                                     }
 
                                 </tr>
                             </tbody>
                         </table>
+                        }
 
                         <table class="table table-bordered">
                             <thead>

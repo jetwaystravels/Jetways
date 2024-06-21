@@ -3,6 +3,81 @@
     Layout = null;
 
 }
+<style>
+
+    .error-message {
+        color: red;
+        font-size: 12px;
+        margin: 5px 0 0 0;
+        display: none;
+    }
+
+    .error-message-val {
+        color: red;
+        font-size: 12px;
+        margin: 5px 0 0 0;
+        display: none;
+    }
+
+    .error-input {
+        border: 1px solid red;
+    }
+
+    .modal-body p {
+        border-radius: 6px;
+        box-shadow: 0 0 10px 0 rgb(0 0 0 / 9%);
+        border: 1px solid #E4E3E1;
+        padding: 8px;
+        margin-bottom: 10px;
+    }
+
+    .dobinput {
+        background: #fff;
+        color: var(--color-light-1);
+        border: 1px solid var(--color-border);
+        border-radius: 4px;
+        padding: 8px;
+        min-height: 40px;
+        transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .brd-none {
+        border: none;
+    }
+
+    .custom-select::-ms-expand {
+        display: none; /* Hide the arrow icon in IE */
+    }
+
+    .custom-select option {
+        padding: 5px; /* Set the desired padding for each option */
+        height: 50px;
+        overflow: hidden;
+    }
+
+    .checkbox-button2 {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 0;
+        cursor: pointer;
+    }
+
+
+        .checkbox-button2.checked::after {
+            content: '\2713';
+            font-size: 16px;
+            color: #333;
+            display: block;
+            text-align: center;
+            line-height: 20px;
+        }
+
+</style>
 <div class="py-15 px-20 rounded-4 text-15 bg-blue-1-05 mb-10">
     <div class="d-flex justify-content-end" style="margin-bottom:-15px;"><button id="checkboxLead" class="checkbox-button2" onclick="toggleCheckbox()"></button></div>
 
@@ -138,31 +213,34 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <!-- Include Bootstrap JavaScript -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script type="text/javascript">
+<script>
     function validateInputT(event) {
+        debugger;
         const element = event.target;
         const value = element.value.trim();
         const validateType = element.getAttribute('data-validate');
         const validators = {
-            name: /^[a-zA-Z\s]*$/,
-            last: /^[a-zA-Z\s]*$/,
+            name: /^[A-Za-z.]{3,32}$/,
+            last: /^[A-Za-z.]{3,32}$/,
             email: /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
             phone: /^\d{10}$/
         };
 
         const messages = {
-            name: 'Enter First Name',
-            last: 'Enter Last Name',
+            name: 'Enter First Name.',
+            last: 'Enter Last Name.',
             email: 'Enter valid email.',
             phone: 'Enter valid phone number.',
             duplicate: 'Duplicate names are not allowed.'
         };
-
         if (value === "") {
             showErrorVal(element, messages[validateType]);
             return false;
         } else {
             removeErrorVal(element);
+        }
+        if (validateType === 'name' || validateType === 'last') {
+            element.value = value.replace(/[^A-Za-z.]/g, '');
         }
 
         if (!validators[validateType].test(value)) {
@@ -170,7 +248,6 @@
         } else {
             removeErrorVal(element);
         }
-
         if (validateType === 'name') {
             const allNames = document.querySelectorAll(`[data-validate="${validateType}"]`);
             const duplicate = Array.from(allNames).filter((el) => el.value.trim() === value && el !== element);
@@ -208,72 +285,6 @@
         }
         element.classList.remove('error-input');
     }
-    // function validateInputT(event) {
-    //     const element = event.target;
-    //     const value = element.value.trim();
-    //     const validateType = element.getAttribute('data-validate');
-    //     const validators = {
-    //         name: /^[a-zA-Z\s]*$/,
-    //         last: /^[a-zA-Z\s]*$/,
-    //         email: /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
-    //         phone: /^\d{10}$/
-    //     };
-
-    //     const messages = {
-    //         name: 'Enter First Name',
-    //         last: 'Enter Last Name',
-    //         email: 'Enter valid email.',
-    //         phone: 'Enter valid phone number.',
-    //         duplicate: 'Duplicate names are not allowed.'
-    //     };
-    //     if (value === "") {
-    //         showErrorVal(element, messages[validateType]);
-    //         return false;
-    //     } else {
-    //         removeErrorVal(element);
-    //     }
-
-    //     if (!validators[validateType].test(value)) {
-    //         showErrorVal(element, messages[validateType]);
-    //     } else {
-    //         removeErrorVal(element);
-    //     }
-
-    //     if (validateType === 'name') {
-
-    //         const allNames = document.querySelectorAll(`[data-validate="${validateType}"]`);
-    //         const duplicate = Array.from(allNames).filter((el) => el.value.trim() === value && el !== element);
-    //         if (duplicate.length > 0) {
-    //             showErrorVal(element, messages['duplicate']);
-    //             return false;
-    //         } else {
-    //             removeErrorVal(element);
-    //         }
-    //     }
-    // }
-    // function showErrorVal(element, message) {
-    //     let errorMessage = element.parentNode.querySelector('.error-message-val');
-    //     if (!errorMessage) {
-    //         errorMessage = document.createElement('p');
-    //         errorMessage.className = 'error-message-val';
-    //         element.parentNode.appendChild(errorMessage);
-
-    //     }
-    //     errorMessage.textContent = message;
-    //     errorMessage.style.display = 'block';
-    //     element.classList.add('error-input');
-    //     if (element.offsetParent !== null) {
-    //         element.focus();
-    //         return false;
-    //     }
-    // }
-    // function removeErrorVal(element) {
-    //     const errorMessage = element.parentNode.querySelector('.error-message-val');
-    //     if (errorMessage) {
-    //         errorMessage.style.display = 'none';
-    //     }
-    //     element.classList.remove('error-input');
-    // }
     var buttonLead = document.getElementById('checkboxLead');
     buttonLead.addEventListener('click', function (e) {
         e.preventDefault();
@@ -284,6 +295,7 @@
             buttonLead.classList.remove('checked');
         }
         if (buttonLead.checked) {
+
             alert("Checked!!")
             var emaiLeadPass = document.querySelector('.contactemail').value;
             var phoneLeadPass = document.querySelector('.contactphone').value;
@@ -353,12 +365,14 @@
 </script>
 <script type="text/javascript">
     $(document).ready(function () {
+
         function showForm() {
             $('#passengerForm').show();
         }
         $("#editData").click(function () {
             $("#dataPopup").hide();
         });
+
         $("#showReviewPopup").click(function (e) {
             e.preventDefault();
             debugger;
@@ -369,6 +383,22 @@
                 { className: 'contactemail', errorMessage: 'Email  name is required' },
                 { className: 'contactphone', errorMessage: 'Phone number is required' }
             ];
+            // const element = event.target;
+            // const value = element.value.trim();
+            // const validateTypeT = element.getAttribute('data-validate');
+            // if (!validateTypeT) {
+            //     const validatorsT = {
+            //         name: /^[A-Za-z.]{3,32}$/,
+            //         last: /^[A-Za-z.]{3,32}$/,
+            //         email: /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
+            //         phone: /^\d{10}$/
+            //     };
+            //     if (!validatorsT[validateTypeT].test(value)) {
+            //         showErrorVal(element, messages[validateTypeT]);
+            //     } else {
+            //         removeErrorVal(element);
+            //     }
+            // }
             let firstInvalidElement = null;
             fieldsToValidate.forEach(field => {
                 const elements = document.querySelectorAll(`.${field.className}`);
@@ -390,32 +420,6 @@
             } else {
                 // document.getElementById('passengerForm').submit();
             }
-            // function removeError(element) {
-            //     const errorMessage = element.parentNode.querySelector(".error-message");
-            //     if (errorMessage) {
-            //         errorMessage.style.display = 'none';
-            //     }
-            //     element.classList.remove("error-input");
-            // }
-            // function showError(element, message) {
-            //     let parentElement = element.closest('.col-md-3');
-
-            //     const errorMessageval = element.parentNode.querySelector('.error-message-val');
-            //     if (errorMessageval) {
-            //         errorMessageval.style.display = "none";
-            //     }
-
-            //     let errorMessage = element.parentNode.querySelector(".error-message");
-            //     if (!errorMessage) {
-            //         errorMessage = document.createElement("p");
-            //         errorMessage.className = "error-message";
-            //         parentElement.appendChild(errorMessage);
-            //     }
-
-            //     errorMessage.textContent = message;
-            //     errorMessage.style.display = 'block';
-            //     element.classList.add("error-input");
-            // }
             function removeError(element) {
                 const parentElement = element.closest('.col-md-3,.col-md-2');
                 const errorMessage = parentElement.querySelector(".error-message");
@@ -562,81 +566,7 @@
     });
 
 </script>
-<style>
 
-    .error-message {
-        color: red;
-        font-size: 12px;
-        margin: 5px 0 0 0;
-        display: none;
-    }
-
-    .error-message-val {
-        color: red;
-        font-size: 12px;
-        margin: 5px 0 0 0;
-        display: none;
-    }
-
-    .error-input {
-        border: 1px solid red;
-    }
-
-    .modal-body p {
-        border-radius: 6px;
-        box-shadow: 0 0 10px 0 rgb(0 0 0 / 9%);
-        border: 1px solid #E4E3E1;
-        padding: 8px;
-        margin-bottom: 10px;
-    }
-
-    .dobinput {
-        background: #fff;
-        color: var(--color-light-1);
-        border: 1px solid var(--color-border);
-        border-radius: 4px;
-        padding: 8px;
-        min-height: 40px;
-        transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
-        width: 100%;
-        font-size: 14px;
-    }
-
-    .brd-none {
-        border: none;
-    }
-
-    .custom-select::-ms-expand {
-        display: none; /* Hide the arrow icon in IE */
-    }
-
-    .custom-select option {
-        padding: 5px; /* Set the desired padding for each option */
-        height: 50px;
-        overflow: hidden;
-    }
-
-    .checkbox-button2 {
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        padding: 0;
-        cursor: pointer;
-    }
-
-
-        .checkbox-button2.checked::after {
-            content: '\2713';
-            font-size: 16px;
-            color: #333;
-            display: block;
-            text-align: center;
-            line-height: 20px;
-        }
-
-</style>
 
 
 
