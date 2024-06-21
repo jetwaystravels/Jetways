@@ -119,12 +119,14 @@
         // Open modal box
         $("#openModal_0").click(function () {
             $("#modal, #overlay").fadeIn();
+            $("body").css("overflow", "hidden");
             //$("#tabContent1").show();
         });
 
         // Close modal box
         $("#closeModal, #overlay").click(function () {
             $("#modal, #overlay").fadeOut();
+            $("body").css("overflow", "auto");
         });
 
 

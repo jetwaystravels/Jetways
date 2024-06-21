@@ -60,10 +60,7 @@
     }
 
 
-    /*  .active {
-                color: #E93329 !important;
-                border-bottom: 1px solid #E93329 !important;
-            } */
+
 </style>
 
 <script src="~/js/custom.js/roundtripsell.js"></script>
@@ -469,18 +466,11 @@
             for (var i = 0; i < checkedValues.length; i++) {
                 checkedValues[i] = '';
                 $('#outputDiv_' + i).text('');
-
+                
+               
             }
-
-
-
-            // Update the inputs and spans to reflect the cleared values
             updateInputsAndSpans(checkedValues);
-
-            // Update local storage to keep changes persistent
-            updateLocalStorage();
-
-
+           updateLocalStorage();
         });
 
 

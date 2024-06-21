@@ -20,10 +20,12 @@ using OnionArchitectureAPI.Services.Barcode;
 using OnionArchitectureAPI.Services.Indigo;
 using static DomainLayer.Model.ReturnTicketBooking;
 using IndigoBookingManager_;
+using IndigoSessionmanager_;
 using OnionConsumeWebAPI.Extensions;
 using System.Collections;
 using static DomainLayer.Model.SeatMapResponceModel;
 using static DomainLayer.Model.ReturnAirLineTicketBooking;
+using Indigo;
 
 namespace OnionConsumeWebAPI.Controllers.Indigo
 {
@@ -80,7 +82,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                     }
                     #endregion
                     #region Addpayment Commneted For Api Payment deduction
-                    //IndigoBookingManager_.AddPaymentToBookingResponse _BookingPaymentResponse = await objcommit.AddpaymenttoBook(token, Totalpayment, "OneWay");
+                    IndigoBookingManager_.AddPaymentToBookingResponse _BookingPaymentResponse = await objcommit.AddpaymenttoBook(token, Totalpayment, "OneWay");
 
                     #endregion
 
@@ -111,6 +113,14 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                             ReturnPaxSeats _unitdesinator = new ReturnPaxSeats();
                             if (_getBookingResponse.Booking.Journeys[0].Segments[0].PaxSeats.Length > 0)
                                 _unitdesinator.unitDesignatorPax = _getBookingResponse.Booking.Journeys[0].Segments[0].PaxSeats[0].UnitDesignator;
+
+                            //GST Number
+                            if (_getBookingResponse.Booking.BookingContacts[0].TypeCode == "I")
+                            {
+                                returnTicketBooking.customerNumber = _getBookingResponse.Booking.BookingContacts[0].CustomerNumber;
+                                returnTicketBooking.companyName = _getBookingResponse.Booking.BookingContacts[0].CompanyName;
+                            }
+
                             Contacts _contact = new Contacts();
                             _contact.phoneNumbers = _getBookingResponse.Booking.BookingContacts[0].HomePhone.ToString();
                             if (_unitdesinator.unitDesignatorPax != null)
@@ -718,6 +728,17 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                             }
 
                         }
+                        
+                        //LogOut 
+                        IndigoSessionmanager_.LogoutRequest _logoutRequestobj = new IndigoSessionmanager_.LogoutRequest();
+                        IndigoSessionmanager_.LogoutResponse _logoutResponse = new IndigoSessionmanager_.LogoutResponse();
+                        _logoutRequestobj.ContractVersion = 456;
+                        _logoutRequestobj.Signature = token;
+                        _getapi objIndigo = new _getapi();
+                        _logoutResponse = await objIndigo.Logout(_logoutRequestobj);
+
+                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_logoutRequestobj) + "\n Response: " + JsonConvert.SerializeObject(_logoutResponse), "Logout", "SpicejetOneWay");
+
                     }
                     #endregion
 

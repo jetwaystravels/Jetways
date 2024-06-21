@@ -639,8 +639,15 @@
                                                     }
                                                 }
                                                 <div class="d-flex">
-                                                   
+                                                    @if (mealOptions.Count == 0)
+                                                    {
+                                                        <select style="background:#f0f0f0;" id="" class="servc-bordr servc-bordrm1" disabled>
+                                                            <option selected="selected" value="">Meal Unavailable</option>
+                                                        </select>
+                                                    }
+                                                    else{
                                                     <select id="ddlMealOptions" class="servc-bordr servc-bordrm1">
+                                                       
                                                         <option selected="selected" value="">Please select meal</option>
                                                         @foreach (var option in mealOptions)
                                                         {
@@ -649,6 +656,7 @@
                                                             </option>
                                                         }
                                                     </select>
+                                                    }
                                                     <input type="hidden" id="hiddenSsrKey" name="ssrKey" value="" />
                                                 </div>
                                                 @*<select id="mealid" class="servc-bordr select-width" asp-items="@mealOptions"></select>*@
@@ -831,7 +839,13 @@
                                                     }
                                                 }
                                                 <div class="d-flex">
-                                                   
+                                                    @if (mealOptions.Count == 0)
+                                                    {
+                                                        <select style="background:#f0f0f0;" id="" class="servc-bordr servc-bordrCon" disabled>
+                                                            <option selected="selected" value="">Meal Unavailable</option>
+                                                        </select>
+                                                    }
+                                                else{
                                                     <select id="ddlMealOptions2" class="servc-bordr servc-bordrCon">
                                                         <option selected="selected" value="">Please select meal</option>
                                                         @foreach (var option in mealOptions)
@@ -841,6 +855,7 @@
                                                             </option>
                                                         }
                                                     </select>
+                                                    }
                                                     <input type="hidden" id="hiddenSsrKey2" name="ssrKey" value="" />
                                                 </div>
                                                 @*<select id="mealid" class="servc-bordr select-width" asp-items="@mealOptions"></select>*@

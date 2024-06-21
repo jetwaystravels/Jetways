@@ -146,7 +146,7 @@ namespace OnionConsumeWebAPI.Controllers
                 {
                     Signature = Signature.Replace(@"""", string.Empty);
                     _updateContact obj = new _updateContact(httpContextAccessorInstance);
-                    IndigoBookingManager_.UpdateContactsResponse _responseAddContact6E = await obj.GetUpdateContacts(Signature, contactobject.emailAddress, contactobject.companyName, contactobject.customerNumber, "OneWay");
+                    IndigoBookingManager_.UpdateContactsResponse _responseAddContact6E = await obj.GetUpdateContacts(Signature, contactobject.emailAddress, contactobject.number, contactobject.companyName, contactobject.customerNumber, "OneWay");
                     string Str1 = JsonConvert.SerializeObject(_responseAddContact6E);
                 }
                 return RedirectToAction("IndigoSaverTripsell", "IndigoTripsell");

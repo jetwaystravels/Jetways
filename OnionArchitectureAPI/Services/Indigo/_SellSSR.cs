@@ -47,7 +47,10 @@ namespace OnionArchitectureAPI.Services.Indigo
                     }
 
                 }
-                
+                //to remove just for testing
+                //FastfarwardAddon = new List<string>();
+
+
                 if (ssrKey.Count >= 0)
                 {
 

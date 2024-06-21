@@ -416,7 +416,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                 {
                     Signature = Signature.Replace(@"""", string.Empty);
                     _updateContact obj = new _updateContact(httpContextAccessorInstance);
-                    IndigoBookingManager_.UpdateContactsResponse _responseAddContact6E = await obj.GetUpdateContacts(Signature, contactobject.emailAddress, contactobject.number, "", "");
+                    IndigoBookingManager_.UpdateContactsResponse _responseAddContact6E = await obj.GetUpdateContacts(Signature, contactobject.emailAddress, contactobject.number, contactobject.companyName, contactobject.customerNumber, "");
                     string Str1 = JsonConvert.SerializeObject(_responseAddContact6E);
                 }
 

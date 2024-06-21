@@ -282,5 +282,26 @@ namespace Indigo
             return _getbookingRes;
         }
         #endregion
+
+        #region Sessionlogout
+        public async Task<LogoutResponse> Logout(LogoutRequest _logoutRequestobj)
+        {
+
+            //string str=Newtonsoft.Json.JsonConvert.SerializeObject(_logonRequestobj);
+            ISessionManager Sessionmanager = null;
+            LogoutResponse logoutResponse = null;
+            Sessionmanager = new SessionManagerClient();
+            try
+            {
+                logoutResponse = await Sessionmanager.LogoutAsync(_logoutRequestobj);
+                return logoutResponse;
+            }
+            catch (Exception ex)
+            {
+                //return Ok(session);
+            }
+            return logoutResponse;
+        }
+        #endregion
     }
 }

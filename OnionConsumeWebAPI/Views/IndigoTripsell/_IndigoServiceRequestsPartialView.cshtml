@@ -719,15 +719,25 @@
                                                 }
                                                 <div class="d-flex">
                                                    
-                                                    <select id="ddlMealOptions" class="servc-bordr servc-bordrm1">
-                                                        <option selected="selected" value="">Please select meal</option>
-                                                        @foreach (var option in mealOptions)
-                                                        {
-                                                            <option value="@option.Value" data-ssrkey=@ssrkey>
-                                                                @option.Text
-                                                            </option>
-                                                        }
-                                                    </select>
+                                                    
+                                                    @if (mealOptions.Count > 0)
+                                                    {
+                                                        <select id="ddlMealOptions" class="servc-bordr servc-bordrm1">
+                                                            <option selected="selected" value="">Please select meal</option>
+                                                            @foreach (var option in mealOptions)
+                                                            {
+                                                                <option value="@option.Value" data-ssrkey=@ssrkey>
+                                                                    @option.Text
+                                                                </option>
+                                                            }
+                                                        </select>
+                                                    }
+                                                    else
+                                                    {
+                                                        <select style="background:#f0f0f0" id="ddlMealOptions" class="servc-bordr servc-bordrm1" disabled>
+                                                            <option selected="selected" value="">Meal Unavailable</option>
+                                                        </select>
+                                                    }
                                                     <input type="hidden" id="hiddenSsrKey" name="ssrKey" value="" />
                                                 </div>
                                                 @*<select id="mealid" class="servc-bordr select-width" asp-items="@mealOptions"></select>*@
@@ -897,12 +907,12 @@
 
                                                         if (Mealcode != null)
                                                         {
-                                                            // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
+                                                        // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
                                                             mealOptions.Add(new SelectListItem { Text = Mealname, Value = Mealcode });
                                                         }
 
-                                                        // string queryMeal = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
-                                                        // var mealData = SpicejetMealImageList.GetAllmeal().SingleOrDefault(x => x.MealCode == queryMeal);
+                                                            // string queryMeal = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
+                                                            // var mealData = SpicejetMealImageList.GetAllmeal().SingleOrDefault(x => x.MealCode == queryMeal);
 
                                                         // if (mealData != null)
                                                         // {
@@ -913,16 +923,24 @@
                                                     }
                                                 }
                                                 <div class="d-flex">
-                                                  
-                                                    <select id="ddlMealOptions2" class="servc-bordr servc-bordrCon">
-                                                        <option selected="selected" value="">Please select meal</option>
-                                                        @foreach (var option in mealOptions)
-                                                        {
-                                                            <option value="@option.Value" data-ssrkey=@ssrkey>
-                                                                @option.Text
-                                                            </option>
-                                                        }
-                                                    </select>
+                                                    @if (mealOptions.Count > 0)
+                                                    {
+                                                        <select id="ddlMealOptions2" class="servc-bordr servc-bordrCon">
+                                                            <option selected="selected" value="">Please select meal</option>
+                                                            @foreach (var option in mealOptions)
+                                                            {
+                                                                <option value="@option.Value" data-ssrkey=@ssrkey>
+                                                                    @option.Text
+                                                                </option>
+                                                            }
+                                                        </select>
+                                                    }
+                                                    else
+                                                    {
+                                                        <select style="background:#f0f0f0" id="ddlMealOptions2" class="servc-bordr servc-bordrCon" disabled>
+                                                            <option selected="selected" value="">Meal Unavailable</option>
+                                                        </select>
+                                                    }
                                                     <input type="hidden" id="hiddenSsrKey2" name="ssrKey" value="" />
                                                 </div>
                                                 @*<select id="mealid" class="servc-bordr select-width" asp-items="@mealOptions"></select>*@

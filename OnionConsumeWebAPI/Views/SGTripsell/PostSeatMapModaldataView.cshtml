@@ -259,7 +259,7 @@
                                                             {
                                                                 <li class="seat-li lowcomfort tooltip">
                                                                     <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                    <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@data _OneWay0 _@l" id="unitKey" />
+                                                                    <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@data _@l" id="unitKey" />
                                                                     <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
                                                                 </li>
                                                             }
@@ -366,7 +366,7 @@
                                                             {
                                                                 <li class="seat-li lowcomfort tooltip">
                                                                     <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                    <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@data _OneWay0 _@l" id="unitKey" />
+                                                                    <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@data _@l" id="unitKey" />
                                                                     <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
                                                                 </li>
                                                             }
@@ -456,10 +456,7 @@
             color: #1e568f;
         }
 
-    .active {
-        color: #E93329 !important;
-        border-bottom: 1px solid #E93329 !important;
-    }
+
 
     .service-section .seat-section .inner-section .seat-li.lowcomfort {
         background: #6ec3fb;
@@ -527,10 +524,44 @@
         });
 
 
-        var checkedValues = ['', '', '', ''];
+        // var checkedValues = ['', '', '', ''];
+        // $('.mycheck').change(function () {
+        //     if ($(this).is(':checked')) {
+        //         for (var i = 0; i < 4; i++) {
+        //             if (checkedValues[i] === '') {
+        //                 checkedValues[i] = $(this).val();
+        //                 break;
+        //             }
+        //         }
+        //     } else {
+        //         var index = checkedValues.indexOf($(this).val());
+        //         console.log(index)
+        //         if (index !== -1) {
+        //             checkedValues[index] = '';
+        //         }
+        //     }
+        //     $('#input_0').val(checkedValues[0]);
+        //     $('#input_1').val(checkedValues[1]);
+        //     $('#input_2').val(checkedValues[2]);
+        //     $('#input_3').val(checkedValues[3]);
+
+        //     updateInputsAndSpans(checkedValues);
+
+        // });
+
+        // function updateInputsAndSpans(checkedValues) {
+        //     for (var i = 0; i < checkedValues.length; i++) {
+        //         var parts = checkedValues[i].split('_');
+        //         $('#input_' + i).val(parts[1]);
+        //         $('.feeSpan_' + i).text(parts[0]);
+        //         $('#outputDiv_' + i).text(parts[1]);
+        //     }
+        // }
+
+        var checkedValues = ['', '', '', '', '', '', '', '', ''];
         $('.mycheck').change(function () {
             if ($(this).is(':checked')) {
-                for (var i = 0; i < 4; i++) {
+                for (var i = 0; i < 9; i++) {
                     if (checkedValues[i] === '') {
                         checkedValues[i] = $(this).val();
                         break;
@@ -547,7 +578,11 @@
             $('#input_1').val(checkedValues[1]);
             $('#input_2').val(checkedValues[2]);
             $('#input_3').val(checkedValues[3]);
-
+            $('#input_4').val(checkedValues[4]);
+            $('#input_5').val(checkedValues[5]);
+            $('#input_6').val(checkedValues[6]);
+            $('#input_7').val(checkedValues[7]);
+            $('#input_8').val(checkedValues[8]);
             updateInputsAndSpans(checkedValues);
 
         });
@@ -563,11 +598,49 @@
 
 
 
+
+
+
         //Connceting 2 seat Code js
-        var checkedValues2 = ['', '', '', ''];
+        // var checkedValues2 = ['', '', '', ''];
+        // $('.mycheck2').change(function () {
+        //     if ($(this).is(':checked')) {
+        //         for (var i = 0; i < 4; i++) {
+        //             if (checkedValues2[i] === '') {
+        //                 checkedValues2[i] = $(this).val();
+        //                 break;
+        //             }
+        //         }
+        //     } else {
+        //         var index = checkedValues2.indexOf($(this).val());
+        //         console.log(index)
+        //         if (index !== -1) {
+        //             checkedValues2[index] = '';
+        //         }
+        //     }
+        //     $('#inputConnect_0').val(checkedValues2[0]);
+        //     $('#inputConnect_1').val(checkedValues2[1]);
+        //     $('#inputConnect_2').val(checkedValues2[2]);
+        //     $('#inputConnect_3').val(checkedValues2[3]);
+
+        //     updateInputsAndSpans2(checkedValues2);
+
+        // });
+
+        // function updateInputsAndSpans2(checkedValues2) {
+        //     for (var i = 0; i < checkedValues2.length; i++) {
+        //         var parts = checkedValues2[i].split('_');
+        //         $('#inputConnect_' + i).val(parts[1]);
+        //         $('.feeSpanConnect_' + i).text(parts[0]);
+        //         $('#outputDivConnect_' + i).text(parts[1]);
+        //     }
+        // }
+
+
+        var checkedValues2 = ['', '', '', '', '', '', '', '', ''];
         $('.mycheck2').change(function () {
             if ($(this).is(':checked')) {
-                for (var i = 0; i < 4; i++) {
+                for (var i = 0; i < 9; i++) {
                     if (checkedValues2[i] === '') {
                         checkedValues2[i] = $(this).val();
                         break;
@@ -584,6 +657,11 @@
             $('#inputConnect_1').val(checkedValues2[1]);
             $('#inputConnect_2').val(checkedValues2[2]);
             $('#inputConnect_3').val(checkedValues2[3]);
+            $('#inputConnect_4').val(checkedValues2[4]);
+            $('#inputConnect_5').val(checkedValues2[5]);
+            $('#inputConnect_6').val(checkedValues2[6]);
+            $('#inputConnect_7').val(checkedValues2[7]);
+            $('#inputConnect_8').val(checkedValues2[8]);
 
             updateInputsAndSpans2(checkedValues2);
 
@@ -597,6 +675,11 @@
                 $('#outputDivConnect_' + i).text(parts[1]);
             }
         }
+
+
+
+
+
 
 
 

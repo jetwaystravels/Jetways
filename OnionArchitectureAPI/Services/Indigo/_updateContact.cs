@@ -33,12 +33,13 @@ namespace OnionArchitectureAPI.Services.Indigo
             _ContactModel6E.updateContactsRequestData.BookingContactList = new BookingContact[1];
             _ContactModel6E.updateContactsRequestData.BookingContactList[0] = new BookingContact();
             _ContactModel6E.updateContactsRequestData.BookingContactList[0].EmailAddress = emailAddress;
-            if (customerNumber != null)
-            {
+            //if (customerNumber != null)
+            //{
                 _ContactModel6E.updateContactsRequestData.BookingContactList[0].TypeCode = "I";
                 _ContactModel6E.updateContactsRequestData.BookingContactList[0].CompanyName = companyName;//"Indigo";
                 _ContactModel6E.updateContactsRequestData.BookingContactList[0].CustomerNumber = customerNumber; //GSTNumber Re_ Assistance required for SG API Integration\GST Logs.zip\GST Logs
-            }
+            //}
+
             _ContactModel6E.updateContactsRequestData.BookingContactList[0].HomePhone = contactnumber;
             _getapi  objIndigo = new _getapi();
             UpdateContactsResponse responseAddContact6E = await objIndigo.GetUpdateContacts(_ContactModel6E);

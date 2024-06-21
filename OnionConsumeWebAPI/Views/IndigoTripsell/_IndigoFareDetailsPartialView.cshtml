@@ -13,12 +13,12 @@
 
         <div class="d-flex  y-gap-3 justify-between showBtn" style="cursor: pointer;">
          
-            <div class="col-auto p-0">
+            <div class="bfg p-0">
                 <div class="text-15">Base Fare@* <span class="text-13 text-light-1 ml-1">(1 Traveller)</span> *@<i class="fa fa-angle-down ml-2" aria-hidden="true"></i> </div>
             </div>
 
 
-            <div class="col-auto p-0">
+            <div class="bgf p-0">
                 @{
                     int passengercountbase = @Model.passeengerlist.passengers.Count();
                     int adtcount = 0;
@@ -170,11 +170,11 @@
 
         </div>
 
-        <div class="row y-gap-2 justify-between pt-2 pb-1 showBtn" style="cursor: pointer;">
-            <div class="col-auto">
+        <div class="d-flex y-gap-2 justify-between pt-2 pb-1 showBtn" style="cursor: pointer;">
+            <div class="bfg">
                 <div class="text-15">Taxes &amp; Surcharges</div>
             </div>
-            <div class="col-auto">
+            <div class="bfg">
                 @{
                     basefaretax = @Model.passeengerlist.basefaretax;// + Model.passeengerlist.infttax;
                     totaltax = @Model.passeengerlist.basefaretax;// + @Model.passeengerlist.infttax;

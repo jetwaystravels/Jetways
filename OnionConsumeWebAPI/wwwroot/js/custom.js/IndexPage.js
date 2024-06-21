@@ -51,6 +51,7 @@ function validateForm() {
         }
         var loader = document.getElementById("loader");
         loader.style.display = "block";
+        $("body").css("overflow", "hidden");
         var navtopright = document.getElementById("top-navbar-nav");
         navtopright.style.display = "none";
         var logotop = document.querySelector(".navbar-brand");

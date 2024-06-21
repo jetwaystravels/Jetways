@@ -346,25 +346,25 @@
                     </div>
 
                     <div class="col-xl-9 col-lg-8">
-                        <div class="shorting-bg-white" style="padding: 0px 15px 15px 15px;">
-                            <ul class="shorting-tab">
-                                <li>
+                        <div class="shorting-bg-white" style="padding: 15px 15px 15px 15px;">
+                            <div class="d-flex justify-between shorting-tab">
+                                <div>
                                     <a href="#" class="sort-link" data-sort="name_desc">Airlines</a>
-                                </li>
-                                <li>
+                                </div>
+                                <div>
                                     <a href="#" class="sort-link" data-sort="deprt_desc"> Depart</a>
-                                </li>
-                                <li>
+                                </div>
+                                <div>
                                     <a href="#" class="sort-link" data-sort="duration_desc">Duration</a>
-                                </li>
-                                <li>
+                                </div>
+                                <div>
                                     <a href="#" class="sort-link" data-sort="arrive_desc">Arrive</a>
-                                </li>
-                                <li>
+                                </div>
+                                <div style="padding-right:40px;">
                                     <a href="#" class="sort-link" data-sort="price_desc">Price</a>
-                                </li>
+                                </div>
 
-                            </ul>
+                            </div>
                         </div>
                         <div id="flight-results">
                             @Html.Partial("_FlightResultsSortingPartialView", Model)
