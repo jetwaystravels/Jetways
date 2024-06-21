@@ -76,7 +76,8 @@ namespace DomainLayer.Model
             new { citycode = "IMF", cityname = "Imphal", airportname = "Tulihal International Airport"},
             new { citycode = "IXJ", cityname = "Jammu", airportname = "Jammu Airport"},
             new { citycode = "CCJ", cityname = "Kozhikode", airportname = "Calicut Airport"},
-            new { citycode = "IXE", cityname = "Mangalore", airportname = "Mangalore International Airport"}
+            new { citycode = "IXE", cityname = "Mangalore", airportname = "Mangalore International Airport"},
+            new { citycode = "PAT", cityname = "Patna", airportname = "Lok Nayak Jayaprakash Airport"}
     
             // Add more data as needed...
         };

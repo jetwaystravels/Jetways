@@ -32,8 +32,10 @@ namespace DomainLayer.Model
             public int availableUnits { get; set; }
             public string seatmapReference { get; set; }
             public Decks decks { get; set; }
-
+            public List<Decks> decksindigo { get; set; }
             public string categorySG { get; set; }
+
+            public string SeatColumnCount { get; set; }
 
         }
         public class Decks
