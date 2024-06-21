@@ -274,7 +274,7 @@
                                 if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("J"))
                                     Faretype = "Flexi Plus";
                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("R"))
-                                    Faretype = "Saver";
+                                    Faretype = "Retail Fare";
                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("O"))
                                     Faretype = "Super 6E";
                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("A"))
@@ -326,7 +326,7 @@
                                     <div><strong>@Faretype (@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass)</strong></div>
                                     <div>offered by airline.</div>
                                 </td>
-                                @if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "EC" || Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "R" || Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "RS")
+                                @if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "EC"  || Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "RS")
                                 {
                                     <td>7 Kg</td>
                                     <td><strong>15 kg (1 piece)</strong></td>
@@ -351,6 +351,137 @@
                                     </td>
 
                                 }
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "SS")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td>
+
+                                        <div>3600 (within 96 hrs from Departure)</div>
+                                    </td>
+                                    <td>
+
+                                        <div>3350 (within 96 hrs from Departure)</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+
+                              //Indigo//////
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "R")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td>
+
+                                        <div>3500 (3 hrs before departure</div>
+                                    </td>
+                                    <td>
+
+                                        <div>3200 (3 hrs before departure</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            (Chargable)
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            (Chargable)
+                                        </div>
+                                    </td>
+
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "J")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td>
+
+                                        <div>3500 (3 days upto 2 hrs prior from departure)</div>
+                                    </td>
+                                    <td>
+
+                                        <div>3000 (Before 3days upto 2 hrs from departure)</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free meal (per person)
+                                        </div>
+                                    </td>
+
+                                }
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "O")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td>
+
+                                        <div>500 (Before 3days upto 2 hrs from departure)</div>
+                                    </td>
+                                    <td>
+
+                                        <div>500 (Before 3days upto 2 hrs from departure)</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free meal (per person)
+                                        </div>
+                                    </td>
+
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "A")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td>
+
+                                        <div>3500 (3 hrs before departure)</div>
+                                    </td>
+                                    <td>
+
+                                        <div>3200 (3 hrs before departure)</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Chargable
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Chargable
+                                        </div>
+                                    </td>
+
+                                }
+                                //**********/
+
                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "AV")
                                 {
                                     <td>0</td>
@@ -380,7 +511,7 @@
                                     </td>
 
                                 }
-                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "HF" || Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "J" || Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "O" || Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "SF")
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "HF" ||  Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "SF")
                                 {
                                     <td>7 Kg</td>
                                     <td><strong>15 kg (1 piece)</strong></td>
@@ -438,7 +569,7 @@
                                     </td>
 
                                 }
-                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "VV" || Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "A" || Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "SC")
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "VV"  || Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "SC")
                                 {
                                     <td>7 Kg</td>
                                     <td>
@@ -793,7 +924,6 @@
                 <ul class="list-disc y-gap-10">
                     <li>For infants there is no baggage allowance.</li>
                     <li>Airline can change Baggage Allowance.</li>
-                    <li>For Low Cost Carriers, international Check-in Baggage is 20 kg and for Gulf Sectors Baggage is 25-30 kg.</li>
                     <li>If you have any query, feel free to Contact Us. Email: support@jetwaystravels.com</li>
                 </ul>
             </div>

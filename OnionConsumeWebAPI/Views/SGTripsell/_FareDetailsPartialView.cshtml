@@ -293,77 +293,13 @@
                 <span id="AddBaggage"></span>
             </div>
         </div>
-        @*
-        <div class="row y-gap-2  pt-2">
-
-        <div class="damount fw-600 col-9">
-        <span class="text-15">Total Amount</span>
-
-        </div>
-        <div class="damount width-132 d-flex col-3 fw-600">
-        <span>&#8377</span>
-        <span class="input-ammount" id="amount"></span>
-        <span class="input-ammount" id="totalservice"></span>
-        <span class="input-ammount" id="seattotal1"></span>
-        <span class="input-ammount" id="totalMeal"></span>
-
-
-        </div>
-        </div>
-
-
-
-
-
-
-        <div class="row y-gap-2 justify-between pt-2">
-        <div class="col-auto">
-        <div class="text-14">Add-Ons</div>
-        </div>
-        <div class="col-auto" style="width:74px">
-        <div class="text-15">&#8377; 100</div>
-        </div>
-        </div>
-
-        <div class="row y-gap-2 justify-between pt-1 showBtn" style="cursor: pointer;">
-        <div class="col-auto">
-        <div class="text-14">Take off<i class="fa fa-angle-down ml-2" aria-hidden="true"></i> </div>
-        </div>
-        </div>
-
-        <div class="row y-gap-3 justify-between bg-light-2 hideme" style="display:none;">
-        <div class="col-auto">
-        <div class="text-14">TAKE OFF Contribution</div>
-        <div> </div>
-        </div>
-        <div class="col-auto">
-        <div class="text-15">&#8377; 100</div>
-        </div>
-        </div>
-        *@
+     
         <div class="px-20 py-20 bg-blue-2 rounded-4 mt-20">
             <div class="row y-gap-2 justify-between">
                 <div class="col-auto">
                     <div class="text-20 lh-13 fw-600">You Pay</div>
                 </div>
-                @*   <div class="col-auto">
-                @* @{
-                foreach (var item in Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares)
-                {
-                int servicecharge = item.serviceCharges.Count;
-                int Totalamount = 0;
-                for (int i = 0; i < servicecharge; i++)
-                {
-                int amounttax = item.serviceCharges[i].amount;
-                Totalamount += amounttax;
-                }
-                int takeoffCharge = 10;
-                int Totalamountpay = @Totalamount + takeoffCharge;
-                <div class="text-20 lh-13 fw-600">&#8377; @Totalamountpay </div>
-                }
-                }
-                <div class="text-20 lh-13 fw-600">&#8377; 4000 </div>
-                </div> *@
+            
                 <div class="col-auto d-flex">
                     <span class="text-20 lh-13 fw-600">&#8377</span>
                     <div class="text-20 lh-13 fw-600" id="seattotal1"></div>
@@ -373,14 +309,7 @@
                 </div>
             </div>
 
-            @*  <div class="row y-gap-2 justify-between text-success">
-            <div class="col-auto">
-            <div class="text-16 lh-13 fw-600">Total Savings</div>
-            </div>
-            <div class="col-auto">
-            <div class="text-16 lh-13 fw-600">&#8377; 50</div>
-            </div>
-            </div> *@
+          
         </div>
 
         <div class="row y-gap-3 justify-between pt-3">

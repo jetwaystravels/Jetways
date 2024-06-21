@@ -2144,12 +2144,14 @@
 
             if ($(this).hasClass('active')) {
                 $(this).removeClass('active');
-                $('.hideme').slideUp(1);
+                $('.hideme').slideUp(1000);
             } else {
                 $('.hideme').slideUp(1);
                 $('.showBtn').removeClass('active');
                 $(this).addClass('active');
-                $(this).next().filter('.hideme').slideDown(1);
+                $(this).next().filter('.hideme').slideDown(1000);
+                $('.flightT1').addClass('tabBG');
+
             }
         });
 

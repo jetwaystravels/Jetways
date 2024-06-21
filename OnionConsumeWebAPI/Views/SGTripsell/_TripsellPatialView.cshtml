@@ -306,7 +306,14 @@
                                                         ( @formatteddepartureDate<span class="text-13 text-light-1 ml-2">@originCity?.airportname</span><span class="text-13 ml-2 fw-600">
                                                             @if (@item.segments[i].legs[j].legInfo.departureTerminal != null)
                                                             {
-                                                                <span>, T-</span>
+                                                                @if (@item.segments[i].legs[j].legInfo.departureTerminal == "")
+                                                                {
+                                                                    <span class="d-none">, T-</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span>, T-</span>
+                                                                }
 
                                                                 @item.segments[i].legs[j].legInfo.departureTerminal
                                                             }
@@ -359,7 +366,15 @@
                                                     <span class="text-13 ml-2 fw-600">
                                                         @if (@item.segments[i].legs[j].legInfo.arrivalTerminal != null)
                                                         {
-                                                            <span>, T-</span> @item.segments[i].legs[j].legInfo.arrivalTerminal
+                                                            @if (@item.segments[i].legs[j].legInfo.arrivalTerminal == "")
+                                                            {
+                                                                <span class="d-none">, T-</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>, T-</span>
+                                                            }
+                                                            @item.segments[i].legs[j].legInfo.arrivalTerminal
                                                         }
                                                     </span>)
 
