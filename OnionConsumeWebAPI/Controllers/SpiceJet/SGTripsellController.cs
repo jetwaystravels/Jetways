@@ -707,66 +707,6 @@ namespace OnionConsumeWebAPI.Controllers
 
                 }
 
-                //if (unitKey.Count > 0)
-                //{
-                //    try
-                //    {
-
-                //        var unitKey_1 = unitKey;// selectedIds;
-
-                //        #region SeatAssignment
-                //        string[] unitKey2 = null;
-                //        string[] unitsubKey2 = null;
-                //        string pas_unitKey = string.Empty;
-
-                //        AssignSeatsResponse _AssignseatRes = new AssignSeatsResponse();
-                //        AssignSeatsRequest _AssignSeatReq = new AssignSeatsRequest();
-                //        _AssignSeatReq.Signature = token;
-                //        _AssignSeatReq.ContractVersion = 420;
-                //        _AssignSeatReq.SellSeatRequest = new SeatSellRequest();
-                //        _AssignSeatReq.SellSeatRequest.SeatAssignmentMode = SeatAssignmentMode.PreSeatAssignment;
-                //        _AssignSeatReq.SellSeatRequest.SeatAssignmentModeSpecified = true;
-                //        _AssignSeatReq.SellSeatRequest.SegmentSeatRequests = new SegmentSeatRequest[unitKey.Count];
-                //        for (int i = 0; i < unitKey.Count; i++)
-                //        {
-                //            if (unitKey[i].Length > 1)
-                //            {
-                //                unitsubKey2 = unitKey[i].Split('_');
-                //                pas_unitKey = unitsubKey2[1];
-                //            }
-                //            _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[i] = new SegmentSeatRequest();
-                //            _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[i].FlightDesignator = new FlightDesignator();
-                //            _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[i].FlightDesignator.CarrierCode = passeengerKeyList.journeys[0].segments[0].identifier.carrierCode;
-                //            _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[i].FlightDesignator.FlightNumber = passeengerKeyList.journeys[0].segments[0].identifier.identifier;
-                //            _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[i].STD = passeengerKeyList.journeys[0].designator.departure;
-                //            _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[i].STDSpecified = true;
-                //            _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[i].DepartureStation = passeengerKeyList.journeys[0].designator.origin;
-                //            _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[i].ArrivalStation = passeengerKeyList.journeys[0].designator.destination;
-                //            _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[i].UnitDesignator = pas_unitKey.Trim();
-                //            _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[i].PassengerNumbers = new short[1];
-                //            _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[i].PassengerNumbers[0] = Convert.ToInt16(i);
-                //        }
-                //        _AssignSeatReq.SellSeatRequest.IncludeSeatData = true;
-                //        _AssignSeatReq.SellSeatRequest.IncludeSeatDataSpecified = true;
-
-                //        SpiceJetApiController objSpiceJet = new SpiceJetApiController();
-                //        _AssignseatRes = await objSpiceJet.Assignseat(_AssignSeatReq);
-
-                //        string Str2 = JsonConvert.SerializeObject(_AssignseatRes);
-
-                //        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_AssignSeatReq) + "\n\n Response: " + JsonConvert.SerializeObject(_AssignseatRes), "AssignSeat");
-
-                //        if (_AssignseatRes != null)
-                //        {
-                //            //var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
-                //            var JsonObjSeatAssignment = _AssignseatRes;
-                //        }
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //    }
-                //    #endregion
-                //}
                 if (unitKey.Count > 0)
                 {
                     try
@@ -778,38 +718,6 @@ namespace OnionConsumeWebAPI.Controllers
 
                         int journeyscount = passeengerKeyList.journeys.Count;
 
-                        //List<ssrsKey> ssrCode0Objects = new List<ssrsKey>();
-                        //List<ssrsKey> ssrCode1Objects = new List<ssrsKey>();
-
-                        //for (int k = 0; k < unitKey.Count; k++)
-                        //{
-                        //    if (unitKey[k].Contains("_0"))
-                        //    {
-                        //        ssrsKey _obj0 = new ssrsKey();
-                        //        _obj0.key = unitKey[k]; // Assign value based on index k
-                        //        ssrCode0Objects.Add(_obj0);
-                        //    }
-                        //    else if (unitKey[k].Contains("_1"))
-                        //    {
-                        //        ssrsKey _obj1 = new ssrsKey();
-                        //        _obj1.key = unitKey[k]; // Assign value based on index k
-                        //        ssrCode1Objects.Add(_obj1);
-                        //    }
-                        //}
-
-
-                        //List<ssrsKey>[] arrayOfLists = new List<ssrsKey>[2];
-                        //arrayOfLists[0] = ssrCode0Objects;
-                        //arrayOfLists[1] = ssrCode1Objects;
-
-                        //List<ssrsKey> mergedList = new List<ssrsKey>();
-
-                        //foreach (var list in arrayOfLists)
-                        //{
-                        //    mergedList.AddRange(list);
-                        //}
-
-                        //ssrsKey[] arrayOfObjects = mergedList.ToArray();
                         AssignSeatsResponse _AssignseatRes = new AssignSeatsResponse();
                         AssignSeatsRequest _AssignSeatReq = new AssignSeatsRequest();
                         _AssignSeatReq.Signature = token;
@@ -833,7 +741,14 @@ namespace OnionConsumeWebAPI.Controllers
                                 {
                                     unitsubKey2 = unitKey[k].Split('_');
                                     pas_unitKey = unitsubKey2[1];
-                                    idx = int.Parse(unitsubKey2[2]);
+                                    if (unitsubKey2.Length > 3)
+                                    {
+                                        idx = int.Parse(unitsubKey2[3]);
+                                    }
+                                    else
+                                    {
+                                        idx = int.Parse(unitsubKey2[2]);
+                                    }
                                     if (idx == 0) paxnum = l++;
                                     else
                                         paxnum = m++;
@@ -870,67 +785,6 @@ namespace OnionConsumeWebAPI.Controllers
                             //var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
                             var JsonObjSeatAssignment = _AssignseatRes;
                         }
-                        #region SeatAssignment
-                        //        //        //try
-                        //        //        //{
-
-                        //        //        //    var unitKey_1 = unitKey;// selectedIds;
-
-
-                        //        //        //    string[] unitKey2 = null;
-                        //        //        //    string[] unitsubKey2 = null;
-                        //        //        //    string pas_unitKey = string.Empty;
-
-                        //        //        //    AssignSeatsResponse _AssignseatRes = new AssignSeatsResponse();
-                        //        //        //    AssignSeatsRequest _AssignSeatReq = new AssignSeatsRequest();
-                        //        //        //    _AssignSeatReq.Signature = token;
-                        //        //        //    _AssignSeatReq.ContractVersion = 420;
-                        //        //        //    _AssignSeatReq.SellSeatRequest = new SeatSellRequest();
-                        //        //        //    _AssignSeatReq.SellSeatRequest.SeatAssignmentMode = SeatAssignmentMode.PreSeatAssignment;
-                        //        //        //    _AssignSeatReq.SellSeatRequest.SeatAssignmentModeSpecified = true;
-                        //        //        //    _AssignSeatReq.SellSeatRequest.SegmentSeatRequests = new SegmentSeatRequest[unitKey.Count];
-                        //        //        //    for (int i = 0; i < unitKey.Count; i++)
-                        //        //        //    {
-                        //        //        //        if (unitKey[i].Length > 1)
-                        //        //        //        {
-                        //        //        //            unitsubKey2 = unitKey[i].Split('_');
-                        //        //        //            pas_unitKey = unitsubKey2[1];
-                        //        //        //        }
-                        //        //        //        _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[i] = new SegmentSeatRequest();
-                        //        //        //        _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[i].FlightDesignator = new FlightDesignator();
-                        //        //        //        _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[i].FlightDesignator.CarrierCode = passeengerKeyList.journeys[0].segments[0].identifier.carrierCode;
-                        //        //        //        _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[i].FlightDesignator.FlightNumber = passeengerKeyList.journeys[0].segments[0].identifier.identifier;
-                        //        //        //        _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[i].STD = passeengerKeyList.journeys[0].designator.departure;
-                        //        //        //        _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[i].STDSpecified = true;
-                        //        //        //        _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[i].DepartureStation = passeengerKeyList.journeys[0].designator.origin;
-                        //        //        //        _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[i].ArrivalStation = passeengerKeyList.journeys[0].designator.destination;
-                        //        //        //        _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[i].UnitDesignator = pas_unitKey;
-                        //        //        //        _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[i].PassengerNumbers = new short[1];
-                        //        //        //        _AssignSeatReq.SellSeatRequest.SegmentSeatRequests[i].PassengerNumbers[0] = Convert.ToInt16(i);
-                        //        //        //    }
-                        //        //        //    _AssignSeatReq.SellSeatRequest.IncludeSeatData = true;
-
-                        //        //        //    SpiceJetApiController objSpiceJet = new SpiceJetApiController();
-                        //        //        //    _AssignseatRes = await objSpiceJet.Assignseat(_AssignSeatReq);
-
-                        //        //        //    string Str2 = JsonConvert.SerializeObject(_AssignseatRes);
-
-                        //        //        //    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_AssignSeatReq) + "\n\n Response: " + JsonConvert.SerializeObject(_AssignseatRes), "AssignSeat");
-
-                        //        //        //    if (_AssignseatRes != null)
-                        //        //        //    {
-                        //        //        //        //var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
-                        //        //        //        var JsonObjSeatAssignment = _AssignseatRes;
-                        //        //        //    }
-                        //        //    }
-                        //        //    catch (Exception ex)
-                        //        //    {
-                        //        //    }
-                        #endregion
-                        //    }
-                        //    catch (Exception ex) { }
-
-                        //}
                     }
                     catch (Exception ex)
                     {

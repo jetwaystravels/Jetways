@@ -258,7 +258,7 @@ namespace OnionConsumeWebAPI.Controllers
                         {
                             AAPassengerfarelist = new List<AAPassengerfare>();
                             AADesignator AADesignatorobj = new AADesignator();
-                            
+
                             if (j == 1)
                             {
                                 AADesignatorobj.origin = _GetBookingFromStateRS1.BookingData.Journeys[i].Segments[0].DepartureStation;
@@ -269,12 +269,12 @@ namespace OnionConsumeWebAPI.Controllers
                             }
                             else
                             {
-                                
+
                                 AADesignatorobj.origin = _GetBookingFromStateRS1.BookingData.Journeys[i].Segments[0].DepartureStation;
                                 AADesignatorobj.destination = _GetBookingFromStateRS1.BookingData.Journeys[i].Segments[0].ArrivalStation;
                                 AADesignatorobj.departure = _GetBookingFromStateRS1.BookingData.Journeys[i].Segments[0].STD;
                                 AADesignatorobj.arrival = _GetBookingFromStateRS1.BookingData.Journeys[i].Segments[0].STA;
-                                
+
                             }
                             AAJourneyobj.designator = AADesignatorobj;
 
@@ -624,7 +624,7 @@ namespace OnionConsumeWebAPI.Controllers
                                         }
                                     }
                                 }
-                                
+
 
                             }
                         }
@@ -812,28 +812,28 @@ namespace OnionConsumeWebAPI.Controllers
                                                     //for (int i = 0; i < legSsrscount; i++)
                                                     //{
 
-                                                        SSRAvailabiltyLegssrobj = new legSsrs();
-                                                        SSRAvailabiltyLegssrobj.legKey = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].LegKey.ToString();
-                                                        legDetailsobj = new legDetails();
-                                                        legDetailsobj.destination = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].LegKey.ArrivalStation;
-                                                        legDetailsobj.origin = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].LegKey.DepartureStation;
-                                                        legDetailsobj.departureDate = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].LegKey.DepartureDate.ToString();
-                                                        legidentifier legidentifierobj = new legidentifier();
-                                                        legidentifierobj.identifier = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].LegKey.FlightNumber;
-                                                        legidentifierobj.carrierCode = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].LegKey.CarrierCode;
-                                                        legDetailsobj.legidentifier = legidentifierobj;
+                                                    SSRAvailabiltyLegssrobj = new legSsrs();
+                                                    SSRAvailabiltyLegssrobj.legKey = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].LegKey.ToString();
+                                                    legDetailsobj = new legDetails();
+                                                    legDetailsobj.destination = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].LegKey.ArrivalStation;
+                                                    legDetailsobj.origin = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].LegKey.DepartureStation;
+                                                    legDetailsobj.departureDate = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].LegKey.DepartureDate.ToString();
+                                                    legidentifier legidentifierobj = new legidentifier();
+                                                    legidentifierobj.identifier = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].LegKey.FlightNumber;
+                                                    legidentifierobj.carrierCode = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].LegKey.CarrierCode;
+                                                    legDetailsobj.legidentifier = legidentifierobj;
 
-                                                        //var ssrscount = JsonObjresponseSSRAvailabilty.data.legSsrs[i].ssrs.Count;
+                                                    //var ssrscount = JsonObjresponseSSRAvailabilty.data.legSsrs[i].ssrs.Count;
 
-                                                        //for (int j = 0; j < ssrscount; j++)
-                                                        //{
-                                                        childlegssrs legssrs = new childlegssrs();
-                                                        legssrs.ssrCode = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].SSRCode.ToString();
-                                                        if (htSSr[legssrs.ssrCode] != null)
-                                                        {
-                                                            legssrs.name = htSSr[legssrs.ssrCode].ToString();
-                                                        }
-                                                       else
+                                                    //for (int j = 0; j < ssrscount; j++)
+                                                    //{
+                                                    childlegssrs legssrs = new childlegssrs();
+                                                    legssrs.ssrCode = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].SSRCode.ToString();
+                                                    if (htSSr[legssrs.ssrCode] != null)
+                                                    {
+                                                        legssrs.name = htSSr[legssrs.ssrCode].ToString();
+                                                    }
+                                                    else
                                                         continue;
 
 
@@ -841,34 +841,34 @@ namespace OnionConsumeWebAPI.Controllers
                                                     //legssrs.name = JsonObjresponseSSRAvailabilty.data.legSsrs[i].ssrs[j].name;
                                                     //legssrs.limitPerPassenger = JsonObjresponseSSRAvailabilty.data.legSsrs[i].ssrs[j].limitPerPassenger;
                                                     legssrs.available = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].Available;
-                                                        if (_res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].PaxSSRPriceList.Length > 0)
+                                                    if (_res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].PaxSSRPriceList.Length > 0)
+                                                    {
+                                                        legssrs.feeCode = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].PaxSSRPriceList[0].PaxFee.FeeCode;
+                                                        List<legpassengers> legpassengerslist = new List<legpassengers>();
+                                                        Decimal Amount = decimal.Zero;
+                                                        legpassengers passengersdetail = new legpassengers();
+                                                        int a1 = 0;
+                                                        foreach (var items in _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].PaxSSRPriceList[0].PaxFee.ServiceCharges)
                                                         {
-                                                            legssrs.feeCode = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].PaxSSRPriceList[0].PaxFee.FeeCode;
-                                                            List<legpassengers> legpassengerslist = new List<legpassengers>();
-                                                            Decimal Amount = decimal.Zero;
-                                                            legpassengers passengersdetail = new legpassengers();
-                                                            int a1 = 0;
-                                                            foreach (var items in _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].PaxSSRPriceList[0].PaxFee.ServiceCharges)
+                                                            if (a1 > 0)
                                                             {
-                                                                if (a1 > 0)
-                                                                {
-                                                                    break;
-                                                                }
-                                                                else
-                                                                {
-                                                                    Amount += items.Amount;
-                                                                    passengersdetail.price = Math.Round(Amount).ToString(); //Ammount
-                                                                }
-                                                                a1++;
-
+                                                                break;
                                                             }
-                                                            passengersdetail.passengerKey = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].PaxSSRPriceList[0].PassengerNumberList.ToString();
-                                                            passengersdetail.ssrKey = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].SSRCode;
-                                                            passengersdetail.Airline = Airlines.Spicejet;
-                                                            legpassengerslist.Add(passengersdetail);
-                                                            legssrs.legpassengers = legpassengerslist;
-                                                            legssrslist.Add(legssrs);
+                                                            else
+                                                            {
+                                                                Amount += items.Amount;
+                                                                passengersdetail.price = Math.Round(Amount).ToString(); //Ammount
+                                                            }
+                                                            a1++;
+
                                                         }
+                                                        passengersdetail.passengerKey = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].PaxSSRPriceList[0].PassengerNumberList.ToString();
+                                                        passengersdetail.ssrKey = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[i1].AvailablePaxSSRList[j].SSRCode;
+                                                        passengersdetail.Airline = Airlines.Spicejet;
+                                                        legpassengerslist.Add(passengersdetail);
+                                                        legssrs.legpassengers = legpassengerslist;
+                                                        legssrslist.Add(legssrs);
+                                                    }
 
 
                                                     //}
@@ -951,7 +951,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                         if (SeatGroup != null)
                         {
-
+                            string columncount0 = string.Empty;
                             var data = SeatGroup.Count;// _getSeatAvailabilityResponse.SeatAvailabilityResponse.EquipmentInfos.Length;
 
                             List<data> datalist = new List<data>();
@@ -976,80 +976,109 @@ namespace OnionConsumeWebAPI.Controllers
                                 //Seatmapobj.categorySG = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[x].EquipmentCategory.ToString();
                                 //doubt
                                 //Seatmapobj.seatmapReference = JsonObjSeatmap.data[x].seatMap.seatmapReference;
-                                Decks Decksobj = new Decks();
-                                Decksobj.availableUnits = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].AvailableUnits;
-                                Decksobj.designator = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].CompartmentDesignator;
-                                Decksobj.length = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].Length;
-                                Decksobj.width = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].Width;
-                                Decksobj.sequence = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].Sequence;
-                                Decksobj.orientation = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].Orientation;
-                                Seatmapobj.decks = Decksobj;
 
-                                int compartmentsunitCount = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].Seats.Length;
+
+                                Seatmapobj.decksindigo = new List<Decks>();
+                                Decks Decksobj = null;
+                                int compartmentsunitCount = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments.Length;
                                 List<Unit> compartmentsunitlist = new List<Unit>();
                                 for (int i = 0; i < compartmentsunitCount; i++)
                                 {
-                                    Unit compartmentsunitobj = new Unit();
-                                    //doubt
-                                    compartmentsunitobj.assignable = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].Seats[i].Assignable;
-                                    compartmentsunitobj.availability = Convert.ToInt32(SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].Seats[i].SeatAvailability);
-                                    compartmentsunitobj.compartmentDesignator = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].Seats[i].CompartmentDesignator;
-                                    compartmentsunitobj.designator = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].Seats[i].SeatDesignator;
-                                    compartmentsunitobj.type = Convert.ToInt32(SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].Seats[i].SeatGroup);
-                                    compartmentsunitobj.travelClassCode = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].Seats[i].TravelClassCode;
-                                    compartmentsunitobj.set = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].Seats[i].SeatSet;
-                                    compartmentsunitobj.group = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].Seats[i].SeatGroup;
-                                    compartmentsunitobj.priority = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].Seats[i].Priority;
-                                    compartmentsunitobj.text = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].Seats[i].Text;
-                                    //compartmentsunitobj.setVacancy = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].setVacancy;
-                                    compartmentsunitobj.angle = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].Seats[i].SeatAngle;
-                                    compartmentsunitobj.width = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].Seats[i].Width;
-                                    compartmentsunitobj.height = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].Seats[i].Height;
-                                    compartmentsunitobj.zone = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].Seats[i].Zone;
-                                    compartmentsunitobj.x = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].Seats[i].X;
-                                    compartmentsunitobj.y = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].Seats[i].Y;
-
-                                    for (int k = 0; k < SeatGroup[x].SeatAvailabilityResponse.SeatGroupPassengerFees.Length; k++)
+                                    compartmentsunitlist = new List<Unit>();
+                                    Decksobj = new Decks();
+                                    Decksobj.availableUnits = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].AvailableUnits;
+                                    Decksobj.designator = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].CompartmentDesignator;
+                                    Decksobj.length = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Length;
+                                    Decksobj.width = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Width;
+                                    Decksobj.sequence = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Sequence;
+                                    Decksobj.orientation = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Orientation;
+                                    for (int i1 = 0; i1 < SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats.Length; i1++)
                                     {
-                                        if (compartmentsunitobj.group == Convert.ToInt32(SeatGroup[x].SeatAvailabilityResponse.SeatGroupPassengerFees[k].SeatGroup))
+                                        try
                                         {
-                                            var feesgroupserviceChargescount = SeatGroup[x].SeatAvailabilityResponse.SeatGroupPassengerFees[k].PassengerFee.ServiceCharges.Length;
 
-                                            List<Servicecharge> feesgroupserviceChargeslist = new List<Servicecharge>();
-                                            for (int l = 0; l < feesgroupserviceChargescount; l++)
+                                            Unit compartmentsunitobj = new Unit();
+                                            //doubt
+                                            compartmentsunitobj.Airline = Airlines.Indigo;
+                                            compartmentsunitobj.assignable = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].Assignable;
+                                            compartmentsunitobj.availability = Convert.ToInt32(SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].SeatAvailability);
+                                            compartmentsunitobj.compartmentDesignator = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].CompartmentDesignator;
+                                            compartmentsunitobj.designator = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].SeatDesignator;
+                                            compartmentsunitobj.type = Convert.ToInt32(SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].SeatGroup);
+                                            compartmentsunitobj.travelClassCode = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].TravelClassCode;
+                                            compartmentsunitobj.set = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].SeatSet;
+                                            compartmentsunitobj.group = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].SeatGroup;
+                                            compartmentsunitobj.priority = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].Priority;
+                                            compartmentsunitobj.text = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].Text;
+                                            //compartmentsunitobj.setVacancy = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].setVacancy;
+                                            compartmentsunitobj.angle = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].SeatAngle;
+                                            compartmentsunitobj.width = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].Width;
+                                            compartmentsunitobj.height = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].Height;
+                                            compartmentsunitobj.zone = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].Zone;
+                                            compartmentsunitobj.x = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].X;
+                                            compartmentsunitobj.y = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].Y;
+
+                                            for (int k = 0; k < SeatGroup[x].SeatAvailabilityResponse.SeatGroupPassengerFees.Length; k++)
                                             {
-                                                //Servicecharge feesgroupserviceChargesobj = new Servicecharge();
-                                                if (l > 0)
+                                                if (compartmentsunitobj.group == Convert.ToInt32(SeatGroup[x].SeatAvailabilityResponse.SeatGroupPassengerFees[k].SeatGroup))
                                                 {
+                                                    var feesgroupserviceChargescount = SeatGroup[x].SeatAvailabilityResponse.SeatGroupPassengerFees[k].PassengerFee.ServiceCharges.Length;
+
+                                                    List<Servicecharge> feesgroupserviceChargeslist = new List<Servicecharge>();
+                                                    for (int l = 0; l < feesgroupserviceChargescount; l++)
+                                                    {
+                                                        //Servicecharge feesgroupserviceChargesobj = new Servicecharge();
+                                                        if (l > 0)
+                                                        {
+                                                            break;
+                                                        }
+                                                        else
+                                                        {
+                                                            compartmentsunitobj.servicechargefeeAmount += Convert.ToInt32(SeatGroup[x].SeatAvailabilityResponse.SeatGroupPassengerFees[k].PassengerFee.ServiceCharges[l].Amount);
+                                                        }
+                                                    }
                                                     break;
                                                 }
-                                                else
-                                                {
-                                                    compartmentsunitobj.servicechargefeeAmount += Convert.ToInt32(SeatGroup[x].SeatAvailabilityResponse.SeatGroupPassengerFees[k].PassengerFee.ServiceCharges[l].Amount);
-                                                }
                                             }
-                                            break;
+                                            //if (compartmentsunitobj.assignable == true)
+                                            //{
+                                            compartmentsunitobj.unitKey = compartmentsunitobj.designator;
+
+
+                                            //}
+
+                                            int compartmentypropertiesCount = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].PropertyList.Length; List<Properties> Propertieslist = new List<Properties>();
+                                            for (int j = 0; j < compartmentypropertiesCount; j++)
+                                            {
+                                                Properties compartmentyproperties = new Properties();
+                                                compartmentyproperties.code = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].PropertyList[j].TypeCode;
+                                                compartmentyproperties.value = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].PropertyList[j].Value;
+                                                Propertieslist.Add(compartmentyproperties);
+                                            }
+
+                                            compartmentsunitobj.properties = Propertieslist;
+                                            if (compartmentsunitobj.designator.Contains('$'))
+                                            {
+                                                columncount0 = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1 - 1].SeatDesignator;
+                                                break;
+                                            }
+
+                                            compartmentsunitlist.Add(compartmentsunitobj);
+
+
+
                                         }
+                                        catch (Exception ex)
+                                        {
+
+                                        }
+
                                     }
-                                    //if (compartmentsunitobj.assignable == true)
-                                    //{
-                                    compartmentsunitobj.unitKey = compartmentsunitobj.designator;
-
-                                    compartmentsunitlist.Add(compartmentsunitobj);
-                                    //}
-
-                                    int compartmentypropertiesCount = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].Seats[i].PropertyList.Length;
-                                    List<Properties> Propertieslist = new List<Properties>();
-                                    for (int j = 0; j < compartmentypropertiesCount; j++)
-                                    {
-                                        Properties compartmentyproperties = new Properties();
-                                        compartmentyproperties.code = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].Seats[i].PropertyList[j].TypeCode;
-                                        compartmentyproperties.value = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[0].Seats[i].PropertyList[j].Value;
-                                        Propertieslist.Add(compartmentyproperties);
-                                    }
-
-                                    compartmentsunitobj.properties = Propertieslist;
                                     Decksobj.units = compartmentsunitlist;
+                                    Seatmapobj.SeatColumnCount = Regex.Replace(columncount0, "[^0-9]", "");
+                                    //Decksobjarray.Add(Decksobj);
+                                    //Decksobj.units = compartmentsunitlist;
+                                    Seatmapobj.decksindigo.Add(Decksobj);
                                 }
 
                                 //var groupscount = JsonObjSeatmap.data[x].fees[passengerkey12].groups;

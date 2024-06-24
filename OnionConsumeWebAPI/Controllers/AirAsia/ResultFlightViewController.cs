@@ -14,6 +14,7 @@ using Microsoft.Data.SqlClient;
 
 //using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NuGet.Common;
 using NuGet.Packaging.Signing;
 using OnionConsumeWebAPI.Extensions;
@@ -129,7 +130,7 @@ namespace OnionConsumeWebAPI.Controllers
             }
             viewModelobject.SimpleAvailibilityaAddResponcelist = OnewaydeserializedObjects;
             return PartialView("_FlightResultsSortingPartialView", viewModelobject);
-        }        
+        }
         [HttpPost]
         public async Task<ActionResult> Tripsell(string fareKey, string journeyKey)
         {
@@ -706,11 +707,12 @@ namespace OnionConsumeWebAPI.Controllers
                 HttpResponseMessage responseSeatmap = await client.GetAsync(AppUrlConstant.Airasiaseatmap + journeyKey + "?IncludePropertyLookup=true");
                 if (responseSeatmap.IsSuccessStatusCode)
                 {
+                    string columncount0 = string.Empty;
                     Logs logs = new Logs();
                     var _responseSeatmap = responseSeatmap.Content.ReadAsStringAsync().Result;
                     logs.WriteLogs("Url: " + JsonConvert.SerializeObject(AppUrlConstant.Airasiaseatmap + journeyKey + "?IncludePropertyLookup=true") + "\n\n Response: " + JsonConvert.SerializeObject(_responseSeatmap), "SeatMap", "AirAsiaOneWay");
                     var JsonObjSeatmap = JsonConvert.DeserializeObject<dynamic>(_responseSeatmap);
-                    var uniquekey1 = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[0].unitKey;
+                    //var uniquekey1 = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[0].unitKey;
                     var data = JsonObjSeatmap.data.Count;
                     List<data> datalist = new List<data>();
                     for (int x = 0; x < data; x++)
@@ -730,166 +732,178 @@ namespace OnionConsumeWebAPI.Controllers
                         Seatmapobj.equipmentTypeSuffix = JsonObjSeatmap.data[x].seatMap.equipmentTypeSuffix;
                         Seatmapobj.category = JsonObjSeatmap.data[x].seatMap.category;
                         Seatmapobj.seatmapReference = JsonObjSeatmap.data[x].seatMap.seatmapReference;
-                        Decks Decksobj = new Decks();
-                        Decksobj.availableUnits = JsonObjSeatmap.data[x].seatMap.availableUnits;
-                        Decksobj.designator = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.designator;
-                        Decksobj.length = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.length;
-                        Decksobj.width = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.width;
-                        Decksobj.sequence = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.sequence;
-                        Decksobj.orientation = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.orientation;
-                        Seatmapobj.decks = Decksobj;
-                        int compartmentsunitCount = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units.Count;
-                        List<Unit> compartmentsunitlist = new List<Unit>();
+
+
+
+
+                        //int compartmentsunitCount = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units.Count;
+                        //List<Unit> compartmentsunitlist = new List<Unit>();
                         // To do
-                        string strnewText = Regex.Match(_responseSeatmap, @"data""[\s\S]*?fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup"":null}]",
+                        string strnewText = Regex.Match(_responseSeatmap, @"data""[\s\S]*?fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup"":[\s\S]*?}]",
                             RegexOptions.IgnoreCase | RegexOptions.Multiline).Value.ToString();
-                        int _counter = 0;
-                        foreach (var strTextdata in Regex.Matches(strnewText, @"seatMap"":[\s\S]*?ssrLookup"))
-                        {
-                            if (x == _counter)
-                            {
-                                foreach (Match item in Regex.Matches(strTextdata.ToString(), @"fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup"))
-                                {
-                                }
-                            }
-                        }
-
-
-                        for (int i = 0; i < compartmentsunitCount; i++)
-                        {
-                            Unit compartmentsunitobj = new Unit();
-                            compartmentsunitobj.unitKey = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].unitKey;
-                            compartmentsunitobj.assignable = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].assignable;
-                            compartmentsunitobj.availability = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].availability;
-                            compartmentsunitobj.compartmentDesignator = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].compartmentDesignator;
-                            compartmentsunitobj.designator = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].designator;
-                            compartmentsunitobj.type = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].type;
-                            compartmentsunitobj.travelClassCode = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].travelClassCode;
-                            compartmentsunitobj.set = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].set;
-                            compartmentsunitobj.group = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].group;
-                            compartmentsunitobj.priority = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].priority;
-                            compartmentsunitobj.text = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].text;
-                            compartmentsunitobj.setVacancy = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].setVacancy;
-                            compartmentsunitobj.angle = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].angle;
-                            compartmentsunitobj.width = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].width;
-                            compartmentsunitobj.height = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].height;
-                            compartmentsunitobj.zone = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].zone;
-                            compartmentsunitobj.x = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].x;
-                            compartmentsunitobj.y = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].y;
-                            //string a = JsonObjSeatmap.data[x].fees["MCFBRFQ-"].groups["1"].fees[0].serviceCharges[0].amount;
-                            int counter = 0;
-                            foreach (var strTextdata in Regex.Matches(strnewText, @"seatMap"":[\s\S]*?ssrLookup"))
-                            {
-                                if (x == counter)
-                                {
-                                    foreach (Match item in Regex.Matches(strTextdata.ToString(), @"fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup"))
-                                    {
-                                        foreach (var groupid in Regex.Matches(item.ToString(), @"group"":(?<key>[\s\S]*?),[\s\S]*?type[\s\S]*?}"))
-                                        {
-
-                                            string farearraygroupid = Regex.Match(groupid.ToString(), @"group"":(?<key>[\s\S]*?),", RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups["key"].Value;
-
-                                            var feesgroupserviceChargescount = JsonObjSeatmap.data[x].fees[passengerkey12].groups[farearraygroupid].fees[0].serviceCharges.Count;
-
-                                            if (compartmentsunitobj.group == Convert.ToInt32(farearraygroupid))
-                                            {
-                                                compartmentsunitobj.servicechargefeeAmount = Convert.ToInt32(JsonObjSeatmap.data[x].fees[passengerkey12].groups[farearraygroupid].fees[0].serviceCharges[0].amount);
-                                                //for (int l = 0; l < feesgroupserviceChargescount; l++)
-                                                //{
-                                                //    compartmentsunitobj.servicechargefeeAmount += Convert.ToInt32(JsonObjSeatmap.data[x].fees[passengerkey12].groups[farearraygroupid].fees[0].serviceCharges[l].amount);
-                                                //}
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
-                                counter++;
-                            }
-
-                            compartmentsunitlist.Add(compartmentsunitobj);
-                            int compartmentypropertiesCount = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].properties.Count;
-                            List<Properties> Propertieslist = new List<Properties>();
-                            for (int j = 0; j < compartmentypropertiesCount; j++)
-                            {
-                                Properties compartmentyproperties = new Properties();
-                                compartmentyproperties.code = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].properties[j].code;
-                                compartmentyproperties.value = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].properties[j].value;
-                                Propertieslist.Add(compartmentyproperties);
-                            }
-                            compartmentsunitobj.properties = Propertieslist;
-                            Decksobj.units = compartmentsunitlist;
-                        }
-
-
-                        //var groupscount = JsonObjSeatmap.data[x].fees[passengerkey12].groups;
-                        //var feesgroupcount = ((Newtonsoft.Json.Linq.JContainer)groupscount).Count;
-                        //string strText = Regex.Match(_responseSeatmap, @"data""[\s\S]*?fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup"":null}]",
-                        //RegexOptions.IgnoreCase | RegexOptions.Multiline).Value.ToString();
-                        //List<Groups> GroupsFeelist = new List<Groups>();
-
-                        //int counter1 = 0;
-                        //foreach (var strTextdata in Regex.Matches(strText, @"seatMap"":[\s\S]*?ssrLookup"))
+                        //int _counter = 0;
+                        //foreach (var strTextdata in Regex.Matches(strnewText, @"seatMap"":[\s\S]*?ssrLookup"))
                         //{
-                        //    if (x == counter1)
+                        //    if (x == _counter)
                         //    {
-                        //        foreach (Match strnText in Regex.Matches(strTextdata.ToString(), @"fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup"))
+                        //        foreach (Match item in Regex.Matches(strTextdata.ToString(), @"fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup"))
                         //        {
-                        //            foreach (Match item in Regex.Matches(strnText.ToString(), @"group"":(?<key>[\s\S]*?),[\s\S]*?type[\s\S]*?}"))
-                        //            {
-                        //                Groups Groupsobj = new Groups();
-                        //                int myString1 = Convert.ToInt32(item.Groups["key"].Value.Trim());
-                        //                string myString = myString1.ToString();
-                        //                var group = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString.ToString()];
-
-                        //                GroupsFee GroupsFeeobj = new GroupsFee();
-                        //                GroupsFeeobj.groupid = myString1;
-                        //                GroupsFeeobj.type = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].type;
-                        //                GroupsFeeobj.ssrCode = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].ssrCode;
-                        //                GroupsFeeobj.ssrNumber = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].ssrNumber;
-                        //                GroupsFeeobj.paymentNumber = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].paymentNumber;
-                        //                GroupsFeeobj.isConfirmed = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].isConfirmed;
-                        //                GroupsFeeobj.isConfirming = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].isConfirming;
-                        //                GroupsFeeobj.isConfirmingExternal = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].isConfirmingExternal;
-                        //                GroupsFeeobj.code = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].code;
-                        //                GroupsFeeobj.detail = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].detail;
-                        //                GroupsFeeobj.passengerFeeKey = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].passengerFeeKey;
-                        //                GroupsFeeobj.flightReference = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].flightReference;
-                        //                GroupsFeeobj.note = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].note;
-                        //                GroupsFeeobj.createdDate = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].createdDate;
-                        //                GroupsFeeobj.isProtected = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].isProtected;
-                        //                var feesgroupserviceChargescount = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges.Count;
-                        //                List<Servicecharge> feesgroupserviceChargeslist = new List<Servicecharge>();
-                        //                for (int l = 0; l < feesgroupserviceChargescount; l++)
-                        //                {
-                        //                    Servicecharge feesgroupserviceChargesobj = new Servicecharge();
-                        //                    feesgroupserviceChargesobj.amount = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].amount;
-                        //                    feesgroupserviceChargesobj.code = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].code;
-                        //                    feesgroupserviceChargesobj.detail = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].detail;
-                        //                    feesgroupserviceChargesobj.type = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].type;
-                        //                    feesgroupserviceChargesobj.collectType = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].collectType;
-                        //                    feesgroupserviceChargesobj.currencyCode = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].currencyCode;
-                        //                    feesgroupserviceChargesobj.amount = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].amount;
-                        //                    feesgroupserviceChargesobj.foreignAmount = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].foreignAmount;
-                        //                    feesgroupserviceChargesobj.ticketCode = JsonObjSeatmap.data[x].fees[passengerkey12].groups[myString].fees[0].serviceCharges[l].ticketCode;
-                        //                    feesgroupserviceChargeslist.Add(feesgroupserviceChargesobj);
-                        //                }
-                        //                GroupsFeeobj.serviceCharges = feesgroupserviceChargeslist;
-                        //                Groupsobj.groupsFee = GroupsFeeobj;
-                        //                GroupsFeelist.Add(Groupsobj);
-                        //                Fees.groups = GroupsFeelist;
-                        //            }
                         //        }
                         //    }
-                        //    counter1++;
                         //}
+
+                        //int compartmentsunitCount = JsonObjSeatmap.data[x].seatMap.EquipmentInfos[0].Compartments[0].Count;
+                        string compartmenttext = Regex.Match(_responseSeatmap, "compartments\":(?<data>[\\s\\S]*?),\"seatmapReference", RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups["data"].Value.ToString();
+
+
+
+
+                        List<Unit> compartmentsunitlist = new List<Unit>();
+                        //List<Decks> Decksobjarray = new List<Decks>();
+                        Seatmapobj.decksindigo = new List<Decks>();
+                        Decks Decksobj = null;
+
+                        //for (int i = 0; i < Regex.Match(); i++)
+                        foreach (Match itemn in Regex.Matches(compartmenttext, @"availableunits[\s\S]*?""designator"":""(?<t>[^\""]+)""", RegexOptions.IgnoreCase | RegexOptions.Multiline))
+                        {
+                            string _compartmentblock = itemn.Groups["t"].Value.Trim();
+                            compartmentsunitlist = new List<Unit>();
+                            Decksobj = new Decks();
+                            Decksobj.availableUnits = JsonObjSeatmap.data[x].seatMap.availableUnits;
+                            Decksobj.designator = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].designator;
+                            Decksobj.length = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].length;
+                            Decksobj.width = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].width;
+                            Decksobj.sequence = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].sequence;
+                            Decksobj.orientation = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].orientation;
+                            Seatmapobj.decks = Decksobj;
+                            int _count = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock]["units"].Count;
+                            for (int i1 = 0; i1 < JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock]["units"].Count; i1++)
+                            {
+                                try
+                                {
+                                    Unit compartmentsunitobj = new Unit();
+                                    compartmentsunitobj.unitKey = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].units[i1].unitKey;
+                                    compartmentsunitobj.assignable = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].units[i1].assignable;
+                                    compartmentsunitobj.availability = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].units[i1].availability;
+                                    compartmentsunitobj.compartmentDesignator = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].units[i1].compartmentDesignator;
+                                    compartmentsunitobj.designator = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].units[i1].designator;
+                                    compartmentsunitobj.type = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].units[i1].type;
+                                    compartmentsunitobj.travelClassCode = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].units[i1].travelClassCode;
+                                    compartmentsunitobj.set = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].units[i1].set;
+                                    compartmentsunitobj.group = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].units[i1].group;
+                                    compartmentsunitobj.priority = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].units[i1].priority;
+                                    compartmentsunitobj.text = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].units[i1].text;
+                                    compartmentsunitobj.setVacancy = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].units[i1].setVacancy;
+                                    compartmentsunitobj.angle = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].units[i1].angle;
+                                    compartmentsunitobj.width = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].units[i1].width;
+                                    compartmentsunitobj.height = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].units[i1].height;
+                                    compartmentsunitobj.zone = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].units[i1].zone;
+                                    compartmentsunitobj.x = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].units[i1].x;
+                                    compartmentsunitobj.y = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].units[i1].y;
+
+
+                                    // TO DO
+                                    //compartmentsunitobj.assignable = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].Assignable;
+                                    //compartmentsunitobj.availability = Convert.ToInt32(SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].SeatAvailability);
+                                    //compartmentsunitobj.compartmentDesignator = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].CompartmentDesignator;
+                                    //compartmentsunitobj.designator = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].SeatDesignator;
+                                    //compartmentsunitobj.type = Convert.ToInt32(SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].SeatGroup);
+                                    //compartmentsunitobj.travelClassCode = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].TravelClassCode;
+                                    //compartmentsunitobj.set = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].SeatSet;
+                                    //compartmentsunitobj.group = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].SeatGroup;
+                                    //compartmentsunitobj.priority = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].Priority;
+                                    //compartmentsunitobj.text = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].Text;
+                                    ////compartmentsunitobj.setVacancy = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].setVacancy;
+                                    //compartmentsunitobj.angle = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].SeatAngle;
+                                    //compartmentsunitobj.width = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].Width;
+                                    //compartmentsunitobj.height = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].Height;
+                                    //compartmentsunitobj.zone = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].Zone;
+                                    //compartmentsunitobj.x = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].X;
+                                    //compartmentsunitobj.y = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].Y;
+
+
+
+                                    //string a = JsonObjSeatmap.data[x].fees["MCFBRFQ-"].groups["1"].fees[0].serviceCharges[0].amount;
+                                    int counter = 0;
+                                    foreach (var strTextdata in Regex.Matches(strnewText, @"seatMap"":[\s\S]*?ssrLookup"))
+                                    {
+                                        if (x == counter)
+                                        {
+                                            foreach (Match item in Regex.Matches(strTextdata.ToString(), @"fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup"))
+                                            {
+                                                foreach (var groupid in Regex.Matches(item.ToString(), @"group"":(?<key>[\s\S]*?),[\s\S]*?type[\s\S]*?}"))
+                                                {
+
+                                                    string farearraygroupid = Regex.Match(groupid.ToString(), @"group"":(?<key>[\s\S]*?),", RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups["key"].Value;
+
+                                                    var feesgroupserviceChargescount = JsonObjSeatmap.data[x].fees[passengerkey12].groups[farearraygroupid].fees[0].serviceCharges.Count;
+
+                                                    if (compartmentsunitobj.group == Convert.ToInt32(farearraygroupid))
+                                                    {
+                                                        compartmentsunitobj.servicechargefeeAmount = Convert.ToInt32(JsonObjSeatmap.data[x].fees[passengerkey12].groups[farearraygroupid].fees[0].serviceCharges[0].amount);
+                                                        //for (int l = 0; l < feesgroupserviceChargescount; l++)
+                                                        //{
+                                                        //    compartmentsunitobj.servicechargefeeAmount += Convert.ToInt32(JsonObjSeatmap.data[x].fees[passengerkey12].groups[farearraygroupid].fees[0].serviceCharges[l].amount);
+                                                        //}
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        //counter++;
+                                    }
+
+                                    compartmentsunitlist.Add(compartmentsunitobj);
+                                    //compartmentsunitobj.unitKey = compartmentsunitobj.designator;
+                                    int compartmentypropertiesCount = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].units[i1].properties.Count;
+                                    //int compartmentypropertiesCount = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].PropertyList.Length;
+                                    List<Properties> Propertieslist = new List<Properties>();
+                                    for (int j = 0; j < compartmentypropertiesCount; j++)
+                                    {
+                                        Properties compartmentyproperties = new Properties();
+                                        compartmentyproperties.code = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].units[i1].properties[j].code;
+                                        compartmentyproperties.value = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].units[i1].properties[j].value;
+                                        Propertieslist.Add(compartmentyproperties);
+
+                                        //compartmentyproperties.code = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].PropertyList[j].TypeCode;
+                                        //compartmentyproperties.value = SeatGroup[x].SeatAvailabilityResponse.EquipmentInfos[0].Compartments[i].Seats[i1].PropertyList[j].Value;
+                                        //Propertieslist.Add(compartmentyproperties);
+
+                                    }
+                                    compartmentsunitobj.properties = Propertieslist;
+                                    if (compartmentsunitobj.designator.Contains('$'))
+                                    {
+                                        columncount0 = JsonObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].units[i1 - 1].designator;
+                                        break;
+                                    }
+
+                                    compartmentsunitlist.Add(compartmentsunitobj);
+
+
+
+                                }
+                                catch (Exception ex)
+                                {
+
+                                }
+
+                            }
+                            Decksobj.units = compartmentsunitlist;
+                            Seatmapobj.SeatColumnCount = Regex.Replace(columncount0, "[^0-9]", "");
+                            //Decksobjarray.Add(Decksobj);
+                            //Decksobj.units = compartmentsunitlist;
+                            Seatmapobj.decksindigo.Add(Decksobj);
+                        }//end here foreach
                         dataobj.seatMap = Seatmapobj;
                         //dataobj.seatMapfees = Fees;
                         datalist.Add(dataobj);
                         SeatMapResponceModel.datalist = datalist;
                         HttpContext.Session.SetString("Seatmap", JsonConvert.SerializeObject(SeatMapResponceModel));
-                        //TempData["Seatmap"] = JsonConvert.SerializeObject(SeatMapResponceModellist);
                     }
+                     
+                    //TempData["Seatmap"] = JsonConvert.SerializeObject(SeatMapResponceModellist);
                 }
+                //}
                 #endregion
                 #region Meals
 
@@ -936,9 +950,9 @@ namespace OnionConsumeWebAPI.Controllers
                     #region Segment 
                     int SegmentBaggageCount = JsonObjresponseSSRAvailabilty.data.segmentSsrs.Count;
                     List<segmentSsrs> segmentSsrsList = new List<segmentSsrs>();
-                    for(int sj = 0;  sj < SegmentBaggageCount; sj++)
+                    for (int sj = 0; sj < SegmentBaggageCount; sj++)
                     {
-                        segmentSsrs segmentobj = new  segmentSsrs();
+                        segmentSsrs segmentobj = new segmentSsrs();
                         segmentobj.segmentKey = JsonObjresponseSSRAvailabilty.data.segmentSsrs[sj].segmentKey;
                         segmentDetails segmentDetailsobj = new segmentDetails();
                         segmentDetailsobj.origin = JsonObjresponseSSRAvailabilty.data.segmentSsrs[sj].segmentDetails.origin;
