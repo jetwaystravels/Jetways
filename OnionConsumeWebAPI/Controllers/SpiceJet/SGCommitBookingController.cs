@@ -491,13 +491,13 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 {
                                     foreach (var item2 in item1.ServiceCharges)
                                     {
-                                        if ((!item2.ChargeCode.Equals("SeatFee") || !item2.ChargeCode.Equals("INFT")) && !item2.ChargeType.ToString().ToLower().Contains("tax") && item2.ChargeCode.StartsWith("X", StringComparison.OrdinalIgnoreCase) == false)
+                                        if ((!item2.ChargeCode.Equals("SeatFee") || !item2.ChargeCode.Equals("INFT")) && !item2.ChargeType.ToString().ToLower().Contains("tax") && item2.ChargeCode.StartsWith("E", StringComparison.OrdinalIgnoreCase) == false)
                                         //if ((!item2.ChargeCode.Equals("SEAT") || !item2.ChargeCode.Equals("INFT")) && !item2.ChargeType.ToString().ToLower().Contains("tax"))
                                         {
                                             passengerTotals.specialServices.total += Convert.ToInt32(item2.Amount);
                                             //breakdown.passengerTotals.seats.total += Convert.ToInt32(item2.Amount);
                                         }
-                                        if (item2.ChargeCode.StartsWith("X", StringComparison.OrdinalIgnoreCase) == true)
+                                        if (item2.ChargeCode.StartsWith("E", StringComparison.OrdinalIgnoreCase) == true)
                                         {
                                             passengerTotals.baggage.total += Convert.ToInt32(item2.Amount);
                                             //breakdown.passengerTotals.seats.total += Convert.ToInt32(item2.Amount);

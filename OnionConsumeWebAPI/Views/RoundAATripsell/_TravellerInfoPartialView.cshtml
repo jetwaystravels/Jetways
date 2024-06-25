@@ -210,14 +210,15 @@
         const validators = {
             name: /^[a-zA-Z\s]*$/,
             last: /^[a-zA-Z\s]*$/,
-            email: /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
+            //email: /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
+            email: /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
             phone: /^\d{10}$/
         };
 
         const messages = {
             name: 'Enter First Name',
             last: 'Enter Last Name',
-            email: 'Enter valid email.',
+            email: 'Enter valid email address.',
             phone: 'Enter valid phone number.',
             duplicate: 'Duplicate names are not allowed.'
         };
@@ -228,7 +229,9 @@
         } else {
             removeErrorVal(element);
         }
-
+        if (validateType === 'name' || validateType === 'last') {
+            element.value = value.replace(/[^A-Za-z.]/g, '');
+        }
         if (!validators[validateType].test(value)) {
             showErrorVal(element, messages[validateType]);
         } else {
@@ -476,7 +479,7 @@
             const fieldsToValidate = [
                 { className: 'contactFname', errorMessage: 'First name is required ' },
                 { className: 'contactLname', errorMessage: 'Last  name is required' },
-                { className: 'contactemail', errorMessage: 'Email  name is required' },
+                { className: 'contactemail', errorMessage: 'Email Address is required' },
                 { className: 'contactphone', errorMessage: 'Phone number is required' }
             ];
             let firstInvalidElement = null;
@@ -587,12 +590,12 @@
                     var validationMessageReq = $(this).closest('.infant-dob-input').find('.validation-message-Required');
                     if (!day || !month || !year) {
                         debugger;
-                        validationMessageReq.text(" date fields are required.");
+                        validationMessageReq.text("Enter valid date of birth.");
                         validationMessageReq.show();
                         infantsValid = false;
                     } else if (!validateInfantDOB(dob)) {
                         debugger;
-                        validationMessageReq.text("Infant age cannot be greater than 2 years..");
+                        validationMessageReq.text("Infant can not be greater than 2 years.");
                         validationMessageReq.show();
                         infantsValid = false;
                     } else {
