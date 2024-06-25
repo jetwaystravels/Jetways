@@ -66,57 +66,57 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                 using (HttpClient client = new HttpClient())
                 {
 
-                BookingCommitRequest _bookingCommitRequest = new BookingCommitRequest();
-                BookingCommitResponse _BookingCommitResponse = new BookingCommitResponse();
-                _bookingCommitRequest.Signature = token;
-                _bookingCommitRequest.ContractVersion = 420;
-                _bookingCommitRequest.BookingCommitRequestData = new BookingCommitRequestData();
-                _bookingCommitRequest.BookingCommitRequestData.SourcePOS = GetPointOfSale();
-                _bookingCommitRequest.BookingCommitRequestData.CurrencyCode = "INR";
-                _bookingCommitRequest.BookingCommitRequestData.PaxCount = Convert.ToInt16(passeengerlist.Count);
-                _bookingCommitRequest.BookingCommitRequestData.BookingContacts = new BookingContact[1];
-                _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0] = new BookingContact();
-                _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].TypeCode = "P";
-                _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].Names = new BookingName[1];
-                _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].Names[0] = new BookingName();
-                _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].Names[0].State = MessageState.New;
-                _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].Names[0].FirstName = passeengerlist[0].first;
-                _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].Names[0].MiddleName = passeengerlist[0].middle;
-                _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].Names[0].LastName = passeengerlist[0].last;
-                _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].Names[0].Title = passeengerlist[0].title;
-                _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].EmailAddress = contactList.updateContactsRequestData.BookingContactList[0].EmailAddress; //"vinay.ks@gmail.com"; //passeengerlist.Email;
-                _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].HomePhone = "9457000000"; //contactList.updateContactsRequestData.BookingContactList[0].HomePhone; //"9457000000"; //passeengerlist.mobile;
-                _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].AddressLine1 = "A";
-                _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].AddressLine2 = "B";
-                _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].City = "Delhi";
-                _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].CountryCode = "IN";
-                _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].CultureCode = "en-GB";
-                _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].DistributionOption = DistributionOption.Email;
+                    BookingCommitRequest _bookingCommitRequest = new BookingCommitRequest();
+                    BookingCommitResponse _BookingCommitResponse = new BookingCommitResponse();
+                    _bookingCommitRequest.Signature = token;
+                    _bookingCommitRequest.ContractVersion = 420;
+                    _bookingCommitRequest.BookingCommitRequestData = new BookingCommitRequestData();
+                    _bookingCommitRequest.BookingCommitRequestData.SourcePOS = GetPointOfSale();
+                    _bookingCommitRequest.BookingCommitRequestData.CurrencyCode = "INR";
+                    _bookingCommitRequest.BookingCommitRequestData.PaxCount = Convert.ToInt16(passeengerlist.Count);
+                    _bookingCommitRequest.BookingCommitRequestData.BookingContacts = new BookingContact[1];
+                    _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0] = new BookingContact();
+                    _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].TypeCode = "P";
+                    _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].Names = new BookingName[1];
+                    _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].Names[0] = new BookingName();
+                    _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].Names[0].State = MessageState.New;
+                    _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].Names[0].FirstName = passeengerlist[0].first;
+                    _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].Names[0].MiddleName = passeengerlist[0].middle;
+                    _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].Names[0].LastName = passeengerlist[0].last;
+                    _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].Names[0].Title = passeengerlist[0].title;
+                    _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].EmailAddress = contactList.updateContactsRequestData.BookingContactList[0].EmailAddress; //"vinay.ks@gmail.com"; //passeengerlist.Email;
+                    _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].HomePhone = "9457000000"; //contactList.updateContactsRequestData.BookingContactList[0].HomePhone; //"9457000000"; //passeengerlist.mobile;
+                    _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].AddressLine1 = "A";
+                    _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].AddressLine2 = "B";
+                    _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].City = "Delhi";
+                    _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].CountryCode = "IN";
+                    _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].CultureCode = "en-GB";
+                    _bookingCommitRequest.BookingCommitRequestData.BookingContacts[0].DistributionOption = DistributionOption.Email;
 
-                SpiceJetApiController objSpiceJet = new SpiceJetApiController();
-                _BookingCommitResponse = await objSpiceJet.BookingCommit(_bookingCommitRequest);
+                    SpiceJetApiController objSpiceJet = new SpiceJetApiController();
+                    _BookingCommitResponse = await objSpiceJet.BookingCommit(_bookingCommitRequest);
 
-                string Str3 = JsonConvert.SerializeObject(_BookingCommitResponse);
-                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_bookingCommitRequest) + "\n\n Response: " + JsonConvert.SerializeObject(_BookingCommitResponse), "BookingCommit", "SpicejetOneWay");
+                    string Str3 = JsonConvert.SerializeObject(_BookingCommitResponse);
+                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_bookingCommitRequest) + "\n\n Response: " + JsonConvert.SerializeObject(_BookingCommitResponse), "BookingCommit", "SpicejetOneWay");
 
-                GetBookingRequest getBookingRequest = new GetBookingRequest();
-                GetBookingResponse _getBookingResponse = new GetBookingResponse();
-                getBookingRequest.Signature = token;
-                getBookingRequest.ContractVersion = 420;
-                getBookingRequest.GetBookingReqData = new GetBookingRequestData();
-                getBookingRequest.GetBookingReqData.GetBookingBy = GetBookingBy.RecordLocator;
-                getBookingRequest.GetBookingReqData.GetByRecordLocator = new GetByRecordLocator();
-                getBookingRequest.GetBookingReqData.GetByRecordLocator.RecordLocator = _BookingCommitResponse.BookingUpdateResponseData.Success.RecordLocator;
+                    GetBookingRequest getBookingRequest = new GetBookingRequest();
+                    GetBookingResponse _getBookingResponse = new GetBookingResponse();
+                    getBookingRequest.Signature = token;
+                    getBookingRequest.ContractVersion = 420;
+                    getBookingRequest.GetBookingReqData = new GetBookingRequestData();
+                    getBookingRequest.GetBookingReqData.GetBookingBy = GetBookingBy.RecordLocator;
+                    getBookingRequest.GetBookingReqData.GetByRecordLocator = new GetByRecordLocator();
+                    getBookingRequest.GetBookingReqData.GetByRecordLocator.RecordLocator = _BookingCommitResponse.BookingUpdateResponseData.Success.RecordLocator;
 
-                _getBookingResponse = await objSpiceJet.GetBookingdetails(getBookingRequest);
-                string _responceGetBooking = JsonConvert.SerializeObject(_getBookingResponse);
+                    _getBookingResponse = await objSpiceJet.GetBookingdetails(getBookingRequest);
+                    string _responceGetBooking = JsonConvert.SerializeObject(_getBookingResponse);
 
-                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getBookingResponse) + "\n\n Response: " + JsonConvert.SerializeObject(_getBookingResponse), "GetBookingDetails", "SpicejetOneWay");
-                if (_getBookingResponse != null)
-                {
-                    Hashtable htseatdata = new Hashtable();
-                    Hashtable htmealdata = new Hashtable();
-                    Hashtable htbagdata = new Hashtable();
+                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getBookingResponse) + "\n\n Response: " + JsonConvert.SerializeObject(_getBookingResponse), "GetBookingDetails", "SpicejetOneWay");
+                    if (_getBookingResponse != null)
+                    {
+                        Hashtable htseatdata = new Hashtable();
+                        Hashtable htmealdata = new Hashtable();
+                        Hashtable htbagdata = new Hashtable();
 
                         int adultcount = Convert.ToInt32(HttpContext.Session.GetString("adultCount"));
                         int childcount = Convert.ToInt32(HttpContext.Session.GetString("childCount"));
@@ -129,6 +129,12 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         ReturnPaxSeats _unitdesinator = new ReturnPaxSeats();
                         if (_getBookingResponse.Booking.Journeys[0].Segments[0].PaxSeats.Length > 0)
                             _unitdesinator.unitDesignatorPax = _getBookingResponse.Booking.Journeys[0].Segments[0].PaxSeats[0].UnitDesignator;
+                        //GST Number
+                        if (_getBookingResponse.Booking.BookingContacts[0].TypeCode == "G")
+                        {
+                            returnTicketBooking.customerNumber = _getBookingResponse.Booking.BookingContacts[0].CustomerNumber;
+                            returnTicketBooking.companyName = _getBookingResponse.Booking.BookingContacts[0].CompanyName;
+                        }
                         Contacts _contact = new Contacts();
                         _contact.phoneNumbers = _getBookingResponse.Booking.BookingContacts[0].HomePhone.ToString();
                         if (_unitdesinator.unitDesignatorPax != null)
@@ -319,16 +325,16 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                     {
                                         if (!htmealdata.Contains(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation))
                                         {
-                                            if (item1.SSRCode != "INFT")
+                                            if (item1.SSRCode != "INFT" && !item1.SSRCode.StartsWith("E", StringComparison.OrdinalIgnoreCase))
                                             {
                                                 htmealdata.Add(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation, item1.SSRCode);
                                             }
                                             returnSeats.SSRCode += item1.SSRCode + ",";
                                         }
 
-                                        else if (!htbagdata.Contains(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation))
+                                        if (!htbagdata.Contains(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation))
                                         {
-                                            if (item1.SSRCode != "INFT")
+                                            if (item1.SSRCode != "INFT" && item1.SSRCode.StartsWith("E", StringComparison.OrdinalIgnoreCase))
                                             {
                                                 htbagdata.Add(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation, item1.SSRCode);
                                             }

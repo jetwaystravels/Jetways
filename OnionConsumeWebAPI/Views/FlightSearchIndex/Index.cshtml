@@ -4,7 +4,17 @@
     var data = Model;
 
 }
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<script>
+    $(document).ready(function () {
+        $('#btnLogin').on('click', function () {
+            //alert("OTP Test");
+            $('#mobileID').hide();
+            $('#otpID').show();
+        });
+    });
+</script>
 <body>
     @{
         SimpleAvailabilityRequestModel model = null;
@@ -17,27 +27,27 @@
     </div>
     <div class="main" id="loaderbg">
 
-         <div class="cs-loader-main" id="loader" style="display:none;">
+        <div class="cs-loader-main" id="loader" style="display:none;">
             <div class="cs-loader">
                 <div class="cs-loader-inner">
                     <div><img src="~/img/cloude-1.png"></div>
-                   <label><img src="~/img/airo-f.png"></label>
+                    <label><img src="~/img/airo-f.png"></label>
                     <div class="load-text">Search for cheap Flight...</div>
                 </div>
 
             </div>
-        </div> 
+        </div>
 
-       @*  <div class="cs-loader-main" id="loader" style="display:none;">
-            <div class="cs-loader">
-                <div class="cs-loader-inner">
-                    <div><img src="~/img/cloude-1.png"></div>
-                    <div><img src="~/img/airo-f.png"></div>
-                </div>
-            </div>
+        @*  <div class="cs-loader-main" id="loader" style="display:none;">
+        <div class="cs-loader">
+        <div class="cs-loader-inner">
+        <div><img src="~/img/cloude-1.png"></div>
+        <div><img src="~/img/airo-f.png"></div>
+        </div>
+        </div>
         </div> *@
 
-     
+
         <!-- ***** Header Start ***** -->
         <header class="navbar navbar-sticky navbar-expand-lg navbar-dark">
             <div class="container position-relative">
@@ -55,30 +65,96 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
+                    @* <nav>
+                    <ul class="navbar-nav" id="top-navbar-nav">
+
+                    <li class="nav-item">
+                    <select aria-label="Default">
+                    <option>English</option>
+                    <option value="1">French</option>
+                    <option value="2">Russian </option>
+                    <option value="3">Spanish</option>
+                    <option value="3">
+
+                    </option>
+                    </select>
+                    </li>
+
+                    <li class="nav-item">
+                    <select aria-label="Default">
+                    <option>India</option>
+                    <option value="1">UAE</option>
+                    <option value="2">USA</option>
+                    </select>
+                    </li>
+
+                    <li class="dropdown mt-20">
+                    <a class="nav-link dropbtn " href="#">Login or Signup</a>
+                    <div class="dropdown-content">
+                    <a href="#" data-toggle="modal" data-target="#signUp-pop">
+                    Customer Login
+                    <span>Login &amp; check bookings</span>
+                    </a>
+                    <a href="#">
+                    Corporate Travel
+                    <span>Login corporate account</span>
+                    </a>
+                    <a href="#">
+                    Agent Login
+                    <span>Login your agent account</span>
+                    </a>
+                    <a href="#">
+                    My Booking
+                    <span>Manage your bookings here</span>
+                    </a>
+                    </div>
+                    </li>
+                    </ul>
+
+                    </nav> *@
+
                     <nav>
                         <ul class="navbar-nav" id="top-navbar-nav">
                             <li class="nav-item">
                             <li class="nav-item">
+                                <small>Language</small>
                                 <select aria-label="Default">
                                     <option>English</option>
                                     <option value="1">French</option>
                                     <option value="2">Russian </option>
                                     <option value="3">Spanish</option>
-                                    <option value="3">
-
-                                    </option>
+                                    <option value="3">Arabic</option>
                                 </select>
                             </li>
                             </li>
                             <li class="nav-item">
+                                <small>Country</small>
                                 <select aria-label="Default">
                                     <option>India</option>
                                     <option value="1">UAE</option>
                                     <option value="2">USA</option>
                                 </select>
                             </li>
-                            <li>
-                                <a class="nav-link" href="#">Login</a>
+                            <li class="dropdown">
+                                <a class="nav-link dropbtn " href="#">Login or Signup</a>
+                                <div class="dropdown-content">
+                                    <a href="#" data-toggle="modal" data-target="#signUp-pop">
+                                        Customer Login
+                                        <span>Login &amp; check bookings</span>
+                                    </a>
+                                    <a href="#">
+                                        Corporate Travel
+                                        <span>Login corporate account</span>
+                                    </a>
+                                    <a href="#">
+                                        Agent Login
+                                        <span>Login your agent account</span>
+                                    </a>
+                                    <a href="#">
+                                        My Booking
+                                        <span>Manage your bookings here</span>
+                                    </a>
+                                </div>
                             </li>
                         </ul>
                     </nav>
@@ -112,6 +188,70 @@
             </div>
         </header>
         <!-- ***** Header End ***** -->
+        <!-- start sign-up -->
+        <div class="modal fade" id="signUp-pop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="border:none;">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="white-text">&times;</span>
+                        </button>
+                        <div class="modal-body">
+                            <div class="sign-up-container">
+                                <div class="form-container sign-in-container">
+
+                                    <!-- start sign-in -->
+                                    <div class="sign-up-inner" id="mobileID">
+                                        <h1>Login or Create an account</h1>
+                                        <input type="email or mobile" placeholder="Email ID or Mobile Number" />
+                                        <button type="button" id="btnLogin">Continue</button>
+                                        <p class="text-center">Or Login/Signup With</p>
+                                        <div class="social-container">
+                                            <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                                            <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                                            <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                                        </div>
+                                        <p>By proceeding, you agree to Jetwaystravel <a href="#">Privacy Policy</a>, <a href="#">User Agreement</a> and <a href="#">T&amp;Cs</a> </p>
+                                    </div>
+                                    <!-- End sign-in -->
+                                    <!-- start otp -->
+                                    <div class="sign-up-inner" id="otpID" style="display:none;">
+                                        <h1>Otp Authentication</h1>
+                                        <div class="otp-input-wrapper">
+                                            <input type="text" maxlength="6" pattern="[0-9]*" autocomplete="off">
+                                            <svg>
+                                                <line x1="0" y1="0" x2="240" y2="0" stroke="#ddd" stroke-width="2" stroke-dasharray="20,22" />
+                                            </svg>
+                                        </div>
+                                        <div class="input-otp">
+                                            <a href="#">Resend OTP</a>
+                                        </div>
+                                        <button>Login</button>
+                                        <a href="#" class="login-otp">Login with Password</a>
+                                    </div>
+                                    <!-- End otp -->
+
+                                </div>
+                                <div class="overlay-container">
+                                    <div class="overlay">
+                                        <div class="overlay-panel overlay-right">
+                                            <h1>Sign up/Login now to</h1>
+                                            <ul>
+                                                <li><i class="fa fa-plane"></i>Lock Flight Prices &amp; Pay Later</li>
+                                                <li><i class="fa fa-building" aria-hidden="true"></i>Book Hotels @@ ₹0</li>
+                                                <li><i class="fa fa-database" aria-hidden="true"></i>Sign up &amp; Earn</li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End sign-up -->
         <!-- ***** Flight Search Area Start ***** -->
         <section class="section search-area bg-overlay  d-flex align-items-center">
             <div class="container">
@@ -164,7 +304,7 @@
                                     </div>
                                     <div class="custom-control-inline float-right"><h5 style="font-weight:500;">Book Flight Tickets</h5></div>
                                 </div>
-                              
+
                                 <form asp-action="SearchResultFlight" asp-controller="FlightSearchIndex" method="post" id="multipleValuesForm">
                                     <div class="col-lg-12">
                                         <div class="row">
@@ -173,7 +313,7 @@
                                                     string Serchhome = ViewBag.SearchHome;
                                                     if (!string.IsNullOrEmpty(Serchhome))
                                                     {
-                                                    //object _simpleAvailabilityRequestModel = Newtonsoft.Json.JsonConvert.DeserializeObject<object>(Serchhome);
+                                                        //object _simpleAvailabilityRequestModel = Newtonsoft.Json.JsonConvert.DeserializeObject<object>(Serchhome);
 
 
                                                         model = Newtonsoft.Json.JsonConvert.DeserializeObject<SimpleAvailabilityRequestModel>(Serchhome);
@@ -183,7 +323,7 @@
                                                         startdate = model.beginDate;
 
                                                     }
-                                                    
+
                                                 }
                                                 <label>Flying From</label>
                                                 <span class="input-group-text flightdepr">
@@ -235,7 +375,7 @@
                                                 <span class="input-group-text">
                                                     @* <img src="~/img/calender-icon.png" alt="icon"> *@
                                                     <input id="start-date" asp-for="beginDate" value="" type="" placeholder="Enter Date" class="form-control text-20 fw-600">
-                                               
+
                                                     <span asp-validation-for="beginDate"></span>
                                                 </span>
                                                 <span id="startDate" class="errorbox" style="display:none;">Enter Start Date*</span>
