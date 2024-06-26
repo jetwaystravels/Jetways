@@ -151,11 +151,11 @@ namespace OnionConsumeWebAPI.Controllers
                 _ContactModel.updateContactsRequestData.BookingContactList = new BookingContact[1];
                 _ContactModel.updateContactsRequestData.BookingContactList[0] = new BookingContact();
                 _ContactModel.updateContactsRequestData.BookingContactList[0].EmailAddress = obj.emailAddress;
-                if (obj.customerNumber != "")
+                if (obj.customerNumber != "") 
                 {
-                    _ContactModel.updateContactsRequestData.BookingContactList[0].TypeCode = "G";
-                    _ContactModel.updateContactsRequestData.BookingContactList[0].CompanyName = obj.companyName;
-                    _ContactModel.updateContactsRequestData.BookingContactList[0].CustomerNumber = obj.customerNumber; //"22AAAAA0000A1Z5"; //GSTNumber Re_ Assistance required for SG API Integration\GST Logs.zip\GST Logs
+                _ContactModel.updateContactsRequestData.BookingContactList[0].TypeCode = "G";
+                _ContactModel.updateContactsRequestData.BookingContactList[0].CompanyName = obj.companyName;
+                _ContactModel.updateContactsRequestData.BookingContactList[0].CustomerNumber = obj.customerNumber; //"22AAAAA0000A1Z5"; //GSTNumber Re_ Assistance required for SG API Integration\GST Logs.zip\GST Logs
                 }
                 SpiceJetApiController objSpiceJet = new SpiceJetApiController();
                 UpdateContactsResponse responseAddContact = await objSpiceJet.GetUpdateContactsAsync(_ContactModel);
@@ -349,13 +349,13 @@ namespace OnionConsumeWebAPI.Controllers
             {
                 unitKey = new List<string>();
             }
-            //List<string> ConnetedBaggageSSrkey = new List<string>();
-            //for (int i = 0; i < BaggageSSrkey.Count; i++)
-            //{
-            //    ConnetedBaggageSSrkey.Add(BaggageSSrkey[i].Replace("_0", "_1"));
-            //}
-            ////ConnetedBaggageSSrkey = BaggageSSrkey;
-            //BaggageSSrkey.AddRange(ConnetedBaggageSSrkey);
+            List<string> ConnetedBaggageSSrkey = new List<string>();
+            for (int i = 0; i < BaggageSSrkey.Count; i++)
+            {
+                ConnetedBaggageSSrkey.Add(BaggageSSrkey[i].Replace("_0", "_1"));
+            }
+            //ConnetedBaggageSSrkey = BaggageSSrkey;
+            BaggageSSrkey.AddRange(ConnetedBaggageSSrkey);
 
             string tokenview = HttpContext.Session.GetString("SpicejetSignature");
             token = tokenview.Replace(@"""", string.Empty);
@@ -411,7 +411,7 @@ namespace OnionConsumeWebAPI.Controllers
                             for (int k = 0; k < ssrKey.Count; k++)
                             {
                                 string[] sskeydata = new string[2];
-                                if (ssrKey[k].Contains("_OneWay0"))
+                                if (ssrKey[k].Contains("_0"))
                                 {
                                     string[] wordsArray = ssrKey[k].ToString().Split('_');
                                     if (wordsArray.Length > 1 && !string.IsNullOrEmpty(wordsArray[0]))
@@ -422,7 +422,7 @@ namespace OnionConsumeWebAPI.Controllers
                                         _obj.SSRcode0.Add(_obj0);
                                     }
                                 }
-                                else if (ssrKey[k].Contains("_OneWay1"))
+                                else if (ssrKey[k].Contains("_1"))
                                 {
                                     string[] wordsArray = ssrKey[k].ToString().Split('_');
                                     if (wordsArray.Length > 1 && !string.IsNullOrEmpty(wordsArray[0]))
@@ -439,7 +439,7 @@ namespace OnionConsumeWebAPI.Controllers
                             for (int k = 0; k < BaggageSSrkey.Count; k++)
                             {
                                 string[] sskeydata = new string[2];
-                                if (BaggageSSrkey[k].Contains("_OneWay0"))
+                                if (BaggageSSrkey[k].Contains("_0"))
                                 {
                                     string[] wordsArray = BaggageSSrkey[k].ToString().Split('_');
                                     if (wordsArray.Length > 1 && !string.IsNullOrEmpty(wordsArray[0]))
@@ -450,7 +450,7 @@ namespace OnionConsumeWebAPI.Controllers
                                         _obj.SSRbaggagecode0.Add(_objBag0);
                                     }
                                 }
-                                else if (BaggageSSrkey[k].Contains("_OneWay1"))
+                                else if (BaggageSSrkey[k].Contains("_1"))
                                 {
                                     string[] wordsArray = BaggageSSrkey[k].ToString().Split('_');
                                     if (wordsArray.Length > 1 && !string.IsNullOrEmpty(wordsArray[0]))
@@ -943,14 +943,14 @@ namespace OnionConsumeWebAPI.Controllers
                             for (int k = 0; k < ssrKey.Count; k++)
                             {
 
-                                if (ssrKey[k].Contains("_OneWay0"))
+                                if (ssrKey[k].Contains("_0"))
                                 {
 
                                     ssrsKey _obj0 = new ssrsKey();
                                     _obj0.key = ssrKey[k];
                                     _obj.SSRcode0.Add(_obj0);
                                 }
-                                else if (ssrKey[k].Contains("_OneWay1"))
+                                else if (ssrKey[k].Contains("_1"))
                                 {
                                     ssrsKey _obj1 = new ssrsKey();
                                     _obj1.key = ssrKey[k];

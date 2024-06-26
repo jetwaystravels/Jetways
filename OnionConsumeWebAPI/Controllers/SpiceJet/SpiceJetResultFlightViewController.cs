@@ -317,7 +317,7 @@ namespace OnionConsumeWebAPI.Controllers
                                         AAServicechargeobj.amount = Convert.ToInt32(_GetBookingFromStateRS1.BookingData.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges[m].Amount);
 
                                         AAServicechargeobj.code = _GetBookingFromStateRS1.BookingData.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges[m].ChargeCode;
-                                        if (AAPassengerfareobj.passengerType.Equals("CHD") && AAServicechargeobj.code.Contains("PRCT"))
+                                        if (AAPassengerfareobj.passengerType.Equals("CHD") && AAServicechargeobj.code.Equals("20PRCT"))
                                         {
                                             if (AAServicechargelist[0].amount != null && AAServicechargeobj.amount != null)
                                             {

@@ -38,7 +38,7 @@ var app = builder.Build();
 //    app.UseExceptionHandler("/Home/Error");
 //}
 app.UseStaticFiles();
-app.UseMiddleware<ExceptionHandling>();
+//app.UseMiddleware<ExceptionHandling>();
 app.UseSession();
 app.UseRouting();
 app.UseAuthorization();

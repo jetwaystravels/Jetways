@@ -76,29 +76,6 @@ namespace OnionConsumeWebAPI.Controllers
             return paxPriceTypes;
         }
 
-
-        //public PointOfSale GetPointOfSale()
-        //{
-        //    PointOfSale SourcePOS = null;
-        //    try
-        //    {
-        //        SourcePOS = new PointOfSale();
-        //        SourcePOS.State = IndigoBookingManager_.MessageState.New;
-        //        SourcePOS.OrganizationCode = "";
-        //        SourcePOS.AgentCode = "AG";
-        //        SourcePOS.LocationCode = "";
-        //        SourcePOS.DomainCode = "WWW";
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        string exp = e.Message;
-        //        exp = null;
-        //    }
-
-        //    return SourcePOS;
-        //}
-
-
         [HttpPost] // this APi is used to map trip data Amount
         public async Task<ActionResult> IndigoTripsell(string fareKey, string journeyKey)
         {

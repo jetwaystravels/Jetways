@@ -190,68 +190,6 @@ namespace OnionConsumeWebAPI.Controllers
 
             //return RedirectToAction("IndigoSaverTripsell", "IndigoTripsell", passengerdetails);
         }
-        //public async Task<IActionResult> GetGstDetails(AddGSTInformation addGSTInformation, string lineOne, string lineTwo, string city, string number, string postalCode)
-        //{
-        //    string tokenview = HttpContext.Session.GetString("AirasiaTokan");
-        //    token = tokenview.Replace(@"""", string.Empty);
-
-        //    using (HttpClient client = new HttpClient())
-        //    {
-        //        AddGSTInformation addinformation = new AddGSTInformation();
-
-
-        //        addinformation.contactTypeCode = "G";
-
-        //        GSTPhonenumber Phonenumber = new GSTPhonenumber();
-        //        List<GSTPhonenumber> Phonenumberlist = new List<GSTPhonenumber>();
-        //        Phonenumber.type = "Other";
-        //        Phonenumber.number = number;
-        //        Phonenumberlist.Add(Phonenumber);
-
-        //        foreach (var item in Phonenumberlist)
-        //        {
-        //            addinformation.phoneNumbers = Phonenumberlist;
-        //        }
-        //        addinformation.cultureCode = "";
-        //        GSTAddress Address = new GSTAddress();
-        //        Address.lineOne = lineOne;
-        //        Address.lineTwo = lineTwo;
-        //        Address.lineThree = "";
-        //        Address.countryCode = "IN";
-        //        Address.provinceState = "TN";
-        //        Address.city = city;
-        //        Address.postalCode = postalCode;
-        //        addinformation.Address = Address;
-
-        //        addinformation.emailAddress = addGSTInformation.emailAddress;
-        //        addinformation.customerNumber = addGSTInformation.customerNumber;
-        //        addinformation.sourceOrganization = "";
-        //        addinformation.distributionOption = "None";
-        //        addinformation.notificationPreference = "None";
-        //        addinformation.companyName = addGSTInformation.companyName;
-
-        //        GSTName Name = new GSTName();
-        //        Name.first = "Vadivel";
-        //        Name.middle = "raja";
-        //        Name.last = "VR";
-        //        Name.title = "MR";
-        //        Name.suffix = "";
-        //        addinformation.Name = Name;
-
-        //        var jsonContactRequest = JsonConvert.SerializeObject(addinformation, Formatting.Indented);
-        //        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-        //        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        //        HttpResponseMessage responseAddContact = await client.PostAsJsonAsync(BaseURL + "/api/nsk/v1/booking/contacts", addinformation);
-        //        if (responseAddContact.IsSuccessStatusCode)
-        //        {
-        //            var _responseAddContact = responseAddContact.Content.ReadAsStringAsync().Result;
-        //            var JsonObjAddContact = JsonConvert.DeserializeObject<dynamic>(_responseAddContact);
-        //        }
-
-        //    }
-
-        //    return RedirectToAction("Tripsell", "AATripsell");
-        //}
         public async Task<IActionResult> PostUnitkey(List<string> unitKey, List<string> ssrKey,List<string> BaggageSSrkey, List<string> FastfarwardAddon, List<string> PPBGAddon)
         {
             if (BaggageSSrkey.Count > 0 && BaggageSSrkey[0] == null)
@@ -274,14 +212,7 @@ namespace OnionConsumeWebAPI.Controllers
             {
                 PPBGAddon = new List<string>();
             }
-            //List<string> ConnetedBaggageSSrkey = new List<string>();
-            //for (int i = 0; i < BaggageSSrkey.Count; i++)
-            //{
-            //ConnetedBaggageSSrkey.Add(BaggageSSrkey[i].Replace("_OneWay0", "_OneWay1"));
-            //}
-            //ConnetedBaggageSSrkey = BaggageSSrkey;
-            //BaggageSSrkey.AddRange(ConnetedBaggageSSrkey);
-
+            
             string tokenview = HttpContext.Session.GetString("IndigoSignature");
             token = tokenview.Replace(@"""", string.Empty);
             if (token == "" || token == null)
@@ -320,6 +251,18 @@ namespace OnionConsumeWebAPI.Controllers
                         if (_AssignseatRes != null)
                         {
                             var JsonObjSeatAssignment = _AssignseatRes;
+                            #region GetBookingFromState
+                            _sell objsell = new _sell();
+                            IndigoBookingManager_.GetBookingFromStateResponse _GetBookingFromStateRS = await objsell.GetBookingFromState(token, "OneWay");
+
+                            string str3 = JsonConvert.SerializeObject(_GetBookingFromStateRS);
+
+                            if (_GetBookingFromStateRS != null)
+                            {
+                                //var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
+                            }
+
+                            #endregion
                         }
 
                     }
@@ -337,10 +280,6 @@ namespace OnionConsumeWebAPI.Controllers
         {
             using (HttpClient client = new HttpClient())
             {
-                //legpassengers obj = new legpassengers();
-                //obj.passengerKey = legpassengers.passengerKey;
-                //obj.ssrKey = legpassengers.ssrKey;
-
                 #region SellSSR
                 SellSSRModel _sellSSRModel = new SellSSRModel();
                 _sellSSRModel.count = 1;
@@ -361,9 +300,8 @@ namespace OnionConsumeWebAPI.Controllers
                     var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
                     var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
                 }
+                #endregion
             }
-
-            #endregion
             return View();
         }
 
