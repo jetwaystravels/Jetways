@@ -428,59 +428,16 @@
         $("#editData").click(function () {
             $("#dataPopup").hide();
         });
-        // function showError(input, message) {
 
-        //     var errorDiv = document.createElement('div');
-        //     errorDiv.textContent = message;
-        //     errorDiv.classList.add('error-message');
-        //     errorDiv.style.color = 'red';
-        //     input.parentNode.parentNode.insertBefore(errorDiv, input.parentNode.nextSibling);
-        //     input.addEventListener('input', function () {
-        //         if (input.value.trim() !== '') {
-        //             errorDiv.style.display = 'none';e
-        //         }
-        //     });
-        // }
-        // function clearError(input) {
-        //     // Find and remove the error message div if it exists
-        //     var errorDiv = input.parentNode.parentNode.querySelector('.error-message');
-        //     if (errorDiv) {
-        //         errorDiv.parentNode.removeChild(errorDiv);
-        //     }
-        // }
-        // function FirstNameVal() {
-        //     debugger;
-        //     var inputs = document.querySelectorAll('.contactFname');
-        //     var isValid = true;
-        //     var errorInputs = [];
-        //     for (var i = 0; i < inputs.length; i++) {
-        //         if (!inputs[i].value.trim()) {
-        //             isValid = false;
-        //             errorInputs.push(inputs[i]);
-        //         } else {
-        //             clearError(inputs[i]);
-        //         }
-        //     }
-        //     if (!isValid) {
-        //         showError(errorInputs[0], 'This field is required');
-        //         errorInputs[0].focus();
-        //         return false;
-        //     } else {
-
-        //         // alert('All inputs are valid!');
-        //         // You might want to submit the form or take other actions here
-        //     }
-
-        // }
         $("#showReviewPopup").click(function (e) {
             e.preventDefault();
             debugger;
             /*******Validation Start*********/
             const fieldsToValidate = [
-                { className: 'contactFname', errorMessage: 'First name is required ' },
-                { className: 'contactLname', errorMessage: 'Last  name is required' },
-                { className: 'contactemail', errorMessage: 'Email Address is required' },
-                { className: 'contactphone', errorMessage: 'Phone number is required' }
+                { className: 'contactFname', errorMessage: 'First name is required ', validationdata: /^[A-Za-z.]{3,32}$/ },
+                { className: 'contactLname', errorMessage: 'Last  name is required', validationdata: /^[A-Za-z.]{3,32}$/ },
+                { className: 'contactemail', errorMessage: 'Email Address is required', validationdata: /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/ },
+                { className: 'contactphone', errorMessage: 'Phone number is required', validationdata: /^\d{10}$/ }
             ];
             let firstInvalidElement = null;
             fieldsToValidate.forEach(field => {
@@ -489,7 +446,7 @@
                     element.addEventListener("input", function () {
                         removeError(element);
                     });
-                    if (element.value.trim() === "") {
+                    if (element.value.trim() === "" || !field.validationdata.test(element.value.trim())) {
                         showError(element, field.errorMessage);
                         if (!firstInvalidElement) {
                             firstInvalidElement = element;
@@ -498,12 +455,14 @@
                 });
             });
             if (firstInvalidElement) {
+                debugger;
                 firstInvalidElement.focus();
                 return false;
             } else {
                 // document.getElementById('passengerForm').submit();
             }
             function removeError(element) {
+                debugger;
                 const parentElement = element.closest('.col-md-3,.col-md-2');
                 const errorMessage = parentElement.querySelector(".error-message");
                 if (errorMessage) {
@@ -512,45 +471,22 @@
                 element.classList.remove("error-input");
             }
             function showError(element, message) {
-                const parentElement = element.closest('.col-md-3 ,.col-md-2');
+                debugger;
+                const parentElement = element.closest('.col-md-3, .col-md-2');
+                const errorMessagedata = parentElement.querySelector('.error-message-val');
+                if (errorMessagedata) {
+                    errorMessagedata.style.display = 'none';
+                }
                 let errorMessage = parentElement.querySelector(".error-message");
-
                 if (!errorMessage) {
                     errorMessage = document.createElement("p");
                     errorMessage.className = "error-message";
                     parentElement.appendChild(errorMessage);
                 }
-
                 errorMessage.textContent = message;
                 errorMessage.style.display = 'block';
                 element.classList.add("error-input");
             }
-            // function removeError(element) {
-
-            //     const errorMessage = element.parentNode.querySelector(".error-message");
-            //     if (errorMessage) {
-            //         errorMessage.style.display = 'none';
-            //     }
-            //     element.classList.remove("error-input");
-            // }
-            // function showError(element, message) {
-
-            //     const errorMessageval = element.parentNode.querySelector('.error-message-val');
-            //     if (errorMessageval) {
-            //         errorMessageval.style.display = "none";
-            //     }
-
-            //     let errorMessage = element.parentNode.querySelector(".error-message");
-            //     if (!errorMessage) {
-            //         errorMessage = document.createElement("p");
-            //         errorMessage.className = "error-message";
-            //         element.parentNode.appendChild(errorMessage);
-            //     }
-
-            //     errorMessage.textContent = message;
-            //     errorMessage.style.display = 'block';
-            //     element.classList.add("error-input");
-            // }
             //Infant
             if (!validateMultipleInfantDOBs()) {
                 return false;

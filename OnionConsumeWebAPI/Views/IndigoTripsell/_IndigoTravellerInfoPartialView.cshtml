@@ -327,11 +327,27 @@
             debugger;
             /*******Validation Start*********/
             const fieldsToValidate = [
-                { className: 'contactFname', errorMessage: 'First name is required ' },
-                { className: 'contactLname', errorMessage: 'Last  name is required' },
-                { className: 'contactemail', errorMessage: 'Email  name is required' },
-                { className: 'contactphone', errorMessage: 'Phone number is required' }
+                { className: 'contactFname', errorMessage: 'First name is required ', validationdata: /^[A-Za-z.]{3,32}$/ },
+                { className: 'contactLname', errorMessage: 'Last  name is required', validationdata: /^[A-Za-z.]{3,32}$/ },
+                { className: 'contactemail', errorMessage: 'Email Address is required', validationdata: /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/ },
+                { className: 'contactphone', errorMessage: 'Phone number is required', validationdata: /^\d{10}$/ }
             ];
+            // const element = event.target;
+            // const value = element.value.trim();
+            // const validateTypeT = element.getAttribute('data-validate');
+            // if (!validateTypeT) {
+            //     const validatorsT = {
+            //         name: /^[A-Za-z.]{3,32}$/,
+            //         last: /^[A-Za-z.]{3,32}$/,
+            //         email: /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
+            //         phone: /^\d{10}$/
+            //     };
+            //     if (!validatorsT[validateTypeT].test(value)) {
+            //         showErrorVal(element, messages[validateTypeT]);
+            //     } else {
+            //         removeErrorVal(element);
+            //     }
+            // }
             let firstInvalidElement = null;
             fieldsToValidate.forEach(field => {
                 const elements = document.querySelectorAll(`.${field.className}`);
@@ -339,7 +355,7 @@
                     element.addEventListener("input", function () {
                         removeError(element);
                     });
-                    if (element.value.trim() === "") {
+                    if (element.value.trim() === "" || !field.validationdata.test(element.value.trim())) {
                         showError(element, field.errorMessage);
                         if (!firstInvalidElement) {
                             firstInvalidElement = element;
@@ -348,12 +364,14 @@
                 });
             });
             if (firstInvalidElement) {
+                debugger;
                 firstInvalidElement.focus();
                 return false;
             } else {
                 // document.getElementById('passengerForm').submit();
             }
             function removeError(element) {
+                debugger;
                 const parentElement = element.closest('.col-md-3,.col-md-2');
                 const errorMessage = parentElement.querySelector(".error-message");
                 if (errorMessage) {
@@ -362,50 +380,23 @@
                 element.classList.remove("error-input");
             }
             function showError(element, message) {
-                const parentElement = element.closest('.col-md-3 ,.col-md-2');
+                debugger;
+                const parentElement = element.closest('.col-md-3, .col-md-2');
+                const errorMessagedata = parentElement.querySelector('.error-message-val');
+                if (errorMessagedata) {
+                    errorMessagedata.style.display = 'none';
+                }
                 let errorMessage = parentElement.querySelector(".error-message");
-
                 if (!errorMessage) {
                     errorMessage = document.createElement("p");
                     errorMessage.className = "error-message";
                     parentElement.appendChild(errorMessage);
                 }
-
                 errorMessage.textContent = message;
                 errorMessage.style.display = 'block';
                 element.classList.add("error-input");
             }
-
-            // function removeError(element) {
-
-            //     const errorMessage = element.parentNode.querySelector(".error-message");
-            //     if (errorMessage) {
-            //         errorMessage.style.display = 'none';
-            //     }
-            //     element.classList.remove("error-input");
-            // }
-            // function showError(element, message) {
-
-            //     const errorMessageval = element.parentNode.querySelector('.error-message-val');
-            //     if (errorMessageval) {
-            //         errorMessageval.style.display = "none";
-            //     }
-
-            //     let errorMessage = element.parentNode.querySelector(".error-message");
-            //     if (!errorMessage) {
-            //         errorMessage = document.createElement("p");
-            //         errorMessage.className = "error-message";
-            //         element.parentNode.appendChild(errorMessage);
-            //     }
-
-            //     errorMessage.textContent = message;
-            //     errorMessage.style.display = 'block';
-            //     element.classList.add("error-input");
-            // }
-
-
-
-            // Infant Date
+            //Infant
             if (!validateMultipleInfantDOBs()) {
                 return false;
             }
@@ -444,12 +435,12 @@
                     var validationMessageReq = $(this).closest('.infant-dob-input').find('.validation-message-Required');
                     if (!day || !month || !year) {
                         debugger;
-                        validationMessageReq.text(" date fields are required.");
+                        validationMessageReq.text("Enter valid date of birth.");
                         validationMessageReq.show();
                         infantsValid = false;
                     } else if (!validateInfantDOB(dob)) {
                         debugger;
-                        validationMessageReq.text("Infant age cannot be greater than 2 years..");
+                        validationMessageReq.text("Infant can not be greater than 2 years.");
                         validationMessageReq.show();
                         infantsValid = false;
                     } else {

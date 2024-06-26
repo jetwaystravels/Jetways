@@ -141,7 +141,7 @@
                         </div>
                         <div id="content" class="row bg-white mt-2">
                             <partial name="_IndigoContactDetailsPartialView.cshtml" />  <br> <br>
-                 
+
                         </div>
 
 
@@ -444,12 +444,13 @@
                 //$('#content').toggleClass('hidden');
                 $('#content').show();
                 $('#content2').hide();
+                $('#content4').hide();
                 var toggleButton2 = document.getElementById("toggleButton2");
                 toggleButton2.style.opacity = "0.2";
-                var toggleButton3To = document.getElementById("toggleButton3");
-                toggleButton3To.style.opacity = "0.2";
-                var content3To = document.getElementById("content3");
-                content3To.style.display = "none";
+                // var toggleButton3To = document.getElementById("toggleButton3");
+                // toggleButton3To.style.opacity = "0.2";
+                // var content3To = document.getElementById("content3");
+                // content3To.style.display = "none";
                 var SGtoggleButton4To = document.getElementById("toggleButton4");
                 SGtoggleButton4To.style.opacity = "0.2";
                 var SGcontent4To = document.getElementById("content4");
@@ -458,6 +459,16 @@
                 var GSTContinuebtn1 = document.querySelector("#Continuebtn");
                 GSTContinuebtn1.disabled = true;
                 GSTContinuebtn1.style.opacity = "0.2";
+            });
+
+            $('#toggleButton2').on('click', function () {
+                //$('#content').toggleClass('hidden');
+                $('#content').hide();
+                $('#content2').show();
+                $('#content4').hide();
+                var servicetoggle = document.getElementById("toggleButton4");
+                servicetoggle.style.opacity = "0.2";
+
             });
 
             $(".Continuebtnprice").click(function () {
@@ -524,11 +535,11 @@
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         })
-       
+
         window.onload = function () {
             updateCombinedTotal();
         }
-       
+
     </script>
 
 

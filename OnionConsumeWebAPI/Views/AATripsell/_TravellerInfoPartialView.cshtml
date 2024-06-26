@@ -183,7 +183,6 @@
     </form>
 
 </div>
-
 <div class="modal fade" id="dataPopup" tabindex="-1" role="dialog" aria-labelledby="dataPopupLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content pb-3">
@@ -261,6 +260,7 @@
         }
     }
     function showErrorVal(element, message) {
+        debugger;
         const parentElement = element.closest('.col-md-3, .col-md-2');
         let errorMessage = parentElement.querySelector('.error-message-val');
 
@@ -279,6 +279,7 @@
         }
     }
     function removeErrorVal(element) {
+        debugger;
         const parentElement = element.closest('.col-md-3, .col-md-2');
         const errorMessage = parentElement.querySelector('.error-message-val');
         if (errorMessage) {
@@ -307,20 +308,16 @@
             var emailInputsT = document.querySelectorAll(".contactemail");
             emailInputsT.forEach(function (input) {
                 input.value = emaiLeadPass;
+                //value = input.value;
+                validateInputT(input);
             });
             // Get all elements with class "contactphone" and set their value
             var phoneInputsT = document.querySelectorAll(".contactphone");
             phoneInputsT.forEach(function (input) {
                 input.value = phoneLeadPass;
+                //value = input.value;
+                validateInputT(input);
             });
-
-            // const parentElement = element.closest('.col-md-3, .col-md-2');
-            // let errorMessage = parentElement.querySelector('.error-message-val');
-            // if (!errorMessage) {
-            //     errorMessage = document.createElement('p');
-            //     errorMessage.className = 'error-message-val';
-            //     parentElement.appendChild(errorMessage);
-            // }
         } else {
             alert("Checkbox is unchecked");
             debugger;
@@ -343,7 +340,6 @@
             document.querySelector("#contactphoneID").value = phoneLeadPassenger;
         }
     });
-
     document.addEventListener('DOMContentLoaded', function (event) {
         event.preventDefault();
         const infantContainers = document.querySelectorAll('.infant-dob-input');
@@ -378,23 +374,21 @@
 </script>
 <script type="text/javascript">
     $(document).ready(function () {
-
         function showForm() {
             $('#passengerForm').show();
         }
         $("#editData").click(function () {
             $("#dataPopup").hide();
         });
-
         $("#showReviewPopup").click(function (e) {
             e.preventDefault();
             debugger;
             /*******Validation Start*********/
             const fieldsToValidate = [
-                { className: 'contactFname', errorMessage: 'First name is required ' },
-                { className: 'contactLname', errorMessage: 'Last  name is required' },
-                { className: 'contactemail', errorMessage: 'Email Address is required' },
-                { className: 'contactphone', errorMessage: 'Phone number is required' }
+                { className: 'contactFname', errorMessage: 'First name is required ', validationdata: /^[A-Za-z.]{3,32}$/ },
+                { className: 'contactLname', errorMessage: 'Last  name is required', validationdata: /^[A-Za-z.]{3,32}$/ },
+                { className: 'contactemail', errorMessage: 'Email Address is required', validationdata: /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/ },
+                { className: 'contactphone', errorMessage: 'Phone number is required', validationdata: /^\d{10}$/ }
             ];
             // const element = event.target;
             // const value = element.value.trim();
@@ -419,7 +413,7 @@
                     element.addEventListener("input", function () {
                         removeError(element);
                     });
-                    if (element.value.trim() === "") {
+                    if (element.value.trim() === "" || !field.validationdata.test(element.value.trim())) {
                         showError(element, field.errorMessage);
                         if (!firstInvalidElement) {
                             firstInvalidElement = element;
@@ -428,12 +422,14 @@
                 });
             });
             if (firstInvalidElement) {
+                debugger;
                 firstInvalidElement.focus();
                 return false;
             } else {
                 // document.getElementById('passengerForm').submit();
             }
             function removeError(element) {
+                debugger;
                 const parentElement = element.closest('.col-md-3,.col-md-2');
                 const errorMessage = parentElement.querySelector(".error-message");
                 if (errorMessage) {
@@ -442,15 +438,18 @@
                 element.classList.remove("error-input");
             }
             function showError(element, message) {
-                const parentElement = element.closest('.col-md-3 ,.col-md-2');
+                debugger;
+                const parentElement = element.closest('.col-md-3, .col-md-2');
+                const errorMessagedata = parentElement.querySelector('.error-message-val');
+                if (errorMessagedata) {
+                    errorMessagedata.style.display = 'none';
+                }
                 let errorMessage = parentElement.querySelector(".error-message");
-
                 if (!errorMessage) {
                     errorMessage = document.createElement("p");
                     errorMessage.className = "error-message";
                     parentElement.appendChild(errorMessage);
                 }
-
                 errorMessage.textContent = message;
                 errorMessage.style.display = 'block';
                 element.classList.add("error-input");

@@ -65,16 +65,16 @@
     }
 
     /* .active {
-        color: #E93329 !important;
-        border-bottom: 1px solid #E93329 !important;
-    } */
+            color: #E93329 !important;
+            border-bottom: 1px solid #E93329 !important;
+        } */
 
     .select-option {
         max-width: 120px;
     }
 
         .select-option .servc-bordr {
-            max-width:150px;
+            max-width: 150px;
         }
 
     .width-90 {
@@ -86,7 +86,7 @@
     }
 
         .select-option2 .servc-bordr {
-            max-width:150px;
+            max-width: 150px;
         }
 
     .wdth-100 {
@@ -98,7 +98,7 @@
     }
 
     #seattab1 {
-     margin: 0px 15px!important;
+        margin: 0px 15px !important;
     }
 
     .checkout .bg-white.service-section input {
@@ -130,8 +130,6 @@
     .servc-bordrm1 option {
         font-size: 12px;
     }
-
-
 
 </style>
 <script type="text/javascript">
@@ -304,7 +302,7 @@
 
 
 
-      
+
 
 
 
@@ -494,8 +492,8 @@
 
                                         <li style="padding:0;"><strong>Legend:</strong></li>
                                         <li><span class="free"></span>Free Seats</li>
-                                        <li><span class="midcomfort"></span>&#8377; 150 - &#8377; 350</li>
-                                        <li><span class="comfort"></span>&#8377; 351 - &#8377; 800</li>
+                                        <li><span class="midcomfort"></span>&#8377; 120 - &#8377; 350</li>
+                                        <li><span class="comfort"></span>&#8377; 351 - &#8377; 2000</li>
                                         <li><span class="booked"></span>Occupied</li>
 
                                     </ul>
@@ -504,53 +502,53 @@
                                 </div>
 
                                 <div class="col-lg-4">
-                            @{
-                                int segmentcount = Model.passeengerlist.journeys[0].segments.Count;
-                                @if (segmentcount == 1)
-                                {
-                                    <div class="d-flex">
-                                        <div>
-                                            <button type="submit" id="" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
-                                        </div>
-                                        <div>
-                                            A
-                                            <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
-                                        </div>
-                                    </div>
-                                }
-                                else
-                                {
-
-                                    @for (int i = 0; i < segmentcount; i++)
-                                    {
-                                        @if (i == 1)
+                                    @{
+                                        int segmentcount = Model.passeengerlist.journeys[0].segments.Count;
+                                        @if (segmentcount == 1)
                                         {
                                             <div class="d-flex">
                                                 <div>
                                                     <button type="submit" id="" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
                                                 </div>
+                                                <div>
 
-                                                <div id="popbtnA">
-
-
-                                                    <button type="submit" id="btnfocus" class="btn  btn-primary">Continue</button>
-
-                                                </div>
-                                                <div id="popbtnB" style="display:none;">
                                                     <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
-
                                                 </div>
                                             </div>
                                         }
+                                        else
+                                        {
 
+                                            @for (int i = 0; i < segmentcount; i++)
+                                            {
+                                                @if (i == 1)
+                                                {
+                                                    <div class="d-flex">
+                                                        <div>
+                                                            <button type="submit" id="" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
+                                                        </div>
+
+                                                        <div id="popbtnA">
+
+
+                                                            <button type="submit" id="btnfocus" class="btn  btn-primary">Continue</button>
+
+                                                        </div>
+                                                        <div id="popbtnB" style="display:none;">
+                                                            <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
+
+                                                        </div>
+                                                    </div>
+                                                }
+
+                                            }
+                                        }
                                     }
-                                }
-                            }
 
-                        </div>
+                                </div>
                                 <p><strong>Disclaimer:</strong> Seat allotment is the sole prerogative of the airline and can't be guaranteed by jetwaystravel.com</p>
 
-                    </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -718,8 +716,8 @@
                                                     }
                                                 }
                                                 <div class="d-flex">
-                                                   
-                                                    
+
+
                                                     @if (mealOptions.Count > 0)
                                                     {
                                                         <select id="ddlMealOptions" class="servc-bordr servc-bordrm1">
@@ -745,7 +743,7 @@
                                             </div>
                                             <div class="servc-content seat">
                                                 <div class="d-flex">
-                                                   
+
                                                     <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn exampleModalCSeat" data-toggle="modal" data-target="#sgexampleModal">
 
                                                 </div>
@@ -793,7 +791,7 @@
 
                                                 }
                                                 <div class="d-flex">
-                                                  
+
                                                     <select id="ddlbagOptions" class="servc-bordr servc-bordrbaggage">
                                                         <option selected="selected" value="">Please Select</option>
                                                         @foreach (var option in BaggageOptions)
@@ -907,12 +905,12 @@
 
                                                         if (Mealcode != null)
                                                         {
-                                                        // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
+                                                            // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
                                                             mealOptions.Add(new SelectListItem { Text = Mealname, Value = Mealcode });
                                                         }
 
-                                                            // string queryMeal = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
-                                                            // var mealData = SpicejetMealImageList.GetAllmeal().SingleOrDefault(x => x.MealCode == queryMeal);
+                                                        // string queryMeal = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
+                                                        // var mealData = SpicejetMealImageList.GetAllmeal().SingleOrDefault(x => x.MealCode == queryMeal);
 
                                                         // if (mealData != null)
                                                         // {
@@ -948,7 +946,7 @@
                                             </div>
                                             <div class="servc-content seat">
                                                 <div class="d-flex">
-                                                   
+
                                                     <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn exampleModalCSeat" data-toggle="modal" data-target="#sgexampleModal">
                                                 </div>
                                                 <div class="output-div-input" id="outputDivConnect_@pas"></div>
