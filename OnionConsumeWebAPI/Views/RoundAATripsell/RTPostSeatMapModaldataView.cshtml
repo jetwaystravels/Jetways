@@ -680,9 +680,10 @@
         $('input[name="unitKey"]').on('change', function () {
             var selectedIds = [];
             debugger;
-            $('input[name="unitKey"]:checked').each(function () {
-                selectedIds.push($(this).val());
-            });
+            // $('input[name="unitKey"]:checked').each(function () {
+            //     selectedIds.push($(this).val());
+            // });
+            var selectedIds = checkedValues.concat(checkedValues2).concat(checkedValuesRT).concat(checkedValues2RT);
             var total = 0;
             $('input[name="unitKey"]:checked').each(function () {
                 total += parseInt($(this).val());

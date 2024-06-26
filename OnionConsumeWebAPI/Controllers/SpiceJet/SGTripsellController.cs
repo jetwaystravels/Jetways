@@ -337,6 +337,15 @@ namespace OnionConsumeWebAPI.Controllers
         ////public async Task<IActionResult> PostUnitkey(string selectedIds, List<string> ssrKey)
         public async Task<IActionResult> PostUnitkey(List<string> unitKey, List<string> ssrKey, List<string> BaggageSSrkey)
         {
+            List<string> _unitkey = new List<string>();
+            for (int i = 0; i < unitKey.Count; i++)
+            {
+                if (unitKey[i] == null)
+                    continue;
+                _unitkey.Add(unitKey[i].Trim());
+            }
+            unitKey = new List<string>();
+            unitKey = _unitkey;
             if (BaggageSSrkey[0] == null)
             {
                 BaggageSSrkey = new List<string>();

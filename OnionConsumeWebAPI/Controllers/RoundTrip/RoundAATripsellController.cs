@@ -824,6 +824,15 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
         //Post Unit Key
         public async Task<IActionResult> PostUnitkey(List<string> unitKey, List<string> ssrKey, List<string> BaggageSSrkey, List<string> FastfarwardAddon, List<string> PPBGAddon)
         {
+            List<string> _unitkey = new List<string>();
+            for (int i = 0; i < unitKey.Count; i++)
+            {
+                if (unitKey[i] == null)
+                    continue;
+                _unitkey.Add(unitKey[i].Trim());
+            }
+            unitKey = new List<string>();
+            unitKey = _unitkey;
             if (BaggageSSrkey[0] == null && BaggageSSrkey.Count > 0)
             {
                 BaggageSSrkey = new List<string>();
