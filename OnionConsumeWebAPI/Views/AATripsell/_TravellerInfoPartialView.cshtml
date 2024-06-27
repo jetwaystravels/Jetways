@@ -79,7 +79,7 @@
 
 </style>
 <div class="py-15 px-20 rounded-4 text-15 bg-blue-1-05 mb-10">
-    <div class="d-flex justify-content-end" style="margin-bottom:-15px;"><button id="checkboxLead" class="checkbox-button2" onclick="toggleCheckbox()"></button></div>
+    <span>Same Contact Details</span> <div class="d-flex justify-content-end" style="margin-bottom:-15px;"><button id="checkboxLead" class="checkbox-button2" onclick="toggleCheckbox()"></button></div>
 
     <form asp-action="TravllerDetails" asp-controller="AATripsell" method="post" id="passengerForm">
         @for (var i = 0; i < Model.passeengerlist.passengers.Count; i++)

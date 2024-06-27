@@ -101,6 +101,31 @@
 
     </form>
 </div>
+<div class="modal fade" id="dataPopup" tabindex="-1" role="dialog" aria-labelledby="dataPopupLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content pb-3">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dataPopupLabel">Please review your details to ensure accuracy.</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="enteredData">
+                <!-- Display the entered data here -->
+
+            </div>
+            <div class="d-flex justify-content-end">
+                <div class="editbtn me-3">
+                    <button type="button" data-dismiss="modal" class="btn btn-primary w-20" id="editData">Edit</button>
+                </div>
+                <div class="countibtn me-3">
+                    <button type="button" data-dismiss="modal" class="btn btn-primary w-20" id="ContinueData">Continue</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <!-- Include Bootstrap JavaScript -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -168,7 +193,7 @@
         const validators = {
             name: /^[a-zA-Z\s]*$/,
             last: /^[a-zA-Z\s]*$/,
-            email: /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
+            email: /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
             phone: /^\d{10}$/
         };
 
@@ -313,7 +338,6 @@
         });
     });
 </script>
-
 <script type="text/javascript">
     $(document).ready(function () {
         function showForm() {
@@ -513,34 +537,6 @@
     });
 
 </script>
-
-<div class="modal fade" id="dataPopup" tabindex="-1" role="dialog" aria-labelledby="dataPopupLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content pb-3">
-            <div class="modal-header">
-                <h5 class="modal-title" id="dataPopupLabel">Please review your details to ensure accuracy.</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="enteredData">
-                <!-- Display the entered data here -->
-
-            </div>
-            <div class="d-flex justify-content-end">
-                <div class="editbtn me-3">
-                    <button type="button" data-dismiss="modal" class="btn btn-primary w-20" id="editData">Edit</button>
-                </div>
-                <div class="countibtn me-3">
-                    <button type="button" data-dismiss="modal" class="btn btn-primary w-20" id="ContinueData">Continue</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-
 <style>
     .error-message {
         color: red;
@@ -581,359 +577,5 @@
         }
 
 </style>
-<script type="text/javascript">
 
-    //Lead Passeneger Check Box function
-    var button = document.getElementById('leadpassengerButton');
-
-
-    button.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        button.checked = !button.checked;
-
-
-        if (button.checked) {
-            button.classList.add('checked');
-        } else {
-            button.classList.remove('checked');
-        }
-
-
-        if (button.checked) {
-            // alert("Checked!!")
-
-            var firstLeadPass = document.querySelector('.firstNClass').value;
-            var lastLeadPass = document.querySelector('.lastNClass').value;
-            var emaiLeadPass = document.querySelector('.emailNClass').value;
-            var phoneLeadPass = document.querySelector('.phoneNClass').value;
-            localStorage.setItem('Leadpassenger1', firstLeadPass);
-            localStorage.setItem('Leadpassenger2', lastLeadPass);
-            localStorage.setItem('Leadpassenger3', emaiLeadPass);
-            localStorage.setItem('Leadpassenger4', phoneLeadPass);
-
-        } else {
-            //alert("Checkbox is unchecked");
-            var firstLeadPass = "";
-            var lastLeadPass = "";
-            var emaiLeadPass = "";
-            var phoneLeadPass = "";
-            localStorage.setItem('Leadpassenger1', firstLeadPass);
-            localStorage.setItem('Leadpassenger2', lastLeadPass);
-            localStorage.setItem('Leadpassenger3', emaiLeadPass);
-            localStorage.setItem('Leadpassenger4', phoneLeadPass);
-        }
-    });
-
-
-
-
-    //GST Checkbox Function
-    var buttongst = document.getElementById('GSTButton');
-
-
-    buttongst.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        buttongst.checked = !buttongst.checked;
-
-
-        if (buttongst.checked) {
-
-            buttongst.classList.add('checked');
-
-        } else {
-            buttongst.classList.remove('checked');
-        }
-
-
-        if (buttongst.checked) {
-            //alert("Checked!!")
-            $(".hid-block").show();
-
-
-        } else {
-            //alert("Checkbox is unchecked");
-            $(".hid-block").hide();
-        }
-    });
-
-
-
-
-    //****************GST END*************************** */
-
-
-
-
-
-    $(document).ready(function () {
-        $(".pagelaodSg").click(function (e) {
-            e.preventDefault();
-
-            //alert("Test");
-            var laedpas = localStorage.getItem('Leadpassenger1');
-            document.querySelector(".contactFname").value = laedpas;
-            var laedpasLast = localStorage.getItem('Leadpassenger2');
-            document.querySelector(".contactLname").value = laedpasLast;
-
-            var laedpasemail = localStorage.getItem('Leadpassenger3');
-            document.querySelector(".contactemail").value = laedpasemail;
-            //document.querySelectorAll(".contactemail").value = laedpasemail;
-            var laedpasphone = localStorage.getItem('Leadpassenger4');
-            document.querySelector(".contactphone").value = laedpasphone;
-
-            //document.querySelectorAll(".contactphone").value = laedpasphone;
-            // Get all elements with class "contactemail" and set their value
-            // var emailInputs = document.querySelectorAll(".contactemail");
-            // emailInputs.forEach(function (input) {
-            //     input.value = laedpasemail;
-            // });
-
-            // Get all elements with class "contactphone" and set their value
-            // var phoneInputs = document.querySelectorAll(".contactphone");
-            // phoneInputs.forEach(function (input) {
-            //     input.value = laedpasphone;
-            // });
-
-
-
-            var firstfocus = document.getElementById("first").value;
-            if (firstfocus == "") {
-                //alert("Enter Origin Name");
-                var firstToDisplay = document.getElementById("error-message1");
-                firstToDisplay.style.display = "block";
-                document.getElementById("first").focus();
-                return false;
-            }
-            else {
-                var firstToDisplay = document.getElementById("error-message1");
-                firstToDisplay.style.display = "none";
-            }
-
-
-            var lastfocus = document.getElementById("last").value;
-            if (lastfocus == "") {
-                //alert("Enter Origin Name");
-                var firstToDisplay = document.getElementById("error-message2");
-                firstToDisplay.style.display = "block";
-                document.getElementById("last").focus();
-                return false;
-            }
-            else {
-                var firstToDisplay = document.getElementById("error-message2");
-                firstToDisplay.style.display = "none";
-            }
-
-
-            let emailfocus = document.getElementById("emailAddress").value;
-
-            if (emailfocus == "") {
-                //alert("Enter Origin Name");
-                let emailToDisplay = document.getElementById("error-message7");
-                emailToDisplay.style.display = "block";
-                document.getElementById("emailAddress").focus();
-                return false;
-            }
-            else {
-                let emailToDisplay = document.getElementById("error-message7");
-                emailToDisplay.style.display = "none";
-            }
-
-            let phonefocus = document.getElementById("number").value;
-            if (phonefocus == "") {
-
-                let phoneToDisplay = document.getElementById("error-message8");
-                phoneToDisplay.textContent = "Please enter your phone number";
-                phoneToDisplay.style.display = "block";
-                document.getElementById("number").focus();
-                return false;
-            }
-            var mobileNumberPattern = /^\d{10}$/; // Assumes a 10-digit number
-
-            if (!mobileNumberPattern.test(phonefocus)) {
-                alert("Please enter a valid 10-digit mobile number.");
-                return false;
-            }
-
-
-
-
-
-            var contactFormData = new FormData($("#contactFormSG")[0]);
-            //alert("form data:"+ contactFormData);
-            $.ajax({
-                url: "/IndigoTripsell/IndigoContactDetails",
-                type: "POST",
-                data: contactFormData,
-                processData: false,
-                contentType: false,
-                success: function (result) {
-                    // Handle the response from the server if needed
-                    var contentToDisplay = document.getElementById("content");
-                    contentToDisplay.style.display = "none";
-                    var content2ToDisplay = document.getElementById("content2");
-                    content2ToDisplay.style.display = "block";
-
-                    var toggleButton2 = document.getElementById("toggleButton2");
-                    //toggleButton2.disabled = false;
-                    toggleButton2.style.opacity = "1.0";
-
-                },
-                error: function (error) {
-                    // Handle any errors here
-                }
-            });
-            //return true;
-
-
-
-        });
-
-
-
-    });
-
-
-    function validateInput(event) {
-        const input = event.target.value;
-        const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
-
-        if (!regex.test(input)) {
-            document.getElementById('errorMessage').innerText = "";
-            event.target.value = input.replace(/[^a-zA-Z]/g, ''); // Remove non-alphabetic characters
-        } else {
-            document.getElementById('errorMessage').innerText = "";
-        }
-
-        var firstfocus = document.getElementById("first").value;
-        if (firstfocus == "") {
-            //alert("Enter Origin Name");
-            var firstToDisplay = document.getElementById("error-message1");
-            firstToDisplay.style.display = "block";
-            document.getElementById("first").focus();
-            return false;
-        }
-        else {
-            var firstToDisplay = document.getElementById("error-message1");
-            firstToDisplay.style.display = "none";
-        }
-    }
-    function validateInput2(event) {
-        const input = event.target.value;
-        const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
-
-        if (!regex.test(input)) {
-            document.getElementById('errorMessage2').innerText = "";
-            event.target.value = input.replace(/[^a-zA-Z]/g, ''); // Remove non-alphabetic characters
-        } else {
-            document.getElementById('errorMessage2').innerText = "";
-        }
-        var lastfocus = document.getElementById("last").value;
-        if (lastfocus == "") {
-            //alert("Enter Origin Name");
-            var firstToDisplay = document.getElementById("error-message2");
-            firstToDisplay.style.display = "block";
-            document.getElementById("last").focus();
-            return false;
-        }
-        else {
-            var firstToDisplay = document.getElementById("error-message2");
-            firstToDisplay.style.display = "none";
-        }
-
-
-    }
-
-    function validateEmail(event) {
-        const email = event.target.value;
-        //const regex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/; // Regular expression for basic email validation
-        const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/; // Regular expression for basic email validation
-
-        if (!regex.test(email)) {
-            document.getElementById('emailErrorMessage').innerText = "valid email";
-        } else {
-            document.getElementById('emailErrorMessage').innerText = "";
-        }
-
-        let emailfocus = document.getElementById("emailAddress").value;
-
-        if (emailfocus == "") {
-            //alert("Enter Origin Name");
-            let emailToDisplay = document.getElementById("error-message7");
-            emailToDisplay.style.display = "block";
-            document.getElementById("emailAddress").focus();
-            return false;
-        }
-        else {
-            let emailToDisplay = document.getElementById("error-message7");
-            emailToDisplay.style.display = "none";
-        }
-
-
-    }
-
-    function validatePhoneNumber(event) {
-        const phoneNumber = event.target.value;
-        const regex = /^\d{10}$/; // Regular expression for 10-digit phone number validation
-
-        if (!regex.test(phoneNumber)) {
-            document.getElementById('phoneNumberErrorMessage').innerText = "valid number";
-        } else {
-            document.getElementById('phoneNumberErrorMessage').innerText = "";
-        }
-        let phonefocus = document.getElementById("number").value;
-        if (phonefocus == "") {
-
-            let phoneToDisplay = document.getElementById("error-message8");
-            phoneToDisplay.style.display = "block";
-            document.getElementById("number").focus();
-            return false;
-        }
-        else {
-            let phoneToDisplay = document.getElementById("error-message8");
-            phoneToDisplay.style.display = "none";
-        }
-    }
-
-    function validateInputgst(event) {
-        const input = event.target.value;
-        const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
-
-        if (!regex.test(input)) {
-            document.getElementById('errorMessagegst').innerText = "";
-            event.target.value = input.replace(/[^a-zA-Z]/g, ''); // Remove non-alphabetic characters
-        } else {
-            document.getElementById('errorMessagegst').innerText = "";
-        }
-    }
-
-    function validateGST(event) {
-        const gstNumber = event.target.value.toUpperCase(); // Convert to uppercase for consistency
-        //const regex = /^[0-9A-Z]{15}$/; // Regular expression for 15-character GST number validation
-        const regex = /^([0-9]){2}([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}([0-9]){1}([a-zA-Z]){1}([0-9]){1}?$/; // Regular expression for 15-character GST number validation
-
-        if (gstNumber.trim() === "") {
-            document.getElementById('gstErrorMessage').innerText = "Enter a GST number.";
-        } else if (!regex.test(gstNumber)) {
-            document.getElementById('gstErrorMessage').innerText = "Enter a valid 15-character GST number.";
-        } else {
-            document.getElementById('gstErrorMessage').innerText = "";
-        }
-
-        let gstnamefocus = document.getElementById("gstname").value;
-
-        if (gstnamefocus == "") {
-            //alert("Enter Origin Name");
-            let gstToDisplay = document.getElementById("error-message9");
-            gstToDisplay.style.display = "block";
-            document.getElementById("emailAddres9").focus();
-            return false;
-        }
-        else {
-            let gstToDisplay = document.getElementById("error-message9");
-            gstToDisplay.style.display = "none";
-        }
-    }
-</script>
 

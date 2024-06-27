@@ -1,6 +1,9 @@
 ﻿
 <form id="contactFormIndigo">
+    @* @Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+
     <div class="row y-gap-10 row mt-2 py-3 mb-3">
+
 
         <div class="col-md-3">
             <div class="form-input ">
@@ -23,7 +26,6 @@
             <div class="form-input">
                 <input type="text" name="emailAddress" maxlength="266" oninput="validateEmail(event)" class="emailNClass" id="emailAddress" placeholder="Email ID">
             </div>
-            <span id="emailError" style="color: red;"></span>
             <p id="error-message7" class="error-message" style="display:none">Enter email ID</p>
             <p id="emailErrorMessage" style="color: red; font-size:13px;"></p>
         </div>
@@ -33,7 +35,6 @@
                 <option>+91</option>
             </select>
         </div>
-
         <div class="col-md-2 phone-number">
             <div class="form-input">
                 <input type="text" name="number" id="number" class="phoneNClass" placeholder="Phone Number" oninput="validatePhoneNumber(event)">
@@ -55,6 +56,7 @@
             <div><input type="submit" class="btn btn-primary pagelaodSg" value="Save" /></div>
 
         </div>
+
         <div class="col-md-12 hid-block hidden">
             <div class="text-16 fw-600">
                 Fill your's GST details below !
@@ -62,6 +64,7 @@
         </div>
         <div class="col-md-3">
             <div class="form-input">
+
                 <input type="text" id="gstname" maxlength="32" name="companyName" oninput="validateInputgst(event)" class="companyName hid-block hidden" placeholder="Company Name">
             </div>
             <p id="errorMessagegst" style="color: red;font-size:13px;"></p>
@@ -69,12 +72,13 @@
         </div>
         <div class="col-md-3">
             <div class="form-input">
-                <input type="text" id="gstnumber" maxlength="15" name="customerNumber" oninput="validateGST(event)" class="companyName hid-block hidden" placeholder="GST Number">
+                <input type="text" id="gstnumber" name="customerNumber" oninput="validateGST(event)" class="companyName hid-block hidden" placeholder="GST Number">
             </div>
             <p id="gstErrorMessage" style="color: red;font-size:13px;"></p>
             <p id="error-message10" class="error-message" style="display:none">Enter GST Number</p>
 
         </div>
+
 
     </div>
 </form>
@@ -106,23 +110,31 @@
 
 </style>
 <script type="text/javascript">
+
     //Lead Passeneger Check Box function
     var buttonlead = document.getElementById('leadpassengerButton2');
-    //Lead Passeneger Check Box function
-    var buttonlead = document.getElementById('leadpassengerButton2');
+
+
     buttonlead.addEventListener('click', function (e) {
         e.preventDefault();
+
         buttonlead.checked = !buttonlead.checked;
+
+
         if (buttonlead.checked) {
+
             buttonlead.classList.add('checked');
 
         } else {
             buttonlead.classList.remove('checked');
         }
+
+
+
         if (buttonlead.checked) {
             // alert("Checked!!")
+
             var firstLeadPass = document.querySelector('.firstNClass').value;
-            //alert(firstLeadPass);
             var lastLeadPass = document.querySelector('.lastNClass').value;
             var emaiLeadPass = document.querySelector('.emailNClass').value;
             var phoneLeadPass = document.querySelector('.phoneNClass').value;
@@ -143,28 +155,35 @@
             localStorage.setItem('Leadpassenger4', phoneLeadPass);
         }
     });
+
+
+
+
     //GST Checkbox Function
     var buttongst = document.getElementById('GSTButton2');
+
+
     buttongst.addEventListener('click', function (e) {
         e.preventDefault();
 
         buttongst.checked = !buttongst.checked;
+
+
         if (buttongst.checked) {
-            debugger;
+
             buttongst.classList.add('checked');
 
         } else {
-            debugger;
             buttongst.classList.remove('checked');
         }
+
+
         if (buttongst.checked) {
-            debugger;
             //alert("Checked!!")
             $(".hid-block").show();
 
 
         } else {
-            debugger;
             var gstToDisplay = document.getElementById("error-message9");
             gstToDisplay.style.display = "none";
             var gstNToDisplay = document.getElementById("error-message10");
@@ -175,7 +194,16 @@
             $(".hid-block").hide();
         }
     });
+
+
+
+
     //****************GST END*************************** */
+
+
+
+
+
     $(document).ready(function () {
         $(".pagelaodSg").click(function (e) {
             e.preventDefault();
@@ -191,6 +219,9 @@
             //document.querySelectorAll(".contactemail").value = laedpasemail;
             var laedpasphone = localStorage.getItem('Leadpassenger4');
             document.querySelector(".contactphone").value = laedpasphone;
+
+
+            //first
             var firstfocus = document.getElementById("first").value;
             if (firstfocus == "") {
                 //alert("Enter Origin Name");
@@ -203,6 +234,7 @@
                 var firstToDisplay = document.getElementById("error-message1");
                 firstToDisplay.style.display = "none";
             }
+            //Last
             var lastfocus = document.getElementById("last").value;
             if (lastfocus == "") {
                 //alert("Enter Origin Name");
@@ -215,22 +247,23 @@
                 var firstToDisplay = document.getElementById("error-message2");
                 firstToDisplay.style.display = "none";
             }
+            //Email
             let emailfocus = document.getElementById("emailAddress").value;
             var regex = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
             if (!regex.test(emailfocus)) {
-                document.getElementById('emailErrorMessage').innerText = "Invalid Email Address";
                 let emailToDisplay = document.getElementById("error-message7");
                 emailToDisplay.style.display = "none";
-                document.getElementById("emailAddress").focus();
+                document.getElementById('emailErrorMessage').innerText = "Enter Email Address.";
+
                 return false;
 
             } else {
                 document.getElementById('emailErrorMessage').innerText = "";
             }
             if (emailfocus == "") {
-                //alert("Enter Origin Name");
                 let emailToDisplay = document.getElementById("error-message7");
                 emailToDisplay.style.display = "block";
+                document.getElementById('emailErrorMessage').innerText = "";
                 document.getElementById("emailAddress").focus();
                 return false;
             }
@@ -255,10 +288,11 @@
                 return false;
             }
 
+            //Gst
             var buttongst = document.getElementById('GSTButton2');
             if (buttongst.checked == true) {
+                debugger;
                 let gstnamefocus = document.getElementById("gstname").value;
-
                 if (gstnamefocus == "") {
                     var gstToDisplay = document.getElementById("error-message9");
                     gstToDisplay.style.display = "block";
@@ -269,8 +303,8 @@
                     var gstToDisplay = document.getElementById("error-message9");
                     gstToDisplay.style.display = "none";
                 }
-
                 let gstnofocus = document.getElementById("gstnumber").value;
+                debugger;
                 var regex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
                 if (!regex.test(gstnofocus)) {
                     var gstnoToDisplay = document.getElementById("error-message10");
@@ -292,8 +326,13 @@
                     gstnoToDisplay.style.display = "none";
                 }
 
+
             }
+
+
+
             var contactFormDataIndigo = new FormData($("#contactFormIndigo")[0]);
+            //alert("form data:"+ contactFormData);
             $.ajax({
                 url: "/IndigoTripsell/IndigoContactDetails",
                 type: "POST",
@@ -301,35 +340,43 @@
                 processData: false,
                 contentType: false,
                 success: function (result) {
+                    // Handle the response from the server if needed
                     var contentToDisplay = document.getElementById("content");
                     contentToDisplay.style.display = "none";
                     var content2ToDisplay = document.getElementById("content2");
                     content2ToDisplay.style.display = "block";
+
                     var toggleButton2 = document.getElementById("toggleButton2");
+                    //toggleButton2.disabled = false;
                     toggleButton2.style.opacity = "1.0";
 
                 },
                 error: function (error) {
-
+                    // Handle any errors here
                 }
             });
+            //return true;
+
+
+
         });
     });
 
-    // firstname
+    //First Name
     function validateInput(event) {
-        var input = event.target.value;
-        var regex = /^[A-Za-z.]{3,32}$/;
-        if (!regex.test(input)) {
+        const input = event.target.value;
+        const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
 
+        if (!regex.test(input)) {
             document.getElementById('errorMessage').innerText = "";
-            event.target.value = input.replace(/[^a-zA-Z]/g, '');
+            event.target.value = input.replace(/[^a-zA-Z]/g, ''); // Remove non-alphabetic characters
         } else {
             document.getElementById('errorMessage').innerText = "";
         }
 
         var firstfocus = document.getElementById("first").value;
         if (firstfocus == "") {
+            //alert("Enter Origin Name");
             var firstToDisplay = document.getElementById("error-message1");
             firstToDisplay.style.display = "block";
             document.getElementById("first").focus();
@@ -340,19 +387,20 @@
             firstToDisplay.style.display = "none";
         }
     }
-    //last Name
+    //Last Name
     function validateInput2(event) {
         const input = event.target.value;
-        const regex = /^[A-Za-z.]{3,32}$/;
+        const regex = /^[a-zA-Z]*$/; // Regular expression to match alphabetic characters only
 
         if (!regex.test(input)) {
             document.getElementById('errorMessage2').innerText = "";
-            event.target.value = input.replace(/[^a-zA-Z]/g, '');
+            event.target.value = input.replace(/[^a-zA-Z]/g, ''); // Remove non-alphabetic characters
         } else {
             document.getElementById('errorMessage2').innerText = "";
         }
         var lastfocus = document.getElementById("last").value;
         if (lastfocus == "") {
+            //alert("Enter Origin Name");
             var firstToDisplay = document.getElementById("error-message2");
             firstToDisplay.style.display = "block";
             document.getElementById("last").focus();
@@ -365,21 +413,23 @@
 
 
     }
-    //Contact Email
+    //Email
     function validateEmail(event) {
+        debugger;
         var email = event.target.value;
         var regex = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (!regex.test(email)) {
-            document.getElementById('emailErrorMessage').innerText = "Invalid Email Address";
-            let emailToDisplay = document.getElementById("error-message7");
-            emailToDisplay.style.display = "none";
-            document.getElementById("emailAddress").focus();
-            return false;
+        if (email.trim() === "") {
+            document.getElementById('emailErrorMessage').innerText = "";
+        }
+        else if (!regex.test(email)) {
+            document.getElementById('emailErrorMessage').innerText = "Enter vaild Email Address.";
+
         } else {
             document.getElementById('emailErrorMessage').innerText = "";
         }
         let emailfocus = document.getElementById("emailAddress").value;
         if (emailfocus == "") {
+            debugger;
             let emailToDisplay = document.getElementById("error-message7");
             emailToDisplay.style.display = "block";
             document.getElementById("emailAddress").focus();
@@ -390,8 +440,9 @@
             emailToDisplay.style.display = "none";
         }
 
+
     }
-    // Phone number
+    //Phone Number
     function validatePhoneNumber(event) {
         const phoneNumber = event.target.value;
         const regex = /^(0|91)?[6-9][0-9]{9}$/;
@@ -418,9 +469,8 @@
             phoneToDisplay.style.display = "none";
         }
     }
-    //Gst Company
+    //Comapny
     function validateInputgst(event) {
-        debugger;
         const input = event.target.value;
         var regex = /^[a-zA-Z0-9\s.,'-]{1,100}$/;
         if (!regex.test(input)) {
@@ -441,9 +491,11 @@
             gstToDisplay.style.display = "none";
         }
 
+
     }
     //Gst Number
     function validateGST(event) {
+        debugger;
         const gstNumber = event.target.value.toUpperCase();
         var regex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
         if (gstNumber.trim() === "") {
@@ -496,7 +548,6 @@
         }
     });
 </script>
-
 
 
 
