@@ -92,6 +92,7 @@ namespace OnionConsumeWebAPI.Controllers
                 int TotalCount = adultcount + childcount;
                 string str3 = string.Empty;
                 string tokenview = HttpContext.Session.GetString("IndigoSignature");
+                if (tokenview == null) { tokenview = ""; }
                 string Signature = tokenview.Replace(@"""", string.Empty);
                 if (Signature == "" || Signature == null)
                 {

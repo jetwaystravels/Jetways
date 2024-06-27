@@ -139,18 +139,19 @@ namespace OnionConsumeWebAPI.Controllers
 
 
         public async Task<IActionResult> IndigoContactDetails(ContactModel contactobject)
-            {
+        {
 
-                string Signature = HttpContext.Session.GetString("IndigoSignature");
-                if (!string.IsNullOrEmpty(Signature))
-                {
-                    Signature = Signature.Replace(@"""", string.Empty);
-                    _updateContact obj = new _updateContact(httpContextAccessorInstance);
-                    IndigoBookingManager_.UpdateContactsResponse _responseAddContact6E = await obj.GetUpdateContacts(Signature, contactobject.emailAddress, contactobject.number, contactobject.companyName, contactobject.customerNumber, "OneWay");
-                    string Str1 = JsonConvert.SerializeObject(_responseAddContact6E);
-                }
-                return RedirectToAction("IndigoSaverTripsell", "IndigoTripsell");
+            string Signature = HttpContext.Session.GetString("IndigoSignature");
+            if (Signature == null) { Signature = ""; }
+            if (!string.IsNullOrEmpty(Signature))
+            {
+                Signature = Signature.Replace(@"""", string.Empty);
+                _updateContact obj = new _updateContact(httpContextAccessorInstance);
+                IndigoBookingManager_.UpdateContactsResponse _responseAddContact6E = await obj.GetUpdateContacts(Signature, contactobject.emailAddress, contactobject.number, contactobject.companyName, contactobject.customerNumber, "OneWay");
+                string Str1 = JsonConvert.SerializeObject(_responseAddContact6E);
             }
+            return RedirectToAction("IndigoSaverTripsell", "IndigoTripsell");
+        }
 
             //Passenger Data on Trip Page
 
@@ -159,7 +160,7 @@ namespace OnionConsumeWebAPI.Controllers
             HttpContext.Session.SetString("PassengerNameDetails", JsonConvert.SerializeObject(passengerdetails));
 
             string Signature = HttpContext.Session.GetString("IndigoSignature");
-
+            if (Signature == null) { Signature = ""; }
             if (!string.IsNullOrEmpty(Signature))
             {
                 Signature = Signature.Replace(@"""", string.Empty);
@@ -190,14 +191,14 @@ namespace OnionConsumeWebAPI.Controllers
 
             //return RedirectToAction("IndigoSaverTripsell", "IndigoTripsell", passengerdetails);
         }
-        public async Task<IActionResult> PostUnitkey(List<string> unitKey, List<string> ssrKey,List<string> BaggageSSrkey, List<string> FastfarwardAddon, List<string> PPBGAddon)
+        public async Task<IActionResult> PostUnitkey(List<string> unitKey, List<string> ssrKey, List<string> BaggageSSrkey, List<string> FastfarwardAddon, List<string> PPBGAddon)
         {
             List<string> _unitkey = new List<string>();
             for (int i = 0; i < unitKey.Count; i++)
             {
                 if (unitKey[i] == null)
                     continue;
-                    _unitkey.Add(unitKey[i].Trim());
+                _unitkey.Add(unitKey[i].Trim());
             }
             unitKey = new List<string>();
             unitKey = _unitkey;
@@ -209,11 +210,11 @@ namespace OnionConsumeWebAPI.Controllers
             {
                 ssrKey = new List<string>();
             }
-            if (unitKey.Count > 0 && unitKey[0] == null )
+            if (unitKey.Count > 0 && unitKey[0] == null)
             {
                 unitKey = new List<string>();
             }
-            if (FastfarwardAddon.Count > 0 && FastfarwardAddon[0]==null)
+            if (FastfarwardAddon.Count > 0 && FastfarwardAddon[0] == null)
             {
                 FastfarwardAddon = new List<string>();
             }
@@ -221,8 +222,9 @@ namespace OnionConsumeWebAPI.Controllers
             {
                 PPBGAddon = new List<string>();
             }
-            
+
             string tokenview = HttpContext.Session.GetString("IndigoSignature");
+            if (tokenview == null) { tokenview = ""; }
             token = tokenview.Replace(@"""", string.Empty);
             if (token == "" || token == null)
             {
@@ -237,7 +239,7 @@ namespace OnionConsumeWebAPI.Controllers
                 {
                     #region SellSSr
                     _SellSSR obj_ = new _SellSSR(httpContextAccessorInstance);
-                    IndigoBookingManager_.SellResponse sellSsrResponse = await obj_.sellssr(token, passeengerKeyList, ssrKey, BaggageSSrkey, FastfarwardAddon,PPBGAddon, 0, "OneWay");
+                    IndigoBookingManager_.SellResponse sellSsrResponse = await obj_.sellssr(token, passeengerKeyList, ssrKey, BaggageSSrkey, FastfarwardAddon, PPBGAddon, 0, "OneWay");
                     #endregion
 
                 }

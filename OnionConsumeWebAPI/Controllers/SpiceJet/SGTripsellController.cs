@@ -139,6 +139,7 @@ namespace OnionConsumeWebAPI.Controllers
         public async Task<IActionResult> SGContactDetails(ContactModel obj)
         {
             string tokenview = HttpContext.Session.GetString("SpicejetSignature");
+            if (tokenview == null) { tokenview = ""; }
             token = tokenview.Replace(@"""", string.Empty);
 
             using (HttpClient client = new HttpClient())
@@ -175,7 +176,7 @@ namespace OnionConsumeWebAPI.Controllers
             HttpContext.Session.SetString("PassengerNameDetails", JsonConvert.SerializeObject(passengerdetails));
 
             string tokenview = HttpContext.Session.GetString("SpicejetSignature");
-
+            if (tokenview == null) { tokenview = ""; }
             token = tokenview.Replace(@"""", string.Empty);
 
             using (HttpClient client = new HttpClient())

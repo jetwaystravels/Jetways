@@ -380,34 +380,60 @@
 
 
     }
-    // RT Email Name    
+    // RT Email Name
+    //Contact Email
     function validateEmail(event) {
         debugger;
         var email = event.target.value;
-        var regex = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (email.trim() === "") {
-            document.getElementById('emailErrorMessage').innerText = "";
-        }
-        else if (!regex.test(email)) {
-            document.getElementById('emailErrorMessage').innerText = "Enter vaild Email Address.";
+        var regex = /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+        var errorMessage = document.getElementById('emailErrorMessage');
+        var errorDisplay = document.getElementById('error-message7');
 
+        if (email.trim() === "") {
+            errorMessage.innerText = "";
+        } else if (!regex.test(email)) {
+            errorMessage.innerText = "Enter a valid Email Address.";
         } else {
-            document.getElementById('emailErrorMessage').innerText = "";
+            errorMessage.innerText = "";
         }
-        let emailfocus = document.getElementById("emailAddress").value;
-        if (emailfocus == "") {
-            debugger;
-            let emailToDisplay = document.getElementById("error-message7");
-            emailToDisplay.style.display = "block";
+
+        if (email.trim() === "") {
+            errorDisplay.style.display = "block";
             document.getElementById("emailAddress").focus();
             return false;
-        }
-        else {
-            let emailToDisplay = document.getElementById("error-message7");
-            emailToDisplay.style.display = "none";
-        }
+        } else {
+            errorDisplay.style.display = "none";
+        }       
 
     }
+
+    // function validateEmail(event) {
+    //     debugger;
+    //     var email = event.target.value;
+    //     var regex = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    //     if (email.trim() === "") {
+    //         document.getElementById('emailErrorMessage').innerText = "";
+    //     }
+    //     else if (!regex.test(email)) {
+    //         document.getElementById('emailErrorMessage').innerText = "Enter vaild Email Address.";
+
+    //     } else {
+    //         document.getElementById('emailErrorMessage').innerText = "";
+    //     }
+    //     let emailfocus = document.getElementById("emailAddress").value;
+    //     if (emailfocus == "") {
+    //         debugger;
+    //         let emailToDisplay = document.getElementById("error-message7");
+    //         emailToDisplay.style.display = "block";
+    //         document.getElementById("emailAddress").focus();
+    //         return false;
+    //     }
+    //     else {
+    //         let emailToDisplay = document.getElementById("error-message7");
+    //         emailToDisplay.style.display = "none";
+    //     }
+
+    // }
     // RT Phone Number
     function validatePhoneNumber(event) {
         const phoneNumber = event.target.value;

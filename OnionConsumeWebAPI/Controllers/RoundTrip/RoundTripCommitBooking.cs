@@ -1121,6 +1121,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             //IndigoBookingManager_.AddPaymentToBookingResponse _BookingPaymentResponse = await objcommit.AddpaymenttoBook(token, Totalpayment);
 
                             #endregion
+                            if (tokenview == null) { tokenview = ""; }
                             token = tokenview.Replace(@"""", string.Empty);
                             string passengernamedetails = HttpContext.Session.GetString("PassengerNameDetails");
                             List<passkeytype> passeengerlist = (List<passkeytype>)JsonConvert.DeserializeObject(passengernamedetails, typeof(List<passkeytype>));
@@ -1181,6 +1182,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     {
                                         Hashtable htseatdata = new Hashtable();
                                         Hashtable htmealdata = new Hashtable();
+                                        Hashtable htbagdata = new Hashtable();
                                         int adultcount = Convert.ToInt32(HttpContext.Session.GetString("adultCount"));
                                         int childcount = Convert.ToInt32(HttpContext.Session.GetString("childCount"));
                                         int infantcount = Convert.ToInt32(HttpContext.Session.GetString("infantCount"));
@@ -1360,9 +1362,26 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                                 {
                                                     try
                                                     {
+                                                        //if (!htmealdata.Contains(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation))
+                                                        //{
+                                                        //    htmealdata.Add(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation, item1.SSRCode);
+                                                        //    returnSeats.SSRCode += item1.SSRCode + ",";
+                                                        //}
                                                         if (!htmealdata.Contains(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation))
                                                         {
-                                                            htmealdata.Add(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation, item1.SSRCode);
+                                                            if (item1.SSRCode != "INFT" && !item1.SSRCode.StartsWith("E", StringComparison.OrdinalIgnoreCase))
+                                                            {
+                                                                htmealdata.Add(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation, item1.SSRCode);
+                                                            }
+                                                            returnSeats.SSRCode += item1.SSRCode + ",";
+                                                        }
+
+                                                        if (!htbagdata.Contains(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation))
+                                                        {
+                                                            if (item1.SSRCode != "INFT" && item1.SSRCode.StartsWith("E", StringComparison.OrdinalIgnoreCase))
+                                                            {
+                                                                htbagdata.Add(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation, item1.SSRCode);
+                                                            }
                                                             returnSeats.SSRCode += item1.SSRCode + ",";
                                                         }
                                                     }
@@ -1522,6 +1541,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                         returnTicketBooking.contacts = _contact;
                                         returnTicketBooking.Seatdata = htseatdata;
                                         returnTicketBooking.Mealdata = htmealdata;
+                                        returnTicketBooking.Bagdata = htbagdata;
                                         returnTicketBooking.bookingdate = _getBookingResponse.Booking.BookingInfo.BookingDate;
                                         _AirLinePNRTicket.AirlinePNR.Add(returnTicketBooking);
                                     }
@@ -1547,7 +1567,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         }
                         if (!string.IsNullOrEmpty(tokenview))
                         {
-
+                            if (tokenview == null) { tokenview = ""; }
                             token = tokenview.Replace(@"""", string.Empty);
                             string passengernamedetails = HttpContext.Session.GetString("PassengerNameDetails");
                             List<passkeytype> passeengerlist = (List<passkeytype>)JsonConvert.DeserializeObject(passengernamedetails, typeof(List<passkeytype>));

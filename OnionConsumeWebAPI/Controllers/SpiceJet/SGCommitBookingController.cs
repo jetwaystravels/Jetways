@@ -58,6 +58,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
             token = string.Empty;
             if (!string.IsNullOrEmpty(tokenview))
             {
+                if (tokenview == null) { tokenview = ""; }
                 token = tokenview.Replace(@"""", string.Empty);
                 string passengernamedetails = HttpContext.Session.GetString("PassengerNameDetails");
                 List<passkeytype> passeengerlist = (List<passkeytype>)JsonConvert.DeserializeObject(passengernamedetails, typeof(List<passkeytype>));

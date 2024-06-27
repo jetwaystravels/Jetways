@@ -381,6 +381,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
                 if (!string.IsNullOrEmpty(Signature) && dataArray[i].ToLower() == "spicejet")
                 {
+                    if (Signature == null) { Signature = ""; }
                     Signature = Signature.Replace(@"""", string.Empty);
                     UpdateContactsRequest _ContactModelSG = new UpdateContactsRequest();
                     //  _ContactModel.emailAddress = passengerdetails.Email;
@@ -392,7 +393,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     _ContactModelSG.updateContactsRequestData.BookingContactList[0].EmailAddress = contactobject.emailAddress;
                     //if (contactobject.customerNumber != null)
                     //{
-                        _ContactModelSG.updateContactsRequestData.BookingContactList[0].TypeCode = "G";
+                    _ContactModelSG.updateContactsRequestData.BookingContactList[0].TypeCode = "G";
                     _ContactModelSG.updateContactsRequestData.BookingContactList[0].CompanyName = "Spicejet";// contactobject.companyName;//"Indigo";
                     _ContactModelSG.updateContactsRequestData.BookingContactList[0].CustomerNumber = "22AAAAA0000A1Z2";// contactobject.customerNumber; //GSTNumber Re_ Assistance required for SG API Integration\GST Logs.zip\GST Logs
                     //}
@@ -407,6 +408,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                 if (i == 0)
                 {
                     Signature = HttpContext.Session.GetString("IndigoSignature");
+
                 }
                 else
                 {
@@ -414,6 +416,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                 }
                 if (!string.IsNullOrEmpty(Signature) && dataArray[i].ToLower() == "indigo")
                 {
+                    if (Signature == null) { Signature = ""; }
                     Signature = Signature.Replace(@"""", string.Empty);
                     _updateContact obj = new _updateContact(httpContextAccessorInstance);
                     IndigoBookingManager_.UpdateContactsResponse _responseAddContact6E = await obj.GetUpdateContacts(Signature, contactobject.emailAddress, contactobject.number, contactobject.companyName, contactobject.customerNumber, "");
@@ -700,6 +703,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     }
                     if (!string.IsNullOrEmpty(Signature) && dataArray[i1].ToLower() == "spicejet")
                     {
+                        if (Signature == null) { Signature = ""; }
                         Signature = Signature.Replace(@"""", string.Empty);
                         UpdatePassengersResponse updatePaxResp = null;
                         UpdatePassengersRequest updatePaxReq = null;
@@ -738,6 +742,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     if (i1 == 0)
                     {
                         Signature = HttpContext.Session.GetString("IndigoSignature");
+
                     }
                     else
                     {
@@ -745,6 +750,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     }
                     if (!string.IsNullOrEmpty(Signature) && dataArray[i1].ToLower() == "indigo")
                     {
+                        if (Signature == null) { Signature = ""; }
                         Signature = Signature.Replace(@"""", string.Empty);
                         _updateContact obj = new _updateContact(httpContextAccessorInstance);
                         IndigoBookingManager_.UpdatePassengersResponse updatePaxResp = await obj.UpdatePassengers(Signature, passengerdetails);
@@ -833,15 +839,15 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
             }
             unitKey = new List<string>();
             unitKey = _unitkey;
-            if (BaggageSSrkey[0] == null && BaggageSSrkey.Count > 0)
+            if (BaggageSSrkey.Count > 0 && BaggageSSrkey[0] == null)
             {
                 BaggageSSrkey = new List<string>();
             }
-            if (ssrKey[0] == null && ssrKey.Count > 0)
+            if (ssrKey.Count > 0 && ssrKey[0] == null)
             {
                 ssrKey = new List<string>();
             }
-            if (unitKey[0] == null && unitKey.Count > 0)
+            if (unitKey.Count > 0 && unitKey[0] == null)
             {
                 unitKey = new List<string>();
             }
@@ -958,6 +964,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     {
                                         tokenview = HttpContext.Session.GetString("SpicejetSignatureR");//spelling 
                                     }
+                                    if (tokenview == null) { tokenview = ""; }
                                     token = tokenview.Replace(@"""", string.Empty);
                                     passengerscount = passeengerKeyList.passengerscount;
                                     Logs logs = new Logs();
@@ -980,6 +987,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                                 }
 
                                             }
+                                            FastfarwardAddon = new List<string>();
                                             SellRequest sellSsrRequest = new SellRequest();
                                             SellRequestData sellreqd = new SellRequestData();
                                             sellSsrRequest.Signature = token;
@@ -1878,10 +1886,11 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     {
                                         tokenview = HttpContext.Session.GetString("IndigoSignatureR");//spelling 
                                     }
+                                    if (tokenview == null) { tokenview = ""; }
                                     token = tokenview.Replace(@"""", string.Empty);
                                     _SellSSR obj_ = new _SellSSR(httpContextAccessorInstance);
                                     //List<string> BaggageSSrkey = new List<string>();
-                                    IndigoBookingManager_.SellResponse sellSsrResponse = await obj_.sellssr(token, passeengerKeyList, ssrKey, BaggageSSrkey,FastfarwardAddon, PPBGAddon, _a);
+                                    IndigoBookingManager_.SellResponse sellSsrResponse = await obj_.sellssr(token, passeengerKeyList, ssrKey, BaggageSSrkey, FastfarwardAddon, PPBGAddon, _a);
                                 }
                                 _a++;
                             }
@@ -2030,6 +2039,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     {
                                         Signature = HttpContext.Session.GetString("SpicejetSignatureR");
                                     }
+                                    if (Signature == null) { Signature = ""; }
                                     Signature = Signature.Replace(@"""", string.Empty);
                                     if (!string.IsNullOrEmpty(Signature))
                                     {
@@ -2420,7 +2430,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 }
                                 //*************Akasa AssignSeat API************
                                 else if (passeengerKeyList.journeys[0].Airlinename.ToLower() == "akasaair")
-                                { 
+                                {
                                     string tokenview = string.Empty;
                                     if (p == 0)
                                     {
@@ -2724,6 +2734,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     {
                                         Signature = HttpContext.Session.GetString("IndigoSignatureR");
                                     }
+                                    if (Signature == null) { Signature = ""; }
                                     Signature = Signature.Replace(@"""", string.Empty);
                                     _SellSSR obj_ = new _SellSSR(httpContextAccessorInstance);
                                     IndigoBookingManager_.AssignSeatsResponse _AssignseatRes = await obj_.AssignSeat(Signature, passeengerKeyList, unitKey, p, keycount0, keycount1);

@@ -233,8 +233,9 @@
                                                         var designation = data;
                                                         if (!ht0.Contains(data))
                                                         {
-                                                            <li class="seat-li chkbox">
+                                                            <li class="seat-li chkbox tooltip">
                                                                 <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
+                                                                <span class="tooltiptext">Sorry, seat is occupied.</span>
                                                             </li>
                                                         }
                                                         else
@@ -248,17 +249,18 @@
                                                                 seatavailability = arrayofseat[1].Trim();
                                                             }
 
-                                                            if (seatavailability != "5" && seatavailability == "1")
+                                                            // if (seatavailability != "5" && seatavailability == "1")
+                                                            // {
+                                                            //     <li class="seat-li chkbox tooltip">
+                                                            //         <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
+                                                            //         <span class="tooltiptext">Sorry, seat is occupied.</span>
+                                                            //     </li>
+                                                            // }
+                                                             if (seatavailability != "5")
                                                             {
                                                                 <li class="seat-li chkbox tooltip">
                                                                     <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
                                                                     <span class="tooltiptext">Sorry, seat is occupied.</span>
-                                                                </li>
-                                                            }
-                                                            else if (seatavailability != "5")
-                                                            {
-                                                                <li class="seat-li chkbox">
-                                                                    <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
                                                                 </li>
                                                             }
                                                             else

@@ -1260,6 +1260,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         {
                             Signature = HttpContext.Session.GetString("SpicejetSignatureR");
                         }
+                        if (Signature == null) { Signature = ""; }
                         Signature = Signature.Replace(@"""", string.Empty);
                         int adultcount = Convert.ToInt32(HttpContext.Session.GetString("adultCount"));
                         int childcount = Convert.ToInt32(HttpContext.Session.GetString("childCount"));
@@ -1709,6 +1710,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         if (_journeySide == "0j")
                         {
                             Signature = HttpContext.Session.GetString("IndigoSignature");
+                            if (Signature == null) { Signature = ""; }
                         }
                         else
                         {
@@ -3277,7 +3279,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         {
                             Signature = HttpContext.Session.GetString("SpicejetSignatureR");
                         }
-
+                        if (Signature == null) { Signature = ""; }
                         Signature = Signature.Replace(@"""", string.Empty);
                         List<legSsrs> SSRAvailabiltyLegssrlist = new List<legSsrs>();
                         SSRAvailabiltyResponceModel SSRAvailabiltyResponceobj = null;
@@ -3471,12 +3473,13 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         if (_journeySide == "0j")
                         {
                             Signature = HttpContext.Session.GetString("IndigoSignature");
+                            
                         }
                         else
                         {
                             Signature = HttpContext.Session.GetString("IndigoSignatureR");
                         }
-
+                        if (Signature == null) { Signature = ""; }
                         Signature = Signature.Replace(@"""", string.Empty);
                         List<legSsrs> SSRAvailabiltyLegssrlist = new List<legSsrs>();
                         SSRAvailabiltyResponceModel SSRAvailabiltyResponceobj = null;

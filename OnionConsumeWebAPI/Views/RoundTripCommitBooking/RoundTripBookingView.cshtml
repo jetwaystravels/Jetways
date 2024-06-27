@@ -295,11 +295,21 @@
                                                             <td>@htmeal[hashdata]</td>
                                                         }
 
+                                                        // if (htbag != null)
+                                                        // {
+                                                        //     <td>@htbag[hashdata]</td>
+
+
+                                                        // }
+
                                                         if (htbag != null)
                                                         {
-                                                            <td>@htbag[hashdata]</td>
-
-
+                                                            Hashtable htSSr = new Hashtable();
+                                                            SpicejetMealImageList.GetAllmeal(htSSr);
+                                                            if (!htbag.Contains(hashdata))
+                                                                continue;
+                                                            var weight = htSSr[htbag[hashdata]];
+                                                            <td>@htbag[hashdata] - @weight</td>
                                                         }
 
 

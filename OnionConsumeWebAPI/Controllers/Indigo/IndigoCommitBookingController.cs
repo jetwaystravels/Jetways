@@ -57,6 +57,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
             AirLinePNRTicket _AirLinePNRTicket = new AirLinePNRTicket();
             _AirLinePNRTicket.AirlinePNR = new List<ReturnTicketBooking>();
             string tokenview = HttpContext.Session.GetString("IndigoSignature");
+            if (tokenview == null) { tokenview = ""; }
             token = string.Empty;
             if (!string.IsNullOrEmpty(tokenview))
             {

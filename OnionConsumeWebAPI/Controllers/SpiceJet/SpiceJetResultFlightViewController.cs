@@ -152,6 +152,7 @@ namespace OnionConsumeWebAPI.Controllers
                 int TotalCount = adultcount + childcount;
                 string str3 = string.Empty;
                 string tokenview = HttpContext.Session.GetString("SpicejetSignature");
+                if (tokenview == null) { tokenview = ""; }
                 string token = tokenview.Replace(@"""", string.Empty);
                 if (token == "" || token == null)
                 {
