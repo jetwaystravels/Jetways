@@ -5,95 +5,97 @@
 }
 
 <div class="py-15 px-20 rounded-4 text-15 bg-blue-1-05 mb-10">
-    <div class="d-flex justify-content-end" style="margin-bottom:-15px;"><button id="checkboxLead" class="checkbox-button2" onclick="toggleCheckbox()"></button></div>
-
+    <div class="d-flex justify-content-end" style="margin-bottom:-15px;">
+        <span style="margin-right:15px;"><b>Same Contact Details</b></span>
+        <button id="checkboxLead" class="checkbox-button2" onclick="toggleCheckbox()"></button>
+    </div>
     <form asp-action="SGTravllerDetails" asp-controller="SGTripsell" method="post" id="passengerForm">
         @{
             int inafantIdx = 0;
         }
         @for (var i = 0; i < Model.passeengerlist.passengers.Count; i++)
         {
-                <input type="hidden" name="passengers[@i].origin" value="@Model.passeengerlist.journeys[0].designator.origin" />
-                <input type="hidden" name="passengers[@i].departure" value="@Model.passeengerlist.journeys[0].designator.departure" />
-                <input type="hidden" name="passengers[@i].destination" value="@Model.passeengerlist.journeys[0].designator.destination" />
-                <input type="hidden" name="passengers[@i].identifier" value="@Model.passeengerlist.journeys[0].segments[0].identifier.identifier" />
-                <input type="hidden" name="passengers[@i].carrierCode" value="@Model.passeengerlist.journeys[0].segments[0].identifier.carrierCode" />
+            <input type="hidden" name="passengers[@i].origin" value="@Model.passeengerlist.journeys[0].designator.origin" />
+            <input type="hidden" name="passengers[@i].departure" value="@Model.passeengerlist.journeys[0].designator.departure" />
+            <input type="hidden" name="passengers[@i].destination" value="@Model.passeengerlist.journeys[0].designator.destination" />
+            <input type="hidden" name="passengers[@i].identifier" value="@Model.passeengerlist.journeys[0].segments[0].identifier.identifier" />
+            <input type="hidden" name="passengers[@i].carrierCode" value="@Model.passeengerlist.journeys[0].segments[0].identifier.carrierCode" />
 
-                <div><label class="text-16 fw-600">@Model.passeengerlist.passengers[i].passengerTypeCode</label></div>
-                <input type="hidden" name="passengerdetails[@i].passengertypecode" value="@Model.passeengerlist.passengers[i].passengerTypeCode" />
-                <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlist.passengers[i].passengerKey" />
-                <div class="row" id="PassCount_@i">
-                    <div class="col-md-1">
-                        <select name="passengerdetails[@i].Title" class="form-control" asp-items="@ViewBag.Title" id="TitleCount_@i"></select>
-                    </div>
-                    <div class="col-md-3 inputFirstname">
-                        <div class="form-input">
-                            <input type="text" class="contactFname validate-field" data-validate="name" maxlength="32" oninput="validateInputS(event ,@i)" id="LeadPass[@i]" placeholder="First & middle name" name="passengerdetails[@i].First" required />
-
-                        </div>
-                        <p id="error-Fname" class="error-message  error-CFname" style="display: none;"></p>
-                        <p class="error-message-val " style="display:none"></p>
-                    </div>
-                    <div class="col-md-3">
-
-                        <div class="form-input">
-                            <input type="text" class="contactLname validate-field" data-validate="last" oninput="validateInputS(event,@i)" maxlength="32" placeholder="Last name" name="passengerdetails[@i].Last" required />
-
-                        </div>
-                        <p id="error-Lname" class="error-message error-CLname" style="display:none"></p>
+            <div><label class="text-16 fw-600">@Model.passeengerlist.passengers[i].passengerTypeCode</label></div>
+            <input type="hidden" name="passengerdetails[@i].passengertypecode" value="@Model.passeengerlist.passengers[i].passengerTypeCode" />
+            <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlist.passengers[i].passengerKey" />
+            <div class="row" id="PassCount_@i">
+                <div class="col-md-1">
+                    <select name="passengerdetails[@i].Title" class="form-control" asp-items="@ViewBag.Title" id="TitleCount_@i"></select>
+                </div>
+                <div class="col-md-3 inputFirstname">
+                    <div class="form-input">
+                        <input type="text" class="contactFname validate-field" data-validate="name" maxlength="32" oninput="validateInputS(event ,@i)" id="LeadPass[@i]" placeholder="First & middle name" name="passengerdetails[@i].First" required />
 
                     </div>
+                    <p id="error-Fname" class="error-message  error-CFname" style="display: none;"></p>
+                    <p class="error-message-val " style="display:none"></p>
+                </div>
+                <div class="col-md-3">
+
+                    <div class="form-input">
+                        <input type="text" class="contactLname validate-field" data-validate="last" oninput="validateInputS(event,@i)" maxlength="32" placeholder="Last name" name="passengerdetails[@i].Last" required />
+
+                    </div>
+                    <p id="error-Lname" class="error-message error-CLname" style="display:none"></p>
+
+                </div>
                 @{
                     if (Model.passeengerlist.passengers[i].passengerTypeCode == "ADT" || Model.passeengerlist.passengers[i].passengerTypeCode == "CHD")
                     {
-                                    <div class="col-md-3">
-                                        <div class="form-input"><input type="text" data-validate="email" class="contactemail validate-field" maxlength="266" oninput="validateInputS(event,@i)" id="contactemailID" placeholder="email" name="" required /></div>
-                                    </div>
-                                    <p class="error-message error-emailname" style="display:none"></p>
-                                    <p class="error-message-val " style="display:none"></p>
+                        <div class="col-md-3">
+                            <div class="form-input"><input type="text" data-validate="email" class="contactemail validate-field" maxlength="266" oninput="validateInputS(event,@i)" id="contactemailID" placeholder="email" name="" required /></div>
+                        </div>
+                        <p class="error-message error-emailname" style="display:none"></p>
+                        <p class="error-message-val " style="display:none"></p>
 
-                                    <div class="col-md-2">
-                                        <div class="form-input"><input type="text" data-validate="phone" maxlength="10" id="contactphoneID" class="contactphone validate-field" oninput="validateInputS(event,@i)" placeholder="phone" name="passengerdetails[@i].mobile" required /></div>
-                                    </div>
-                                    <p class="error-message error-phoneN" style="display:none"></p>
-                                    <p class="error-message-val" style="display:none"></p>
+                        <div class="col-md-2">
+                            <div class="form-input"><input type="text" data-validate="phone" maxlength="10" id="contactphoneID" class="contactphone validate-field" oninput="validateInputS(event,@i)" placeholder="phone" name="passengerdetails[@i].mobile" required /></div>
+                        </div>
+                        <p class="error-message error-phoneN" style="display:none"></p>
+                        <p class="error-message-val" style="display:none"></p>
                     }
                     if (@Model.passeengerlist.passengers[i].passengerTypeCode == "INFT")
                     {
-                                    <div class="col-md-4 infant-dob-input ">
-                                        <div class="form-input dobinput d-flex">
-                                            <div class="dob-picker">
-                                                <select class="brd-none day-select" name="passengerdetails[@i].day" required>
-                                                    <option value="" disabled selected>Day</option>
-                                                </select>
-                                                <select class="brd-none month-select" name="passengerdetails[@i].month" required>
-                                                    <option value="" disabled selected>Month</option>
-                                                    <option value="1">January</option>
-                                                    <option value="2">February</option>
-                                                    <option value="3">March</option>
-                                                    <option value="4">April</option>
-                                                    <option value="5">May</option>
-                                                    <option value="6">June</option>
-                                                    <option value="7">July</option>
-                                                    <option value="8">August</option>
-                                                    <option value="9">September</option>
-                                                    <option value="10">October</option>
-                                                    <option value="11">November</option>
-                                                    <option value="12">December</option>
-                                                </select>
-                                                <select class="brd-none year-select" name="passengerdetails[@i].year" required>
-                                                    <option value="" disabled selected>Year</option>
-                                                </select>
-                                            </div>
+                        <div class="col-md-4 infant-dob-input ">
+                            <div class="form-input dobinput d-flex">
+                                <div class="dob-picker">
+                                    <select class="brd-none day-select" name="passengerdetails[@i].day" required>
+                                        <option value="" disabled selected>Day</option>
+                                    </select>
+                                    <select class="brd-none month-select" name="passengerdetails[@i].month" required>
+                                        <option value="" disabled selected>Month</option>
+                                        <option value="1">January</option>
+                                        <option value="2">February</option>
+                                        <option value="3">March</option>
+                                        <option value="4">April</option>
+                                        <option value="5">May</option>
+                                        <option value="6">June</option>
+                                        <option value="7">July</option>
+                                        <option value="8">August</option>
+                                        <option value="9">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+                                    </select>
+                                    <select class="brd-none year-select" name="passengerdetails[@i].year" required>
+                                        <option value="" disabled selected>Year</option>
+                                    </select>
+                                </div>
 
-                                        </div>
-                                        <div class="validation-message-Required error-message" style="color: red; display: none;"></div>
-                                    </div>
+                            </div>
+                            <div class="validation-message-Required error-message" style="color: red; display: none;"></div>
+                        </div>
 
 
                     }
                 }
-                </div>
+            </div>
         }
         <div class="d-flex justify-content-end">
             <button type="button" class="btn btn-primary mt-15" id="showReviewPopup">Save</button>
@@ -167,6 +169,7 @@
         padding: 0;
         cursor: pointer;
     }
+
         .checkbox-button2.checked::after {
             content: '\2713';
             font-size: 16px;
@@ -177,54 +180,55 @@
         }
 
 </style>
-<script type="text/javascript">
-    function validateInputS(event) {
-        const element = event.target;
-        const value = element.value.trim();
-        const validateType = element.getAttribute('data-validate');
-        const validators = {
-            name: /^[a-zA-Z\s]*$/,
-            last: /^[a-zA-Z\s]*$/,
-            email:/^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-            phone: /^\d{10}$/
-        };
+<script>
+    // function validateInputT(event) {
+    //     debugger;
+    //     const element = event.target;
+    //     const value = element.value.trim();
+    //     const validateType = element.getAttribute('data-validate');
+    //     const validators = {
+    //         name: /^[A-Za-z.]{3,32}$/,
+    //         last: /^[A-Za-z.]{3,32}$/,
+    //         //email: /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
+    //         email: /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+    //         phone: /^\d{10}$/
+    //     };
 
-        const messages = {
-            name: 'Enter First Name',
-            last: 'Enter Last Name',
-            email: 'Enter valid email address',
-            phone: 'Enter valid phone number.',
-            duplicate: 'Duplicate names are not allowed.'
-        };
+    //     const messages = {
+    //         name: 'Enter First Name.',
+    //         last: 'Enter Last Name.',
+    //         email: 'Enter valid email address.',
+    //         phone: 'Enter valid phone number.',
+    //         duplicate: 'Duplicate names are not allowed.'
+    //     };
+    //     if (value === "") {
+    //         showErrorVal(element, messages[validateType]);
+    //         return false;
+    //     } else {
+    //         removeErrorVal(element);
+    //     }
+    //     if (validateType === 'name' || validateType === 'last') {
+    //         element.value = value.replace(/[^A-Za-z.]/g, '');
+    //     }
 
-        if (value === "") {
-            showErrorVal(element, messages[validateType]);
-            return false;
-        } else {
-            removeErrorVal(element);
-        }
-
-        if (!validators[validateType].test(value)) {
-            showErrorVal(element, messages[validateType]);
-        } else {
-            removeErrorVal(element);
-        }
-
-        if (validateType === 'name') {
-            const allNames = document.querySelectorAll(`[data-validate="${validateType}"]`);
-            const duplicate = Array.from(allNames).filter((el) => el.value.trim() === value && el !== element);
-            if (duplicate.length > 0) {
-                showErrorVal(element, messages['duplicate']);
-                return false;
-            } else {
-                removeErrorVal(element);
-            }
-        }
-        if (validateType === 'name' || validateType === 'last') {
-            element.value = value.replace(/[^A-Za-z.]/g, '');
-        }
-    }
+    //     if (!validators[validateType].test(value)) {
+    //         showErrorVal(element, messages[validateType]);
+    //     } else {
+    //         removeErrorVal(element);
+    //     }
+    //     if (validateType === 'name') {
+    //         const allNames = document.querySelectorAll(`[data-validate="${validateType}"]`);
+    //         const duplicate = Array.from(allNames).filter((el) => el.value.trim() === value && el !== element);
+    //         if (duplicate.length > 0) {
+    //             showErrorVal(element, messages['duplicate']);
+    //             return false;
+    //         } else {
+    //             removeErrorVal(element);
+    //         }
+    //     }
+    // }
     function showErrorVal(element, message) {
+        debugger;
         const parentElement = element.closest('.col-md-3, .col-md-2');
         let errorMessage = parentElement.querySelector('.error-message-val');
 
@@ -243,6 +247,7 @@
         }
     }
     function removeErrorVal(element) {
+        debugger;
         const parentElement = element.closest('.col-md-3, .col-md-2');
         const errorMessage = parentElement.querySelector('.error-message-val');
         if (errorMessage) {
@@ -250,109 +255,47 @@
         }
         element.classList.remove('error-input');
     }
-
-
-    // function validateInputS(event) {
-    //     const element = event.target;
-    //     const value = element.value.trim();
-    //     const validateType = element.getAttribute('data-validate');
-    //     const validators = {
-    //         name: /^[a-zA-Z\s]*$/,
-    //         last: /^[a-zA-Z\s]*$/,
-    //         email: /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
-    //         phone: /^\d{10}$/
-    //     };
-
-    //     const messages = {
-    //         name: 'Enter First Name',
-    //         last: 'Enter Last Name',
-    //         email: 'Enter valid email.',
-    //         phone: 'Enter valid phone number.',
-    //         duplicate: 'Duplicate names are not allowed.'
-    //     };
-    //     if (value === "") {
-    //         showErrorVal(element, messages[validateType]);
-    //         return false;
-    //     } else {
-    //         removeErrorVal(element);
-    //     }
-
-    //     if (!validators[validateType].test(value)) {
-    //         showErrorVal(element, messages[validateType]);
-    //     } else {
-    //         removeErrorVal(element);
-    //     }
-
-    //     if (validateType === 'name') {
-
-    //         const allNames = document.querySelectorAll(`[data-validate="${validateType}"]`);
-    //         const duplicate = Array.from(allNames).filter((el) => el.value.trim() === value && el !== element);
-    //         if (duplicate.length > 0) {
-    //             showErrorVal(element, messages['duplicate']);
-    //             return false;
-    //         } else {
-    //             removeErrorVal(element);
-    //         }
-    //     }
-    // }
-    // function showErrorVal(element, message) {
-    //     let errorMessage = element.parentNode.querySelector('.error-message-val');
-    //     if (!errorMessage) {
-    //         errorMessage = document.createElement('p');
-    //         errorMessage.className = 'error-message-val';
-    //         element.parentNode.appendChild(errorMessage);
-
-    //     }
-    //     errorMessage.textContent = message;
-    //     errorMessage.style.display = 'block';
-    //     element.classList.add('error-input');
-    //     if (element.offsetParent !== null) {
-    //         element.focus();
-    //         return false;
-    //     }
-    // }
-    // function removeErrorVal(element) {
-    //     const errorMessage = element.parentNode.querySelector('.error-message-val');
-    //     if (errorMessage) {
-    //         errorMessage.style.display = 'none';
-    //     }
-    //     element.classList.remove('error-input');
-    // }
     var buttonLead = document.getElementById('checkboxLead');
     buttonLead.addEventListener('click', function (e) {
+        debugger;
         e.preventDefault();
         buttonLead.checked = !buttonLead.checked;
         if (buttonLead.checked) {
+            debugger;
             buttonLead.classList.add('checked');
         } else {
+            debugger;
             buttonLead.classList.remove('checked');
         }
         if (buttonLead.checked) {
+            debugger;
             alert("Checked!!")
             var emaiLeadPass = document.querySelector('.contactemail').value;
             var phoneLeadPass = document.querySelector('.contactphone').value;
-
             //Get all elements with class "contactemail" and set their value
             var emailInputsT = document.querySelectorAll(".contactemail");
             emailInputsT.forEach(function (input) {
                 input.value = emaiLeadPass;
+                validateInputS({ target: input });
             });
-
             // Get all elements with class "contactphone" and set their value
             var phoneInputsT = document.querySelectorAll(".contactphone");
             phoneInputsT.forEach(function (input) {
                 input.value = phoneLeadPass;
+                validateInputS({ target: input });
             });
         } else {
             alert("Checkbox is unchecked");
-
+            debugger;
             var emaiLeadPass = "";
             var phoneLeadPass = "";
             var emailInputsT = document.querySelectorAll(".contactemail");
+
             emailInputsT.forEach(function (input) {
                 input.value = emaiLeadPass;
             });
             var phoneInputsT = document.querySelectorAll(".contactphone");
+
             phoneInputsT.forEach(function (input) {
                 input.value = phoneLeadPass;
             });
@@ -363,6 +306,103 @@
             document.querySelector("#contactphoneID").value = phoneLeadPassenger;
         }
     });
+
+    function validateInputS(event) {
+        debugger;
+        const element = event.target;
+        const value = element.value.trim();
+        const validateType = element.getAttribute('data-validate');
+        const validators = {
+            name: /^[A-Za-z.]{3,32}$/,
+            last: /^[A-Za-z.]{3,32}$/,
+            email: /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+            phone: /^\d{10}$/
+        };
+
+        const messages = {
+            name: 'Enter First Name.',
+            last: 'Enter Last Name.',
+            email: 'Enter valid email address.',
+            phone: 'Enter valid phone number.',
+            duplicate: 'Duplicate names are not allowed.'
+        };
+        if (value === "") {
+            showErrorVal(element, messages[validateType]);
+            return false;
+        } else {
+            removeErrorVal(element);
+        }
+        if (validateType === 'name' || validateType === 'last') {
+            element.value = value.replace(/[^A-Za-z.]/g, '');
+        }
+
+        if (!validators[validateType].test(value)) {
+            showErrorVal(element, messages[validateType]);
+        } else {
+            removeErrorVal(element);
+        }
+        if (validateType === 'name') {
+            const allNames = document.querySelectorAll(`[data-validate="${validateType}"]`);
+            const duplicate = Array.from(allNames).filter((el) => el.value.trim() === value && el !== element);
+            if (duplicate.length > 0) {
+                showErrorVal(element, messages['duplicate']);
+                return false;
+            } else {
+                removeErrorVal(element);
+            }
+        }
+    }
+    // var buttonLead = document.getElementById('checkboxLead');
+    // buttonLead.addEventListener('click', function (e) {
+    //     debugger;
+    //     e.preventDefault();
+    //     buttonLead.checked = !buttonLead.checked;
+    //     if (buttonLead.checked) {
+    //         debugger;
+    //         buttonLead.classList.add('checked');
+    //     } else {
+    //         debugger;
+    //         buttonLead.classList.remove('checked');
+    //     }
+    //     if (buttonLead.checked) {
+    //         debugger;
+    //         alert("Checked!!")
+    //         var emaiLeadPass = document.querySelector('.contactemail').value;
+    //         var phoneLeadPass = document.querySelector('.contactphone').value;
+    //         //Get all elements with class "contactemail" and set their value
+    //         var emailInputsT = document.querySelectorAll(".contactemail");
+    //         emailInputsT.forEach(function (input) {
+    //             input.value = emaiLeadPass;
+    //             //validateInputT(input);
+    //         });
+    //         // Get all elements with class "contactphone" and set their value
+    //         var phoneInputsT = document.querySelectorAll(".contactphone");
+    //         phoneInputsT.forEach(function (input) {
+    //             input.value = phoneLeadPass;
+    //            // validateInputT(input);
+    //         });
+    //     } else {
+    //         alert("Checkbox is unchecked");
+    //         debugger;
+    //         var emaiLeadPass = "";
+    //         var phoneLeadPass = "";
+    //         var emailInputsT = document.querySelectorAll(".contactemail");
+
+    //         emailInputsT.forEach(function (input) {
+    //             input.value = emaiLeadPass;
+    //         });
+    //         var phoneInputsT = document.querySelectorAll(".contactphone");
+
+    //         phoneInputsT.forEach(function (input) {
+    //             input.value = phoneLeadPass;
+    //         });
+
+    //         var emaiLeadPassenger = localStorage.getItem('Leadpassenger3');
+    //         var phoneLeadPassenger = localStorage.getItem('Leadpassenger4');
+    //         document.querySelector("#contactemailID").value = emaiLeadPassenger;
+    //         document.querySelector("#contactphoneID").value = phoneLeadPassenger;
+    //     }
+    // });
     document.addEventListener('DOMContentLoaded', function (event) {
         event.preventDefault();
         const infantContainers = document.querySelectorAll('.infant-dob-input');
@@ -375,7 +415,6 @@
                 daySelect.appendChild(option);
             }
         }
-
         // Function to populate year options for a given container
         function populateYearOptions(container) {
             const yearSelect = container.querySelector('.year-select');
@@ -388,7 +427,6 @@
                 yearSelect.appendChild(option);
             }
         }
-
         infantContainers.forEach(function (container) {
             populateDayOptions(container);
             populateYearOptions(container);
@@ -413,7 +451,7 @@
                 { className: 'contactLname', errorMessage: 'Last  name is required', validationdata: /^[A-Za-z.]{3,32}$/ },
                 { className: 'contactemail', errorMessage: 'Email Address is required', validationdata: /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/ },
                 { className: 'contactphone', errorMessage: 'Phone number is required', validationdata: /^\d{10}$/ }
-            ];           
+            ];
             let firstInvalidElement = null;
             fieldsToValidate.forEach(field => {
                 const elements = document.querySelectorAll(`.${field.className}`);

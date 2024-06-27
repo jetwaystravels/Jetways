@@ -5,7 +5,10 @@
 }
 
 <div class="py-15 px-20 rounded-4 text-15 bg-blue-1-05 mb-10">
-    <div class="d-flex justify-content-end" style="margin-bottom:-15px;"><button id="checkboxLead" class="checkbox-button2" onclick="toggleCheckbox()"></button></div>
+    <div class="d-flex justify-content-end" style="margin-bottom:-15px;">
+        <span style="margin-right:15px;"><b>Same Contact Details</b></span>
+        <button id="checkboxLead" class="checkbox-button2" onclick="toggleCheckbox()"></button>
+    </div>
 
     <form asp-action="IndigoTravllerDetails" asp-controller="IndigoTripsell" method="post" id="passengerForm">
 
@@ -185,54 +188,55 @@
         }
 
 </style>
-<script type="text/javascript">
-    function validateInputI(event) {
-        const element = event.target;
-        const value = element.value.trim();
-        const validateType = element.getAttribute('data-validate');
-        const validators = {
-            name: /^[a-zA-Z\s]*$/,
-            last: /^[a-zA-Z\s]*$/,
-            email: /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-            phone: /^\d{10}$/
-        };
+<script>
+    // function validateInputT(event) {
+    //     debugger;
+    //     const element = event.target;
+    //     const value = element.value.trim();
+    //     const validateType = element.getAttribute('data-validate');
+    //     const validators = {
+    //         name: /^[A-Za-z.]{3,32}$/,
+    //         last: /^[A-Za-z.]{3,32}$/,
+    //         //email: /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
+    //         email: /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+    //         phone: /^\d{10}$/
+    //     };
 
-        const messages = {
-            name: 'Enter First Name',
-            last: 'Enter Last Name',
-            email: 'Enter valid email.',
-            phone: 'Enter valid phone number.',
-            duplicate: 'Duplicate names are not allowed.'
-        };
+    //     const messages = {
+    //         name: 'Enter First Name.',
+    //         last: 'Enter Last Name.',
+    //         email: 'Enter valid email address.',
+    //         phone: 'Enter valid phone number.',
+    //         duplicate: 'Duplicate names are not allowed.'
+    //     };
+    //     if (value === "") {
+    //         showErrorVal(element, messages[validateType]);
+    //         return false;
+    //     } else {
+    //         removeErrorVal(element);
+    //     }
+    //     if (validateType === 'name' || validateType === 'last') {
+    //         element.value = value.replace(/[^A-Za-z.]/g, '');
+    //     }
 
-        if (value === "") {
-            showErrorVal(element, messages[validateType]);
-            return false;
-        } else {
-            removeErrorVal(element);
-        }
-        if (validateType === 'name' || validateType === 'last') {
-            element.value = value.replace(/[^A-Za-z.]/g, '');
-        }
-
-        if (!validators[validateType].test(value)) {
-            showErrorVal(element, messages[validateType]);
-        } else {
-            removeErrorVal(element);
-        }
-
-        if (validateType === 'name') {
-            const allNames = document.querySelectorAll(`[data-validate="${validateType}"]`);
-            const duplicate = Array.from(allNames).filter((el) => el.value.trim() === value && el !== element);
-            if (duplicate.length > 0) {
-                showErrorVal(element, messages['duplicate']);
-                return false;
-            } else {
-                removeErrorVal(element);
-            }
-        }
-    }
+    //     if (!validators[validateType].test(value)) {
+    //         showErrorVal(element, messages[validateType]);
+    //     } else {
+    //         removeErrorVal(element);
+    //     }
+    //     if (validateType === 'name') {
+    //         const allNames = document.querySelectorAll(`[data-validate="${validateType}"]`);
+    //         const duplicate = Array.from(allNames).filter((el) => el.value.trim() === value && el !== element);
+    //         if (duplicate.length > 0) {
+    //             showErrorVal(element, messages['duplicate']);
+    //             return false;
+    //         } else {
+    //             removeErrorVal(element);
+    //         }
+    //     }
+    // }
     function showErrorVal(element, message) {
+        debugger;
         const parentElement = element.closest('.col-md-3, .col-md-2');
         let errorMessage = parentElement.querySelector('.error-message-val');
 
@@ -251,6 +255,7 @@
         }
     }
     function removeErrorVal(element) {
+        debugger;
         const parentElement = element.closest('.col-md-3, .col-md-2');
         const errorMessage = parentElement.querySelector('.error-message-val');
         if (errorMessage) {
@@ -258,17 +263,20 @@
         }
         element.classList.remove('error-input');
     }
-
     var buttonLead = document.getElementById('checkboxLead');
     buttonLead.addEventListener('click', function (e) {
+        debugger;
         e.preventDefault();
         buttonLead.checked = !buttonLead.checked;
         if (buttonLead.checked) {
+            debugger;
             buttonLead.classList.add('checked');
         } else {
+            debugger;
             buttonLead.classList.remove('checked');
         }
         if (buttonLead.checked) {
+            debugger;
             alert("Checked!!")
             var emaiLeadPass = document.querySelector('.contactemail').value;
             var phoneLeadPass = document.querySelector('.contactphone').value;
@@ -276,23 +284,26 @@
             var emailInputsT = document.querySelectorAll(".contactemail");
             emailInputsT.forEach(function (input) {
                 input.value = emaiLeadPass;
+                validateInputI({ target: input });
             });
-
             // Get all elements with class "contactphone" and set their value
             var phoneInputsT = document.querySelectorAll(".contactphone");
             phoneInputsT.forEach(function (input) {
                 input.value = phoneLeadPass;
+                validateInputI({ target: input });
             });
         } else {
             alert("Checkbox is unchecked");
-
+            debugger;
             var emaiLeadPass = "";
             var phoneLeadPass = "";
             var emailInputsT = document.querySelectorAll(".contactemail");
+
             emailInputsT.forEach(function (input) {
                 input.value = emaiLeadPass;
             });
             var phoneInputsT = document.querySelectorAll(".contactphone");
+
             phoneInputsT.forEach(function (input) {
                 input.value = phoneLeadPass;
             });
@@ -301,11 +312,105 @@
             var phoneLeadPassenger = localStorage.getItem('Leadpassenger4');
             document.querySelector("#contactemailID").value = emaiLeadPassenger;
             document.querySelector("#contactphoneID").value = phoneLeadPassenger;
-
         }
     });
 
-    var buttonLead = document.getElementById('checkboxLead');
+    function validateInputI(event) {
+        debugger;
+        const element = event.target;
+        const value = element.value.trim();
+        const validateType = element.getAttribute('data-validate');
+        const validators = {
+            name: /^[A-Za-z.]{3,32}$/,
+            last: /^[A-Za-z.]{3,32}$/,
+            email: /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+            phone: /^\d{10}$/
+        };
+
+        const messages = {
+            name: 'Enter First Name.',
+            last: 'Enter Last Name.',
+            email: 'Enter valid email address.',
+            phone: 'Enter valid phone number.',
+            duplicate: 'Duplicate names are not allowed.'
+        };
+        if (value === "") {
+            showErrorVal(element, messages[validateType]);
+            return false;
+        } else {
+            removeErrorVal(element);
+        }
+        if (validateType === 'name' || validateType === 'last') {
+            element.value = value.replace(/[^A-Za-z.]/g, '');
+        }
+
+        if (!validators[validateType].test(value)) {
+            showErrorVal(element, messages[validateType]);
+        } else {
+            removeErrorVal(element);
+        }
+        if (validateType === 'name') {
+            const allNames = document.querySelectorAll(`[data-validate="${validateType}"]`);
+            const duplicate = Array.from(allNames).filter((el) => el.value.trim() === value && el !== element);
+            if (duplicate.length > 0) {
+                showErrorVal(element, messages['duplicate']);
+                return false;
+            } else {
+                removeErrorVal(element);
+            }
+        }
+    }
+    // var buttonLead = document.getElementById('checkboxLead');
+    // buttonLead.addEventListener('click', function (e) {
+    //     debugger;
+    //     e.preventDefault();
+    //     buttonLead.checked = !buttonLead.checked;
+    //     if (buttonLead.checked) {
+    //         debugger;
+    //         buttonLead.classList.add('checked');
+    //     } else {
+    //         debugger;
+    //         buttonLead.classList.remove('checked');
+    //     }
+    //     if (buttonLead.checked) {
+    //         debugger;
+    //         alert("Checked!!")
+    //         var emaiLeadPass = document.querySelector('.contactemail').value;
+    //         var phoneLeadPass = document.querySelector('.contactphone').value;
+    //         //Get all elements with class "contactemail" and set their value
+    //         var emailInputsT = document.querySelectorAll(".contactemail");
+    //         emailInputsT.forEach(function (input) {
+    //             input.value = emaiLeadPass;
+    //             //validateInputT(input);
+    //         });
+    //         // Get all elements with class "contactphone" and set their value
+    //         var phoneInputsT = document.querySelectorAll(".contactphone");
+    //         phoneInputsT.forEach(function (input) {
+    //             input.value = phoneLeadPass;
+    //            // validateInputT(input);
+    //         });
+    //     } else {
+    //         alert("Checkbox is unchecked");
+    //         debugger;
+    //         var emaiLeadPass = "";
+    //         var phoneLeadPass = "";
+    //         var emailInputsT = document.querySelectorAll(".contactemail");
+
+    //         emailInputsT.forEach(function (input) {
+    //             input.value = emaiLeadPass;
+    //         });
+    //         var phoneInputsT = document.querySelectorAll(".contactphone");
+
+    //         phoneInputsT.forEach(function (input) {
+    //             input.value = phoneLeadPass;
+    //         });
+
+    //         var emaiLeadPassenger = localStorage.getItem('Leadpassenger3');
+    //         var phoneLeadPassenger = localStorage.getItem('Leadpassenger4');
+    //         document.querySelector("#contactemailID").value = emaiLeadPassenger;
+    //         document.querySelector("#contactphoneID").value = phoneLeadPassenger;
+    //     }
+    // });
     document.addEventListener('DOMContentLoaded', function (event) {
         event.preventDefault();
         const infantContainers = document.querySelectorAll('.infant-dob-input');
@@ -318,7 +423,6 @@
                 daySelect.appendChild(option);
             }
         }
-
         // Function to populate year options for a given container
         function populateYearOptions(container) {
             const yearSelect = container.querySelector('.year-select');
@@ -331,7 +435,6 @@
                 yearSelect.appendChild(option);
             }
         }
-
         infantContainers.forEach(function (container) {
             populateDayOptions(container);
             populateYearOptions(container);
