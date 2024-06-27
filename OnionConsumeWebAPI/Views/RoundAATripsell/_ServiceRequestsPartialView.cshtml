@@ -68,9 +68,9 @@
     }
 
     /*   .active {
-                        color: #E93329 !important;
-                        border-bottom: 1px solid #E93329 !important;
-                    } */
+                            color: #E93329 !important;
+                            border-bottom: 1px solid #E93329 !important;
+                        } */
 
     .select-option {
         max-width: 120px;
@@ -936,14 +936,14 @@
                                                     // {
                                                     //     BaggageOptions.Add(new SelectListItem { Text = bagname, Value = Sssrcode });
                                                     // }
-                                                    //var bagkey = "";
+                                                    //bagkey = "";
                                                     string Bagname = "";
                                                     for (int s = 0; s < Model.MealslistRT[0].legSsrs[0].legssrs.Count; s++)
                                                     {
                                                         string ssrprice = Model.MealslistRT[0].legSsrs[0].legssrs[s].legpassengers[0].price;
                                                         string Sssrcode = Model.MealslistRT[0].legSsrs[0].legssrs[s].ssrCode + "_" + Model.MealslistRT[0].legSsrs[0].legssrs[s].legpassengers[0].price;
                                                         AirLine = Model.MealslistRT[0].legSsrs[0].legssrs[s].legpassengers[0].Airline.ToString();
-                                                        string bagcode = Sssrcode.StartsWith("X", StringComparison.OrdinalIgnoreCase).ToString();
+                                                        string bagcode = (Sssrcode.StartsWith("X", StringComparison.OrdinalIgnoreCase) || Sssrcode.StartsWith("E", StringComparison.OrdinalIgnoreCase)).ToString();
                                                         bagkeyAA = Model.MealslistRT[0].legSsrs[0].legssrs[s].legpassengers[0].ssrKey + "_" + @Model.MealslistRT[0].legSsrs[0].legssrs[s].legpassengers[0].price;
                                                         if (bagcode.ToLower() == "true")
                                                         {
@@ -1336,7 +1336,7 @@
                                                         {
                                                             string ssrprice = Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].price;
                                                             string Sssrcode = Model.MealslistRT[1].legSsrs[0].legssrs[s].ssrCode + "_" + Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                            string bagcode = Sssrcode.StartsWith("X", StringComparison.OrdinalIgnoreCase).ToString();
+                                                            string bagcode = (Sssrcode.StartsWith("X", StringComparison.OrdinalIgnoreCase) || Sssrcode.StartsWith("E", StringComparison.OrdinalIgnoreCase)).ToString();
                                                             AirLine = Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].Airline.ToString();
                                                             bagkeyAA = Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].ssrKey + "_" + @Model.MealslistRT[1].legSsrs[0].legssrs[s].legpassengers[0].price;
                                                             if (bagcode.ToLower() == "true")

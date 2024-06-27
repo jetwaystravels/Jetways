@@ -145,6 +145,7 @@ namespace DomainLayer.Model
             htSSr.Add("NVML", "Murg lababdar on bed of palak pulao & Dal panchrattni (260 gms)");
             htSSr.Add("VGML", "Masala Dosa with Tomato onion uttapam and kanjivaram mini idli in sambar along with Coconut Chutney (220 gms)");
             htSSr.Add("VGSW", "Cucumber, tomato & cheese in multigrain bread (180 gms)");
+            htSSr.Add("NVSW", "Non Veg Sandwich");
             htSSr.Add("NCC1", "Grilled Chicken Breast with Mushroom Sauce, Yellow Rice, Sautéed Carrots & Beans Baton (270 gms)");
             htSSr.Add("NCC2", "Chicken in Red Thai Curry with Steamed Rice (200 gms)");
             htSSr.Add("NCC6", "Chicken schezwan on bed of fried rice (210 gms)");

@@ -21,8 +21,8 @@
 
 
 
-  @for (var j = 0; j < Model.SimpleAvailibilityaAddResponcelist.Count; j++)
-  {
+@for (var j = 0; j < Model.SimpleAvailibilityaAddResponcelist.Count; j++)
+{
     if (Model.SimpleAvailibilityaAddResponcelist[j].fareTotalsum <= 0)
         continue;
     //var collapseId = "ViewPriceCollapse" + Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.identifier.Trim();
@@ -189,26 +189,26 @@
                                         <div class="d-flex justify-center align-items-center">
                                             <div>@stops Stop via &nbsp;</div>
 
-                                        @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs.Count == 2)
-                                        {
-                                            <div class="mt-1">@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination  ,@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[1].designator.destination</div>
-                                        }
-                                        else
-                                        {
-                                            // <div class="mt-1">2 Stop via  @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination  <b>,</b></div>
+                                            @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs.Count == 2)
+                                            {
+                                                <div class="mt-1">@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination  ,@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[1].designator.destination</div>
+                                            }
+                                            else
+                                            {
+                                                // <div class="mt-1">2 Stop via  @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination  <b>,</b></div>
 
-                                        }
+                                            }
 
 
-                                        @if (Model.SimpleAvailibilityaAddResponcelist[j].segments.Count > 1 && Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs.Count == 2)
-                                        {
-                                            <div class="mt-1">,@Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination</div>
-                                        }
-                                        else
-                                        {
-                                            // <div class="mt-1">2 Stop via  @Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination  <b>,</b></div>
+                                            @if (Model.SimpleAvailibilityaAddResponcelist[j].segments.Count > 1 && Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs.Count == 2)
+                                            {
+                                                <div class="mt-1">,@Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination</div>
+                                            }
+                                            else
+                                            {
+                                                // <div class="mt-1">2 Stop via  @Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination  <b>,</b></div>
 
-                                        }
+                                            }
                                         </div>
                                     }
                                 }
@@ -293,7 +293,7 @@
                                     Faretype = "Spice Max";
                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SS"))
                                     Faretype = "Saver Fare";
-                              
+
                             }
                             else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.AkasaAir)
                             {
@@ -326,7 +326,7 @@
                                     <div><strong>@Faretype (@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass)</strong></div>
                                     <div>offered by airline.</div>
                                 </td>
-                                @if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "EC"  || Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "RS")
+                                @if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "EC" || Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "RS")
                                 {
                                     <td>7 Kg</td>
                                     <td><strong>15 kg (1 piece)</strong></td>
@@ -378,18 +378,18 @@
 
                                 }
 
-                              //Indigo//////
+                                //Indigo//////
                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "R")
                                 {
                                     <td>7 Kg</td>
                                     <td><strong>15 kg (1 piece)</strong></td>
                                     <td>
 
-                                        <div>3500 (3 hrs before departure</div>
+                                        <div>3500 3 days upto 2 hrs prior from departure</div>
                                     </td>
                                     <td>
 
-                                        <div>3200 (3 hrs before departure</div>
+                                        <div>3000 Before 3days upto 2 hrs from departure</div>
                                     </td>
                                     <td>
                                         <div>
@@ -433,14 +433,14 @@
                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "O")
                                 {
                                     <td>7 Kg</td>
-                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td><strong>25 kg (1 piece)</strong></td>
                                     <td>
 
-                                        <div>500 (Before 3days upto 2 hrs from departure)</div>
+                                        <div>500 Before 3days upto 2 hrs from departure</div>
                                     </td>
                                     <td>
 
-                                        <div>500 (Before 3days upto 2 hrs from departure)</div>
+                                        <div>500 Before 3days upto 2 hrs from departure</div>
                                     </td>
                                     <td>
                                         <div>
@@ -511,7 +511,7 @@
                                     </td>
 
                                 }
-                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "HF" ||  Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "SF")
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "HF" || Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "SF")
                                 {
                                     <td>7 Kg</td>
                                     <td><strong>15 kg (1 piece)</strong></td>
@@ -569,7 +569,7 @@
                                     </td>
 
                                 }
-                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "VV"  || Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "SC")
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "VV" || Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "SC")
                                 {
                                     <td>7 Kg</td>
                                     <td>
@@ -969,10 +969,10 @@
             </div>
 
             <!-----Ftab5 End----->
-           
+
         </div>
     </div>
 
-  }
+}
 
 

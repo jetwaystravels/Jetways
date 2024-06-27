@@ -353,7 +353,6 @@
                             <partial name="_FlightViewPartialView.cshtml" />
                         </aside>
                     </div>
-
                     <div class="col-xl-9 col-lg-8">
                         <div class="shorting-bg-white" style="padding: 15px 15px 15px 15px;">
                             <div class="d-flex justify-between shorting-tab">
@@ -378,7 +377,20 @@
                         <div id="flight-results">
                             @Html.Partial("_FlightResultsSortingPartialView", Model)
                         </div>
+
+                        @if (Model.SimpleAvailibilityaAddResponcelist.Count == 0)
+                        {
+                            <div class="row pt-50">
+                                <div class="col-xl-9 col-lg-8 text-center text-danger fw-600">
+                                    <marquee>
+                                        <h4 style="color: red; font-weight: 600;">No Flight Available....</h4>
+                                    </marquee>
+                                </div>
+                            </div>
+                        }
                     </div>
+
+
                 </div>
             </div>
         </section>
@@ -2150,7 +2162,8 @@
                 $('.showBtn').removeClass('active');
                 $(this).addClass('active');
                 $(this).next().filter('.hideme').slideDown(1000);
-                $('.flightT1').addClass('tabBG');
+                //$('.flightT1').addClass('tabBG');
+                $('.flightT1').click();
 
             }
         });
@@ -2228,7 +2241,7 @@
                 maxDate: '+2m',
                 minDate: '0'
             });
-        }); 
+        });
 
         document.addEventListener('DOMContentLoaded', function () {
             // Select the input fields for adults, children, and infants
