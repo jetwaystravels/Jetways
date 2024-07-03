@@ -195,26 +195,31 @@
                                         {
                                             @for (int i3 = 0; i3 < @Model.AirlinePNR[a].journeys[0].segments.Count; i3++)
                                             {
+                                                string barcodeimageUrl = string.Empty;
+                                                if (Model.AirlinePNR[a].passengers[i2].barcodestringlst != null && Model.AirlinePNR[a].passengers[i2].barcodestringlst.Count > 0 && i3 == 0)
+                                                {
+                                                    barcodeimageUrl = @Model.AirlinePNR[a].passengers[i2].barcodestringlst[0].Trim();
+                                                }
+                                                else if (Model.AirlinePNR[a].passengers[i2].barcodestringlst != null && Model.AirlinePNR[a].passengers[i2].barcodestringlst.Count > 0 && i3 == 1)
+                                                {
+                                                    barcodeimageUrl = @Model.AirlinePNR[a].passengers[i2].barcodestringlst[1].Trim();
+                                                }
                                                 <tr>
                                                     @{
                                                         if (i3 == 0)
                                                         {
-                                                            int segmentscountname = @Model.AirlinePNR[a].journeys[0].segments.Count;
-                                                            if (segmentscountname == 1)
+                                                            int segmentscount = @Model.AirlinePNR[a].journeys[0].segments.Count;
+                                                            if (segmentscount == 1)
                                                             {
                                                                 <td rowspan="1" style="vertical-align:middle;">@Model.AirlinePNR[a].passengers[i2].name.first (@Model.AirlinePNR[a].passengers[i2].passengerTypeCode)</td>
                                                             }
-                                                            if (segmentscountname == 2)
+
+                                                            if (segmentscount == 2)
                                                             {
                                                                 <td rowspan="2" style="vertical-align:middle;">@Model.AirlinePNR[a].passengers[i2].name.first (@Model.AirlinePNR[a].passengers[i2].passengerTypeCode)</td>
                                                             }
-
                                                         }
-                                                        @*else
-                                {
-                                <td></td>
-                                }*@
-                                                    }
+               }
                                                     <td>@Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin - @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination </td>
                                                     <td>@Model.AirlinePNR[a].journeys[0].segments[i3].identifier.carrierCode - @Model.AirlinePNR[a].journeys[0].segments[i3].identifier.identifier</td>
                                                     @{
@@ -225,10 +230,60 @@
                                                             <td>@htseat[hashdata]</td>
                                                         }
                                                     }
-                                                    <td>@Model.AirlinePNR[a].passengers[i2].MobNumber</td>
+                                                    @if (i3 == 1)
+                                                    {
+                                                        <td></td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@Model.AirlinePNR[a].passengers[i2].MobNumber</td>
+                                                    }
                                                     <td>AD1WSM/1/1</td>
                                                     <td>Confirm</td>
-                                                    <td><img src="~/img/bar-code.png" alt="icon"></td>
+                                                    @if (i3 == 1)
+                                                    {
+                                                        if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "INFT")
+                                                        {
+                                                            <td rowspan="1" style="vertical-align:middle;"></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            if (barcodeimageUrl != "")
+                                                            {
+                                                                int segmentscount = @Model.AirlinePNR[a].journeys[0].segments.Count;
+                                                                if (segmentscount == 1)
+                                                                {
+                                                                    <td rowspan="1" style="vertical-align:middle;width:110px;"><img src="@barcodeimageUrl" alt="barcode"></td>
+                                                                }
+
+                                                            }
+
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "INFT")
+                                                        {
+                                                            <td rowspan="1" style="vertical-align:middle;"></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            if (barcodeimageUrl != "")
+                                                            {
+                                                                int segmentscount = @Model.AirlinePNR[a].journeys[0].segments.Count;
+                                                                if (segmentscount == 1)
+                                                                {
+                                                                    <td rowspan="1" style="vertical-align:middle;width:110px;"><img src="@barcodeimageUrl" alt="barcode"></td>
+                                                                }
+
+                                                                if (segmentscount == 2)
+                                                                {
+                                                                    <td rowspan="2" style="vertical-align:middle;width:110px;"><img src="@barcodeimageUrl" alt="barcode"></td>
+                                                                }
+                                                            }
+
+                                                        }
+                                                    }
                                                 </tr>
                                             }
                                         }
@@ -326,7 +381,7 @@
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th scope="col">Company Number </th>
+                                                <th scope="col" class="col-one">Company Number </th>
                                                 <th scope="col" class="col-one">GST NUmber</th>
                                             </tr>
                                         </thead>
@@ -383,7 +438,7 @@
                                             </tr>
                                             <tr>
                                                 <td>Addon Bagg Amount:</td>
-                                                <td>Rs. 0.00</td>
+                                                <td>Rs. @Model.AirlinePNR[a].breakdown.passengerTotals.baggage.total</td>
                                             </tr>
                                             <tr>
                                                 <td>Seat Amount:</td>

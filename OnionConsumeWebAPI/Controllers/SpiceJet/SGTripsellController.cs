@@ -347,25 +347,25 @@ namespace OnionConsumeWebAPI.Controllers
             }
             unitKey = new List<string>();
             unitKey = _unitkey;
-            if (BaggageSSrkey[0] == null)
+            if (BaggageSSrkey.Count > 0 && BaggageSSrkey[0] == null)
             {
                 BaggageSSrkey = new List<string>();
             }
-            if (ssrKey[0] == null)
+            if (ssrKey.Count > 0 && ssrKey[0] == null)
             {
                 ssrKey = new List<string>();
             }
-            if (unitKey[0] == null)
+            if (unitKey.Count > 0 && unitKey[0] == null)
             {
                 unitKey = new List<string>();
             }
-            List<string> ConnetedBaggageSSrkey = new List<string>();
-            for (int i = 0; i < BaggageSSrkey.Count; i++)
-            {
-                ConnetedBaggageSSrkey.Add(BaggageSSrkey[i].Replace("_0", "_1"));
-            }
-            //ConnetedBaggageSSrkey = BaggageSSrkey;
-            BaggageSSrkey.AddRange(ConnetedBaggageSSrkey);
+            //List<string> ConnetedBaggageSSrkey = new List<string>();
+            //for (int i = 0; i < BaggageSSrkey.Count; i++)
+            //{
+            //    ConnetedBaggageSSrkey.Add(BaggageSSrkey[i].Replace("_0", "_1"));
+            //}
+            ////ConnetedBaggageSSrkey = BaggageSSrkey;
+            //BaggageSSrkey.AddRange(ConnetedBaggageSSrkey);
 
             string tokenview = HttpContext.Session.GetString("SpicejetSignature");
             token = tokenview.Replace(@"""", string.Empty);
@@ -449,7 +449,7 @@ namespace OnionConsumeWebAPI.Controllers
                             for (int k = 0; k < BaggageSSrkey.Count; k++)
                             {
                                 string[] sskeydata = new string[2];
-                                if (BaggageSSrkey[k].Contains("_0"))
+                                if (BaggageSSrkey[k].Contains("_OneWay0"))
                                 {
                                     string[] wordsArray = BaggageSSrkey[k].ToString().Split('_');
                                     if (wordsArray.Length > 1 && !string.IsNullOrEmpty(wordsArray[0]))
@@ -460,7 +460,7 @@ namespace OnionConsumeWebAPI.Controllers
                                         _obj.SSRbaggagecode0.Add(_objBag0);
                                     }
                                 }
-                                else if (BaggageSSrkey[k].Contains("_1"))
+                                else if (BaggageSSrkey[k].Contains("_OneWay1"))
                                 {
                                     string[] wordsArray = BaggageSSrkey[k].ToString().Split('_');
                                     if (wordsArray.Length > 1 && !string.IsNullOrEmpty(wordsArray[0]))

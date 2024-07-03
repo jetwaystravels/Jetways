@@ -197,56 +197,59 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                                         double AdttaxAmount = 0.0;
                                         double chdAmount = 0.0;
                                         double chdtaxAmount = 0.0;
-                                        for (int l = 0; l < passengerFarescount; l++)
+                                        if (passengerFarescount > 0)
                                         {
-                                            journeyTotalsobj = new JourneyTotals();
-                                            PassengerFareReturn AAPassengerfareobject = new PassengerFareReturn();
-                                            AAPassengerfareobject.passengerType = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].PaxType;
-
-                                            var serviceCharges1 = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges;
-                                            int serviceChargescount = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges.Length;
-                                            List<ServiceChargeReturn> AAServicechargelist = new List<ServiceChargeReturn>();
-                                            for (int m = 0; m < serviceChargescount; m++)
+                                            for (int l = 0; l < passengerFarescount; l++)
                                             {
-                                                ServiceChargeReturn AAServicechargeobj = new ServiceChargeReturn();
-                                                AAServicechargeobj.amount = Convert.ToInt32(_getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges[m].Amount);
-                                                string data = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges[m].ChargeType.ToString();
-                                                if (data.ToLower() == "fareprice")
+                                                journeyTotalsobj = new JourneyTotals();
+                                                PassengerFareReturn AAPassengerfareobject = new PassengerFareReturn();
+                                                AAPassengerfareobject.passengerType = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].PaxType;
+
+                                                var serviceCharges1 = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges;
+                                                int serviceChargescount = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges.Length;
+                                                List<ServiceChargeReturn> AAServicechargelist = new List<ServiceChargeReturn>();
+                                                for (int m = 0; m < serviceChargescount; m++)
                                                 {
-                                                    journeyTotalsobj.totalAmount += Convert.ToInt32(_getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges[m].Amount);
+                                                    ServiceChargeReturn AAServicechargeobj = new ServiceChargeReturn();
+                                                    AAServicechargeobj.amount = Convert.ToInt32(_getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges[m].Amount);
+                                                    string data = _getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges[m].ChargeType.ToString();
+                                                    if (data.ToLower() == "fareprice")
+                                                    {
+                                                        journeyTotalsobj.totalAmount += Convert.ToInt32(_getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges[m].Amount);
+                                                    }
+                                                    else
+                                                    {
+                                                        journeyTotalsobj.totalTax += Convert.ToInt32(_getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges[m].Amount);
+                                                    }
+
+
+                                                    AAServicechargelist.Add(AAServicechargeobj);
                                                 }
-                                                else
+
+                                                if (AAPassengerfareobject.passengerType.Equals("ADT"))
                                                 {
-                                                    journeyTotalsobj.totalTax += Convert.ToInt32(_getBookingResponse.Booking.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges[m].Amount);
+                                                    AdtAmount += journeyTotalsobj.totalAmount * adultcount;
+                                                    AdttaxAmount += journeyTotalsobj.totalTax * adultcount;
+                                                }
+
+                                                if (AAPassengerfareobject.passengerType.Equals("CHD"))
+                                                {
+                                                    chdAmount += journeyTotalsobj.totalAmount * childcount;
+                                                    chdtaxAmount += journeyTotalsobj.totalTax * childcount;
                                                 }
 
 
-                                                AAServicechargelist.Add(AAServicechargeobj);
+                                                AAPassengerfareobject.serviceCharges = AAServicechargelist;
+                                                PassengerfarelistRT.Add(AAPassengerfareobject);
+
                                             }
+                                            journeyTotalsobj.totalAmount = AdtAmount + chdAmount;
+                                            journeyTotalsobj.totalTax = AdttaxAmount + chdtaxAmount;
+                                            journeyBaseFareobj.Add(journeyTotalsobj);
+                                            AAFareobj.passengerFares = PassengerfarelistRT;
 
-                                            if (AAPassengerfareobject.passengerType.Equals("ADT"))
-                                            {
-                                                AdtAmount += journeyTotalsobj.totalAmount * adultcount;
-                                                AdttaxAmount += journeyTotalsobj.totalTax * adultcount;
-                                            }
-
-                                            if (AAPassengerfareobject.passengerType.Equals("CHD"))
-                                            {
-                                                chdAmount += journeyTotalsobj.totalAmount * childcount;
-                                                chdtaxAmount += journeyTotalsobj.totalTax * childcount;
-                                            }
-
-
-                                            AAPassengerfareobject.serviceCharges = AAServicechargelist;
-                                            PassengerfarelistRT.Add(AAPassengerfareobject);
-
+                                            AAFarelist.Add(AAFareobj);
                                         }
-                                        journeyTotalsobj.totalAmount = AdtAmount + chdAmount;
-                                        journeyTotalsobj.totalTax = AdttaxAmount + chdtaxAmount;
-                                        journeyBaseFareobj.Add(journeyTotalsobj);
-                                        AAFareobj.passengerFares = PassengerfarelistRT;
-
-                                        AAFarelist.Add(AAFareobj);
                                     }
                                     //breakdown.journeyTotals = journeyTotalsobj;
                                     breakdown.passengerTotals = passengerTotals;
@@ -428,7 +431,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                                                 seatassignhashtable.Add(key, value);
                                             }
                                         }
-                                        if (htseatdata.ContainsKey(item.PassengerNumber.ToString()+"_"+ orides.Substring(0,3)+"_"+orides.Substring(3)))
+                                        if (htseatdata.ContainsKey(item.PassengerNumber.ToString() + "_" + orides.Substring(0, 3) + "_" + orides.Substring(3)))
                                         {
                                             seatnumber = htseatdata[item.PassengerNumber.ToString() + "_" + orides.Substring(0, 3) + "_" + orides.Substring(3)].ToString();
                                             if (string.IsNullOrEmpty(seatnumber))
@@ -480,7 +483,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                                     {
                                         foreach (var item2 in item1.ServiceCharges)
                                         {
-                                            if ((!item2.ChargeCode.Equals("SEAT") || !item2.ChargeCode.Equals("INFT")) && !item2.ChargeType.ToString().ToLower().Contains("tax") && item2.ChargeCode.StartsWith("X", StringComparison.OrdinalIgnoreCase) ==false)
+                                            if ((!item2.ChargeCode.Equals("SEAT") || !item2.ChargeCode.Equals("INFT")) && !item2.ChargeType.ToString().ToLower().Contains("tax") && item2.ChargeCode.StartsWith("X", StringComparison.OrdinalIgnoreCase) == false)
                                             {
                                                 passengerTotals.specialServices.total += Convert.ToInt32(item2.Amount);
                                                 //breakdown.passengerTotals.seats.total += Convert.ToInt32(item2.Amount);
@@ -729,7 +732,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                             }
 
                         }
-                        
+
                         //LogOut 
                         IndigoSessionmanager_.LogoutRequest _logoutRequestobj = new IndigoSessionmanager_.LogoutRequest();
                         IndigoSessionmanager_.LogoutResponse _logoutResponse = new IndigoSessionmanager_.LogoutResponse();
