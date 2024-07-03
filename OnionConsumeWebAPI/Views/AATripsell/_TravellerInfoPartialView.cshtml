@@ -80,7 +80,7 @@
 </style>
 <div class="py-15 px-20 rounded-4 text-15 bg-blue-1-05 mb-10">
     <div class="d-flex justify-content-end" style="margin-bottom:-15px;">
-        <span style="margin-right:15px;"><b>Same Contact Details</b></span>
+        <span style="margin-right:15px;"><b>Same Lead Passengers Contact Details</b></span>
         <button id="checkboxLead" class="checkbox-button2" onclick="toggleCheckbox()"></button>
     </div>
 
@@ -148,10 +148,10 @@
                         <div class="col-md-4 infant-dob-input ">
                             <div class="form-input dobinput d-flex">
                                 <div class="dob-picker">
-                                    <select class="brd-none day-select" name="passengerdetails[@i].day" required>
+                                    <select class="brd-none day-select validate-field" data-validate="day" name="passengerdetails[@i].day" required>
                                         <option value="" disabled selected>Day</option>
                                     </select>
-                                    <select class="brd-none month-select" name="passengerdetails[@i].month" required>
+                                    <select class="brd-none month-select validate-field" data-validate="month" name="passengerdetails[@i].month" required>
                                         <option value="" disabled selected>Month</option>
                                         <option value="1">January</option>
                                         <option value="2">February</option>
@@ -166,7 +166,7 @@
                                         <option value="11">November</option>
                                         <option value="12">December</option>
                                     </select>
-                                    <select class="brd-none year-select" name="passengerdetails[@i].year" required>
+                                    <select class="brd-none year-select validate-field" data-validate="year" name="passengerdetails[@i].year" required>
                                         <option value="" disabled selected>Year</option>
                                     </select>
                                 </div>
@@ -263,16 +263,18 @@
     //     }
     // }
     function showErrorVal(element, message) {
-        debugger;
+       
         const parentElement = element.closest('.col-md-3, .col-md-2');
         let errorMessage = parentElement.querySelector('.error-message-val');
-
         if (!errorMessage) {
             errorMessage = document.createElement('p');
             errorMessage.className = 'error-message-val';
             parentElement.appendChild(errorMessage);
         }
-
+        const errorMessageReq = parentElement.querySelector(".error-message");
+        if (errorMessageReq) {
+            errorMessageReq.style.display = 'none';
+        }
         errorMessage.textContent = message;
         errorMessage.style.display = 'block';
         element.classList.add('error-input');
@@ -282,28 +284,32 @@
         }
     }
     function removeErrorVal(element) {
-        debugger;
+       
         const parentElement = element.closest('.col-md-3, .col-md-2');
         const errorMessage = parentElement.querySelector('.error-message-val');
         if (errorMessage) {
             errorMessage.style.display = 'none';
         }
+        const errorMessageReq = parentElement.querySelector(".error-message");
+        if (errorMessageReq) {
+            errorMessageReq.style.display = 'none';
+        }
         element.classList.remove('error-input');
     }
     var buttonLead = document.getElementById('checkboxLead');
     buttonLead.addEventListener('click', function (e) {
-        debugger;
+      
         e.preventDefault();
         buttonLead.checked = !buttonLead.checked;
         if (buttonLead.checked) {
-            debugger;
+            
             buttonLead.classList.add('checked');
         } else {
-            debugger;
+          
             buttonLead.classList.remove('checked');
         }
         if (buttonLead.checked) {
-            debugger;
+          
             alert("Checked!!")
             var emaiLeadPass = document.querySelector('.contactemail').value;
             var phoneLeadPass = document.querySelector('.contactphone').value;
@@ -321,18 +327,20 @@
             });
         } else {
             alert("Checkbox is unchecked");
-            debugger;
+            
             var emaiLeadPass = "";
             var phoneLeadPass = "";
             var emailInputsT = document.querySelectorAll(".contactemail");
 
             emailInputsT.forEach(function (input) {
                 input.value = emaiLeadPass;
+                validateInputT({ target: input });
             });
             var phoneInputsT = document.querySelectorAll(".contactphone");
 
             phoneInputsT.forEach(function (input) {
                 input.value = phoneLeadPass;
+                validateInputT({ target: input });
             });
 
             var emaiLeadPassenger = localStorage.getItem('Leadpassenger3');
@@ -343,14 +351,14 @@
     });
 
     function validateInputT(event) {
-        debugger;
+        
         const element = event.target;
         const value = element.value.trim();
         const validateType = element.getAttribute('data-validate');
         const validators = {
-            name: /^[A-Za-z.]{3,32}$/,
-            last: /^[A-Za-z.]{3,32}$/,
-            email: /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+            name: /^[A-Za-z.]{0,32}$/,
+            last: /^[A-Za-z.]{0,32}$/,
+            email: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
             phone: /^\d{10}$/
         };
 
@@ -387,57 +395,6 @@
             }
         }
     }
-    // var buttonLead = document.getElementById('checkboxLead');
-    // buttonLead.addEventListener('click', function (e) {
-    //     debugger;
-    //     e.preventDefault();
-    //     buttonLead.checked = !buttonLead.checked;
-    //     if (buttonLead.checked) {
-    //         debugger;
-    //         buttonLead.classList.add('checked');
-    //     } else {
-    //         debugger;
-    //         buttonLead.classList.remove('checked');
-    //     }
-    //     if (buttonLead.checked) {
-    //         debugger;
-    //         alert("Checked!!")
-    //         var emaiLeadPass = document.querySelector('.contactemail').value;
-    //         var phoneLeadPass = document.querySelector('.contactphone').value;
-    //         //Get all elements with class "contactemail" and set their value
-    //         var emailInputsT = document.querySelectorAll(".contactemail");
-    //         emailInputsT.forEach(function (input) {
-    //             input.value = emaiLeadPass;
-    //             //validateInputT(input);
-    //         });
-    //         // Get all elements with class "contactphone" and set their value
-    //         var phoneInputsT = document.querySelectorAll(".contactphone");
-    //         phoneInputsT.forEach(function (input) {
-    //             input.value = phoneLeadPass;
-    //            // validateInputT(input);
-    //         });
-    //     } else {
-    //         alert("Checkbox is unchecked");
-    //         debugger;
-    //         var emaiLeadPass = "";
-    //         var phoneLeadPass = "";
-    //         var emailInputsT = document.querySelectorAll(".contactemail");
-
-    //         emailInputsT.forEach(function (input) {
-    //             input.value = emaiLeadPass;
-    //         });
-    //         var phoneInputsT = document.querySelectorAll(".contactphone");
-
-    //         phoneInputsT.forEach(function (input) {
-    //             input.value = phoneLeadPass;
-    //         });
-
-    //         var emaiLeadPassenger = localStorage.getItem('Leadpassenger3');
-    //         var phoneLeadPassenger = localStorage.getItem('Leadpassenger4');
-    //         document.querySelector("#contactemailID").value = emaiLeadPassenger;
-    //         document.querySelector("#contactphoneID").value = phoneLeadPassenger;
-    //     }
-    // });
     document.addEventListener('DOMContentLoaded', function (event) {
         event.preventDefault();
         const infantContainers = document.querySelectorAll('.infant-dob-input');
@@ -483,31 +440,31 @@
             const fieldsToValidate = [
                 { className: 'contactFname', errorMessage: 'First name is required ', validationdata: /^[A-Za-z.]{3,32}$/ },
                 { className: 'contactLname', errorMessage: 'Last  name is required', validationdata: /^[A-Za-z.]{3,32}$/ },
-                { className: 'contactemail', errorMessage: 'Email Address is required', validationdata: /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/ },
+                { className: 'contactemail', errorMessage: 'Email Address is required', validationdata: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/ },
                 { className: 'contactphone', errorMessage: 'Phone number is required', validationdata: /^\d{10}$/ }
+
             ];
             let firstInvalidElement = null;
             fieldsToValidate.forEach(field => {
+                debugger;
                 const elements = document.querySelectorAll(`.${field.className}`);
                 elements.forEach(element => {
                     element.addEventListener("input", function () {
                         removeError(element);
                     });
-                    if (element.value.trim() === "" || !field.validationdata.test(element.value.trim())) {
+                    if (element.value.trim() === "") {
+                        debugger;
                         showError(element, field.errorMessage);
                         if (!firstInvalidElement) {
                             firstInvalidElement = element;
                         }
+                    } else if (!field.validationdata.test(element.value.trim())) {
+                        debugger;
+                        showErrorVal(element, message);
                     }
 
                 });
             });
-            // if (!validationdata.test(value)) {
-            //     debugger;
-            //     showErrorVal(element, field.errorMessage);
-            // } else {
-            //     removeErrorVal(element);
-            // }
             if (firstInvalidElement) {
                 debugger;
                 firstInvalidElement.focus();

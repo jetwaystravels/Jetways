@@ -14,12 +14,12 @@ namespace DomainLayer.Model
         public int Id { get; set; }
         [ForeignKey("tb_booking")]
         public string BookingID { get; set; }
-        public decimal TotalMealsAmount { get; set; }
-        public decimal TotalMealsAmount_Tax { get; set; }
-        public decimal TotalSeatAmount { get; set; }
-        public decimal TotalSeatAmount_Tax { get; set; }
-        public decimal TotalBookingAmount { get; set; }
-        public decimal totalBookingAmount_Tax { get; set; }
+        public double TotalMealsAmount { get; set; }
+        public double TotalMealsAmount_Tax { get; set; }
+        public double TotalSeatAmount { get; set; }
+        public double TotalSeatAmount_Tax { get; set; }
+        public double TotalBookingAmount { get; set; }
+        public double totalBookingAmount_Tax { get; set; }
         public DateTime CreatedDate { get; set; }
         public string Createdby { get; set; }
         public DateTime ModifiedDate { get; set; }

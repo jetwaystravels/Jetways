@@ -24,11 +24,11 @@ namespace DomainLayer.Model
         //public DateTime ArrivalDate { get; set; }
         public string DepartureDate { get; set; }
         public string ArrivalDate { get; set; }
-        public decimal TotalAmount { get; set; }
-        public decimal SpecialServicesTotal { get; set; }
-        public decimal SpecialServicesTotal_Tax { get; set; }
-        public decimal SeatTotalAmount { get; set; }
-        public decimal SeatTotalAmount_Tax { get; set; }      
+        public double TotalAmount { get; set; }
+        public double SpecialServicesTotal { get; set; }
+        public double SpecialServicesTotal_Tax { get; set; }
+        public double SeatTotalAmount { get; set; }
+        public double SeatTotalAmount_Tax { get; set; }      
         public DateTime CreatedDate { get; set; }
         public DateTime ExpirationDate { get; set; }       
         public string Createdby { get; set; }

@@ -165,6 +165,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
             string Seattext = HttpContext.Session.GetString("Mainseatmapvm");
             string Mealtext = HttpContext.Session.GetString("Mainmealvm");
             string passengerNamedetails = HttpContext.Session.GetString("PassengerNameDetails");
+            string BaggageDataR = HttpContext.Session.GetString("BaggageDetails");
 
             #region 2
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Mainpassengervm")))
@@ -180,6 +181,11 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         vm.passeengerlistRT.Add(passeengerlist);
                     }
                 }
+            }
+            if (!string.IsNullOrEmpty(BaggageDataR))
+            {
+                SSRAvailabiltyResponceModel RBaggageDataDetails = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(BaggageDataR, typeof(SSRAvailabiltyResponceModel));
+                vm.Baggage = RBaggageDataDetails;
             }
             if (!string.IsNullOrEmpty(passengerNamedetails))
             {
@@ -225,7 +231,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
             return View(vm);
         }
 
-        public async Task<IActionResult> PostReturnContactData(ContactModel contactobject)
+        public async Task<IActionResult> PostReturnContactData(ContactModel contactobject, AddGSTInformation addGSTInformation)
         {
 
             string SelectedAirlinedata = HttpContext.Session.GetString("SelectedAirlineName");
@@ -421,6 +427,57 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     _updateContact obj = new _updateContact(httpContextAccessorInstance);
                     IndigoBookingManager_.UpdateContactsResponse _responseAddContact6E = await obj.GetUpdateContacts(Signature, contactobject.emailAddress, contactobject.number, contactobject.companyName, contactobject.customerNumber, "");
                     string Str1 = JsonConvert.SerializeObject(_responseAddContact6E);
+                }
+
+            }
+
+            return RedirectToAction("_RGetGstDetails", "RoundAATripsell", contactobject);
+        }
+        public async Task<IActionResult> _RGetGstDetails(ContactModel contactobject, AddGSTInformation addGSTInformation)
+        {
+            string tokenview = HttpContext.Session.GetString("AirasiaTokan");
+            token = tokenview.Replace(@"""", string.Empty);
+
+            using (HttpClient client = new HttpClient())
+            {
+                AddGSTInformation addinformation = new AddGSTInformation();
+                addinformation.contactTypeCode = "G";
+                GSTPhonenumber Phonenumber = new GSTPhonenumber();
+                List<GSTPhonenumber> Phonenumberlist = new List<GSTPhonenumber>();
+                Phonenumber.type = "Other";
+                Phonenumber.number = contactobject.number; ;
+                Phonenumberlist.Add(Phonenumber);
+
+                foreach (var item in Phonenumberlist)
+                {
+                    addinformation.phoneNumbers = Phonenumberlist;
+                }
+                addinformation.cultureCode = "";
+                GSTAddress Address = new GSTAddress();
+                addinformation.Address = Address;
+                addinformation.emailAddress = contactobject.emailAddress;
+                addinformation.customerNumber = contactobject.customerNumber;
+                addinformation.sourceOrganization = "";
+                addinformation.distributionOption = "None";
+                addinformation.notificationPreference = "None";
+                addinformation.companyName = contactobject.companyName;
+                GSTName Name = new GSTName();
+                Name.first = contactobject.first;
+                Name.last = contactobject.last;
+                Name.title = "MR";
+                Name.suffix = "";
+                addinformation.Name = Name;
+                if (contactobject.companyName != null)
+                {
+                    var jsonContactRequest = JsonConvert.SerializeObject(addinformation, Formatting.Indented);
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    HttpResponseMessage responseAddContact = await client.PostAsJsonAsync(AppUrlConstant.AirasiaGstDetail, addinformation);
+                    if (responseAddContact.IsSuccessStatusCode)
+                    {
+                        var _responseAddContact = responseAddContact.Content.ReadAsStringAsync().Result;
+                        var JsonObjAddContact = JsonConvert.DeserializeObject<dynamic>(_responseAddContact);
+                    }
                 }
 
             }
@@ -918,16 +975,10 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                 Mealslist = (SSRAvailabiltyResponceModel)JsonConvert.DeserializeObject(Meals, typeof(SSRAvailabiltyResponceModel));
                 mealListRT.Add(Mealslist);
             }
-
-
             int passengerscount = passeengerKeyList.passengerscount;
             var data = Seatmaplist.datalist.Count;
             //string legkey = passeengerKeyList.journeys[0].segments[0].legs[0].legKey;
             int Seatcount = unitKey.Count;
-
-
-
-
             #region RoundTripSSR
 
             Logs logs1 = new Logs();
@@ -1907,8 +1958,6 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
             }
 
             #endregion
-
-
             #region SeatMap RoundTrip Both
             //here to do 
             //if (unitKey.Count > 0)

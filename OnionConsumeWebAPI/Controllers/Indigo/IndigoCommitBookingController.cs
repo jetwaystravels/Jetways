@@ -585,11 +585,11 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                             tb_Booking.Origin = _getBookingResponse.Booking.Journeys[0].Segments[0].Legs[0].DepartureStation;
                             tb_Booking.Destination = _getBookingResponse.Booking.Journeys[0].Segments[0].Legs[0].ArrivalStation;
                             tb_Booking.BookedDate = DateTime.Now;//JsonObjPNRBooking.data.journeys[0].designator.departure;                    
-                            tb_Booking.TotalAmount = _getBookingResponse.Booking.BookingSum.BalanceDue;
-                            tb_Booking.SpecialServicesTotal = (decimal)1000.00;//(decimal)JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.total;
-                            tb_Booking.SpecialServicesTotal_Tax = (decimal)100.0;//JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes;
-                            tb_Booking.SeatTotalAmount = (decimal)2000.00;//JsonObjPNRBooking.data.breakdown.passengerTotalsls.seats.total;
-                            tb_Booking.SeatTotalAmount_Tax = (decimal)200.00;//JsonObjPNRBooking.data.breakdown.passengerTotalsls.seats.taxes;
+                            tb_Booking.TotalAmount = (double)_getBookingResponse.Booking.BookingSum.BalanceDue;
+                            tb_Booking.SpecialServicesTotal = (double)1000.00;//(decimal)JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.total;
+                            tb_Booking.SpecialServicesTotal_Tax = (double)100.0;//JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes;
+                            tb_Booking.SeatTotalAmount = (double)2000.00;//JsonObjPNRBooking.data.breakdown.passengerTotalsls.seats.total;
+                            tb_Booking.SeatTotalAmount_Tax = (double)200.00;//JsonObjPNRBooking.data.breakdown.passengerTotalsls.seats.taxes;
                             tb_Booking.ExpirationDate = DateTime.Now;//JsonObjPNRBooking.data.hold.expiration;
                             tb_Booking.ArrivalDate = Convert.ToString(_getBookingResponse.Booking.Journeys[0].Segments[0].Legs[0].STA);//DateTime.Now;
                             tb_Booking.DepartureDate = Convert.ToString(_getBookingResponse.Booking.Journeys[0].Segments[0].Legs[0].STD);//DateTime.Now;
@@ -656,13 +656,13 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                             tb_PassengerTotalobj.BookingID = _getBookingResponse.Booking.BookingID.ToString();
                             if (_getBookingResponse.Booking.Passengers.Length > 0 && _getBookingResponse.Booking.Passengers[0].PassengerFees.Length > 0)
                             {
-                                tb_PassengerTotalobj.TotalMealsAmount = _getBookingResponse.Booking.Passengers[0].PassengerFees[0].ServiceCharges[0].Amount;
-                                tb_PassengerTotalobj.TotalMealsAmount_Tax = _getBookingResponse.Booking.Passengers[0].PassengerFees[0].ServiceCharges[0].Amount;
-                                tb_PassengerTotalobj.TotalSeatAmount = _getBookingResponse.Booking.Passengers[0].PassengerFees[0].ServiceCharges[0].Amount;
-                                tb_PassengerTotalobj.TotalSeatAmount_Tax = _getBookingResponse.Booking.Passengers[0].PassengerFees[0].ServiceCharges[0].Amount;
+                                tb_PassengerTotalobj.TotalMealsAmount = (double)_getBookingResponse.Booking.Passengers[0].PassengerFees[0].ServiceCharges[0].Amount;
+                                tb_PassengerTotalobj.TotalMealsAmount_Tax = (double)_getBookingResponse.Booking.Passengers[0].PassengerFees[0].ServiceCharges[0].Amount;
+                                tb_PassengerTotalobj.TotalSeatAmount = (double)_getBookingResponse.Booking.Passengers[0].PassengerFees[0].ServiceCharges[0].Amount;
+                                tb_PassengerTotalobj.TotalSeatAmount_Tax = (double)_getBookingResponse.Booking.Passengers[0].PassengerFees[0].ServiceCharges[0].Amount;
                             }
-                            tb_PassengerTotalobj.TotalBookingAmount = (decimal)1000.00;//JsonObjPNRBooking.data.breakdown.journeyTotals.totalAmount;
-                            tb_PassengerTotalobj.totalBookingAmount_Tax = (decimal)100.00;// JsonObjPNRBooking.data.breakdown.journeyTotals.totalTax;
+                            tb_PassengerTotalobj.TotalBookingAmount = (double)1000.00;///JsonObjPNRBooking.data.breakdown.journeyTotals.totalAmount;
+                            tb_PassengerTotalobj.totalBookingAmount_Tax = (double)100.00;// JsonObjPNRBooking.data.breakdown.journeyTotals.totalTax;
                             tb_PassengerTotalobj.Modifyby = "Online";
                             tb_PassengerTotalobj.Createdby = "Online";
                             tb_PassengerTotalobj.Status = "0";

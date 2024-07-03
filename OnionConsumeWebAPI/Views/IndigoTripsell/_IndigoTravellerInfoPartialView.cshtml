@@ -6,7 +6,7 @@
 
 <div class="py-15 px-20 rounded-4 text-15 bg-blue-1-05 mb-10">
     <div class="d-flex justify-content-end" style="margin-bottom:-15px;">
-        <span style="margin-right:15px;"><b>Same Contact Details</b></span>
+        <span style="margin-right:15px;"><b>Same Lead Passengers Contact Details</b></span>
         <button id="checkboxLead" class="checkbox-button2" onclick="toggleCheckbox()"></button>
     </div>
 
@@ -189,63 +189,20 @@
 
 </style>
 <script>
-    // function validateInputT(event) {
-    //     debugger;
-    //     const element = event.target;
-    //     const value = element.value.trim();
-    //     const validateType = element.getAttribute('data-validate');
-    //     const validators = {
-    //         name: /^[A-Za-z.]{3,32}$/,
-    //         last: /^[A-Za-z.]{3,32}$/,
-    //         //email: /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
-    //         email: /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-    //         phone: /^\d{10}$/
-    //     };
 
-    //     const messages = {
-    //         name: 'Enter First Name.',
-    //         last: 'Enter Last Name.',
-    //         email: 'Enter valid email address.',
-    //         phone: 'Enter valid phone number.',
-    //         duplicate: 'Duplicate names are not allowed.'
-    //     };
-    //     if (value === "") {
-    //         showErrorVal(element, messages[validateType]);
-    //         return false;
-    //     } else {
-    //         removeErrorVal(element);
-    //     }
-    //     if (validateType === 'name' || validateType === 'last') {
-    //         element.value = value.replace(/[^A-Za-z.]/g, '');
-    //     }
-
-    //     if (!validators[validateType].test(value)) {
-    //         showErrorVal(element, messages[validateType]);
-    //     } else {
-    //         removeErrorVal(element);
-    //     }
-    //     if (validateType === 'name') {
-    //         const allNames = document.querySelectorAll(`[data-validate="${validateType}"]`);
-    //         const duplicate = Array.from(allNames).filter((el) => el.value.trim() === value && el !== element);
-    //         if (duplicate.length > 0) {
-    //             showErrorVal(element, messages['duplicate']);
-    //             return false;
-    //         } else {
-    //             removeErrorVal(element);
-    //         }
-    //     }
-    // }
     function showErrorVal(element, message) {
-        debugger;
+       
         const parentElement = element.closest('.col-md-3, .col-md-2');
         let errorMessage = parentElement.querySelector('.error-message-val');
-
         if (!errorMessage) {
             errorMessage = document.createElement('p');
             errorMessage.className = 'error-message-val';
             parentElement.appendChild(errorMessage);
         }
-
+        const errorMessageReq = parentElement.querySelector(".error-message");
+        if (errorMessageReq) {
+            errorMessageReq.style.display = 'none';
+        }
         errorMessage.textContent = message;
         errorMessage.style.display = 'block';
         element.classList.add('error-input');
@@ -255,28 +212,34 @@
         }
     }
     function removeErrorVal(element) {
-        debugger;
+        
         const parentElement = element.closest('.col-md-3, .col-md-2');
         const errorMessage = parentElement.querySelector('.error-message-val');
         if (errorMessage) {
             errorMessage.style.display = 'none';
         }
+        const errorMessageReq = parentElement.querySelector(".error-message");
+        if (errorMessageReq) {
+            errorMessageReq.style.display = 'none';
+        }
         element.classList.remove('error-input');
     }
+
+
     var buttonLead = document.getElementById('checkboxLead');
     buttonLead.addEventListener('click', function (e) {
-        debugger;
+   
         e.preventDefault();
         buttonLead.checked = !buttonLead.checked;
         if (buttonLead.checked) {
-            debugger;
+         
             buttonLead.classList.add('checked');
         } else {
-            debugger;
+          
             buttonLead.classList.remove('checked');
         }
         if (buttonLead.checked) {
-            debugger;
+           
             alert("Checked!!")
             var emaiLeadPass = document.querySelector('.contactemail').value;
             var phoneLeadPass = document.querySelector('.contactphone').value;
@@ -316,14 +279,14 @@
     });
 
     function validateInputI(event) {
-        debugger;
+     
         const element = event.target;
         const value = element.value.trim();
         const validateType = element.getAttribute('data-validate');
         const validators = {
-            name: /^[A-Za-z.]{3,32}$/,
-            last: /^[A-Za-z.]{3,32}$/,
-            email: /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+            name: /^[A-Za-z.]{0,32}$/,
+            last: /^[A-Za-z.]{0,32}$/,
+            email: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
             phone: /^\d{10}$/
         };
 
@@ -360,57 +323,7 @@
             }
         }
     }
-    // var buttonLead = document.getElementById('checkboxLead');
-    // buttonLead.addEventListener('click', function (e) {
-    //     debugger;
-    //     e.preventDefault();
-    //     buttonLead.checked = !buttonLead.checked;
-    //     if (buttonLead.checked) {
-    //         debugger;
-    //         buttonLead.classList.add('checked');
-    //     } else {
-    //         debugger;
-    //         buttonLead.classList.remove('checked');
-    //     }
-    //     if (buttonLead.checked) {
-    //         debugger;
-    //         alert("Checked!!")
-    //         var emaiLeadPass = document.querySelector('.contactemail').value;
-    //         var phoneLeadPass = document.querySelector('.contactphone').value;
-    //         //Get all elements with class "contactemail" and set their value
-    //         var emailInputsT = document.querySelectorAll(".contactemail");
-    //         emailInputsT.forEach(function (input) {
-    //             input.value = emaiLeadPass;
-    //             //validateInputT(input);
-    //         });
-    //         // Get all elements with class "contactphone" and set their value
-    //         var phoneInputsT = document.querySelectorAll(".contactphone");
-    //         phoneInputsT.forEach(function (input) {
-    //             input.value = phoneLeadPass;
-    //            // validateInputT(input);
-    //         });
-    //     } else {
-    //         alert("Checkbox is unchecked");
-    //         debugger;
-    //         var emaiLeadPass = "";
-    //         var phoneLeadPass = "";
-    //         var emailInputsT = document.querySelectorAll(".contactemail");
 
-    //         emailInputsT.forEach(function (input) {
-    //             input.value = emaiLeadPass;
-    //         });
-    //         var phoneInputsT = document.querySelectorAll(".contactphone");
-
-    //         phoneInputsT.forEach(function (input) {
-    //             input.value = phoneLeadPass;
-    //         });
-
-    //         var emaiLeadPassenger = localStorage.getItem('Leadpassenger3');
-    //         var phoneLeadPassenger = localStorage.getItem('Leadpassenger4');
-    //         document.querySelector("#contactemailID").value = emaiLeadPassenger;
-    //         document.querySelector("#contactphoneID").value = phoneLeadPassenger;
-    //     }
-    // });
     document.addEventListener('DOMContentLoaded', function (event) {
         event.preventDefault();
         const infantContainers = document.querySelectorAll('.infant-dob-input');
@@ -451,30 +364,15 @@
         });
         $("#showReviewPopup").click(function (e) {
             e.preventDefault();
-            debugger;
+            
             /*******Validation Start*********/
             const fieldsToValidate = [
-                { className: 'contactFname', errorMessage: 'First name is required ', validationdata: /^[A-Za-z.]{3,32}$/ },
-                { className: 'contactLname', errorMessage: 'Last  name is required', validationdata: /^[A-Za-z.]{3,32}$/ },
-                { className: 'contactemail', errorMessage: 'Email Address is required', validationdata: /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/ },
+                { className: 'contactFname', errorMessage: 'First name is required ', validationdata: /^[A-Za-z.]{0,32}$/ },
+                { className: 'contactLname', errorMessage: 'Last  name is required', validationdata: /^[A-Za-z.]{0,32}$/ },
+                { className: 'contactemail', errorMessage: 'Email Address is required', validationdata: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/ },
                 { className: 'contactphone', errorMessage: 'Phone number is required', validationdata: /^\d{10}$/ }
             ];
-            // const element = event.target;
-            // const value = element.value.trim();
-            // const validateTypeT = element.getAttribute('data-validate');
-            // if (!validateTypeT) {
-            //     const validatorsT = {
-            //         name: /^[A-Za-z.]{3,32}$/,
-            //         last: /^[A-Za-z.]{3,32}$/,
-            //         email: /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
-            //         phone: /^\d{10}$/
-            //     };
-            //     if (!validatorsT[validateTypeT].test(value)) {
-            //         showErrorVal(element, messages[validateTypeT]);
-            //     } else {
-            //         removeErrorVal(element);
-            //     }
-            // }
+
             let firstInvalidElement = null;
             fieldsToValidate.forEach(field => {
                 const elements = document.querySelectorAll(`.${field.className}`);
@@ -482,23 +380,31 @@
                     element.addEventListener("input", function () {
                         removeError(element);
                     });
-                    if (element.value.trim() === "" || !field.validationdata.test(element.value.trim())) {
+                    if (element.value.trim() === "") {
+                     
                         showError(element, field.errorMessage);
                         if (!firstInvalidElement) {
                             firstInvalidElement = element;
                         }
+                    } else if (!field.validationdata.test(element.value.trim())) {
+                       
+                        showErrorVal(element, message);
+                        // element.value = ""; // Clear the value if the pattern is wrong
+                        // if (!firstInvalidElement) {
+                        //     firstInvalidElement = element;
+                        // }
                     }
                 });
             });
             if (firstInvalidElement) {
-                debugger;
+               
                 firstInvalidElement.focus();
                 return false;
             } else {
                 // document.getElementById('passengerForm').submit();
             }
             function removeError(element) {
-                debugger;
+               
                 const parentElement = element.closest('.col-md-3,.col-md-2');
                 const errorMessage = parentElement.querySelector(".error-message");
                 if (errorMessage) {
@@ -507,7 +413,7 @@
                 element.classList.remove("error-input");
             }
             function showError(element, message) {
-                debugger;
+              
                 const parentElement = element.closest('.col-md-3, .col-md-2');
                 const errorMessagedata = parentElement.querySelector('.error-message-val');
                 if (errorMessagedata) {
@@ -552,21 +458,21 @@
             }
             function validateMultipleInfantDOBs() {
                 var infantsValid = true;
-                debugger;
+               
                 $(".dobinput:visible").each(function () {
-                    debugger;
+                    
                     var day = $(this).find('.day-select').val();
                     var month = $(this).find('.month-select').val();
                     var year = $(this).find('.year-select').val();
                     var dob = year + "-" + month + "-" + day;
                     var validationMessageReq = $(this).closest('.infant-dob-input').find('.validation-message-Required');
                     if (!day || !month || !year) {
-                        debugger;
+                       
                         validationMessageReq.text("Enter valid date of birth.");
                         validationMessageReq.show();
                         infantsValid = false;
                     } else if (!validateInfantDOB(dob)) {
-                        debugger;
+                        
                         validationMessageReq.text("Infant can not be greater than 2 years.");
                         validationMessageReq.show();
                         infantsValid = false;

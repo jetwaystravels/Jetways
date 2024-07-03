@@ -16,7 +16,7 @@
             </div>
             <p id="error-message2" class="error-message" style="display:none">Enter Last name</p>
             <p id="errorMessage2" style="color: red;font-size:13px;"></p>
-        </div>        
+        </div>
         <div class="col-md-3">
             <div class="form-input">
                 <input type="text" name="emailAddress" maxlength="266" oninput="validateEmail(event)" class="emailNClass" id="emailAddress" placeholder="Email ID">
@@ -183,7 +183,7 @@
             e.preventDefault();
 
             //alert("Test");
-            debugger;
+           
             var laedpas = localStorage.getItem('Leadpassenger1RT');
             document.querySelector(".contactFname").value = laedpas;
             var laedpasLast = localStorage.getItem('Leadpassenger2RT');
@@ -196,7 +196,7 @@
             document.querySelector(".contactphone").value = laedpasphone;
             // First Name
             var firstfocus = document.getElementById("first").value;
-            if (firstfocus == "") {                
+            if (firstfocus == "") {
                 var firstToDisplay = document.getElementById("error-message1");
                 firstToDisplay.style.display = "block";
                 document.getElementById("first").focus();
@@ -208,7 +208,7 @@
             }
             //Last Name
             var lastfocus = document.getElementById("last").value;
-            if (lastfocus == "") {               
+            if (lastfocus == "") {
                 var firstToDisplay = document.getElementById("error-message2");
                 firstToDisplay.style.display = "block";
                 document.getElementById("last").focus();
@@ -231,7 +231,7 @@
             } else {
                 document.getElementById('emailErrorMessage').innerText = "";
             }
-            if (emailfocus == "") {              
+            if (emailfocus == "") {
                 let emailToDisplay = document.getElementById("error-message7");
                 emailToDisplay.style.display = "block";
                 document.getElementById('emailErrorMessage').innerText = "";
@@ -332,9 +332,10 @@
     });
     // RT First Name
     function validateInput(event) {
-        debugger;
+        
         var input = event.target.value;
-        var regex = /^[A-Za-z.]{3,32}$/;
+        const regex = /^[6-9][0-9]{9}$/;
+        //var regex = /^[A-Za-z.]{0,32}$/;
         if (!regex.test(input)) {
 
             document.getElementById('errorMessage').innerText = "";
@@ -358,7 +359,7 @@
     // RT Last Name
     function validateInput2(event) {
         const input = event.target.value;
-        const regex = /^[A-Za-z.]{3,32}$/;
+        const regex = /^[A-Za-z.]{0,32}$/;
 
         if (!regex.test(input)) {
             document.getElementById('errorMessage2').innerText = "";
@@ -383,7 +384,7 @@
     // RT Email Name
     //Contact Email
     function validateEmail(event) {
-        debugger;
+     
         var email = event.target.value;
         var regex = /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
         var errorMessage = document.getElementById('emailErrorMessage');
@@ -403,38 +404,9 @@
             return false;
         } else {
             errorDisplay.style.display = "none";
-        }       
+        }
 
     }
-
-    // function validateEmail(event) {
-    //     debugger;
-    //     var email = event.target.value;
-    //     var regex = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    //     if (email.trim() === "") {
-    //         document.getElementById('emailErrorMessage').innerText = "";
-    //     }
-    //     else if (!regex.test(email)) {
-    //         document.getElementById('emailErrorMessage').innerText = "Enter vaild Email Address.";
-
-    //     } else {
-    //         document.getElementById('emailErrorMessage').innerText = "";
-    //     }
-    //     let emailfocus = document.getElementById("emailAddress").value;
-    //     if (emailfocus == "") {
-    //         debugger;
-    //         let emailToDisplay = document.getElementById("error-message7");
-    //         emailToDisplay.style.display = "block";
-    //         document.getElementById("emailAddress").focus();
-    //         return false;
-    //     }
-    //     else {
-    //         let emailToDisplay = document.getElementById("error-message7");
-    //         emailToDisplay.style.display = "none";
-    //     }
-
-    // }
-    // RT Phone Number
     function validatePhoneNumber(event) {
         const phoneNumber = event.target.value;
         const regex = /^(0|91)?[6-9][0-9]{9}$/;
@@ -466,7 +438,7 @@
 
         const input = event.target.value;
         //const regex = /^[a-zA-Z]*$/;
-        var regex = /^[a-zA-Z0-9\s.,'-]{1,100}$/;
+        var regex = /^[a-zA-Z\s.,'-]{1,100}$/;
         if (!regex.test(input)) {
             document.getElementById('errorMessagegst').innerText = "";
             event.target.value = input.replace(/[^a-zA-Z]/g, '');

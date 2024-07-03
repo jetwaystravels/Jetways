@@ -133,7 +133,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
 
                         #endregion
-                        #region AirLinePNR
+                        #region AirLinePNR AirAsia
                         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                         HttpResponseMessage responcepnrBooking = await client.GetAsync(AppUrlConstant.AirasiaPNRBooking + AirLinePNR);
@@ -291,11 +291,11 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 journeysReturnObj.stops = JsonObjPNRBooking.data.journeys[i].stops;
 
                                 DesignatorReturn ReturnDesignatorobject = new DesignatorReturn();
-                                ReturnDesignatorobject.origin = JsonObjPNRBooking.data.journeys[0].designator.origin;
-                                ReturnDesignatorobject.destination = JsonObjPNRBooking.data.journeys[0].designator.destination;
-                                orides = JsonObjPNRBooking.data.journeys[0].designator.origin + JsonObjPNRBooking.data.journeys[0].designator.destination;
-                                ReturnDesignatorobject.departure = JsonObjPNRBooking.data.journeys[0].designator.departure;
-                                ReturnDesignatorobject.arrival = JsonObjPNRBooking.data.journeys[0].designator.arrival;
+                                ReturnDesignatorobject.origin = JsonObjPNRBooking.data.journeys[i].designator.origin;
+                                ReturnDesignatorobject.destination = JsonObjPNRBooking.data.journeys[i].designator.destination;
+                                orides = JsonObjPNRBooking.data.journeys[i].designator.origin + JsonObjPNRBooking.data.journeys[i].designator.destination;
+                                ReturnDesignatorobject.departure = JsonObjPNRBooking.data.journeys[i].designator.departure;
+                                ReturnDesignatorobject.arrival = JsonObjPNRBooking.data.journeys[i].designator.arrival;
 
                                 journeysReturnObj.designator = ReturnDesignatorobject;
                                 int SegmentReturnCount = JsonObjPNRBooking.data.journeys[i].segments.Count;
@@ -354,9 +354,14 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                             }
                                             else
                                             {
+                                                if (!htmealdata.Contains(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination))
+                                                {
 
-                                                htmealdata.Add(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination, ssrReturn.ssrCode);
+
+                                                    htmealdata.Add(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination, ssrReturn.ssrCode);
+                                                }
                                                 returnSeats.SSRCode += ssrReturn.ssrCode + ",";
+
                                             }
 
 
@@ -489,12 +494,12 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 }
                                 ReturnpassengersList.Add(returnPassengersobj);
 
-                                string dateString = JsonObjPNRBooking.data.journeys[0].designator.departure;
-                                DateTime date = DateTime.ParseExact(dateString, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                                //string dateString = JsonObjPNRBooking.data.journeys[i].designator.departure;
+                                // DateTime date = DateTime.ParseExact(dateString, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
                                 //julian date
-                                int year = date.Year;
-                                int month = date.Month;
-                                int day = date.Day;
+                                int year = 2024;
+                                int month = 07;
+                                int day = 02;
 
                                 // Calculate the number of days from January 1st to the given date
                                 DateTime currentDate = new DateTime(year, month, day);
@@ -771,15 +776,12 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             ////returnTicketBooking.journeys = journeysreturnList;
                             ////returnTicketBooking.passengers = ReturnpassengersList;
                             ////returnTicketBooking.passengerscount = Returnpassengercount;
-
-                            //// HttpContext.Session.SetString("PNRTicketBooking", JsonConvert.SerializeObject(returnTicketBooking));
+                            /// HttpContext.Session.SetString("PNRTicketBooking", JsonConvert.SerializeObject(returnTicketBooking));
                             #endregion
                             _AirLinePNRTicket.AirlinePNR.Add(returnTicketBooking);
                         }
-                        //}
-
-
                         #endregion
+
                     }
 
                     //Akasa Air Line Commit Booking
@@ -905,10 +907,10 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 journeysReturnObj.stops = JsonObjPNRBooking.data.journeys[i].stops;
 
                                 DesignatorReturn ReturnDesignatorobject = new DesignatorReturn();
-                                ReturnDesignatorobject.origin = JsonObjPNRBooking.data.journeys[0].designator.origin;
-                                ReturnDesignatorobject.destination = JsonObjPNRBooking.data.journeys[0].designator.destination;
-                                ReturnDesignatorobject.departure = JsonObjPNRBooking.data.journeys[0].designator.departure;
-                                ReturnDesignatorobject.arrival = JsonObjPNRBooking.data.journeys[0].designator.arrival;
+                                ReturnDesignatorobject.origin = JsonObjPNRBooking.data.journeys[i].designator.origin;
+                                ReturnDesignatorobject.destination = JsonObjPNRBooking.data.journeys[i].designator.destination;
+                                ReturnDesignatorobject.departure = JsonObjPNRBooking.data.journeys[i].designator.departure;
+                                ReturnDesignatorobject.arrival = JsonObjPNRBooking.data.journeys[i].designator.arrival;
                                 journeysReturnObj.designator = ReturnDesignatorobject;
 
 
@@ -1074,12 +1076,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             // HttpContext.Session.SetString("PNRTicketBooking", JsonConvert.SerializeObject(returnTicketBooking));
                             _AirLinePNRTicket.AirlinePNR.Add(returnTicketBooking);
                         }
+                        #endregion
                     }
-
-
-                    #endregion
-                    //}
-
 
                     // Spice Jet
                     else if (flagSpicejet == true && data.Airline[k1].ToLower().Contains("spicejet"))
