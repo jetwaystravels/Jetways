@@ -46,7 +46,7 @@ namespace OnionConsumeWebAPI.Controllers
         string carriercode = string.Empty;
         string flightnumber = string.Empty;
         string seatnumber = string.Empty;
-        string sequencenumber = string.Empty;
+     //   string sequencenumber = string.Empty;
         string bookingKey = string.Empty;
         ApiResponseModel responseModel;
         double totalAmount = 0;
@@ -473,14 +473,21 @@ namespace OnionConsumeWebAPI.Controllers
                         DateTime currentDate = new DateTime(year, month, day);
                         DateTime startOfYear = new DateTime(year, 1, 1);
                         int julianDate = (currentDate - startOfYear).Days + 1;
-                        if (string.IsNullOrEmpty(sequencenumber))
-                        {
-                            sequencenumber = "0000";
-                        }
-                        else
-                        {
-                            sequencenumber = sequencenumber.PadRight(5, '0');
-                        }
+                        //if (string.IsNullOrEmpty(sequencenumber))
+                        //{
+                        //    sequencenumber = "00001";
+                        //}
+                        //else
+                        //{
+                        //    int number;
+                        //    if (int.TryParse(sequencenumber, out number))
+                        //    {
+                        //        number++;
+                        //        sequencenumber = number.ToString("D4"); // Format as a 4-digit number with leading zeros
+                        //    }
+                        //    sequencenumber = sequencenumber.PadRight(5, '0');
+                        //}
+                        string sequencenumber = SequenceGenerator.GetNextSequenceNumber();
 
                         BarcodeString = "M" + "1" + items.Value.name.last + "/" + items.Value.name.first + " " + BarcodePNR + "" + orides + carriercode + "" + flightnumber + "" + julianDate + "Y" + seatnumber + " " + sequencenumber + "1" + "00";
                         BarcodeUtility BarcodeUtility = new BarcodeUtility();
