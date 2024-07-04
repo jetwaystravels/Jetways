@@ -326,7 +326,7 @@
                                     <div><strong>@Faretype (@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass)</strong></div>
                                     <div>offered by airline.</div>
                                 </td>
-                                @if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "EC" || Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "RS")
+                                @if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "EC")
                                 {
                                     <td>7 Kg</td>
                                     <td><strong>15 kg (1 piece)</strong></td>
@@ -347,6 +347,32 @@
                                     <td>
                                         <div>
                                             (Chargable)
+                                        </div>
+                                    </td>
+
+                                }
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "RS")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td>
+
+                                        <div>3600:- (within 96 hrs from Departure)</div>
+                                    </td>
+                                    <td>
+
+                                        <div>3350:- (within 96 hrs from Departure)</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
                                         </div>
                                     </td>
 
@@ -377,6 +403,60 @@
                                     </td>
 
                                 }
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "SF")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td>
+
+                                        <div>3600 (within 96 hrs from Departure)</div>
+                                    </td>
+                                    <td>
+
+                                        <div>3350 (within 96 hrs from Departure)</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "SC")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td>
+
+                                        <div>3600 (within 96 hrs from Departure)</div>
+                                    </td>
+                                    <td>
+
+                                        <div>3350 (within 96 hrs from Departure)</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+
 
                                 //Indigo//////
                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "R")
@@ -511,7 +591,7 @@
                                     </td>
 
                                 }
-                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "HF" || Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "SF")
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "HF")
                                 {
                                     <td>7 Kg</td>
                                     <td><strong>15 kg (1 piece)</strong></td>
@@ -569,7 +649,7 @@
                                     </td>
 
                                 }
-                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "VV" || Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "SC")
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "VV")
                                 {
                                     <td>7 Kg</td>
                                     <td>
@@ -936,36 +1016,75 @@
                     <tbody>
                         <tr>
                             <td>Cancellation Charges</td>
-                            <td>Airline Free </td>
-                            <td>Before Departure</td>
-                            <td>As per Airline Fare rule</td>
+                            @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("SG"))
+                            {
+                                <td>3600 RS. </td>
+                                <td>within 96 hrs from Departure</td>
+                                <td>As per Airline Fare rule</td>
+                            }
+                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("6E"))
+                            {
+                                <td>3500 RS. </td>
+                                <td>3 days upto 2 hrs prior from departure</td>
+                                <td>As per Airline Fare rule</td>
+                            }
+                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("QP"))
+                            {
+                                <td>Airline Free </td>
+                                <td>Before Departure</td>
+                                <td>As per Airline Fare rule</td>
+                            }
+                            else
+                            {
+                                <td>Airline Free </td>
+                                <td>Before Departure</td>
+                                <td>As per Airline Fare rule</td>
+                            }
+
+
+
+
+
                         </tr>
 
-                        <tr>
-                            <td>Reschedule Charges </td>
-                            <td>Airline Free </td>
-                            <td>Before Departure</td>
-                            <td>As per Airline Fare rule</td>
-                        </tr>
+
                     </tbody>
                 </table>
                 <div class="text-19 fw-600 pb-2">Terms &amp; Conditon</div>
                 <ul class="list-disc y-gap-10">
-                    <li>Penalty is subject to 4 hour prior to departure and no changes are allowed after that.</li>
-                    <li>The charges will be on per passenger per sector.</li>
-                    <li>Rescheduling charges = Rescheduling/Change penalty+fare difference(if applicable)</li>
-                    <li>Partial cancellation is not allowed on the flilght tickets which are book under special discounted fares</li>
-                    <li>In case, the customer have not cancelled the ticket within the stipulated time or no show then only statutory taxes are refundable form the respective airlines</li>
-                    <li>For infants there is no baggage allowance</li>
-                    <li>In certain  situations of respricted cases, no amendments and cancellation is allowed.</li>
+                    <li>There may be restrictions attached like date change penalty, cancellation penalty or the ticket may be non­refundable. To check the restrictions you are requested to get in touch with our travel consultant.</li>
+                    <li>
+                        Cancelled bookings will incur charges. These charges may be up to 100% of the ticket cost, regardless of whether travel has commenced or not. Fees will
+                        also apply where a booking is changed or tickets are re­issued.
+                    </li>
+                    <li>
+                        Wherever we incur any liability for a cancellation fee or charge for any booking which you cancel, you agree to indemnify us for the amount of that fee or
+                        charge.
+                    </li>
+                    <li>Service tax and statutory levies, as applicable will be billed by Jetways Travels and are payable at actual.</li>
+
                 </ul>
             </div>
 
             <!-----Ftab4 End----->
             <div id="Fcontent5" class="Ftab5" style="display:none;">
                 <div class="dst-top mb-3">Airline Fare Rule</div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                <p>Phasellus tortor augue, lobortis eu mauris aliquam, </p>
+                <ul class="list-disc y-gap-10">
+                    <li>Jetways Travels does not guarantee the accuracy of cancel reschedule fees.
+                    <li>
+                        Airlines doesn't allow any additional baggage allowance for any infant added in the booking.
+                    </li>
+                    <li>
+                        Airlines cancel reschedule should be reconfirmed before requesting for a cancellation or amendment.
+                    </li>
+                    <li>
+                        Wherever we incur any liability for a cancellation fee or charge for any booking which you cancel, you agree to indemnify us for the amount of that fee or
+                        charge.
+                    </li>
+
+                </ul>
+
+
             </div>
 
             <!-----Ftab5 End----->

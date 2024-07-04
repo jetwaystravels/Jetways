@@ -26,7 +26,7 @@ namespace OnionConsumeWebAPI.ErrorHandling
                     <body>
                         <div class=""row"" style=""text-align:center;padding:30px;"">
             <div class=""col-12"">
-            <h3 style=""color:red; font-size:28px;"">Session Expired</h3>
+            <h3 style=""color:red; font-size:28px;"">Session timeout plz try again.</h3>
              </div>
             <div class=""col-12"">
             <button onclick=""window.location.href='http://localhost:5201'"">Go to Home Page</button>

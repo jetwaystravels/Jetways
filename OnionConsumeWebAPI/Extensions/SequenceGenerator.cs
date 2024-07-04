@@ -7,7 +7,7 @@
         public static string GetNextSequenceNumber()
         {
             currentSequenceNumber++;
-            return currentSequenceNumber.ToString("D5"); // Format as a 4-digit number with leading zeros
+            return currentSequenceNumber.ToString("D5"); 
         }
     }
 }

@@ -152,11 +152,11 @@ namespace OnionConsumeWebAPI.Controllers
                 _ContactModel.updateContactsRequestData.BookingContactList = new BookingContact[1];
                 _ContactModel.updateContactsRequestData.BookingContactList[0] = new BookingContact();
                 _ContactModel.updateContactsRequestData.BookingContactList[0].EmailAddress = obj.emailAddress;
-                if (obj.customerNumber != "") 
+                if (obj.customerNumber != "")
                 {
-                _ContactModel.updateContactsRequestData.BookingContactList[0].TypeCode = "G";
-                _ContactModel.updateContactsRequestData.BookingContactList[0].CompanyName = obj.companyName;
-                _ContactModel.updateContactsRequestData.BookingContactList[0].CustomerNumber = obj.customerNumber; //"22AAAAA0000A1Z5"; //GSTNumber Re_ Assistance required for SG API Integration\GST Logs.zip\GST Logs
+                    _ContactModel.updateContactsRequestData.BookingContactList[0].TypeCode = "G";
+                    _ContactModel.updateContactsRequestData.BookingContactList[0].CompanyName = obj.companyName;
+                    _ContactModel.updateContactsRequestData.BookingContactList[0].CustomerNumber = obj.customerNumber; //"22AAAAA0000A1Z5"; //GSTNumber Re_ Assistance required for SG API Integration\GST Logs.zip\GST Logs
                 }
                 SpiceJetApiController objSpiceJet = new SpiceJetApiController();
                 UpdateContactsResponse responseAddContact = await objSpiceJet.GetUpdateContactsAsync(_ContactModel);
@@ -381,7 +381,7 @@ namespace OnionConsumeWebAPI.Controllers
             //string journeyKey = passeengerKeyList.journeys[0].journeyKey;
             using (HttpClient client = new HttpClient())
             {
-                if (ssrKey.Count >= 0)
+                if (ssrKey.Count > 0)
                 {
                     #region SellSSr
                     SellRequest sellSsrRequest = new SellRequest();

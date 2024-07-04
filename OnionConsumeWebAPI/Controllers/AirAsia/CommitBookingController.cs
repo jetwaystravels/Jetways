@@ -489,7 +489,7 @@ namespace OnionConsumeWebAPI.Controllers
                         //}
                         string sequencenumber = SequenceGenerator.GetNextSequenceNumber();
 
-                        BarcodeString = "M" + "1" + items.Value.name.last + "/" + items.Value.name.first + " " + BarcodePNR + "" + orides + carriercode + "" + flightnumber + "" + julianDate + "Y" + seatnumber + " " + sequencenumber + "1" + "00";
+                        BarcodeString = "M" + "1" + items.Value.name.last + "/" + items.Value.name.first + " " + BarcodePNR + "" + orides + carriercode + "" + flightnumber + "" + julianDate + "Y" + seatnumber  + sequencenumber + "1" + "00";
                         BarcodeUtility BarcodeUtility = new BarcodeUtility();
                         var barcodeImage = BarcodeUtility.BarcodereadUtility(BarcodeString);
                         returnPassengersobj.barcodestring = barcodeImage;
