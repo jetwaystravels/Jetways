@@ -59,8 +59,6 @@
         margin: 0px 10px !important;
     }
 
-
-
 </style>
 
 <script src="~/js/custom.js/roundtripsell.js"></script>
@@ -349,8 +347,6 @@
 
     });
 </script>
-
-
 <script>
 
     $(document).ready(function () {
@@ -387,25 +383,31 @@
 
 
         var checkedValues = ['', '', '', '', '', '', '', '', ''];
-
         // Function to update inputs and spans
         function updateInputsAndSpans(checkedValues) {
+            debugger;
             for (var i = 0; i < checkedValues.length; i++) {
                 var parts = checkedValues[i].split('_');
-                $('#input_' + i).val(parts[1]);
-                $('.feeSpan_' + i).text(parts[0]);
-                $('#outputDiv_' + i).text(parts[1]);
+                // $('#input_' + i).val(parts[2]);
+                // $('.feeSpan_' + i).text(parts[0]);
+                // $('#outputDiv_' + i).text(parts[2]);
+                if (checkedValues[i].includes("Airasia")) {
+                    $('#input_' + i).val(parts[2]);
+                    $('.feeSpan_' + i).text(parts[0]);
+                    $('#outputDiv_' + i).text(parts[2]);
+                } else {
+                    $('#input_' + i).val(parts[1]);
+                    $('.feeSpan_' + i).text(parts[0]);
+                    $('#outputDiv_' + i).text(parts[1]);
+                }
 
             }
-
-
         }
-
         // Function to update local storage
         function updateLocalStorage() {
+            debugger;
             localStorage.setItem("checkedValues", JSON.stringify(checkedValues));
         }
-
         // Restore checked state and values from local storage on page load
         var storedValues = JSON.parse(localStorage.getItem("checkedValues"));
         if (storedValues) {
@@ -418,6 +420,7 @@
             var isChecked = $(this).is(':checked');
 
             if (isChecked) {
+                debugger;
                 // Find an empty slot and store the value
                 for (var i = 0; i < checkedValues.length; i++) {
                     if (checkedValues[i] === '') {
@@ -444,6 +447,7 @@
 
 
         $('#leftNstop1').click(function () {
+            debugger;
             //alert("T1");
             // Loop through each element and set its text to an empty string
             for (var i = 0; i < checkedValues.length; i++) {
@@ -457,20 +461,16 @@
         });
 
         $('#leftConnect1').click(function () {
-            //alert("T1");
-            // Loop through each element and set its text to an empty string
-            // for (var i = 0; i < checkedValues.length; i++) {
-            //     $('#outputDiv_' + i).text('');
+            debugger;
 
-            // }
             for (var i = 0; i < checkedValues.length; i++) {
                 checkedValues[i] = '';
                 $('#outputDiv_' + i).text('');
-                
-               
+
+
             }
             updateInputsAndSpans(checkedValues);
-           updateLocalStorage();
+            updateLocalStorage();
         });
 
 
@@ -480,9 +480,19 @@
         function updateInputsAndSpans2(checkedValues2) {
             for (var i = 0; i < checkedValues2.length; i++) {
                 var parts = checkedValues2[i].split('_');
-                $('#inputConnect_' + i).val(parts[1]);
-                $('.feeSpanConnect_' + i).text(parts[0]);
-                $('#outputDivConnect_' + i).text(parts[1]);
+                // $('#inputConnect_' + i).val(parts[2]);
+                // $('.feeSpanConnect_' + i).text(parts[0]);
+                // $('#outputDivConnect_' + i).text(parts[2]);
+
+                if (checkedValues2[i].includes("Airasia")) {
+                    $('#inputConnect_' + i).val(parts[2]);
+                    $('.feeSpanConnect_' + i).text(parts[0]);
+                    $('#outputDiv_' + i).text(parts[2]);
+                } else {
+                    $('#inputConnect_' + i).val(parts[1]);
+                    $('.feeSpanConnect_' + i).text(parts[0]);
+                    $('#outputDivConnect_' + i).text(parts[1]);
+                }
             }
         }
 
@@ -535,9 +545,17 @@
         function updateInputsAndSpansRT(checkedValuesRT) {
             for (var i = 0; i < checkedValuesRT.length; i++) {
                 var parts = checkedValuesRT[i].split('_');
-                $('#inputRT_' + i).val(parts[1]);
-                $('.feeSpanRT_' + i).text(parts[0]);
-                $('#outputDivRT_' + i).text(parts[1]);
+
+
+                if (checkedValuesRT[i].includes("Airasia")) {
+                    $('#inputRT_' + i).val(parts[2]);
+                    $('.feeSpanRT_' + i).text(parts[0]);
+                    $('#outputDivRT_' + i).text(parts[2]);
+                } else {
+                    $('#inputRT_' + i).val(parts[1]);
+                    $('.feeSpanRT_' + i).text(parts[0]);
+                    $('#outputDivRT_' + i).text(parts[1]);
+                }
             }
         }
 
@@ -612,9 +630,16 @@
         function updateInputsAndSpans2RT(checkedValues2RT) {
             for (var i = 0; i < checkedValues2RT.length; i++) {
                 var parts = checkedValues2RT[i].split('_');
-                $('#inputConnectRT_' + i).val(parts[1]);
-                $('.feeSpanConnectRT_' + i).text(parts[0]);
-                $('#outputDivConnectRT_' + i).text(parts[1]);
+
+                if (checkedValues2RT[i].includes("Airasia")) {
+                    $('#inputConnectRT_' + i).val(parts[2]);
+                    $('.feeSpanConnectRT_' + i).text(parts[0]);
+                    $('#outputDivConnectRT_' + i).text(parts[2]);
+                } else {
+                    $('#inputConnectRT_' + i).val(parts[1]);
+                    $('.feeSpanConnectRT_' + i).text(parts[0]);
+                    $('#outputDivConnectRT_' + i).text(parts[1]);
+                }
             }
         }
 

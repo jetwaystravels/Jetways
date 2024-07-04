@@ -381,6 +381,7 @@
             e.preventDefault();
             
             /*******Validation Start*********/
+            
             const fieldsToValidate = [
                 { className: 'contactFname', errorMessage: 'First name is required ', validationdata: /^[A-Za-z.]{0,32}$/ },
                 { className: 'contactLname', errorMessage: 'Last  name is required', validationdata: /^[A-Za-z.]{0,32}$/ },
@@ -388,6 +389,7 @@
                 { className: 'contactphone', errorMessage: 'Phone number is required', validationdata: /^\d{10}$/ }
             ];
             let firstInvalidElement = null;
+           
             fieldsToValidate.forEach(field => {
                 const elements = document.querySelectorAll(`.${field.className}`);
                 elements.forEach(element => {

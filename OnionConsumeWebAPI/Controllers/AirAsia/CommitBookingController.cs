@@ -537,10 +537,19 @@ namespace OnionConsumeWebAPI.Controllers
                     tb_Booking.Destination = JsonObjPNRBooking.data.journeys[0].designator.destination;
                     tb_Booking.BookedDate = DateTime.Now;//JsonObjPNRBooking.data.journeys[0].designator.departure;                    
                     tb_Booking.TotalAmount = JsonObjPNRBooking.data.breakdown.journeyTotals.totalAmount;
-                    tb_Booking.SpecialServicesTotal = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.total;
-                    tb_Booking.SpecialServicesTotal_Tax = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes;
-                    tb_Booking.SeatTotalAmount = JsonObjPNRBooking.data.breakdown.passengerTotals.seats.total;
-                    tb_Booking.SeatTotalAmount_Tax = JsonObjPNRBooking.data.breakdown.passengerTotals.seats.taxes;
+                    if (JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices != null)
+                    {
+                        tb_Booking.SpecialServicesTotal = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.total;
+                        tb_Booking.SpecialServicesTotal_Tax = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes;
+                    }
+                    if (JsonObjPNRBooking.data.breakdown.passengerTotals.seats != null)
+                    {
+                        if (JsonObjPNRBooking.data.breakdown.passengerTotals.seats.total > 0 || JsonObjPNRBooking.data.breakdown.passengerTotals.seats.total != null)
+                        {
+                            tb_Booking.SeatTotalAmount = JsonObjPNRBooking.data.breakdown.passengerTotals.seats.total;
+                            tb_Booking.SeatTotalAmount_Tax = JsonObjPNRBooking.data.breakdown.passengerTotals.seats.taxes;
+                        }
+                    }
                     tb_Booking.ExpirationDate = DateTime.Now;//JsonObjPNRBooking.data.hold.expiration;
                     tb_Booking.ArrivalDate = JsonObjPNRBooking.data.journeys[0].designator.arrival;//DateTime.Now;
                     tb_Booking.DepartureDate = JsonObjPNRBooking.data.journeys[0].designator.departure;//DateTime.Now;
@@ -559,8 +568,6 @@ namespace OnionConsumeWebAPI.Controllers
                     tb_Airlines.Modifieddate = DateTime.Now;
                     tb_Airlines.Modifyby = "Online";
                     tb_Airlines.Status = "0";
-
-
 
                     tb_AirCraft tb_AirCraft = new tb_AirCraft();
                     tb_AirCraft.Id = 1;
@@ -588,11 +595,20 @@ namespace OnionConsumeWebAPI.Controllers
                     tb_PassengerTotal tb_PassengerTotalobj = new tb_PassengerTotal();
                     bookingKey = JsonObjPNRBooking.data.bookingKey;
                     tb_PassengerTotalobj.BookingID = JsonObjPNRBooking.data.bookingKey;
-                    tb_PassengerTotalobj.TotalMealsAmount = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.total;
+                    if (JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices != null)
+                    {
+                        tb_PassengerTotalobj.TotalMealsAmount = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.total;
+                        tb_PassengerTotalobj.TotalMealsAmount_Tax = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes;
+                    }
+                    if (JsonObjPNRBooking.data.breakdown.passengerTotals.seats != null)
+                    {
+                        if (JsonObjPNRBooking.data.breakdown.passengerTotals.seats.total > 0 || JsonObjPNRBooking.data.breakdown.passengerTotals.seats.total != null)
+                        {
+                            tb_PassengerTotalobj.TotalSeatAmount = JsonObjPNRBooking.data.breakdown.passengerTotals.seats.total;
+                            tb_PassengerTotalobj.TotalSeatAmount_Tax = JsonObjPNRBooking.data.breakdown.passengerTotals.seats.taxes;
+                        }
+                    }
 
-                    tb_PassengerTotalobj.TotalMealsAmount_Tax = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes;
-                    tb_PassengerTotalobj.TotalSeatAmount = JsonObjPNRBooking.data.breakdown.passengerTotals.seats.total;
-                    tb_PassengerTotalobj.TotalSeatAmount_Tax = JsonObjPNRBooking.data.breakdown.passengerTotals.seats.taxes;
                     tb_PassengerTotalobj.TotalBookingAmount = JsonObjPNRBooking.data.breakdown.journeyTotals.totalAmount;
                     tb_PassengerTotalobj.totalBookingAmount_Tax = JsonObjPNRBooking.data.breakdown.journeyTotals.totalTax;
                     tb_PassengerTotalobj.Modifyby = "Online";
