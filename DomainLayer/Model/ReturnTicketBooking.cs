@@ -81,6 +81,7 @@ namespace DomainLayer.Model
             public double totalAmountSum { get; set; }
             public double totaltax { get; set; }
             public double totalplusAmountSumtax { get; set; }
+            public decimal TotalMealBagAmount { get; set; }
             public double baseTotalAmount { get; set; }
             public double BaseTotalTax { get; set; }
             public double ToatalBasePrice { get; set; }
