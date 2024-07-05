@@ -45,7 +45,7 @@ namespace ServiceLayer.Service.Implementation
                 //tbobj.ArrivalDate = ticketObject.tb_Booking.ArrivalDate;
                 tbobj.TotalAmount = ticketObject.tb_Booking.TotalAmount;
                 tbobj.SpecialServicesTotal = ticketObject.tb_Booking.SpecialServicesTotal;
-                tbobj.SpecialServicesTotal_Tax = ticketObject.tb_Booking.SpecialServicesTotal;
+                tbobj.SpecialServicesTotal_Tax = ticketObject.tb_Booking.SpecialServicesTotal_Tax;
                 tbobj.SeatTotalAmount = ticketObject.tb_Booking.SeatTotalAmount;
                 tbobj.SeatTotalAmount_Tax = ticketObject.tb_Booking.SeatTotalAmount_Tax;
                 tbobj.ExpirationDate = ticketObject.tb_Booking.ExpirationDate;
@@ -76,7 +76,7 @@ namespace ServiceLayer.Service.Implementation
                 tb_PassengerTotalobj.TotalMealsAmount = ticketObject.tb_PassengerTotal.TotalMealsAmount;
                 tb_PassengerTotalobj.TotalMealsAmount_Tax = ticketObject.tb_PassengerTotal.TotalMealsAmount_Tax;
                 tb_PassengerTotalobj.TotalSeatAmount = ticketObject.tb_PassengerTotal.TotalSeatAmount;
-                tb_PassengerTotalobj.TotalSeatAmount_Tax = ticketObject.tb_PassengerTotal.TotalMealsAmount_Tax;
+                tb_PassengerTotalobj.TotalSeatAmount_Tax = ticketObject.tb_PassengerTotal.TotalSeatAmount_Tax;
                 tb_PassengerTotalobj.Createdby = ticketObject.tb_PassengerTotal.Createdby;
                 tb_PassengerTotalobj.Modifyby = ticketObject.tb_PassengerTotal.Modifyby;
                 tb_PassengerTotalobj.Status = ticketObject.tb_PassengerTotal.Status;
@@ -153,6 +153,7 @@ namespace ServiceLayer.Service.Implementation
                     tb_PassengerDetails.ModifyBy = ticketObject.tb_PassengerDetails[j].ModifyBy;
                     //tb_PassengerDetails.Dob = ticketObject.tb_PassengerDetails[j].Dob;
                     tb_PassengerDetails.TotalAmount_tax = ticketObject.tb_PassengerDetails[j].TotalAmount_tax;
+                    tb_PassengerDetails.TotalAmount = ticketObject.tb_PassengerDetails[j].TotalAmount;
                     this._dbContext.Add(tb_PassengerDetails);
                     // this._dbContext.SaveChanges();
 

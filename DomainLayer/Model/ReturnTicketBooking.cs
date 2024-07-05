@@ -29,6 +29,8 @@ namespace DomainLayer.Model
         public double taxMinusMeal { get; set; }
         public double totalMealTax { get; set; }
         public double taxMinusBaggage { get; set; }
+        public double TotalAmountMeal { get; set; }
+        public double TotaAmountBaggage { get; set; }
         public ReceivedBy receivedBy { get; set; }
         public Contacts contacts { get; set; }
         public int passengerscount { get; set; }
@@ -594,6 +596,7 @@ namespace DomainLayer.Model
             public object crossReferenceSeatingPreference { get; set; }
             public bool isPending { get; set; }
             public int total { get; set; }
+            public int totalSeatAmount { get; set; }
             public int taxes { get; set; }
             public object adjustments { get; set; }
             public List<ReturnCharge> charges { get; set; }

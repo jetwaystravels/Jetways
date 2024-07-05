@@ -46,7 +46,7 @@ namespace OnionConsumeWebAPI.Controllers
         string carriercode = string.Empty;
         string flightnumber = string.Empty;
         string seatnumber = string.Empty;
-     //   string sequencenumber = string.Empty;
+        //   string sequencenumber = string.Empty;
         string bookingKey = string.Empty;
         ApiResponseModel responseModel;
         double totalAmount = 0;
@@ -59,6 +59,8 @@ namespace OnionConsumeWebAPI.Controllers
         double totalBaggageTax = 0;
         double taxMinusMeal = 0;
         double taxMinusBaggage = 0;
+        double TotalAmountMeal = 0;
+        double TotaAmountBaggage = 0;
         public async Task<IActionResult> booking()
         {
 
@@ -186,6 +188,7 @@ namespace OnionConsumeWebAPI.Controllers
                             }
                             totalMealTax = totalAmounttax + totalAmounttaxSGST;
                             taxMinusMeal = totalAmount - totalMealTax;
+                            TotalAmountMeal = totalMealTax + taxMinusMeal;
 
                             if (returnChargeobj.code.StartsWith("P"))
                             {
@@ -203,6 +206,7 @@ namespace OnionConsumeWebAPI.Controllers
                             }
                             totalBaggageTax = totalAmounttaxBag + totalAmounttaxSGSTBag;
                             taxMinusBaggage = totalAmountBaggage - totalBaggageTax;
+                            TotaAmountBaggage = totalBaggageTax + taxMinusBaggage;
 
 
                             returnChargeList.Add(returnChargeobj);
@@ -218,6 +222,8 @@ namespace OnionConsumeWebAPI.Controllers
                         {
                             returnSeats.total = JsonObjPNRBooking.data.breakdown.passengerTotals.seats.total;
                             returnSeats.taxes = JsonObjPNRBooking.data.breakdown.passengerTotals.seats.taxes;
+                            returnSeats.totalSeatAmount = returnSeats.total + returnSeats.taxes;
+
                         }
                     }
                     SpecialServices specialServices = new SpecialServices();
@@ -489,7 +495,7 @@ namespace OnionConsumeWebAPI.Controllers
                         //}
                         string sequencenumber = SequenceGenerator.GetNextSequenceNumber();
 
-                        BarcodeString = "M" + "1" + items.Value.name.last + "/" + items.Value.name.first + " " + BarcodePNR + "" + orides + carriercode + "" + flightnumber + "" + julianDate + "Y" + seatnumber  + sequencenumber + "1" + "00";
+                        BarcodeString = "M" + "1" + items.Value.name.last + "/" + items.Value.name.first + " " + BarcodePNR + "" + orides + carriercode + "" + flightnumber + "" + julianDate + "Y" + seatnumber + sequencenumber + "1" + "00";
                         BarcodeUtility BarcodeUtility = new BarcodeUtility();
                         var barcodeImage = BarcodeUtility.BarcodereadUtility(BarcodeString);
                         returnPassengersobj.barcodestring = barcodeImage;
@@ -526,13 +532,12 @@ namespace OnionConsumeWebAPI.Controllers
                     returnTicketBooking.taxMinusBaggage = taxMinusBaggage;
                     returnTicketBooking.totalMealTax = totalMealTax;
                     returnTicketBooking.totalAmountBaggage = totalAmountBaggage;
+                    returnTicketBooking.TotalAmountMeal = TotalAmountMeal;
+                    returnTicketBooking.TotaAmountBaggage = TotaAmountBaggage;
                     returnTicketBooking.Seatdata = htseatdata;
                     returnTicketBooking.Mealdata = htmealdata;
                     returnTicketBooking.Bagdata = htBagdata;
                     _AirLinePNRTicket.AirlinePNR.Add(returnTicketBooking);
-
-
-
                     AirLineFlightTicketBooking airLineFlightTicketBooking = new AirLineFlightTicketBooking();
                     airLineFlightTicketBooking.BookingID = JsonObjPNRBooking.data.bookingKey;
                     tb_Booking tb_Booking = new tb_Booking();
@@ -543,7 +548,7 @@ namespace OnionConsumeWebAPI.Controllers
                     tb_Booking.Origin = JsonObjPNRBooking.data.journeys[0].designator.origin;
                     tb_Booking.Destination = JsonObjPNRBooking.data.journeys[0].designator.destination;
                     tb_Booking.BookedDate = DateTime.Now;//JsonObjPNRBooking.data.journeys[0].designator.departure;                    
-                    tb_Booking.TotalAmount = JsonObjPNRBooking.data.breakdown.journeyTotals.totalAmount;
+                    tb_Booking.TotalAmount = JsonObjPNRBooking.data.breakdown.balanceDue; ;
                     if (JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices != null)
                     {
                         tb_Booking.SpecialServicesTotal = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.total;

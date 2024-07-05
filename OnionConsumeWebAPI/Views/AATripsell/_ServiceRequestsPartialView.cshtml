@@ -420,7 +420,6 @@
         font-size: 12px;
     }
 
-
 </style>
 
 <section id="myContainer1">
@@ -453,54 +452,54 @@
 
                                     <div class="col-lg-4">
 
-                                @{
-                                    int segmentcount = Model.passeengerlist.journeys[0].segments.Count;
-                                    @if (segmentcount == 1)
-                                    {
-                                        <div class="d-flex">
-                                            <div>
-                                                        <button type="submit" id="cancelButton" data-dismiss="modal" class="btn btn-dark btngry btnclose">Cancel</button>
-                                            </div>
-                                            <div>
-
-                                                <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
-                                            </div>
-                                        </div>
-                                    }
-                                    else
-                                    {
-
-                                        @for (int i = 0; i < segmentcount; i++)
-                                        {
-                                            @if (i == 1)
+                                        @{
+                                            int segmentcount = Model.passeengerlist.journeys[0].segments.Count;
+                                            @if (segmentcount == 1)
                                             {
                                                 <div class="d-flex">
                                                     <div>
                                                         <button type="submit" id="cancelButton" data-dismiss="modal" class="btn btn-dark btngry btnclose">Cancel</button>
                                                     </div>
+                                                    <div>
 
-                                                    <div id="popbtnA">
-
-
-                                                        <button type="submit" id="btnfocus" class="btn  btn-primary">Continue</button>
-
-                                                    </div>
-                                                    <div id="popbtnB" style="display:none;">
                                                         <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
-
                                                     </div>
                                                 </div>
                                             }
+                                            else
+                                            {
 
+                                                @for (int i = 0; i < segmentcount; i++)
+                                                {
+                                                    @if (i == 1)
+                                                    {
+                                                        <div class="d-flex">
+                                                            <div>
+                                                                <button type="submit" id="cancelButton" data-dismiss="modal" class="btn btn-dark btngry btnclose">Cancel</button>
+                                                            </div>
+
+                                                            <div id="popbtnA">
+
+
+                                                                <button type="submit" id="btnfocus" class="btn  btn-primary">Continue</button>
+
+                                                            </div>
+                                                            <div id="popbtnB" style="display:none;">
+                                                                <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
+
+                                                            </div>
+                                                        </div>
+                                                    }
+
+                                                }
+                                            }
                                         }
-                                    }
-                                }
 
-                            </div>
+                                    </div>
 
                                     <p><strong>Disclaimer:</strong> Seat allotment is the sole prerogative of the airline and can't be guaranteed by jetwaystravel.com</p>
 
-                            </div>
+                                </div>
                             </div>
 
 
@@ -624,26 +623,26 @@
                                                     List<SelectListItem> mealOptions = new List<SelectListItem>();
                                                     for (int s = 0; s < Model.Meals.legSsrs[0].legssrs.Count; s++)
                                                     {
-                                                        for (int sm = 0; sm < Model.Meals.legSsrs[0].legssrs[s].legpassengers.Count; sm++)
+                                                        // for (int sm = 0; sm < Model.Meals.legSsrs[0].legssrs[s].legpassengers.Count; sm++)
+                                                        // {
+                                                        string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                        string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
+                                                        string MealcodeData = Mealcode.StartsWith("V", StringComparison.OrdinalIgnoreCase).ToString();
+                                                        string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " ₹" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                        ssrkey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].ssrKey + "_" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price; ;
+                                                        string passengerKey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].passengerKey;
+                                                        if (MealcodeData != "False")
                                                         {
-                                                            string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[sm].price;
-                                                            string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
-                                                            string MealcodeData = Mealcode.StartsWith("V", StringComparison.OrdinalIgnoreCase).ToString();
-                                                            string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " ₹" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[sm].price;
-                                                            ssrkey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].ssrKey + "_" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].price; ;
-                                                            string passengerKey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].passengerKey;
-                                                            if (MealcodeData != "False")
+                                                            if (ssrkey != null)
                                                             {
-                                                                if (ssrkey != null)
-                                                                {
-                                                                    mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
-                                                                }
+                                                                mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
                                                             }
                                                         }
+                                                        //}
 
                                                     }
                                                     <div class="d-flex">
-                                                       
+
                                                         <select id="ddlMealOptions" class="servc-bordr">
                                                             <option value=""><b>Please select Meal</b></option>
                                                             @foreach (var option in mealOptions)
@@ -661,7 +660,7 @@
 
                                         }
                                         <div class="servc-content seat">
-                                           
+
                                             <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn exampleModalSeatdata" data-toggle="modal" data-target="#rrrtexampleModal">
 
                                             <div class="output-div-input" id="outputDiv_@pa"></div>
@@ -671,41 +670,41 @@
 
                                             @{
                                                 List<SelectListItem> BaggageOptions = new List<SelectListItem>();
-                                               
+
 
                                                 for (int s = 0; s < Model.Baggage.journeySsrsBaggage[0].baggageSsr.Count; s++)
                                                 {
-                                                    for (int pb = 0; pb < Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage.Count; pb++)
+                                                    // for (int pb = 0; pb < Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage.Count; pb++)
+                                                    // {
+
+
+                                                    string priceBaggage = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].price;
+                                                    string Sssrcode = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].ssrCode;
+                                                    string bagcode = Sssrcode.StartsWith("P", StringComparison.OrdinalIgnoreCase).ToString();
+                                                    var bagname = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].name + "@" + Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].price;
+                                                    bagkey = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[pa].ssrKey + "_" + Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].price;
+                                                    string passengerKey = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[pa].passengerKey;
+                                                    if (bagcode != "False")
                                                     {
-
-
-                                                        string priceBaggage = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[pb].price;
-                                                        string Sssrcode = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].ssrCode;
-                                                        string bagcode = Sssrcode.StartsWith("P", StringComparison.OrdinalIgnoreCase).ToString();
-                                                        var bagname = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].name + "@" + Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].price;
-                                                        bagkey = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[pa].ssrKey + "_" + Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[pa].price;
-                                                        string passengerKey = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[pa].passengerKey;
-                                                        if (bagcode != "False")
+                                                        if (bagname.Contains("Xtra-Carry-On") || bagname.Contains(" Xcess Baggage"))
                                                         {
-                                                            if (bagname.Contains("Xtra-Carry-On") || bagname.Contains(" Xcess Baggage"))
-                                                            {
-                                                                string[] parts = bagname.Split(new string[] { "Xtra-Carry-On", "Xcess Baggage" }, StringSplitOptions.RemoveEmptyEntries);
-                                                                string formattedName = string.Join(" ", parts).Trim();
-                                                                BaggageOptions.Add(new SelectListItem { Text = formattedName, Value = bagkey });
-                                                            }
-                                                            else
-                                                            {
-                                                                BaggageOptions.Add(new SelectListItem { Text = bagname, Value = bagkey });
-                                                            }
+                                                            string[] parts = bagname.Split(new string[] { "Xtra-Carry-On", "Xcess Baggage" }, StringSplitOptions.RemoveEmptyEntries);
+                                                            string formattedName = string.Join(" ", parts).Trim();
+                                                            BaggageOptions.Add(new SelectListItem { Text = formattedName, Value = bagkey });
+                                                        }
+                                                        else
+                                                        {
+                                                            BaggageOptions.Add(new SelectListItem { Text = bagname, Value = bagkey });
                                                         }
                                                     }
+                                                    //}
 
 
 
                                                 }
                                             }
                                             <div class="d-flex">
-                                                
+
                                                 <select id="ddlbagOptions" class="servc-bordrbaggage">
                                                     <option value=""><b>Please select Baggage</b></option>
                                                     @foreach (var option in BaggageOptions)
@@ -820,27 +819,27 @@
                                                         List<SelectListItem> mealOptions = new List<SelectListItem>();
                                                         for (int s = 0; s < Model.Meals.legSsrs[1].legssrs.Count; s++)
                                                         {
-                                                            for (int m = 0; m < Model.Meals.legSsrs[1].legssrs[s].legpassengers.Count; m++)
-                                                            {
+                                                            // for (int m = 0; m < Model.Meals.legSsrs[1].legssrs[s].legpassengers.Count; m++)
+                                                            // {
 
-                                                                string ssrprice = Model.Meals.legSsrs[1].legssrs[s].legpassengers[m].price;
-                                                                string Mealcode = Model.Meals.legSsrs[1].legssrs[s].ssrCode;
-                                                                string MealData = Mealcode.StartsWith("V", StringComparison.OrdinalIgnoreCase).ToString();
-                                                                string Mealname = Model.Meals.legSsrs[1].legssrs[s].name + " @" + @Model.Meals.legSsrs[1].legssrs[s].legpassengers[m].price;
-                                                                ssrkey = Model.Meals.legSsrs[1].legssrs[s].legpassengers[pas].ssrKey + "_" + @Model.Meals.legSsrs[1].legssrs[s].legpassengers[pas].price;
-                                                                string passengerKey = Model.Meals.legSsrs[1].legssrs[s].legpassengers[pas].passengerKey;
-                                                                if (MealData != "False")
+                                                            string ssrprice = Model.Meals.legSsrs[1].legssrs[s].legpassengers[0].price;
+                                                            string Mealcode = Model.Meals.legSsrs[1].legssrs[s].ssrCode;
+                                                            string MealData = Mealcode.StartsWith("V", StringComparison.OrdinalIgnoreCase).ToString();
+                                                            string Mealname = Model.Meals.legSsrs[1].legssrs[s].name + " @" + @Model.Meals.legSsrs[1].legssrs[s].legpassengers[0].price;
+                                                            ssrkey = Model.Meals.legSsrs[1].legssrs[s].legpassengers[pas].ssrKey + "_" + @Model.Meals.legSsrs[1].legssrs[s].legpassengers[0].price;
+                                                            string passengerKey = Model.Meals.legSsrs[1].legssrs[s].legpassengers[pas].passengerKey;
+                                                            if (MealData != "False")
+                                                            {
+                                                                if (ssrkey != null)
                                                                 {
-                                                                    if (ssrkey != null)
-                                                                    {
-                                                                        mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
-                                                                    }
+                                                                    mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
                                                                 }
                                                             }
+                                                            //}
 
                                                         }
                                                         <div class="d-flex">
-                                                            
+
                                                             <select id="ddlMealOptions" class="servc-bordrCon">
                                                                 <option value=""><b>Please select Meal</b></option>
                                                                 @foreach (var option in mealOptions)
@@ -863,7 +862,7 @@
 
                                             <div class="servc-content seat">
                                                 <div class="d-flex">
-                                                    
+
                                                     <input type="button" id="exampleModalSeat" value="Seat Map" class="button small-btn rtbtn exampleModalSeatdata" data-toggle="modal" data-target="#rrrtexampleModal">
                                                 </div>
                                                 <div class="output-div-input" id="outputDivConnect_@pas"></div>
