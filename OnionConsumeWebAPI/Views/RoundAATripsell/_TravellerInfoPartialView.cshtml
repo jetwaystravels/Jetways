@@ -207,7 +207,7 @@
 </style>
 <script>
     function showErrorVal(element, message) {
-        
+
         const parentElement = element.closest('.col-md-3, .col-md-2');
         let errorMessage = parentElement.querySelector('.error-message-val');
         if (!errorMessage) {
@@ -228,7 +228,7 @@
         }
     }
     function removeErrorVal(element) {
-       
+
         const parentElement = element.closest('.col-md-3, .col-md-2');
         const errorMessage = parentElement.querySelector('.error-message-val');
         if (errorMessage) {
@@ -242,18 +242,18 @@
     }
     var buttonLead = document.getElementById('checkboxLead');
     buttonLead.addEventListener('click', function (e) {
-      
+
         e.preventDefault();
         buttonLead.checked = !buttonLead.checked;
         if (buttonLead.checked) {
-           
+
             buttonLead.classList.add('checked');
         } else {
-           
+
             buttonLead.classList.remove('checked');
         }
         if (buttonLead.checked) {
-            
+
             alert("Checked!!")
             var emaiLeadPass = document.querySelector('.contactemail').value;
             var phoneLeadPass = document.querySelector('.contactphone').value;
@@ -270,30 +270,34 @@
                 validateInputT({ target: input });
             });
         } else {
+
             alert("Checkbox is unchecked");
-            
+
             var emaiLeadPass = "";
             var phoneLeadPass = "";
             var emailInputsT = document.querySelectorAll(".contactemail");
 
             emailInputsT.forEach(function (input) {
                 input.value = emaiLeadPass;
+                validateInputT({ target: input });
             });
             var phoneInputsT = document.querySelectorAll(".contactphone");
 
             phoneInputsT.forEach(function (input) {
                 input.value = phoneLeadPass;
+                validateInputT({ target: input });
             });
 
             var emaiLeadPassenger = localStorage.getItem('Leadpassenger3');
             var phoneLeadPassenger = localStorage.getItem('Leadpassenger4');
             document.querySelector("#contactemailID").value = emaiLeadPassenger;
             document.querySelector("#contactphoneID").value = phoneLeadPassenger;
+
         }
     });
 
     function validateInputT(event) {
-       
+
         const element = event.target;
         const value = element.value.trim();
         const validateType = element.getAttribute('data-validate');
@@ -337,19 +341,23 @@
             }
         }
     }
-
     document.addEventListener('DOMContentLoaded', function (event) {
         event.preventDefault();
         const infantContainers = document.querySelectorAll('.infant-dob-input');
-        function populateDayOptions(container) {
+
+        // Function to populate day options for a given container
+        function populateDayOptions(container, year, month) {
             const daySelect = container.querySelector('.day-select');
-            for (let i = 1; i <= 31; i++) {
+            daySelect.innerHTML = ''; // Clear existing options
+            const daysInMonth = new Date(year, month, 0).getDate(); // Get days in the selected month and year
+            for (let i = 1; i <= daysInMonth; i++) {
                 const option = document.createElement('option');
                 option.value = i;
                 option.textContent = i;
                 daySelect.appendChild(option);
             }
         }
+
         // Function to populate year options for a given container
         function populateYearOptions(container) {
             const yearSelect = container.querySelector('.year-select');
@@ -362,11 +370,77 @@
                 yearSelect.appendChild(option);
             }
         }
+
+        // Function to populate month options for a given container
+        function populateMonthOptions(container) {
+            const monthNames = [
+                'January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'
+            ];
+            const monthSelect = container.querySelector('.month-select');
+            monthSelect.innerHTML = ''; // Clear existing options
+            monthNames.forEach((monthName, index) => {
+                const option = document.createElement('option');
+                option.value = index + 1; // Month numbers start from 1 (January) to 12 (December)
+                option.textContent = monthName;
+                monthSelect.appendChild(option);
+            });
+        }
+
         infantContainers.forEach(function (container) {
-            populateDayOptions(container);
             populateYearOptions(container);
+            populateMonthOptions(container);
+
+            const yearSelect = container.querySelector('.year-select');
+            const monthSelect = container.querySelector('.month-select');
+
+            // Initial population of days based on the default year and month
+            const defaultYear = yearSelect.value;
+            const defaultMonth = monthSelect.value;
+            populateDayOptions(container, defaultYear, defaultMonth);
+
+            yearSelect.addEventListener('change', function () {
+                const selectedYear = yearSelect.value;
+                const selectedMonth = monthSelect.value;
+                populateDayOptions(container, selectedYear, selectedMonth);
+            });
+
+            monthSelect.addEventListener('change', function () {
+                const selectedYear = yearSelect.value;
+                const selectedMonth = monthSelect.value;
+                populateDayOptions(container, selectedYear, selectedMonth);
+            });
         });
     });
+    // document.addEventListener('DOMContentLoaded', function (event) {
+    //     event.preventDefault();
+    //     const infantContainers = document.querySelectorAll('.infant-dob-input');
+    //     function populateDayOptions(container) {
+    //         const daySelect = container.querySelector('.day-select');
+    //         for (let i = 1; i <= 31; i++) {
+    //             const option = document.createElement('option');
+    //             option.value = i;
+    //             option.textContent = i;
+    //             daySelect.appendChild(option);
+    //         }
+    //     }
+    //     // Function to populate year options for a given container
+    //     function populateYearOptions(container) {
+    //         const yearSelect = container.querySelector('.year-select');
+    //         const currentYear = new Date().getFullYear();
+    //         const maxInfantAge = 2;
+    //         for (let i = currentYear; i >= currentYear - maxInfantAge; i--) {
+    //             const option = document.createElement('option');
+    //             option.value = i;
+    //             option.textContent = i;
+    //             yearSelect.appendChild(option);
+    //         }
+    //     }
+    //     infantContainers.forEach(function (container) {
+    //         populateDayOptions(container);
+    //         populateYearOptions(container);
+    //     });
+    // });
 </script>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -379,9 +453,9 @@
 
         $("#showReviewPopup").click(function (e) {
             e.preventDefault();
-            
+
             /*******Validation Start*********/
-            
+
             const fieldsToValidate = [
                 { className: 'contactFname', errorMessage: 'First name is required ', validationdata: /^[A-Za-z.]{0,32}$/ },
                 { className: 'contactLname', errorMessage: 'Last  name is required', validationdata: /^[A-Za-z.]{0,32}$/ },
@@ -389,7 +463,7 @@
                 { className: 'contactphone', errorMessage: 'Phone number is required', validationdata: /^\d{10}$/ }
             ];
             let firstInvalidElement = null;
-           
+
             fieldsToValidate.forEach(field => {
                 const elements = document.querySelectorAll(`.${field.className}`);
                 elements.forEach(element => {
@@ -413,14 +487,14 @@
                 });
             });
             if (firstInvalidElement) {
-               
+
                 firstInvalidElement.focus();
                 return false;
             } else {
                 // document.getElementById('passengerForm').submit();
             }
             function removeError(element) {
-             
+
                 const parentElement = element.closest('.col-md-3,.col-md-2');
                 const errorMessage = parentElement.querySelector(".error-message");
                 if (errorMessage) {
@@ -429,7 +503,7 @@
                 element.classList.remove("error-input");
             }
             function showError(element, message) {
-                
+
                 const parentElement = element.closest('.col-md-3, .col-md-2');
                 const errorMessagedata = parentElement.querySelector('.error-message-val');
                 if (errorMessagedata) {
@@ -474,21 +548,21 @@
             }
             function validateMultipleInfantDOBs() {
                 var infantsValid = true;
-                
+
                 $(".dobinput:visible").each(function () {
-                    
+
                     var day = $(this).find('.day-select').val();
                     var month = $(this).find('.month-select').val();
                     var year = $(this).find('.year-select').val();
                     var dob = year + "-" + month + "-" + day;
                     var validationMessageReq = $(this).closest('.infant-dob-input').find('.validation-message-Required');
                     if (!day || !month || !year) {
-                     
+
                         validationMessageReq.text("Enter valid date of birth.");
                         validationMessageReq.show();
                         infantsValid = false;
                     } else if (!validateInfantDOB(dob)) {
-                       
+
                         validationMessageReq.text("Infant can not be greater than 2 years.");
                         validationMessageReq.show();
                         infantsValid = false;
@@ -520,7 +594,7 @@
             //$('#passengerForm').hide();
         });
         $("#ContinueData").click(function () {
-           
+
             $('#passengers_id').hide(); //Contact Details Div Hide
             //*************Validation effect Start**********
             var contentToDisplay = document.getElementById("content");

@@ -183,17 +183,37 @@
             e.preventDefault();
 
             //alert("Test");
-           
-            var laedpas = localStorage.getItem('Leadpassenger1RT');
-            document.querySelector(".contactFname").value = laedpas;
-            var laedpasLast = localStorage.getItem('Leadpassenger2RT');
-            document.querySelector(".contactLname").value = laedpasLast;
+            function setInputValueAndRemoveError(inputSelector, localStorageKey) {
+                var value = localStorage.getItem(localStorageKey);
+                var inputElement = document.querySelector(inputSelector);
+                inputElement.value = value;
+                if (value) {
+                    removeError(inputElement);
+                }
+            }
+            function removeError(element) {
+                const parentElement = element.closest('.col-md-3, .col-md-2');
+                const errorMessage = parentElement.querySelector(".error-message");
+                if (errorMessage) {
+                    errorMessage.style.display = 'none';
+                }
+                element.classList.remove("error-input");
+            }
 
-            var laedpasemail = localStorage.getItem('Leadpassenger3RT');
-            document.querySelector(".contactemail").value = laedpasemail;
+            setInputValueAndRemoveError(".contactFname", 'Leadpassenger1RT');
+            setInputValueAndRemoveError(".contactLname", 'Leadpassenger2RT');
+            setInputValueAndRemoveError(".contactemail", 'Leadpassenger3RT');
+            setInputValueAndRemoveError(".contactphone", 'Leadpassenger4RT');
+            // var laedpas = localStorage.getItem('Leadpassenger1RT');
+            // document.querySelector(".contactFname").value = laedpas;
+            // var laedpasLast = localStorage.getItem('Leadpassenger2RT');
+            // document.querySelector(".contactLname").value = laedpasLast;
 
-            var laedpasphone = localStorage.getItem('Leadpassenger4RT');
-            document.querySelector(".contactphone").value = laedpasphone;
+            // var laedpasemail = localStorage.getItem('Leadpassenger3RT');
+            // document.querySelector(".contactemail").value = laedpasemail;
+
+            // var laedpasphone = localStorage.getItem('Leadpassenger4RT');
+            // document.querySelector(".contactphone").value = laedpasphone;
             // First Name
             var firstfocus = document.getElementById("first").value;
             if (firstfocus == "") {
@@ -332,7 +352,7 @@
     });
     // RT First Name
     function validateInput(event) {
-        
+
         var input = event.target.value;
         const regex = /^[6-9][0-9]{9}$/;
         //var regex = /^[A-Za-z.]{0,32}$/;
@@ -384,7 +404,7 @@
     // RT Email Name
     //Contact Email
     function validateEmail(event) {
-     
+
         var email = event.target.value;
         var regex = /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
         var errorMessage = document.getElementById('emailErrorMessage');
