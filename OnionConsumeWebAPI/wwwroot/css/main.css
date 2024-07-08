@@ -13441,7 +13441,7 @@ Start Seat Map section
 
 .service-section .legendHolder-box {
     background: #F2F3F4;
-    padding: 15px;
+    padding: 15px 0px;
     margin: 0;
     text-align: center;
     border: #DEE0E4 1px solid;

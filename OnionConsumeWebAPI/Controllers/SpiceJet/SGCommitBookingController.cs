@@ -434,7 +434,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                     int julianDate = (currentDate - startOfYear).Days + 1;
                                     if (string.IsNullOrEmpty(sequencenumber))
                                     {
-                                        sequencenumber = "0000";
+                                        sequencenumber = "00000";
                                     }
                                     else
                                     {
@@ -467,10 +467,11 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                             seatnumber = seatnumber.PadRight(4, '0'); // Right-pad with zeros if less than 4 characters
                                         }
 
-                                        BarcodeString = "M" + "1" + item.Names[0].LastName + "/" + item.Names[0].FirstName + " " + BarcodePNR + "" + orides + carriercode + "" + flightnumber + "" + julianDate + "Y" + seatnumber + " " + sequencenumber + "1" + "00";
-                                        BarcodeUtility BarcodeUtility = new BarcodeUtility();
-                                        barcodeImage.Add(BarcodeUtility.BarcodereadUtility(BarcodeString));
+                                      
                                     }
+                                    BarcodeString = "M" + "1" + item.Names[0].LastName + "/" + item.Names[0].FirstName + " " + BarcodePNR + "" + orides + carriercode + "" + flightnumber + "" + julianDate + "Y" + seatnumber + " " + sequencenumber + "1" + "00";
+                                    BarcodeUtility BarcodeUtility = new BarcodeUtility();
+                                    barcodeImage.Add(BarcodeUtility.BarcodereadUtility(BarcodeString));
                                     foreach (var item2 in item1.ServiceCharges)
                                     {
                                         if (item2.ChargeCode.Equals("SeatFee") || item2.ChargeType.ToString().ToLower().Equals("servicecharge"))

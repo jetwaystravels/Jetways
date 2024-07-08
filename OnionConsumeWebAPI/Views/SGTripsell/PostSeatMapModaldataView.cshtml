@@ -86,7 +86,7 @@
                                 <label>@Model.passengerNamedetails[pas].first</label>
                                 <input type="text" id="input_@pas" class="textInput_@pas">
                             </div>
-                            <div>
+                            <div class="d-flex flex-row justify-end pe-2">
                                 <span>Price</span>
                                 <span class="feeSpan_@pas"></span>
                             </div>
@@ -123,7 +123,7 @@
                                 <label>@Model.passengerNamedetails[pas].first</label>
                                 <input type="text" id="inputConnect_@pas" class="textInput_@pas">
                             </div>
-                            <div>
+                            <div class="d-flex flex-row justify-end pe-2">
                                 <span>Price</span>
                                 <span class="feeSpanConnect_@pas"></span>
                             </div>
@@ -525,14 +525,14 @@
         var count = $("#passengercountid").val();
         $('.mycheck').on('change', function () {
             if ($('.mycheck:checked').length > count) {
-                alert('You can only ' + count + ' select checkboxes.');
+                alert('You can select only ' + count + '  seats');
                 this.checked = false;
             }
         });
 
         $('.mycheck2').on('change', function () {
             if ($('.mycheck2:checked').length > count) {
-                alert('You can only ' + count + ' select checkboxes.');
+                alert('You can select only ' + count + '  seats.');
                 this.checked = false;
             }
         });

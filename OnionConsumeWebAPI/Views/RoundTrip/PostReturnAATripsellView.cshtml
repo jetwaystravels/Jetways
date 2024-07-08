@@ -365,8 +365,9 @@
                                                     Faretype = "Spice Flex";
                                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SC"))
                                                     Faretype = "Spice max";
-                                                else
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SS"))
                                                     Faretype = "Saver Fare";
+
                                             }
                                             else
                                             {
@@ -455,7 +456,20 @@
                                                     }
 
                                                     //Spice Jet Detail
-                                                    if (@Faretype == "Spice Saver")
+
+                                                    if (@Faretype == "Spice Plus")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 15 Kgs  (1 piece)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs 3600:- (within 96 hrs from Departure)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs 3350:- (within 96 hrs from Departure)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+                                                    if (@Faretype == "Saver Fare")
                                                     {
                                                         <ul>
                                                             <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
@@ -710,13 +724,15 @@
                                             {
 
                                                 if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("RS"))
-                                                    Faretype = "Spice Saver";
+                                                    Faretype = "Spice Plus";
                                                 else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("SF"))
                                                     Faretype = "Spice Flex";
                                                 else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("SC"))
                                                     Faretype = "Spice max";
-                                                else
+
+                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("SS"))
                                                     Faretype = "Saver Fare";
+
                                             }
                                             // Akasa fair Details
                                             else if (Model.SimpleAvailibilityaAddResponcelistR[j].Airline == Airlines.AkasaAir)
@@ -818,7 +834,33 @@
 
 
                                                     //Spice Jet Detail
-                                                    if (@Faretype == "Spice Saver")
+
+                                                    if (@Faretype == "Spice Plus")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 15 Kgs  (1 piece)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs 3600:- (within 96 hrs from Departure)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs 3350:- (within 96 hrs from Departure)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+                                                    if (@Faretype == "Saver Fare")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 15 Kgs  (1 piece)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs 3600:- (within 96 hrs from Departure)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs 3350:- (within 96 hrs from Departure)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+
+                                                    if (@Faretype == "Saver Fare")
                                                     {
                                                         <ul>
                                                             <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>

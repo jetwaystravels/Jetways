@@ -2,7 +2,7 @@
 {
     public static class SequenceGenerator
     {
-        private static int currentSequenceNumber = 00001;
+        private static int currentSequenceNumber = 00000;
 
         public static string GetNextSequenceNumber()
         {
