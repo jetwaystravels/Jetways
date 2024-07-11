@@ -15,6 +15,25 @@
         });
     });
 </script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        function preventBack() {
+            window.history.forward();
+        }
+        preventBack();
+        window.onunload = function () {
+            preventDefault();
+        };
+    });
+
+</script>
+
+
+
+    
+
+
 <body>
     @{
         SimpleAvailabilityRequestModel model = null;

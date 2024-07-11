@@ -49,7 +49,7 @@ namespace OnionConsumeWebAPI.ApiService
        //  string tokenview = HttpContext.Session.GetString("AirasiaTokan");
          private readonly string Token = AppHttpContext.Current?.Session.GetString("AirasiaTokan");
        
-        public async Task<ApiResponseModel> OnPostAsync<T>(string Uri, T RequestModel)
+        public async Task<ApiResponseModel> PostAsJsonAsync<T>(string Uri, T RequestModel)
         {
             ApiResponseModel responseModel = new ApiResponseModel();
             try

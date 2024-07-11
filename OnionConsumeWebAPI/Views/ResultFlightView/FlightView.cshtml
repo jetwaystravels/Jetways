@@ -23,6 +23,7 @@
     <link href="~/css/roundviewpage.css" rel="stylesheet" />
     <link href="~/css/indexvny.css" rel="stylesheet" />
     <script src="~/js/custom.js/indexpage.js"></script>
+   
 
 </head>
 <body>
@@ -2438,8 +2439,10 @@
         }, 1000);
 
         function preback() { window.history.forward(); }
-        setTimeout("preback()", 0);
+        setTimeout("preback()", -10);
         window.onupload = function () { null };
+
+      
     </script>
 
 </body>
