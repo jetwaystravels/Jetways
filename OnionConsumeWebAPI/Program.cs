@@ -38,11 +38,11 @@ var app = builder.Build();
 //    app.UseExceptionHandler("/Home/Error");
 //}
 app.UseStaticFiles();
-app.UseMiddleware<ExceptionHandling>();
+//app.UseMiddleware<ExceptionHandling>();
 app.UseSession();
 app.UseRouting();
 app.UseAuthorization();
-app.UseMiddleware<RedirectToLogin>();
+//app.UseMiddleware<RedirectToLogin>();
 app.MapControllerRoute(
 name: "default",
 pattern: "{controller=FlightSearchIndex}/{action=Index}/{id?}");
