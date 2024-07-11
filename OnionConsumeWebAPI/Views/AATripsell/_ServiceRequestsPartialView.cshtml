@@ -642,17 +642,25 @@
 
                                                     }
                                                     <div class="d-flex">
+                                                        @if (mealOptions.Count == 0)
+                                                        {
+                                                            <select style="background:#f0f0f0;" id="" class="servc-bordr servc-bordrm1" disabled>
+                                                                <option selected="selected" value="">Meal Unavailable</option>
+                                                            </select>
+                                                        }
+                                                        else
+                                                        {
+                                                            <select id="ddlMealOptions" class="servc-bordr">
+                                                                <option value=""><b>Please select Meal</b></option>
+                                                                @foreach (var option in mealOptions)
+                                                                {
 
-                                                        <select id="ddlMealOptions" class="servc-bordr">
-                                                            <option value=""><b>Please select Meal</b></option>
-                                                            @foreach (var option in mealOptions)
-                                                            {
-
-                                                                <option value="@option.Value">
-                                                                    @option.Text
-                                                                </option>
-                                                            }
-                                                        </select>
+                                                                    <option value="@option.Value">
+                                                                        @option.Text
+                                                                    </option>
+                                                                }
+                                                            </select>
+                                                        }
                                                         <input type="hidden" id="hiddenSsrKey" name="ssrKey" value="" />
                                                     </div>
                                                 }
@@ -704,16 +712,24 @@
                                                 }
                                             }
                                             <div class="d-flex">
-
-                                                <select id="ddlbagOptions" class="servc-bordrbaggage">
-                                                    <option value=""><b>Please select Baggage</b></option>
-                                                    @foreach (var option in BaggageOptions)
-                                                    {
-                                                        <option value="@option.Value">
-                                                            @option.Text
-                                                        </option>
-                                                    }
-                                                </select>
+                                                @if (BaggageOptions.Count == 0)
+                                                {
+                                                    <select style="background:#f0f0f0;" id="" class="servc-bordr servc-bordrm1" disabled>
+                                                        <option selected="selected" value="">Baggage Unavailable</option>
+                                                    </select>
+                                                }
+                                                else
+                                                {
+                                                    <select id="ddlbagOptions" class="servc-bordrbaggage">
+                                                        <option value=""><b>Please select Baggage</b></option>
+                                                        @foreach (var option in BaggageOptions)
+                                                        {
+                                                            <option value="@option.Value">
+                                                                @option.Text
+                                                            </option>
+                                                        }
+                                                    </select>
+                                                }
                                                 <input type="hidden" id="hiddenbagKey" name="bagkey" value="" />
                                             </div>
                                         </div>
@@ -737,12 +753,12 @@
                                                 }
                                             }
                                             <select id="otherOptions" class="servc-bordrwheel">
-                                                <option value=""><b>Please select OtherService</b></option>
+                                                <option value=""><b>OtherService Unavailable</b></option>
                                                 @foreach (var option in otherOptions)
                                                 {
-                                                    <option value="@option.Value">
-                                                        @option.Text
-                                                    </option>
+                                                    @*  <option value="@option.Value">
+                                            @option.Text
+                                            </option> *@
                                                 }
                                             </select>
 
@@ -891,12 +907,12 @@
                                                 <div class="d-flex">
 
                                                     <select id="otherOptions2" class="servc-bordrwheelCon">
-                                                        <option value=""><b>Please select OtherService</b></option>
+                                                        <option value=""><b> OtherService Unavailable</b></option>
                                                         @foreach (var option in otherOptions)
                                                         {
-                                                            <option value="@option.Value">
-                                                                @option.Text
-                                                            </option>
+                                                            //     <option value="@option.Value">
+                                                            //         @option.Text
+                                                            //     </option>
                                                         }
                                                     </select>
 

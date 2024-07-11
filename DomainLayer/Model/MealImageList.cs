@@ -44,6 +44,8 @@
             new { MealCode = "VMCF", MealImage = "Vegan Moilee Curry with Coconut Rice (1)" },
             new { MealCode = "VMFB", MealImage = "Vegetable Manchurian with Fried Rice " },
             new { MealCode = "VMFF", MealImage = "Vegetable Manchurian with Fried Rice " },
+            new { MealCode = "VMGB", MealImage = "Mushroom Ghee Roast with Sriracha Fried Rice" },
+            new { MealCode = "VKDB", MealImage = "Kaju Katli white chocolate Mousse" },
             //wheelchair
              new { MealCode = "WCHS", MealImage = "Wheelchair Unable to ascend and descend step" },
              new { MealCode = "WCHR", MealImage = "Wheelchair Unable to walk long distance"},

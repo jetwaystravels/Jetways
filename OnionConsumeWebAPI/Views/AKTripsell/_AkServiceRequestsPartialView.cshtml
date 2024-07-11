@@ -10,7 +10,7 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script>
- 
+
     $(document).ready(function () {
         $('.servc-bordr').change(function () {
             debugger;
@@ -86,7 +86,7 @@
             $('#AddBaggage').text(baggagePrice.toFixed(2));
             updateCombinedTotal();
 
-        });       
+        });
 
         $("#AkContinuebtn").click(function () {
             debugger;
@@ -545,42 +545,46 @@
 
 
                                         @{
-                                            var legSSrcount = Model.AkMealslist.legSsrs.Count;
+                                            if (Model.AkMealslist != null)
+                                            {
+                                                var legSSrcount = Model.AkMealslist.legSsrs.Count;
 
-                                            <div class="servc-content select-option">
+                                                <div class="servc-content select-option">
 
-                                                @{
-                                                    List<SelectListItem> mealOptions = new List<SelectListItem>();
-                                                    for (int s = 0; s < Model.AkMealslist.legSsrs[0].legssrs.Count; s++)
-                                                    {
+                                                    @{
 
-                                                        string ssrprice = Model.AkMealslist.legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                        string Mealcode = Model.AkMealslist.legSsrs[0].legssrs[s].ssrCode;
-                                                        string Mealname = Model.AkMealslist.legSsrs[0].legssrs[s].name + " ₹" + @Model.AkMealslist.legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                        ssrkey = Model.AkMealslist.legSsrs[0].legssrs[s].legpassengers[pa].ssrKey + "_" + @Model.AkMealslist.legSsrs[0].legssrs[s].legpassengers[0].price; ;
-                                                        string passengerKey = Model.AkMealslist.legSsrs[0].legssrs[s].legpassengers[pa].passengerKey;
-                                                        if (ssrkey != null)
+                                                        List<SelectListItem> mealOptions = new List<SelectListItem>();
+                                                        for (int s = 0; s < Model.AkMealslist.legSsrs[0].legssrs.Count; s++)
                                                         {
-                                                            mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
+                                                            string ssrprice = Model.AkMealslist.legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                            string Mealcode = Model.AkMealslist.legSsrs[0].legssrs[s].ssrCode;
+                                                            string Mealname = Model.AkMealslist.legSsrs[0].legssrs[s].name + " ₹" + @Model.AkMealslist.legSsrs[0].legssrs[s].legpassengers[0].price + "_" + Model.AkMealslist.legSsrs[0].legssrs[s].ssrCode;
+                                                            ssrkey = Model.AkMealslist.legSsrs[0].legssrs[s].legpassengers[pa].ssrKey + "_" + @Model.AkMealslist.legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                            string passengerKey = Model.AkMealslist.legSsrs[0].legssrs[s].legpassengers[pa].passengerKey;
+                                                            if (ssrkey != null)
+                                                            {
+                                                                mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
+                                                            }
+
                                                         }
+                                                        <div class="d-flex">
+
+                                                            <select id="ddlMealOptions" class="servc-bordr">
+                                                                <option value=""><b>Please select Meal</b></option>
+                                                                @foreach (var option in mealOptions)
+                                                                {
+
+                                                                    <option value="@option.Value">
+                                                                        @option.Text
+                                                                    </option>
+                                                                }
+                                                            </select>
+                                                            <input type="hidden" id="hiddenSsrKey" name="ssrKey" value="" />
+                                                        </div>
 
                                                     }
-                                                    <div class="d-flex">
-
-                                                        <select id="ddlMealOptions" class="servc-bordr">
-                                                            <option value=""><b>Please select Meal</b></option>
-                                                            @foreach (var option in mealOptions)
-                                                            {
-
-                                                                <option value="@option.Value">
-                                                                    @option.Text
-                                                                </option>
-                                                            }
-                                                        </select>
-                                                        <input type="hidden" id="hiddenSsrKey" name="ssrKey" value="" />
-                                                    </div>
-                                                }
-                                            </div>
+                                                </div>
+                                            }
 
                                         }
                                         <div class="servc-content seat">
@@ -591,41 +595,38 @@
                                         </div>
                                         <!-- Output div for each passenger -->
                                         <div class="servc-content select-baggage">
-
                                             @{
-                                                List<SelectListItem> BaggageOptions = new List<SelectListItem>();
-
-                                                for (int s = 0; s < Model.AkBaggageDetails.journeySsrsBaggage[0].baggageSsr.Count; s++)
+                                                if (Model.AkBaggageDetails != null)
                                                 {
-                                                    string priceBaggage = Model.AkBaggageDetails.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].price;
-                                                    string Sssrcode = Model.AkBaggageDetails.journeySsrsBaggage[0].baggageSsr[s].ssrCode;
-                                                    string bagcode = Sssrcode.StartsWith("P", StringComparison.OrdinalIgnoreCase).ToString();
-                                                    var bagname = Model.AkBaggageDetails.journeySsrsBaggage[0].baggageSsr[s].name + "@" + Model.AkBaggageDetails.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].price;
-                                                    bagkey = Model.AkBaggageDetails.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].ssrKey + "_" + Model.AkBaggageDetails.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].price;
-                                                    if (bagcode != "False")
+
+                                                    List<SelectListItem> BaggageOptions = new List<SelectListItem>();
+
+                                                    for (int s = 0; s < Model.AkBaggageDetails.journeySsrsBaggage[0].baggageSsr.Count; s++)
                                                     {
-
-                                                        BaggageOptions.Add(new SelectListItem { Text = bagname, Value = bagkey });
-
+                                                        string priceBaggage = Model.AkBaggageDetails.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].price;
+                                                        string Sssrcode = Model.AkBaggageDetails.journeySsrsBaggage[0].baggageSsr[s].ssrCode;
+                                                        string bagcode = Sssrcode.StartsWith("X", StringComparison.OrdinalIgnoreCase).ToString();
+                                                        var bagname = Model.AkBaggageDetails.journeySsrsBaggage[0].baggageSsr[s].name + "@" + Model.AkBaggageDetails.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].price + " " + Model.AkBaggageDetails.journeySsrsBaggage[0].baggageSsr[s].ssrCode;
+                                                        bagkey = Model.AkBaggageDetails.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[pa].ssrKey + "_" + Model.AkBaggageDetails.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].price;
+                                                        if (bagcode != "False")
+                                                        {
+                                                            BaggageOptions.Add(new SelectListItem { Text = bagname, Value = bagkey });
+                                                        }
                                                     }
-
-
-
+                                                    <div class="d-flex">
+                                                        <select id="ddlbagOptions" class="servc-bordrbaggage">
+                                                            <option value=""><b>Please select Baggage</b></option>
+                                                            @foreach (var option in BaggageOptions)
+                                                            {
+                                                                <option value="@option.Value">
+                                                                    @option.Text
+                                                                </option>
+                                                            }
+                                                        </select>
+                                                        <input type="hidden" id="hiddenbagKey" name="bagkey" value="" />
+                                                    </div>
                                                 }
                                             }
-                                            <div class="d-flex">
-
-                                                <select id="ddlbagOptions" class="servc-bordrbaggage">
-                                                    <option value=""><b>Please select Baggage</b></option>
-                                                    @foreach (var option in BaggageOptions)
-                                                    {
-                                                        <option value="@option.Value">
-                                                            @option.Text
-                                                        </option>
-                                                    }
-                                                </select>
-                                                <input type="hidden" id="hiddenbagKey" name="bagkey" value="" />
-                                            </div>
                                         </div>
                                         <div class="servc-content">
 
@@ -702,38 +703,41 @@
                                             <div class="servc-content select-option2">
 
                                                 @{
-                                                    if (Model.AkMealslist.legSsrs.Count == 2)
+                                                    if (Model.AkMealslist != null)
                                                     {
-                                                        List<SelectListItem> mealOptions = new List<SelectListItem>();
-                                                        for (int s = 0; s < Model.AkMealslist.legSsrs[1].legssrs.Count; s++)
+                                                        if (Model.AkMealslist.legSsrs.Count == 2)
                                                         {
-
-                                                            string ssrprice = Model.AkMealslist.legSsrs[1].legssrs[s].legpassengers[0].price;
-                                                            string Mealcode = Model.AkMealslist.legSsrs[1].legssrs[s].ssrCode;
-                                                            string Mealname = Model.AkMealslist.legSsrs[1].legssrs[s].name + " @" + @Model.AkMealslist.legSsrs[1].legssrs[s].legpassengers[0].price;
-                                                            ssrkey = Model.AkMealslist.legSsrs[1].legssrs[s].legpassengers[pas].ssrKey + "_" + @Model.AkMealslist.legSsrs[1].legssrs[s].legpassengers[0].price;
-                                                            string passengerKey = Model.AkMealslist.legSsrs[1].legssrs[s].legpassengers[pas].passengerKey;
-                                                            if (ssrkey != null)
+                                                            List<SelectListItem> mealOptions = new List<SelectListItem>();
+                                                            for (int s = 0; s < Model.AkMealslist.legSsrs[1].legssrs.Count; s++)
                                                             {
-                                                                mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
-                                                            }
 
-                                                        }
-                                                        <div class="d-flex">
-
-                                                            <select id="ddlMealOptions" class="servc-bordrCon">
-                                                                <option value=""><b>Please select Meal</b></option>
-                                                                @foreach (var option in mealOptions)
+                                                                string ssrprice = Model.AkMealslist.legSsrs[1].legssrs[s].legpassengers[0].price;
+                                                                string Mealcode = Model.AkMealslist.legSsrs[1].legssrs[s].ssrCode;
+                                                                string Mealname = Model.AkMealslist.legSsrs[1].legssrs[s].name + " @" + @Model.AkMealslist.legSsrs[1].legssrs[s].legpassengers[0].price;
+                                                                ssrkey = Model.AkMealslist.legSsrs[1].legssrs[s].legpassengers[pas].ssrKey + "_" + @Model.AkMealslist.legSsrs[1].legssrs[s].legpassengers[0].price;
+                                                                string passengerKey = Model.AkMealslist.legSsrs[1].legssrs[s].legpassengers[pas].passengerKey;
+                                                                if (ssrkey != null)
                                                                 {
-                                                                    <option value="@option.Value">
-                                                                        @option.Text
-                                                                    </option>
+                                                                    mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
                                                                 }
-                                                            </select>
+
+                                                            }
+                                                            <div class="d-flex">
+
+                                                                <select id="ddlMealOptions" class="servc-bordrCon">
+                                                                    <option value=""><b>Please select Meal</b></option>
+                                                                    @foreach (var option in mealOptions)
+                                                                    {
+                                                                        <option value="@option.Value">
+                                                                            @option.Text
+                                                                        </option>
+                                                                    }
+                                                                </select>
 
 
-                                                            <input type="hidden" id="hiddenSsrKey2" name="ssrKey" value="" />
-                                                        </div>
+                                                                <input type="hidden" id="hiddenSsrKey2" name="ssrKey" value="" />
+                                                            </div>
+                                                        }
                                                     }
                                                 }
 

@@ -151,9 +151,10 @@ namespace OnionConsumeWebAPI.Controllers
                     {
                         infantReturnobj.total = JsonObjPNRBooking.data.breakdown.passengerTotals.infant.total;
                         infantReturnobj.taxes = JsonObjPNRBooking.data.breakdown.passengerTotals.infant.taxes;
-
-                        double totalAmountSum = journeyTotalsobj.totalAmount + infantReturnobj.total;
-                        double totaltax = journeyTotalsobj.totalTax + infantReturnobj.taxes;
+                        double TotalInfantAmount = infantReturnobj.total + infantReturnobj.taxes;
+                        double totalAmountSum = journeyTotalsobj.totalAmount + infantReturnobj.total + infantReturnobj.taxes;
+                        //double totaltax = journeyTotalsobj.totalTax + infantReturnobj.taxes;
+                        double totaltax = journeyTotalsobj.totalTax;
 
                         double totalplusAmountSumtax = totalAmountSum + totaltax;
                         breakdown.totalAmountSum = totalAmountSum;

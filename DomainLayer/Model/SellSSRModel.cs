@@ -12,6 +12,7 @@ namespace DomainLayer.Model
             public string note { get; set; }
             public bool forceWaveOnSell { get; set; }
             public string currencyCode { get; set; }
-        
+            public int ssrSellMode { get; set; }
+
     }
 }

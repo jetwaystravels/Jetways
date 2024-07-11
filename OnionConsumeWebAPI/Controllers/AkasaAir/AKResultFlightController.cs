@@ -23,7 +23,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
     {
         string passengerkey12 = string.Empty;
         string infant = string.Empty;
-        public async Task<IActionResult> AkasaAirTripsell(string journeyKey, string fareKey)
+        public async Task<IActionResult> AkasaAirTripsell(string journeyKey, string fareKey, string segmentKey)
         {
             string token = string.Empty;
             List<_credentials> credentialslist = new List<_credentials>();
@@ -112,8 +112,8 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                 {
                     AirAsiaTripResponceModel AkasaAirTripResponceobj = new AirAsiaTripResponceModel();
                     var AKjsondata = responseTripsellAK.Content.ReadAsStringAsync().Result;
-                    var Akasajsondata =JsonConvert.DeserializeObject<dynamic>(AKjsondata);                 
-                    
+                    var Akasajsondata = JsonConvert.DeserializeObject<dynamic>(AKjsondata);
+
                     var totalAmount = Akasajsondata.data.breakdown.journeys[journeyKey].totalAmount;
                     var totalTax = Akasajsondata.data.breakdown.journeys[journeyKey].totalTax;
                     var basefaretax = Akasajsondata.data.breakdown.journeyTotals.totalTax;
@@ -158,7 +158,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                                 AAFare AkasaFareobj = new AAFare();
                                 AkasaFareobj.fareKey = Akasajsondata.data.journeys[i].segments[j].fares[k].fareKey;
                                 AkasaFareobj.productClass = Akasajsondata.data.journeys[i].segments[j].fares[k].productClass;
-                                var passengerFares = Akasajsondata.data.journeys[i].segments[j].fares[k].passengerFares;                              
+                                var passengerFares = Akasajsondata.data.journeys[i].segments[j].fares[k].passengerFares;
 
                                 int passengerFarescount = ((Newtonsoft.Json.Linq.JContainer)passengerFares).Count;
                                 List<AAPassengerfare> AkasaPassengerfarelist = new List<AAPassengerfare>();
@@ -276,7 +276,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
 
                     SimpleAvailabilityRequestModel _SimpleAvailabilityobject = new SimpleAvailabilityRequestModel();
                     var jsonDataObject = HttpContext.Session.GetString("PassengerModel");
-                    _SimpleAvailabilityobject = JsonConvert.DeserializeObject<SimpleAvailabilityRequestModel>(jsonDataObject.ToString());                   
+                    _SimpleAvailabilityobject = JsonConvert.DeserializeObject<SimpleAvailabilityRequestModel>(jsonDataObject.ToString());
 
                     GetItenaryModel itenaryInfant = new GetItenaryModel();
                     List<Ssr1> ssr1slist = new List<Ssr1>();
@@ -332,7 +332,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                         }
 
 
-                    }                  
+                    }
 
                     ssr1.items = itemList;
                     itenaryInfant.ssrs = ssr1slist;
@@ -651,6 +651,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                             {
                                 PassengersAvailabilityBaggage AkpassengersAvailabilityBaggageObj = new PassengersAvailabilityBaggage();
                                 AkpassengersAvailabilityBaggageObj.passengerKey = itemObject.Value.passengerKey;
+                                AkpassengersAvailabilityBaggageObj.Airline = Airlines.AkasaAir;
                                 AkpassengersAvailabilityBaggageObj.price = itemObject.Value.price;
                                 AkpassengersAvailabilityBaggageObj.ssrKey = itemObject.Value.ssrKey;
                                 AkpassengersAvailabilityBaggageList.Add(AkpassengersAvailabilityBaggageObj);
@@ -699,6 +700,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                             {
                                 legpassengers Akpassengersdetail = new legpassengers();
                                 Akpassengersdetail.passengerKey = items.Value.passengerKey;
+                                Akpassengersdetail.Airline = Airlines.AkasaAir;
                                 Akpassengersdetail.price = items.Value.price;
                                 Akpassengersdetail.ssrKey = items.Value.ssrKey;
                                 Aklegpassengerslist.Add(Akpassengersdetail);
@@ -720,6 +722,8 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 HttpResponseMessage AkresponseSeatmap = await client.GetAsync(AppUrlConstant.AkasaAirSeatMap + journeyKey + "?IncludePropertyLookup=true");
+
+
                 if (AkresponseSeatmap.IsSuccessStatusCode)
                 {
                     Logs logs = new Logs();
@@ -736,7 +740,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                         List<SeatMapResponceModel> AkSeatMapResponceModellist = new List<SeatMapResponceModel>();
                         Fees AkFees = new Fees();
                         Seatmap AkSeatmapobj = new Seatmap();
-                        AkSeatmapobj.name = JsonAkasaObjSeatmap.data[x].seatMap.name;                        
+                        AkSeatmapobj.name = JsonAkasaObjSeatmap.data[x].seatMap.name;
                         AkSeatmapobj.arrivalStation = JsonAkasaObjSeatmap.data[x].seatMap.arrivalStation;
                         AkSeatmapobj.departureStation = JsonAkasaObjSeatmap.data[x].seatMap.departureStation;
                         AkSeatmapobj.marketingCode = JsonAkasaObjSeatmap.data[x].seatMap.marketingCode;
@@ -808,7 +812,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                                             if (Akcompartmentsunitobj.group == Convert.ToInt32(farearraygroupid))
                                             {
                                                 Akcompartmentsunitobj.servicechargefeeAmount = Convert.ToInt32(JsonAkasaObjSeatmap.data[x].fees[passengerkey12].groups[farearraygroupid].fees[0].serviceCharges[0].amount);
-                                                
+
                                                 break;
                                             }
                                         }
@@ -830,10 +834,10 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                             Akcompartmentsunitobj.properties = Propertieslist;
                             AkDecksobj.units = Akcompartmentsunitlist;
                         }
-                        Akasadataobj.seatMap = AkSeatmapobj;                      
+                        Akasadataobj.seatMap = AkSeatmapobj;
                         Akdatalist.Add(Akasadataobj);
                         AkSeatMapResponceModel.datalist = Akdatalist;
-                        HttpContext.Session.SetString("AKSeatmap", JsonConvert.SerializeObject(AkSeatMapResponceModel));                       
+                        HttpContext.Session.SetString("AKSeatmap", JsonConvert.SerializeObject(AkSeatMapResponceModel));
                     }
                 }
 
@@ -843,6 +847,6 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
         }
     }
 }
-               
-    
+
+
 

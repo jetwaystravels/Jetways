@@ -159,7 +159,7 @@
                                     <th rowspan="2" class="align-middle">Passenger</th>
                                     <th colspan="2" class="text-center">Fllight Detail</th>
                                     <th rowspan="2" class="align-middle">Seat No</th>
-                                    <th rowspan="2" class="align-middle">Airline</th>
+                                    <th rowspan="2" class="align-middle">Mobile</th>
                                     <th rowspan="2" class="align-middle">Ticket Number</th>
                                     <th rowspan="2" class="align-middle">Status</th>
                                     <th rowspan="2" class="align-middle barcode">Bar code</th>
@@ -311,15 +311,48 @@
                                             @{
                                                 string hashdata = @Model.AirlinePNR[0].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[0].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[0].journeys[0].segments[i3].designator.destination;
 
-                                                if (htmeal != null)
+                                                if (htmeal != null && htmeal.ContainsKey(hashdata))
                                                 {
-                                                    <td>@htmeal[hashdata]</td>
+
+                                                    var Mealname = htmeal[hashdata].ToString();
+                                                    var meal = MealImageList.GetAllmeal().Where(x => Mealname.Contains(x.MealCode)).ToList();
+                                                    if (meal != null)
+                                                    {
+                                                        foreach (var item in meal)
+                                                        {
+                                                            <td>@item.MealImage</td>
+                                                        }
+                                                    }
+                                                    // <td>@htmeal[hashdata]</td>
                                                 }
+                                                else
+                                                {
+                                                    <td></td>
+                                                }
+                                                // string hashBagdata = @Model.AirlinePNR[0].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[0].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[0].journeys[0].segments[i3].designator.destination;
+                                                // if (htbag != null)
+                                                // {
+                                                //     <td>@htbag[hashBagdata]</td>
+                                                // }
                                                 string hashBagdata = @Model.AirlinePNR[0].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[0].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[0].journeys[0].segments[i3].designator.destination;
-                                                if (htbag != null)
+                                                if (htbag != null && htbag.ContainsKey(hashBagdata))
                                                 {
-                                                    <td>@htbag[hashBagdata]</td>
+
+                                                    var Baggabgename = htbag[hashBagdata].ToString();
+                                                    var Baggage = MealImageList.GetAllmeal().Where(x => Baggabgename.Contains(x.MealCode)).ToList();
+                                                    if (Baggage != null)
+                                                    {
+                                                        foreach (var item in Baggage)
+                                                        {
+                                                            <td>@item.MealImage</td>
+                                                        }
+                                                    }
                                                 }
+                                                else
+                                                {
+                                                    <td></td>
+                                                }
+
                                             }
 
                                             <td>Confirm</td>

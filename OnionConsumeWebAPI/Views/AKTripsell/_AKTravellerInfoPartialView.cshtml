@@ -70,10 +70,10 @@
                         <div class="col-md-4 infant-dob-input ">
                             <div class="form-input dobinput d-flex">
                                 <div class="dob-picker">
-                                    <select class="brd-none day-select" name="passengerdetails[@i].day" required>
+                                    <select class="brd-none day-select validate-field" data-validate="day" name="passengerdetails[@i].day" required>
                                         <option value="" disabled selected>Day</option>
                                     </select>
-                                    <select class="brd-none month-select" name="passengerdetails[@i].month" required>
+                                    <select class="brd-none month-select validate-field" data-validate="month" name="passengerdetails[@i].month" required>
                                         <option value="" disabled selected>Month</option>
                                         <option value="1">January</option>
                                         <option value="2">February</option>
@@ -88,7 +88,7 @@
                                         <option value="11">November</option>
                                         <option value="12">December</option>
                                     </select>
-                                    <select class="brd-none year-select" name="passengerdetails[@i].year" required>
+                                    <select class="brd-none year-select validate-field" data-validate="year" name="passengerdetails[@i].year" required>
                                         <option value="" disabled selected>Year</option>
                                     </select>
                                 </div>
@@ -96,7 +96,6 @@
                             </div>
                             <div class="validation-message-Required error-message" style="color: red; display: none;"></div>
                         </div>
-
 
                     }
                 }
@@ -139,32 +138,124 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <!-- Include Bootstrap JavaScript -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script type="text/javascript">
+
+<script>
+
+    function showErrorVal(element, message) {
+
+        const parentElement = element.closest('.col-md-3, .col-md-2');
+        let errorMessage = parentElement.querySelector('.error-message-val');
+        if (!errorMessage) {
+            errorMessage = document.createElement('p');
+            errorMessage.className = 'error-message-val';
+            parentElement.appendChild(errorMessage);
+        }
+        const errorMessageReq = parentElement.querySelector(".error-message");
+        if (errorMessageReq) {
+            errorMessageReq.style.display = 'none';
+        }
+        errorMessage.textContent = message;
+        errorMessage.style.display = 'block';
+        element.classList.add('error-input');
+        if (element.offsetParent !== null) {
+            element.focus();
+            return false;
+        }
+    }
+    function removeErrorVal(element) {
+
+        const parentElement = element.closest('.col-md-3, .col-md-2');
+        const errorMessage = parentElement.querySelector('.error-message-val');
+        if (errorMessage) {
+            errorMessage.style.display = 'none';
+        }
+        const errorMessageReq = parentElement.querySelector(".error-message");
+        if (errorMessageReq) {
+            errorMessageReq.style.display = 'none';
+        }
+        element.classList.remove('error-input');
+    }
+    var buttonLead = document.getElementById('checkboxLead');
+    buttonLead.addEventListener('click', function (e) {
+
+        e.preventDefault();
+        buttonLead.checked = !buttonLead.checked;
+        if (buttonLead.checked) {
+
+            buttonLead.classList.add('checked');
+        } else {
+
+            buttonLead.classList.remove('checked');
+        }
+        if (buttonLead.checked) {
+
+            alert("Checked!!")
+            var emaiLeadPass = document.querySelector('.contactemail').value;
+            var phoneLeadPass = document.querySelector('.contactphone').value;
+            //Get all elements with class "contactemail" and set their value
+            var emailInputsT = document.querySelectorAll(".contactemail");
+            emailInputsT.forEach(function (input) {
+                input.value = emaiLeadPass;
+                validateInputT({ target: input });
+            });
+            // Get all elements with class "contactphone" and set their value
+            var phoneInputsT = document.querySelectorAll(".contactphone");
+            phoneInputsT.forEach(function (input) {
+                input.value = phoneLeadPass;
+                validateInputT({ target: input });
+            });
+        } else {
+            alert("Checkbox is unchecked");
+
+            var emaiLeadPass = "";
+            var phoneLeadPass = "";
+            var emailInputsT = document.querySelectorAll(".contactemail");
+
+            emailInputsT.forEach(function (input) {
+                input.value = emaiLeadPass;
+                validateInputT({ target: input });
+            });
+            var phoneInputsT = document.querySelectorAll(".contactphone");
+
+            phoneInputsT.forEach(function (input) {
+                input.value = phoneLeadPass;
+                validateInputT({ target: input });
+            });
+
+            var emaiLeadPassenger = localStorage.getItem('Leadpassenger3');
+            var phoneLeadPassenger = localStorage.getItem('Leadpassenger4');
+            document.querySelector("#contactemailID").value = emaiLeadPassenger;
+            document.querySelector("#contactphoneID").value = phoneLeadPassenger;
+        }
+    });
 
     function validateInputT(event) {
+
         const element = event.target;
         const value = element.value.trim();
         const validateType = element.getAttribute('data-validate');
         const validators = {
-            name: /^[a-zA-Z\s]*$/,
-            last: /^[a-zA-Z\s]*$/,
-            email: /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
+            name: /^[A-Za-z.]{0,32}$/,
+            last: /^[A-Za-z.]{0,32}$/,
+            email: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
             phone: /^\d{10}$/
         };
 
         const messages = {
-            name: 'Enter First Name',
-            last: 'Enter Last Name',
-            email: 'Enter valid email.',
+            name: 'Enter First Name.',
+            last: 'Enter Last Name.',
+            email: 'Enter valid email address.',
             phone: 'Enter valid phone number.',
             duplicate: 'Duplicate names are not allowed.'
         };
-
         if (value === "") {
             showErrorVal(element, messages[validateType]);
             return false;
         } else {
             removeErrorVal(element);
+        }
+        if (validateType === 'name' || validateType === 'last') {
+            element.value = value.replace(/[^A-Za-z.]/g, '');
         }
 
         if (!validators[validateType].test(value)) {
@@ -172,7 +263,6 @@
         } else {
             removeErrorVal(element);
         }
-
         if (validateType === 'name') {
             const allNames = document.querySelectorAll(`[data-validate="${validateType}"]`);
             const duplicate = Array.from(allNames).filter((el) => el.value.trim() === value && el !== element);
@@ -184,143 +274,6 @@
             }
         }
     }
-    function showErrorVal(element, message) {
-        const parentElement = element.closest('.col-md-3, .col-md-2');
-        let errorMessage = parentElement.querySelector('.error-message-val');
-
-        if (!errorMessage) {
-            errorMessage = document.createElement('p');
-            errorMessage.className = 'error-message-val';
-            parentElement.appendChild(errorMessage);
-        }
-
-        errorMessage.textContent = message;
-        errorMessage.style.display = 'block';
-        element.classList.add('error-input');
-        if (element.offsetParent !== null) {
-            element.focus();
-            return false;
-        }
-    }
-    function removeErrorVal(element) {
-        const parentElement = element.closest('.col-md-3, .col-md-2');
-        const errorMessage = parentElement.querySelector('.error-message-val');
-        if (errorMessage) {
-            errorMessage.style.display = 'none';
-        }
-        element.classList.remove('error-input');
-    }
-    // function validateInputT(event) {
-    //     const element = event.target;
-    //     const value = element.value.trim();
-    //     const validateType = element.getAttribute('data-validate');
-    //     const validators = {
-    //         name: /^[a-zA-Z\s]*$/,
-    //         last: /^[a-zA-Z\s]*$/,
-    //         email: /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
-    //         phone: /^\d{10}$/
-    //     };
-
-    //     const messages = {
-    //         name: 'Enter First Name',
-    //         last: 'Enter Last Name',
-    //         email: 'Enter valid email.',
-    //         phone: 'Enter valid phone number.',
-    //         duplicate: 'Duplicate names are not allowed.'
-    //     };
-    //     if (value === "") {
-    //         showErrorVal(element, messages[validateType]);
-    //         return false;
-    //     } else {
-    //         removeErrorVal(element);
-    //     }
-
-    //     if (!validators[validateType].test(value)) {
-    //         showErrorVal(element, messages[validateType]);
-    //     } else {
-    //         removeErrorVal(element);
-    //     }
-
-    //     if (validateType === 'name') {
-
-    //         const allNames = document.querySelectorAll(`[data-validate="${validateType}"]`);
-    //         const duplicate = Array.from(allNames).filter((el) => el.value.trim() === value && el !== element);
-    //         if (duplicate.length > 0) {
-    //             showErrorVal(element, messages['duplicate']);
-    //             return false;
-    //         } else {
-    //             removeErrorVal(element);
-    //         }
-    //     }
-    // }
-    // function showErrorVal(element, message) {
-    //     let errorMessage = element.parentNode.querySelector('.error-message-val');
-    //     if (!errorMessage) {
-    //         errorMessage = document.createElement('p');
-    //         errorMessage.className = 'error-message-val';
-    //         element.parentNode.appendChild(errorMessage);
-
-    //     }
-    //     errorMessage.textContent = message;
-    //     errorMessage.style.display = 'block';
-    //     element.classList.add('error-input');
-    //     if (element.offsetParent !== null) {
-    //         element.focus();
-    //         return false;
-    //     }
-    // }
-    // function removeErrorVal(element) {
-    //     const errorMessage = element.parentNode.querySelector('.error-message-val');
-    //     if (errorMessage) {
-    //         errorMessage.style.display = 'none';
-    //     }
-    //     element.classList.remove('error-input');
-    // }
-    var buttonLead = document.getElementById('checkboxLead');
-    buttonLead.addEventListener('click', function (e) {
-        e.preventDefault();
-        buttonLead.checked = !buttonLead.checked;
-        if (buttonLead.checked) {
-            buttonLead.classList.add('checked');
-        } else {
-            buttonLead.classList.remove('checked');
-        }
-        if (buttonLead.checked) {
-            alert("Checked!!")
-            var emaiLeadPass = document.querySelector('.contactemail').value;
-            var phoneLeadPass = document.querySelector('.contactphone').value;
-
-            //Get all elements with class "contactemail" and set their value
-            var emailInputsT = document.querySelectorAll(".contactemail");
-            emailInputsT.forEach(function (input) {
-                input.value = emaiLeadPass;
-            });
-
-            // Get all elements with class "contactphone" and set their value
-            var phoneInputsT = document.querySelectorAll(".contactphone");
-            phoneInputsT.forEach(function (input) {
-                input.value = phoneLeadPass;
-            });
-        } else {
-            alert("Checkbox is unchecked");
-
-            var emaiLeadPass = "";
-            var phoneLeadPass = "";
-            var emailInputsT = document.querySelectorAll(".contactemail");
-            emailInputsT.forEach(function (input) {
-                input.value = emaiLeadPass;
-            });
-            var phoneInputsT = document.querySelectorAll(".contactphone");
-            phoneInputsT.forEach(function (input) {
-                input.value = phoneLeadPass;
-            });
-
-            var emaiLeadPassenger = localStorage.getItem('Leadpassenger3');
-            var phoneLeadPassenger = localStorage.getItem('Leadpassenger4');
-            document.querySelector("#contactemailID").value = emaiLeadPassenger;
-            document.querySelector("#contactphoneID").value = phoneLeadPassenger;
-        }
-    });
     document.addEventListener('DOMContentLoaded', function (event) {
         event.preventDefault();
         const infantContainers = document.querySelectorAll('.infant-dob-input');
@@ -333,7 +286,6 @@
                 daySelect.appendChild(option);
             }
         }
-
         // Function to populate year options for a given container
         function populateYearOptions(container) {
             const yearSelect = container.querySelector('.year-select');
@@ -346,15 +298,13 @@
                 yearSelect.appendChild(option);
             }
         }
-
         infantContainers.forEach(function (container) {
             populateDayOptions(container);
             populateYearOptions(container);
         });
     });
-
-
-
+</script>
+<script type="text/javascript">
     $(document).ready(function () {
         function showForm() {
             $('#passengerForm').show();
@@ -367,59 +317,43 @@
             debugger;
             /*******Validation Start*********/
             const fieldsToValidate = [
-                { className: 'contactFname', errorMessage: 'First name is required ' },
-                { className: 'contactLname', errorMessage: 'Last  name is required' },
-                { className: 'contactemail', errorMessage: 'Email  name is required' },
-                { className: 'contactphone', errorMessage: 'Phone number is required' }
+                { className: 'contactFname', errorMessage: 'First name is required ', validationdata: /^[A-Za-z.]{3,32}$/ },
+                { className: 'contactLname', errorMessage: 'Last  name is required', validationdata: /^[A-Za-z.]{3,32}$/ },
+                { className: 'contactemail', errorMessage: 'Email Address is required', validationdata: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/ },
+                { className: 'contactphone', errorMessage: 'Phone number is required', validationdata: /^\d{10}$/ }
+
             ];
             let firstInvalidElement = null;
+            const message = null;
             fieldsToValidate.forEach(field => {
+                debugger;
                 const elements = document.querySelectorAll(`.${field.className}`);
                 elements.forEach(element => {
                     element.addEventListener("input", function () {
                         removeError(element);
                     });
                     if (element.value.trim() === "") {
+                        debugger;
                         showError(element, field.errorMessage);
                         if (!firstInvalidElement) {
                             firstInvalidElement = element;
                         }
+                    } else if (!field.validationdata.test(element.value.trim())) {
+                        debugger;
+                        showErrorVal(element, message);
                     }
+
                 });
             });
             if (firstInvalidElement) {
+                debugger;
                 firstInvalidElement.focus();
                 return false;
             } else {
                 // document.getElementById('passengerForm').submit();
             }
-            // function removeError(element) {
-            //     const errorMessage = element.parentNode.querySelector(".error-message");
-            //     if (errorMessage) {
-            //         errorMessage.style.display = 'none';
-            //     }
-            //     element.classList.remove("error-input");
-            // }
-            // function showError(element, message) {
-            //     let parentElement = element.closest('.col-md-3');
-
-            //     const errorMessageval = element.parentNode.querySelector('.error-message-val');
-            //     if (errorMessageval) {
-            //         errorMessageval.style.display = "none";
-            //     }
-
-            //     let errorMessage = element.parentNode.querySelector(".error-message");
-            //     if (!errorMessage) {
-            //         errorMessage = document.createElement("p");
-            //         errorMessage.className = "error-message";
-            //         parentElement.appendChild(errorMessage);
-            //     }
-
-            //     errorMessage.textContent = message;
-            //     errorMessage.style.display = 'block';
-            //     element.classList.add("error-input");
-            // }
             function removeError(element) {
+                debugger;
                 const parentElement = element.closest('.col-md-3,.col-md-2');
                 const errorMessage = parentElement.querySelector(".error-message");
                 if (errorMessage) {
@@ -428,15 +362,18 @@
                 element.classList.remove("error-input");
             }
             function showError(element, message) {
-                const parentElement = element.closest('.col-md-3 ,.col-md-2');
+                debugger;
+                const parentElement = element.closest('.col-md-3, .col-md-2');
+                const errorMessagedata = parentElement.querySelector('.error-message-val');
+                if (errorMessagedata) {
+                    errorMessagedata.style.display = 'none';
+                }
                 let errorMessage = parentElement.querySelector(".error-message");
-
                 if (!errorMessage) {
                     errorMessage = document.createElement("p");
                     errorMessage.className = "error-message";
                     parentElement.appendChild(errorMessage);
                 }
-
                 errorMessage.textContent = message;
                 errorMessage.style.display = 'block';
                 element.classList.add("error-input");
@@ -480,12 +417,12 @@
                     var validationMessageReq = $(this).closest('.infant-dob-input').find('.validation-message-Required');
                     if (!day || !month || !year) {
                         debugger;
-                        validationMessageReq.text(" date fields are required.");
+                        validationMessageReq.text("Enter valid date of birth.");
                         validationMessageReq.show();
                         infantsValid = false;
                     } else if (!validateInfantDOB(dob)) {
                         debugger;
-                        validationMessageReq.text("Infant age cannot be greater than 2 years..");
+                        validationMessageReq.text("Infant can not be greater than 2 years.");
                         validationMessageReq.show();
                         infantsValid = false;
                     } else {
@@ -494,6 +431,7 @@
                 });
                 return infantsValid;
             }
+            //End infant
             /*******Validation End*********/
             var enteredData = "";
             for (var i = 0; i < @Model.AkPassenger.passengers.Count; i++) {
