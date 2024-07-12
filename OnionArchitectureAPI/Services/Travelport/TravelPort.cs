@@ -41,27 +41,57 @@ namespace OnionArchitectureAPI.Services.Travelport
             //sbReq.Append("</air:PermittedCarriers>");
             sbReq.Append("</air:AirSearchModifiers>");
 
-            if (_GetfligthModel.passengercount.adultcount != 0)
+            if (_GetfligthModel.passengercount != null)
             {
-                for (int i = 0; i < _GetfligthModel.passengercount.adultcount; i++)
+                if (_GetfligthModel.passengercount.adultcount != 0)
                 {
-                    sbReq.Append("<com:SearchPassenger Code=\"ADT\" BookingTravelerRef=\"ilay2SzXTkSUYRO+0owUA01\"/>");
-                } 
-            }
+                    for (int i = 0; i < _GetfligthModel.passengercount.adultcount; i++)
+                    {
+                        sbReq.Append("<com:SearchPassenger Code=\"ADT\" BookingTravelerRef=\"ilay2SzXTkSUYRO+0owUA01\"/>");
+                    }
+                }
 
-            if (_GetfligthModel.passengercount.infantcount != 0)
-            {
-                for (int i = 0; i < _GetfligthModel.passengercount.infantcount; i++)
+                if (_GetfligthModel.passengercount.infantcount != 0)
                 {
-                    sbReq.Append("<com:SearchPassenger Code=\"INF\" BookingTravelerRef=\"ilay2SzXTkSUYRO+0owUB02\" PricePTCOnly=\"true\" Age=\"01\"/>");
+                    for (int i = 0; i < _GetfligthModel.passengercount.infantcount; i++)
+                    {
+                        sbReq.Append("<com:SearchPassenger Code=\"INF\" BookingTravelerRef=\"ilay2SzXTkSUYRO+0owUB02\" PricePTCOnly=\"true\" Age=\"01\"/>");
+                    }
+                }
+
+                if (_GetfligthModel.passengercount.childcount != 0)
+                {
+                    for (int i = 0; i < _GetfligthModel.passengercount.childcount; i++)
+                    {
+                        sbReq.Append("<com:SearchPassenger Code=\"CNN\" BookingTravelerRef=\"ilay2SzXTkSUYRO+0owUC03\" Age=\"10\"/>");
+                    }
                 }
             }
-
-            if (_GetfligthModel.passengercount.childcount != 0)
+            else
             {
-                for (int i = 0; i < _GetfligthModel.passengercount.childcount; i++)
+
+                if (_GetfligthModel.adultcount != 0)
                 {
-                    sbReq.Append("<com:SearchPassenger Code=\"CNN\" BookingTravelerRef=\"ilay2SzXTkSUYRO+0owUC03\" Age=\"10\"/>");
+                    for (int i = 0; i < _GetfligthModel.adultcount; i++)
+                    {
+                        sbReq.Append("<com:SearchPassenger Code=\"ADT\" BookingTravelerRef=\"ilay2SzXTkSUYRO+0owUA01\"/>");
+                    }
+                }
+
+                if (_GetfligthModel.infantcount != 0)
+                {
+                    for (int i = 0; i < _GetfligthModel.infantcount; i++)
+                    {
+                        sbReq.Append("<com:SearchPassenger Code=\"INF\" BookingTravelerRef=\"ilay2SzXTkSUYRO+0owUB02\" PricePTCOnly=\"true\" Age=\"01\"/>");
+                    }
+                }
+
+                if (_GetfligthModel.childcount != 0)
+                {
+                    for (int i = 0; i < _GetfligthModel.childcount; i++)
+                    {
+                        sbReq.Append("<com:SearchPassenger Code=\"CNN\" BookingTravelerRef=\"ilay2SzXTkSUYRO+0owUC03\" Age=\"10\"/>");
+                    }
                 }
             }
             sbReq.Append("<air:AirPricingModifiers FaresIndicator=\"AllFares\" ETicketability=\"Yes\" CurrencyType=\"INR\">");
