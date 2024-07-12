@@ -151,14 +151,25 @@
             }
 
             let BaggageSSrkey = JSON.parse(localStorage.getItem("BagssrKeyCount"));
-            let mealcode1 = JSON.parse(localStorage.getItem("selectedMeals"));
-            let mealcode2 = JSON.parse(localStorage.getItem("selectedMealsCon"));
+            let mealcode1 = JSON.parse(localStorage.getItem("selectedMeals")) || [];
+            let mealcode2 = JSON.parse(localStorage.getItem("selectedMealsCon")) || [];
             var mealssrKey;
-            if (mealcode2 && mealcode2.length > 0) {
+
+            if (mealcode2.length > 0) {
                 mealssrKey = mealcode1.concat(mealcode2);
             } else {
                 mealssrKey = mealcode1;
             }
+
+
+            // let mealcode1 = JSON.parse(localStorage.getItem("selectedMeals"));
+            // let mealcode2 = JSON.parse(localStorage.getItem("selectedMealsCon"));
+            // var mealssrKey;
+            // if (mealcode2 && mealcode2.length > 0) {
+            //     mealssrKey = mealcode1.concat(mealcode2);
+            // } else {
+            //     mealssrKey = mealcode1;
+            // }
             var WheelKeyArray1 = JSON.parse(localStorage.getItem("otherbagKeyArray")) || [];
             var WheelKeyArray2 = JSON.parse(localStorage.getItem("otherbagKeyArray2")) || [];
             var wheelSsrkey;

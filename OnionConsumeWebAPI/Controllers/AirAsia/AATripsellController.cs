@@ -56,7 +56,7 @@ namespace OnionConsumeWebAPI.Controllers
             ViewData["name"] = AirlineName;
 
             string passenger = HttpContext.Session.GetString("keypassenger");
-            string passengerInfant = HttpContext.Session.GetString("keypassengerItanary");
+            string passengerInfant = HttpContext.Session.GetString("InfantData");
             string Seatmap = HttpContext.Session.GetString("Seatmap");
             string Meals = HttpContext.Session.GetString("Meals");
             string BaggageData = HttpContext.Session.GetString("BaggageDetails");
@@ -596,7 +596,7 @@ namespace OnionConsumeWebAPI.Controllers
                     }
                     #endregion
 
-                    //#region WheelBaggage
+                    #region WheelBaggage
                     //var WheelChaircount = wheelSsrkey.Count;
                     //int WheelChairbaggageSsr = BaggageDetails.journeySsrsBaggage.Count;
                     //if (WheelChaircount > 0)
@@ -637,7 +637,7 @@ namespace OnionConsumeWebAPI.Controllers
                     //        }
                     //    }
                     //}
-                    //#endregion
+                    #endregion
 
 
                 }

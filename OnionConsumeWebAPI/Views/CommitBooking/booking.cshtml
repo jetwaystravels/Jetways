@@ -72,74 +72,77 @@
                             {
                                 @for (int s = 0; s < @Model.AirlinePNR[0].journeys[j].segments.Count; s++)
                                 {
-                                    <div class="row x-gap-20 bdr">
-                                        <div class="col-auto">
-                                            <div class="logo"><img class="size-35" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="logo"></div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="airline-N">Air India Expr..<br> @Model.AirlinePNR[0].journeys[j].segments[s].identifier.carrierCode-@Model.AirlinePNR[0].journeys[j].segments[s].identifier.identifier</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            @{
-                                                string origin = "";
-                                                string originairport = "";
-                                                string queryorigin = Model.AirlinePNR[0].journeys[j].segments[s].designator.origin;
-                                                if (Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault() != null)
-                                                {
-                                                    origin = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
-                                                    originairport = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().airportname;
+                                    for (int l = 0; l < @Model.AirlinePNR[0].journeys[j].segments[s].legs.Count; l++)
+                                    {
+                                        <div class="row x-gap-20 bdr">
+                                            <div class="col-auto">
+                                                <div class="logo"><img class="size-35" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="logo"></div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="airline-N">Air India Expr..<br> @Model.AirlinePNR[0].journeys[j].segments[s].identifier.carrierCode-@Model.AirlinePNR[0].journeys[j].segments[s].identifier.identifier</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                @{
+                                                    string origin = "";
+                                                    string originairport = "";
+                                                    string queryorigin = Model.AirlinePNR[0].journeys[j].segments[s].legs[l].designator.origin;
+                                                    if (Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault() != null)
+                                                    {
+                                                        origin = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
+                                                        originairport = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().airportname;
+                                                    }
+
+
+                                                    string departuretime = @Model.AirlinePNR[0].journeys[j].segments[s].legs[l].designator.departure.ToString().Substring(11, 5);
+                                                    string departuredate = @Model.AirlinePNR[0].journeys[j].segments[s].legs[l].designator.departure.ToString().Substring(0, 10);
+
+                                                    //Arrival  code
+                                                    string arrival = "";
+                                                    string arrivalairport = "";
+                                                    string queryarrival = Model.AirlinePNR[0].journeys[j].segments[s].legs[l].designator.destination;
+                                                    if (Citynamelist.GetAllCityData().Where(x => x.citycode == queryarrival).SingleOrDefault() != null)
+                                                    {
+                                                        arrival = Citynamelist.GetAllCityData().Where(x => x.citycode == queryarrival).SingleOrDefault().cityname;
+                                                        arrivalairport = Citynamelist.GetAllCityData().Where(x => x.citycode == queryarrival).SingleOrDefault().airportname;
+                                                    }
+
+                                                    string arrivaltime = @Model.AirlinePNR[0].journeys[j].segments[s].legs[l].designator.arrival.ToString().Substring(11, 5);
+                                                    string arrivaldate = @Model.AirlinePNR[0].journeys[j].segments[s].legs[l].designator.arrival.ToString().Substring(0, 10);
+                                                }
+                                                <div class="Dst-name">
+                                                    <span class="red">@origin</span> @departuretime <span>
+                                                        <strong>@departuredate</strong>
+                                                    </span> <span>Terminal - @Model.AirlinePNR[0].journeys[j].segments[s].legs[l].legInfo.departureTerminal</span>
+                                                    <span>@originairport</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-auto text-center">
+                                                @{
+
+                                                    string formattedTime = string.Empty;
+                                                    var arrivalDate = Model.AirlinePNR[0].journeys[j].segments[s].legs[l].designator.arrival;
+                                                    var departureDate = Model.AirlinePNR[0].journeys[j].segments[s].legs[l].designator.departure;
+                                                    var diff = (arrivalDate - departureDate);
+                                                    TimeSpan timeSpan = TimeSpan.Parse(diff.ToString());
+                                                    if ((int)timeSpan.Minutes == 0)
+                                                        formattedTime = $"{(int)timeSpan.TotalHours} h";
+                                                    else
+                                                        formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
                                                 }
 
+                                                <div class="time">@formattedTime</div>
+                                                <img src="~/img/arrow-line-fr.png" alt="icon">
+                                            </div>
 
-                                                string departuretime = @Model.AirlinePNR[0].journeys[j].segments[s].designator.departure.ToString().Substring(11, 5);
-                                                string departuredate = @Model.AirlinePNR[0].journeys[j].segments[s].designator.departure.ToString().Substring(0, 10);
-
-                                                //Arrival  code
-                                                string arrival = "";
-                                                string arrivalairport = "";
-                                                string queryarrival = Model.AirlinePNR[0].journeys[j].segments[s].designator.destination;
-                                                if (Citynamelist.GetAllCityData().Where(x => x.citycode == queryarrival).SingleOrDefault() != null)
-                                                {
-                                                    arrival = Citynamelist.GetAllCityData().Where(x => x.citycode == queryarrival).SingleOrDefault().cityname;
-                                                    arrivalairport = Citynamelist.GetAllCityData().Where(x => x.citycode == queryarrival).SingleOrDefault().airportname;
-                                                }
-
-                                                string arrivaltime = @Model.AirlinePNR[0].journeys[j].segments[s].designator.arrival.ToString().Substring(11, 5);
-                                                string arrivaldate = @Model.AirlinePNR[0].journeys[j].segments[s].designator.arrival.ToString().Substring(0, 10);
-                                            }
-                                            <div class="Dst-name">
-                                                <span class="red">@origin</span> @departuretime <span>
-                                                    <strong>@departuredate</strong>
-                                                </span> <span>Terminal - @Model.AirlinePNR[0].journeys[j].segments[s].legs[0].legInfo.departureTerminal</span>
-                                                <span>@originairport</span>
+                                            <div class="col">
+                                                <div class="Dst-name">
+                                                    <span class="red">@arrival</span> @arrivaltime <span><strong>@arrivaldate</strong></span> <span>Terminal - @Model.AirlinePNR[0].journeys[j].segments[s].legs[l].legInfo.arrivalTerminal</span>
+                                                    <span>@arrivalairport</span>
+                                                </div>
                                             </div>
                                         </div>
-
-                                        <div class="col-auto text-center">
-                                            @{
-
-                                                string formattedTime = string.Empty;
-                                                var arrivalDate = Model.AirlinePNR[0].journeys[j].segments[s].designator.arrival;
-                                                var departureDate = Model.AirlinePNR[0].journeys[j].segments[s].designator.departure;
-                                                var diff = (arrivalDate - departureDate);
-                                                TimeSpan timeSpan = TimeSpan.Parse(diff.ToString());
-                                                if ((int)timeSpan.Minutes == 0)
-                                                    formattedTime = $"{(int)timeSpan.TotalHours} h";
-                                                else
-                                                    formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
-                                            }
-
-                                            <div class="time">@formattedTime</div>
-                                            <img src="~/img/arrow-line-fr.png" alt="icon">
-                                        </div>
-
-                                        <div class="col">
-                                            <div class="Dst-name">
-                                                <span class="red">@arrival</span> @arrivaltime <span><strong>@arrivaldate</strong></span> <span>Terminal - @Model.AirlinePNR[0].journeys[j].segments[s].legs[0].legInfo.arrivalTerminal</span>
-                                                <span>@arrivalairport</span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    }
                                 }
 
                             }

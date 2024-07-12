@@ -848,23 +848,23 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     Sessionmanager.LogonRequest _logonRequestobj = new Sessionmanager.LogonRequest();
                     _logonRequestobj.ContractVersion = 420;
                     Sessionmanager.LogonRequestData LogonRequestDataobj = new Sessionmanager.LogonRequestData();
-                   
-                        //client.BaseAddress = new Uri(AppUrlConstant.BaseURL);
-                        HttpResponseMessage responsespice = await client.GetAsync("api/Login/getotacredairasia");
-                        if (response.IsSuccessStatusCode)
+
+                    //client.BaseAddress = new Uri(AppUrlConstant.BaseURL);
+                    HttpResponseMessage responsespice = await client.GetAsync("api/Login/getotacredairasia");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var results = responsespice.Content.ReadAsStringAsync().Result;
+                        var JsonObject = JsonConvert.DeserializeObject<List<_credentials>>(results);
+                        if (JsonObject[0].FlightCode == 3)
                         {
-                            var results = responsespice.Content.ReadAsStringAsync().Result;
-                            var JsonObject = JsonConvert.DeserializeObject<List<_credentials>>(results);
-                            if (JsonObject[0].FlightCode == 3)
-                            {
-                                LogonRequestDataobj.AgentName = JsonObject[0].username;
-                                LogonRequestDataobj.Password = JsonObject[0].password;
-                                LogonRequestDataobj.DomainCode = JsonObject[0].domain;
-                                _logonRequestobj.logonRequestData = LogonRequestDataobj;
+                            LogonRequestDataobj.AgentName = JsonObject[0].username;
+                            LogonRequestDataobj.Password = JsonObject[0].password;
+                            LogonRequestDataobj.DomainCode = JsonObject[0].domain;
+                            _logonRequestobj.logonRequestData = LogonRequestDataobj;
 
 
                         }
-                        }
+                    }
 
 
 
@@ -885,75 +885,78 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     #endregion
                     //GetAvailability
                     #region GetAvailability
+                    GetAvailabilityVer2Response _getAvailabilityVer2Response = null;
                     GetAvailabilityVer2Response _getAvailabilityRS = null;
                     GetAvailabilityRequest _getAvailabilityRQ = null;
-                    _getAvailabilityRQ = new GetAvailabilityRequest();
-                    _getAvailabilityRQ.Signature = _logonResponseobj.Signature;
-                    _getAvailabilityRQ.ContractVersion = _logonRequestobj.ContractVersion;
+                    if (_logonResponseobj != null)
+                    {
+                        _getAvailabilityRQ = new GetAvailabilityRequest();
+                        _getAvailabilityRQ.Signature = _logonResponseobj.Signature;
+                        _getAvailabilityRQ.ContractVersion = _logonRequestobj.ContractVersion;
 
 
-                    //_GetfligthModel.origin = "BOM";
-                    //_GetfligthModel.destination = "IXJ";
-                    _getAvailabilityRQ.TripAvailabilityRequest = new TripAvailabilityRequest();
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests = new AvailabilityRequest[1];
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0] = new AvailabilityRequest();
+                        //_GetfligthModel.origin = "BOM";
+                        //_GetfligthModel.destination = "IXJ";
+                        _getAvailabilityRQ.TripAvailabilityRequest = new TripAvailabilityRequest();
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests = new AvailabilityRequest[1];
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0] = new AvailabilityRequest();
 
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].DepartureStation = _GetfligthModel.origin;
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].ArrivalStation = _GetfligthModel.destination;
-                    TempData["origin"] = _GetfligthModel.origin;
-                    TempData["destination"] = _GetfligthModel.destination;
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].BeginDateSpecified = true;
-                    //_getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].BeginDate = Convert.ToDateTime("2024-01-18");
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].BeginDate = Convert.ToDateTime(_GetfligthModel.beginDate);
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].DepartureStation = _GetfligthModel.origin;
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].ArrivalStation = _GetfligthModel.destination;
+                        TempData["origin"] = _GetfligthModel.origin;
+                        TempData["destination"] = _GetfligthModel.destination;
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].BeginDateSpecified = true;
+                        //_getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].BeginDate = Convert.ToDateTime("2024-01-18");
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].BeginDate = Convert.ToDateTime(_GetfligthModel.beginDate);
 
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].EndDateSpecified = true;
-                    //_getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].EndDate = Convert.ToDateTime("2024-01-18");
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].EndDate = Convert.ToDateTime(_GetfligthModel.beginDate);
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].EndDateSpecified = true;
+                        //_getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].EndDate = Convert.ToDateTime("2024-01-18");
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].EndDate = Convert.ToDateTime(_GetfligthModel.beginDate);
 
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].FlightTypeSpecified = true;
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].FlightType = FlightType.All;
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].FlightTypeSpecified = true;
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].FlightType = FlightType.All;
 
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxCountSpecified = true;
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxCount = Convert.ToInt16(TotalCount); //Total Travell Count
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxCountSpecified = true;
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxCount = Convert.ToInt16(TotalCount); //Total Travell Count
 
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].DowSpecified = true;
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].Dow = DOW.Daily;
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].CurrencyCode = "INR";
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].DowSpecified = true;
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].Dow = DOW.Daily;
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].CurrencyCode = "INR";
 
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].AvailabilityFilter = default;
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].AvailabilityFilterSpecified = true;
-
-
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxPriceTypes = new PaxPriceType[0];
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxPriceTypes = getPaxdetails(adultcount, childcount, infantcount); //Pax Count 1 always Default Set.
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].AvailabilityFilter = default;
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].AvailabilityFilterSpecified = true;
 
 
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].CarrierCode = "SG";
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxPriceTypes = new PaxPriceType[0];
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxPriceTypes = getPaxdetails(adultcount, childcount, infantcount); //Pax Count 1 always Default Set.
 
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareClassControlSpecified = true;
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareClassControl = FareClassControl.CompressByProductClass;
 
-                    //string[] faretypes = { "R", "MX", "IO", "SF" };
-                    string[] faretypes = { "R", "MX", "SF" };
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareTypes = faretypes;
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].CarrierCode = "SG";
 
-                    string[] productclasses = new string[1];
-                    //string[] productclasses = {"R"};
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].ProductClasses = productclasses;
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].MaximumConnectingFlights = 20;
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].MaximumConnectingFlightsSpecified = true;
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].LoyaltyFilterSpecified = true;
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].LoyaltyFilter = LoyaltyFilter.MonetaryOnly;
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].IncludeTaxesAndFees = true;
-                    _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].IncludeTaxesAndFeesSpecified = true;
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareClassControlSpecified = true;
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareClassControl = FareClassControl.CompressByProductClass;
 
-                    HttpContext.Session.SetString("SpicejetSignature", JsonConvert.SerializeObject(_getAvailabilityRQ.Signature));
-                    HttpContext.Session.SetString("SpicejetAvailibilityRequest", JsonConvert.SerializeObject(_getAvailabilityRQ));
+                        //string[] faretypes = { "R", "MX", "IO", "SF" };
+                        string[] faretypes = { "R", "MX", "SF" };
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareTypes = faretypes;
 
-                    GetAvailabilityVer2Response _getAvailabilityVer2Response = await objSpiceJet.GetAvailabilityVer2Async(_getAvailabilityRQ);
+                        string[] productclasses = new string[1];
+                        //string[] productclasses = {"R"};
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].ProductClasses = productclasses;
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].MaximumConnectingFlights = 20;
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].MaximumConnectingFlightsSpecified = true;
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].LoyaltyFilterSpecified = true;
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].LoyaltyFilter = LoyaltyFilter.MonetaryOnly;
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].IncludeTaxesAndFees = true;
+                        _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].IncludeTaxesAndFeesSpecified = true;
 
-                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getAvailabilityRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getAvailabilityVer2Response), "GetAvailability", "SpicejetOneWay");
+                        HttpContext.Session.SetString("SpicejetSignature", JsonConvert.SerializeObject(_getAvailabilityRQ.Signature));
+                        HttpContext.Session.SetString("SpicejetAvailibilityRequest", JsonConvert.SerializeObject(_getAvailabilityRQ));
 
+                        _getAvailabilityVer2Response = await objSpiceJet.GetAvailabilityVer2Async(_getAvailabilityRQ);
+
+                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getAvailabilityRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getAvailabilityVer2Response), "GetAvailability", "SpicejetOneWay");
+                    }
                     //list of spicejet flights
                     int count1 = 0;
                     if (_getAvailabilityVer2Response != null && _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0].Length > 0)
@@ -1589,13 +1592,13 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 _SimpleAvailibilityaAddResponceobj.arrivalTerminal = arrivalTerminal;
                                 _SimpleAvailibilityaAddResponceobj.departureTerminal = departureTerminal;
                             }
-                            
+
                             Segmentobj.legs = Leglist;
                             Segmentobjlist.Add(Segmentobj);
                             decimal fareAmount = 0.0M;
-                            fareAmount= Math.Round(getAvailRes[i].Fare.PaxFares[0].BasicFare, 0);
+                            fareAmount = Math.Round(getAvailRes[i].Fare.PaxFares[0].BasicFare, 0);
                             FareIndividual fareIndividual = new FareIndividual();
-                            taxamount=fareIndividual.taxamount = getAvailRes[i].Fare.PaxFares[0].TotalTax;
+                            taxamount = fareIndividual.taxamount = getAvailRes[i].Fare.PaxFares[0].TotalTax;
                             fareIndividual.faretotal = fareAmount + taxamount;
                             fareIndividual.discountamount = discountamount;
                             fareIndividual.passengertype = getAvailRes[i].Fare.PaxFares[0].PaxType.ToString();

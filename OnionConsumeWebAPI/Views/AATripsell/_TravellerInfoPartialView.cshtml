@@ -7,14 +7,14 @@
 
     .error-message {
         color: red;
-        font-size: 12px;
+        font-size: 11px;
         margin: 5px 0 0 0;
         display: none;
     }
 
     .error-message-val {
         color: red;
-        font-size: 12px;
+        font-size: 11px;
         margin: 5px 0 0 0;
         display: none;
     }
@@ -218,7 +218,7 @@
 <script>
 
     function showErrorVal(element, message) {
-
+        debugger;
         const parentElement = element.closest('.col-md-3, .col-md-2');
         let errorMessage = parentElement.querySelector('.error-message-val');
         if (!errorMessage) {
@@ -239,7 +239,7 @@
         }
     }
     function removeErrorVal(element) {
-
+        debugger;
         const parentElement = element.closest('.col-md-3, .col-md-2');
         const errorMessage = parentElement.querySelector('.error-message-val');
         if (errorMessage) {
@@ -282,7 +282,7 @@
             });
         } else {
             alert("Checkbox is unchecked");
-
+            debugger;
             var emaiLeadPass = "";
             var phoneLeadPass = "";
             var emailInputsT = document.querySelectorAll(".contactemail");
@@ -302,6 +302,18 @@
             var phoneLeadPassenger = localStorage.getItem('Leadpassenger4');
             document.querySelector("#contactemailID").value = emaiLeadPassenger;
             document.querySelector("#contactphoneID").value = phoneLeadPassenger;
+
+            // Remove specific items from localStorage
+            localStorage.removeItem('Leadpassenger3');
+            localStorage.removeItem('Leadpassenger4');
+
+            // Optionally, clear all items from localStorage
+            // localStorage.clear();
+
+            // Clear the input fields if necessary
+            document.querySelector("#contactemailID").value = '';
+            document.querySelector("#contactphoneID").value = '';
+
         }
     });
 

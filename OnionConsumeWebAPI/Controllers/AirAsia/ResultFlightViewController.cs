@@ -504,7 +504,7 @@ namespace OnionConsumeWebAPI.Controllers
                         HttpResponseMessage responsePassengers = await client.PostAsJsonAsync(AppUrlConstant.Airasiainfantquote, itenaryInfant);
                         if (responsePassengers.IsSuccessStatusCode)
                         {
-                            AirAsiaTripResponceModel AirAsiaTripResponceobject = new AirAsiaTripResponceModel();
+                            AirAsiaTripResponceModel AirAasiaobjectInfantdata = new AirAsiaTripResponceModel();
                             var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
                             var JsonObjPassengers = JsonConvert.DeserializeObject<dynamic>(_responsePassengers);
                             var TotalAmount = JsonObjPassengers.data.breakdown.journeys[journeyKey].totalAmount;
@@ -685,13 +685,13 @@ namespace OnionConsumeWebAPI.Controllers
                                     }
                                 }
 
-                                AirAsiaTripResponceobject.inftcount = Inftcount;
-                                AirAsiaTripResponceobject.inftbasefare = Inftbasefare;
+                                AirAasiaobjectInfantdata.inftcount = Inftcount;
+                                AirAasiaobjectInfantdata.inftbasefare = Inftbasefare;
 
-                                AirAsiaTripResponceobject.journeys = AAJourneyList;
-                                AirAsiaTripResponceobject.passengers = passkeyList;
-                                AirAsiaTripResponceobject.passengerscount = passengercount;
-                                HttpContext.Session.SetString("keypassengerItanary", JsonConvert.SerializeObject(AirAsiaTripResponceobject));
+                                AirAasiaobjectInfantdata.journeys = AAJourneyList;
+                                AirAasiaobjectInfantdata.passengers = passkeyList;
+                                AirAasiaobjectInfantdata.passengerscount = passengercount;
+                                HttpContext.Session.SetString("InfantData", JsonConvert.SerializeObject(AirAasiaobjectInfantdata));
                                 //string passengerInfant = HttpContext.Session.GetString("keypassengerItanary");
 
                             }
@@ -707,6 +707,7 @@ namespace OnionConsumeWebAPI.Controllers
                 HttpResponseMessage responseSeatmap = await client.GetAsync(AppUrlConstant.Airasiaseatmap + journeyKey + "?IncludePropertyLookup=true");
                 if (responseSeatmap.IsSuccessStatusCode)
                 {
+                    string passengerInfant = HttpContext.Session.GetString("InfantData");
                     string columncount0 = string.Empty;
                     Logs logs = new Logs();
                     var _responseSeatmap = responseSeatmap.Content.ReadAsStringAsync().Result;

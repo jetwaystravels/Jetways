@@ -27,6 +27,7 @@ using OnionArchitectureAPI.Services.Barcode;
 using System.Collections;
 using System.Globalization;
 using Microsoft.AspNetCore.Http;
+using Utility;
 
 namespace OnionConsumeWebAPI.Controllers
 {
@@ -119,8 +120,13 @@ namespace OnionConsumeWebAPI.Controllers
                     Hashtable htseatdata = new Hashtable();
                     Hashtable htmealdata = new Hashtable();
                     Hashtable htBagdata = new Hashtable();
-                    var _responcePNRBooking = responcepnrBooking.Content.ReadAsStringAsync().Result;
+                    Logs logs = new Logs();
+                    var _responcePNRBooking = responceGetBooking.Content.ReadAsStringAsync().Result;
+                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(AppUrlConstant.AirasiaPNRBooking + AirLinePNR) + "\n Response: " + _responcePNRBooking, "GetBookingDeatils", "AirAsiaOneWay");
                     var JsonObjPNRBooking = JsonConvert.DeserializeObject<dynamic>(_responcePNRBooking);
+
+                    //var _responcePNRBooking = responceGetBooking.Content.ReadAsStringAsync().Result;
+                    //var JsonObjPNRBooking = JsonConvert.DeserializeObject<dynamic>(_responcePNRBooking);
                     ReturnTicketBooking returnTicketBooking = new ReturnTicketBooking();
                     string PassengerData = HttpContext.Session.GetString("PassengerName");
                     List<passkeytype> PassengerDataDetailsList = JsonConvert.DeserializeObject<List<passkeytype>>(PassengerData);

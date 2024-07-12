@@ -249,7 +249,7 @@
 
                                                                     <li class="seat-li free-seat tooltip">
                                                                         <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
-                                                                            <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@arrayofseat[1] _@data _@l _@arrayofseat[2]" id="unitKey_@l" />
+                                                                        <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@arrayofseat[1] _@data _@l _@arrayofseat[2]" id="unitKey_@l" />
                                                                         <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
                                                                     </li>
                                                                 }
@@ -271,8 +271,8 @@
                                                                 }
                                                             }
                                                         }
-                                                        
-                                                        
+
+
                                                         // if (!ht0.Contains(data))
                                                         // {
                                                         //     <li class="seat-li chkbox">
@@ -436,7 +436,7 @@
                                                             }
 
                                                         }
-                                                        
+
                                                         // if (!ht1.Contains(data))
                                                         // {
                                                         //     <li class="seat-li chkbox">
@@ -505,7 +505,7 @@
         }
         @* ----------End--------- *@
         @*  <div class="wing-right">&nbsp;</div> *@
-      
+
     </div>
 </div>
 <script src="~/js/custom.js/customnew.js"></script>
@@ -544,7 +544,7 @@
             color: #1e568f;
         }
 
-   
+
 
     .seat-chargefeeAmount {
         background: #9fd4f7;
@@ -627,7 +627,7 @@
                 if (index !== -1) {
                     checkedValues[index] = '';
                     total -= parseFloat($(this).val());
-                    $('#total').text(total.toFixed(2)); 
+                    $('#total').text(total.toFixed(2));
                     document.getElementById("total").value = total.toFixed(2);
                     const seatmap1 = document.getElementById("total").value;
                 }
@@ -656,13 +656,14 @@
             }
         }
         $('#cancelButton').click(function () {
-            debugger;            
+            debugger;
             checkedValues = ['', '', '', '', '', '', '', '', '', ''];
-            total = 0;          
+            total = 0;
             $('#total').text(total.toFixed(2));
-            document.getElementById("total").value = total.toFixed(2);           
+            document.getElementById("total").value = total.toFixed(2);
             updateInputsAndSpans(checkedValues);
         });
+
         $('#flighticon').click(function () {
             debugger;
             var seatdata = [];
@@ -699,7 +700,7 @@
         //Connceting 2 seat Code js
         var checkedValues2 = ['', '', '', '', '', '', '', '', ''];
         $('.mycheck2').change(function () {
-            //debugger;
+            debugger;
             if ($(this).is(':checked')) {
                 // debugger;
                 for (var i = 0; i < count; i++) {
@@ -709,7 +710,7 @@
                         $('#total').text(total.toFixed(2));
                         document.getElementById("total").value = total.toFixed(2);
                         const seatmap1 = document.getElementById("total").value;
-                        updateCombinedTotal();                        
+                        updateCombinedTotal();
                         break;
                     }
                 }
@@ -738,7 +739,7 @@
         });
 
         function updateInputsAndSpans2(checkedValues2) {
-            // debugger;
+            debugger;
             for (var i = 0; i < checkedValues2.length; i++) {
                 // debugger;
                 var parts = checkedValues2[i].split('_');
@@ -747,8 +748,8 @@
                 // $('#outputDivConnect_' + i).text(parts[2]);
             }
         }
-        $('#cancelButton').click(function () {
-            //debugger;
+        $('#cancelButtonConnect').click(function () {
+            debugger;
             checkedValues2 = ['', '', '', '', '', '', '', '', '', ''];
             total = 0;
             $('#total').text(total.toFixed(2));
