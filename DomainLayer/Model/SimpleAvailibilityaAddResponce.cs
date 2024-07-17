@@ -34,6 +34,7 @@ namespace DomainLayer.Model
         public string departureTerminal { get; set; }
 
         public string bookingdate { get; set; }
+        public string Segmentiddata { get; set; }
 
 
     }
@@ -43,7 +44,8 @@ namespace DomainLayer.Model
         Airasia = 0,
         Spicejet = 1,
         Indigo=2,
-        AkasaAir=3
+        AkasaAir=3,
+        GDS=4
     }
 
     // Root myDeserializedClass = JsonConvert.DeserializeObject<List<Root>>(myJsonResponse);

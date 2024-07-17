@@ -26,7 +26,8 @@ namespace DomainLayer.Model
             public string JourneyType { get; set; }
             public bool IsRoundTrip { get; set; }
             public string BondType { get; set; }
-            //public string contractType_ { get; set; }
+            public string Segmentid { get; set; }
+            public string _flightnumber { get; set; }
 
 
 
@@ -93,6 +94,8 @@ namespace DomainLayer.Model
             public string BaggageWeight { get; set; }
             public string BaggageUnit { get; set; }
             public string Remarks { get; set; }
+            public string Branddesc { get; set; }
+            
 
 
         }
