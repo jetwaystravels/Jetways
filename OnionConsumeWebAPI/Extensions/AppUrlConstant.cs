@@ -5,6 +5,7 @@
     {
 
         public static string BaseURL = "http://localhost:5225/";
+        public static string GDSURL = "https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService";
 
         public static string URLAirasia = "https://dotrezapi.test.I5.navitaire.com";
 

@@ -105,17 +105,17 @@ namespace OnionConsumeWebAPI.Controllers
                 if (responceGetBooking.IsSuccessStatusCode)
                 {
                     // string BaseURL1 = "http://localhost:5225/";
-                    var _responceGetBooking = responceGetBooking.Content.ReadAsStringAsync().Result;
-                    var JsonObjGetBooking = JsonConvert.DeserializeObject<dynamic>(_responceGetBooking);
-                    AirLinePNR = JsonObjGetBooking.data.recordLocator;
-                }
-                #endregion
-                #region AirLinePNR
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                HttpResponseMessage responcepnrBooking = await client.GetAsync(AppUrlConstant.AirasiaPNRBooking + AirLinePNR);
-                if (responcepnrBooking.IsSuccessStatusCode)
-                {
+                    //    var _responceGetBooking = responceGetBooking.Content.ReadAsStringAsync().Result;
+                    //    var JsonObjGetBooking = JsonConvert.DeserializeObject<dynamic>(_responceGetBooking);
+                    //    AirLinePNR = JsonObjGetBooking.data.recordLocator;
+                    //}
+                    //#endregion
+                    //#region AirLinePNR
+                    //client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    //HttpResponseMessage responcepnrBooking = await client.GetAsync(AppUrlConstant.AirasiaPNRBooking + AirLinePNR);
+                    //if (responcepnrBooking.IsSuccessStatusCode)
+                    //{
 
                     Hashtable htseatdata = new Hashtable();
                     Hashtable htmealdata = new Hashtable();

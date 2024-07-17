@@ -168,324 +168,639 @@
                                 </div>
                             </div>
 
+                            @if (Model.AirlinePNR[a].airLines.ToString().ToLower().Equals("airasia"))
+                            {
+                                <div class="ticket-info">
+                                    <h3>PASSENGER AND TICKET INFORMATION </h3>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
 
-                            <div class="ticket-info">
-                                <h3>PASSENGER AND TICKET INFORMATION </h3>
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
+                                                <th rowspan="2" class="align-middle">Passenger</th>
+                                                <th colspan="2" class="text-center">Fllight Detail</th>
+                                                <th rowspan="2" class="align-middle">Seat No</th>
+                                                <th rowspan="2" class="align-middle">Mobile  Number</th>
+                                                <th rowspan="2" class="align-middle">Ticket Number</th>
+                                                <th rowspan="2" class="align-middle">Status</th>
+                                                <th rowspan="2" class="align-middle barcode">Bar code</th>
+                                            </tr>
+                                            <tr>
+                                                <th class="col-one">Sector</th>
+                                                <th class="col-one">Airline</th>
 
-                                            <th rowspan="2" class="align-middle">Passenger</th>
-                                            <th colspan="2" class="text-center">Fllight Detail</th>
-                                            <th rowspan="2" class="align-middle">Seat No</th>
-                                            <th rowspan="2" class="align-middle">Mobile  Number</th>
-                                            <th rowspan="2" class="align-middle">Ticket Number</th>
-                                            <th rowspan="2" class="align-middle">Status</th>
-                                            <th rowspan="2" class="align-middle barcode">Bar code</th>
-                                        </tr>
-                                        <tr>
-                                            <th class="col-one">Sector</th>
-                                            <th class="col-one">Airline</th>
+                                            </tr>
+                                        </thead>
 
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        @for (int i2 = 0; i2 < Model.AirlinePNR[a].passengers.Count; i2++)
-                                        {
-                                            @for (int i3 = 0; i3 < @Model.AirlinePNR[a].journeys[0].segments.Count; i3++)
+                                        <tbody>
+                                            @for (int i2 = 0; i2 < Model.AirlinePNR[a].passengers.Count; i2++)
                                             {
-                                                string barcodeimageUrl = string.Empty;
-                                                if (Model.AirlinePNR[a].passengers[i2].barcodestringlst != null && Model.AirlinePNR[a].passengers[i2].barcodestringlst.Count > 0 && i3 == 0)
+                                                @for (int i3 = 0; i3 < Model.AirlinePNR[a].journeys[0].segments.Count; i3++)
                                                 {
-                                                    barcodeimageUrl = @Model.AirlinePNR[a].passengers[i2].barcodestringlst[0].Trim();
-                                                }
-                                                else if (Model.AirlinePNR[a].passengers[i2].barcodestringlst != null && Model.AirlinePNR[a].passengers[i2].barcodestringlst.Count > 0 && i3 == 1)
-                                                {
-                                                    barcodeimageUrl = @Model.AirlinePNR[a].passengers[i2].barcodestringlst[1].Trim();
-                                                }
-                                                <tr>
-                                                    @{
-                                                        if (i3 == 0)
-                                                        {
-                                                            int segmentscount = @Model.AirlinePNR[a].journeys[0].segments.Count;
-                                                            if (segmentscount == 1)
+                                                    <tr>
+                                                        @{
+                                                            if (i3 == 0)
                                                             {
-                                                                <td rowspan="1" style="vertical-align:middle;">@Model.AirlinePNR[a].passengers[i2].name.first (@Model.AirlinePNR[a].passengers[i2].passengerTypeCode)</td>
+                                                                int segmentcount = Model.AirlinePNR[a].journeys[0].segments.Count;
+                                                                if (segmentcount == 1)
+                                                                {
+                                                                    <td rowspan="1" style="vertical-align:middle;">@Model.AirlinePNR[a].passengers[i2].name.first (@Model.AirlinePNR[a].passengers[i2].passengerTypeCode)</td>
+                                                                }
+                                                                if (segmentcount == 2)
+                                                                {
+                                                                    <td rowspan="2" style="vertical-align:middle;">@Model.AirlinePNR[a].passengers[i2].name.first (@Model.AirlinePNR[a].passengers[i2].passengerTypeCode)</td>
+                                                                }
                                                             }
+                                                            // else
+                                                            // {
+                                                            //     <td></td>
+                                                            // }
 
-                                                            if (segmentscount == 2)
+
+                                                        }
+                                                        <td>@Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin - @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination </td>
+                                                        <td>@Model.AirlinePNR[a].journeys[0].segments[i3].identifier.carrierCode - @Model.AirlinePNR[a].journeys[0].segments[i3].identifier.identifier</td>
+
+                                                        @{
+                                                            string hashdata = Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination;
+
+                                                            if (htseat != null)
                                                             {
-                                                                <td rowspan="2" style="vertical-align:middle;">@Model.AirlinePNR[a].passengers[i2].name.first (@Model.AirlinePNR[a].passengers[i2].passengerTypeCode)</td>
+                                                                <td>@htseat[hashdata]</td>
                                                             }
                                                         }
-               }
-                                                    <td>@Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin - @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination </td>
-                                                    <td>@Model.AirlinePNR[a].journeys[0].segments[i3].identifier.carrierCode - @Model.AirlinePNR[a].journeys[0].segments[i3].identifier.identifier</td>
-                                                    @{
-                                                        string hashdata = @Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination;
 
-                                                        if (htseat != null)
-                                                        {
-                                                            <td>@htseat[hashdata]</td>
-                                                        }
-                                                    }
-                                                    @if (i3 == 1)
-                                                    {
-                                                        <td></td>
-                                                    }
-                                                    else
-                                                    {
                                                         <td>@Model.AirlinePNR[a].passengers[i2].MobNumber</td>
-                                                    }
-                                                    <td>AD1WSM/1/1</td>
-                                                    <td>Confirm</td>
-                                                    @if (i3 == 1)
-                                                    {
-                                                        if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "INFT")
+                                                        <td>AD1WSM/1/1</td>
+                                                        <td>Confirm</td>
+                                                        @if (i3 == 0)
                                                         {
-                                                            <td rowspan="1" style="vertical-align:middle;"></td>
+                                                            int segmentcount = @Model.AirlinePNR[a].journeys[0].segments.Count;
+                                                            if (segmentcount == 1)
+                                                            {
+                                                                <td rowspan="1" style="vertical-align:middle;width:110px;">
+                                                                    @{
+                                                                        var imageUrl1 = @Model.AirlinePNR[a].passengers[i2].barcodestring;
+                                                                        // string imageUrl1 = ViewData["ImageBytes"] as string;
+                                                                        string barcode = ViewData["Barcode"] as string;
+                                                                    }
+                                                                    @if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "ADT" || Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "CHD")
+                                                                    {
+                                                                        @if (!string.IsNullOrEmpty(imageUrl1))
+                                                                        {
+                                                                            <img src="@imageUrl1" alt="barcode" />
+                                                                        }
+                                                                    }
+                                                                </td>
+                                                            }
+                                                            if (segmentcount == 2)
+                                                            {
+                                                                <td rowspan="2" style="vertical-align:middle;width:110px;">
+                                                                    @{
+                                                                        var imageUrl1 = @Model.AirlinePNR[a].passengers[i2].barcodestring;
+                                                                        // string imageUrl1 = ViewData["ImageBytes"] as string;
+                                                                        string barcode = ViewData["Barcode"] as string;
+                                                                    }
+                                                                    @if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "ADT" || Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "CHD")
+                                                                    {
+                                                                        @if (!string.IsNullOrEmpty(imageUrl1))
+                                                                        {
+                                                                            <img src="@imageUrl1" alt="barcode" />
+                                                                        }
+                                                                    }
+                                                                </td>
+                                                            }
                                                         }
-                                                        else
-                                                        {
-                                                            if (barcodeimageUrl != "")
+                                                        @*else
+                                {
+                                <td></td>
+                                }*@
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                                <div class="Flight-Inclusion">
+                                    <h3>Flight Inclusion</h3>
+                                    <table class="table table-bordered" style="margin-bottom: 0.4rem;">
+                                        <thead>
+                                            <tr>
+
+                                                <th rowspan="2" class="align-middle">Passenger</th>
+                                                <th colspan="2" class="text-center">Fllight Detail</th>
+                                                <th rowspan="2" class="align-middle">Meal Type</th>
+
+                                                <th rowspan="2" class="align-middle">Extra Bag(KD)</th>
+                                                <th rowspan="2" class="align-middle">Insurance Status</th>
+
+                                            </tr>
+                                            <tr>
+                                                <th class="col-one">Sector</th>
+                                                <th class="col-one">Airline</th>
+
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @for (int i2 = 0; i2 < Model.AirlinePNR[a].passengers.Count; i2++)
+                                            {
+                                                @for (int i3 = 0; i3 < @Model.AirlinePNR[a].journeys[0].segments.Count; i3++)
+                                                {
+                                                    <tr>
+                                                        @{
+                                                            if (i3 == 0)
                                                             {
                                                                 int segmentscount = @Model.AirlinePNR[a].journeys[0].segments.Count;
                                                                 if (segmentscount == 1)
                                                                 {
-                                                                    <td rowspan="1" style="vertical-align:middle;width:110px;"><img src="@barcodeimageUrl" alt="barcode"></td>
+                                                                    <td rowspan="1" style="vertical-align:middle;">@Model.AirlinePNR[a].passengers[i2].name.first (@Model.AirlinePNR[a].passengers[i2].passengerTypeCode)</td>
+                                                                }
+                                                                if (segmentscount == 2)
+                                                                {
+                                                                    <td rowspan="2" style="vertical-align:middle;">@Model.AirlinePNR[a].passengers[i2].name.first (@Model.AirlinePNR[a].passengers[i2].passengerTypeCode)</td>
                                                                 }
 
                                                             }
 
                                                         }
-                                                    }
-                                                    else
-                                                    {
-                                                        if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "INFT")
-                                                        {
-                                                            <td rowspan="1" style="vertical-align:middle;"></td>
+                                                        <td>@Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin - @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination </td>
+                                                        <td>@Model.AirlinePNR[a].journeys[0].segments[i3].identifier.carrierCode - @Model.AirlinePNR[a].journeys[0].segments[i3].identifier.identifier</td>
+                                                        @{
+                                                            string hashdata = @Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination;
+
+                                                            if (htmeal != null && htmeal.ContainsKey(hashdata))
+                                                            {
+
+                                                                var Mealname = htmeal[hashdata].ToString();
+                                                                var meal = MealImageList.GetAllmeal().Where(x => Mealname.Contains(x.MealCode)).ToList();
+                                                                if (meal != null)
+                                                                {
+                                                                    foreach (var item in meal)
+                                                                    {
+                                                                        <td>@item.MealImage</td>
+                                                                    }
+                                                                }
+                                                                // <td>@htmeal[hashdata]</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td></td>
+                                                            }
+                                                            // string hashBagdata = @Model.AirlinePNR[0].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[0].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[0].journeys[0].segments[i3].designator.destination;
+                                                            // if (htbag != null)
+                                                            // {
+                                                            //     <td>@htbag[hashBagdata]</td>
+                                                            // }
+                                                            string hashBagdata = Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination;
+                                                            if (htbag != null && htbag.ContainsKey(hashBagdata))
+                                                            {
+
+                                                                var Baggabgename = htbag[hashBagdata].ToString();
+                                                                var Baggage = MealImageList.GetAllmeal().Where(x => Baggabgename.Contains(x.MealCode)).ToList();
+                                                                if (Baggage != null)
+                                                                {
+                                                                    foreach (var item in Baggage)
+                                                                    {
+                                                                        <td>@item.MealImage</td>
+                                                                    }
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <td></td>
+                                                            }
+
                                                         }
-                                                        else
-                                                        {
-                                                            if (barcodeimageUrl != "")
+                                                        @{
+                                                            // string hashdata = @Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination;
+
+                                                            // if (htmeal != null)
+                                                            // {
+                                                            //     <td>@htmeal[hashdata]</td>
+                                                            // }
+
+                                                            // if (htbag != null)
+                                                            // {
+                                                            //     Hashtable htSSr = new Hashtable();
+                                                            //     SpicejetMealImageList.GetAllmeal(htSSr);
+                                                            //     if (!htbag.Contains(hashdata))
+                                                            //         continue;
+                                                            //     var weight = htSSr[htbag[hashdata]];
+                                                            //     <td>@htbag[hashdata] - @weight</td>
+                                                            // }
+
+
+                                                        }
+                                                        <td>Confirm</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+
+                                    </table>
+                                    @if (Model.AirlinePNR[a].customerNumber != null)
+                                    {
+                                        <div class="Flight-Inclusion mt-15">
+                                            <h3>GST Details</h3>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" class="col-one">Company Number </th>
+                                                        <th scope="col" class="col-one">GST NUmber</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        @{
+                                                            <td>@Model.AirlinePNR[a].companyName</td>
+                                                            <td>@Model.AirlinePNR[a].customerNumber</td>
+                                                        }
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    }
+
+                                    <div class="Flight-Inclusion mt-15">
+                                        <h3>Fare Details</h3>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" style="background:none; text-align:center;">Fare Details</th>
+                                                    <th scope="col" style="background:none; text-align:center;">Amount (INR)</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody class="fare">
+                                                @if (Model.AirlinePNR[a].breakdown.totalAmountSum > 0)
+                                                {
+                                                    <tr>
+                                                        <td>Total Basic Fare:</td>
+                                                        <td>Rs.@Model.AirlinePNR[a].breakdown.totalAmountSum</td>
+                                                    </tr>
+                                                }
+                                                else if (Model.AirlinePNR[a].breakdown.baseTotalAmount > 0)
+                                                {
+                                                    <tr>
+                                                        <td>Total Basic Fare:</td>
+                                                        <td>Rs.@Model.AirlinePNR[a].breakdown.baseTotalAmount</td>
+                                                    </tr>
+
+                                                }
+                                                @if (Model.AirlinePNR[a].breakdown.totaltax > 0)
+                                                {
+                                                    <tr>
+                                                        <td>Airline taxes and fees</td>
+                                                        <td>Rs. @Model.AirlinePNR[a].breakdown.totaltax</td>
+                                                    </tr>
+                                                }
+                                                else if (Model.AirlinePNR[a].breakdown.BaseTotalTax > 0)
+                                                {
+                                                    <tr>
+                                                        <td>Airline taxes and fees</td>
+                                                        <td>Rs.@Model.AirlinePNR[a].breakdown.BaseTotalTax</td>
+                                                    </tr>
+
+                                                }
+                                                <tr>
+                                                    <td>Discount:</td>
+                                                    <td>Rs.(-) 0.00</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Insurance Fee:</td>
+                                                    <td>Rs. 0.00</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Addon Meal Amount:</td>
+                                                    <td>Rs.@Model.AirlinePNR[a].TotalAmountMeal</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Addon Bagg Amount:</td>
+                                                    <td>Rs.@Model.AirlinePNR[a].TotaAmountBaggage</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Seat Amount:</td>
+                                                    <td>Rs. @Model.AirlinePNR[a].breakdown.passengerTotals.seats.totalSeatAmount</td>
+                                                </tr>
+
+
+                                                <tr style="background:#FCE1E1;">
+                                                    <td style="text-transform:uppercase;"><strong>total</strong></td>
+                                                    <td><strong>Rs. @Model.AirlinePNR[a].breakdown.balanceDue</strong></td>
+                                                </tr>
+                                            </tbody>
+
+
+
+                                        </table>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="ticket-info">
+                                    <h3>PASSENGER AND TICKET INFORMATION </h3>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+
+                                                <th rowspan="2" class="align-middle">Passenger</th>
+                                                <th colspan="2" class="text-center">Fllight Detail</th>
+                                                <th rowspan="2" class="align-middle">Seat No</th>
+                                                <th rowspan="2" class="align-middle">Mobile  Number</th>
+                                                <th rowspan="2" class="align-middle">Ticket Number</th>
+                                                <th rowspan="2" class="align-middle">Status</th>
+                                                <th rowspan="2" class="align-middle barcode">Bar code</th>
+                                            </tr>
+                                            <tr>
+                                                <th class="col-one">Sector</th>
+                                                <th class="col-one">Airline</th>
+
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @for (int i2 = 0; i2 < Model.AirlinePNR[a].passengers.Count; i2++)
+                                            {
+                                                @for (int i3 = 0; i3 < @Model.AirlinePNR[a].journeys[0].segments.Count; i3++)
+                                                {
+                                                    string barcodeimageUrl = string.Empty;
+                                                    if (Model.AirlinePNR[a].passengers[i2].barcodestringlst != null && Model.AirlinePNR[a].passengers[i2].barcodestringlst.Count > 0 && i3 == 0)
+                                                    {
+                                                        barcodeimageUrl = @Model.AirlinePNR[a].passengers[i2].barcodestringlst[0].Trim();
+                                                    }
+                                                    else if (Model.AirlinePNR[a].passengers[i2].barcodestringlst != null && Model.AirlinePNR[a].passengers[i2].barcodestringlst.Count > 0 && i3 == 1)
+                                                    {
+                                                        barcodeimageUrl = @Model.AirlinePNR[a].passengers[i2].barcodestringlst[1].Trim();
+                                                    }
+                                                    <tr>
+                                                        @{
+                                                            if (i3 == 0)
                                                             {
                                                                 int segmentscount = @Model.AirlinePNR[a].journeys[0].segments.Count;
                                                                 if (segmentscount == 1)
                                                                 {
-                                                                    <td rowspan="1" style="vertical-align:middle;width:110px;"><img src="@barcodeimageUrl" alt="barcode"></td>
+                                                                    <td rowspan="1" style="vertical-align:middle;">@Model.AirlinePNR[a].passengers[i2].name.first (@Model.AirlinePNR[a].passengers[i2].passengerTypeCode)</td>
                                                                 }
 
                                                                 if (segmentscount == 2)
                                                                 {
-                                                                    <td rowspan="2" style="vertical-align:middle;width:110px;"><img src="@barcodeimageUrl" alt="barcode"></td>
+                                                                    <td rowspan="2" style="vertical-align:middle;">@Model.AirlinePNR[a].passengers[i2].name.first (@Model.AirlinePNR[a].passengers[i2].passengerTypeCode)</td>
                                                                 }
                                                             }
-
                                                         }
-                                                    }
-                                                </tr>
-                                            }
-                                        }
-                                    </tbody>
+                                                        <td>@Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin - @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination </td>
+                                                        <td>@Model.AirlinePNR[a].journeys[0].segments[i3].identifier.carrierCode - @Model.AirlinePNR[a].journeys[0].segments[i3].identifier.identifier</td>
+                                                        @{
+                                                            string hashdata = @Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination;
 
-                                </table>
-                            </div>
-
-
-                            <div class="Flight-Inclusion">
-                                <h3>Flight Inclusion</h3>
-                                <table class="table table-bordered" style="margin-bottom: 0.4rem;">
-                                    <thead>
-                                        <tr>
-
-                                            <th rowspan="2" class="align-middle">Passenger</th>
-                                            <th colspan="2" class="text-center">Fllight Detail</th>
-                                            <th rowspan="2" class="align-middle">Meal Type</th>
-
-                                            <th rowspan="2" class="align-middle">Extra Bag(KD)</th>
-                                            <th rowspan="2" class="align-middle">Insurance Status</th>
-
-                                        </tr>
-                                        <tr>
-                                            <th class="col-one">Sector</th>
-                                            <th class="col-one">Airline</th>
-
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        @for (int i2 = 0; i2 < Model.AirlinePNR[a].passengers.Count; i2++)
-                                        {
-                                            @for (int i3 = 0; i3 < @Model.AirlinePNR[a].journeys[0].segments.Count; i3++)
-                                            {
-                                                <tr>
-                                                    @{
-                                                        if (i3 == 0)
-                                                        {
-                                                            int segmentscount = @Model.AirlinePNR[a].journeys[0].segments.Count;
-                                                            if (segmentscount == 1)
+                                                            if (htseat != null)
                                                             {
-                                                                <td rowspan="1" style="vertical-align:middle;">@Model.AirlinePNR[a].passengers[i2].name.first (@Model.AirlinePNR[a].passengers[i2].passengerTypeCode)</td>
+                                                                <td>@htseat[hashdata]</td>
                                                             }
-                                                            if (segmentscount == 2)
+                                                        }
+                                                        @if (i3 == 1)
+                                                        {
+                                                            <td></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>@Model.AirlinePNR[a].passengers[i2].MobNumber</td>
+                                                        }
+                                                        <td>AD1WSM/1/1</td>
+                                                        <td>Confirm</td>
+                                                        @if (i3 == 1)
+                                                        {
+                                                            if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "INFT")
                                                             {
-                                                                <td rowspan="2" style="vertical-align:middle;">@Model.AirlinePNR[a].passengers[i2].name.first (@Model.AirlinePNR[a].passengers[i2].passengerTypeCode)</td>
+                                                                <td rowspan="1" style="vertical-align:middle;"></td>
                                                             }
+                                                            else
+                                                            {
+                                                                if (barcodeimageUrl != "")
+                                                                {
+                                                                    int segmentscount = @Model.AirlinePNR[a].journeys[0].segments.Count;
+                                                                    if (segmentscount == 1)
+                                                                    {
+                                                                        <td rowspan="1" style="vertical-align:middle;width:110px;"><img src="@barcodeimageUrl" alt="barcode"></td>
+                                                                    }
 
+                                                                }
+
+                                                            }
                                                         }
-                                                        @* else
-                                {
-                                <td></td>
-                                }*@
-                                                    }
-                                                    <td>@Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin - @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination </td>
-                                                    <td>@Model.AirlinePNR[a].journeys[0].segments[i3].identifier.carrierCode - @Model.AirlinePNR[a].journeys[0].segments[i3].identifier.identifier</td>
-
-                                                    @{
-                                                        string hashdata = @Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination;
-
-                                                        if (htmeal != null)
+                                                        else
                                                         {
-                                                            <td>@htmeal[hashdata]</td>
+                                                            if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "INFT")
+                                                            {
+                                                                <td rowspan="1" style="vertical-align:middle;"></td>
+                                                            }
+                                                            else
+                                                            {
+                                                                if (barcodeimageUrl != "")
+                                                                {
+                                                                    int segmentscount = @Model.AirlinePNR[a].journeys[0].segments.Count;
+                                                                    if (segmentscount == 1)
+                                                                    {
+                                                                        <td rowspan="1" style="vertical-align:middle;width:110px;"><img src="@barcodeimageUrl" alt="barcode"></td>
+                                                                    }
+
+                                                                    if (segmentscount == 2)
+                                                                    {
+                                                                        <td rowspan="2" style="vertical-align:middle;width:110px;"><img src="@barcodeimageUrl" alt="barcode"></td>
+                                                                    }
+                                                                }
+
+                                                            }
                                                         }
-
-                                                        // if (htbag != null)
-                                                        // {
-                                                        //     <td>@htbag[hashdata]</td>
-
-
-                                                        // }
-
-                                                        if (htbag != null)
-                                                        {
-                                                            Hashtable htSSr = new Hashtable();
-                                                            SpicejetMealImageList.GetAllmeal(htSSr);
-                                                            if (!htbag.Contains(hashdata))
-                                                                continue;
-                                                            var weight = htSSr[htbag[hashdata]];
-                                                            <td>@htbag[hashdata] - @weight</td>
-                                                        }
-
-
-                                                    }
-                                                    <td>Confirm</td>
-                                                </tr>
-                                            }
-                                        }
-                                    </tbody>
-
-                                </table>
-                                <div class="Flight-Inclusion mt-15">
-                                    <h3>GST Details</h3>
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" class="col-one">Company Number </th>
-                                                <th scope="col" class="col-one">GST NUmber</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-
-                                                @{
-                                                    if (@Model.AirlinePNR[a].customerNumber != null)
-                                                    {
-
-
-                                                        <td>@Model.AirlinePNR[a].companyName</td>
-
-
-                                                        <td>@Model.AirlinePNR[a].customerNumber</td>
-
-
-                                                    }
+                                                    </tr>
                                                 }
-
-                                            </tr>
+                                            }
                                         </tbody>
+
                                     </table>
                                 </div>
-                                <div class="Flight-Inclusion mt-15">
-                                    <h3>Fare Details</h3>
-                                    <table class="table table-bordered">
+                                <div class="Flight-Inclusion">
+                                    <h3>Flight Inclusion</h3>
+                                    <table class="table table-bordered" style="margin-bottom: 0.4rem;">
                                         <thead>
                                             <tr>
-                                                <th scope="col" style="background:none; text-align:center;">Fare Details</th>
-                                                <th scope="col" style="background:none; text-align:center;">Amount (INR)</th>
+
+                                                <th rowspan="2" class="align-middle">Passenger</th>
+                                                <th colspan="2" class="text-center">Fllight Detail</th>
+                                                <th rowspan="2" class="align-middle">Meal Type</th>
+
+                                                <th rowspan="2" class="align-middle">Extra Bag(KD)</th>
+                                                <th rowspan="2" class="align-middle">Insurance Status</th>
+
+                                            </tr>
+                                            <tr>
+                                                <th class="col-one">Sector</th>
+                                                <th class="col-one">Airline</th>
+
                                             </tr>
                                         </thead>
-                                        <tbody class="fare">
-                                            <tr>
-                                                <td>Total Basic Fare:</td>
-                                                <td>Rs. @Model.AirlinePNR[a].breakdown.journeyTotals.totalAmount</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Airline taxes and fees</td>
-                                                <td>Rs. @Model.AirlinePNR[a].breakdown.journeyTotals.totalTax</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Discount:</td>
-                                                <td>Rs.(-) 0.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Insurance Fee:</td>
-                                                <td>Rs. 0.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Addon Meal Amount:</td>
-                                                <td>Rs. @Model.AirlinePNR[a].breakdown.passengerTotals.specialServices.total</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Addon Bagg Amount:</td>
-                                                <td>Rs. @Model.AirlinePNR[a].breakdown.passengerTotals.baggage.total</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Seat Amount:</td>
-                                                <td>Rs. @Model.AirlinePNR[a].breakdown.passengerTotals.seats.total</td>
-                                            </tr>
-                                            <tr style="background:#FCE1E1;">
-                                                <td style="text-transform:uppercase;"><strong>total</strong></td>
-                                                <td><strong>Rs. @Model.AirlinePNR[a].breakdown.totalToCollect</strong></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            @*
-                <div class="ticket-info">
-                <h3 style="color:inherit;">Airline Fee:</h3>
-                <table class="table table-bordered">
-                <thead>
-                <tr>
-                <th scope="col" colspan="2">Airlline</th>
 
-                <th scope="col">Charges </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                <td>Indigo </td>
-                <td>Before 4 hourse of departurev</td>
-                <td>Rs.1856(per pax per sector)</td>
-                </tr>
-                <tr>
-                <td>Spicejet</td>
-                <td>Before 4 hourse of departure</td>
-                <td>Rs.907(per pax per sector)</td>
-                </tr>
-                </tbody>
-                </table>
-                </div>  *@
+                                        <tbody>
+                                            @for (int i2 = 0; i2 < Model.AirlinePNR[a].passengers.Count; i2++)
+                                            {
+                                                @for (int i3 = 0; i3 < @Model.AirlinePNR[a].journeys[0].segments.Count; i3++)
+                                                {
+                                                    <tr>
+                                                        @{
+                                                            if (i3 == 0)
+                                                            {
+                                                                int segmentscount = @Model.AirlinePNR[a].journeys[0].segments.Count;
+                                                                if (segmentscount == 1)
+                                                                {
+                                                                    <td rowspan="1" style="vertical-align:middle;">@Model.AirlinePNR[a].passengers[i2].name.first (@Model.AirlinePNR[a].passengers[i2].passengerTypeCode)</td>
+                                                                }
+                                                                if (segmentscount == 2)
+                                                                {
+                                                                    <td rowspan="2" style="vertical-align:middle;">@Model.AirlinePNR[a].passengers[i2].name.first (@Model.AirlinePNR[a].passengers[i2].passengerTypeCode)</td>
+                                                                }
+
+                                                            }
+
+                                                        }
+                                                        <td>@Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin - @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination </td>
+                                                        <td>@Model.AirlinePNR[a].journeys[0].segments[i3].identifier.carrierCode - @Model.AirlinePNR[a].journeys[0].segments[i3].identifier.identifier</td>
+
+                                                        @{
+                                                            string hashdata = @Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination;
+
+                                                            if (htmeal != null)
+                                                            {
+                                                                <td>@htmeal[hashdata]</td>
+                                                            }
+
+                                                            // if (htbag != null)
+                                                            // {
+                                                            //     <td>@htbag[hashdata]</td>
+
+
+                                                            // }
+
+                                                            if (htbag != null)
+                                                            {
+                                                                Hashtable htSSr = new Hashtable();
+                                                                SpicejetMealImageList.GetAllmeal(htSSr);
+                                                                if (!htbag.Contains(hashdata))
+                                                                    continue;
+                                                                var weight = htSSr[htbag[hashdata]];
+                                                                <td>@htbag[hashdata] - @weight</td>
+                                                            }
+
+
+                                                        }
+                                                        <td>Confirm</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+
+                                    </table>
+                                    <div class="Flight-Inclusion mt-15">
+                                        <h3>GST Details</h3>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" class="col-one">Company Number </th>
+                                                    <th scope="col" class="col-one">GST NUmber</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+
+                                                    @{
+                                                        if (@Model.AirlinePNR[a].customerNumber != null)
+                                                        {
+
+
+                                                            <td>@Model.AirlinePNR[a].companyName</td>
+
+
+                                                            <td>@Model.AirlinePNR[a].customerNumber</td>
+
+
+                                                        }
+                                                    }
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="Flight-Inclusion mt-15">
+                                        <h3>Fare Details</h3>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" style="background:none; text-align:center;">Fare Details</th>
+                                                    <th scope="col" style="background:none; text-align:center;">Amount (INR)</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody class="fare">
+                                                <tr>
+                                                    <td>Total Basic Fare:</td>
+                                                    <td>Rs. @Model.AirlinePNR[a].breakdown.journeyTotals.totalAmount</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Airline taxes and fees</td>
+                                                    <td>Rs. @Model.AirlinePNR[a].breakdown.journeyTotals.totalTax</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Discount:</td>
+                                                    <td>Rs.(-) 0.00</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Insurance Fee:</td>
+                                                    <td>Rs. 0.00</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Addon Meal Amount:</td>
+                                                    <td>Rs. @Model.AirlinePNR[a].breakdown.passengerTotals.specialServices.total</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Addon Bagg Amount:</td>
+                                                    <td>Rs. @Model.AirlinePNR[a].breakdown.passengerTotals.baggage.total</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>Seat Amount:</td>
+                                                    <td>Rs. @Model.AirlinePNR[a].breakdown.passengerTotals.seats.total</td>
+                                                </tr>
+                                                <tr style="background:#FCE1E1;">
+                                                    <td style="text-transform:uppercase;"><strong>total</strong></td>
+                                                    <td><strong>Rs. @Model.AirlinePNR[a].breakdown.totalToCollect</strong></td>
+                                                </tr>
+                                            </tbody>
+
+
+                                        </table>
+                                    </div>
+                                </div>
+
+                            }
+
                             <div class="t-c">
                                 <h3 style="color:inherit;">Terms &amp; Conditions:</h3>
                                 <ul>
-                                    <li><span>-&nbsp;&nbsp;</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim</li>
-                                    <li><span>-&nbsp;&nbsp;</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim</li>
-                                    <li><span>-&nbsp;&nbsp;</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim consectetur adipiscing elit. Morbi dignissim</li>
-                                    <li><span>-&nbsp;&nbsp;</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim</li>
-                                    <li><span>-&nbsp;&nbsp;</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim consectetur adipiscing elit. Morbi dignissim</li>
-                                    <li><span>-&nbsp;&nbsp;</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim</li>
+                                    <li><span>-&nbsp;&nbsp;</span> Use the Reference Number for all correspondence with us.</li>
+                                    <li><span>-&nbsp;&nbsp;</span> Please check your itinerary. Ensure that all names and titles are the same as in your passport.</li>
+                                    <li><span>-&nbsp;&nbsp;</span> Please check the accuracy of all dates and timings. Any errors on your documents will be your responsibility if not advised to our travel consultant.</li>
+                                    <li><span>-&nbsp;&nbsp;</span> Travel insurance is strongly recommended for all overseas travel. Our travel consultant will be happy to arrange it for you.</li>
+                                    <li><span>-&nbsp;&nbsp;</span> The passport must have a minimum of 6 months validity from the arrival date back into India. If you have any concerns, please bring your passport to us to verify. (In case of travel to Malaysia 9 Months passport validity is required).</li>
+                                    <li><span>-&nbsp;&nbsp;</span> Please ask our travel consultant if any visa(s) is required for your travel. You must advise your passport details to the consultant, including your nationality, to obtain correct information.</li>
+                                    <li><span>-&nbsp;&nbsp;</span> Please ask our travel consultant to assist you with your passport and visa for your travel.</li>
+                                    <li><span>-&nbsp;&nbsp;</span> Vaccinations are required for travel to some countries. Please check with our travel consultant or your local doctor or a specialist vaccination clinic.</li>
+                                    <li><span>-&nbsp;&nbsp;</span> For travel to the gulf countries, some airlines require an 'ok to board' message in the pnr. Please check with our travel consultant.</li>
+                                    <li><span>-&nbsp;&nbsp;</span> Please advise our travel consultant about any of your special requirements: vegetarian / child meals, seating requests, medical requirements, etc.</li>
+                                    <li><span>-&nbsp;&nbsp;</span> Advise our travel consultant of your frequent flyer numbers or enquire about any memberships.</li>
+                                    <li><span>-&nbsp;&nbsp;</span> Most airlines allow carry­on baggage upto 7kgs. But some airlines follow a different rule. Please check the baggage allowance with our travel consultant.</li>
+                                    <li><span>-&nbsp;&nbsp;</span> Please carry a print out of this e­ticket and present it to the airline counter at time of check­in.</li>
+                                    <li><span>-&nbsp;&nbsp;</span> Please carry photo identification, you will need it as proof of identity while checking in.</li>
                                 </ul>
                             </div>
                             <div class="btm">Jetways Travels, UGF 5, Indra Prakash Building 21, B.K. Road, Connaught Place, New Delhi 110001. <strong>+91-9090909090</strong></div>

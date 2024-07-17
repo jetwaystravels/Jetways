@@ -326,7 +326,7 @@
             name: /^[A-Za-z.]{0,32}$/,
             last: /^[A-Za-z.]{0,32}$/,
             email: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
-            phone: /^\d{10}$/
+            phone: /^[1-9][0-9]*$/
         };
 
         const messages = {
@@ -450,7 +450,7 @@
                 { className: 'contactFname', errorMessage: 'First name is required ', validationdata: /^[A-Za-z.]{3,32}$/ },
                 { className: 'contactLname', errorMessage: 'Last  name is required', validationdata: /^[A-Za-z.]{3,32}$/ },
                 { className: 'contactemail', errorMessage: 'Email Address is required', validationdata: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/ },
-                { className: 'contactphone', errorMessage: 'Phone number is required', validationdata: /^\d{10}$/ }
+                { className: 'contactphone', errorMessage: 'Phone number is required', validationdata: /^[1-9][0-9]*$/ }
 
             ];
             let firstInvalidElement = null;

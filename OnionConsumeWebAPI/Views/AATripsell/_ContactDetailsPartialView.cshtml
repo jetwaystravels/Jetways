@@ -1,5 +1,4 @@
-﻿
-<form id="contactForm">
+﻿<form id="contactForm">
     <div class="row y-gap-10 row mt-2 py-3 mb-3">
 
         <div class="col-md-3">
@@ -391,7 +390,6 @@
 
 
     }
-
     //Contact Email
     function validateEmail(event) {
 
@@ -418,40 +416,12 @@
 
 
     }
-    //Contact Email
-    // function validateEmail(event) {
-    //     debugger;
-    //     var email = event.target.value;
-    //     var regex = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    //     if (email.trim() === "") {
-    //         document.getElementById('emailErrorMessage').innerText = "";
-    //     }
-    //     else if (!regex.test(email)) {
-    //         document.getElementById('emailErrorMessage').innerText = "Enter vaild Email Address.";
 
-    //     } else {
-    //         document.getElementById('emailErrorMessage').innerText = "";
-    //     }
-    //     let emailfocus = document.getElementById("emailAddress").value;
-    //     if (emailfocus == "") {
-    //         debugger;
-    //         let emailToDisplay = document.getElementById("error-message7");
-    //         emailToDisplay.style.display = "block";
-    //         document.getElementById("emailAddress").focus();
-    //         return false;
-    //     }
-    //     else {
-    //         let emailToDisplay = document.getElementById("error-message7");
-    //         emailToDisplay.style.display = "none";
-    //     }
-
-    // }
-    // Phone number
     function validatePhoneNumber(event) {
 
         const phoneNumber = event.target.value;
         //const regex = /^(0|91)?[6-9][0-9]{9}$/;
-        const regex = /^\d{10}$/
+        const regex = /^[1-9][0-9]*$/;
 
         if (!regex.test(phoneNumber)) {
 

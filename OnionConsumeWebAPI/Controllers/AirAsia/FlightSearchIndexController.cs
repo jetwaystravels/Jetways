@@ -1476,7 +1476,8 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
                     #endregion
                     #region GDS
-                    string _testURL = "https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService";
+                    // string _testURL = "https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService";
+                    string _testURL = AppUrlConstant.GDSURL;
                     string _targetBranch = string.Empty;
                     string _userName = string.Empty;
                     string _password = string.Empty;
@@ -1490,7 +1491,12 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     Guid newGuid = Guid.NewGuid();
                     res = _objAvail.GetAvailabilty(_testURL, sbReq, _objAvail, _GetfligthModel, newGuid.ToString(), "GDSOneWay");
                     TravelPortParsing _objP = new TravelPortParsing();
-                    List<GDSResModel.Segment> getAvailRes = _objP.ParseLowFareSearchRsp2(res, "OneWay", Convert.ToDateTime(_GetfligthModel.beginDate));
+                    List<GDSResModel.Segment> getAvailRes = new List<GDSResModel.Segment>();
+                    if (res != null && !res.Contains("Bad Request"))
+                    {
+                         getAvailRes = _objP.ParseLowFareSearchRsp2(res, "OneWay", Convert.ToDateTime(_GetfligthModel.beginDate));
+                    }
+                    //var getAvailRes = _objP.ParseLowFareSearchRsp2(res, "OneWay", Convert.ToDateTime(_GetfligthModel.beginDate));
                     //string test = JsonConvert.SerializeObject(getAvailRes, Formatting.Indented);
                     //logs.WriteLogs("\n Response: " + test, "gdsLowfaremodel", "GDSOneWay");
 
