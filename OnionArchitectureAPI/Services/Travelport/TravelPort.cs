@@ -46,7 +46,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                 {
                     for (int i = 0; i < _GetfligthModel.passengercount.adultcount; i++)
                     {
-                        sbReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"ADT\" BookingTravelerRef=\"" + "1" + "\"/>");
+                        sbReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"ADT\"/>");
                     }
                 }
 
@@ -54,7 +54,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                 {
                     for (int i = 0; i < _GetfligthModel.passengercount.infantcount; i++)
                     {
-                        sbReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"INF\" BookingTravelerRef=\"" + "11" + " PricePTCOnly=\"true\" Age=\"01\"/>");
+                        sbReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"INF\" Age=\"01\"/>");
                     }
                 }
 
@@ -62,7 +62,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                 {
                     for (int i = 0; i < _GetfligthModel.passengercount.childcount; i++)
                     {
-                        sbReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"CNN\" BookingTravelerRef=\"" + "111" + " Age=\"10\"/>");
+                        sbReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"CNN\" Age=\"10\"/>");
                     }
                 }
             }
@@ -73,7 +73,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                 {
                     for (int i = 0; i < _GetfligthModel.adultcount; i++)
                     {
-                        sbReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"ADT\" BookingTravelerRef=\"" + "1" + "\"/>");
+                        sbReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"ADT\" />");
                     }
                 }
 
@@ -81,7 +81,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                 {
                     for (int i = 0; i < _GetfligthModel.infantcount; i++)
                     {
-                        sbReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"INF\" BookingTravelerRef=\"" + "11" + " PricePTCOnly=\"true\" Age=\"01\"/>");
+                        sbReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"INF\" Age=\"01\"/>");
                     }
                 }
 
@@ -89,7 +89,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                 {
                     for (int i = 0; i < _GetfligthModel.childcount; i++)
                     {
-                        sbReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"CNN\" BookingTravelerRef=\"" + "111" + " Age=\"10\"/>");
+                        sbReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"CNN\" Age=\"10\"/>");
                     }
                 }
             }

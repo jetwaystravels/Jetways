@@ -49,13 +49,19 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
             List<SimpleAvailibilityaAddResponce> LeftdeserializedObjects = null;
             List<SimpleAvailibilityaAddResponce> RightdeserializedObjects = null;
+            if (!string.IsNullOrEmpty(Leftshowpopupdata))
+            {
+                LeftdeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(Leftshowpopupdata);
+            }
 
-            LeftdeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(Leftshowpopupdata);
-            RightdeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(Rightshowpopupdata);
+            if (!string.IsNullOrEmpty(Rightshowpopupdata))
+            {
+                RightdeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(Rightshowpopupdata);
+            }
 
             vmobj.SimpleAvailibilityaAddResponcelist = LeftdeserializedObjects;
             vmobj.SimpleAvailibilityaAddResponcelistR = RightdeserializedObjects;
-            
+
             string RTFlightEditData = HttpContext.Session.GetString("PassengerModelR");
             SimpleAvailabilityRequestModel simpleAvailabilityRequestModel = null;
             if (!string.IsNullOrEmpty(RTFlightEditData))
