@@ -404,10 +404,17 @@
             }
         }
         // Function to update local storage
+        function clearLocalStorage() {
+            //debugger;
+            localStorage.removeItem("checkedValues");
+            //localStorage.removeItem("selectedIds1");
+
+        }
         function updateLocalStorage() {
             debugger;
             localStorage.setItem("checkedValues", JSON.stringify(checkedValues));
         }
+
         // Restore checked state and values from local storage on page load
         var storedValues = JSON.parse(localStorage.getItem("checkedValues"));
         if (storedValues) {
@@ -416,78 +423,79 @@
         }
 
         $('.mycheck').change(function () {
+            debugger;
             var value = $(this).val();
             var isChecked = $(this).is(':checked');
 
             if (isChecked) {
-                debugger;
-                // Find an empty slot and store the value
                 for (var i = 0; i < checkedValues.length; i++) {
                     if (checkedValues[i] === '') {
                         checkedValues[i] = value;
                         break;
                     }
                 }
-            } else {
-                // Remove the value from the array
+            }
+            else {
+
                 var index = checkedValues.indexOf(value);
                 if (index !== -1) {
                     checkedValues[index] = '';
                     $('#outputDiv_' + index).text('');
                 }
-
-
-
             }
-
-            // Update the inputs and spans
             updateInputsAndSpans(checkedValues);
-
-            // Update local storage
             updateLocalStorage();
         });
 
 
 
-
+        //Cancel Button Function...
         $('#leftNstop1').click(function () {
-            debugger;
-            //alert("T1");
-            // Loop through each element and set its text to an empty string
+
             for (var i = 0; i < checkedValues.length; i++) {
                 $('#outputDiv_' + i).text('');
-                //$('#unitKey' + checkedValues[i]).prop('checked', false);
-                $('#unitKey' + i).prop('checked', false);
-                localStorage.removeItem('checkedValues');
             }
-
-
+            clearLocalStorage();
+            var selectedIds = JSON.parse(localStorage.getItem("selectedIds1"));
+            if (selectedIds) {
+                selectedIds.forEach(function (id) {
+                    $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
+                });
+            }
+            //$('input[name="unitKey"]').prop('checked', false);
+            updatetotal();
+            localStorage.removeItem("selectedIds1");
         });
 
-        $('#leftConnect1').click(function () {
-            debugger;
 
+        $('#leftConnect1').click(function () {
             for (var i = 0; i < checkedValues.length; i++) {
                 checkedValues[i] = '';
                 $('#outputDiv_' + i).text('');
-
-
             }
-            updateInputsAndSpans(checkedValues);
-            updateLocalStorage();
+            clearLocalStorage();
+            var selectedIds = JSON.parse(localStorage.getItem("selectedIds1"));
+            if (selectedIds) {
+                selectedIds.forEach(function (id) {
+                    $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
+                });
+            }
+            //$('input[name="unitKey"]').prop('checked', false);
+            updatetotal();
+            localStorage.removeItem("selectedIds1");
+
+            //updateInputsAndSpans(checkedValues);
+            //updateLocalStorage();
         });
 
 
         var checkedValues2 = ['', '', '', '', '', '', '', '', ''];
-
-        // Function to update inputs and spans for checkedValues2
         function updateInputsAndSpans2(checkedValues2) {
             for (var i = 0; i < checkedValues2.length; i++) {
                 var parts = checkedValues2[i].split('_');
                 // $('#inputConnect_' + i).val(parts[2]);
                 // $('.feeSpanConnect_' + i).text(parts[0]);
                 // $('#outputDivConnect_' + i).text(parts[2]);
-
                 if (checkedValues2[i].includes("Airasia")) {
                     $('#inputConnect_' + i).val(parts[2]);
                     $('.feeSpanConnect_' + i).text(parts[0]);
@@ -501,6 +509,13 @@
         }
 
         // Function to update local storage for checkedValues2
+        function clearLocalStorage2() {
+            //debugger;
+            localStorage.removeItem("checkedValues2");
+            //localStorage.removeItem("selectedIds1");
+
+        }
+
         function updateLocalStorage2() {
             localStorage.setItem("checkedValues2", JSON.stringify(checkedValues2));
         }
@@ -539,15 +554,30 @@
             for (var i = 0; i < checkedValues2.length; i++) {
                 $('#outputDivConnect_' + i).text('');
             }
+            clearLocalStorage2();
+            var selectedIds = JSON.parse(localStorage.getItem("selectedIds2"));
+            if (selectedIds) {
+                selectedIds.forEach(function (id) {
+                    $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
+                });
+            }
+            //$('input[name="unitKey"]').prop('checked', false);
+            updatetotal();
+            localStorage.removeItem("selectedIds2");
+
         });
 
 
 
         //*********************Return Code seat validation***************
+        function clearLocalStorageRT() {
+            debugger;
+            localStorage.removeItem("checkedValuesRT");
+            //localStorage.removeItem("selectedIds3");
+
+        }
 
         var checkedValuesRT = ['', '', '', '', '', '', '', '', ''];
-
-        // Function to update inputs and spans for checkedValuesRT
         function updateInputsAndSpansRT(checkedValuesRT) {
             for (var i = 0; i < checkedValuesRT.length; i++) {
                 var parts = checkedValuesRT[i].split('_');
@@ -600,27 +630,64 @@
             for (var i = 0; i < checkedValuesRT.length; i++) {
                 $('#outputDivRT_' + i).text('');
             }
-            //localStorage.removeItem('checkedValuesRT');
+
+            clearLocalStorageRT();
+            var selectedIds = JSON.parse(localStorage.getItem("selectedIds3"));
+            if (selectedIds) {
+                selectedIds.forEach(function (id) {
+                    $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
+                });
+            }
+            //$('input[name="unitKey"]').prop('checked', false);
+            updatetotal();
+            localStorage.removeItem("selectedIds3");
         });
 
         $('#Lrightconnect1').click(function () {
-
             for (var i = 0; i < checkedValuesRT.length; i++) {
                 $('#outputDivRT_' + i).text('');
             }
+            clearLocalStorageRT();
+            var selectedIds = JSON.parse(localStorage.getItem("selectedIds3"));
+            if (selectedIds) {
+                selectedIds.forEach(function (id) {
+                    $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
+                });
+            }
+            //$('input[name="unitKey"]').prop('checked', false);
+            updatetotal();
+            localStorage.removeItem("selectedIds3");
         });
         $('#rightconnect1').click(function () {
-            //alert("T1");
-            // Loop through each element and set its text to an empty string
             for (var i = 0; i < checkedValuesRT.length; i++) {
                 $('#outputDivRT_' + i).text('');
             }
+            clearLocalStorageRT();
+            var selectedIds = JSON.parse(localStorage.getItem("selectedIds3"));
+            if (selectedIds) {
+                selectedIds.forEach(function (id) {
+                    $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
+                });
+            }
+            //$('input[name="unitKey"]').prop('checked', false);
+            updatetotal();
+            localStorage.removeItem("selectedIds3");
         });
 
         $('#RightNonstop1').click(function () {
             for (var i = 0; i < checkedValuesRT.length; i++) {
                 $('#outputDivRT_' + i).text('');
             }
+            clearLocalStorageRT();
+            var selectedIds = JSON.parse(localStorage.getItem("selectedIds3"));
+            if (selectedIds) {
+                selectedIds.forEach(function (id) {
+                    $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
+                });
+            }
+            //$('input[name="unitKey"]').prop('checked', false);
+            updatetotal();
+            localStorage.removeItem("selectedIds3");
         });
 
         // $('#cancelbtn3').click(function () {
@@ -651,6 +718,14 @@
         }
 
         // Function to update local storage for checkedValues2RT
+        function clearLocalStorage2RT() {
+            debugger;
+            localStorage.removeItem("checkedValues2RT");
+            //localStorage.removeItem("selectedIds3");
+
+        }
+
+
         function updateLocalStorage2RT() {
             localStorage.setItem("checkedValues2RT", JSON.stringify(checkedValues2RT));
         }
@@ -689,6 +764,17 @@
             for (var i = 0; i < checkedValues2RT.length; i++) {
                 $('#outputDivConnectRT_' + i).text('');
             }
+            clearLocalStorage2RT();
+            var selectedIds = JSON.parse(localStorage.getItem("selectedIds4"));
+            if (selectedIds) {
+                selectedIds.forEach(function (id) {
+                    $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
+                });
+            }
+            //$('input[name="unitKey"]').prop('checked', false);
+            updatetotal();
+            localStorage.removeItem("selectedIds4");
+
         });
         $('#rightconnect_1').click(function () {
             //alert("T4");
@@ -696,27 +782,58 @@
             for (var i = 0; i < checkedValues2RT.length; i++) {
                 $('#outputDivConnectRT_' + i).text('');
             }
+            clearLocalStorage2RT();
+            var selectedIds = JSON.parse(localStorage.getItem("selectedIds4"));
+            if (selectedIds) {
+                selectedIds.forEach(function (id) {
+                    $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
+                });
+            }
+            //$('input[name="unitKey"]').prop('checked', false);
+            updatetotal();
+            localStorage.removeItem("selectedIds4");
+
         });
 
 
 
 
         // End connceting second code
-        var selectedIds = JSON.parse(localStorage.getItem("selectedIds"));
+        var selectedIds = JSON.parse(localStorage.getItem("selectedIds1"));
         if (selectedIds) {
             selectedIds.forEach(function (id) {
                 $('input[name="unitKey"][value="' + id + '"]').prop('checked', true);
             });
         }
 
+        // Left Connect
+        // End connceting second code
+        var selectedIds2 = JSON.parse(localStorage.getItem("selectedIds2"));
+        if (selectedIds2) {
+            selectedIds2.forEach(function (id) {
+                $('input[name="unitKey"][value="' + id + '"]').prop('checked', true);
+            });
+        }
 
-        $('input[name="unitKey"]').on('change', function () {
-            var selectedIds = [];
-            debugger;
-            // $('input[name="unitKey"]:checked').each(function () {
-            //     selectedIds.push($(this).val());
-            // });
-            var selectedIds = checkedValues.concat(checkedValues2).concat(checkedValuesRT).concat(checkedValues2RT);
+
+
+
+        var storedValues = JSON.parse(localStorage.getItem("selectedIds3")); // Change variable name here
+        if (storedValues) {
+            storedValues.forEach(function (id) {
+                $('input[name="unitKey"][value="' + id + '"]').prop('checked', true);
+            });
+        }
+
+        var storedValues2RT = JSON.parse(localStorage.getItem("selectedIds4")); // Change variable name here
+        if (storedValues2RT) {
+            storedValues2RT.forEach(function (id) {
+                $('input[name="unitKey"][value="' + id + '"]').prop('checked', true);
+            });
+        }
+
+
+        function updatetotal() {
 
             var total = 0;
             $('input[name="unitKey"]:checked').each(function () {
@@ -729,9 +846,36 @@
             $('#total').text(formattedTotal);
             document.getElementById("total").value = formattedTotal;
             const seatmap1 = document.getElementById("total").value;
-            localStorage.setItem("selectedIds", JSON.stringify(selectedIds));
-            updateCombinedTotalRT();
+        }
 
+        $('input[name="unitKey"]').on('change', function () {
+            var selectedIds = [];
+            debugger;
+            // $('input[name="unitKey"]:checked').each(function () {
+            //     selectedIds.push($(this).val());
+            // });
+
+            var selectedIds = checkedValues.concat(checkedValues2).concat(checkedValuesRT).concat(checkedValues2RT);
+
+            // var total = 0;
+            // $('input[name="unitKey"]:checked').each(function () {
+            //     total += parseInt($(this).val() || 0);
+            // });
+
+            // //$('#total').text(total.toFixed(2));
+            // //document.getElementById("total").value = total.toFixed(2);
+            // var formattedTotal = total.toFixed(2).replace(/\.?0*$/, '');
+            // $('#total').text(formattedTotal);
+            // document.getElementById("total").value = formattedTotal;
+            // const seatmap1 = document.getElementById("total").value;
+            localStorage.setItem("selectedIds", JSON.stringify(selectedIds));
+            updatetotal();
+            localStorage.setItem("selectedIds1", JSON.stringify(checkedValues));
+            localStorage.setItem("selectedIds2", JSON.stringify(checkedValues2));
+            localStorage.setItem("selectedIds3", JSON.stringify(checkedValuesRT));
+            localStorage.setItem("selectedIds4", JSON.stringify(checkedValues2RT));
+            updateCombinedTotalRT();
+            //updateLocalStorage();
 
         });
 
