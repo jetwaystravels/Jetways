@@ -2016,6 +2016,126 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
 
                                 }
+
+                                //Vinay Akasa SellSSR//
+
+                                else if (passeengerKeyList.journeys[0].Airlinename.ToLower() == "akasaair")
+                                {
+                                    mealid = 0;
+                                    string tokenview = string.Empty;
+                                    if (string.IsNullOrEmpty(tokenview))
+                                    {
+                                        if (_a == 0)
+                                        {
+                                            tokenview = HttpContext.Session.GetString("AkasaTokan");//spelling 
+                                        }
+                                        else
+                                        {
+                                            tokenview = HttpContext.Session.GetString("AkasaTokanR");//spelling 
+                                        }
+                                        token = tokenview.Replace(@"""", string.Empty);
+                                        if (token == "" || token == null)
+                                        {
+                                            return RedirectToAction("Index");
+                                        }
+                                    }
+                                    for (int l1 = 0; l1 < ssrKey.Count; l1++)
+                                    {
+                                        int l = 0;
+                                        int m = 0;
+                                        int idx = 0;
+                                        int paxnum = 0;
+
+                                        if (mealid < ssrKey.Count)
+                                        {
+                                            if (ssrKey[mealid] == null)
+                                            {
+                                                continue;
+                                            }
+                                            if (ssrKey[mealid].ToLower().Contains("akasaair") && _a == 0 && (ssrKey[mealid].ToLower().Contains("oneway0") || ssrKey[mealid].ToLower().Contains("oneway1")))
+                                            {
+                                                if (ssrKey[mealid].Length > 1)
+                                                {
+                                                    ssrsubKey2 = ssrKey[mealid].Split('_');
+                                                    pas_ssrKey = ssrsubKey2[0].Trim();
+                                                }
+                                                string mealskey = pas_ssrKey;
+                                                mealskey = mealskey.Replace(@"""", string.Empty);
+                                                if (!string.IsNullOrEmpty(token))
+                                                {
+                                                    using (HttpClient client = new HttpClient())
+                                                    {
+                                                        SellSSRModel _sellSSRModel = new SellSSRModel();
+                                                        _sellSSRModel.count = 1;
+                                                        _sellSSRModel.note = "PYOG";
+                                                        _sellSSRModel.forceWaveOnSell = false;
+                                                        _sellSSRModel.currencyCode = "INR";
+                                                        _sellSSRModel.ssrSellMode = 2;
+                                                        var jsonSellSSR = JsonConvert.SerializeObject(_sellSSRModel, Formatting.Indented);
+                                                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                                                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                                        HttpResponseMessage responseSellSSR = await client.PostAsJsonAsync(AppUrlConstant.URLAkasaAir + "/api/nsk/v2/booking/ssrs/" + mealskey, _sellSSRModel);
+                                                        if (responseSellSSR.IsSuccessStatusCode)
+                                                        {
+
+                                                            var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
+                                                            logs1.WriteLogsR("Request: " + JsonConvert.SerializeObject(_sellSSRModel) + "Url: " + AppUrlConstant.URLAkasaAir + "/api/nsk/v2/booking/ssrs/" + mealskey + "\n Response: " + JsonConvert.SerializeObject(_responseresponseSellSSR), "SellSSR", "AkasaRT");
+                                                            var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                            else if (ssrKey[mealid].ToLower().Contains("akasaair") && _a == 1 && (ssrKey[mealid].ToLower().Contains("rt0") || ssrKey[mealid].ToLower().Contains("rt1")))
+                                            {
+                                                if (ssrKey[mealid].Length > 1)
+                                                {
+                                                    ssrsubKey2 = ssrKey[mealid].Split('_');
+                                                    pas_ssrKey = ssrsubKey2[0].Trim();
+                                                }
+                                                string mealskey = pas_ssrKey;
+                                                mealskey = mealskey.Replace(@"""", string.Empty);
+                                                if (!string.IsNullOrEmpty(token))
+                                                {
+                                                    using (HttpClient client = new HttpClient())
+                                                    {
+                                                        SellSSRModel _sellSSRModel = new SellSSRModel();
+                                                        _sellSSRModel.count = 1;
+                                                        _sellSSRModel.note = "PYOG";
+                                                        _sellSSRModel.forceWaveOnSell = false;
+                                                        _sellSSRModel.currencyCode = "INR";
+                                                        _sellSSRModel.ssrSellMode = 2;
+                                                        var jsonSellSSR = JsonConvert.SerializeObject(_sellSSRModel, Formatting.Indented);
+                                                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                                                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                                        HttpResponseMessage responseSellSSR = await client.PostAsJsonAsync(AppUrlConstant.URLAkasaAir + "/api/nsk/v2/booking/ssrs/" + mealskey, _sellSSRModel);
+                                                        if (responseSellSSR.IsSuccessStatusCode)
+                                                        {
+                                                            var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
+                                                            logs1.WriteLogsR("Request: " + JsonConvert.SerializeObject(_sellSSRModel) + "Url: " + AppUrlConstant.URLAkasaAir + "/api/nsk/v2/booking/ssrs/" + mealskey + "\n Response: " + JsonConvert.SerializeObject(_responseresponseSellSSR), "SellSSR", "AkasaRT");
+                                                            var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                mealid++;
+                                                continue;
+                                            }
+                                            mealid++;
+                                        }
+                                        //continue;
+
+                                    }
+
+                                }
+
+
+
+
+
                                 else if (passeengerKeyList.journeys[0].Airlinename.ToLower() == "indigo")
                                 {
                                     string tokenview = string.Empty;

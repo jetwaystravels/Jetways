@@ -38,6 +38,13 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
     //[Route("jetways/[controller]/[action]")]
     public class FlightSearchIndexController : Controller
     {
+
+        public IActionResult MyBooking()
+        {
+
+            return View();
+        }
+
         public readonly IDistributedCache _distributedCache;
         public FlightSearchIndexController(IDistributedCache distributedcache)
         {

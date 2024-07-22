@@ -654,7 +654,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
                     #endregion
 
-                    //AkasaAir 
+                    //AkasaAir  TripSell
                     #region AkasaAir
                     token = string.Empty;
                     AirAsiaTripResponceModel AkasaAirTripResponceobj = new AirAsiaTripResponceModel();
@@ -1064,7 +1064,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     {
                                         AirAsiaTripResponceModel AirAsiaTripResponceobject = new AirAsiaTripResponceModel();
                                         var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
-                                        //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(itenaryInfant) + "Url: " + AppUrlConstant.BaseURLAkasa + "/api/nsk/v2/bookings/quote" + "\n Response: " + JsonConvert.SerializeObject(resultsTripsell), "Itenary", "AirAsiaRT");
+                                        logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(itenaryInfant) + "Url: " + AppUrlConstant.URLAkasaAir + "/api/nsk/v2/bookings/quote" + "\n Response: " + JsonConvert.SerializeObject(resultsTripsell), "Itenary", "AkasaRT");
                                         var JsonObjPassengers = JsonConvert.DeserializeObject<dynamic>(_responsePassengers);
                                         int Journeyscount = JsonObjPassengers.data.journeys.Count;
                                         //end
@@ -1984,7 +1984,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         }
                     }
 
-                    #region SeatMap
+                    #region SeatMap AirAsia
 
                     #region AirAsia SeatMap 
                     if (_JourneykeyRTData.ToLower() == "airasia")
@@ -3110,16 +3110,14 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
                         List<Trip> Tripslist = new List<Trip>();
                         Trip Tripobj = new Trip();
+                        Tripobj.destination = passeengerKeyList.journeys[0].designator.destination;
                         Tripobj.origin = passeengerKeyList.journeys[0].designator.origin;
                         Tripobj.departureDate = passeengerKeyList.journeys[0].designator.departure.ToString();
-                        //DateTime dateOnly = passeengerKeyList.journeys[0].designator.departure;
-                        //string departuredaterequest = (dateOnly.ToString("yyyy-MM-dd"));
-                        //Tripobj.departureDate = departuredaterequest;
-                        //  _Trip.departureDate = "2023-07-02";
+
                         List<TripIdentifier> TripIdentifierlist = new List<TripIdentifier>();
                         TripIdentifier TripIdentifierobj = new TripIdentifier();
                         TripIdentifierobj.carrierCode = passeengerKeyList.journeys[0].segments[0].identifier.carrierCode;
-                        //_Identifier.carrierCode = "I5";
+
                         TripIdentifierobj.identifier = passeengerKeyList.journeys[0].segments[0].identifier.identifier;
                         TripIdentifierlist.Add(TripIdentifierobj);
                         Tripobj.identifier = TripIdentifierlist;
@@ -3135,11 +3133,12 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         if (responseSSRAvailabilty.IsSuccessStatusCode)
                         {
                             var _responseSSRAvailabilty = responseSSRAvailabilty.Content.ReadAsStringAsync().Result;
-                            //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_SSRAvailabilty) + "Url: " + AppUrlConstant.URLAkasaAir + "/api/nsk/v2/booking/ssrs/availability" + "\n Response: " + JsonConvert.SerializeObject(_responseSSRAvailabilty), "GetMealmap", "AkasaAirRT");
+                            logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_SSRAvailabilty) + "Url: " + AppUrlConstant.URLAkasaAir + "/api/nsk/v2/booking/ssrs/availability" + "\n Response: " + JsonConvert.SerializeObject(_responseSSRAvailabilty), "GetMealmap", "AkasaRT");
 
                             var JsonObjresponseSSRAvailabilty = JsonConvert.DeserializeObject<dynamic>(_responseSSRAvailabilty);
                             var journeyKey1 = JsonObjresponseSSRAvailabilty.data.journeySsrs[0].journeyKey;
                             //journeyKey = ((Newtonsoft.Json.Linq.JValue)journeyKey1).Value.ToString();
+
                             int JouneyBaggage = JsonObjresponseSSRAvailabilty.data.journeySsrs.Count;
                             List<JourneyssrBaggage> journeyssrBaggagesList = new List<JourneyssrBaggage>();
                             for (int k = 0; k < JouneyBaggage; k++)
@@ -3236,7 +3235,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                         passengersdetail.passengerKey = items.Value.passengerKey;
                                         passengersdetail.price = items.Value.price;
                                         passengersdetail.ssrKey = items.Value.ssrKey;
-                                        passengersdetail.Airline = Airlines.Airasia;
+                                        passengersdetail.Airline = Airlines.AkasaAir;
                                         legpassengerslist.Add(passengersdetail);
 
                                     }
@@ -3473,7 +3472,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         if (_journeySide == "0j")
                         {
                             Signature = HttpContext.Session.GetString("IndigoSignature");
-                            
+
                         }
                         else
                         {
