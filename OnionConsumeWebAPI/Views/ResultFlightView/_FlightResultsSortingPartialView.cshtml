@@ -336,16 +336,19 @@
                             }
                             else
                             {
-                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("EC"))
-                                    Faretype = "Xpress Value";
-                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("HF"))
-                                    Faretype = "Vista Flex";
-                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("LT"))
-                                    Faretype = "Xpress lite";
-                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("VV"))
-                                    Faretype = "Xpress Bizz";
-                                else
-                                    Faretype = "Saver Fare";
+                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass != null)
+                                {
+                                    if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("EC"))
+                                        Faretype = "Xpress Value";
+                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("HF"))
+                                        Faretype = "Vista Flex";
+                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("LT"))
+                                        Faretype = "Xpress lite";
+                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("VV"))
+                                        Faretype = "Xpress Bizz";
+                                    else
+                                        Faretype = "Saver Fare";
+                                }
 
                             }
                             <tr>
