@@ -982,7 +982,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
             #region RoundTripSSR
 
             Logs logs1 = new Logs();
-            if (ssrKey.Count > 0)
+            if (ssrKey.Count > 0 || BaggageSSrkey.Count>0)
             {
 
                 try
@@ -2086,6 +2086,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                                     }
                                                 }
                                             }
+
                                             else if (ssrKey[mealid].ToLower().Contains("akasaair") && _a == 1 && (ssrKey[mealid].ToLower().Contains("rt0") || ssrKey[mealid].ToLower().Contains("rt1")))
                                             {
                                                 if (ssrKey[mealid].Length > 1)
@@ -2125,6 +2126,96 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                                 continue;
                                             }
                                             mealid++;
+                                        }
+                                        //continue;
+
+                                    }
+                                    //SellBaggage
+                                    for (int b = 0; b < BaggageSSrkey.Count; b++)
+                                    {
+                                        int l = 0;
+                                        int m = 0;
+                                        int idx = 0;
+                                        int paxnum = 0;
+                                        if (bagid < BaggageSSrkey.Count)
+                                        {
+                                            if (BaggageSSrkey[bagid] == null)
+                                            {
+                                                continue;
+                                            }
+                                            if (BaggageSSrkey[bagid].ToLower().Contains("akasaair") && _a == 0 && (BaggageSSrkey[bagid].ToLower().Contains("oneway0") || BaggageSSrkey[bagid].ToLower().Contains("oneway1")))
+                                            {
+                                                if (BaggageSSrkey[bagid].Length > 1)
+                                                {
+                                                    ssrsubKey2 = BaggageSSrkey[bagid].Split('_');
+                                                    pas_ssrKey = ssrsubKey2[0].Trim();
+                                                }
+                                                string bagskey = pas_ssrKey;
+                                                bagskey = bagskey.Replace(@"""", string.Empty);
+                                                if (!string.IsNullOrEmpty(token))
+                                                {
+                                                    using (HttpClient client = new HttpClient())
+                                                    {
+                                                        SellSSRModel _sellSSRModel = new SellSSRModel();
+                                                        _sellSSRModel.count = 1;
+                                                        _sellSSRModel.note = "PYOG";
+                                                        _sellSSRModel.forceWaveOnSell = false;
+                                                        _sellSSRModel.currencyCode = "INR";
+                                                        _sellSSRModel.ssrSellMode = 2;
+                                                        var jsonSellSSR = JsonConvert.SerializeObject(_sellSSRModel, Formatting.Indented);
+                                                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                                                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                                        HttpResponseMessage responseSellSSR = await client.PostAsJsonAsync(AppUrlConstant.URLAkasaAir + "/api/nsk/v2/booking/ssrs/" + bagskey, _sellSSRModel);
+                                                        if (responseSellSSR.IsSuccessStatusCode)
+                                                        {
+
+                                                            var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
+                                                            logs1.WriteLogsR("Request: " + JsonConvert.SerializeObject(_sellSSRModel) + "Url: " + AppUrlConstant.URLAkasaAir + "/api/nsk/v2/booking/ssrs/" + bagskey + "\n Response: " + JsonConvert.SerializeObject(_responseresponseSellSSR), "SellSSR", "AkasaRT");
+                                                            var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                            else if (BaggageSSrkey[bagid].ToLower().Contains("akasaair") && _a == 1 && (BaggageSSrkey[bagid].ToLower().Contains("rt0") || BaggageSSrkey[bagid].ToLower().Contains("rt1")))
+                                            {
+                                                if (BaggageSSrkey[bagid].Length > 1)
+                                                {
+                                                    ssrsubKey2 = BaggageSSrkey[bagid].Split('_');
+                                                    pas_ssrKey = ssrsubKey2[0].Trim();
+                                                }
+                                                string bagskeyCon = pas_ssrKey;
+                                                bagskeyCon = bagskeyCon.Replace(@"""", string.Empty);
+                                                if (!string.IsNullOrEmpty(token))
+                                                {
+                                                    using (HttpClient client = new HttpClient())
+                                                    {
+                                                        SellSSRModel _sellSSRModel = new SellSSRModel();
+                                                        _sellSSRModel.count = 1;
+                                                        _sellSSRModel.note = "PYOG";
+                                                        _sellSSRModel.forceWaveOnSell = false;
+                                                        _sellSSRModel.currencyCode = "INR";
+                                                        _sellSSRModel.ssrSellMode = 2;
+                                                        var jsonSellSSR = JsonConvert.SerializeObject(_sellSSRModel, Formatting.Indented);
+                                                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                                                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                                                        HttpResponseMessage responseSellSSR = await client.PostAsJsonAsync(AppUrlConstant.URLAkasaAir + "/api/nsk/v2/booking/ssrs/" + bagskeyCon, _sellSSRModel);
+                                                        if (responseSellSSR.IsSuccessStatusCode)
+                                                        {
+                                                            var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
+                                                            logs1.WriteLogsR("Request: " + JsonConvert.SerializeObject(_sellSSRModel) + "Url: " + AppUrlConstant.URLAkasaAir + "/api/nsk/v2/booking/ssrs/" + bagskeyCon + "\n Response: " + JsonConvert.SerializeObject(_responseresponseSellSSR), "SellSSR", "AkasaRT");
+                                                            var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                bagid++;
+                                                continue;
+                                            }
+                                            bagid++;
                                         }
                                         //continue;
 

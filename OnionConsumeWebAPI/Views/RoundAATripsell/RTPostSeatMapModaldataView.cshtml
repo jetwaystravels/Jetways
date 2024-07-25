@@ -395,7 +395,14 @@
                     $('#input_' + i).val(parts[2]);
                     $('.feeSpan_' + i).text(parts[0]);
                     $('#outputDiv_' + i).text(parts[2]);
-                } else {
+                }
+                else if (checkedValues[i].includes("Akasaair")) {
+                    $('#input_' + i).val(parts[2]);
+                    $('.feeSpan_' + i).text(parts[0]);
+                    $('#outputDiv_' + i).text(parts[2]);
+                }
+                
+                else {
                     $('#input_' + i).val(parts[1]);
                     $('.feeSpan_' + i).text(parts[0]);
                     $('#outputDiv_' + i).text(parts[1]);
@@ -500,7 +507,14 @@
                     $('#inputConnect_' + i).val(parts[2]);
                     $('.feeSpanConnect_' + i).text(parts[0]);
                     $('#outputDiv_' + i).text(parts[2]);
-                } else {
+                }
+                else if (checkedValues2[i].includes("Akasaair")) {
+                    $('#inputConnect_' + i).val(parts[2]);
+                    $('.feeSpanConnect_' + i).text(parts[0]);
+                    $('#outputDiv_' + i).text(parts[2]);
+                }
+                
+                else {
                     $('#inputConnect_' + i).val(parts[1]);
                     $('.feeSpanConnect_' + i).text(parts[0]);
                     $('#outputDivConnect_' + i).text(parts[1]);
@@ -587,7 +601,13 @@
                     $('#inputRT_' + i).val(parts[2]);
                     $('.feeSpanRT_' + i).text(parts[0]);
                     $('#outputDivRT_' + i).text(parts[2]);
-                } else {
+                }
+                else if (checkedValuesRT[i].includes("Akasaair")) {
+                    $('#inputRT_' + i).val(parts[2]);
+                    $('.feeSpanRT_' + i).text(parts[0]);
+                    $('#outputDivRT_' + i).text(parts[2]);
+                }
+                else {
                     $('#inputRT_' + i).val(parts[1]);
                     $('.feeSpanRT_' + i).text(parts[0]);
                     $('#outputDivRT_' + i).text(parts[1]);
@@ -709,7 +729,14 @@
                     $('#inputConnectRT_' + i).val(parts[2]);
                     $('.feeSpanConnectRT_' + i).text(parts[0]);
                     $('#outputDivConnectRT_' + i).text(parts[2]);
-                } else {
+                }
+                else if (checkedValues2RT[i].includes("Akasaair")) {
+                    $('#inputConnectRT_' + i).val(parts[2]);
+                    $('.feeSpanConnectRT_' + i).text(parts[0]);
+                    $('#outputDivConnectRT_' + i).text(parts[2]);
+                }
+                
+                else {
                     $('#inputConnectRT_' + i).val(parts[1]);
                     $('.feeSpanConnectRT_' + i).text(parts[0]);
                     $('#outputDivConnectRT_' + i).text(parts[1]);

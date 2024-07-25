@@ -15,6 +15,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
         {
             #region Logon
             LogonRequest _logonRequestobj = new LogonRequest();
+           
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri("http://localhost:5225/");

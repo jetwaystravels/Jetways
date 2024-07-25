@@ -63,7 +63,7 @@ namespace OnionConsumeWebAPI.Controllers
             credentials.location = "";
             credentials.channelType = "";
             credentials.loginRole = "";
-            AirAsiaLogin login = new AirAsiaLogin();
+            airlineLogin login = new airlineLogin();
           //  login.credentials= credentials;
             login.applicationName = "";
             string token = string.Empty;
@@ -469,7 +469,7 @@ namespace OnionConsumeWebAPI.Controllers
             credentials.location = "";
             credentials.channelType = "";
             credentials.loginRole = "";
-            AirAsiaLogin login  = new AirAsiaLogin();
+            airlineLogin login  = new airlineLogin();
           //  login.credentials=credentials;
             login.applicationName = "";
             string cancletokan = string.Empty;

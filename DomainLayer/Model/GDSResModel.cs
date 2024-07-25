@@ -28,7 +28,7 @@ namespace DomainLayer.Model
             public string BondType { get; set; }
             public string Segmentid { get; set; }
             public string _flightnumber { get; set; }
-
+            public string PricingSolutionValue { get; set; }
 
 
         }
@@ -95,6 +95,13 @@ namespace DomainLayer.Model
             public string BaggageUnit { get; set; }
             public string Remarks { get; set; }
             public string Branddesc { get; set; }
+            public string _DepartureDate { get; set; }
+            public string _ArrivalDate { get; set; }
+            public string _Distance { get; set; }
+            public string _Equipment { get; set; }
+            public string _AvailabilitySource { get; set; }
+            public string _AvailabilityDisplayType { get; set; }
+            public string _Classofservice { get; set; }
             
 
 
@@ -107,6 +114,13 @@ namespace DomainLayer.Model
 
 
         }
+
+        public class TPAirSegment
+        {
+            public string AirSegment { get; set; }
+            public string AirSegmentDetail { get; set; }
+        }
+
         public class FareDetail
         {
             public decimal Amount { get; set; }

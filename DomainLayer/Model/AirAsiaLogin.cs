@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace DomainLayer.Model
 {
-    public class AirAsiaLogin
+    public class airlineLogin
     {
         public _credentials credentials { get; set; }
         public string applicationName { get; set; } = "";
     }
-    public class AakashaLogin
-    {
-        public _credentialsAkasha credentialsAakasha { get; set; }
+    //public class AakashaLogin
+    //{
+    //    public _credentialsAkasha credentialsAakasha { get; set; }
         
-    }
+    //}
 
     public class _credentials
     {
@@ -31,18 +31,20 @@ namespace DomainLayer.Model
         public string? loginRole { get; set; }
         public string? Image { get; set; }
         public int? FlightCode { get; set; }
-        
-    }
-    public class _credentialsAkasha
-    {
-        [Key]
-        public string? username { get; set; }       
-        public string? password { get; set; }
-        public string? domain { get; set; }     
-        
-    }
-        
-      
 
-    
+       // public int? Status { get; set; }
+
+    }
+    //public class _credentialsAkasha
+    //{
+    //    [Key]
+    //    public string? username { get; set; }
+    //    public string? password { get; set; }
+    //    public string? domain { get; set; }
+
+    //}
+
+
+
+
 }

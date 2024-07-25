@@ -1,12 +1,752 @@
 ﻿using DomainLayer.Model;
 using System.Collections;
+using System.Text;
 using System.Xml;
-//using travelAirservice;
+using static DomainLayer.Model.GDSResModel;
 
 namespace OnionArchitectureAPI.Services.Travelport
 {
     public class TravelPortParsing
     {
+        public List<GDSResModel.Segment> ParseAirFareRsp(string AirFareResponse, string contractType_, SimpleAvailabilityRequestModel availibiltyRQGDS)
+        {
+            List<GDSResModel.Segment> listOfSegment = new List<GDSResModel.Segment>();
+            //ArrayList listofTPSegment = null;
+            ArrayList listOfBound = new ArrayList();
+            int contractId = 1;
+            string TPtransactionId = string.Empty;
+            string outBoundGroup = string.Empty;
+            string inBoundGroup = string.Empty;
+            int journeyIndex = 0;
+            bool IsFlex = true;
+            string _journeyTime = string.Empty;
+            //List<Bond> listOfBound = new List<Bond>();
+            GDSResModel.Segment seg = null;
+            bool airSegstatus = false;
+            XmlDocument flightDetailsList = new XmlDocument();
+            XmlDocument FareInfoList = new XmlDocument();
+            XmlDocument BrandList = null;
+            string fareRoues = string.Empty;
+            GDSResModel.Fare fare = null;
+            Dictionary<string, string> baggageDetais = new Dictionary<string, string>();
+            Dictionary<string, string> fareRuleInfo = new Dictionary<string, string>();
+            //string contractType_ = "OneWay";
+
+            GDSResModel.Leg leg = null;
+            PaxFare paxFare = new PaxFare();
+            FareDetail fareDetails = new FareDetail();
+            bool IsDomestic = true;
+            ArrayList listofTPSegment = null;
+            GDSResModel.TPAirSegment AirSegment = null;
+            string TraceId = string.Empty;
+            string AirPricingSolutinForPNR = string.Empty;
+            StringBuilder NewPricingSolutionValue = null;
+            string OldPricingSolution = string.Empty;
+            // bool airPricingsolution = false;
+            string group = string.Empty;
+            string adultPricingInfo = string.Empty;
+            string childPricingInfo = string.Empty;
+            string infantInfo = string.Empty;
+            string pricingInfo = string.Empty;
+            GDSResModel.Bond finalBond = null;
+            try
+            {
+                listOfSegment = new List<GDSResModel.Segment>();
+                listOfBound = new ArrayList();
+                listofTPSegment = new ArrayList();
+                GDSResModel.Bond bond = new GDSResModel.Bond();
+                bond = new GDSResModel.Bond();
+                bond.Legs = new List<GDSResModel.Leg>();
+                XmlDocument doc = new XmlDocument();
+                XmlDocument airSegmentList = new XmlDocument();
+                doc.LoadXml(AirFareResponse);
+                //cancelTime = new FareCancellationTime();
+                foreach (XmlNode rootNode in doc)
+                {
+                    if (rootNode.Name.Equals("SOAP:Envelope", StringComparison.OrdinalIgnoreCase))
+                    {
+                        foreach (XmlNode root in rootNode.ChildNodes)
+                        {
+                            if (root.Name.Equals("SOAP:Body", StringComparison.OrdinalIgnoreCase))
+                            {
+                                foreach (XmlNode airPriceRes in root)
+                                {
+                                    if (airPriceRes.Name.Equals("air:AirPriceRsp", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        TPtransactionId = airPriceRes.Attributes["TransactionId"].InnerText;
+                                        TraceId = airPriceRes.Attributes["TraceId"].Value;
+                                        foreach (XmlNode airPriceResChild in airPriceRes)
+                                        {
+                                            if (airPriceResChild.Name.Equals("air:AirItinerary", StringComparison.OrdinalIgnoreCase))
+                                            {
+                                                airSegmentList.LoadXml((airPriceResChild).OuterXml);
+                                            }
+                                            #region AirPricingSolution
+                                            if (airPriceResChild.Name.Equals("air:AirPriceResult", StringComparison.OrdinalIgnoreCase))
+                                            {
+                                                int _count = 0;
+                                                foreach (XmlNode airPricingSoulution in airPriceResChild)
+                                                {
+                                                    bool apsPNRStatus = true;
+                                                    if (airPricingSoulution.Name.Equals("air:AirPricingSolution", StringComparison.OrdinalIgnoreCase) && _count == 0)
+                                                    {
+                                                        _count = 1;
+                                                        OldPricingSolution = airPricingSoulution.OuterXml;
+                                                        fare = new GDSResModel.Fare();
+                                                        decimal TMarkup = 0;
+                                                        if (airPricingSoulution.Attributes["BasePrice"].Value.Contains("INR"))
+                                                        {
+                                                            fare.BasicFare = Convert.ToDecimal(airPricingSoulution.Attributes["BasePrice"].Value.Remove(0, 3));
+                                                        }
+                                                        else
+                                                        {
+                                                            fare.BasicFare = Convert.ToDecimal(airPricingSoulution.Attributes["ApproximateBasePrice"].Value.Remove(0, 3));
+                                                        }
+                                                        if (airPricingSoulution.Attributes["Taxes"].Value.Contains("INR"))
+                                                        {
+                                                            //TMarkup = GetMarkup(Convert.ToDecimal(airPricingSoulution.Attributes["Taxes"].Value.Remove(0, 3)), Convert.ToDecimal(airPricingSoulution.Attributes["Taxes"].Value.Remove(0, 3)), Convert.ToDecimal(airPricingSoulution.Attributes["Taxes"].Value.Remove(0, 3)));
+                                                            fare.TotalTaxWithOutMarkUp = Convert.ToDecimal(airPricingSoulution.Attributes["Taxes"].Value.Remove(0, 3)) + TMarkup;
+                                                        }
+                                                        else
+                                                        {
+                                                            //TMarkup = GetMarkup(Convert.ToDecimal(airPricingSoulution.Attributes["Taxes"].Value.Remove(0, 3)), Convert.ToDecimal(airPricingSoulution.Attributes["Taxes"].Value.Remove(0, 3)), Convert.ToDecimal(airPricingSoulution.Attributes["Taxes"].Value.Remove(0, 3)));
+                                                            fare.TotalTaxWithOutMarkUp = Convert.ToDecimal(airPricingSoulution.Attributes["Taxes"].Value.Remove(0, 3)) + TMarkup;
+                                                        }
+
+                                                        if (airPricingSoulution.Attributes["TotalPrice"].Value.Contains("INR"))
+                                                        {
+                                                            fare.TotalFareWithOutMarkUp = Convert.ToDecimal(airPricingSoulution.Attributes["TotalPrice"].Value.Remove(0, 3)) + TMarkup;
+                                                        }
+                                                        else
+                                                        {
+                                                            fare.TotalFareWithOutMarkUp = Convert.ToDecimal(airPricingSoulution.Attributes["ApproximateTotalPrice"].Value.Remove(0, 3)) + TMarkup;
+                                                        }
+                                                        fare.PaxFares = new List<PaxFare>();
+                                                        foreach (XmlNode lowfarepric in airPricingSoulution)
+                                                        {
+                                                            if (apsPNRStatus)
+                                                            {
+                                                                AirPricingSolutinForPNR = airPricingSoulution.OuterXml;
+                                                                apsPNRStatus = false;
+                                                            }
+                                                            switch (lowfarepric.Name)
+                                                            {
+                                                                #region airJourney
+                                                                case "air:AirSegmentRef":
+                                                                    if (lowfarepric.Name.Equals("air:AirSegmentRef", StringComparison.OrdinalIgnoreCase))
+                                                                    {
+                                                                        leg = new GDSResModel.Leg();
+                                                                        if (airSegmentList != null && !string.IsNullOrEmpty(airSegmentList.InnerXml))
+                                                                        {
+                                                                            foreach (XmlNode airSegmentlist in airSegmentList)
+                                                                            {
+                                                                                if (airSegmentlist.Name.Equals("air:AirItinerary", StringComparison.OrdinalIgnoreCase))
+                                                                                {
+                                                                                    foreach (XmlNode airSegment in airSegmentlist)
+                                                                                    {
+                                                                                        if (airSegment.Name.Equals("air:AirSegment", StringComparison.OrdinalIgnoreCase))
+                                                                                        {
+
+                                                                                            if (airSegment.Attributes["Key"].Value.Equals(lowfarepric.Attributes["Key"].InnerText, StringComparison.OrdinalIgnoreCase))
+                                                                                            {
+                                                                                                AirSegment = new TPAirSegment();
+                                                                                                AirSegment.AirSegment = airSegment.Attributes["Key"].Value;
+                                                                                                AirSegment.AirSegmentDetail = airSegment.OuterXml.Trim();
+                                                                                                listofTPSegment.Add(AirSegment);
+                                                                                                //if (contractType_.Equals("RoundTrip"))
+                                                                                                //{
+                                                                                                //    leg.BoundType = "OutBound";
+                                                                                                //}
+                                                                                                //else
+                                                                                                //{
+                                                                                                //    leg.BoundType = contractType_;
+                                                                                                //}
+                                                                                                //added
+                                                                                                if (airSegment.Attributes["Group"].Value.Equals("0", StringComparison.OrdinalIgnoreCase))
+                                                                                                {
+                                                                                                    leg.BoundType = "OutBound";
+                                                                                                    leg.Group = "0";
+                                                                                                    //bond.BoundType = "OutBound";
+                                                                                                }
+                                                                                                else if (airSegment.Attributes["Group"].Value.Equals("1", StringComparison.OrdinalIgnoreCase))
+                                                                                                {
+                                                                                                    leg.BoundType = "InBound";
+                                                                                                    leg.Group = "1";
+                                                                                                    //bond.BoundType = "InBound";
+                                                                                                }
+                                                                                                if (airSegment.Attributes["NumberOfStops"] != null)
+                                                                                                {
+                                                                                                    leg.NumberOfStops = airSegment.Attributes["NumberOfStops"].Value;
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    leg.NumberOfStops = "0";
+                                                                                                }
+                                                                                                //
+                                                                                                leg.FlightNumber = airSegment.Attributes["FlightNumber"].Value;
+                                                                                                leg.AirlineName = airSegment.Attributes["Carrier"].Value;
+                                                                                                leg.CarrierCode = airSegment.Attributes["Carrier"].Value;
+                                                                                                leg.Origin = airSegment.Attributes["Origin"].Value;
+                                                                                                leg.Destination = airSegment.Attributes["Destination"].Value;
+                                                                                                //leg.DepartureDate = Utility.Utility.GDateFormate(airSegment.Attributes["DepartureTime"].Value.Split('T')[0], Utility.Engine.TravelPort);
+                                                                                                leg.DepartureTime = airSegment.Attributes["DepartureTime"].Value;// airSegment.Attributes["DepartureTime"].Value.Split('T')[1];
+                                                                                                //leg.ArrivalDate = Utility.Utility.GDateFormate(airSegment.Attributes["ArrivalTime"].Value.Split('T')[0], Utility.Engine.TravelPort);
+                                                                                                leg.ArrivalTime = airSegment.Attributes["ArrivalTime"].Value;// airSegment.Attributes["ArrivalTime"].Value.Split('T')[1];
+                                                                                                leg.FareClassOfService = airSegment.Attributes["ClassOfService"].Value;
+                                                                                                if (airSegment.Attributes["FlightTime"] != null)
+                                                                                                {
+                                                                                                    leg.Duration = airSegment.Attributes["FlightTime"].Value;
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    leg.Duration = "120";
+                                                                                                }
+                                                                                                leg.AircraftCode = airSegment.Attributes["Key"].InnerText;
+                                                                                                leg.Group = airSegment.Attributes["Group"].Value;
+                                                                                                foreach (XmlNode airSegmentChild in airSegment)
+                                                                                                {
+                                                                                                    switch (airSegmentChild.Name)
+                                                                                                    {
+                                                                                                        case "air:AirAvailInfo":
+                                                                                                            leg.ProviderCode = airSegmentChild.Attributes["ProviderCode"].Value;
+                                                                                                            break;
+                                                                                                        case "air:FlightDetailsRef":
+                                                                                                            leg.FlightDetailRefKey = airSegmentChild.Attributes["Key"].Value;
+                                                                                                            break;
+                                                                                                    }
+                                                                                                }
+                                                                                                switch (leg.AirlineName)
+                                                                                                {
+                                                                                                    case "AI":
+                                                                                                        leg.FlightName = "AirIndia";
+                                                                                                        break;
+                                                                                                    case "9W":
+                                                                                                        leg.FlightName = "JetAirWays";
+                                                                                                        break;
+                                                                                                    case "UK":
+                                                                                                        leg.FlightName = "Vistara";
+                                                                                                        break;
+                                                                                                    case "OD":
+                                                                                                        leg.FlightName = "MALINDO AIRWAYS";
+                                                                                                        break;
+                                                                                                    case "TG":
+                                                                                                        leg.FlightName = "Thai Airways International";
+                                                                                                        break;
+                                                                                                    case "UL":
+                                                                                                        leg.FlightName = "SriLankan Airlines";
+                                                                                                        break;
+                                                                                                    default:
+                                                                                                        try
+                                                                                                        {
+                                                                                                            //leg.FlightName = Utility.FileChangeMonitor.AirlineNames[leg.AirlineName.Trim()];
+                                                                                                        }
+                                                                                                        catch (SystemException sex_) { leg.FlightName = leg.AirlineName.Trim(); }
+                                                                                                        break;
+                                                                                                }
+                                                                                                bond.Legs.Add(leg);
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    break;
+                                                                #endregion
+                                                                #region airPricingInfo
+                                                                case "air:AirPricingInfo":
+
+                                                                    paxFare = new PaxFare();
+                                                                    paxFare.Fare = new List<FareDetail>();
+                                                                    if (lowfarepric.Attributes["Refundable"] != null)
+                                                                    {
+                                                                        paxFare.Refundable = bool.Parse(lowfarepric.Attributes["Refundable"].Value);
+                                                                    }
+                                                                    foreach (XmlNode bookingInfo in lowfarepric)
+                                                                        if (bookingInfo.Name.Equals("air:BookingInfo", StringComparison.OrdinalIgnoreCase))
+                                                                        {
+
+                                                                            foreach (GDSResModel.Leg leg_ in bond.Legs)
+                                                                            {
+                                                                                if (leg_.AircraftCode.Equals(bookingInfo.Attributes["SegmentRef"].Value, StringComparison.OrdinalIgnoreCase))
+                                                                                {
+                                                                                    leg_.FareClassOfService = bookingInfo.Attributes["BookingCode"].Value;
+                                                                                    leg_.Cabin = bookingInfo.Attributes["CabinClass"].Value;
+                                                                                    leg_.FareRulesKey = bookingInfo.Attributes["FareInfoRef"].Value;
+
+                                                                                }
+                                                                            }
+
+                                                                        }
+                                                                    foreach (XmlNode airPricingInfo in lowfarepric)
+                                                                    {
+
+                                                                        #region fareBreckkup
+                                                                        if (airPricingInfo.Name.Equals("air:TaxInfo", StringComparison.OrdinalIgnoreCase))
+                                                                        {
+                                                                            if (airPricingInfo.Attributes["Category"] != null && airPricingInfo.Attributes["Amount"] != null)
+                                                                            {
+                                                                                fareDetails = new FareDetail();
+                                                                                fareDetails.Amount = decimal.Parse(airPricingInfo.Attributes["Amount"].Value.Remove(0, 3));
+                                                                                switch (airPricingInfo.Attributes["Category"].Value)
+                                                                                {
+                                                                                    case "IN":
+                                                                                        fareDetails.ChargeCode = "UDF";
+                                                                                        fareDetails.ChargeDetail = "USER DEVELOPMENT FEE";
+                                                                                        break;
+                                                                                    case "JN":
+                                                                                        fareDetails.ChargeCode = "ST";
+                                                                                        fareDetails.ChargeDetail = "SERVICE TAX";
+                                                                                        break;
+                                                                                    case "WO":
+                                                                                        fareDetails.ChargeCode = "PSF";
+                                                                                        fareDetails.ChargeDetail = "PASSENGER SERVICE FEE";
+                                                                                        break;
+                                                                                    case "YM":
+                                                                                        fareDetails.ChargeCode = "ADF";
+                                                                                        fareDetails.ChargeDetail = "AIRPORT DEVELOPMENT FEE";
+                                                                                        break;
+                                                                                    case "YQ":
+                                                                                        fareDetails.ChargeCode = "YQ";
+                                                                                        fareDetails.ChargeDetail = "Fuel Expenses";
+                                                                                        break;
+                                                                                    case "YR":
+                                                                                        fareDetails.ChargeCode = "YR";
+                                                                                        fareDetails.ChargeDetail = "Fuel Expenses";
+                                                                                        break;
+                                                                                    default:
+                                                                                        fareDetails.ChargeCode = airPricingInfo.Attributes["Category"].Value;
+                                                                                        fareDetails.ChargeDetail = airPricingInfo.Attributes["Category"].Value;
+                                                                                        break;
+                                                                                }
+                                                                                paxFare.Fare.Add(fareDetails);
+                                                                            }
+                                                                        }
+
+                                                                        #endregion
+
+
+                                                                        if (airPricingInfo.Name.Equals("air:PassengerType", StringComparison.OrdinalIgnoreCase))
+                                                                        {
+                                                                            switch (airPricingInfo.Attributes["Code"].Value)
+                                                                            {
+                                                                                case "ADT":
+                                                                                    if (lowfarepric.Attributes["BasePrice"].Value.Contains("INR"))
+                                                                                    {
+                                                                                        paxFare.BasicFare = Convert.ToDecimal(lowfarepric.Attributes["BasePrice"].Value.Remove(0, 3));
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        paxFare.BasicFare = Convert.ToDecimal(lowfarepric.Attributes["ApproximateBasePrice"].Value.Remove(0, 3));
+                                                                                    }
+                                                                                    paxFare.TotalTax = Convert.ToDecimal(lowfarepric.Attributes["Taxes"].Value.Remove(0, 3));
+                                                                                    paxFare.PaxType = PAXTYPE.ADT;
+                                                                                    //if (AdultMarkUp != 0 && MarkUpType == MarkUP.Flat)
+                                                                                    //{
+                                                                                    //paxFare.TotalTax += AdultMarkUp;
+                                                                                    //paxFare.Fare[0].Amount += AdultMarkUp;
+                                                                                    //}
+                                                                                    //if (MarkUpType == MarkUP.Percentage && AdultMarkUp != 0)
+                                                                                    //{
+                                                                                    //paxFare.TotalTax += (paxFare.TotalTax * (AdultMarkUp / 100));
+                                                                                    //paxFare.Fare[0].Amount += (paxFare.TotalTax * (AdultMarkUp / 100));
+                                                                                    //}
+                                                                                    break;
+                                                                                case "CNN":
+                                                                                    if (lowfarepric.Attributes["BasePrice"].Value.Contains("INR"))
+                                                                                    {
+                                                                                        paxFare.BasicFare = Convert.ToDecimal(lowfarepric.Attributes["BasePrice"].Value.Remove(0, 3));
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        paxFare.BasicFare = Convert.ToDecimal(lowfarepric.Attributes["ApproximateBasePrice"].Value.Remove(0, 3));
+                                                                                    }
+                                                                                    paxFare.TotalTax = Convert.ToDecimal(lowfarepric.Attributes["Taxes"].Value.Remove(0, 3));
+                                                                                    paxFare.PaxType = PAXTYPE.CHD;
+                                                                                    //if (ChildMarkUp != 0 && MarkUpType == MarkUP.Flat)
+                                                                                    //{
+                                                                                    //    paxFare.TotalTax += ChildMarkUp;
+                                                                                    //    paxFare.Fare[0].Amount += ChildMarkUp;
+                                                                                    //}
+                                                                                    //if (MarkUpType == MarkUP.Percentage && ChildMarkUp != 0)
+                                                                                    //{
+                                                                                    //    paxFare.TotalTax += (paxFare.TotalTax * (ChildMarkUp / 100));
+                                                                                    //    paxFare.Fare[0].Amount += (paxFare.TotalTax * (ChildMarkUp / 100));
+                                                                                    //}
+                                                                                    break;
+                                                                                case "C11":
+                                                                                    if (lowfarepric.Attributes["BasePrice"].Value.Contains("INR"))
+                                                                                    {
+                                                                                        paxFare.BasicFare = Convert.ToDecimal(lowfarepric.Attributes["BasePrice"].Value.Remove(0, 3));
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        paxFare.BasicFare = Convert.ToDecimal(lowfarepric.Attributes["ApproximateBasePrice"].Value.Remove(0, 3));
+                                                                                    }
+                                                                                    paxFare.TotalTax = Convert.ToDecimal(lowfarepric.Attributes["Taxes"].Value.Remove(0, 3));
+                                                                                    paxFare.PaxType = PAXTYPE.CHD;
+                                                                                    //if (ChildMarkUp != 0 && MarkUpType == MarkUP.Flat)
+                                                                                    //{
+                                                                                    //    paxFare.TotalTax += ChildMarkUp;
+                                                                                    //    paxFare.Fare[0].Amount += ChildMarkUp;
+                                                                                    //}
+                                                                                    //if (MarkUpType == MarkUP.Percentage && ChildMarkUp != 0)
+                                                                                    //{
+                                                                                    //    paxFare.TotalTax += (paxFare.TotalTax * (ChildMarkUp / 100));
+                                                                                    //    paxFare.Fare[0].Amount += (paxFare.TotalTax * (ChildMarkUp / 100));
+                                                                                    //}
+                                                                                    break;
+                                                                                case "CHD":
+                                                                                    if (lowfarepric.Attributes["BasePrice"].Value.Contains("INR"))
+                                                                                    {
+                                                                                        paxFare.BasicFare = Convert.ToDecimal(lowfarepric.Attributes["BasePrice"].Value.Remove(0, 3));
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        paxFare.BasicFare = Convert.ToDecimal(lowfarepric.Attributes["ApproximateBasePrice"].Value.Remove(0, 3));
+                                                                                    }
+                                                                                    paxFare.TotalTax = Convert.ToDecimal(lowfarepric.Attributes["Taxes"].Value.Remove(0, 3));
+                                                                                    paxFare.PaxType = PAXTYPE.CHD;
+                                                                                    //if (ChildMarkUp != 0 && MarkUpType == MarkUP.Flat)
+                                                                                    //{
+                                                                                    //    paxFare.TotalTax += ChildMarkUp;
+                                                                                    //    paxFare.Fare[0].Amount += ChildMarkUp;
+                                                                                    //}
+                                                                                    //if (MarkUpType == MarkUP.Percentage && ChildMarkUp != 0)
+                                                                                    //{
+                                                                                    //    paxFare.TotalTax += (paxFare.TotalTax * (ChildMarkUp / 100));
+                                                                                    //    paxFare.Fare[0].Amount += (paxFare.TotalTax * (ChildMarkUp / 100));
+                                                                                    //}
+                                                                                    break;
+                                                                                case "INF":
+                                                                                    if (lowfarepric.Attributes["BasePrice"].Value.Contains("INR"))
+                                                                                    {
+                                                                                        paxFare.BasicFare = Convert.ToDecimal(lowfarepric.Attributes["BasePrice"].Value.Remove(0, 3));
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        paxFare.BasicFare = Convert.ToDecimal(lowfarepric.Attributes["ApproximateBasePrice"].Value.Remove(0, 3));
+                                                                                    }
+                                                                                    paxFare.TotalTax = Convert.ToDecimal(lowfarepric.Attributes["Taxes"].Value.Remove(0, 3));
+                                                                                    paxFare.PaxType = PAXTYPE.INF;
+                                                                                    //if (InfantMarkUp != 0 && MarkUpType == MarkUP.Flat)
+                                                                                    //{
+                                                                                    //    paxFare.TotalTax += InfantMarkUp;
+                                                                                    //    paxFare.Fare[0].Amount += InfantMarkUp;
+                                                                                    //}
+                                                                                    //if (MarkUpType == MarkUP.Percentage && InfantMarkUp != 0)
+                                                                                    //{
+                                                                                    //    paxFare.TotalTax += (paxFare.TotalTax * (InfantMarkUp / 100));
+                                                                                    //    paxFare.Fare[0].Amount += (paxFare.TotalTax * (InfantMarkUp / 100));
+                                                                                    //}
+                                                                                    break;
+                                                                            }
+                                                                        }
+                                                                        if (airPricingInfo.Name.Equals("air:ChangePenalty", StringComparison.OrdinalIgnoreCase))
+                                                                        {
+                                                                            foreach (XmlNode changePenalty in airPricingInfo)
+                                                                            {
+                                                                                if (changePenalty.Name.Equals("air:Amount", StringComparison.OrdinalIgnoreCase))
+                                                                                {
+                                                                                    paxFare.ChangePenalty = (Convert.ToDecimal(changePenalty.InnerText.Remove(0, 3))) * bond.Legs.Count;
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                        if (airPricingInfo.Name.Equals("air:CancelPenalty", StringComparison.OrdinalIgnoreCase))
+                                                                        {
+                                                                            foreach (XmlNode cancelPenalty in airPricingInfo)
+                                                                            {
+                                                                                if (cancelPenalty.Name.Equals("air:Amount", StringComparison.OrdinalIgnoreCase))
+                                                                                {
+                                                                                    paxFare.CancelPenalty = Convert.ToDecimal(cancelPenalty.InnerText.Remove(0, 3)) * bond.Legs.Count;// * ((Bond)listOfBound[0]).Legs.Count
+                                                                                    if (paxFare.CancelPenalty == 0)
+                                                                                    {
+                                                                                        paxFare.Refundable = false;
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                        //
+                                                                        try
+                                                                        {
+                                                                            if (airPricingInfo.Name.Equals("air:BaggageAllowances", StringComparison.OrdinalIgnoreCase))
+                                                                            {
+                                                                                foreach (XmlNode baggageInfo in airPricingInfo)
+                                                                                {
+                                                                                    if (baggageInfo.Name.Equals("air:BaggageAllowanceInfo", StringComparison.OrdinalIgnoreCase))
+                                                                                    {
+                                                                                        foreach (XmlNode BagDetails in baggageInfo)
+                                                                                        {
+                                                                                            if (BagDetails.Name.Equals("air:TextInfo", StringComparison.OrdinalIgnoreCase))
+                                                                                            {
+                                                                                                foreach (XmlNode BagText in BagDetails)
+                                                                                                {
+                                                                                                    if (BagText.Name.Equals("air:Text", StringComparison.OrdinalIgnoreCase))
+                                                                                                    {
+                                                                                                        if (BagText.InnerText.Contains("K"))
+                                                                                                        {
+                                                                                                            paxFare.BaggageWeight = BagText.InnerText.Replace("K", "");
+                                                                                                            paxFare.BaggageUnit = "KG";
+                                                                                                        }
+                                                                                                        if (BagText.InnerText.Contains("P"))
+                                                                                                        {
+                                                                                                            paxFare.BaggageWeight = BagText.InnerText.Replace("P", "");
+                                                                                                            paxFare.BaggageUnit = "PC";
+                                                                                                        }
+                                                                                                        break;
+                                                                                                    }
+                                                                                                }
+
+                                                                                            }
+
+                                                                                        }
+
+                                                                                    }
+
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                        catch
+                                                                        {
+
+                                                                        }
+
+                                                                        //
+                                                                    }
+                                                                    paxFare.TotalFare = paxFare.BasicFare + paxFare.TotalTax;
+                                                                    fare.PaxFares.Add(paxFare);
+                                                                    break;
+                                                                    #endregion
+                                                            }
+                                                        }
+                                                    }
+
+
+                                                    if (bond.Legs.Count > 0)
+                                                    {
+                                                        seg = new GDSResModel.Segment();
+                                                        seg.Bonds = new List<Bond>();
+                                                        seg.Fare = new GDSResModel.Fare();
+                                                        seg.Fare = fare;
+                                                        seg.SegIndex = contractId.ToString();
+                                                        //seg.FareIndicator = FareIndicator;
+                                                        bool groupStatus = false;
+                                                        if (contractType_.Equals("RoundTrip"))
+                                                        {
+                                                            seg.BondType = "OutBound";
+                                                            seg.IsRoundTrip = true;
+                                                            for (int bondcount = 0; bondcount <= 1; bondcount++)
+                                                            {
+                                                                finalBond = new Bond();
+                                                                finalBond.Legs = new List<GDSResModel.Leg>();
+                                                                groupStatus = false;
+                                                                foreach (GDSResModel.Leg leg_ in bond.Legs)
+                                                                {
+                                                                    if (!groupStatus && string.IsNullOrEmpty(group))
+                                                                    {
+                                                                        group = leg_.Group;
+                                                                        groupStatus = true;
+                                                                        finalBond.Legs.Add(leg_);
+                                                                        //Added
+                                                                        if (leg_.Group == "0")
+                                                                        {
+                                                                            finalBond.BoundType = "OutBound";
+                                                                        }
+                                                                        else if (leg_.Group == "1")
+                                                                        {
+                                                                            finalBond.BoundType = "InBound";
+                                                                        }
+
+                                                                    }
+                                                                    else if (!groupStatus && !group.Equals(leg_.Group))
+                                                                    {
+                                                                        finalBond.Legs.Add(leg_);
+                                                                        //Added
+                                                                        if (leg_.Group == "0")
+                                                                        {
+                                                                            finalBond.BoundType = "OutBound";
+                                                                        }
+                                                                        else if (leg_.Group == "1")
+                                                                        {
+                                                                            finalBond.BoundType = "InBound";
+                                                                        }
+                                                                    }
+                                                                    else if (groupStatus && group.Equals(leg_.Group))
+                                                                    {
+                                                                        finalBond.Legs.Add(leg_);
+                                                                        //Added
+                                                                        if (leg_.Group == "0")
+                                                                        {
+                                                                            finalBond.BoundType = "OutBound";
+                                                                        }
+                                                                        else if (leg_.Group == "1")
+                                                                        {
+                                                                            finalBond.BoundType = "InBound";
+                                                                        }
+                                                                    }
+                                                                }
+                                                                seg.Bonds.Add(finalBond);
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            seg.BondType = contractType_;
+                                                            seg.Bonds.Add(bond);
+                                                        }
+                                                        if (seg.Fare.PaxFares != null && seg.Fare.PaxFares.Count > 0)
+                                                        {
+                                                            int tmfrom = 4;
+                                                            int tmto = 0;
+                                                            //cancelTime = CancellationCharges.GetCancellationTime();
+                                                            //foreach (AirLine ar in cancelTime.AirLines)
+                                                            //{
+                                                            //    if (seg.Bonds[0].Legs[0].AirlineName == ar.Code)
+                                                            //    {
+                                                            //        foreach (AirlineClass ac in ar.AirlineClasses)
+                                                            //        {
+                                                            //            if (seg.Bonds[0].Legs[0].FareClassOfService == ac.Type)
+                                                            //            {
+                                                            //                //airCodeMatch = true;
+                                                            //                tmfrom = Convert.ToInt32(ac.TimeFrom);
+                                                            //                tmto = Convert.ToInt32(ac.TimeTo);
+                                                            //            }
+                                                            //        }
+                                                            //    }
+                                                            //}
+                                                            //CheckFareRule(seg);
+
+                                                            if (paxFare.CancelPenalty == 0)
+                                                            {
+                                                                paxFare.Refundable = false;
+                                                                //seg.FareRule = "CAN-BEF " + tmfrom + "_" + tmto + ":" + seg.Fare.PaxFares[0].CancelPenalty + "|" + "CHG-BEF " + tmfrom + "_" + tmto + ":" + seg.Fare.PaxFares[0].ChangePenalty + "|" + "EMTFee-" + 250 + "|" + "Msg:As per as airline rules.";
+                                                            }
+
+                                                            else
+                                                            {
+                                                                //seg.FareRule = "CAN-BEF " + tmfrom + "_" + tmto + ":" + seg.Fare.PaxFares[0].CancelPenalty + "|" + "CHG-BEF " + tmfrom + "_" + tmto + ":" + seg.Fare.PaxFares[0].ChangePenalty + "|" + "EMTFee-" + 250;
+                                                            }
+                                                        }
+                                                        seg.EngineID = "AirService.Engine.TravelPort";
+                                                        seg.ItineraryKey = TPtransactionId;
+                                                        seg.SearchId = Convert.ToString("EngineID");
+                                                        seg.IsSpecial = "";// IsSpecial;
+                                                        //if (EngineID == 115 || IsSpecial)
+                                                        //{
+                                                        //    seg.IsSpecial = true;
+                                                        //}
+                                                        //  seg.Bonds.Add(bond);
+                                                        listOfSegment.Add(seg);
+                                                        bond = new Bond();
+                                                        bond.Legs = new List<GDSResModel.Leg>();
+                                                        contractId++;
+                                                    }
+                                                }
+                                            }
+                                            #endregion airPricingSolution
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                XmlDocument pricingSolution = new XmlDocument();
+                NewPricingSolutionValue = new StringBuilder();
+                pricingSolution.LoadXml(AirPricingSolutinForPNR);
+                //pricingSolution.LoadXml(AirPricingSolutinForPNR.Replace("C11", "CNN"));
+                bool InitialNodeStatus = true;
+                int paxCount = 0;
+                foreach (XmlNode airPricingSolutin in pricingSolution)
+                {
+                    if (airPricingSolutin.Name.Equals("air:AirPricingSolution", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (InitialNodeStatus)
+                        {
+                            NewPricingSolutionValue.Append(AirPricingSolutinForPNR.Substring(0, AirPricingSolutinForPNR.IndexOf(">") + 1));
+                            InitialNodeStatus = false;
+                        }
+                        foreach (XmlNode airPricingChidNode in airPricingSolutin)
+                        {
+                            if (airPricingChidNode.Name.Equals("air:AirSegmentRef", StringComparison.OrdinalIgnoreCase))
+                            {
+                                foreach (TPAirSegment tpairSegment in listofTPSegment)
+                                {
+
+                                    if (airPricingChidNode.Attributes["Key"].Value.Equals(tpairSegment.AirSegment, StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        NewPricingSolutionValue.Append(tpairSegment.AirSegmentDetail);
+                                    }
+
+                                }
+                            }
+                            else if (airPricingChidNode.Name.Equals("air:AirPricingInfo", StringComparison.OrdinalIgnoreCase))
+                            {
+                                NewPricingSolutionValue.Append(airPricingChidNode.OuterXml.Substring(0, airPricingChidNode.OuterXml.IndexOf(">") + 1));
+                                foreach (XmlNode airPricingInfo in airPricingChidNode)
+                                {
+                                    if (airPricingInfo.Name.Equals("air:PassengerType", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        switch (airPricingInfo.Attributes["Code"].Value)
+                                        {
+                                            case "ADT":
+                                                NewPricingSolutionValue.Append("<air:PassengerType BookingTravelerRef='" + paxCount + "' Code='ADT' Age='30'/>");
+                                                paxCount++;
+                                                break;
+                                            case "CNN":
+                                                NewPricingSolutionValue.Append("<air:PassengerType BookingTravelerRef='" + paxCount + "' Code='CNN' Age='11'/>");
+                                                paxCount++;
+                                                break;
+                                            case "C11":
+                                                NewPricingSolutionValue.Append("<air:PassengerType BookingTravelerRef='" + paxCount + "' Code='CNN' Age='11'/>");
+                                                paxCount++;
+                                                break;
+                                            case "CHD":
+                                                NewPricingSolutionValue.Append("<air:PassengerType BookingTravelerRef='" + paxCount + "' Code='CHD' Age='11'/>");
+                                                paxCount++;
+                                                break;
+                                            case "INF":
+                                                NewPricingSolutionValue.Append("<air:PassengerType BookingTravelerRef='" + paxCount + "' Code='INF' Age='1'/>");
+                                                paxCount++;
+                                                break;
+
+                                        }
+                                    }
+                                    else
+                                    {
+                                        NewPricingSolutionValue.Append(airPricingInfo.OuterXml);
+                                    }
+                                }
+                                NewPricingSolutionValue.Append("</air:AirPricingInfo>");
+                            }
+                            else
+                            {
+                                NewPricingSolutionValue.Append(airPricingChidNode.OuterXml);
+                            }
+                        }
+                    }
+                    NewPricingSolutionValue.Append("</air:AirPricingSolution>");
+                }
+                if (listOfSegment != null && listOfSegment.Count > 0)
+                {
+                    bool IsSpecial = false;
+                    string AccountCode = "";
+                    bool PermittedCarriers = false;
+                    // if (EngineID == 115)
+                    if (IsSpecial && PermittedCarriers)
+                    {
+                        listOfSegment[0].PricingSolutionValue = NewPricingSolutionValue.ToString().Replace("<air:BaggageAllowances", "<air:AirPricingModifiers AccountCodeFaresOnly='true'><air:AccountCodes><com:AccountCode Code='" + AccountCode + "'/></air:AccountCodes></air:AirPricingModifiers><air:BaggageAllowances").Replace("common_v46_0:", "com:");
+                    }
+                    else
+                    {
+                        listOfSegment[0].PricingSolutionValue = NewPricingSolutionValue.ToString();
+                    }
+                }
+            }
+            catch (SystemException ex_)
+            {
+            }
+            return listOfSegment;
+        }
         public List<GDSResModel.Segment> ParseLowFareSearchRsp2(string lowFareResponse, string contractType_, DateTime depDate)
         {
             List<GDSResModel.Segment> listOfSegment = new List<GDSResModel.Segment>();
@@ -206,6 +946,12 @@ namespace OnionArchitectureAPI.Services.Travelport
                                                                                         leg.DepartureTime = airSegment.Attributes["DepartureTime"].Value.Split('T')[1];
                                                                                         leg.ArrivalDate = airSegment.Attributes["ArrivalTime"].Value.Split('T')[0];
                                                                                         leg.ArrivalTime = airSegment.Attributes["ArrivalTime"].Value.Split('T')[1];
+                                                                                        leg._ArrivalDate = airSegment.Attributes["ArrivalTime"].Value;
+                                                                                        leg._DepartureDate= Convert.ToDateTime(airSegment.Attributes["DepartureTime"].Value).ToString("yyyy-MM-ddTHH:mm:ss.fffzzz");
+                                                                                        leg._Distance = airSegment.Attributes["Distance"].Value;
+                                                                                        leg._Equipment = airSegment.Attributes["Equipment"].Value;
+                                                                                        leg._AvailabilityDisplayType = airSegment.Attributes["AvailabilityDisplayType"].Value;
+                                                                                        leg._AvailabilitySource = airSegment.Attributes["AvailabilitySource"].Value;
                                                                                         leg.Duration = airSegment.Attributes["FlightTime"].Value;
                                                                                         leg.AircraftCode = airSegmentKeys.Attributes["Key"].InnerText;
                                                                                         if (flightnumber == "")

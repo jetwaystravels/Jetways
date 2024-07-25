@@ -1,4 +1,5 @@
-﻿<style>
+﻿@using Newtonsoft.Json;
+<style>
     /*List page tab css*/
     .bg-listtab {
         margin: 10px 0px;
@@ -311,15 +312,17 @@
                             }
                             else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Spicejet)
                             {
-
-                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("RS"))
-                                    Faretype = "Spice Plus";
-                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SF"))
-                                    Faretype = "Spice Flex";
-                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SC"))
-                                    Faretype = "Spice Max";
-                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SS"))
-                                    Faretype = "Saver Fare";
+                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass != null)
+                                {
+                                    if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("RS"))
+                                        Faretype = "Spice Plus";
+                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SF"))
+                                        Faretype = "Spice Flex";
+                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SC"))
+                                        Faretype = "Spice Max";
+                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SS"))
+                                        Faretype = "Saver Fare";
+                                }
 
                             }
                             else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.AkasaAir)
@@ -739,6 +742,25 @@
                                         {
                                             <form asp-action="AkasaAirTripsell" asp-controller="AKResultFlight">
                                                 <input type="hidden" id="fareKey" name="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
+                                                <input type="hidden" id="journeyKey" name="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
+
+                                                <input type="submit" value="Book Now" class="button small-btn">
+                                            </form>
+                                        }
+                                        else if(@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("UK") || @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("AI") || @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("H1"))
+                                        {
+                                            string data = "";
+                                            try
+                                            {
+                                                data = JsonConvert.SerializeObject(@Model.SimpleAvailibilityaAddResponcelist[j]);
+                                            }
+                                            catch(Exception ex)
+                                            {
+                                                
+                                            }
+
+                                            <form asp-action="GDSTripsell" asp-controller="GDSResultFlightView">
+                                                <input type="hidden" id="fareKey" name="fareKey" value="@data" />
                                                 <input type="hidden" id="journeyKey" name="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
 
                                                 <input type="submit" value="Book Now" class="button small-btn">

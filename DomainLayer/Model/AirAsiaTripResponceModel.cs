@@ -484,6 +484,7 @@ namespace DomainLayer.Model
         public object discountCode { get; set; }
         public object fareDiscountCode { get; set; }
         public string passengerType { get; set; }
+        public int basicAmount { get; set; }
     }
     public class AAServicecharge
     {

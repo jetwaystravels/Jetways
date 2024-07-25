@@ -181,7 +181,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         }
                     }
 
-                    AirAsiaLogin login = new AirAsiaLogin();
+                    airlineLogin login = new airlineLogin();
                     login.credentials = credentialsobj;
 
                     TempData["AirAsiaLogin"] = login.credentials.Image;
@@ -532,7 +532,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     }
                     #region Akasha
 
-                    _credentialsAkasha _CredentialsAkasha = new _credentialsAkasha();
+                    _credentials _CredentialsAkasha = new _credentials();
                     if (response.IsSuccessStatusCode)
                     {
                         var results = response.Content.ReadAsStringAsync().Result;
@@ -542,12 +542,14 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             _CredentialsAkasha.username = JsonObject[1].username;
                             _CredentialsAkasha.password = JsonObject[1].password;
                             _CredentialsAkasha.domain = JsonObject[1].domain;
+                           // _CredentialsAkasha.satus = JsonObject[1].status;
                         }
 
 
                     }
-                    AakashaLogin loginobject = new AakashaLogin();
-                    loginobject.credentialsAakasha = _CredentialsAkasha;
+
+                    airlineLogin loginobject = new airlineLogin();
+                    loginobject.credentials = _CredentialsAkasha;
                     //TempData["AirAsiaLogin"] = login.credentials.Image;
                     AirasiaTokan = new AirasiaTokan();
                     AirasialoginRequest = JsonConvert.SerializeObject(loginobject, Formatting.Indented);
@@ -866,6 +868,8 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             LogonRequestDataobj.AgentName = JsonObject[0].username;
                             LogonRequestDataobj.Password = JsonObject[0].password;
                             LogonRequestDataobj.DomainCode = JsonObject[0].domain;
+                           // LogonRequestDataobj.Status = JsonObject[0].Status;
+
                             _logonRequestobj.logonRequestData = LogonRequestDataobj;
 
 
@@ -1497,10 +1501,14 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     _targetBranch = "P7027135";
                     _userName = "Universal API/uAPI5098257106-beb65aec";
                     _password = "Q!f5-d7A3D";
-                    TravelPort _objAvail = new TravelPort(_targetBranch, _userName, _password);
                     sbReq = new StringBuilder();
                     Guid newGuid = Guid.NewGuid();
-                    res = _objAvail.GetAvailabilty(_testURL, sbReq, _objAvail, _GetfligthModel, newGuid.ToString(), "GDSOneWay");
+                    httpContextAccessorInstance = new HttpContextAccessor();
+                    TravelPort _objAvail = null;
+                    _objAvail = new TravelPort(httpContextAccessorInstance);
+                    res = _objAvail.GetAvailabilty(_testURL, sbReq, _objAvail, _GetfligthModel, newGuid.ToString(), _targetBranch, _userName, _password, "GDSOneWay");
+                    TempData["origin"] = _GetfligthModel.origin;
+                    TempData["destination"] = _GetfligthModel.destination;
                     TravelPortParsing _objP = new TravelPortParsing();
                     List<GDSResModel.Segment> getAvailRes = new List<GDSResModel.Segment>();
                     if (res != null && !res.Contains("Bad Request") && !res.Contains("Internal Server Error"))
@@ -1593,6 +1601,19 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
                             SegmentDesignatorobj.departure = Convert.ToDateTime(getAvailRes[i].Bonds[0].Legs[l].DepartureTime);
                             SegmentDesignatorobj.arrival = Convert.ToDateTime(getAvailRes[i].Bonds[0].Legs[l].ArrivalTime);
+
+                            SegmentDesignatorobj._DepartureDate = getAvailRes[i].Bonds[0].Legs[l]._DepartureDate;
+                            SegmentDesignatorobj._AvailabilitySource = getAvailRes[i].Bonds[0].Legs[l]._AvailabilitySource;
+                            SegmentDesignatorobj._AvailabilityDisplayType = getAvailRes[i].Bonds[0].Legs[l]._AvailabilityDisplayType;
+                            SegmentDesignatorobj._FlightTime = getAvailRes[i].Bonds[0].Legs[l].Duration;
+                            SegmentDesignatorobj._Equipment = getAvailRes[i].Bonds[0].Legs[l]._Equipment;
+                            SegmentDesignatorobj._Distance = getAvailRes[i].Bonds[0].Legs[l]._Distance;
+                            SegmentDesignatorobj._ArrivalDate = getAvailRes[i].Bonds[0].Legs[l]._ArrivalDate;
+                            SegmentDesignatorobj._Group = getAvailRes[i].Bonds[0].Legs[l].Group;
+                            SegmentDesignatorobj._ProviderCode = getAvailRes[i].Bonds[0].Legs[l].ProviderCode;
+                            SegmentDesignatorobj._ClassOfService = getAvailRes[i].Bonds[0].Legs[l].FareClassOfService;
+
+
                             Segmentobj.designator = SegmentDesignatorobj;
                             Identifier Identifier = new Identifier();
                             Identifier.identifier = getAvailRes[i].Bonds[0].Legs[l].FlightNumber;
@@ -1793,8 +1814,8 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                         continue;
                                 }
                             }
-                            #endregion
                         }
+                        #endregion
                         fareIndividualsconnectedList = fareIndividualsList;
                         //int StopCounter = 0;
                         //if (Segmentobjlist.Count == 1)
@@ -1844,12 +1865,12 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     }
                     //var x = SimpleAvailibilityaAddResponcelist.Distinct().ToList();
                     str2Return = string.Empty;
-                    //if (_IndigoAvailabilityResponseobj != null)
-                    //{
-                    //    //str2Return = JsonConvert.SerializeObject(_IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response);
-                    //}
+                    if (getAvailRes != null && getAvailRes.Count > 0)
+                    {
+                        str2Return = JsonConvert.SerializeObject(getAvailRes);
+                    }
                     //OneWayTrip
-                    //HttpContext.Session.SetString("IndigoSignature", JsonConvert.SerializeObject(_IndigologonResponseobj.Signature));
+                    HttpContext.Session.SetString("GDSTraceid", JsonConvert.SerializeObject(newGuid.ToString()));
                     //
 
                     //#endregion
@@ -1969,7 +1990,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             credentialsobj.Image = JsonObject[0].Image;
                         }
 
-                        login = new AirAsiaLogin();
+                        login = new airlineLogin();
                         login.credentials = credentialsobj;
 
                         //till here
@@ -2165,7 +2186,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         #region Akasa
                         // Login Token Genrate
 
-                        AirAsiaLogin loginAkasaR = new AirAsiaLogin();
+                        airlineLogin loginAkasaR = new airlineLogin();
 
                         result1s = response.Content.ReadAsStringAsync().Result;
                         JsonObject = JsonConvert.DeserializeObject<List<_credentials>>(result1s);
@@ -2175,6 +2196,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             credentialsobj.password = JsonObject[1].password;
                             credentialsobj.domain = JsonObject[1].domain;
                             credentialsobj.Image = JsonObject[1].Image;
+                            //credentialsobj.Status = JsonObject[1].Status;
                         }
 
                         loginAkasaR.credentials = credentialsobj;

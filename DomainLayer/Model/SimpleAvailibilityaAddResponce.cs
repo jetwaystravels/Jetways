@@ -60,6 +60,18 @@ namespace DomainLayer.Model
         public string ArrivalDate { get; set; }
         public string ArrivalTime { get; set; }
         public DateTime departure { get; set; }
+
+        public string _DepartureDate { get; set; }
+        public string _ArrivalDate { get; set; }
+        public string _Distance { get; set; }
+        public string _Equipment { get; set; }
+        public string _AvailabilitySource { get; set; }
+        public string _AvailabilityDisplayType { get; set; }
+        public string _Group { get; set; }
+        public string _FlightTime { get; set; }
+        public string _ProviderCode { get; set; }
+        public string _ClassOfService { get; set; }
+
     }
     
     public class Detail
