@@ -158,7 +158,7 @@ namespace OnionConsumeWebAPI.Controllers.TravelClick
         {
             HttpContext.Session.SetString("PassengerNameDetails", JsonConvert.SerializeObject(passengerdetails));
 
-            //string Signature = HttpContext.Session.GetString("IndigoSignature");
+            //string Signature = HttpContext.Session.GetString("PassengerNameDetails");
             //if (Signature == null) { Signature = ""; }
             //if (!string.IsNullOrEmpty(Signature))
             //{

@@ -140,7 +140,7 @@ namespace OnionConsumeWebAPI.Controllers.TravelClick
                     getAirPriceRes = _objP.ParseAirFareRsp(res, "OneWay", availibiltyRQGDS);
                 }
 
-
+                HttpContext.Session.SetString("Total", getAirPriceRes[0].Fare.TotalFareWithOutMarkUp.ToString());
                 //_sell objsell = new _sell();
                 //IndigoBookingManager_.SellResponse _getSellRS = null;// await objsell.Sell(Signature, journeyKey, fareKey, "", "", TotalCount, adultcount, childcount, infantcount, "OneWay");
                 string str = JsonConvert.SerializeObject(getAirPriceRes);
@@ -389,6 +389,7 @@ namespace OnionConsumeWebAPI.Controllers.TravelClick
                     AirAsiaTripResponceobj.passengers = passkeylist;
                     AirAsiaTripResponceobj.passengerscount = passengercount;
                     AirAsiaTripResponceobj.infttax = basefareInfttax;
+                    AirAsiaTripResponceobj.PriceSolution = getAirPriceRes[0].PricingSolutionValue;
                     #endregion
 
                     HttpContext.Session.SetString("SGkeypassenger", JsonConvert.SerializeObject(AirAsiaTripResponceobj));

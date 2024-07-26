@@ -271,7 +271,7 @@
             {
                 for (int i = 0; i < item.segments.Count; i++)
                 {
-                    AirCraftname = @Model.SeatmaplistRT[k].datalist[i].seatMap.name;
+                    //AirCraftname = @Model.SeatmaplistRT[k].datalist[i].seatMap.name;
                     if (i == 1)
                     {
                         formattedTime = string.Empty;
@@ -336,7 +336,7 @@
                                             @* <img class="size-30" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">*@
                                         </div>
 
-                                        <div class="text-14 text-light-1">Air India Expr... @item.segments[i].identifier.carrierCode @item.segments[i].identifier.identifier <span class="airliname">@AirCraftname</span></div>
+                                        <div class="text-14 text-light-1">@AirLinename @item.segments[i].identifier.carrierCode @item.segments[i].identifier.identifier <span class="airliname">@AirCraftname</span></div>
                                     </div>
 
                                     <div class="relative z-0">

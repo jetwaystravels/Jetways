@@ -42,6 +42,7 @@ namespace DomainLayer.Model
         public AAJourneytotals Journeytotals { get; set; }
         public passkeytype passkeytype { get; set; }
         public AADesignator designator { get; set; }
+        public string PriceSolution { get; set; }
         public AAIdentifier Identifier { get; set; }
         public List<AADesignator> designatorlegs { get; set; }
         public List<AASsr> Ssr { get; set; }

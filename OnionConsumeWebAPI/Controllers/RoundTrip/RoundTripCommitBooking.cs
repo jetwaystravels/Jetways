@@ -385,8 +385,12 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                             }
                                             else
                                             {
-                                                htBagdata.Add(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination, ssrReturn.ssrCode);
+                                                if (!htBagdata.Contains(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination))
+                                                {
+                                                    htBagdata.Add(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination, ssrReturn.ssrCode);
+                                                }
                                                 returnSeats.SSRCode += ssrReturn.ssrCode + ",";
+
                                             }
 
 
@@ -936,7 +940,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     ReturnCharge returnChargeobj = new ReturnCharge();
                                     returnChargeobj.amount = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.charges[ch].amount;
                                     returnChargeobj.code = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.charges[ch].code;
-                                    if (returnChargeobj.code.StartsWith("V"))
+                                    if (returnChargeobj.code.StartsWith("X"))
                                     {
                                         totalAmount += returnChargeobj.amount;
 

@@ -1498,15 +1498,31 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     string _password = string.Empty;
                     string res = string.Empty;
                     StringBuilder sbReq = null;
-                    _targetBranch = "P7027135";
-                    _userName = "Universal API/uAPI5098257106-beb65aec";
-                    _password = "Q!f5-d7A3D";
+
+                    _credentials _CredentialsGDS = new _credentials();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var results = response.Content.ReadAsStringAsync().Result;
+                        var JsonObject = JsonConvert.DeserializeObject<List<_credentials>>(results);
+                        if (JsonObject[4].FlightCode == 5)
+                        {
+                            _CredentialsGDS.username = JsonObject[4].username;
+                            _CredentialsGDS.password = JsonObject[4].password;
+                            _CredentialsGDS.domain = JsonObject[4].domain;
+                            // _CredentialsGDS.Status = JsonObject[4].Status;
+                        }
+
+
+                    }
+                    //_targetBranch = "P7027135";
+                    //_userName = "Universal API/uAPI5098257106-beb65aec";
+                    //_password = "Q!f5-d7A3D";
                     sbReq = new StringBuilder();
                     Guid newGuid = Guid.NewGuid();
                     httpContextAccessorInstance = new HttpContextAccessor();
                     TravelPort _objAvail = null;
                     _objAvail = new TravelPort(httpContextAccessorInstance);
-                    res = _objAvail.GetAvailabilty(_testURL, sbReq, _objAvail, _GetfligthModel, newGuid.ToString(), _targetBranch, _userName, _password, "GDSOneWay");
+                    res = _objAvail.GetAvailabilty(_testURL, sbReq, _objAvail, _GetfligthModel, newGuid.ToString(), _CredentialsGDS.domain, _CredentialsGDS.username, _CredentialsGDS.password, "GDSOneWay");
                     TempData["origin"] = _GetfligthModel.origin;
                     TempData["destination"] = _GetfligthModel.destination;
                     TravelPortParsing _objP = new TravelPortParsing();
