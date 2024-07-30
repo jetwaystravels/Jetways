@@ -51,7 +51,7 @@ namespace OnionArchitectureAPI.Services.Travelport
         GDSResModel.Bond finalBond = null;
         public List<GDSResModel.Segment> ParseAirFareRsp(string AirFareResponse, string contractType_, SimpleAvailabilityRequestModel availibiltyRQGDS)
         {
-            
+
             try
             {
                 listOfSegment = new List<GDSResModel.Segment>();
@@ -950,7 +950,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                                                                                         leg.ArrivalDate = airSegment.Attributes["ArrivalTime"].Value.Split('T')[0];
                                                                                         leg.ArrivalTime = airSegment.Attributes["ArrivalTime"].Value.Split('T')[1];
                                                                                         leg._ArrivalDate = airSegment.Attributes["ArrivalTime"].Value;
-                                                                                        leg._DepartureDate= Convert.ToDateTime(airSegment.Attributes["DepartureTime"].Value).ToString("yyyy-MM-ddTHH:mm:ss.fffzzz");
+                                                                                        leg._DepartureDate = Convert.ToDateTime(airSegment.Attributes["DepartureTime"].Value).ToString("yyyy-MM-ddTHH:mm:ss.fffzzz");
                                                                                         leg._Distance = airSegment.Attributes["Distance"].Value;
                                                                                         leg._Equipment = airSegment.Attributes["Equipment"].Value;
                                                                                         leg._AvailabilityDisplayType = airSegment.Attributes["AvailabilityDisplayType"].Value;
@@ -1075,7 +1075,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                                                                     }
                                                                     else
                                                                     {
-                                                                        segmentid += "@"+ airPricingInfo.Attributes["SegmentRef"].Value;
+                                                                        segmentid += "@" + airPricingInfo.Attributes["SegmentRef"].Value;
                                                                     }
                                                                 }
                                                             }
@@ -1440,7 +1440,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                                                                                 {
                                                                                     leg_.BaggageWeight = baggageDetais[airPricingInfo.Attributes["FareInfoRef"].Value].Split('|')[0];
                                                                                     leg_.BaggageUnit = baggageDetais[airPricingInfo.Attributes["FareInfoRef"].Value].Split('|')[1];
-                                                                                    leg_.Branddesc= baggageDetais[airPricingInfo.Attributes["FareInfoRef"].Value].Split('|')[2].Split('\n')[0];
+                                                                                    leg_.Branddesc = baggageDetais[airPricingInfo.Attributes["FareInfoRef"].Value].Split('|')[2].Split('\n')[0];
                                                                                     if (!IsDomestic)
                                                                                         leg_.Remarks = baggageDetais[airPricingInfo.Attributes["FareInfoRef"].Value].Split('|')[2];
                                                                                 }
@@ -1633,7 +1633,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                                     {
                                         switch (airCreateRes.Name)
                                         {
-                                            case "common_v46_0:ResponseMessage":
+                                            case "common_v52_0:ResponseMessage":
                                                 pnrResDetail.PnrMessage = airCreateRes.InnerText;
                                                 if (airCreateRes.Attributes["Code"].Value.Equals("1", StringComparison.OrdinalIgnoreCase) && airCreateRes.InnerText.Equals("TO ENSURE FARE GUARANTEE - TICKET NOW", StringComparison.OrdinalIgnoreCase))
                                                 {
@@ -1685,6 +1685,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                                                             break;
                                                         case "universal:ProviderReservationInfo":
                                                             pnrResDetail.ProviderReservationLocator = universalRecord.Attributes["LocatorCode"].Value;
+                                                            pnrResDetail.bookingdate = Convert.ToDateTime(universalRecord.Attributes["CreateDate"].Value);
                                                             break;
 
 
@@ -1750,8 +1751,16 @@ namespace OnionArchitectureAPI.Services.Travelport
                                                                                 case "air:AirAvailInfo":
                                                                                     leg.ProviderCode = airSegmentChild.Attributes["ProviderCode"].Value;
                                                                                     break;
-                                                                                case "air:FlightDetailsRef":
+                                                                                case "air:FlightDetails":
                                                                                     leg.FlightDetailRefKey = airSegmentChild.Attributes["Key"].Value;
+                                                                                    if (airSegmentChild.Attributes["OriginTerminal"] != null)
+                                                                                    {
+                                                                                        leg.DepartureTerminal = airSegmentChild.Attributes["OriginTerminal"].Value;
+                                                                                    }
+                                                                                    if (airSegmentChild.Attributes["DestinationTerminal"] != null)
+                                                                                    {
+                                                                                        leg.ArrivalTerminal = airSegmentChild.Attributes["DestinationTerminal"].Value;
+                                                                                    }
                                                                                     break;
                                                                             }
                                                                         }
@@ -1846,7 +1855,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                     }
                 }
             }
-            if(bond.Legs.Count > 0)
+            if (bond.Legs.Count > 0)
             {
                 pnrResDetail.Bonds = new Bond();
                 pnrResDetail.Bonds = bond;
@@ -1854,6 +1863,6 @@ namespace OnionArchitectureAPI.Services.Travelport
 
             return pnrResDetail;
         }
-        
+
     }
 }

@@ -185,6 +185,7 @@ namespace OnionConsumeWebAPI.Controllers.TravelClick
                                 _contact.ReturnPaxSeats = "";// _unitdesinator.unitDesignatorPax.ToString();
                             returnTicketBooking.airLines = pnrResDetail.Bonds.Legs[0].FlightName;
                             returnTicketBooking.recordLocator = pnrResDetail.UniversalRecordLocator;// _getBookingResponse.Booking.RecordLocator;
+                            returnTicketBooking.bookingdate= pnrResDetail.bookingdate;
                             BarcodePNR = pnrResDetail.UniversalRecordLocator;
                             if (BarcodePNR.Length < 7)
                             {

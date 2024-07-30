@@ -150,6 +150,7 @@ namespace DomainLayer.Model
             public bool IsCreditPayment { get; set; }
             public string PaymentKey { get; set; }
             public Bond Bonds { get; set; }
+            public DateTime bookingdate { get; set; }
         }
         public class TravellerDetail
         {
