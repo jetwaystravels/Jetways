@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq.Expressions;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using Bookingmanager_;
 using DomainLayer.Model;
@@ -323,6 +324,11 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         ContactModel _ContactModel = new ContactModel();
                         //  _ContactModel.emailAddress = passengerdetails.Email;
                         _ContactModel.emailAddress = contactobject.emailAddress;
+                        _ContactModel.customerNumber = null; //contactobject.customerNumber;
+                        _ContactModel.sourceOrganization = "QPCCJ5003C";
+                        _ContactModel.distributionOption = null;
+                        _ContactModel.notificationPreference = null;
+                        _ContactModel.companyName = contactobject.companyName;
                         _Phonenumber Phonenumber = new _Phonenumber();
                         List<_Phonenumber> Phonenumberlist = new List<_Phonenumber>();
                         Phonenumber.type = "Home";
@@ -362,7 +368,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         {
                             var _responseAddContact = responseAddContact.Content.ReadAsStringAsync().Result;
                             Logs logs1 = new Logs();
-                            //logs1.WriteLogsR("Request: " + JsonConvert.SerializeObject(_ContactModel) + "Url: " + AppUrlConstant.URLAkasaAir + "/api/nsk/v1/booking/contacts" + "\n Response: " + JsonConvert.SerializeObject(_responseAddContact), "Update Contacts", "AkasaRT");
+                            logs1.WriteLogsR("Request: " + JsonConvert.SerializeObject(_ContactModel) + "Url: " + AppUrlConstant.URLAkasaAir + "/api/nsk/v1/booking/contacts" + "\n Response: " + JsonConvert.SerializeObject(_responseAddContact), "Update Contacts", "AkasaRT");
 
                             var JsonObjAddContact = JsonConvert.DeserializeObject<dynamic>(_responseAddContact);
                         }
@@ -435,53 +441,133 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
         }
         public async Task<IActionResult> _RGetGstDetails(ContactModel contactobject, AddGSTInformation addGSTInformation)
         {
-            string tokenview = HttpContext.Session.GetString("AirasiaTokan");
-            token = tokenview.Replace(@"""", string.Empty);
-
-            using (HttpClient client = new HttpClient())
+            
+            string SelectedAirlinedata = HttpContext.Session.GetString("SelectedAirlineName");
+            string[] dataArray = JsonConvert.DeserializeObject<string[]>(SelectedAirlinedata);
+            for (int i = 0; i < dataArray.Length; i++)
             {
-                AddGSTInformation addinformation = new AddGSTInformation();
-                addinformation.contactTypeCode = "G";
-                GSTPhonenumber Phonenumber = new GSTPhonenumber();
-                List<GSTPhonenumber> Phonenumberlist = new List<GSTPhonenumber>();
-                Phonenumber.type = "Other";
-                Phonenumber.number = contactobject.number; ;
-                Phonenumberlist.Add(Phonenumber);
+                string tokenview = string.Empty;
+                if (i == 0)
+                {
+                    tokenview = HttpContext.Session.GetString("AirasiaTokan");
+                }
+                else
+                {
+                    tokenview = HttpContext.Session.GetString("AirasiaTokanR");
+                }
 
-                foreach (var item in Phonenumberlist)
+
+                token = tokenview.Replace(@"""", string.Empty);
+
+                using (HttpClient client = new HttpClient())
                 {
-                    addinformation.phoneNumbers = Phonenumberlist;
-                }
-                addinformation.cultureCode = "";
-                GSTAddress Address = new GSTAddress();
-                addinformation.Address = Address;
-                addinformation.emailAddress = contactobject.emailAddress;
-                addinformation.customerNumber = contactobject.customerNumber;
-                addinformation.sourceOrganization = "";
-                addinformation.distributionOption = "None";
-                addinformation.notificationPreference = "None";
-                addinformation.companyName = contactobject.companyName;
-                GSTName Name = new GSTName();
-                Name.first = contactobject.first;
-                Name.last = contactobject.last;
-                Name.title = "MR";
-                Name.suffix = "";
-                addinformation.Name = Name;
-                if (contactobject.companyName != null)
-                {
-                    var jsonContactRequest = JsonConvert.SerializeObject(addinformation, Formatting.Indented);
-                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                    HttpResponseMessage responseAddContact = await client.PostAsJsonAsync(AppUrlConstant.AirasiaGstDetail, addinformation);
-                    if (responseAddContact.IsSuccessStatusCode)
+                    AddGSTInformation addinformation = new AddGSTInformation();
+                    addinformation.contactTypeCode = "G";
+                    GSTPhonenumber Phonenumber = new GSTPhonenumber();
+                    List<GSTPhonenumber> Phonenumberlist = new List<GSTPhonenumber>();
+                    Phonenumber.type = "Other";
+                    Phonenumber.number = contactobject.number; ;
+                    Phonenumberlist.Add(Phonenumber);
+
+                    foreach (var item in Phonenumberlist)
                     {
-                        var _responseAddContact = responseAddContact.Content.ReadAsStringAsync().Result;
-                        var JsonObjAddContact = JsonConvert.DeserializeObject<dynamic>(_responseAddContact);
+                        addinformation.phoneNumbers = Phonenumberlist;
                     }
+                    addinformation.cultureCode = "";
+                    GSTAddress Address = new GSTAddress();
+                    addinformation.Address = Address;
+                    addinformation.emailAddress = contactobject.emailAddress;
+                    addinformation.customerNumber = contactobject.customerNumber;
+                    addinformation.sourceOrganization = "";
+                    addinformation.distributionOption = "None";
+                    addinformation.notificationPreference = "None";
+                    addinformation.companyName = contactobject.companyName;
+                    GSTName Name = new GSTName();
+                    Name.first = contactobject.first;
+                    Name.last = contactobject.last;
+                    Name.title = "MR";
+                    Name.suffix = "";
+                    addinformation.Name = Name;
+                    if (contactobject.companyName != null)
+                    {
+                        var jsonContactRequest = JsonConvert.SerializeObject(addinformation, Formatting.Indented);
+                        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                        HttpResponseMessage responseAddContact = await client.PostAsJsonAsync(AppUrlConstant.AirasiaGstDetail, addinformation);
+                        if (responseAddContact.IsSuccessStatusCode)
+                        {
+                            var _responseAddContact = responseAddContact.Content.ReadAsStringAsync().Result;
+                            var JsonObjAddContact = JsonConvert.DeserializeObject<dynamic>(_responseAddContact);
+                        }
+                    }
+
                 }
+
+                 tokenview = string.Empty;
+                if (i == 0)
+                {
+                    tokenview = HttpContext.Session.GetString("AkasaTokan");
+                }
+                else
+                {
+                    tokenview = HttpContext.Session.GetString("AkasaTokanR");
+                }
+
+
+                token = tokenview.Replace(@"""", string.Empty);
+
+                using (HttpClient client = new HttpClient())
+                {
+                    AddGSTInformation addinformation = new AddGSTInformation();
+                    addinformation.contactTypeCode = "G";
+                    GSTPhonenumber Phonenumber = new GSTPhonenumber();
+                    List<GSTPhonenumber> Phonenumberlist = new List<GSTPhonenumber>();
+                    Phonenumber.type = "Other";
+                    Phonenumber.number = contactobject.number; ;
+                    Phonenumberlist.Add(Phonenumber);
+
+                    foreach (var item in Phonenumberlist)
+                    {
+                        addinformation.phoneNumbers = Phonenumberlist;
+                    }
+                    addinformation.cultureCode = "";
+                    GSTAddress Address = new GSTAddress();
+                    Address.lineOne = "Ashokenagar,bharathi cross str";
+                    Address.countryCode = "IN";
+                    Address.provinceState = "TN";
+                    Address.city = "Ashokenagar";
+                    Address.postalCode = "400006";
+                    addinformation.Address = Address;
+
+                    addinformation.emailAddress = contactobject.emailAddress;
+                    addinformation.customerNumber = contactobject.customerNumber;
+                    //addinformation.sourceOrganization = "QPCCJ5003C";
+                    addinformation.distributionOption = null;
+                    addinformation.notificationPreference = null;
+                    addinformation.companyName = contactobject.companyName;
+                    GSTName Name = new GSTName();
+                    Name.first = contactobject.first;
+                    Name.last = contactobject.last;
+                    Name.title = "MR";
+                    Name.suffix = "";
+                    addinformation.Name = Name;
+                    if (contactobject.companyName != null)
+                    {
+                        var jsonContactRequest = JsonConvert.SerializeObject(addinformation, Formatting.Indented);
+                        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                        HttpResponseMessage responseAddContact = await client.PostAsJsonAsync(AppUrlConstant.URLAkasaAir + "/api/nsk/v1/booking/contacts", addinformation);
+                        if (responseAddContact.IsSuccessStatusCode)
+                        {
+                            var _responseAddContact = responseAddContact.Content.ReadAsStringAsync().Result;
+                            var JsonObjAddContact = JsonConvert.DeserializeObject<dynamic>(_responseAddContact);
+                        }
+                    }
+
+                }
+
 
             }
-
             return RedirectToAction("RoundAATripsellView", "RoundAATripsell");
         }
         [HttpPost]

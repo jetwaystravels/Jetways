@@ -17,7 +17,8 @@ namespace DomainLayer.Model
         public _Address address { get; set; }
         public string emailAddress { get; set; }
         public string distributionOption { get; set; } = "Email";
-        public string sourceOrganization { get; set; } = "";
+        public string sourceOrganization { get; set; }
+        public string notificationPreference { get; set; }
         public string companyName { get; set; }
         public string customerNumber { get; set; }
         public _Name name { get; set; }

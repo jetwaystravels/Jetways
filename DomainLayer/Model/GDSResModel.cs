@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -56,6 +57,7 @@ namespace DomainLayer.Model
             public decimal TotalTax { get; set; }
             public decimal TotalFare { get; set; }
             public PAXTYPE PaxType { get; set; }
+            public string FareID { get; set; }
 
         }
         public enum PAXTYPE
@@ -129,6 +131,34 @@ namespace DomainLayer.Model
             public string ChargeType { get; set; }
             public string ClassOfService { get; set; }
             public string CurrencyCode { get; set; }
+        }
+
+        public class PnrResponseDetails
+        {
+            public string AirReservationLocatorCode { get; set; }
+            public ArrayList PaxeDetailList { get; set; }
+            public ArrayList PaxFareList { get; set; }
+            public string PnrMessage { get; set; }
+            public bool PnrStatus { get; set; }
+            public string ProviderReservationLocator { get; set; }
+            public string SupplierLocatorCode { get; set; }
+            public string TPTransactionId { get; set; }
+            public string UniversalRecordLocator { get; set; }
+            public string PlatingCarrier { get; set; }
+            public string DealCodeVersion { get; set; }
+            public bool IsAirPricingInfo { get; set; }
+            public bool IsCreditPayment { get; set; }
+            public string PaymentKey { get; set; }
+            public Bond Bonds { get; set; }
+        }
+        public class TravellerDetail
+        {
+            public string PaxId { get; set; }
+            public Enum PaxType { get; set; }
+            public string FirstName { get; set; }
+
+            public string LastName { get; set; }
+
         }
     }
 }

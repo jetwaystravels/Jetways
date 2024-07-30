@@ -75,10 +75,53 @@
                                         {
                                             <div class="row x-gap-20 bdr">
                                                 <div class="col-auto">
-                                                    <div class="logo"><img class="size-35" src="~/img/flight-logo-icon/6E.png" alt="logo"></div>
+                                                    <div class="logo">
+                                                        @{
+                                                            if (Model.AirlinePNR[a].journeys[i].segments[i1].identifier.carrierCode.Equals("AI"))
+                                                            {
+                                                                <img class="size-40" src="~/img/flight-logo-icon/airindia.png" alt="image">
+                                                            }
+                                                            else if (Model.AirlinePNR[a].journeys[i].segments[i1].identifier.carrierCode.Equals("UK"))
+                                                            {
+                                                                <img class="size-40" src="~/img/flight-logo-icon/vistara.png" alt="image">
+                                                            }
+                                                            else if (Model.AirlinePNR[a].journeys[i].segments[i1].identifier.carrierCode.Equals("H1"))
+                                                            {
+                                                                <img class="size-40" src="~/img/flight-logo-icon/hahnair.png" alt="image">
+                                                            }
+                                                            else
+                                                            {
+                                                                <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
+                                                            }
+                                                        }
+                                                    </div>
                                                 </div>
                                                 <div class="col">
-                                                    <div class="airline-N">Indigo<br> @Model.AirlinePNR[a].journeys[i].segments[i1].identifier.carrierCode-@Model.AirlinePNR[a].journeys[i].segments[i1].identifier.identifier</div>
+                                                    @{
+                                                        string CompanyName = string.Empty;
+                                                        if (Model.AirlinePNR[a].journeys[i].segments[i1].identifier.carrierCode.Equals("AI"))
+                                                        {
+
+                                                            CompanyName = "AirIndia";
+                                                        }
+                                                        else if (Model.AirlinePNR[a].journeys[i].segments[i1].identifier.carrierCode.Equals("UK"))
+                                                        {
+
+                                                            CompanyName = "Vistara";
+                                                        }
+                                                        else if (Model.AirlinePNR[a].journeys[i].segments[i1].identifier.carrierCode.Equals("H1"))
+                                                        {
+
+                                                            CompanyName = "Hahnair";
+                                                        }
+                                                        else
+                                                        {
+                                                            CompanyName = "TravelClick";
+                                                        }
+
+
+                                                    }
+                                                    <div class="airline-N">@CompanyName <br> @Model.AirlinePNR[a].journeys[i].segments[i1].identifier.carrierCode-@Model.AirlinePNR[a].journeys[i].segments[i1].identifier.identifier</div>
                                                 </div>
                                                 <div class="col-4">
                                                     @{
@@ -162,7 +205,7 @@
                                             <th rowspan="2" class="align-middle">mobile  Number</th>
                                             <th rowspan="2" class="align-middle">Ticket Number</th>
                                             <th rowspan="2" class="align-middle">Status</th>
-                                            <th rowspan="2" class="align-middle barcode">Bar code</th>
+                                            <!--<th rowspan="2" class="align-middle barcode">Bar code</th>-->
                                         </tr>
                                         <tr>
                                             <th class="col-one">Sector</th>
@@ -222,58 +265,58 @@
                                                     }
                                                     <td>AD1WSM/1/1</td>
                                                     <td>Confirm</td>
-                                                    @if (i3 == 1)
-                                                    {
-                                                        if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "INFT")
-                                                        {
-                                                            <td></td>
-                                                        }
-                                                        else
-                                                        {
-                                                            if (barcodeimageUrl != "")
-                                                            {
-                                                                int segmentscount = @Model.AirlinePNR[a].journeys[0].segments.Count;
-                                                                if (segmentscount == 1)
-                                                                {
-                                                                    <td rowspan="1" style="vertical-align:middle;"><img src="@barcodeimageUrl" alt="barcode"></td>
-                                                                }
-                                                                if (segmentscount == 2)
-                                                                {
-                                                                    <td rowspan="2" style="vertical-align:middle;"><img src="@barcodeimageUrl" alt="barcode"></td>
-                                                                }
-                                                            }
-                                                            // else
-                                                            // {
-                                                            //     <td></td>
-                                                            // }
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "INFT")
-                                                        {
-                                                            <td></td>
-                                                        }
-                                                        else
-                                                        {
-                                                            if (barcodeimageUrl != "")
-                                                            {
-                                                                int segmentscount = @Model.AirlinePNR[a].journeys[0].segments.Count;
-                                                                if (segmentscount == 1)
-                                                                {
-                                                                    <td rowspan="1" style="vertical-align:middle;width:110px;"><img src="@barcodeimageUrl" alt="barcode"></td>
-                                                                }
-                                                                if (segmentscount == 2)
-                                                                {
-                                                                    <td rowspan="2" style="vertical-align:middle;width:110px;"><img src="@barcodeimageUrl" alt="barcode"></td>
-                                                                }
-                                                            }
-                                                            // else
-                                                            // {
-                                                            //     <td></td>
-                                                            // }
-                                                        }
-                                                    }
+                                                    @* @if (i3 == 1)
+                                                    // {
+                                                    //     if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "INFT")
+                                                    //     {
+                                                    //         <td></td>
+                                                    //     }
+                                                    //     else
+                                                    //     {
+                                                    //         if (barcodeimageUrl != "")
+                                                    //         {
+                                                    //             int segmentscount = @Model.AirlinePNR[a].journeys[0].segments.Count;
+                                                    //             if (segmentscount == 1)
+                                                    //             {
+                                                    //                 <td rowspan="1" style="vertical-align:middle;"><img src="@barcodeimageUrl" alt="barcode"></td>
+                                                    //             }
+                                                    //             if (segmentscount == 2)
+                                                    //             {
+                                                    //                 <td rowspan="2" style="vertical-align:middle;"><img src="@barcodeimageUrl" alt="barcode"></td>
+                                                    //             }
+                                                    //         }
+                                                    //         // else
+                                                    //         // {
+                                                    //         //     <td></td>
+                                                    //         // }
+                                                    //     }
+                                                    // }
+                                                    // else
+                                                    // {
+                                                    //     if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "INFT")
+                                                    //     {
+                                                    //         <td></td>
+                                                    //     }
+                                                    //     else
+                                                    //     {
+                                                    //         if (barcodeimageUrl != "")
+                                                    //         {
+                                                    //             int segmentscount = @Model.AirlinePNR[a].journeys[0].segments.Count;
+                                                    //             if (segmentscount == 1)
+                                                    //             {
+                                                    //                 <td rowspan="1" style="vertical-align:middle;width:110px;"><img src="@barcodeimageUrl" alt="barcode"></td>
+                                                    //             }
+                                                    //             if (segmentscount == 2)
+                                                    //             {
+                                                    //                 <td rowspan="2" style="vertical-align:middle;width:110px;"><img src="@barcodeimageUrl" alt="barcode"></td>
+                                                    //             }
+                                                    //         }
+                                                    //         // else
+                                                    //         // {
+                                                    //         //     <td></td>
+                                                    //         // }
+                                                    //     }
+                                                    // }*@
                                                 </tr>
                                             }
                                         }
@@ -357,7 +400,7 @@
                                     </tbody>
 
                                 </table>
-                                <div class="Flight-Inclusion mt-15">
+                                @*<div class="Flight-Inclusion mt-15">
                                     <h3>GST Details</h3>
                                     <table class="table table-bordered">
                                         <thead>
@@ -385,7 +428,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                </div>
+                                </div>*@
                                 <div class="Flight-Inclusion mt-15">
                                     <h3>Fare Details</h3>
                                     <table class="table table-bordered">
@@ -398,11 +441,11 @@
                                         <tbody class="fare">
                                             <tr>
                                                 <td>Total Basic Fare:</td>
-                                                <td>Rs. @Model.AirlinePNR[a].breakdown.journeyTotals.totalAmount</td>
+                                                <td>Rs. @Model.AirlinePNR[a].breakdown.journeyfareTotals[0].totalAmount</td>
                                             </tr>
                                             <tr>
                                                 <td>Airline taxes and fees</td>
-                                                <td>Rs. @Model.AirlinePNR[a].breakdown.journeyTotals.totalTax</td>
+                                                <td>Rs. @Model.AirlinePNR[a].breakdown.journeyfareTotals[0].totalTax</td>
                                             </tr>
                                             <tr>
                                                 <td>Discount:</td>

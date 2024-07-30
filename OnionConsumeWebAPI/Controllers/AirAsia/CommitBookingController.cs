@@ -28,6 +28,7 @@ using System.Collections;
 using System.Globalization;
 using Microsoft.AspNetCore.Http;
 using Utility;
+using NuGet.Versioning;
 
 namespace OnionConsumeWebAPI.Controllers
 {
@@ -120,6 +121,14 @@ namespace OnionConsumeWebAPI.Controllers
                     Hashtable htseatdata = new Hashtable();
                     Hashtable htmealdata = new Hashtable();
                     Hashtable htBagdata = new Hashtable();
+
+                    Hashtable TicketSeat = new Hashtable();
+                    Hashtable TicketCarryBag = new Hashtable();
+                    Hashtable TicketMeal = new Hashtable();
+                    Hashtable TicketMealAmount = new Hashtable();
+                    Hashtable TicketCarryBagAMount = new Hashtable();
+                    DateTime departure;
+
                     Logs logs = new Logs();
                     var _responcePNRBooking = responceGetBooking.Content.ReadAsStringAsync().Result;
                     logs.WriteLogs("Request: " + JsonConvert.SerializeObject(AppUrlConstant.AirasiaPNRBooking + AirLinePNR) + "\n Response: " + _responcePNRBooking, "GetBookingDeatils", "AirAsiaOneWay");
@@ -281,6 +290,7 @@ namespace OnionConsumeWebAPI.Controllers
                         ReturnDesignatorobject.destination = JsonObjPNRBooking.data.journeys[0].designator.destination;
                         orides = JsonObjPNRBooking.data.journeys[0].designator.origin + JsonObjPNRBooking.data.journeys[0].designator.destination;
                         ReturnDesignatorobject.departure = JsonObjPNRBooking.data.journeys[0].designator.departure;
+                        departure = JsonObjPNRBooking.data.journeys[0].designator.departure;
                         ReturnDesignatorobject.arrival = JsonObjPNRBooking.data.journeys[0].designator.arrival;
 
                         journeysReturnObj.designator = ReturnDesignatorobject;
@@ -555,7 +565,8 @@ namespace OnionConsumeWebAPI.Controllers
                     tb_Booking.Origin = JsonObjPNRBooking.data.journeys[0].designator.origin;
                     tb_Booking.Destination = JsonObjPNRBooking.data.journeys[0].designator.destination;
                     tb_Booking.BookedDate = DateTime.Now;//JsonObjPNRBooking.data.journeys[0].designator.departure;                    
-                    tb_Booking.TotalAmount = JsonObjPNRBooking.data.breakdown.balanceDue; ;
+
+                    tb_Booking.TotalAmount = JsonObjPNRBooking.data.breakdown.balanceDue;
                     if (JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices != null)
                     {
                         tb_Booking.SpecialServicesTotal = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.total;
@@ -609,7 +620,16 @@ namespace OnionConsumeWebAPI.Controllers
                     contactDetail.ModifyDate = DateTime.Now;
                     contactDetail.ModifyBy = "Admin";
                     contactDetail.Status = 0;
-
+                    GSTDetails gSTDetails = new GSTDetails();
+                    if (JsonObjPNRBooking.data.contacts.G != null)
+                    {
+                        gSTDetails.bookingReferenceNumber = JsonObjPNRBooking.data.bookingKey;
+                        gSTDetails.GSTEmail = JsonObjPNRBooking.data.contacts.G.emailAddress;
+                        gSTDetails.GSTNumber = JsonObjPNRBooking.data.contacts.G.customerNumber;
+                        gSTDetails.GSTName = JsonObjPNRBooking.data.contacts.G.companyName;
+                        gSTDetails.airLinePNR = JsonObjPNRBooking.data.recordLocator;
+                        gSTDetails.status = 0;
+                    }
 
                     tb_PassengerTotal tb_PassengerTotalobj = new tb_PassengerTotal();
                     bookingKey = JsonObjPNRBooking.data.bookingKey;
@@ -638,6 +658,7 @@ namespace OnionConsumeWebAPI.Controllers
                     var passangerCount = JsonObjPNRBooking.data.passengers;
                     int PassengerDataCount = ((Newtonsoft.Json.Linq.JContainer)passangerCount).Count;
                     List<tb_PassengerDetails> tb_PassengerDetailsList = new List<tb_PassengerDetails>();
+                    //tb_PassengerDetails tb_Passengerobj = new tb_PassengerDetails();                    
                     foreach (var items in JsonObjPNRBooking.data.passengers)
                     {
                         tb_PassengerDetails tb_Passengerobj = new tb_PassengerDetails();
@@ -654,10 +675,133 @@ namespace OnionConsumeWebAPI.Controllers
                         tb_Passengerobj.ModifiedDate = DateTime.Now;
                         tb_Passengerobj.ModifyBy = "Online";
                         tb_Passengerobj.Status = "0";
+                        if (items.Value.infant != null)
+                        {
+
+                            tb_Passengerobj.Inf_TypeCode = "INFT";
+                            tb_Passengerobj.Inf_Firstname = items.Value.infant.name.first;
+                            tb_Passengerobj.Inf_Lastname = items.Value.infant.name.last;
+                            tb_Passengerobj.Inf_Dob = items.Value.infant.dateOfBirth;
+                            if (items.Value.infant.gender == "1")
+                            {
+                                tb_Passengerobj.Inf_Gender = "Master";
+                            }
+                            //passkeytypeobj.MobNumber = "";
+                            for (int i = 0; i < PassengerDataDetailsList.Count; i++)
+                            {
+                                if (tb_Passengerobj.Inf_TypeCode == PassengerDataDetailsList[i].passengertypecode && tb_Passengerobj.Inf_Firstname.ToLower() == PassengerDataDetailsList[i].first.ToLower() + " " + PassengerDataDetailsList[i].last.ToLower())
+                                {
+                                    tb_Passengerobj.PassengerKey = PassengerDataDetailsList[i].passengerkey;
+                                    break;
+                                }
+
+                            }
+                            //ReturnpassengersList.Add(returnPassengersobj);
+
+                        }
+
+                        // Handle carrybages and fees
+                        List<FeeDetails> feeDetails = new List<FeeDetails>();
+                        double TotalAmount_Seat = 0;
+                        double TotalAmount_Meals = 0;
+                        double TotalAmount_Baggage = 0;
+
+                        double TotalAmount_CGST = 0;
+                        double TotalAmount_SGST = 0;
+                        double AddCGSTSGST = 0;
+
+                        double TotalAmount_CGSTM = 0;
+                        double TotalAmount_SGSTM = 0;
+                        double AddCGSTSGSTM = 0;
+
+                        double TotalAmount_CGSTP = 0;
+                        double TotalAmount_SGSTP = 0;
+                        double AddCGSTSGSTP = 0;
+
+
+                        double totalServiceTax = 0;
+                        string carryBagesConcatenation = "";
+                        string MealConcatenation = "";
+                        int feesCount = items.Value.fees.Count;
+                        foreach (var fee in items.Value.fees)
+                        {
+                            string ssrCode = fee.ssrCode?.ToString();
+                            if (ssrCode != null)
+                            {
+                                if (ssrCode.StartsWith("P"))
+                                {
+                                    TicketCarryBag.Add(tb_Passengerobj.PassengerKey.ToString(), fee.ssrCode);
+                                    carryBagesConcatenation += fee.ssrCode + ",";
+                                }
+                                else if (ssrCode.StartsWith("V"))
+                                {
+                                    TicketMeal.Add(tb_Passengerobj.PassengerKey.ToString(), fee.ssrCode);
+                                    MealConcatenation += fee.ssrCode + ",";
+
+                                }
+                            }
+                            Hashtable TicketMealTax = new Hashtable();
+                            Hashtable TicketMealAmountTax = new Hashtable();
+                            Hashtable TicketCarryBagAMountTax = new Hashtable();
+
+                            // Iterate through service charges
+                            int ServiceCount = fee.serviceCharges.Count;
+                            foreach (var serviceCharge in fee.serviceCharges)
+                            {
+                                string serviceChargeCode = serviceCharge.code?.ToString();
+                                double amount = (serviceCharge.amount != null) ? Convert.ToDouble(serviceCharge.amount) : 0;
+                                if (serviceChargeCode != null)
+                                {
+                                    if (serviceChargeCode.StartsWith("SE"))
+                                    {
+                                        TotalAmount_Seat += amount;
+
+                                        //TotalAmount_CGST += amount;
+                                        //TotalAmount_SGST += amount;
+                                        // AddCGSTSGST = TotalAmount_CGST + TotalAmount_SGST;
+                                        TicketSeat.Add(tb_Passengerobj.PassengerKey.ToString(), TotalAmount_Seat);
+                                    }
+                                    else if (serviceChargeCode.StartsWith("V"))
+                                    {
+                                        TotalAmount_Meals += amount;
+                                        //TotalAmount_CGSTM += amount;
+                                        //TotalAmount_SGSTM += amount;
+                                        //AddCGSTSGSTM = TotalAmount_CGSTM + TotalAmount_SGSTM;
+
+                                        TicketMealAmount.Add(tb_Passengerobj.PassengerKey.ToString(), TotalAmount_Meals);
+                                    }
+                                    else if (serviceChargeCode.StartsWith("P"))
+                                    {
+                                        TotalAmount_Baggage += amount;
+                                        //TotalAmount_CGSTP += amount;
+                                        //TotalAmount_SGSTP += amount;
+                                        //AddCGSTSGSTP = TotalAmount_CGSTP + TotalAmount_SGSTP;
+                                        TicketCarryBagAMount.Add(tb_Passengerobj.PassengerKey.ToString(), TotalAmount_Baggage);
+                                    }
+                                    //if (serviceChargeCode == "CGST")
+                                    //{    
+                                    //    TotalAmount_CGST += amount;
+                                    //}
+                                    //else if (serviceChargeCode == "SGST")
+                                    //{
+                                    //    TotalAmount_SGST += amount;
+                                    //}
+                                }
+
+                            }
+                        }
+                        tb_Passengerobj.TotalAmount_Seat = TotalAmount_Seat;
+                        tb_Passengerobj.TotalAmount_Meals = TotalAmount_Meals;
+                        tb_Passengerobj.BaggageTotalAmount = TotalAmount_Baggage;
+                        tb_Passengerobj.Carrybages = carryBagesConcatenation.TrimEnd(',');
+                        tb_Passengerobj.MealsCode = MealConcatenation.TrimEnd(',');
                         tb_PassengerDetailsList.Add(tb_Passengerobj);
+
                     }
                     int JourneysCount = JsonObjPNRBooking.data.journeys.Count;
                     List<tb_journeys> tb_JourneysList = new List<tb_journeys>();
+                    List<tb_Segments> segmentReturnsListt = new List<tb_Segments>();
+                    Hashtable seatNumber = new Hashtable();
                     for (int i = 0; i < JourneysCount; i++)
                     {
                         tb_journeys tb_JourneysObj = new tb_journeys();
@@ -676,36 +820,66 @@ namespace OnionConsumeWebAPI.Controllers
                         tb_JourneysObj.Modifyby = "Online";
                         tb_JourneysObj.Status = "0";
                         tb_JourneysList.Add(tb_JourneysObj);
-                    }
-                    int SegmentReturnCountt = JsonObjPNRBooking.data.journeys[0].segments.Count;
-                    List<tb_Segments> segmentReturnsListt = new List<tb_Segments>();
-                    for (int j = 0; j < SegmentReturnCountt; j++)
-                    {
-                        tb_Segments segmentReturnobj = new tb_Segments();
-                        segmentReturnobj.BookingID = JsonObjPNRBooking.data.bookingKey;
-                        segmentReturnobj.journeyKey = JsonObjPNRBooking.data.journeys[0].journeyKey;
-                        segmentReturnobj.SegmentKey = JsonObjPNRBooking.data.journeys[0].segments[j].segmentKey;
-                        segmentReturnobj.SegmentCount = j;
-                        segmentReturnobj.Origin = JsonObjPNRBooking.data.journeys[0].segments[j].designator.origin;
-                        segmentReturnobj.Destination = JsonObjPNRBooking.data.journeys[0].segments[j].designator.destination;
-                        segmentReturnobj.DepartureDate = JsonObjPNRBooking.data.journeys[0].segments[j].designator.departure;
-                        segmentReturnobj.ArrivalDate = JsonObjPNRBooking.data.journeys[0].segments[j].designator.arrival;
-                        segmentReturnobj.Identifier = JsonObjPNRBooking.data.journeys[0].segments[j].identifier.identifier;
-                        segmentReturnobj.CarrierCode = JsonObjPNRBooking.data.journeys[0].segments[j].identifier.carrierCode;
-                        segmentReturnobj.Seatnumber = "2";
-                        segmentReturnobj.MealCode = "VScODE";
-                        segmentReturnobj.MealDiscription = "it is a coffe";
-                        segmentReturnobj.DepartureTerminal = 2;
-                        segmentReturnobj.ArrivalTerminal = 1;
-                        segmentReturnobj.CreatedDate = DateTime.Now;
-                        segmentReturnobj.ModifiedDate = DateTime.Now;
-                        segmentReturnobj.Createdby = "Online";
-                        segmentReturnobj.Modifyby = "Online";
-                        segmentReturnobj.Status = "0";
-                        segmentReturnsListt.Add(segmentReturnobj);
+                        int SegmentReturnCountt = JsonObjPNRBooking.data.journeys[0].segments.Count;
+                        for (int j = 0; j < SegmentReturnCountt; j++)
+                        {
+                            tb_Segments segmentReturnobj = new tb_Segments();
+                            segmentReturnobj.BookingID = JsonObjPNRBooking.data.bookingKey;
+                            segmentReturnobj.journeyKey = JsonObjPNRBooking.data.journeys[0].journeyKey;
+                            segmentReturnobj.SegmentKey = JsonObjPNRBooking.data.journeys[0].segments[j].segmentKey;
+                            segmentReturnobj.SegmentCount = j;
+                            segmentReturnobj.Origin = JsonObjPNRBooking.data.journeys[0].segments[j].designator.origin;
+                            segmentReturnobj.Destination = JsonObjPNRBooking.data.journeys[0].segments[j].designator.destination;
+                            segmentReturnobj.DepartureDate = JsonObjPNRBooking.data.journeys[0].segments[j].designator.departure;
+                            segmentReturnobj.ArrivalDate = JsonObjPNRBooking.data.journeys[0].segments[j].designator.arrival;
+                            segmentReturnobj.Identifier = JsonObjPNRBooking.data.journeys[0].segments[j].identifier.identifier;
+                            segmentReturnobj.CarrierCode = JsonObjPNRBooking.data.journeys[0].segments[j].identifier.carrierCode;
+                            segmentReturnobj.Seatnumber = "2";
+                            segmentReturnobj.MealCode = "VScODE";
+                            segmentReturnobj.MealDiscription = "it is a coffe";
+                            segmentReturnobj.DepartureTerminal = 2;
+                            segmentReturnobj.ArrivalTerminal = 1;
+                            segmentReturnobj.CreatedDate = DateTime.Now;
+                            segmentReturnobj.ModifiedDate = DateTime.Now;
+                            segmentReturnobj.Createdby = "Online";
+                            segmentReturnobj.Modifyby = "Online";
+                            segmentReturnobj.Status = "0";
+                            segmentReturnsListt.Add(segmentReturnobj);
+
+                        }
                     }
 
+                    #region
+                    //int SegmentReturnCountt = JsonObjPNRBooking.data.journeys[0].segments.Count;
+                    //for (int j = 0; j < SegmentReturnCountt; j++)
+                    //{
+                    //    tb_Segments segmentReturnobj = new tb_Segments();
+                    //    segmentReturnobj.BookingID = JsonObjPNRBooking.data.bookingKey;
+                    //    segmentReturnobj.journeyKey = JsonObjPNRBooking.data.journeys[0].journeyKey;
+                    //    segmentReturnobj.SegmentKey = JsonObjPNRBooking.data.journeys[0].segments[j].segmentKey;
+                    //    segmentReturnobj.SegmentCount = j;
+                    //    segmentReturnobj.Origin = JsonObjPNRBooking.data.journeys[0].segments[j].designator.origin;
+                    //    segmentReturnobj.Destination = JsonObjPNRBooking.data.journeys[0].segments[j].designator.destination;
+                    //    segmentReturnobj.DepartureDate = JsonObjPNRBooking.data.journeys[0].segments[j].designator.departure;
+                    //    segmentReturnobj.ArrivalDate = JsonObjPNRBooking.data.journeys[0].segments[j].designator.arrival;
+                    //    segmentReturnobj.Identifier = JsonObjPNRBooking.data.journeys[0].segments[j].identifier.identifier;
+                    //    segmentReturnobj.CarrierCode = JsonObjPNRBooking.data.journeys[0].segments[j].identifier.carrierCode;
+                    //    segmentReturnobj.Seatnumber = "2";
+                    //    segmentReturnobj.MealCode = "VScODE";
+                    //    segmentReturnobj.MealDiscription = "it is a coffe";
+                    //    segmentReturnobj.DepartureTerminal = 2;
+                    //    segmentReturnobj.ArrivalTerminal = 1;
+                    //    segmentReturnobj.CreatedDate = DateTime.Now;
+                    //    segmentReturnobj.ModifiedDate = DateTime.Now;
+                    //    segmentReturnobj.Createdby = "Online";
+                    //    segmentReturnobj.Modifyby = "Online";
+                    //    segmentReturnobj.Status = "0";
+                    //    segmentReturnsListt.Add(segmentReturnobj);
+                    //}
+                    #endregion
+                    //tb_PassengerDetailsList.Add(tb_Passengerobj);
                     airLineFlightTicketBooking.tb_Booking = tb_Booking;
+                    airLineFlightTicketBooking.GSTDetails = gSTDetails;
                     airLineFlightTicketBooking.tb_Segments = segmentReturnsListt;
                     airLineFlightTicketBooking.tb_AirCraft = tb_AirCraft;
                     airLineFlightTicketBooking.tb_journeys = tb_JourneysList;

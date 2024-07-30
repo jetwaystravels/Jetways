@@ -15,6 +15,7 @@ namespace DomainLayer.ViewModel
         public string BookingID { get; set; }
         public tb_Booking tb_Booking { get; set; }
         public ContactDetail ContactDetail { get; set; }
+        public GSTDetails GSTDetails { get; set; }
         public tb_AirCraft tb_AirCraft { get; set; }
         public tb_PassengerTotal tb_PassengerTotal { get; set; }
         public List<tb_PassengerDetails> tb_PassengerDetails { get; set; }

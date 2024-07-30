@@ -13,7 +13,7 @@ namespace DomainLayer.Model
         public string airLines { get; set; }
         public bool selfServiceMoveAvailable { get; set; }
         public string bookingKey { get; set; }
-        public DateTime bookingdate{ get; set; }
+        public DateTime bookingdate { get; set; }
         public string recordLocator { get; set; }
         public string currencyCode { get; set; }
         public object systemCode { get; set; }
@@ -49,6 +49,12 @@ namespace DomainLayer.Model
         public Hashtable Seatdata { get; set; }
         public Hashtable Mealdata { get; set; }
         public Hashtable Bagdata { get; set; }
+        public Hashtable TicketSeat { get; set; }
+        public Hashtable TicketCarryBag { get; set; }
+        public Hashtable TicketMeal { get; set; }
+        public Hashtable TicketMealAmount { get; set; }
+        public Hashtable TicketCarryBagAMount { get; set; }
+
         public class Address
         {
             public string lineOne { get; set; }

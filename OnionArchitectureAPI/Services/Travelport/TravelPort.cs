@@ -577,7 +577,8 @@ namespace OnionArchitectureAPI.Services.Travelport
                 retriveTicketPnrReq = new StringBuilder();
                 retriveTicketPnrReq.Append("<soap:Envelope xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
                 retriveTicketPnrReq.Append("<soap:Body>");
-                retriveTicketPnrReq.Append("<AirTicketingReq TargetBranch=\""+_targetBranch+"\" TraceId=\""+newGuid+"\" AuthorizedBy=\"ENDFARE\" ReturnInfoOnFail=\"true\" BulkTicket=\"false\" xmlns=\"http://www.travelport.com/schema/air_v52_0\">");
+                //ReturnInfoOnFail =\"true\" BulkTicket=\"false\"
+                retriveTicketPnrReq.Append("<AirTicketingReq TargetBranch=\""+_targetBranch+"\" TraceId=\""+newGuid+"\" AuthorizedBy=\"test\"  xmlns=\"http://www.travelport.com/schema/air_v52_0\">");
                 retriveTicketPnrReq.Append("<BillingPointOfSaleInfo OriginApplication=\"UAPI\" xmlns=\"http://www.travelport.com/schema/common_v52_0\"/>");
                 retriveTicketPnrReq.Append("<AirReservationLocatorCode>"+ universalRlcode_ + "</AirReservationLocatorCode>");
                 retriveTicketPnrReq.Append("</AirTicketingReq>");

@@ -1,5 +1,6 @@
 ﻿using DomainLayer.Model;
 using System.Collections;
+using System.Diagnostics;
 using System.Text;
 using System.Xml;
 using static DomainLayer.Model.GDSResModel;
@@ -8,47 +9,49 @@ namespace OnionArchitectureAPI.Services.Travelport
 {
     public class TravelPortParsing
     {
+        ArrayList listOfFareDetails = null;
+        List<GDSResModel.Segment> listOfSegment = new List<GDSResModel.Segment>();
+        //ArrayList listofTPSegment = null;
+        ArrayList listOfBound = new ArrayList();
+        int contractId = 1;
+        string TPtransactionId = string.Empty;
+        string outBoundGroup = string.Empty;
+        string inBoundGroup = string.Empty;
+        int journeyIndex = 0;
+        bool IsFlex = true;
+        string _journeyTime = string.Empty;
+        //List<Bond> listOfBound = new List<Bond>();
+        GDSResModel.Segment seg = null;
+        bool airSegstatus = false;
+        XmlDocument flightDetailsList = new XmlDocument();
+        XmlDocument FareInfoList = new XmlDocument();
+        XmlDocument BrandList = null;
+        string fareRoues = string.Empty;
+        GDSResModel.Fare fare = null;
+        Dictionary<string, string> baggageDetais = new Dictionary<string, string>();
+        Dictionary<string, string> fareRuleInfo = new Dictionary<string, string>();
+        //string contractType_ = "OneWay";
+
+        GDSResModel.Leg leg = null;
+        GDSResModel.PaxFare paxFare = new PaxFare();
+        FareDetail fareDetails = new FareDetail();
+        bool IsDomestic = true;
+        ArrayList listofTPSegment = null;
+        GDSResModel.TPAirSegment AirSegment = null;
+        string TraceId = string.Empty;
+        string AirPricingSolutinForPNR = string.Empty;
+        StringBuilder NewPricingSolutionValue = null;
+        string OldPricingSolution = string.Empty;
+        // bool airPricingsolution = false;
+        string group = string.Empty;
+        string adultPricingInfo = string.Empty;
+        string childPricingInfo = string.Empty;
+        string infantInfo = string.Empty;
+        string pricingInfo = string.Empty;
+        GDSResModel.Bond finalBond = null;
         public List<GDSResModel.Segment> ParseAirFareRsp(string AirFareResponse, string contractType_, SimpleAvailabilityRequestModel availibiltyRQGDS)
         {
-            List<GDSResModel.Segment> listOfSegment = new List<GDSResModel.Segment>();
-            //ArrayList listofTPSegment = null;
-            ArrayList listOfBound = new ArrayList();
-            int contractId = 1;
-            string TPtransactionId = string.Empty;
-            string outBoundGroup = string.Empty;
-            string inBoundGroup = string.Empty;
-            int journeyIndex = 0;
-            bool IsFlex = true;
-            string _journeyTime = string.Empty;
-            //List<Bond> listOfBound = new List<Bond>();
-            GDSResModel.Segment seg = null;
-            bool airSegstatus = false;
-            XmlDocument flightDetailsList = new XmlDocument();
-            XmlDocument FareInfoList = new XmlDocument();
-            XmlDocument BrandList = null;
-            string fareRoues = string.Empty;
-            GDSResModel.Fare fare = null;
-            Dictionary<string, string> baggageDetais = new Dictionary<string, string>();
-            Dictionary<string, string> fareRuleInfo = new Dictionary<string, string>();
-            //string contractType_ = "OneWay";
-
-            GDSResModel.Leg leg = null;
-            PaxFare paxFare = new PaxFare();
-            FareDetail fareDetails = new FareDetail();
-            bool IsDomestic = true;
-            ArrayList listofTPSegment = null;
-            GDSResModel.TPAirSegment AirSegment = null;
-            string TraceId = string.Empty;
-            string AirPricingSolutinForPNR = string.Empty;
-            StringBuilder NewPricingSolutionValue = null;
-            string OldPricingSolution = string.Empty;
-            // bool airPricingsolution = false;
-            string group = string.Empty;
-            string adultPricingInfo = string.Empty;
-            string childPricingInfo = string.Empty;
-            string infantInfo = string.Empty;
-            string pricingInfo = string.Empty;
-            GDSResModel.Bond finalBond = null;
+            
             try
             {
                 listOfSegment = new List<GDSResModel.Segment>();
@@ -1564,5 +1567,293 @@ namespace OnionArchitectureAPI.Services.Travelport
             }
             return listOfSegment;
         }
+
+        public GDSResModel.PnrResponseDetails ParsePNRRsp(string PnrResponse, string contractType_, SimpleAvailabilityRequestModel availibiltyRQGDS)
+        {
+            listOfFareDetails = new ArrayList();
+            List<GDSResModel.Segment> listOfSegment = new List<GDSResModel.Segment>();
+            //ArrayList listofTPSegment = null;
+            ArrayList listOfBound = new ArrayList();
+            int contractId = 1;
+            string TPtransactionId = string.Empty;
+            string outBoundGroup = string.Empty;
+            string inBoundGroup = string.Empty;
+            int journeyIndex = 0;
+            bool IsFlex = true;
+            string _journeyTime = string.Empty;
+            //List<Bond> listOfBound = new List<Bond>();
+            GDSResModel.Segment seg = null;
+            bool airSegstatus = false;
+            XmlDocument flightDetailsList = new XmlDocument();
+            XmlDocument FareInfoList = new XmlDocument();
+            XmlDocument BrandList = null;
+            string fareRoues = string.Empty;
+            GDSResModel.Fare fare = null;
+            Dictionary<string, string> baggageDetais = new Dictionary<string, string>();
+            Dictionary<string, string> fareRuleInfo = new Dictionary<string, string>();
+            ArrayList listofTPSegment = null;
+            TPAirSegment AirSegment = null;
+
+            GDSResModel.Leg leg = null;
+            ArrayList paxlist = null;
+            PnrResponseDetails pnrResDetail = null;
+            pnrResDetail = new PnrResponseDetails();
+            pnrResDetail.PaxFareList = new ArrayList();
+            pnrResDetail.PaxeDetailList = new ArrayList();
+            paxlist = new ArrayList();
+            listOfBound = new ArrayList();
+            listofTPSegment = new ArrayList();
+            //listOfFareDetails
+            TravellerDetail travellerDetail = null;
+            GDSResModel.PaxFare paxFare = new GDSResModel.PaxFare();
+            GDSResModel.FareDetail fareDetails = new GDSResModel.FareDetail();
+            bool IsDomestic = true;
+            string segmentid = string.Empty;
+            string flightnumber = string.Empty;
+            XmlDocument pnrDoc = new XmlDocument();
+            XmlDocument airSegmentList = new XmlDocument();
+            pnrDoc.LoadXml(PnrResponse);
+            //doc.LoadXml(lowFareResponse.Replace("C11", "CNN"));
+            GDSResModel.Bond bond = new GDSResModel.Bond();
+            bond.Legs = new List<GDSResModel.Leg>();
+            //cancelTime = new FareCancellationTime();
+            foreach (XmlNode rootNode in pnrDoc)
+            {
+                if (rootNode.Name.Equals("SOAP:Envelope", StringComparison.OrdinalIgnoreCase))
+                {
+                    foreach (XmlNode root in rootNode.ChildNodes)
+                    {
+                        if (root.Name.Equals("SOAP:Body", StringComparison.OrdinalIgnoreCase))
+                        {
+                            foreach (XmlNode airCreateReservationRsp in root)
+                            {
+                                if (airCreateReservationRsp.Name.Equals("universal:UniversalRecordRetrieveRsp", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    foreach (XmlNode airCreateRes in airCreateReservationRsp)
+                                    {
+                                        switch (airCreateRes.Name)
+                                        {
+                                            case "common_v46_0:ResponseMessage":
+                                                pnrResDetail.PnrMessage = airCreateRes.InnerText;
+                                                if (airCreateRes.Attributes["Code"].Value.Equals("1", StringComparison.OrdinalIgnoreCase) && airCreateRes.InnerText.Equals("TO ENSURE FARE GUARANTEE - TICKET NOW", StringComparison.OrdinalIgnoreCase))
+                                                {
+                                                    pnrResDetail.PnrStatus = true;
+                                                }
+                                                else
+                                                {
+                                                    pnrResDetail.PnrStatus = false;
+                                                }
+                                                break;
+                                            case "universal:UniversalRecord":
+                                                pnrResDetail.UniversalRecordLocator = airCreateRes.Attributes["LocatorCode"].Value;
+                                                pnrResDetail.DealCodeVersion = airCreateRes.Attributes["Version"].Value;
+                                                foreach (XmlNode universalRecord in airCreateRes)
+                                                {
+                                                    switch (universalRecord.Name)
+                                                    {
+                                                        case "common_v52_0:BookingTraveler":
+                                                            travellerDetail = new TravellerDetail();
+                                                            travellerDetail.PaxId = universalRecord.Attributes["Key"].Value;
+                                                            switch (universalRecord.Attributes["TravelerType"].Value)
+                                                            {
+                                                                case "ADT":
+                                                                    travellerDetail.PaxType = PAXTYPE.ADT;
+                                                                    break;
+                                                                case "CNN":
+                                                                    travellerDetail.PaxType = PAXTYPE.CHD;
+                                                                    break;
+                                                                case "C11":
+                                                                    travellerDetail.PaxType = PAXTYPE.CHD;
+                                                                    break;
+                                                                case "CHD":
+                                                                    travellerDetail.PaxType = PAXTYPE.CHD;
+                                                                    break;
+                                                                case "INF":
+                                                                    travellerDetail.PaxType = PAXTYPE.INF;
+                                                                    break;
+                                                            }
+                                                            foreach (XmlNode paxName in universalRecord)
+                                                            {
+                                                                if (paxName.Name.Equals("common_v52_0:BookingTravelerName", StringComparison.OrdinalIgnoreCase))
+                                                                {
+                                                                    travellerDetail.FirstName = paxName.Attributes["First"].Value;
+                                                                    travellerDetail.LastName = paxName.Attributes["Last"].Value;
+                                                                }
+                                                            }
+                                                            paxlist.Add(travellerDetail);
+                                                            pnrResDetail.PaxeDetailList.Add(travellerDetail);
+                                                            break;
+                                                        case "universal:ProviderReservationInfo":
+                                                            pnrResDetail.ProviderReservationLocator = universalRecord.Attributes["LocatorCode"].Value;
+                                                            break;
+
+
+                                                        case "air:AirReservation":
+                                                            pnrResDetail.AirReservationLocatorCode = universalRecord.Attributes["LocatorCode"].Value;
+                                                            foreach (XmlNode airReservation in universalRecord)
+                                                            {
+                                                                switch (airReservation.Name)
+                                                                {
+                                                                    case "common_v52_0:SupplierLocator":
+                                                                        pnrResDetail.SupplierLocatorCode = airReservation.Attributes["SupplierLocatorCode"].Value;
+                                                                        break;
+                                                                    case "air:AirSegment":
+                                                                        leg = new GDSResModel.Leg();
+                                                                        AirSegment = new TPAirSegment();
+                                                                        AirSegment.AirSegment = airReservation.Attributes["Key"].Value;
+                                                                        AirSegment.AirSegmentDetail = airReservation.OuterXml.Trim();
+                                                                        listofTPSegment.Add(AirSegment);
+                                                                        if (airReservation.Attributes["Group"].Value.Equals("0", StringComparison.OrdinalIgnoreCase))
+                                                                        {
+                                                                            leg.BoundType = "OutBound";
+                                                                            leg.Group = "0";
+                                                                            //bond.BoundType = "OutBound";
+                                                                        }
+                                                                        else if (airReservation.Attributes["Group"].Value.Equals("1", StringComparison.OrdinalIgnoreCase))
+                                                                        {
+                                                                            leg.BoundType = "InBound";
+                                                                            leg.Group = "1";
+                                                                            //bond.BoundType = "InBound";
+                                                                        }
+                                                                        if (airReservation.Attributes["NumberOfStops"] != null)
+                                                                        {
+                                                                            leg.NumberOfStops = airReservation.Attributes["NumberOfStops"].Value;
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            leg.NumberOfStops = "0";
+                                                                        }
+                                                                        leg.FlightNumber = airReservation.Attributes["FlightNumber"].Value;
+                                                                        leg.AirlineName = airReservation.Attributes["Carrier"].Value;
+                                                                        leg.CarrierCode = airReservation.Attributes["Carrier"].Value;
+                                                                        leg.Origin = airReservation.Attributes["Origin"].Value;
+                                                                        leg.Destination = airReservation.Attributes["Destination"].Value;
+                                                                        //leg.DepartureDate = Utility.Utility.GDateFormate(airSegment.Attributes["DepartureTime"].Value.Split('T')[0], Utility.Engine.TravelPort);
+                                                                        leg.DepartureTime = airReservation.Attributes["DepartureTime"].Value;// airSegment.Attributes["DepartureTime"].Value.Split('T')[1];
+                                                                                                                                             //leg.ArrivalDate = Utility.Utility.GDateFormate(airSegment.Attributes["ArrivalTime"].Value.Split('T')[0], Utility.Engine.TravelPort);
+                                                                        leg.ArrivalTime = airReservation.Attributes["ArrivalTime"].Value;// airSegment.Attributes["ArrivalTime"].Value.Split('T')[1];
+                                                                        leg.FareClassOfService = airReservation.Attributes["ClassOfService"].Value;
+                                                                        if (airReservation.Attributes["FlightTime"] != null)
+                                                                        {
+                                                                            leg.Duration = airReservation.Attributes["FlightTime"].Value;
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            leg.Duration = "120";
+                                                                        }
+                                                                        leg.AircraftCode = airReservation.Attributes["Key"].InnerText;
+                                                                        leg.Group = airReservation.Attributes["Group"].Value;
+                                                                        foreach (XmlNode airSegmentChild in airReservation)
+                                                                        {
+                                                                            switch (airSegmentChild.Name)
+                                                                            {
+                                                                                case "air:AirAvailInfo":
+                                                                                    leg.ProviderCode = airSegmentChild.Attributes["ProviderCode"].Value;
+                                                                                    break;
+                                                                                case "air:FlightDetailsRef":
+                                                                                    leg.FlightDetailRefKey = airSegmentChild.Attributes["Key"].Value;
+                                                                                    break;
+                                                                            }
+                                                                        }
+                                                                        switch (leg.AirlineName)
+                                                                        {
+                                                                            case "AI":
+                                                                                leg.FlightName = "AirIndia";
+                                                                                break;
+                                                                            case "9W":
+                                                                                leg.FlightName = "JetAirWays";
+                                                                                break;
+                                                                            case "UK":
+                                                                                leg.FlightName = "Vistara";
+                                                                                break;
+                                                                            case "OD":
+                                                                                leg.FlightName = "MALINDO AIRWAYS";
+                                                                                break;
+                                                                            case "TG":
+                                                                                leg.FlightName = "Thai Airways International";
+                                                                                break;
+                                                                            case "UL":
+                                                                                leg.FlightName = "SriLankan Airlines";
+                                                                                break;
+                                                                            default:
+                                                                                try
+                                                                                {
+                                                                                    //leg.FlightName = Utility.FileChangeMonitor.AirlineNames[leg.AirlineName.Trim()];
+                                                                                }
+                                                                                catch (SystemException sex_) { leg.FlightName = leg.AirlineName.Trim(); }
+                                                                                break;
+                                                                        }
+                                                                        bond.Legs.Add(leg);
+                                                                        //pnrResDetail.Bonds = bond;
+                                                                        break;
+                                                                    case "air:AirPricingInfo":
+                                                                        pnrResDetail.IsAirPricingInfo = true;
+                                                                        paxFare = new GDSResModel.PaxFare();
+                                                                        paxFare.FareID = airReservation.Attributes["Key"].Value;
+                                                                        paxFare.BasicFare = Convert.ToDecimal(airReservation.Attributes["ApproximateBasePrice"].Value.Remove(0, 3));
+                                                                        paxFare.TotalTax = Convert.ToDecimal(airReservation.Attributes["Taxes"].Value.Remove(0, 3));
+                                                                        if (airReservation.Attributes["PlatingCarrier"] != null)
+                                                                        {
+                                                                            pnrResDetail.PlatingCarrier = airReservation.Attributes["PlatingCarrier"].Value;
+                                                                        }
+                                                                        foreach (XmlNode paxType in airReservation)
+                                                                        {
+                                                                            if (paxType.Name.Equals("air:PassengerType", StringComparison.OrdinalIgnoreCase))
+                                                                            {
+                                                                                switch (paxType.Attributes["Code"].Value)
+                                                                                {
+                                                                                    case "ADT":
+                                                                                        paxFare.PaxType = PAXTYPE.ADT;
+                                                                                        break;
+                                                                                    case "CNN":
+                                                                                        paxFare.PaxType = PAXTYPE.CHD;
+                                                                                        break;
+                                                                                    case "C11":
+                                                                                        paxFare.PaxType = PAXTYPE.CHD;
+                                                                                        break;
+                                                                                    case "CHD":
+                                                                                        paxFare.PaxType = PAXTYPE.CHD;
+                                                                                        break;
+                                                                                    case "INF":
+                                                                                        paxFare.PaxType = PAXTYPE.INF;
+                                                                                        break;
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                        listOfFareDetails.Add(paxFare);
+                                                                        pnrResDetail.PaxFareList.Add(paxFare);
+                                                                        break;
+                                                                    case "":
+                                                                        break;
+                                                                }
+                                                            }
+                                                            break;
+                                                        case "common_v52_0:FormOfPayment":
+                                                            if (universalRecord.Attributes["Type"].Value.Equals("Credit", StringComparison.OrdinalIgnoreCase))
+                                                                pnrResDetail.IsCreditPayment = true;
+                                                            pnrResDetail.PaymentKey = universalRecord.Attributes["Key"].Value;
+                                                            break;
+                                                        case "":
+                                                            break;
+                                                    }
+                                                }
+                                                break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if(bond.Legs.Count > 0)
+            {
+                pnrResDetail.Bonds = new Bond();
+                pnrResDetail.Bonds = bond;
+            }
+
+            return pnrResDetail;
+        }
+        
     }
 }

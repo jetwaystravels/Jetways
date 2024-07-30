@@ -24,12 +24,8 @@ namespace ServiceLayer.Service.Implementation
         {
             try
             {
-
-
                 var outputParameter = new Microsoft.Data.SqlClient.SqlParameter("@OutputParameter", System.Data.SqlDbType.NVarChar, 30);
                 outputParameter.Direction = System.Data.ParameterDirection.Output;
-
-                // Execute  output stored procedure retrieve jetwaysId
                 var jetid = _dbContext.tb_DailyNumber.FromSqlRaw<tb_DailyNumber>("EXECUTE sp_jetwaysIdGenerate @OutputParameter OUTPUT", outputParameter).ToList();
                 var jetwaysId = jetid[0].Autogenratednumber;
                 tb_Booking tbobj = new tb_Booking();
@@ -41,8 +37,8 @@ namespace ServiceLayer.Service.Implementation
                 tbobj.CurrencyCode = ticketObject.tb_Booking.CurrencyCode;
                 tbobj.BookedDate = ticketObject.tb_Booking.BookedDate;
                 tbobj.Destination = ticketObject.tb_Booking.Destination;
-                //tbobj.DepartureDate = ticketObject.tb_Booking.DepartureDate;
-                //tbobj.ArrivalDate = ticketObject.tb_Booking.ArrivalDate;
+                tbobj.DepartureDate = ticketObject.tb_Booking.DepartureDate;
+                tbobj.ArrivalDate = ticketObject.tb_Booking.ArrivalDate;
                 tbobj.TotalAmount = ticketObject.tb_Booking.TotalAmount;
                 tbobj.SpecialServicesTotal = ticketObject.tb_Booking.SpecialServicesTotal;
                 tbobj.SpecialServicesTotal_Tax = ticketObject.tb_Booking.SpecialServicesTotal_Tax;
@@ -69,6 +65,16 @@ namespace ServiceLayer.Service.Implementation
                 contactDetailobj.Status = ticketObject.ContactDetail.Status;
                 this._dbContext.Add(contactDetailobj);
                 //this._dbContext.SaveChanges();
+
+                GSTDetails gSTDetails = new GSTDetails();
+                gSTDetails.bookingReferenceNumber = ticketObject.GSTDetails.bookingReferenceNumber;
+                gSTDetails.GSTEmail = ticketObject.GSTDetails.GSTEmail;
+                gSTDetails.GSTNumber = ticketObject.GSTDetails.GSTNumber;
+                gSTDetails.GSTName = ticketObject.GSTDetails.GSTName;
+                gSTDetails.airLinePNR = ticketObject.GSTDetails.airLinePNR;
+                gSTDetails.status = ticketObject.GSTDetails.status;
+                this._dbContext.Add(gSTDetails);
+
                 tb_PassengerTotal tb_PassengerTotalobj = new tb_PassengerTotal();
                 tb_PassengerTotalobj.BookingID = ticketObject.BookingID;
                 tb_PassengerTotalobj.TotalBookingAmount = ticketObject.tb_PassengerTotal.TotalBookingAmount;
@@ -119,8 +125,8 @@ namespace ServiceLayer.Service.Implementation
                     segmentReturnobj.SegmentCount = ticketObject.tb_Segments[i].SegmentCount;
                     segmentReturnobj.Origin = ticketObject.tb_Segments[i].Origin;
                     segmentReturnobj.Destination = ticketObject.tb_Segments[i].Destination;
-                    //segmentReturnobj.DepartureDate = ticketObject.tb_Segments[i].DepartureDate;
-                    //segmentReturnobj.ArrivalDate = ticketObject.tb_Segments[i].ArrivalDate;
+                    segmentReturnobj.DepartureDate = ticketObject.tb_Segments[i].DepartureDate;
+                    segmentReturnobj.ArrivalDate = ticketObject.tb_Segments[i].ArrivalDate;
                     segmentReturnobj.Identifier = ticketObject.tb_Segments[i].Identifier;
                     segmentReturnobj.CarrierCode = ticketObject.tb_Segments[i].CarrierCode;
                     segmentReturnobj.Seatnumber = ticketObject.tb_Segments[i].Seatnumber;
@@ -151,9 +157,19 @@ namespace ServiceLayer.Service.Implementation
                     tb_PassengerDetails.CreatedDate = ticketObject.tb_PassengerDetails[j].CreatedDate;
                     tb_PassengerDetails.Createdby = ticketObject.tb_PassengerDetails[j].Createdby;
                     tb_PassengerDetails.ModifyBy = ticketObject.tb_PassengerDetails[j].ModifyBy;
-                    //tb_PassengerDetails.Dob = ticketObject.tb_PassengerDetails[j].Dob;
+                    tb_PassengerDetails.Carrybages = ticketObject.tb_PassengerDetails[j].Carrybages;
+                    tb_PassengerDetails.TotalAmount_Seat = ticketObject.tb_PassengerDetails[j].TotalAmount_Seat;
+                    tb_PassengerDetails.TotalAmount_Meals = ticketObject.tb_PassengerDetails[j].TotalAmount_Meals;
+                    tb_PassengerDetails.MealsCode = ticketObject.tb_PassengerDetails[j].MealsCode;
+                    tb_PassengerDetails.BaggageTotalAmount = ticketObject.tb_PassengerDetails[j].BaggageTotalAmount;
+                    tb_PassengerDetails.Inf_Firstname = ticketObject.tb_PassengerDetails[j].Inf_Firstname;
+                    tb_PassengerDetails.Inf_Lastname = ticketObject.tb_PassengerDetails[j].Inf_Lastname;
+                    tb_PassengerDetails.Inf_TypeCode = ticketObject.tb_PassengerDetails[j].Inf_TypeCode;
+                    tb_PassengerDetails.Inf_Dob = ticketObject.tb_PassengerDetails[j].Inf_Dob;
+                    tb_PassengerDetails.Inf_Gender = ticketObject.tb_PassengerDetails[j].Inf_Gender;
                     tb_PassengerDetails.TotalAmount_tax = ticketObject.tb_PassengerDetails[j].TotalAmount_tax;
                     tb_PassengerDetails.TotalAmount = ticketObject.tb_PassengerDetails[j].TotalAmount;
+                    tb_PassengerDetails.Status = ticketObject.tb_PassengerDetails[j].Status;
                     this._dbContext.Add(tb_PassengerDetails);
                     // this._dbContext.SaveChanges();
 
@@ -179,7 +195,7 @@ namespace ServiceLayer.Service.Implementation
             {
                 return ex.Message;
             }
-            // throw new NotImplementedException();
+
         }
 
     }
