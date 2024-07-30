@@ -439,6 +439,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
             return RedirectToAction("_RGetGstDetails", "RoundAATripsell", contactobject);
         }
+
+        //GST Code For Akasa and Airasia
         public async Task<IActionResult> _RGetGstDetails(ContactModel contactobject, AddGSTInformation addGSTInformation)
         {
             

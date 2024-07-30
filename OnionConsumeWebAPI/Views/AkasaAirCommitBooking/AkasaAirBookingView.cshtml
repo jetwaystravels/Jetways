@@ -76,7 +76,7 @@
                                             <div class="logo"><img class="size-35" src="~/img/flight-logo-icon/akasa.png" alt="logo"></div>
                                         </div>
                                         <div class="col">
-                                            <div class="airline-N">Air India Expr..<br> @Model.AirlinePNR[0].journeys[j].segments[s].identifier.carrierCode-@Model.AirlinePNR[0].journeys[j].segments[s].identifier.identifier</div>
+                                            <div class="airline-N">AkasaAir <br> @Model.AirlinePNR[0].journeys[j].segments[s].identifier.carrierCode-@Model.AirlinePNR[0].journeys[j].segments[s].identifier.identifier</div>
                                         </div>
                                         <div class="col-auto">
                                             @{
@@ -127,8 +127,9 @@
                                                 else
                                                     formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
                                             }
-                                            <img src="~/img/arrow-line-fr.png" alt="icon">
                                             <div class="time">@formattedTime</div>
+                                            <img src="~/img/arrow-line-fr.png" alt="icon">
+                                           
                                         </div>
 
                                         <div class="col">

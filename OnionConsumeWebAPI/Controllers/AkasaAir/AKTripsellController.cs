@@ -152,9 +152,71 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
 
             }
 
+            //return RedirectToAction("AkTripsellView", "AKTripsell");
+            return RedirectToAction("_RGetGstDetails", "AKTripsell", contactobject);
+
+        }
+
+        // Code For GST 
+        public async Task<IActionResult> _RGetGstDetails(ContactModel contactobject)
+        {
+            string tokenview = string.Empty;
+            tokenview = HttpContext.Session.GetString("AkasaTokan");
+            token = tokenview.Replace(@"""", string.Empty);
+            using (HttpClient client = new HttpClient())
+            {
+                AddGSTInformation addinformation = new AddGSTInformation();
+                addinformation.contactTypeCode = "G";
+                GSTPhonenumber Phonenumber = new GSTPhonenumber();
+                List<GSTPhonenumber> Phonenumberlist = new List<GSTPhonenumber>();
+                Phonenumber.type = "Other";
+                Phonenumber.number = contactobject.number; ;
+                Phonenumberlist.Add(Phonenumber);
+
+                foreach (var item in Phonenumberlist)
+                {
+                    addinformation.phoneNumbers = Phonenumberlist;
+                }
+                addinformation.cultureCode = "";
+                GSTAddress Address = new GSTAddress();
+                Address.lineOne = "Ashokenagar,bharathi cross str";
+                Address.countryCode = "IN";
+                Address.provinceState = "TN";
+                Address.city = "Ashokenagar";
+                Address.postalCode = "400006";
+                addinformation.Address = Address;
+
+                addinformation.emailAddress = contactobject.emailAddress;
+                addinformation.customerNumber = contactobject.customerNumber;
+                //addinformation.sourceOrganization = "QPCCJ5003C";
+                addinformation.distributionOption = null;
+                addinformation.notificationPreference = null;
+                addinformation.companyName = contactobject.companyName;
+                GSTName Name = new GSTName();
+                Name.first = contactobject.first;
+                Name.last = contactobject.last;
+                Name.title = "MR";
+                Name.suffix = "";
+                addinformation.Name = Name;
+                if (contactobject.companyName != null)
+                {
+                    var jsonContactRequest = JsonConvert.SerializeObject(addinformation, Formatting.Indented);
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    HttpResponseMessage responseAddContact = await client.PostAsJsonAsync(AppUrlConstant.URLAkasaAir + "/api/nsk/v1/booking/contacts", addinformation);
+                    if (responseAddContact.IsSuccessStatusCode)
+                    {
+                        var _responseAddContact = responseAddContact.Content.ReadAsStringAsync().Result;
+                        var JsonObjAddContact = JsonConvert.DeserializeObject<dynamic>(_responseAddContact);
+                    }
+                }
+
+            }
+
             return RedirectToAction("AkTripsellView", "AKTripsell");
         }
-        public async Task<IActionResult> AKTravellerInfo(List<passkeytype> passengerdetails, string formattedDates)
+
+            public async Task<IActionResult> AKTravellerInfo(List<passkeytype> passengerdetails, string formattedDates)
         {
             string tokenview = HttpContext.Session.GetString("AkasaTokan");
             string[] dateStrings = JsonConvert.DeserializeObject<string[]>(formattedDates);

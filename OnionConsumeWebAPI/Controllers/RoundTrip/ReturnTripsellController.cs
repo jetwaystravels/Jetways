@@ -2287,7 +2287,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 string columncount0 = string.Empty;
                                 Logs logs = new Logs();
                                 var _responseSeatmap = responseSeatmap.Content.ReadAsStringAsync().Result;
-                                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject("getRequest") + "Url: " + BaseURL + "/api/nsk/v3/booking/seatmaps/segment/" + _JourneykeyDataAA + "?IncludePropertyLookup=true" + "\n Response: " + JsonConvert.SerializeObject(_responseSeatmap), "GetSeatmap", "AkasaAirRT");
+                                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject("getRequest") + "Url: " + BaseAkasaURL + "/api/nsk/v3/booking/seatmaps/journey/" + _JourneykeyDataAA + "?IncludePropertyLookup=true" + "\n Response: " + JsonConvert.SerializeObject(_responseSeatmap), "GetSeatmap", "AkasRT");
                                 var JsonObjSeatmap = JsonConvert.DeserializeObject<dynamic>(_responseSeatmap);
                                 //var uniquekey1 = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[0].unitKey;
                                 var data = JsonObjSeatmap.data.Count;

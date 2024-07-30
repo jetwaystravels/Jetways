@@ -1640,7 +1640,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             Identifier.carrierCode = getAvailRes[i].Bonds[0].Legs[l].CarrierCode;
                             //to do && it.segments[0].identifier.carrierCode == getAvailRes[i].Bonds[0].Legs[0].CarrierCode
                             Segmentobj.identifier = Identifier;
-                            int legscount = getAvailRes[i].Bonds[0].Legs.Count;
+                            int legscount = 1;// getAvailRes[i].Bonds[0].Legs.Count;
                             List<DomainLayer.Model.Leg> Leglist = new List<DomainLayer.Model.Leg>();
                             for (int m = 0; m < legscount; m++)
                             {
@@ -1651,7 +1651,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 legdesignatorobj.departure = Convert.ToDateTime(getAvailRes[i].Bonds[0].Legs[l].DepartureTime);
                                 legdesignatorobj.arrival = Convert.ToDateTime(getAvailRes[i].Bonds[0].Legs[l].ArrivalTime);
                                 Legobj.designator = legdesignatorobj;
-                                Leglist.Add(Legobj);
+                                
                                 DomainLayer.Model.LegInfo LegInfo = new DomainLayer.Model.LegInfo();
                                 LegInfo.arrivalTerminal = getAvailRes[i].Bonds[0].Legs[l].ArrivalTerminal;
                                 LegInfo.departureTerminal = getAvailRes[i].Bonds[0].Legs[l].DepartureTerminal;
@@ -1660,6 +1660,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 var arrivalTerminal = getAvailRes[i].Bonds[0].Legs[l].ArrivalTerminal;
                                 var departureTerminal = getAvailRes[i].Bonds[0].Legs[l].DepartureTerminal;
                                 Legobj.legInfo = LegInfo;
+                                Leglist.Add(Legobj);
                                 _SimpleAvailibilityaAddResponceobj.arrivalTerminal = arrivalTerminal;
                                 _SimpleAvailibilityaAddResponceobj.departureTerminal = departureTerminal;
                             }

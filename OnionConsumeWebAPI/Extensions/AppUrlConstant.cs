@@ -45,7 +45,8 @@
         public static string AkasaCommitBooking = URLAkasaAir + "/api/nsk/v1/booking";
         public static string AkasaPNRBooking = URLAkasaAir + "/api/nsk/v1/booking";
         //public static string AkasaPNRBooking = URLAkasaAir + "/api/nsk/v1/booking/retrieve/byRecordLocator/";
-        public static string AkasaAirSeatMap = URLAkasaAir + "/api/nsk/v2/booking/seatmaps/segment/";
+        //public static string AkasaAirSeatMap = URLAkasaAir + "/api/nsk/v2/booking/seatmaps/segment/";
+        public static string AkasaAirSeatMap = URLAkasaAir + "/api/nsk/v3/booking/seatmaps/journey/";
         //Contact
         public static string AkasaAirContactDetails = URLAkasaAir + "/api/nsk/v1/booking/contacts";
         //Passenger

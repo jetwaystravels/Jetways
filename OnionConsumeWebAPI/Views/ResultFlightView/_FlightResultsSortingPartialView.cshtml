@@ -832,6 +832,18 @@
 
                                                 <img class="size-40" src="~/img/flight-logo-icon/akasa.png" alt="image">
                                             }
+                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("AI"))
+                                            {
+                                                <img class="size-40" src="~/img/flight-logo-icon/airindia.png" alt="image">
+                                            }
+                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("UK"))
+                                            {
+                                                <img class="size-40" src="~/img/flight-logo-icon/vistara.png" alt="image">
+                                            }
+                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("H1"))
+                                            {
+                                                <img class="size-40" src="~/img/flight-logo-icon/hahnair.png" alt="image">
+                                            }
                                             else
                                             {
                                                 <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
@@ -854,6 +866,18 @@
                                                         {
 
                                                             CompanyName = "AkasaAir";
+                                                        }
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("AI"))
+                                                        {
+                                                            CompanyName = "AirIndia";
+                                                        }
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("UK"))
+                                                        {
+                                                            CompanyName = "Vistara";
+                                                        }
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("H1"))
+                                                        {
+                                                             CompanyName = "Hahnair";
                                                         }
                                                         else
                                                         {
