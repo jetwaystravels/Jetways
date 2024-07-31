@@ -1503,8 +1503,6 @@
                                 <div class="modal-content model-wd80">
                                     <div class="modal-mfareheader d-flex justify-between">
                                         <h2 class="text-22 fw-600">More Fare Options Available</h2>
-                                        @*<button type="button" class="btn-close" data-dismiss="modal">Close</button>*@
-                                        @* <h5 class="modal-title" id="exampleModalLabel">More Fare Options Available</h5> *@
                                         <button type="button" id="btncross" class="btnclose" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true" style="font-size: 21px;">&times;</span>
                                         </button>
@@ -3686,6 +3684,12 @@
                     console.error('Error occurred:', error);
                 }
             });
+            //debugger;
+            localStorage.removeItem('LEFTFARE');
+            localStorage.removeItem('RIGHTFARE');
+            //faretotalPopup();
+            document.getElementById("popuptatalfare").innerHTML = 0;
+
         });
 
         function convertToMinutes(time) {

@@ -48,6 +48,7 @@ namespace OnionConsumeWebAPI.Controllers
         string carriercode = string.Empty;
         string flightnumber = string.Empty;
         string seatnumber = string.Empty;
+        string flightseatnumber = string.Empty;
         //   string sequencenumber = string.Empty;
         string bookingKey = string.Empty;
         ApiResponseModel responseModel;
@@ -326,7 +327,7 @@ namespace OnionConsumeWebAPI.Controllers
                                 {
                                     ReturnSeats returnSeatsObj = new ReturnSeats();
                                     returnSeatsObj.unitDesignator = item.Value.seats[q].unitDesignator;
-                                    seatnumber = item.Value.seats[q].unitDesignator;
+                                    flightseatnumber = item.Value.seats[q].unitDesignator;
                                     if (string.IsNullOrEmpty(seatnumber))
                                     {
                                         seatnumber = "0000"; // Set to "0000" if not available
@@ -555,6 +556,7 @@ namespace OnionConsumeWebAPI.Controllers
                     returnTicketBooking.Mealdata = htmealdata;
                     returnTicketBooking.Bagdata = htBagdata;
                     _AirLinePNRTicket.AirlinePNR.Add(returnTicketBooking);
+
                     AirLineFlightTicketBooking airLineFlightTicketBooking = new AirLineFlightTicketBooking();
                     airLineFlightTicketBooking.BookingID = JsonObjPNRBooking.data.bookingKey;
                     tb_Booking tb_Booking = new tb_Booking();
@@ -611,6 +613,7 @@ namespace OnionConsumeWebAPI.Controllers
                     tb_AirCraft.Status = "0";
 
                     ContactDetail contactDetail = new ContactDetail();
+                    contactDetail.BookingID = JsonObjPNRBooking.data.bookingKey;
                     contactDetail.FirstName = JsonObjPNRBooking.data.contacts.P.name.first;
                     contactDetail.LastName = JsonObjPNRBooking.data.contacts.P.name.last;
                     contactDetail.EmailID = JsonObjPNRBooking.data.contacts.P.emailAddress;
@@ -658,145 +661,165 @@ namespace OnionConsumeWebAPI.Controllers
                     var passangerCount = JsonObjPNRBooking.data.passengers;
                     int PassengerDataCount = ((Newtonsoft.Json.Linq.JContainer)passangerCount).Count;
                     List<tb_PassengerDetails> tb_PassengerDetailsList = new List<tb_PassengerDetails>();
-                    //tb_PassengerDetails tb_Passengerobj = new tb_PassengerDetails();                    
-                    foreach (var items in JsonObjPNRBooking.data.passengers)
+                    //tb_PassengerDetails tb_Passengerobj = new tb_PassengerDetails();
+                    int SegmentCount = JsonObjPNRBooking.data.journeys[0].segments.Count;
+                    for (int isegment = 0; isegment < SegmentCount; isegment++)
                     {
-                        tb_PassengerDetails tb_Passengerobj = new tb_PassengerDetails();
-                        tb_Passengerobj.BookingID = bookingKey;
-                        tb_Passengerobj.PassengerKey = items.Value.passengerKey;
-                        tb_Passengerobj.TypeCode = items.Value.passengerTypeCode;
-                        tb_Passengerobj.FirstName = items.Value.name.first;
-                        tb_Passengerobj.Title = items.Value.name.title;
-                        tb_Passengerobj.LastName = items.Value.name.last;
-                        tb_Passengerobj.TotalAmount = JsonObjPNRBooking.data.breakdown.journeyTotals.totalAmount;
-                        tb_Passengerobj.TotalAmount_tax = JsonObjPNRBooking.data.breakdown.journeyTotals.totalTax;
-                        tb_Passengerobj.CreatedDate = DateTime.Now;
-                        tb_Passengerobj.Createdby = "Online";
-                        tb_Passengerobj.ModifiedDate = DateTime.Now;
-                        tb_Passengerobj.ModifyBy = "Online";
-                        tb_Passengerobj.Status = "0";
-                        if (items.Value.infant != null)
+                        foreach (var items in JsonObjPNRBooking.data.passengers)
                         {
+                            tb_PassengerDetails tb_Passengerobj = new tb_PassengerDetails();
+                            tb_Passengerobj.BookingID = bookingKey;
+                            tb_Passengerobj.SegmentsKey = JsonObjPNRBooking.data.journeys[0].segments[isegment].segmentKey;
+                            tb_Passengerobj.PassengerKey = items.Value.passengerKey;
+                            tb_Passengerobj.TypeCode = items.Value.passengerTypeCode;
+                            tb_Passengerobj.FirstName = items.Value.name.first;
+                            tb_Passengerobj.Title = items.Value.name.title;
+                            tb_Passengerobj.LastName = items.Value.name.last;
+                            //x.data.journeys[0].segments[0].passengerSegment["MCFBRFQ-"].seats[0].unitDesignator
+                            int JourneysReturnCount1 = JsonObjPNRBooking.data.journeys.Count;
+                            //int SegmentReturnCount = JsonObjPNRBooking.data.journeys[0].segments.Count-1;
+                            var flightseatnumber1 = JsonObjPNRBooking.data.journeys[0].segments[isegment].passengerSegment[tb_Passengerobj.PassengerKey].seats[0].unitDesignator;
 
-                            tb_Passengerobj.Inf_TypeCode = "INFT";
-                            tb_Passengerobj.Inf_Firstname = items.Value.infant.name.first;
-                            tb_Passengerobj.Inf_Lastname = items.Value.infant.name.last;
-                            tb_Passengerobj.Inf_Dob = items.Value.infant.dateOfBirth;
-                            if (items.Value.infant.gender == "1")
+                            tb_Passengerobj.Seatnumber = flightseatnumber1;
+
+                            tb_Passengerobj.TotalAmount = JsonObjPNRBooking.data.breakdown.journeyTotals.totalAmount;
+                            tb_Passengerobj.TotalAmount_tax = JsonObjPNRBooking.data.breakdown.journeyTotals.totalTax;
+                            tb_Passengerobj.CreatedDate = DateTime.Now;
+                            tb_Passengerobj.Createdby = "Online";
+                            tb_Passengerobj.ModifiedDate = DateTime.Now;
+                            tb_Passengerobj.ModifyBy = "Online";
+                            tb_Passengerobj.Status = "0";
+                            if (items.Value.infant != null)
                             {
-                                tb_Passengerobj.Inf_Gender = "Master";
-                            }
-                            //passkeytypeobj.MobNumber = "";
-                            for (int i = 0; i < PassengerDataDetailsList.Count; i++)
-                            {
-                                if (tb_Passengerobj.Inf_TypeCode == PassengerDataDetailsList[i].passengertypecode && tb_Passengerobj.Inf_Firstname.ToLower() == PassengerDataDetailsList[i].first.ToLower() + " " + PassengerDataDetailsList[i].last.ToLower())
+
+                                tb_Passengerobj.Inf_TypeCode = "INFT";
+                                tb_Passengerobj.Inf_Firstname = items.Value.infant.name.first;
+                                tb_Passengerobj.Inf_Lastname = items.Value.infant.name.last;
+                                tb_Passengerobj.Inf_Dob = items.Value.infant.dateOfBirth;
+                                if (items.Value.infant.gender == "1")
                                 {
-                                    tb_Passengerobj.PassengerKey = PassengerDataDetailsList[i].passengerkey;
-                                    break;
+                                    tb_Passengerobj.Inf_Gender = "Master";
                                 }
+                                //passkeytypeobj.MobNumber = "";
+                                for (int i = 0; i < PassengerDataDetailsList.Count; i++)
+                                {
+                                    if (tb_Passengerobj.Inf_TypeCode == PassengerDataDetailsList[i].passengertypecode && tb_Passengerobj.Inf_Firstname.ToLower() == PassengerDataDetailsList[i].first.ToLower() + " " + PassengerDataDetailsList[i].last.ToLower())
+                                    {
+                                        tb_Passengerobj.PassengerKey = PassengerDataDetailsList[i].passengerkey;
+                                        break;
+                                    }
+
+                                }
+                                //ReturnpassengersList.Add(returnPassengersobj);
 
                             }
-                            //ReturnpassengersList.Add(returnPassengersobj);
+
+                            // Handle carrybages and fees
+                            List<FeeDetails> feeDetails = new List<FeeDetails>();
+                            double TotalAmount_Seat = 0;
+                            double TotalAmount_Meals = 0;
+                            double TotalAmount_Baggage = 0;
+
+                            double TotalAmount_CGST = 0;
+                            double TotalAmount_SGST = 0;
+                            double AddCGSTSGST = 0;
+
+                            double TotalAmount_CGSTM = 0;
+                            double TotalAmount_SGSTM = 0;
+                            double AddCGSTSGSTM = 0;
+
+                            double TotalAmount_CGSTP = 0;
+                            double TotalAmount_SGSTP = 0;
+                            double AddCGSTSGSTP = 0;
+
+
+                            double totalServiceTax = 0;
+                            string carryBagesConcatenation = "";
+                            string MealConcatenation = "";
+                            int feesCount = items.Value.fees.Count;
+                            foreach (var fee in items.Value.fees)
+                            {
+                                string ssrCode = fee.ssrCode?.ToString();
+                                if (ssrCode != null)
+                                {
+                                    if (ssrCode.StartsWith("P"))
+                                    {
+                                        //TicketSeat[tb_Passengerobj.PassengerKey.ToString()] = TotalAmount_Seat;
+                                        //TicketCarryBag.Add(tb_Passengerobj.PassengerKey.ToString(), fee.ssrCode);
+                                        TicketCarryBag[tb_Passengerobj.PassengerKey.ToString()] = fee.ssrCode;
+                                        carryBagesConcatenation += fee.ssrCode + ",";
+                                    }
+                                    else if (ssrCode.StartsWith("V"))
+                                    {
+                                        TicketMeal[tb_Passengerobj.PassengerKey.ToString()] = fee.ssrCode;
+
+                                        // TicketMeal.Add(tb_Passengerobj.PassengerKey.ToString(), fee.ssrCode);
+                                        MealConcatenation += fee.ssrCode + ",";
+
+                                    }
+                                }
+                                Hashtable TicketMealTax = new Hashtable();
+                                Hashtable TicketMealAmountTax = new Hashtable();
+                                Hashtable TicketCarryBagAMountTax = new Hashtable();
+
+                                // Iterate through service charges
+                                int ServiceCount = fee.serviceCharges.Count;
+                                foreach (var serviceCharge in fee.serviceCharges)
+                                {
+                                    string serviceChargeCode = serviceCharge.code?.ToString();
+                                    double amount = (serviceCharge.amount != null) ? Convert.ToDouble(serviceCharge.amount) : 0;
+                                    if (serviceChargeCode != null)
+                                    {
+                                        if (serviceChargeCode.StartsWith("SE"))
+                                        {
+                                            TotalAmount_Seat += amount;
+
+                                            //TotalAmount_CGST += amount;
+                                            //TotalAmount_SGST += amount;
+                                            // AddCGSTSGST = TotalAmount_CGST + TotalAmount_SGST;
+
+                                            //TicketSeat.Add(tb_Passengerobj.PassengerKey.ToString(), TotalAmount_Seat);
+                                            TicketSeat[tb_Passengerobj.PassengerKey.ToString()] = TotalAmount_Seat;
+                                        }
+                                        else if (serviceChargeCode.StartsWith("V"))
+                                        {
+                                            TotalAmount_Meals += amount;
+                                            //TotalAmount_CGSTM += amount;
+                                            //TotalAmount_SGSTM += amount;
+                                            //AddCGSTSGSTM = TotalAmount_CGSTM + TotalAmount_SGSTM;
+                                            // TicketMealAmount.Add(tb_Passengerobj.PassengerKey.ToString(), TotalAmount_Meals);
+                                            TicketMealAmount[tb_Passengerobj.PassengerKey.ToString()] = TotalAmount_Meals;
+
+                                        }
+                                        else if (serviceChargeCode.StartsWith("P"))
+                                        {
+                                            TotalAmount_Baggage += amount;
+                                            //TotalAmount_CGSTP += amount;
+                                            //TotalAmount_SGSTP += amount;
+                                            //AddCGSTSGSTP = TotalAmount_CGSTP + TotalAmount_SGSTP;
+                                            // TicketCarryBagAMount.Add(tb_Passengerobj.PassengerKey.ToString(), TotalAmount_Baggage);
+                                            TicketCarryBagAMount[tb_Passengerobj.PassengerKey.ToString()] = TotalAmount_Baggage;
+                                        }
+                                        //if (serviceChargeCode == "CGST")
+                                        //{    
+                                        //    TotalAmount_CGST += amount;
+                                        //}
+                                        //else if (serviceChargeCode == "SGST")
+                                        //{
+                                        //    TotalAmount_SGST += amount;
+                                        //}
+                                    }
+
+                                }
+                            }
+                            tb_Passengerobj.TotalAmount_Seat = TotalAmount_Seat;
+                            tb_Passengerobj.TotalAmount_Meals = TotalAmount_Meals;
+                            tb_Passengerobj.BaggageTotalAmount = TotalAmount_Baggage;
+                            tb_Passengerobj.Carrybages = carryBagesConcatenation.TrimEnd(',');
+                            tb_Passengerobj.MealsCode = MealConcatenation.TrimEnd(',');
+                            tb_PassengerDetailsList.Add(tb_Passengerobj);
 
                         }
-
-                        // Handle carrybages and fees
-                        List<FeeDetails> feeDetails = new List<FeeDetails>();
-                        double TotalAmount_Seat = 0;
-                        double TotalAmount_Meals = 0;
-                        double TotalAmount_Baggage = 0;
-
-                        double TotalAmount_CGST = 0;
-                        double TotalAmount_SGST = 0;
-                        double AddCGSTSGST = 0;
-
-                        double TotalAmount_CGSTM = 0;
-                        double TotalAmount_SGSTM = 0;
-                        double AddCGSTSGSTM = 0;
-
-                        double TotalAmount_CGSTP = 0;
-                        double TotalAmount_SGSTP = 0;
-                        double AddCGSTSGSTP = 0;
-
-
-                        double totalServiceTax = 0;
-                        string carryBagesConcatenation = "";
-                        string MealConcatenation = "";
-                        int feesCount = items.Value.fees.Count;
-                        foreach (var fee in items.Value.fees)
-                        {
-                            string ssrCode = fee.ssrCode?.ToString();
-                            if (ssrCode != null)
-                            {
-                                if (ssrCode.StartsWith("P"))
-                                {
-                                    TicketCarryBag.Add(tb_Passengerobj.PassengerKey.ToString(), fee.ssrCode);
-                                    carryBagesConcatenation += fee.ssrCode + ",";
-                                }
-                                else if (ssrCode.StartsWith("V"))
-                                {
-                                    TicketMeal.Add(tb_Passengerobj.PassengerKey.ToString(), fee.ssrCode);
-                                    MealConcatenation += fee.ssrCode + ",";
-
-                                }
-                            }
-                            Hashtable TicketMealTax = new Hashtable();
-                            Hashtable TicketMealAmountTax = new Hashtable();
-                            Hashtable TicketCarryBagAMountTax = new Hashtable();
-
-                            // Iterate through service charges
-                            int ServiceCount = fee.serviceCharges.Count;
-                            foreach (var serviceCharge in fee.serviceCharges)
-                            {
-                                string serviceChargeCode = serviceCharge.code?.ToString();
-                                double amount = (serviceCharge.amount != null) ? Convert.ToDouble(serviceCharge.amount) : 0;
-                                if (serviceChargeCode != null)
-                                {
-                                    if (serviceChargeCode.StartsWith("SE"))
-                                    {
-                                        TotalAmount_Seat += amount;
-
-                                        //TotalAmount_CGST += amount;
-                                        //TotalAmount_SGST += amount;
-                                        // AddCGSTSGST = TotalAmount_CGST + TotalAmount_SGST;
-                                        TicketSeat.Add(tb_Passengerobj.PassengerKey.ToString(), TotalAmount_Seat);
-                                    }
-                                    else if (serviceChargeCode.StartsWith("V"))
-                                    {
-                                        TotalAmount_Meals += amount;
-                                        //TotalAmount_CGSTM += amount;
-                                        //TotalAmount_SGSTM += amount;
-                                        //AddCGSTSGSTM = TotalAmount_CGSTM + TotalAmount_SGSTM;
-
-                                        TicketMealAmount.Add(tb_Passengerobj.PassengerKey.ToString(), TotalAmount_Meals);
-                                    }
-                                    else if (serviceChargeCode.StartsWith("P"))
-                                    {
-                                        TotalAmount_Baggage += amount;
-                                        //TotalAmount_CGSTP += amount;
-                                        //TotalAmount_SGSTP += amount;
-                                        //AddCGSTSGSTP = TotalAmount_CGSTP + TotalAmount_SGSTP;
-                                        TicketCarryBagAMount.Add(tb_Passengerobj.PassengerKey.ToString(), TotalAmount_Baggage);
-                                    }
-                                    //if (serviceChargeCode == "CGST")
-                                    //{    
-                                    //    TotalAmount_CGST += amount;
-                                    //}
-                                    //else if (serviceChargeCode == "SGST")
-                                    //{
-                                    //    TotalAmount_SGST += amount;
-                                    //}
-                                }
-
-                            }
-                        }
-                        tb_Passengerobj.TotalAmount_Seat = TotalAmount_Seat;
-                        tb_Passengerobj.TotalAmount_Meals = TotalAmount_Meals;
-                        tb_Passengerobj.BaggageTotalAmount = TotalAmount_Baggage;
-                        tb_Passengerobj.Carrybages = carryBagesConcatenation.TrimEnd(',');
-                        tb_Passengerobj.MealsCode = MealConcatenation.TrimEnd(',');
-                        tb_PassengerDetailsList.Add(tb_Passengerobj);
-
                     }
                     int JourneysCount = JsonObjPNRBooking.data.journeys.Count;
                     List<tb_journeys> tb_JourneysList = new List<tb_journeys>();

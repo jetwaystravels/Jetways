@@ -198,10 +198,16 @@
         });
     });
 
-    $('#btncross').click(function () {
-        localStorage.clear();
-        document.getElementById("popuptatalfare").innerHTML = 0;
+    // $('#btncross').click(function () {
+    //     localStorage.clear();
+    //     document.getElementById("popuptatalfare").innerHTML = 0;
+    // });
+
+    $('#btncross').on('hidden.bs.modal', function () {
+        //localStorage.clear();
+        //document.getElementById("popuptatalfare").innerHTML = 0;
     });
+        
 
 
 </script>
@@ -246,7 +252,7 @@
                                     <div class="departbx">Depart</div>
                                     <div class="dst-top pl-0">
                                         <span>@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin <i class="fa fa-angle-double-right" aria-hidden="true"></i>@Model.SimpleAvailibilityaAddResponcelist[j].designator.destination</span>
-                                        <span class="dprtdt">@Model.SimpleAvailibilityaAddResponcelist[j].designator.departure.ToString("dd-MM-yyyy HH:mm")</span>
+                                        <span class="dprtdt">@Model.SimpleAvailibilityaAddResponcelist[j].designator.departure.ToString("dd-MM-yyyy")</span>
                                     </div>
 
                                     <div class="col">
@@ -312,15 +318,15 @@
                                                             var stops = @Model.SimpleAvailibilityaAddResponcelist[j].stops;
                                                             if (stops == 0)
                                                             {
-                                                                <div class="mt-1">NonStop</div>
+                                                                    <div class="mt-1">NonStop</div>
                                                             }
                                                             if (stops == 1)
                                                             {
-                                                                <div class="mt-1">1 Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination </div>
+                                                                    <div class="mt-1">1 Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination </div>
                                                             }
                                                             if (stops == 2)
                                                             {
-                                                                <div class="mt-1">2 Stop</div>
+                                                                    <div class="mt-1">2 Stop</div>
                                                             }
                                                         }
                                                     </div>
@@ -610,7 +616,7 @@
                                     <div class="departbx">Return</div>
                                     <div class="dst-top pl-0">
                                         <span>@Model.SimpleAvailibilityaAddResponcelistR[j].designator.origin<i class="fa fa-angle-double-right" aria-hidden="true"></i>@Model.SimpleAvailibilityaAddResponcelistR[j].designator.destination</span>
-                                        <span class="dprtdt">@Model.SimpleAvailibilityaAddResponcelistR[j].designator.arrival.ToString("dd-MM-yyyy HH:mm")</span>
+                                        <span class="dprtdt">@Model.SimpleAvailibilityaAddResponcelistR[j].designator.arrival.ToString("dd-MM-yyyy")</span>
                                     </div>
 
                                     <div class="col">

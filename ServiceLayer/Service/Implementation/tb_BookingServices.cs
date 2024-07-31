@@ -54,6 +54,7 @@ namespace ServiceLayer.Service.Implementation
                 this._dbContext.Add(tbobj);
                 //this._dbContext.SaveChanges();
                 ContactDetail contactDetailobj = new ContactDetail();
+                contactDetailobj.BookingID = ticketObject.tb_Booking.BookingID;
                 contactDetailobj.FirstName = ticketObject.ContactDetail.FirstName;
                 contactDetailobj.LastName = ticketObject.ContactDetail.LastName;
                 contactDetailobj.MobileNumber = ticketObject.ContactDetail.MobileNumber;
@@ -148,11 +149,13 @@ namespace ServiceLayer.Service.Implementation
                 {
                     tb_PassengerDetails tb_PassengerDetails = new tb_PassengerDetails();
                     tb_PassengerDetails.BookingID = ticketObject.BookingID;
+                    tb_PassengerDetails.SegmentsKey = ticketObject.tb_PassengerDetails[j].SegmentsKey;
                     tb_PassengerDetails.PassengerKey = ticketObject.tb_PassengerDetails[j].PassengerKey;
                     tb_PassengerDetails.Title = ticketObject.tb_PassengerDetails[j].Title;
                     tb_PassengerDetails.FirstName = ticketObject.tb_PassengerDetails[j].FirstName;
                     tb_PassengerDetails.LastName = ticketObject.tb_PassengerDetails[j].LastName;
                     tb_PassengerDetails.TypeCode = ticketObject.tb_PassengerDetails[j].TypeCode;
+                    tb_PassengerDetails.Seatnumber = ticketObject.tb_PassengerDetails[j].Seatnumber;
                     tb_PassengerDetails.ModifiedDate = ticketObject.tb_PassengerDetails[j].ModifiedDate;
                     tb_PassengerDetails.CreatedDate = ticketObject.tb_PassengerDetails[j].CreatedDate;
                     tb_PassengerDetails.Createdby = ticketObject.tb_PassengerDetails[j].Createdby;

@@ -14,6 +14,7 @@ namespace DomainLayer.Model
         public int Id { get; set; }
         //[ForeignKey("tb_booking")]
         public string BookingID { get; set; }
+        public string SegmentsKey { get; set; }
         public string PassengerKey { get; set; }
         //public string Gender { get; set; } 
         public string Title { get; set; }

@@ -9,6 +9,7 @@ namespace DomainLayer.Model
     public class ContactDetail
     {
         public int Id { get; set; }
+        public string BookingID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string EmailID { get; set; }
