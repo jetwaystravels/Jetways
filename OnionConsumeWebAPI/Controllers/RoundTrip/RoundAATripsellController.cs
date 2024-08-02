@@ -318,6 +318,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
                 if (!string.IsNullOrEmpty(tokenview) && dataArray[i].ToLower() == "akasaair")
                 {
+                    if (tokenview == null) { tokenview = ""; }
                     token = tokenview.Replace(@"""", string.Empty);
                     using (HttpClient client = new HttpClient())
                     {
@@ -443,7 +444,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
         //GST Code For Akasa and Airasia
         public async Task<IActionResult> _RGetGstDetails(ContactModel contactobject, AddGSTInformation addGSTInformation)
         {
-            
+
             string SelectedAirlinedata = HttpContext.Session.GetString("SelectedAirlineName");
             string[] dataArray = JsonConvert.DeserializeObject<string[]>(SelectedAirlinedata);
             for (int i = 0; i < dataArray.Length; i++)
@@ -505,7 +506,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
                 }
 
-                 tokenview = string.Empty;
+                tokenview = string.Empty;
                 if (i == 0)
                 {
                     tokenview = HttpContext.Session.GetString("AkasaTokan");
@@ -723,6 +724,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         {
                             tokenview = HttpContext.Session.GetString("AkasaTokanR");
                         }
+                        if (tokenview == null) { tokenview = ""; }
                         token = tokenview.Replace(@"""", string.Empty);
                         PassengersModel _PassengersModel = new PassengersModel();
                         for (int i = 0; i < passengerdetails.Count; i++)
@@ -1070,7 +1072,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
             #region RoundTripSSR
 
             Logs logs1 = new Logs();
-            if (ssrKey.Count > 0 || BaggageSSrkey.Count>0)
+            if (ssrKey.Count > 0 || BaggageSSrkey.Count > 0)
             {
 
                 try
@@ -2121,6 +2123,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                         {
                                             tokenview = HttpContext.Session.GetString("AkasaTokanR");//spelling 
                                         }
+                                        if (tokenview == null) { tokenview = ""; }
                                         token = tokenview.Replace(@"""", string.Empty);
                                         if (token == "" || token == null)
                                         {
@@ -2590,6 +2593,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     }
                                     if (!string.IsNullOrEmpty(tokenview))
                                     {
+
                                         token = tokenview.Replace(@"""", string.Empty);
                                         if (token == "" || token == null)
                                         {
@@ -2880,6 +2884,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     }
                                     if (!string.IsNullOrEmpty(tokenview))
                                     {
+                                        if (tokenview == null) { tokenview = ""; }
                                         token = tokenview.Replace(@"""", string.Empty);
                                         if (token == "" || token == null)
                                         {

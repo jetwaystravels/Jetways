@@ -207,7 +207,7 @@
         //localStorage.clear();
         //document.getElementById("popuptatalfare").innerHTML = 0;
     });
-        
+
 
 
 </script>
@@ -318,15 +318,15 @@
                                                             var stops = @Model.SimpleAvailibilityaAddResponcelist[j].stops;
                                                             if (stops == 0)
                                                             {
-                                                                    <div class="mt-1">NonStop</div>
+                                                                <div class="mt-1">NonStop</div>
                                                             }
                                                             if (stops == 1)
                                                             {
-                                                                    <div class="mt-1">1 Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination </div>
+                                                                <div class="mt-1">1 Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination </div>
                                                             }
                                                             if (stops == 2)
                                                             {
-                                                                    <div class="mt-1">2 Stop</div>
+                                                                <div class="mt-1">2 Stop</div>
                                                             }
                                                         }
                                                     </div>
@@ -375,6 +375,20 @@
                                                     Faretype = "Saver Fare";
 
                                             }
+                                            //AkasaAir
+                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.AkasaAir)
+                                            {
+
+                                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("EC"))
+                                                    Faretype = "Saver";
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("AV"))
+                                                    Faretype = "Flexi";
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SP"))
+                                                    Faretype = "Special Fares";
+
+
+                                            }
+
                                             else
                                             {
                                                 if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("EC"))
@@ -457,6 +471,45 @@
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs - 3200 (3 hrs before departure</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargable</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Chargable</li>
+
+                                                        </ul>
+                                                    }
+
+                                                    //AkasaAir Fare Details
+                                                    if (@Faretype == "Saver")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag - 7 k.g</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in - 15 k.g  (1 piece)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - 3100 (4 days & above)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs -  2850 (4 days & above)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargable</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Chargable</li>
+
+                                                        </ul>
+                                                    }
+
+                                                    if (@Faretype == "Flexi")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag - 7 k.g</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in - 15 k.g  (1 piece)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - 500 (4 days & above)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs -  2850 (4 days & above)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+                                                    if (@Faretype == "Special Fares")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag --</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in - -</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - -</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs -  -</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- -</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- -</li>
 
                                                         </ul>
                                                     }
@@ -741,19 +794,22 @@
 
                                             }
                                             // Akasa fair Details
-                                            else if (Model.SimpleAvailibilityaAddResponcelistR[j].Airline == Airlines.AkasaAir)
+                                            //AkasaAir
+                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.AkasaAir)
                                             {
 
-                                                if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("R"))
+                                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("EC"))
                                                     Faretype = "Saver";
-                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("V"))
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("AV"))
                                                     Faretype = "Flexi";
-                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("S"))
-                                                    Faretype = "max";
-                                                else
-                                                    Faretype = "Saver";
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SP"))
+                                                    Faretype = "Special Fares";
+
+
                                             }
-                                            else
+
+                                            //Airasia
+                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Airasia)
                                             {
                                                 if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("EC"))
                                                     Faretype = "Xpress Value";
@@ -837,7 +893,44 @@
                                                         </ul>
                                                     }
 
+                                                    //AkasaAir Fare Details
+                                                    if (@Faretype == "Saver")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag - 7 k.g</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in - 15 k.g  (1 piece)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - 3100 (4 days & above)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs -  2850 (4 days & above)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargable</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Chargable</li>
 
+                                                        </ul>
+                                                    }
+
+                                                    if (@Faretype == "Flexi")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag - 7 k.g</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in - 15 k.g  (1 piece)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - 500 (4 days & above)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs -  2850 (4 days & above)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+                                                    if (@Faretype == "Special Fares")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag --</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in - -</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - -</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs -  -</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- -</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- -</li>
+
+                                                        </ul>
+                                                    }
 
                                                     //Spice Jet Detail
 
@@ -866,18 +959,7 @@
                                                         </ul>
                                                     }
 
-                                                    if (@Faretype == "Saver Fare")
-                                                    {
-                                                        <ul>
-                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
-                                                            <li><img src="~/img/included.png" alt="icon">Check in 15 Kgs  (1 piece)</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs 3600:- (within 96 hrs from Departure)</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs 3350:- (within 96 hrs from Departure)</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
 
-                                                        </ul>
-                                                    }
 
                                                     if (@Faretype == "Spice Flex")
                                                     {
@@ -956,32 +1038,32 @@
                                                         </ul>
                                                     }
 
-                                                    //Spice Jet Detail
-                                                    if (@Faretype == "Saver")
-                                                    {
-                                                        <ul>
-                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
-                                                            <li><img src="~/img/included.png" alt="icon">Check in 15 Kgs  (1 piece)</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs 3600:- (within 96 hrs from Departure)</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs 3350:- (within 96 hrs from Departure)</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
+                                                    // //Spice Jet Detail
+                                                    // if (@Faretype == "Saver")
+                                                    // {
+                                                    //         <ul>
+                                                    //             <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                    //             <li><img src="~/img/included.png" alt="icon">Check in 15 Kgs  (1 piece)</li>
+                                                    //             <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs 3600:- (within 96 hrs from Departure)</li>
+                                                    //             <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs 3350:- (within 96 hrs from Departure)</li>
+                                                    //             <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                    //             <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
 
-                                                        </ul>
-                                                    }
+                                                    //         </ul>
+                                                    // }
 
-                                                    if (@Faretype == "Flexi")
-                                                    {
-                                                        <ul>
-                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
-                                                            <li><img src="~/img/included.png" alt="icon">Check in 15 Kgs  (1 piece)</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs 3600:- (within 96 hrs from Departure)</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs 3350:- (within 96 hrs from Departure)</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
+                                                    // if (@Faretype == "Flexi")
+                                                    // {
+                                                    //         <ul>
+                                                    //             <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                    //             <li><img src="~/img/included.png" alt="icon">Check in 15 Kgs  (1 piece)</li>
+                                                    //             <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs 3600:- (within 96 hrs from Departure)</li>
+                                                    //             <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs 3350:- (within 96 hrs from Departure)</li>
+                                                    //             <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                    //             <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
 
-                                                        </ul>
-                                                    }
+                                                    //         </ul>
+                                                    // }
 
                                                 }
 

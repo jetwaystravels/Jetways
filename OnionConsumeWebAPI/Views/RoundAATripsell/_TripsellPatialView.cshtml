@@ -271,7 +271,7 @@
             {
                 for (int i = 0; i < item.segments.Count; i++)
                 {
-                    //AirCraftname = @Model.SeatmaplistRT[k].datalist[i].seatMap.name;
+                    AirCraftname = @Model.SeatmaplistRT[k].datalist[i].seatMap.name;
                     if (i == 1)
                     {
                         formattedTime = string.Empty;
@@ -405,11 +405,21 @@
                                                             ( @formatteddepartureDate<span class="text-13 text-light-1 ml-2">@originCity?.airportname</span>
                                                             @if (@item.segments[i].legs[j].legInfo.departureTerminal != null && @item.segments[i].legs[j].legInfo.departureTerminal != "")
                                                             {
-                                                                <span class="text-13 ml-2 fw-600">
-                                                                    <span>, T-</span>
+                                                                if (item.segments[i].identifier.carrierCode.Equals("QP"))
+                                                                {
+                                                                    <span class="text-13 ml-2 fw-600">
+                                                                        <span>, </span>
+                                                                        @item.segments[i].legs[j].legInfo.departureTerminal
+                                                                    </span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span class="text-13 ml-2 fw-600">
+                                                                        <span>, T-</span>
 
-                                                                    @item.segments[i].legs[j].legInfo.departureTerminal
-                                                                </span>
+                                                                        @item.segments[i].legs[j].legInfo.departureTerminal
+                                                                    </span>
+                                                                }
                                                             }
                                                             )
                                                         </span>
@@ -458,9 +468,18 @@
 
                                                             @if (@item.segments[i].legs[j].legInfo.arrivalTerminal != null && @item.segments[i].legs[j].legInfo.arrivalTerminal != "")
                                                             {
-                                                                <span class="text-13 ml-2 fw-600">
-                                                                    <span>, T-</span> @item.segments[i].legs[j].legInfo.arrivalTerminal
-                                                                </span>
+                                                                if (item.segments[i].identifier.carrierCode.Equals("QP"))
+                                                                {
+                                                                    <span class="text-13 ml-2 fw-600">
+                                                                        <span>, </span> @item.segments[i].legs[j].legInfo.arrivalTerminal
+                                                                    </span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span class="text-13 ml-2 fw-600">
+                                                                        <span>, T-</span> @item.segments[i].legs[j].legInfo.arrivalTerminal
+                                                                    </span>
+                                                                }
                                                             }
                                                             )
 
@@ -483,7 +502,7 @@
                                         @{
                                             string Faretype = string.Empty;
 
-                                            @if (item.segments[i].fares[f].productClass.Equals("EC"))
+                                            @if (item.segments[i].fares[f].productClass.Equals("EC") && item.Airlinename.Equals("Airasia"))
                                             {
                                                 // <div class="text-13 mt-1">Economy: @Faretype<b>Xpress Value</b></div>
                                                 <span class="tooltipF">
@@ -557,6 +576,8 @@
                                                 </span>
 
                                             }
+
+
                                             //*************Indigo Tooltip Code Start
                                             else if (item.segments[i].fares[f].productClass.Equals("O"))
                                             {
@@ -713,6 +734,65 @@
 
                                             }
 
+                                            //AkasaAir
+
+                                            else if (item.segments[i].fares[f].productClass.Equals("EC") && item.Airlinename.Equals("AkasaAir"))
+                                            {
+
+                                                <span class="tooltipF">
+                                                    Economy:  @Faretype<b>Saver</b>
+                                                    <span class="tooltiptext">
+                                                        <ul>
+                                                            <li>1: Cabin Bag: 7 k.g</li>
+                                                            <li>2: Check-In: 15 k.g  (1 piece)</li>
+                                                            <li>3: Cancellation: 3100 Rs (4 days & above)</li>
+                                                            <li>4: Date Change: 2850 RS (4 days & above)</li>
+                                                            <li>5: Seat : Chargable</li>
+                                                            <li>6: Meal : Chargable</li>
+
+                                                        </ul>
+                                                    </span>
+                                                </span>
+
+                                            }
+                                            else if (item.segments[i].fares[f].productClass.Equals("AV"))
+                                            {
+
+                                                <span class="tooltipF">
+                                                    Economy:  @Faretype<b>Flexi</b>
+                                                    <span class="tooltiptext">
+                                                        <ul>
+                                                            <li>1: Cabin Bag: 7 k.g</li>
+                                                            <li>2: Check-In: 15 k.g  (1 piece)</li>
+                                                            <li>3: Cancellation: 500 Rs (4 days & above)</li>
+                                                            <li>4: Date Change: 2850 RS (4 days & above)</li>
+                                                            <li>5: Seat : Free seats</li>
+                                                            <li>6: Meal : Complimentary meal</li>
+                                                        </ul>
+                                                    </span>
+                                                </span>
+
+                                            }
+                                            else if (item.segments[i].fares[f].productClass.Equals("SP"))
+                                            {
+
+                                                <span class="tooltipF">
+                                                    Economy:  @Faretype<b>Saver Fare</b>
+                                                    <span class="tooltiptext">
+                                                        <ul>
+                                                            <li>1: Cabin Bag: -</li>
+                                                            <li>2: Check-In: -</li>
+                                                            <li>3: Cancellation: -</li>
+                                                            <li>4: Date Change: -</li>
+                                                            <li>5: Seat : -</li>
+                                                            <li>6: Meal : -</li>
+
+                                                        </ul>
+                                                    </span>
+                                                </span>
+
+                                            }
+
 
                                             else
                                             {
@@ -817,7 +897,7 @@
                                 @{
                                     string Faretype = string.Empty;
 
-                                    @if (item.segments[i].fares[f].productClass.Equals("EC"))
+                                    @if (item.segments[i].fares[f].productClass.Equals("EC") && item.Airlinename.Equals("Airasia"))
                                     {
                                         <table style="width:100%">
                                             <tr>
@@ -972,6 +1052,57 @@
                                     }
 
 
+                                    // AkasaAir
+                                    else if (item.segments[i].fares[f].productClass.Equals("EC") && item.Airlinename.Equals("AkasaAir"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>4 days & above</td>
+                                                <td>Rs.3100</td>
+
+                                            </tr>
+
+                                        </table>
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("AV"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>4 days & above</td>
+                                                <td>Rs.500</td>
+
+                                            </tr>
+
+                                        </table>
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("SP"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>--</td>
+                                                <td>Rs.--</td>
+
+                                            </tr>
+
+                                        </table>
+
+                                    }
+
 
                                     else
                                     {
@@ -1016,7 +1147,7 @@
                                 @{
                                     string Faretype = string.Empty;
 
-                                    @if (item.segments[j].fares[k].productClass.Equals("EC"))
+                                    @if (item.segments[j].fares[k].productClass.Equals("EC") && item.Airlinename.Equals("Airasia"))
                                     {
                                         <table style="width:100%">
                                             <tr>
@@ -1168,6 +1299,63 @@
 
                                         </table>
                                     }
+                                    //AkasaAir
+
+
+                                    // AkasaAir
+                                    else if (item.segments[j].fares[k].productClass.Equals("EC") && item.Airlinename.Equals("AkasaAir"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>4 days & above</td>
+                                                <td>Rs.2850</td>
+
+                                            </tr>
+
+                                        </table>
+                                    }
+                                    else if (item.segments[j].fares[k].productClass.Equals("AV"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>4 days & above</td>
+                                                <td>Rs.2850</td>
+
+                                            </tr>
+
+                                        </table>
+                                    }
+                                    else if (item.segments[j].fares[k].productClass.Equals("SP"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>--</td>
+                                                <td>Rs.--</td>
+
+                                            </tr>
+
+                                        </table>
+
+                                    }
+
+
+
+
                                     else
                                     {
                                         <table style="width:100%">
@@ -1275,7 +1463,7 @@
                                 @{
                                     string Faretype = string.Empty;
 
-                                    @if (item.segments[i].fares[f].productClass.Equals("EC"))
+                                    @if (item.segments[i].fares[f].productClass.Equals("EC") && item.Airlinename.Equals("Airasia"))
                                     {
                                         <table style="width:100%">
                                             <tr>
@@ -1428,6 +1616,60 @@
                                         </table>
 
                                     }
+
+                                    // AkasaAir
+                                    else if (item.segments[i].fares[f].productClass.Equals("EC") && item.Airlinename.Equals("AkasaAir"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>4 days & above</td>
+                                                <td>Rs.3100</td>
+
+                                            </tr>
+
+                                        </table>
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("AV"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>4 days & above</td>
+                                                <td>Rs.500</td>
+
+                                            </tr>
+
+                                        </table>
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("SP"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>--</td>
+                                                <td>Rs.--</td>
+
+                                            </tr>
+
+                                        </table>
+
+                                    }
+
+
+
                                     else
                                     {
                                         <table style="width:100%">
@@ -1474,7 +1716,7 @@
                                 @{
                                     string Faretype = string.Empty;
 
-                                    @if (item.segments[j].fares[k].productClass.Equals("EC"))
+                                    @if (item.segments[j].fares[k].productClass.Equals("EC") && item.segments[j].identifier.carrierCode.Equals("6E"))
                                     {
                                         <table style="width:100%">
                                             <tr>
@@ -1626,6 +1868,59 @@
 
                                         </table>
                                     }
+
+                                    // AkasaAir
+                                    else if (item.segments[j].fares[k].productClass.Equals("EC") && item.segments[j].identifier.carrierCode.Equals("QP"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>4 days & above</td>
+                                                <td>Rs.2850</td>
+
+                                            </tr>
+
+                                        </table>
+                                    }
+                                    else if (item.segments[j].fares[k].productClass.Equals("AV"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>4 days & above</td>
+                                                <td>Rs.2850</td>
+
+                                            </tr>
+
+                                        </table>
+                                    }
+                                    else if (item.segments[j].fares[k].productClass.Equals("SP"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>--</td>
+                                                <td>Rs.--</td>
+
+                                            </tr>
+
+                                        </table>
+
+                                    }
+
+
                                     else
                                     {
                                         <table style="width:100%">
