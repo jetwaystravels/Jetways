@@ -666,7 +666,7 @@ namespace OnionConsumeWebAPI.Controllers.TravelClick
                                 breakdown.totalAmount = breakdown.journeyTotals.totalAmount + breakdown.journeyTotals.totalTax;
                                 //if (totalAmount != 0M)
                                 //{
-                                    breakdown.totalToCollect = Convert.ToDouble(breakdown.journeyfareTotals[0].totalAmount)+Convert.ToDouble(breakdown.journeyfareTotals[0].totalTax);
+                                breakdown.totalToCollect = Convert.ToDouble(breakdown.journeyfareTotals[0].totalAmount) + Convert.ToDouble(breakdown.journeyfareTotals[0].totalTax);
                                 //}
                                 returnTicketBooking.breakdown = breakdown;
                                 returnTicketBooking.journeys = AAJourneyList;

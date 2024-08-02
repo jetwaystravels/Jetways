@@ -45,7 +45,9 @@ namespace DomainLayer.Model
         Spicejet = 1,
         Indigo=2,
         AkasaAir=3,
-        GDS=4
+        Vistara=4,
+        AirIndia=5,
+        Hehnair=6
     }
 
     // Root myDeserializedClass = JsonConvert.DeserializeObject<List<Root>>(myJsonResponse);

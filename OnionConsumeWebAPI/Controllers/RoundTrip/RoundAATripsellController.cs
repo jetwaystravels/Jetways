@@ -234,7 +234,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
         public async Task<IActionResult> PostReturnContactData(ContactModel contactobject, AddGSTInformation addGSTInformation)
         {
-
+            HttpContext.Session.SetString("GDSContactdetails", JsonConvert.SerializeObject(contactobject));
             string SelectedAirlinedata = HttpContext.Session.GetString("SelectedAirlineName");
             string[] dataArray = JsonConvert.DeserializeObject<string[]>(SelectedAirlinedata);
             for (int i = 0; i < dataArray.Length; i++)
@@ -903,6 +903,10 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         IndigoBookingManager_.UpdatePassengersResponse updatePaxResp = await obj.UpdatePassengers(Signature, passengerdetails);
                         string Str2 = JsonConvert.SerializeObject(updatePaxResp);
                     }
+                    if (dataArray[i1].ToLower() == "vistara" || dataArray[i1].ToLower() == "airindia")
+                    {
+                        HttpContext.Session.SetString("PassengerNameDetails", JsonConvert.SerializeObject(passengerdetails));
+                    }
                     vm.SeatmaplistRT = new List<SeatMapResponceModel>();
                     vm.passeengerlistRT = new List<AirAsiaTripResponceModel>();
                     vm.MealslistRT = new List<SSRAvailabiltyResponceModel>();
@@ -1066,7 +1070,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                 mealListRT.Add(Mealslist);
             }
             int passengerscount = passeengerKeyList.passengerscount;
-            var data = Seatmaplist.datalist.Count;
+            //var data = Seatmaplist.datalist.Count;
             //string legkey = passeengerKeyList.journeys[0].segments[0].legs[0].legKey;
             int Seatcount = unitKey.Count;
             #region RoundTripSSR

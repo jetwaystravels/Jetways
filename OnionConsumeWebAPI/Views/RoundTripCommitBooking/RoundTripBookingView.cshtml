@@ -91,6 +91,21 @@
 
                                                             <img class="size-35" src="~/img/flight-logo-icon/akasa.png" alt="image">
                                                         }
+                                                        else if (Model.AirlinePNR[a].airLines.ToString().ToLower().Equals("vistara"))
+                                                        {
+
+                                                            <img class="size-35" src="~/img/flight-logo-icon/vistara.png" alt="image">
+                                                        }
+                                                        else if (Model.AirlinePNR[a].airLines.ToString().ToLower().Equals("airindia"))
+                                                        {
+
+                                                            <img class="size-35" src="~/img/flight-logo-icon/airindia.png" alt="image">
+                                                        }
+                                                        else if (Model.AirlinePNR[a].airLines.ToString().ToLower().Equals("hahnair"))
+                                                        {
+
+                                                            <img class="size-35" src="~/img/flight-logo-icon/hahnair.png" alt="image">
+                                                        }
                                                         else
                                                         {
                                                             <img class="size-35" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
@@ -764,6 +779,17 @@
                                                 </tr>
                                                 <tr>
                                                     <td>Addon Bagg Amount:</td>
+                                                    @{
+                                                        if (Model.AirlinePNR[a].airLines.ToString().ToLower().Equals("akasaair") || Model.AirlinePNR[a].airLines.ToString().ToLower().Equals("vistara") || Model.AirlinePNR[a].airLines.ToString().ToLower().Equals("airindia") || Model.AirlinePNR[a].airLines.ToString().ToLower().Equals("hahnair"))
+                                                        {
+                                                            <td>Rs. 0</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>Rs. @Model.AirlinePNR[a].breakdown.passengerTotals.baggage.total</td>
+                                                        }
+
+                                                    }
                                                     @*<td>Rs. @Model.AirlinePNR[a].breakdown.passengerTotals.baggage.total</td>*@
 
                                                 </tr>

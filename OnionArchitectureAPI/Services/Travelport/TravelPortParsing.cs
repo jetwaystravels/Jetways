@@ -946,9 +946,9 @@ namespace OnionArchitectureAPI.Services.Travelport
                                                                                         leg.Origin = airSegment.Attributes["Origin"].Value;
                                                                                         leg.Destination = airSegment.Attributes["Destination"].Value;
                                                                                         leg.DepartureDate = airSegment.Attributes["DepartureTime"].Value.Split('T')[0];
-                                                                                        leg.DepartureTime = airSegment.Attributes["DepartureTime"].Value.Split('T')[1];
+                                                                                        leg.DepartureTime = airSegment.Attributes["DepartureTime"].Value; // airSegment.Attributes["DepartureTime"].Value.Split('T')[1];
                                                                                         leg.ArrivalDate = airSegment.Attributes["ArrivalTime"].Value.Split('T')[0];
-                                                                                        leg.ArrivalTime = airSegment.Attributes["ArrivalTime"].Value.Split('T')[1];
+                                                                                        leg.ArrivalTime = airSegment.Attributes["ArrivalTime"].Value; //airSegment.Attributes["ArrivalTime"].Value.Split('T')[1];
                                                                                         leg._ArrivalDate = airSegment.Attributes["ArrivalTime"].Value;
                                                                                         leg._DepartureDate = Convert.ToDateTime(airSegment.Attributes["DepartureTime"].Value).ToString("yyyy-MM-ddTHH:mm:ss.fffzzz");
                                                                                         leg._Distance = airSegment.Attributes["Distance"].Value;

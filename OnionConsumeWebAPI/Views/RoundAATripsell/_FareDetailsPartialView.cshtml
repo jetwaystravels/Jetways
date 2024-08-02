@@ -57,20 +57,55 @@
                     int segmentcount = @Model.passeengerlistRT[a].journeys[0].segments.Count;
                 }
 
-                @for (int j = 0; j < segmentcount; j++)
-                {
-                    if (Model.passeengerlistRT[a].journeys[0].segments[j].fares[0].passengerFares.Count > 0)
+                @{
+                    if (Model.passeengerlistRT[a].journeys[0].segments[0].identifier.carrierCode.Equals("UK") || Model.passeengerlistRT[a].journeys[0].segments[0].identifier.carrierCode.Equals("AI") || Model.passeengerlistRT[a].journeys[0].segments[0].identifier.carrierCode.Equals("H1"))
                     {
-                        peradtamounsegment = @Model.passeengerlistRT[a].journeys[0].segments[j].fares[0].passengerFares[0].serviceCharges[0].amount;
-                        peradtamount += peradtamounsegment;
-                    }
-                    if (@Model.passeengerlistRT[a].journeys[0].segments[j].fares[0].passengerFares.Count > 1)
-                    {
-                        perchdamounsegment = @Model.passeengerlistRT[a].journeys[0].segments[j].fares[0].passengerFares[1].serviceCharges[0].amount;
-                        perchdtamount += perchdamounsegment;
-                    }
+                        @for (int j = 0; j < segmentcount; j++)
+                        {
+                            for (int i = 0; i < Model.passeengerlistRT[a].journeys[0].segments[j].fares[0].passengerFares.Count; i++)
+                            {
+                                if (Model.passeengerlistRT[a].journeys[0].segments[j].fares[0].passengerFares[i].passengerType == "ADT")
+                                {
+                                    peradtamounsegment = @Model.passeengerlistRT[a].journeys[0].segments[j].fares[0].passengerFares[i].basicAmount;
+                                    peradtamount += peradtamounsegment;
+                                }
+                                else if (Model.passeengerlistRT[a].journeys[0].segments[j].fares[0].passengerFares[i].passengerType == "CHD")
+                                {
+                                    perchdamounsegment = @Model.passeengerlistRT[a].journeys[0].segments[j].fares[0].passengerFares[i].basicAmount;
+                                    perchdtamount += perchdamounsegment;
+                                }
+                                else if (Model.passeengerlistRT[a].journeys[0].segments[j].fares[0].passengerFares[i].passengerType == "INF" || Model.passeengerlistRT[a].journeys[0].segments[j].fares[0].passengerFares[i].passengerType == "INFT")
+                                {
+                                    inftbasefare = @Model.passeengerlistRT[a].journeys[0].segments[j].fares[0].passengerFares[i].basicAmount;
 
+                                }
+                            }
+                        }
+
+
+
+                    }
+                    else
+                    {
+                        @for (int j = 0; j < segmentcount; j++)
+                        {
+                            if (Model.passeengerlistRT[a].journeys[0].segments[j].fares[0].passengerFares.Count > 0)
+                            {
+                                peradtamounsegment = @Model.passeengerlistRT[a].journeys[0].segments[j].fares[0].passengerFares[0].serviceCharges[0].amount;
+                                peradtamount += peradtamounsegment;
+                            }
+                            if (@Model.passeengerlistRT[a].journeys[0].segments[j].fares[0].passengerFares.Count > 1)
+                            {
+                                perchdamounsegment = @Model.passeengerlistRT[a].journeys[0].segments[j].fares[0].passengerFares[1].serviceCharges[0].amount;
+                                perchdtamount += perchdamounsegment;
+                            }
+
+
+                        }
+                    }
                 }
+
+
 
 
                 @for (int i = 0; i < passengercountbase; i++)
@@ -88,7 +123,7 @@
                         chdcount = chdcount + 1;
                         chdtamount = perchdtamount * chdcount;
                     }
-                    else if (passengertypecount == "INFT")
+                    else if (passengertypecount == "INFT" || passengertypecount == "INF")
                     {
                         infcount = infcount + 1;
                     }

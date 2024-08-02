@@ -20,7 +20,11 @@ using NuGet.Packaging.Signing;
 using OnionArchitectureAPI.Services.Indigo;
 using OnionConsumeWebAPI.Extensions;
 using Utility;
+using System.Text;
 using static DomainLayer.Model.SeatMapResponceModel;
+using OnionArchitectureAPI.Services.Travelport;
+using Microsoft.IdentityModel.Tokens;
+using static DomainLayer.Model.GDSResModel;
 namespace OnionConsumeWebAPI.Controllers.RoundTrip
 {
     public class ReturnTripsellController : Controller
@@ -71,6 +75,21 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                 {
                     flagsession = "QP";
                     airlinename = "akasaair";
+                }
+                else if (fareKey[p].ToLower().Contains("vistara"))
+                {
+                    flagsession = "UK";
+                    airlinename = "Vistara";
+                }
+                else if (fareKey[p].ToLower().Contains("airindia"))
+                {
+                    flagsession = "AI";
+                    airlinename = "AirIndia";
+                }
+                else if (fareKey[p].ToLower().Contains("hehnair"))
+                {
+                    flagsession = "H1";
+                    airlinename = "Hehnair";
                 }
 
                 airlinenameforcommit.Airline.Add(airlinename);
@@ -1986,6 +2005,351 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         }
                     }
 
+                    //GDS airline
+                    //GDSTraceid
+                    if (_JourneykeyRTData.ToLower() == "vistara" || _JourneykeyRTData.ToLower() == "airindia" || _JourneykeyRTData.ToLower() == "hehnair")
+                    {
+                        #region GDS
+                        dynamic Airfaredata = null;
+                        AAIdentifier AAIdentifierobj = null;
+                        string stravailibitilityrequest = string.Empty;
+                        TempData["farekey"] = fareKey;
+                        TempData["journeyKey"] = journeyKey;
+                        
+                        Signature = string.Empty;
+                        str3 = string.Empty;
+                        TotalCount = 0;
+                        if (_journeySide == "0j")
+                        {
+                            Signature = HttpContext.Session.GetString("GDSTraceid");
+                            if (Signature == null) { Signature = ""; }
+                            string[] _data = fareKey[0].ToString().Split("@0");
+                            if (!string.IsNullOrEmpty(_data[0]))
+                            {
+                                Airfaredata = JsonConvert.DeserializeObject<dynamic>(_data[0].ToString());
+                            }
+                        }
+                        else
+                        {
+                            Signature = HttpContext.Session.GetString("GDSTraceidR");
+                            string[] _data = fareKey[1].Split("@1");
+                            if (!string.IsNullOrEmpty(_data[0]))
+                            {
+                                Airfaredata = JsonConvert.DeserializeObject<dynamic>(_data[0].ToString());
+                            }
+                        }
+                        string newGuid = Signature.Replace(@"""", string.Empty);
+                        int adultcount = Convert.ToInt32(HttpContext.Session.GetString("adultCount"));
+                        int childcount = Convert.ToInt32(HttpContext.Session.GetString("childCount"));
+                        int infantcount = Convert.ToInt32(HttpContext.Session.GetString("infantCount"));
+                        TotalCount = adultcount + childcount;
+                        if (newGuid == "" || newGuid == null)
+                        {
+                            return RedirectToAction("Index");
+                        }
+                        //var Signature = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(token);
+                        stravailibitilityrequest = HttpContext.Session.GetString("GDSAvailibilityRequest");
+                        SimpleAvailabilityRequestModel availibiltyRQGDS = Newtonsoft.Json.JsonConvert.DeserializeObject<SimpleAvailabilityRequestModel>(stravailibitilityrequest);
+                        #region GDSAirPricelRequest
+
+                        TravelPort _objAvail = null;
+
+                        HttpContextAccessor httpContextAccessorInstance = new HttpContextAccessor();
+                        _objAvail = new TravelPort(httpContextAccessorInstance);
+                        string _testURL = AppUrlConstant.GDSURL;
+                        string _targetBranch = string.Empty;
+                        string _userName = string.Empty;
+                        string _password = string.Empty;
+                        _targetBranch = "P7027135";
+                        _userName = "Universal API/uAPI5098257106-beb65aec";
+                        _password = "Q!f5-d7A3D";
+                        StringBuilder fareRepriceReq = new StringBuilder();
+                        string res = _objAvail.AirPriceGet(_testURL, fareRepriceReq, availibiltyRQGDS, newGuid.ToString(), _targetBranch, _userName, _password, Airfaredata, "");
+
+                        TravelPortParsing _objP = new TravelPortParsing();
+                        List<GDSResModel.Segment> getAirPriceRes = new List<GDSResModel.Segment>();
+                        if (res != null && !res.Contains("Bad Request") && !res.Contains("Internal Server Error"))
+                        {
+                            getAirPriceRes = _objP.ParseAirFareRsp(res, "OneWay", availibiltyRQGDS);
+                        }
+
+                        HttpContext.Session.SetString("Total", getAirPriceRes[0].Fare.TotalFareWithOutMarkUp.ToString());
+                        //_sell objsell = new _sell();
+                        //IndigoBookingManager_.SellResponse _getSellRS = null;// await objsell.Sell(Signature, journeyKey, fareKey, "", "", TotalCount, adultcount, childcount, infantcount, "OneWay");
+                        string str = JsonConvert.SerializeObject(getAirPriceRes);
+                        #endregion
+
+                        #region GetState
+                        //IndigoBookingManager_.GetBookingFromStateResponse _GetBookingFromStateRS1 = null;// await objsell.GetBookingFromState(Signature, "OneWay");
+                        //str3 = JsonConvert.SerializeObject(_GetBookingFromStateRS1);
+                        if (getAirPriceRes != null && getAirPriceRes.Count > 0)
+                        {
+                            AirAsiaTripResponceobj = new AirAsiaTripResponceModel();
+                            #region Itenary segment and legs
+                            int journeyscount = getAirPriceRes.Count;// _GetBookingFromStateRS1.BookingData.Journeys.Length;
+                            List<AAJourney> AAJourneyList = new List<AAJourney>();
+                            AASegment AASegmentobj = null;
+                            string paxType = String.Empty;
+                            List<AAPassengerfare> AAPassengerfarelist = new List<AAPassengerfare>();
+                            for (int i = 0; i < journeyscount; i++)
+                            {
+                                AAJourney AAJourneyobj = new AAJourney();
+                                AAJourneyobj.journeyKey = ""; // _GetBookingFromStateRS1.BookingData.Journeys[i].JourneySellKey;
+                                int segmentscount = getAirPriceRes[0].Bonds[0].Legs.Count;//.BookingData.Journeys[i].Segments.Length;
+                                List<AASegment> AASegmentlist = new List<AASegment>();
+                                for (int j = 0; j < segmentscount; j++)
+                                {
+                                    AAPassengerfarelist = new List<AAPassengerfare>();
+                                    AADesignator AADesignatorobj = new AADesignator();
+                                    AADesignatorobj.origin = getAirPriceRes[0].Bonds[0].Legs[0].Origin;
+                                    AADesignatorobj.destination = getAirPriceRes[0].Bonds[0].Legs[j].Destination;
+                                    AADesignatorobj.departure = Convert.ToDateTime(getAirPriceRes[0].Bonds[0].Legs[0].DepartureTime);
+                                    if (segmentscount > 1)
+                                    {
+                                        AADesignatorobj.arrival = Convert.ToDateTime(getAirPriceRes[0].Bonds[0].Legs[segmentscount - 1].ArrivalTime);
+                                    }
+                                    else
+                                    {
+                                        AADesignatorobj.arrival = Convert.ToDateTime(getAirPriceRes[0].Bonds[0].Legs[j].ArrivalTime);
+                                    }
+
+                                    AAJourneyobj.designator = AADesignatorobj;
+                                    AASegmentobj = new AASegment();
+                                    AADesignator AASegmentDesignatorobj = new AADesignator();
+                                    AASegmentDesignatorobj.origin = getAirPriceRes[0].Bonds[0].Legs[j].Origin;
+                                    AASegmentDesignatorobj.destination = getAirPriceRes[0].Bonds[0].Legs[j].Destination;
+                                    AASegmentDesignatorobj.departure = Convert.ToDateTime(getAirPriceRes[0].Bonds[0].Legs[j].DepartureTime);
+                                    AASegmentDesignatorobj.arrival = Convert.ToDateTime(getAirPriceRes[0].Bonds[0].Legs[j].ArrivalTime);
+                                    AASegmentobj.designator = AASegmentDesignatorobj;
+
+                                    //int fareCount = getAirPriceRes[0].Fare.cou
+                                    List<AAFare> AAFarelist = new List<AAFare>();
+                                    //for (int k = 0; k < fareCount; k++)
+                                    //{
+                                    AAFare AAFareobj = new AAFare();
+                                    AAFareobj.fareKey = ""; //_GetBookingFromStateRS1.BookingData.Journeys[i].Segments[j].Fares[k].FareSellKey;
+                                    AAFareobj.productClass = "";// _GetBookingFromStateRS1.BookingData.Journeys[i].Segments[j].Fares[k].ProductClass;
+                                                                //var passengerFares = _GetBookingFromStateRS1.BookingData.Journeys[i].Segments[j].Fares[k].PaxFares;
+                                    int passengerFarescount = getAirPriceRes[0].Fare.PaxFares.Count;// _GetBookingFromStateRS1.BookingData.Journeys[i].Segments[j].Fares[k].PaxFares.Length;
+                                    if (j == 0)                                                           //List<AAPassengerfare> AAPassengerfarelist = new List<AAPassengerfare>();
+                                    {
+
+                                        for (int l = 0; l < passengerFarescount; l++)
+                                        {
+                                            if (getAirPriceRes[0].Fare.PaxFares[l].PaxType == PAXTYPE.ADT)
+                                            {
+                                                paxType = "ADT";
+                                            }
+                                            else if (getAirPriceRes[0].Fare.PaxFares[l].PaxType == PAXTYPE.CHD)
+                                            {
+                                                paxType = "CHD";
+                                            }
+                                            else if (getAirPriceRes[0].Fare.PaxFares[l].PaxType == PAXTYPE.INF)
+                                            {
+                                                paxType = "INF";
+                                            }
+                                            AAPassengerfare AAPassengerfareobj = new AAPassengerfare();
+                                            AAPassengerfareobj.passengerType = paxType;
+                                            //var serviceCharges1 = _GetBookingFromStateRS1.BookingData.Journeys[i].Segments[j].Fares[k].PaxFares[l].ServiceCharges;
+                                            int serviceChargescount = getAirPriceRes[0].Fare.PaxFares[l].Fare.Count;
+                                            List<AAServicecharge> AAServicechargelist = new List<AAServicecharge>();
+                                            for (int m = 0; m < serviceChargescount; m++)
+                                            {
+                                                AAServicecharge AAServicechargeobj = new AAServicecharge();
+                                                AAServicechargeobj.amount = Convert.ToInt32(getAirPriceRes[0].Fare.PaxFares[l].Fare[m].Amount);
+                                                AAServicechargeobj.code = getAirPriceRes[0].Fare.PaxFares[l].Fare[m].ChargeCode;
+                                                AAServicechargelist.Add(AAServicechargeobj);
+                                            }
+                                            AAPassengerfareobj.basicAmount = Convert.ToInt32(getAirPriceRes[0].Fare.PaxFares[l].BasicFare);
+                                            AAPassengerfareobj.serviceCharges = AAServicechargelist;
+                                            AAPassengerfarelist.Add(AAPassengerfareobj);
+                                        }
+                                    }
+                                    AAFareobj.passengerFares = AAPassengerfarelist;
+                                    AAFarelist.Add(AAFareobj);
+                                    //}
+                                    AASegmentobj.fares = AAFarelist;
+                                    AAIdentifierobj = new AAIdentifier();
+
+                                    AAIdentifierobj.identifier = getAirPriceRes[0].Bonds[0].Legs[j].FlightNumber;
+                                    AAIdentifierobj.carrierCode = getAirPriceRes[0].Bonds[0].Legs[j].CarrierCode;
+
+                                    AASegmentobj.identifier = AAIdentifierobj;
+
+                                    var leg = getAirPriceRes[0].Bonds[0].Legs;
+                                    int legcount = getAirPriceRes[0].Bonds[0].Legs.Count;
+                                    List<AALeg> AALeglist = new List<AALeg>();
+                                    //for (int n = 0; n < legcount; n++)
+                                    //{
+                                    AALeg AALeg = new AALeg();
+                                    AADesignator AAlegDesignatorobj = new AADesignator();
+                                    AAlegDesignatorobj.origin = getAirPriceRes[0].Bonds[0].Legs[j].Origin;
+                                    AAlegDesignatorobj.destination = getAirPriceRes[0].Bonds[0].Legs[j].Destination;
+                                    AAlegDesignatorobj.departure = Convert.ToDateTime(getAirPriceRes[0].Bonds[0].Legs[j].DepartureTime);
+                                    AAlegDesignatorobj.arrival = Convert.ToDateTime(getAirPriceRes[0].Bonds[0].Legs[j].ArrivalTime);
+                                    AALeg.designator = AAlegDesignatorobj;
+
+                                    AALeginfo AALeginfoobj = new AALeginfo();
+                                    AALeginfoobj.arrivalTerminal = getAirPriceRes[0].Bonds[0].Legs[j].ArrivalTerminal;
+                                    AALeginfoobj.arrivalTime = Convert.ToDateTime(getAirPriceRes[0].Bonds[0].Legs[j].ArrivalTime);
+                                    AALeginfoobj.departureTerminal = getAirPriceRes[0].Bonds[0].Legs[j].DepartureTerminal;
+                                    AALeginfoobj.departureTime = Convert.ToDateTime(getAirPriceRes[0].Bonds[0].Legs[j].DepartureTime);
+                                    AALeg.legInfo = AALeginfoobj;
+                                    AALeglist.Add(AALeg);
+
+                                    //}
+                                    AASegmentobj.legs = AALeglist;
+                                    AASegmentlist.Add(AASegmentobj);
+                                }
+
+                                AAJourneyobj.segments = AASegmentlist;
+                                AAJourneyList.Add(AAJourneyobj);
+
+                            }
+
+                            #endregion
+                            int passengercount = 0;
+                            if (availibiltyRQGDS.passengercount != null)
+                            {
+                                passengercount = availibiltyRQGDS.passengercount.adultcount + availibiltyRQGDS.passengercount.childcount + availibiltyRQGDS.passengercount.infantcount;
+                            }
+                            else
+                            {
+                                passengercount = availibiltyRQGDS.adultcount + availibiltyRQGDS.childcount + availibiltyRQGDS.infantcount;
+                            }
+                            List<AAPassengers> passkeylist = new List<AAPassengers>();
+                            int a = 0;
+                            //foreach (var items in availibiltyRQGDS.passengers)
+                            //{
+                            int paxcount = 0;
+                            for (int i = 0; i < getAirPriceRes[0].Fare.PaxFares.Count; i++)
+                            {
+                                if (getAirPriceRes[0].Fare.PaxFares[i].PaxType == PAXTYPE.ADT)
+                                {
+                                    paxType = "ADT";
+                                    paxcount = availibiltyRQGDS.passengercount.adultcount;
+                                }
+                                else if (getAirPriceRes[0].Fare.PaxFares[i].PaxType == PAXTYPE.CHD)
+                                {
+                                    paxType = "CHD";
+                                    paxcount = availibiltyRQGDS.passengercount.childcount;
+                                }
+                                else if (getAirPriceRes[0].Fare.PaxFares[i].PaxType == PAXTYPE.INF)
+                                {
+                                    paxType = "INF";
+                                    paxcount = availibiltyRQGDS.passengercount.infantcount;
+                                }
+                                for (int k = 0; k < paxcount; k++)
+                                {
+
+                                    AAPassengers passkeytypeobj = new AAPassengers();
+                                    passkeytypeobj.passengerKey = a.ToString();
+                                    passkeytypeobj.passengerTypeCode = paxType; ;
+                                    passkeylist.Add(passkeytypeobj);
+                                    a++;
+                                }
+                            }
+                            //}
+
+                            //}
+                            //To do for basefare and taxes
+
+                            int Adulttax = 0;
+                            int childtax = 0;
+                            int Inftbasefare = 0;
+                            int Inftcount = 0;
+                            int infttax = 0;
+                            if (AAJourneyList.Count > 0)
+                            {
+                                for (int i = 0; i < AAJourneyList[0].segments.Count; i++)
+                                {
+                                    for (int k = 0; k < AAJourneyList[0].segments[i].fares.Count; k++)
+                                    {
+                                        for (int l = 0; l < AAJourneyList[0].segments[i].fares[k].passengerFares.Count; l++)
+                                        {
+                                            if (AAJourneyList[0].segments[i].fares[k].passengerFares[l].passengerType == "ADT")
+                                            {
+                                                for (int i2 = 0; i2 < AAJourneyList[0].segments[i].fares[k].passengerFares[l].serviceCharges.Count; i2++)
+                                                {
+                                                    Adulttax += AAJourneyList[0].segments[i].fares[k].passengerFares[l].serviceCharges[i2].amount;
+
+                                                }
+                                            }
+                                            if (AAJourneyList[0].segments[i].fares[k].passengerFares[l].passengerType == "CHD")
+                                            {
+                                                for (int i2 = 0; i2 < AAJourneyList[0].segments[i].fares[k].passengerFares[l].serviceCharges.Count; i2++)
+                                                {
+
+                                                    childtax += AAJourneyList[0].segments[i].fares[k].passengerFares[l].serviceCharges[i2].amount;
+                                                }
+                                            }
+
+                                            if (AAJourneyList[0].segments[i].fares[k].passengerFares[l].passengerType == "INF")
+                                            {
+                                                Inftcount = availibiltyRQGDS.passengercount.infantcount;
+                                                for (int i2 = 0; i2 < AAJourneyList[0].segments[i].fares[k].passengerFares[l].serviceCharges.Count; i2++)
+                                                {
+
+                                                    infttax += AAJourneyList[0].segments[i].fares[k].passengerFares[l].serviceCharges[i2].amount;
+                                                }
+                                                Inftbasefare = Convert.ToInt32(AAJourneyList[0].segments[i].fares[k].passengerFares[l].basicAmount);
+                                                //Inftcount += Convert.ToInt32(_GetBookingFromStateRS.BookingData.Passengers.Length);
+                                                AirAsiaTripResponceobj.inftcount = Inftcount;
+                                                AirAsiaTripResponceobj.inftbasefare = Inftbasefare;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            int basefaretax = 0;
+                            int basefareInfttax = 0;
+                            if (Adulttax > 0)
+                            {
+                                basefaretax = Adulttax * adultcount;
+                            }
+                            if (childtax > 0)
+                            {
+                                basefaretax += childtax * childcount;
+                            }
+                            if (infttax > 0)
+                            {
+                                basefareInfttax = infttax * infantcount;
+                                basefaretax += infttax * infantcount;
+                            }
+                            AirAsiaTripResponceobj.basefaretax = basefaretax;
+                            AirAsiaTripResponceobj.journeys = AAJourneyList;
+                            AirAsiaTripResponceobj.passengers = passkeylist;
+                            AirAsiaTripResponceobj.passengerscount = passengercount;
+                            AirAsiaTripResponceobj.infttax = basefareInfttax;
+                            if (_journeySide == "0j")
+                            {
+                                HttpContext.Session.SetString("PricingSolutionValue_0", JsonConvert.SerializeObject(getAirPriceRes[0].PricingSolutionValue));
+                            }
+                            else
+                            {
+                                HttpContext.Session.SetString("PricingSolutionValue_1", JsonConvert.SerializeObject(getAirPriceRes[0].PricingSolutionValue));
+                            }
+                            //AirAsiaTripResponceobj.PriceSolution = getAirPriceRes[0].PricingSolutionValue;
+                            #endregion
+                            //}
+                            Passengerdata = new List<string>();
+                            Passengerdata.Add("<Start>" + JsonConvert.SerializeObject(AirAsiaTripResponceobj) + "<End>");
+                            HttpContext.Session.SetString("SGkeypassengerRT", JsonConvert.SerializeObject(AirAsiaTripResponceobj));
+                            HttpContext.Session.SetString("keypassengerdata", JsonConvert.SerializeObject(Passengerdata));
+                            //HttpContext.Session.SetString("keypassengerItanary", JsonConvert.SerializeObject(AirAsiaTripResponceobj));
+                            if (!string.IsNullOrEmpty(JsonConvert.SerializeObject(Passengerdata)))
+                            {
+                                if (Passengerdata.Count == 2)
+                                {
+                                    MainPassengerdata = new List<string>();
+                                }
+                                MainPassengerdata.Add(JsonConvert.SerializeObject(Passengerdata));
+                            }
+                            #endregion
+
+                        }
+                    }
                     #region SeatMap AirAsia
 
                     #region AirAsia SeatMap 
@@ -2423,7 +2787,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     {
 
                                     }
-                                    
+
 
                                 }//
                                 _SeatMapdata = new List<string>();
@@ -2440,9 +2804,9 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 }
 
                             }
-                            catch (Exception ex) 
-                            { 
-                            
+                            catch (Exception ex)
+                            {
+
                             }
 
 

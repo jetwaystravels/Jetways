@@ -38,6 +38,7 @@ namespace OnionArchitectureAPI.Services.Travelport
 
         public string GetAvailabilty(string _testURL, StringBuilder sbReq, TravelPort _objAvail, SimpleAvailabilityRequestModel _GetfligthModel, string newGuid, string _targetBranch, string _userName, string _password, string _AirlineWay)
         {
+
             sbReq = new StringBuilder();
             sbReq.Append("<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
             sbReq.Append("<soap:Body>");
@@ -50,7 +51,16 @@ namespace OnionArchitectureAPI.Services.Travelport
             sbReq.Append("<SearchDestination>");
             sbReq.Append("<CityOrAirport xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"" + _GetfligthModel.destination + "\" PreferCity=\"true\" />");
             sbReq.Append("</SearchDestination>");
-            sbReq.Append("<SearchDepTime PreferredTime=\"" + _GetfligthModel.beginDate + "\"/>");
+
+            if (_AirlineWay.ToLower() == "gdsoneway")
+            {
+                sbReq.Append("<SearchDepTime PreferredTime=\"" + _GetfligthModel.beginDate + "\"/>");
+            }
+            else
+            {
+                sbReq.Append("<SearchDepTime PreferredTime=\"" + _GetfligthModel.endDate + "\"/>");
+
+            }
             sbReq.Append("</SearchAirLeg>");
             sbReq.Append("<AirSearchModifiers>");
             sbReq.Append("<PreferredProviders>");
@@ -383,7 +393,7 @@ namespace OnionArchitectureAPI.Services.Travelport
         }
 
 
-        public string CreatePNR(string _testURL, StringBuilder createPNRReq, string newGuid, string _targetBranch, string _userName, string _password, string AdultTraveller, string _data, string _Total, string _AirlineWay)
+        public string CreatePNR(string _testURL, StringBuilder createPNRReq, string newGuid, string _targetBranch, string _userName, string _password, string AdultTraveller, string _data, string _Total, string _AirlineWay,string? _pricesolution=null)
         {
 
             int count = 0;
@@ -399,7 +409,7 @@ namespace OnionArchitectureAPI.Services.Travelport
             createPNRReq.Append("<BillingPointOfSaleInfo xmlns=\"http://www.travelport.com/schema/common_v52_0\" OriginApplication=\"UAPI\"/>");
             List<passkeytype> passengerdetails = (List<passkeytype>)JsonConvert.DeserializeObject(AdultTraveller, typeof(List<passkeytype>));
             AirAsiaTripResponceModel Getdetails = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(_data, typeof(AirAsiaTripResponceModel));
-
+            Getdetails.PriceSolution = _pricesolution.Replace("\\", "");
 
             if (passengerdetails.Count > 0)
             {

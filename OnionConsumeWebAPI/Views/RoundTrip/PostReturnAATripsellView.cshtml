@@ -1,4 +1,5 @@
-﻿@model DomainLayer.ViewModel.ViewModel
+﻿@using Newtonsoft.Json;
+@model DomainLayer.ViewModel.ViewModel
 @{
     var data = Model;
 
@@ -275,7 +276,18 @@
 
                                                             <img class="size-40" src="~/img/flight-logo-icon/akasa.png" alt="image">
                                                         }
-
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("AI"))
+                                                        {
+                                                            <img class="size-40" src="~/img/flight-logo-icon/airindia.png" alt="image">
+                                                        }
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("UK"))
+                                                        {
+                                                            <img class="size-40" src="~/img/flight-logo-icon/vistara.png" alt="image">
+                                                        }
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("H1"))
+                                                        {
+                                                            <img class="size-40" src="~/img/flight-logo-icon/hahnair.png" alt="image">
+                                                        }
                                                         else
                                                         {
                                                             <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
@@ -406,7 +418,26 @@
                                             <div class="corbox active-bx">
 
                                                 <div class="dst-top pl-0">
-                                                    <input type="hidden" class="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
+                                                    @{
+                                                        if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("AI") || Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("UK") || Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("H1"))
+                                                        {
+                                                            string dataGDS = "";
+                                                            try
+                                                            {
+                                                                dataGDS = JsonConvert.SerializeObject(@Model.SimpleAvailibilityaAddResponcelist[j]);
+                                                            }
+                                                            catch (Exception ex)
+                                                            {
+
+                                                            }
+                                                            <input type="hidden" class="fareKey" value="@dataGDS" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="hidden" class="fareKey"  value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
+                                                        }
+
+                                                    }
                                                     <input type="hidden" class="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
                                                     <input type="hidden" class="Airline" value="@Model.SimpleAvailibilityaAddResponcelist[j].Airline" />
                                                     <input type="radio" name="fareRadioGroup" class="fareRadio" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal" onclick="collectData('fare', @k)">
@@ -689,8 +720,19 @@
                                                         }
                                                         else if (Model.SimpleAvailibilityaAddResponcelistR[j].Airline.ToString().ToLower().Equals("akasaair"))
                                                         {
-
                                                             <img class="size-40" src="~/img/flight-logo-icon/akasa.png" alt="image">
+                                                        }
+                                                        else if (Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.carrierCode.Equals("AI"))
+                                                        {
+                                                            <img class="size-40" src="~/img/flight-logo-icon/airindia.png" alt="image">
+                                                        }
+                                                        else if (Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.carrierCode.Equals("UK"))
+                                                        {
+                                                            <img class="size-40" src="~/img/flight-logo-icon/vistara.png" alt="image">
+                                                        }
+                                                        else if (Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.carrierCode.Equals("H1"))
+                                                        {
+                                                            <img class="size-40" src="~/img/flight-logo-icon/hahnair.png" alt="image">
                                                         }
                                                         else
                                                         {
@@ -825,7 +867,26 @@
                                             }
                                             <div class="corbox active-bx">
                                                 <div class="dst-top pl-0">
-                                                    <input type="hidden" class="fareKeyReturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].fareKey" />
+                                                    @{
+                                                        if (Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.carrierCode.Equals("AI") || Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.carrierCode.Equals("UK") || Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.carrierCode.Equals("H1"))
+                                                        {
+                                                            string dataGDS = "";
+                                                            try
+                                                            {
+                                                                dataGDS = JsonConvert.SerializeObject(@Model.SimpleAvailibilityaAddResponcelistR[j]);
+                                                            }
+                                                            catch (Exception ex)
+                                                            {
+
+                                                            }
+                                                            <input type="hidden" class="fareKeyReturn" value="@dataGDS" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="hidden" class="fareKeyReturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].fareKey" />
+                                                        }
+
+                                                    }
                                                     <input type="hidden" class="journeyKeyReturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].journeyKey" />
                                                     <input type="hidden" class="AirlineReturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].Airline" />
                                                     <input type="radio" name="renderRadioGroup" class="renderRadio" value="@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal" onclick="collectData('render', @k)">
