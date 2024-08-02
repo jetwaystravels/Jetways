@@ -943,7 +943,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     ReturnCharge returnChargeobj = new ReturnCharge();
                                     returnChargeobj.amount = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.charges[ch].amount;
                                     returnChargeobj.code = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.charges[ch].code;
-                                    if (returnChargeobj.code.StartsWith("X"))
+                                    if (returnChargeobj.code.StartsWith("V"))
                                     {
                                         totalAmount += returnChargeobj.amount;
 
@@ -1305,7 +1305,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             returnTicketBooking.Seatdata = htseatdata;
                             returnTicketBooking.Mealdata = htmealdata;
                             returnTicketBooking.Bagdata = htBagdata;
-
+                            returnTicketBooking.bookingdate = returnTicketBooking.info.bookedDate;
                             #endregion
                             _AirLinePNRTicket.AirlinePNR.Add(returnTicketBooking);
                         }
