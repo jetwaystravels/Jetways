@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using DomainLayer.Model;
 using DomainLayer.ViewModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 //using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -23,6 +24,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
     {
         string passengerkey12 = string.Empty;
         string infant = string.Empty;
+        Logs logs = new Logs();
         public async Task<IActionResult> AkasaAirTripsell(string journeyKey, string fareKey, string segmentKey)
         {
             string token = string.Empty;
@@ -112,6 +114,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                 {
                     AirAsiaTripResponceModel AkasaAirTripResponceobj = new AirAsiaTripResponceModel();
                     var AKjsondata = responseTripsellAK.Content.ReadAsStringAsync().Result;
+                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(AirAsiaTripSellRequestobj) + "\n Response: " + AKjsondata, "GetAvailability", "AkasaOneWay");
                     var Akasajsondata = JsonConvert.DeserializeObject<dynamic>(AKjsondata);
 
                     var totalAmount = Akasajsondata.data.breakdown.journeys[journeyKey].totalAmount;
@@ -726,9 +729,9 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
 
                 if (AkresponseSeatmap.IsSuccessStatusCode)
                 {
-                    Logs logs = new Logs();
+                    //Logs logs = new Logs();
                     var _AkresponseSeatmap = AkresponseSeatmap.Content.ReadAsStringAsync().Result;
-                    //logs.WriteLogs("Url: " + JsonConvert.SerializeObject(AppUrlConstant.AkasaAirSeatMap + journeyKey + "?IncludePropertyLookup=true") + "\n\n Response: " + JsonConvert.SerializeObject(_responseSeatmap), "SeatMap", "AirAsiaOneWay");
+                    logs.WriteLogs("Url: " + JsonConvert.SerializeObject(AppUrlConstant.AkasaAirSeatMap + journeyKey + "?IncludePropertyLookup=true") + "\n\n Response: " + JsonConvert.SerializeObject(_AkresponseSeatmap), "SeatMap", "AkasaOneWay");
                     var JsonAkasaObjSeatmap = JsonConvert.DeserializeObject<dynamic>(_AkresponseSeatmap);
                     var uniquekey1 = JsonAkasaObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[0].unitKey;
                     var data = JsonAkasaObjSeatmap.data.Count;

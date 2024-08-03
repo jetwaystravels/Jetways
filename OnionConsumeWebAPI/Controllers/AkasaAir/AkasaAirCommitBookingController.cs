@@ -26,6 +26,7 @@ using ZXing.Windows.Compatibility;
 using OnionArchitectureAPI.Services.Barcode;
 using System.Collections;
 using System.Globalization;
+using Utility;
 
 namespace OnionConsumeWebAPI.Controllers.AkasaAir
 {
@@ -58,6 +59,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
         double taxMinusBaggage = 0;
         double TotalAmountMeal = 0;
         double TotaAmountBaggage = 0;
+        Logs logs = new Logs();
         public async Task<IActionResult> AkasaAirBookingView()
         {
             AirLinePNRTicket _AirLinePNRTicket = new AirLinePNRTicket();
@@ -79,7 +81,9 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                 HttpResponseMessage AkresponceCommit_Booking = await client.PostAsJsonAsync(AppUrlConstant.AkasaAirCommitBooking, _Commit_BookingModel);
                 if (AkresponceCommit_Booking.IsSuccessStatusCode)
                 {
+
                     var _responceCommit_Booking = AkresponceCommit_Booking.Content.ReadAsStringAsync().Result;
+                    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_Commit_BookingModel) + "Url: " + (AppUrlConstant.AkasaAirCommitBooking) + "\n Response: " + JsonConvert.SerializeObject(_responceCommit_Booking), "Commit", "AkasaOneWay");
                     var JsonObjCommit_Booking = JsonConvert.DeserializeObject<dynamic>(_responceCommit_Booking);
                 }
                 #endregion
@@ -94,6 +98,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                     Hashtable htmealdata = new Hashtable();
                     Hashtable htBagdata = new Hashtable();
                     var _responcePNRBooking = AKresponceGetBooking.Content.ReadAsStringAsync().Result;
+                    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject("") + "Url: " + (AppUrlConstant.AkasaAirGetBooking) + "\n Response: " + JsonConvert.SerializeObject(_responcePNRBooking), "GetBooking", "AkasaOneWay");
                     var JsonObjPNRBooking = JsonConvert.DeserializeObject<dynamic>(_responcePNRBooking);
                     ReturnTicketBooking returnTicketBooking = new ReturnTicketBooking();
                     var PassengerData = HttpContext.Session.GetString("AKPassengerName");
