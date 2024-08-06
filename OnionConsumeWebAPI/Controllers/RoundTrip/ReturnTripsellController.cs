@@ -3987,6 +3987,23 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         }
                     }
                     #endregion
+                    #region SSR GDS
+                    if (_JourneykeyRTData.ToLower() == "vistara" || _JourneykeyRTData.ToLower() == "airindia" || _JourneykeyRTData.ToLower() == "hehnair")
+                    {
+                        Mealsdata = new List<string>();
+                        Mealsdata.Add("<Start>" + JsonConvert.SerializeObject("") + "<End>");
+                        HttpContext.Session.SetString("SGMealsRT", JsonConvert.SerializeObject(Mealsdata));
+                        HttpContext.Session.SetString("MealsData", JsonConvert.SerializeObject(""));
+                        if (!string.IsNullOrEmpty(JsonConvert.SerializeObject(Mealsdata)))
+                        {
+                            if (Mealsdata.Count == 2)
+                            {
+                                MainMealsdata = new List<string>();
+                            }
+                            MainMealsdata.Add(JsonConvert.SerializeObject(Mealsdata));
+                        }
+                    }
+                    #endregion
                 }
             }
 
