@@ -114,6 +114,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
         public async Task<IActionResult> AKContactDetails(ContactModel contactobject)
         {
             string tokenview = HttpContext.Session.GetString("AkasaTokan");
+            if (tokenview == null) { tokenview = ""; }
             token = tokenview.Replace(@"""", string.Empty);
             using (HttpClient client = new HttpClient())
             {
@@ -164,6 +165,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
         {
             string tokenview = string.Empty;
             tokenview = HttpContext.Session.GetString("AkasaTokan");
+            if (tokenview == null) { tokenview = ""; }
             token = tokenview.Replace(@"""", string.Empty);
             using (HttpClient client = new HttpClient())
             {
@@ -227,6 +229,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
             {
                 if (!string.IsNullOrEmpty(tokenview))
                 {
+                    if (tokenview == null) { tokenview = ""; }
                     token = tokenview.Replace(@"""", string.Empty);
                     PassengersModel _AkPassengersModel = new PassengersModel();
                     for (int i = 0; i < passengerdetails.Count; i++)
@@ -390,6 +393,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
 
 
             string tokenview = HttpContext.Session.GetString("AkasaTokan");
+            if (tokenview == null) { tokenview = ""; }
             token = tokenview.Replace(@"""", string.Empty);
             if (token == "" || token == null)
             {

@@ -14,16 +14,13 @@
 
     @{
 
-
         <h2 class="text-20 fw-600 mt-14" style="padding:12px;">Fare Details</h2>
         <div class="px-30 py-30 border-light rounded-0 bg-white">
-            <div class="row y-gap-3 justify-between showBtn" style="cursor: pointer;">
-                <div class="col-auto">
+            <div class="d-flex y-gap-3 justify-between showBtn" style="cursor: pointer;">
+                <div class="bfg p-0">
                     <div class="text-15">Base Fare@* <span class="text-13 text-light-1 ml-1">(1 Traveller)</span> *@<i class="fa fa-angle-down ml-2" aria-hidden="true"></i> </div>
                 </div>
-
-
-                <div class="col-auto">
+                <div class="bgf p-0">
                     @{
                        
                         int adtcount = 0;
@@ -131,7 +128,7 @@
 
             </div>
 
-            <div class="row y-gap-2 justify-between pt-2 pb-1 showBtn" style="cursor: pointer;">
+            <div class="row y-gap-2 justify-between pt-2 pb-1" style="cursor: pointer;">
                 <div class="col-auto">
                     <div class="text-15">Taxes &amp; Surcharges</div>
                 </div>
@@ -144,7 +141,7 @@
                 </div>
             </div>
 
-            <div class="row y-gap-3 justify-between pb-2">
+           @* <div class="row y-gap-3 justify-between pb-2">
                 <div class="col-auto">
                     <div class="text-14">Discount </div>
                     <div> </div>
@@ -152,7 +149,7 @@
                 <div class="col-auto">
                     <div class="text-15 text-success"> (-) &#8377;  0.0 </div>
                 </div>
-            </div>
+            </div>*@
 
             <div class="row y-gap-2  pt-2 border-top-light">
                 <div class="text-15 fw-600 col-9">Total Fare </div>
@@ -168,214 +165,171 @@
 
                 </div>
             </div>
-            <div class="row y-gap-2 pt-2">
-                <div class="damount col-9">
-                    Seat
-                </div>
-                <div class="damount d-flex col-3">
-                    <span>&#8377</span>
-                    <span><input style="border:none" class="sum_item input-ammount" value="0" name="amount" type="text" id="total" /></span>
-                </div>
+
+ <div class="row y-gap-2 pt-2">
+            <div class="damount col-9">
+                Add Seat
             </div>
-
-            <div class="row d-none  y-gap-2  pt-2">
-
-                <div class="damount col-9">
-                    <span class="text-15">Add Meal</span>
-                </div>
-                <div class="damount col-3 d-flex width-132">
-                    <span>&#8377</span>
-                    <span id="AddMeal"></span>
-                </div>
+            <div class="damount d-flex col-3">
+                <span>&#8377</span>
+                <span><input style="border:none" class="sum_item input-ammount" value="0" name="amount" type="text" id="total" /></span>
             </div>
-            <div class="row d-none  y-gap-2  pt-2">
-                <div class="damount col-9">
-                    <span class="text-15">Add Meal</span>
-                </div>
-                <div class="damount col-3 d-flex width-132">
-                    <span>&#8377</span>
-                    <span id="AddMeal2"></span>
-                </div>
-            </div>
-            <div class="row y-gap-2  pt-2">
-                <div class="damount col-9">
-                    <span class="text-15">Meal</span>
-                </div>
-                <div class="damount col-3 d-flex width-132">
-                    <span>&#8377</span>
-                    <span id="AddMealTotal"></span>
-                </div>
-            </div>
-            <div class="row y-gap-2  pt-2">
-
-                <div class="damount col-9">
-                    <span class="text-15">Baggage</span>
-                </div>
-                <div class="damount col-3 d-flex width-132">
-                    <span>&#8377</span>
-                    <span id="AddBaggage"></span>
-                </div>
-            </div>
-
-            <div class="row d-none  y-gap-2  pt-2">
-
-                <div class="damount col-9">
-                    <span class="text-15">OtherService</span>
-                </div>
-                <div class="damount col-3 d-flex width-132">
-                    <span>&#8377</span>
-                    <span id="Addservice"></span>
-                </div>
-            </div>
-            <div class="row d-none  y-gap-2  pt-2">
-                <div class="damount col-9">
-                    <span class="text-15">OtherService</span>
-                </div>
-                <div class="damount col-3 d-flex width-132">
-                    <span>&#8377</span>
-                    <span id="Addservice2"></span>
-                </div>
-            </div>
-            <div class="row y-gap-2  pt-2">
-                <div class="damount col-9">
-                    <span class="text-15">OtherService</span>
-                </div>
-                <div class="damount col-3 d-flex width-132">
-                    <span>&#8377</span>
-                    <span id="AddServicesTotal"></span>
-                </div>
-            </div>
-
-
-
-            <div class="row y-gap-2  pt-2">
-
-                <div class="damount fw-600 col-9">
-                    <span class="text-15">Total Amount</span>
-
-                </div>
-                <div class="damount width-132 d-flex col-3 fw-600">
-                    <span>&#8377</span>
-                    <span class="input-ammount" id="amount"></span>
-                    <span class="input-ammount" id="totalservice"></span>
-                    <span class="input-ammount" id="seattotal1"></span>
-                    <span class="input-ammount" id="totalMeal"></span>
-
-
-                </div>
-            </div>
-
-            @*<div class="row y-gap-2 justify-between pt-2">
-        <div class="col-auto">
-        <div class="text-14">Add-Ons</div>
         </div>
-        <div class="col-auto" style="width:74px">
-        <div class="text-15">&#8377; 100</div>
+
+        <div class="row d-none  y-gap-2  pt-2">
+
+            <div class="damount col-9">
+                <span class="text-15">Add Meal</span>
+            </div>
+            <div class="damount col-3 d-flex width-132">
+                <span>&#8377</span>
+                <span id="AddMeal"></span>
+            </div>
         </div>
+        <div class="row d-none  y-gap-2  pt-2">
+
+            <div class="damount col-9">
+                <span class="text-15">Add Meal</span>
+            </div>
+            <div class="damount col-3 d-flex width-132">
+                <span>&#8377</span>
+                <span id="AddMeal2"></span>
+            </div>
+        </div>
+
+        <div class="row y-gap-2  pt-2">
+
+            <div class="damount col-9">
+                <span class="text-15">Add Meal</span>
+            </div>
+            <div class="damount col-3 d-flex width-132">
+                <span>&#8377</span>
+                <span id="AddMealTotal"></span>
+            </div>
+        </div>
+        <div class="row y-gap-2  pt-2">
+
+            <div class="damount col-9">
+                <span class="text-15">Add Baggage</span>
+            </div>
+            <div class="damount col-3 d-flex width-132">
+                <span>&#8377</span>
+                <span id="AddBaggage"></span>
+            </div>
+        </div>
+
+
+  @*       <div class="row y-gap-2  pt-2">
+
+            <div class="damount fw-600 col-9">
+                <span class="text-15">Total Amount</span>
+
+            </div>
+            <div class="damount width-132 d-flex col-3 fw-600">
+                <span>&#8377</span>
+                <span class="input-ammount" id="amount"></span>
+                <span class="input-ammount" id="totalservice"></span>
+                <span class="input-ammount" id="seattotal1"></span>
+                <span class="input-ammount" id="totalMeal"></span>
+
+
+            </div>
+        </div>
+
+
+
+
+
+
+        <div class="row y-gap-2 justify-between pt-2">
+            <div class="col-auto">
+                <div class="text-14">Add-Ons</div>
+            </div>
+            <div class="col-auto" style="width:74px">
+                <div class="text-15">&#8377; 100</div>
+            </div>
         </div>
 
         <div class="row y-gap-2 justify-between pt-1 showBtn" style="cursor: pointer;">
-        <div class="col-auto">
-        <div class="text-14">Take off<i class="fa fa-angle-down ml-2" aria-hidden="true"></i> </div>
+            <div class="col-auto">
+                <div class="text-14">Take off<i class="fa fa-angle-down ml-2" aria-hidden="true"></i> </div>
+            </div>
         </div>
-        </div>
+
         <div class="row y-gap-3 justify-between bg-light-2 hideme" style="display:none;">
-        <div class="col-auto">
-        <div class="text-14">TAKE OFF Contribution</div>
-        <div> </div>
+            <div class="col-auto">
+                <div class="text-14">TAKE OFF Contribution</div>
+                <div> </div>
+            </div>
+            <div class="col-auto">
+                <div class="text-15">&#8377; 100</div>
+            </div>
         </div>
-        <div class="col-auto">
-        <div class="text-15">&#8377; 100</div>
-        </div>
-        </div>*@
-
-            <div class="px-20 py-20 bg-blue-2 rounded-4 mt-20">
-                <div class="row y-gap-2 justify-between">
-                    <div class="col-auto">
-                        <div class="text-20 lh-13 fw-600">You Pay</div>
-                    </div>
-
-                    <div class="col-auto d-flex">
-                        <span class="text-20 lh-13 fw-600">&#8377</span>
-                        <div class="text-20 lh-13 fw-600" id="TotalMealPayID"></div>
-                        <div class="text-20 lh-13 fw-600 " id="TotalSeatPayID"></div>
-                        <div class="text-20 lh-13 fw-600" id="amountPay"></div>
-                    </div>
+ *@
+        <div class="px-20 py-20 bg-blue-2 rounded-4 mt-20">
+            <div class="row y-gap-2 justify-between">
+                <div class="col-auto">
+                    <div class="text-20 lh-13 fw-600">You Pay</div>
                 </div>
-
-                <div class="row y-gap-2 justify-between text-success">
-                    <div class="col-auto">
-                        <div class="text-16 lh-13 fw-600">Total Savings</div>
-                    </div>
-                    <div class="col-auto">
-                        <div class="text-16 lh-13 fw-600">&#8377; 50</div>
-                    </div>
+                @*   <div class="col-auto">
+                @* @{
+                foreach (var item in Model.passeengerlist.journeys[0].segments[0].fares[0].passengerFares)
+                {
+                int servicecharge = item.serviceCharges.Count;
+                int Totalamount = 0;
+                for (int i = 0; i < servicecharge; i++)
+                {
+                int amounttax = item.serviceCharges[i].amount;
+                Totalamount += amounttax;
+                }
+                int takeoffCharge = 10;
+                int Totalamountpay = @Totalamount + takeoffCharge;
+                <div class="text-20 lh-13 fw-600">&#8377; @Totalamountpay </div>
+                }
+                }
+                <div class="text-20 lh-13 fw-600">&#8377; 4000 </div>
+                </div> *@
+                <div class="col-auto d-flex">
+                    <span class="text-20 lh-13 fw-600">&#8377</span>
+                   
+                    <div class="text-20 lh-13 fw-600" id="seattotal1"></div>
+                    @* <div class="text-20 lh-13 fw-600" id="TotalMealPayID"></div>
+                    <div class="text-20 lh-13 fw-600" id="TotalSeatPayID"></div>
+                    <div class="text-20 lh-13 fw-600" id="amountPay"></div> *@
                 </div>
             </div>
 
-            <div class="row y-gap-3 justify-between pt-3">
+          @*   <div class="row y-gap-2 justify-between text-success">
                 <div class="col-auto">
-                    <div class="text-15">Earn eCash</div>
+                    <div class="text-16 lh-13 fw-600">Total Savings</div>
                 </div>
                 <div class="col-auto">
-                    <div class="text-15">&#8377; 250</div>
+                    <div class="text-16 lh-13 fw-600">&#8377; 50</div>
                 </div>
-            </div>
+            </div> *@
         </div>
-    }
+
+        @*<div class="row y-gap-3 justify-between pt-3">
+            <div class="col-auto">
+                <div class="text-15">Earn eCash</div>
+            </div>
+            <div class="col-auto">
+                <div class="text-15">&#8377; 0</div>
+            </div>
+            </div>*@
+    </div>
+
     <div class="px-30 py-30 border-light rounded-4 mt-30 bg-white">
         <div class="text-20 fw-600 mb-20">Promo Code</div>
 
         <div class="row y-gap-5 justify-between">
         </div>
-    </div>
+        </div>
+        
+             
+         }
+    
 </div>
 
 
 
-@*<div style="background-color:darkgrey" class="col-6">
-    <div class="row">
-        <div class="col-12">
-            <h3>Your Item</h3>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-auto">
-            <label> Total Amount</label>
-        </div>
-        <div class="col-auto">
-            <label id="price"></label>
-        </div>
-    </div>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        @*  <span aria-hidden="true">&times;</span>
-
-        </button>
-      </div>
-      <div class="modal-body">
-          <tr>
-                <td>
-                    <table class="list" id="employeeList">
-
-                        <tbody>
-                        </tbody>
-                    </table>
-                </td>
-          </tr>
-      </div>
-      <div class="modal-footer">
-       <button type="button" class="btn btn-secondary" data-dismiss="modal">Edit</button>
-        <button type="button" class="btn btn-primary">Confirm</button>
-      </div>
-    </div>
-  </div>
-</div02
-*@

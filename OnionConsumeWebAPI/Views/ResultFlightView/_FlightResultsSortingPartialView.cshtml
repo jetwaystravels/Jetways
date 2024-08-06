@@ -329,13 +329,12 @@
                             {
 
                                 if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("EC"))
-                                    Faretype = " Saver Fare";
+                                    Faretype = "Saver";
                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("AV"))
-                                    Faretype = " Saver Fare";
+                                    Faretype = "Flexi";
                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SP"))
-                                    Faretype = " Saver Fare";
-                                else
-                                    Faretype = "Saver Fare";
+                                    Faretype = "Special Fares";
+                                
                             }
                             else
                             {
@@ -359,7 +358,7 @@
                                     <div><strong>@Faretype (@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass)</strong></div>
                                     <div>offered by airline.</div>
                                 </td>
-                                @if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "EC")
+                                @if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "EC" && Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Airasia)
                                 {
                                     <td>7 Kg</td>
                                     <td><strong>15 kg (1 piece)</strong></td>
@@ -594,36 +593,71 @@
 
                                 }
                                 //**********/
-
-                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "AV")
+                                
+                               else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.AkasaAir && Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "EC")
                                 {
-                                    <td>0</td>
-                                    <td><strong>0</strong></td>
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
                                     <td>
 
                                         <div>
-                                            --
+                                            3100  (4 days & above)
                                         </div>
                                     </td>
                                     <td>
 
                                         <div>
-                                            --
+                                            2850 (4 days & above)
                                         </div>
                                     </td>
                                     <td>
                                         <div>
-                                            --
+                                            Chargable
                                         </div>
 
                                     </td>
                                     <td>
                                         <div>
-                                            --
+                                            Chargable
                                         </div>
                                     </td>
 
                                 }
+
+
+
+                               else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "AV")
+                                    {
+                                        <td>7 Kg</td>
+                                        <td><strong>15 kg (1 piece)</strong></td>
+                                        <td>
+
+                                            <div>
+                                                500 (4 days & above) 
+                                            </div>
+                                        </td>
+                                        <td>
+
+                                            <div>
+                                                2850 (4 days & above)
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                Free seats
+                                            </div>
+
+                                        </td>
+                                        <td>
+                                            <div>
+                                                Complimentary meal
+                                            </div>
+                                        </td>
+
+                                    }
+
+
+                                
                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "HF")
                                 {
                                     <td>7 Kg</td>
@@ -1031,7 +1065,7 @@
                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("QP"))
                                 {
                                     CompanyName = "AkasaAir";
-                                    <img class="size-40" src="~/img/flight-logo-icon/64px-akasa_air_logo_with_slogan.png" alt="image">
+                                    <img class="size-40" src="~/img/flight-logo-icon/akasa.png" alt="image">
                                 }
                                 else
                                 {

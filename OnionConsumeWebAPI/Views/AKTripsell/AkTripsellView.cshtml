@@ -348,17 +348,14 @@
 
     <!-- Include Bootstrap JavaScript -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+    <script src="~/js/custom.js/akasaoneway.js"></script>
 
     <style>
         .hidden {
             display: none;
         }
 
-        .whst_app i {
-            color: green;
-            font-size: 22px;
-        }
+       
 
         .bg-h2 {
             background: #366480;
@@ -455,6 +452,10 @@
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         })
+        window.onload = function () {
+            updateCombinedTotal();
+        }
+
 
     </script>
 

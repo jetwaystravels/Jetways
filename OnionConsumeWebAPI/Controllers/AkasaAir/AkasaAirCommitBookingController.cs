@@ -65,6 +65,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
             AirLinePNRTicket _AirLinePNRTicket = new AirLinePNRTicket();
             _AirLinePNRTicket.AirlinePNR = new List<ReturnTicketBooking>();
             string tokenview = HttpContext.Session.GetString("AkasaTokan");
+            if (tokenview == null) { tokenview = ""; }
             token = tokenview.Replace(@"""", string.Empty);
 
             using (HttpClient client = new HttpClient())

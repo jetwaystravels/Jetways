@@ -38,6 +38,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                 {
                     return RedirectToAction("Index");
                 }
+                if (tokenview == null) { tokenview = ""; }
                 token = tokenview.Replace(@"""", string.Empty);
 
 
@@ -114,7 +115,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                 {
                     AirAsiaTripResponceModel AkasaAirTripResponceobj = new AirAsiaTripResponceModel();
                     var AKjsondata = responseTripsellAK.Content.ReadAsStringAsync().Result;
-                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(AirAsiaTripSellRequestobj) + "\n Response: " + AKjsondata, "GetAvailability", "AkasaOneWay");
+                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(AirAsiaTripSellRequestobj) + "\n Response: " + AKjsondata, "Tripsell", "AkasaOneWay");
                     var Akasajsondata = JsonConvert.DeserializeObject<dynamic>(AKjsondata);
 
                     var totalAmount = Akasajsondata.data.breakdown.journeys[journeyKey].totalAmount;
@@ -147,7 +148,6 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                             AkasaSegmentobj.isHosted = Akasajsondata.data.journeys[i].segments[j].isHosted;
 
                             AADesignator AkasaSegmentDesignatorobj = new AADesignator();
-                            var cityname = Citydata.GetAllcity().Where(x => x.cityCode == "DEL");
                             AkasaSegmentDesignatorobj.origin = Akasajsondata.data.journeys[i].segments[j].designator.origin;
                             AkasaSegmentDesignatorobj.destination = Akasajsondata.data.journeys[i].segments[j].designator.destination;
                             AkasaSegmentDesignatorobj.departure = Akasajsondata.data.journeys[i].segments[j].designator.departure;
@@ -271,6 +271,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
 
                     HttpContext.Session.SetString("ResultFlightPassenger", JsonConvert.SerializeObject(AkasaAirTripResponceobj));
                 }
+               
                 #region Itenary 
                 if (infanttype != null)
                 {
@@ -382,7 +383,8 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                         var jsonPassengers = JsonConvert.SerializeObject(itenaryInfant, Formatting.Indented);
                         client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                        HttpResponseMessage responsePassengers = await client.PostAsJsonAsync(AppUrlConstant.AkasaAirInfantDetails, itenaryInfant);
+                        //HttpResponseMessage responsePassengers = await client.PostAsJsonAsync(AppUrlConstant.AkasaAirInfantDetails, itenaryInfant);
+                        HttpResponseMessage responsePassengers = await client.PostAsJsonAsync(AppUrlConstant.URLAkasaAir + "/api/nsk/v2/bookings/quote", itenaryInfant);
                         if (responsePassengers.IsSuccessStatusCode)
                         {
                             AirAsiaTripResponceModel AirAsiaTripResponceobject = new AirAsiaTripResponceModel();
