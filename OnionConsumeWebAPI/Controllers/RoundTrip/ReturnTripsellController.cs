@@ -2222,20 +2222,24 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             //foreach (var items in availibiltyRQGDS.passengers)
                             //{
                             int paxcount = 0;
+
                             for (int i = 0; i < getAirPriceRes[0].Fare.PaxFares.Count; i++)
                             {
                                 if (getAirPriceRes[0].Fare.PaxFares[i].PaxType == PAXTYPE.ADT)
                                 {
+                                    a = Convert.ToInt32(getAirPriceRes[0].Fare.PaxFares[i].PaxType);
                                     paxType = "ADT";
                                     paxcount = availibiltyRQGDS.passengercount.adultcount;
                                 }
                                 else if (getAirPriceRes[0].Fare.PaxFares[i].PaxType == PAXTYPE.CHD)
                                 {
+                                    a = Convert.ToInt32(getAirPriceRes[0].Fare.PaxFares[i].PaxType);
                                     paxType = "CHD";
                                     paxcount = availibiltyRQGDS.passengercount.childcount;
                                 }
                                 else if (getAirPriceRes[0].Fare.PaxFares[i].PaxType == PAXTYPE.INF)
                                 {
+                                    a = Convert.ToInt32(getAirPriceRes[0].Fare.PaxFares[i].PaxType);
                                     paxType = "INF";
                                     paxcount = availibiltyRQGDS.passengercount.infantcount;
                                 }
@@ -2246,7 +2250,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     passkeytypeobj.passengerKey = a.ToString();
                                     passkeytypeobj.passengerTypeCode = paxType; ;
                                     passkeylist.Add(passkeytypeobj);
-                                    a++;
+                                    //a++;
                                 }
                             }
                             //}
@@ -2319,6 +2323,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             }
                             AirAsiaTripResponceobj.basefaretax = basefaretax;
                             AirAsiaTripResponceobj.journeys = AAJourneyList;
+                            passkeylist = passkeylist.OrderBy(p => p.passengerTypeCode).ToList();
                             AirAsiaTripResponceobj.passengers = passkeylist;
                             AirAsiaTripResponceobj.passengerscount = passengercount;
                             AirAsiaTripResponceobj.infttax = basefareInfttax;
@@ -2350,7 +2355,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
                         }
                     }
-                    #region SeatMap AirAsia
+                    #region SeatMap 
 
                     #region AirAsia SeatMap 
                     if (_JourneykeyRTData.ToLower() == "airasia")
@@ -3236,6 +3241,24 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 }
                                 MainSeatMapdata.Add(JsonConvert.SerializeObject(SeatMapdata));
                             }
+                        }
+                    }
+                    #endregion
+
+                    #region SeatMap GDS
+                    if (_JourneykeyRTData.ToLower() == "vistara" || _JourneykeyRTData.ToLower() == "airindia" || _JourneykeyRTData.ToLower() == "hehnair")
+                    {
+                        _SeatMapdata = new List<string>();
+                        _SeatMapdata.Add("<Start>" + JsonConvert.SerializeObject("") + "<End>");
+                        HttpContext.Session.SetString("_SeatmapData", JsonConvert.SerializeObject(_SeatMapdata));
+                        HttpContext.Session.SetString("SeatmapRT", JsonConvert.SerializeObject(""));
+                        if (!string.IsNullOrEmpty(JsonConvert.SerializeObject(_SeatMapdata)))
+                        {
+                            if (_SeatMapdata.Count == 2)
+                            {
+                                MainSeatMapdata = new List<string>();
+                            }
+                            MainSeatMapdata.Add(JsonConvert.SerializeObject(_SeatMapdata));
                         }
                     }
                     #endregion

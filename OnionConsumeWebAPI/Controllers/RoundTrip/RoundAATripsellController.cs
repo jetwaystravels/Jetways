@@ -590,6 +590,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                 {
                     if (!string.IsNullOrEmpty(tokenview) && dataArray[i1].ToLower() == "airasia")
                     {
+                       
                         tokenview = string.Empty;
                         if (i1 == 0)
                         {
@@ -603,7 +604,12 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         PassengersModel _PassengersModel = new PassengersModel();
                         for (int i = 0; i < passengerdetails.Count; i++)
                         {
-                            if (passengerdetails[i].passengertypecode == "INFT")
+                            string[] arraypaxkey = passengerdetails[i].passengerkey.Split('@');
+                            if (arraypaxkey.Length > 1)
+                            {
+                                passengerdetails[i].passengerkey = arraypaxkey[1];
+                            }
+                            if (passengerdetails[i].passengertypecode == "INFT" || passengerdetails[i].passengertypecode == "INF")
                                 continue;
                             if (passengerdetails[i].passengertypecode != null)
                             {
@@ -645,7 +651,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         int infantcount = 0;
                         for (int k = 0; k < passengerdetails.Count; k++)
                         {
-                            if (passengerdetails[k].passengertypecode == "INFT")
+                            if (passengerdetails[k].passengertypecode == "INFT" || passengerdetails[k].passengertypecode == "INF")
                                 infantcount++;
 
                         }
@@ -655,7 +661,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         {
                             if (passengerdetails[i].passengertypecode == "ADT" || passengerdetails[i].passengertypecode == "CHD")
                                 continue;
-                            if (passengerdetails[i].passengertypecode == "INFT")
+                            if (passengerdetails[i].passengertypecode == "INFT" || passengerdetails[i].passengertypecode == "INF")
                             {
                                 for (int k = 0; k < infantcount; k++)
                                 {
@@ -715,6 +721,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     // Akasa trevvel Details Request ********
                     if (!string.IsNullOrEmpty(tokenview) && dataArray[i1].ToLower() == "akasaair")
                     {
+                        
                         tokenview = string.Empty;
                         if (i1 == 0)
                         {
@@ -729,7 +736,12 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         PassengersModel _PassengersModel = new PassengersModel();
                         for (int i = 0; i < passengerdetails.Count; i++)
                         {
-                            if (passengerdetails[i].passengertypecode == "INFT")
+                            string[] arraypaxkey = passengerdetails[i].passengerkey.Split('@');
+                            if (arraypaxkey.Length > 1)
+                            {
+                                passengerdetails[i].passengerkey = arraypaxkey[1];
+                            }
+                            if (passengerdetails[i].passengertypecode == "INFT" || passengerdetails[i].passengertypecode == "INF")
                                 continue;
                             if (passengerdetails[i].passengertypecode != null)
                             {
@@ -771,7 +783,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         int infantcount = 0;
                         for (int k = 0; k < passengerdetails.Count; k++)
                         {
-                            if (passengerdetails[k].passengertypecode == "INFT")
+                            if (passengerdetails[k].passengertypecode == "INFT" || passengerdetails[k].passengertypecode == "INF")
                                 infantcount++;
 
                         }
@@ -781,7 +793,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         {
                             if (passengerdetails[i].passengertypecode == "ADT" || passengerdetails[i].passengertypecode == "CHD")
                                 continue;
-                            if (passengerdetails[i].passengertypecode == "INFT")
+                            if (passengerdetails[i].passengertypecode == "INFT" || passengerdetails[i].passengertypecode == "INF")
                             {
                                 for (int k = 0; k < infantcount; k++)
                                 {

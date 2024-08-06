@@ -271,8 +271,15 @@
             {
                 for (int i = 0; i < item.segments.Count; i++)
                 {
-                    if (@Model.SeatmaplistRT != null && @Model.SeatmaplistRT.Count > 0)
-                        AirCraftname = @Model.SeatmaplistRT[k].datalist[i].seatMap.name;
+                    // aircraft
+                    if (item.segments[i].identifier.carrierCode.Equals("UK") || item.segments[i].identifier.carrierCode.Equals("AI") || item.segments[i].identifier.carrierCode.Equals("H1"))
+                    {
+                    }
+                    else
+                    {
+                        if (@Model.SeatmaplistRT != null && @Model.SeatmaplistRT.Count > 0)
+                            AirCraftname = @Model.SeatmaplistRT[k].datalist[i].seatMap.name;
+                    }
                     if (i == 1)
                     {
                         formattedTime = string.Empty;
@@ -351,7 +358,6 @@
                                             }
                                             @* <img class="size-30" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">*@
                                         </div>
-
                                         <div class="text-14 text-light-1">@AirLinename @item.segments[i].identifier.carrierCode @item.segments[i].identifier.identifier <span class="airliname">@AirCraftname</span></div>
                                     </div>
 

@@ -63,6 +63,8 @@ namespace OnionConsumeWebAPI.Controllers.TravelClick
             AirLinePNRTicket _AirLinePNRTicket = new AirLinePNRTicket();
             _AirLinePNRTicket.AirlinePNR = new List<ReturnTicketBooking>();
             string tokenview = HttpContext.Session.GetString("GDSTraceid");
+            string _pricesolution = string.Empty;
+            _pricesolution = HttpContext.Session.GetString("PricingSolutionValue_0");
             if (tokenview == null) { tokenview = ""; }
             token = string.Empty;
             string newGuid = tokenview.Replace(@"""", string.Empty);
@@ -117,7 +119,7 @@ namespace OnionConsumeWebAPI.Controllers.TravelClick
                     string _Total = HttpContext.Session.GetString("Total");
 
                     //retrive PNR
-                    string res = _objAvail.CreatePNR(_testURL, createPNRReq, newGuid.ToString(), _targetBranch, _userName, _password, AdultTraveller, _data, _Total, "GDSOneWay");
+                    string res = _objAvail.CreatePNR(_testURL, createPNRReq, newGuid.ToString(), _targetBranch, _userName, _password, AdultTraveller, _data, _Total, "GDSOneWay", _pricesolution);
 
                     //string RecordLocator = Regex.Match(res, @"universal:ProviderReservationInfo[\s\S]*?LocatorCode=""(?<LocatorCode>[\s\S]*?)""", RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups["LocatorCode"].Value.Trim();
                     string RecordLocator = Regex.Match(res, @"universal:UniversalRecord\s*LocatorCode=""(?<LocatorCode>[\s\S]*?)""", RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups["LocatorCode"].Value.Trim();

@@ -389,7 +389,8 @@ namespace OnionConsumeWebAPI.Controllers.TravelClick
                     AirAsiaTripResponceobj.passengers = passkeylist;
                     AirAsiaTripResponceobj.passengerscount = passengercount;
                     AirAsiaTripResponceobj.infttax = basefareInfttax;
-                    AirAsiaTripResponceobj.PriceSolution = getAirPriceRes[0].PricingSolutionValue;
+                    HttpContext.Session.SetString("PricingSolutionValue_0", JsonConvert.SerializeObject(getAirPriceRes[0].PricingSolutionValue));
+                    //AirAsiaTripResponceobj.PriceSolution = getAirPriceRes[0].PricingSolutionValue;
                     #endregion
 
                     HttpContext.Session.SetString("SGkeypassenger", JsonConvert.SerializeObject(AirAsiaTripResponceobj));

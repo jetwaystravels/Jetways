@@ -9,9 +9,12 @@
         <button id="checkboxLead" class="checkbox-button2" onclick="toggleCheckbox()"></button>
     </div>
     <form id="passengerFormRT">
-
+        
         @for (var i = 0; i < Model.passeengerlistRT[0].passengers.Count; i++)
         {
+
+           string combinedkey = @Model.passeengerlistRT[0].passengers[i].passengerKey + "@" + @Model.passeengerlistRT[1].passengers[i].passengerKey;
+
             <input type="hidden" name="passengers[@i].origin" value="@Model.passeengerlistRT[0].journeys[0].designator.origin" />
             <input type="hidden" name="passengers[@i].departure" value="@Model.passeengerlistRT[0].journeys[0].designator.departure" />
             <input type="hidden" name="passengers[@i].destination" value="@Model.passeengerlistRT[0].journeys[0].designator.destination" />
@@ -20,7 +23,7 @@
 
             <div><label class="text-16 fw-600">@Model.passeengerlistRT[0].passengers[i].passengerTypeCode</label></div>
             <input type="hidden" name="passengerdetails[@i].passengertypecode" value="@Model.passeengerlistRT[0].passengers[i].passengerTypeCode" />
-            <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlistRT[0].passengers[i].passengerKey" />
+            <input type="hidden" name="passengerdetails[@i].passengerkey" value="@combinedkey" />
             <div class="row">
 
                 <div class="col-md-1">
@@ -30,14 +33,14 @@
 
                     <div class="form-input">
                         @{
-                            if (Model.passeengerlistRT[0].passengers[i].passengerKey == "0")
-                            {
-                                <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlistRT[0].passengers[i].passengerKey" required />
-                            }
-                            else
-                            {
-                                <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlistRT[0].passengers[i].passengerKey" required />
-                            }
+                            //if (Model.passeengerlistRT[0].passengers[i].passengerKey == "0")
+                            //{
+                            <input type="hidden" name="passengerdetails[@i].passengerkey" value="@combinedkey" required />
+                            //}
+                // else
+                //{
+                            @* <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlistRT[0].passengers[i].passengerKey" required />*@
+                //}
                         }
                         <input type="text" class="contactFname validate-field" data-validate="name" maxlength="32" oninput="validateInputT(event ,@i)" id="LeadPass[@i]" placeholder="First & middle name" name="passengerdetails[@i].First" required />
 
@@ -66,7 +69,7 @@
 
                         <p class="error-message error-phoneN" style="display:none">Enter your phone</p>
                     }
-                    if (@Model.passeengerlistRT[0].passengers[i].passengerTypeCode == "INFT")
+                    if (@Model.passeengerlistRT[0].passengers[i].passengerTypeCode == "INFT" || @Model.passeengerlistRT[0].passengers[i].passengerTypeCode == "INF")
                     {
                         <div class="col-md-4 infant-dob-input ">
                             <div class="form-input dobinput d-flex">
