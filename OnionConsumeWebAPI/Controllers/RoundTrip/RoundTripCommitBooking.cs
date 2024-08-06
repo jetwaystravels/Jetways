@@ -3596,6 +3596,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                             double BasefareTax = 0.0;
                                             for (int i2 = 0; i2 < breakdown.journeyfareTotals.Count; i2++)
                                             {
+                                                if (i2 == 1) continue;
                                                 BasefareAmt += breakdown.journeyfareTotals[i].totalAmount;
                                                 BasefareTax += breakdown.journeyfareTotals[i].totalTax;
                                             }
