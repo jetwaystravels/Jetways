@@ -293,6 +293,14 @@ namespace OnionArchitectureAPI.Services.Travelport
                         paxCount++;
                     }
                 }
+                if (_GetfligthModel.passengercount.childcount != 0)
+                {
+                    for (int i = 0; i < _GetfligthModel.passengercount.childcount; i++)
+                    {
+                        fareRepriceReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"CNN\" Key=\"" + paxCount + "\" Age=\"10\"/>");
+                        paxCount++;
+                    }
+                }
 
                 if (_GetfligthModel.passengercount.infantcount != 0)
                 {
@@ -302,15 +310,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                         paxCount++;
                     }
                 }
-
-                if (_GetfligthModel.passengercount.childcount != 0)
-                {
-                    for (int i = 0; i < _GetfligthModel.passengercount.childcount; i++)
-                    {
-                        fareRepriceReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"CNN\" Key=\"" + paxCount + "\" Age=\"10\"/>");
-                        paxCount++;
-                    }
-                }
+                
             }
             else
             {
@@ -324,6 +324,15 @@ namespace OnionArchitectureAPI.Services.Travelport
                     }
                 }
 
+                if (_GetfligthModel.childcount != 0)
+                {
+                    for (int i = 0; i < _GetfligthModel.childcount; i++)
+                    {
+                        fareRepriceReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Key=\"" + paxCount + "\" Code=\"CNN\" Age=\"10\"/>");
+                        paxCount++;
+                    }
+                }
+
                 if (_GetfligthModel.infantcount != 0)
                 {
                     for (int i = 0; i < _GetfligthModel.infantcount; i++)
@@ -333,14 +342,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                     }
                 }
 
-                if (_GetfligthModel.childcount != 0)
-                {
-                    for (int i = 0; i < _GetfligthModel.childcount; i++)
-                    {
-                        fareRepriceReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Key=\"" + paxCount + "\" Code=\"CNN\" Age=\"10\"/>");
-                        paxCount++;
-                    }
-                }
+                
             }
             fareRepriceReq.Append("<AirPricingCommand>");
             if (segmentIds.Length >= 2)
@@ -393,7 +395,7 @@ namespace OnionArchitectureAPI.Services.Travelport
         }
 
 
-        public string CreatePNR(string _testURL, StringBuilder createPNRReq, string newGuid, string _targetBranch, string _userName, string _password, string AdultTraveller, string _data, string _Total, string _AirlineWay,string? _pricesolution=null)
+        public string CreatePNR(string _testURL, StringBuilder createPNRReq, string newGuid, string _targetBranch, string _userName, string _password, string AdultTraveller, string _data, string _Total, string _AirlineWay, string? _pricesolution=null)
         {
 
             int count = 0;
@@ -408,6 +410,9 @@ namespace OnionArchitectureAPI.Services.Travelport
             createPNRReq.Append("<AirCreateReservationReq xmlns=\"http://www.travelport.com/schema/universal_v52_0\" TraceId=\"" + newGuid + "\" AuthorizedBy = \"Travelport\" TargetBranch=\"" + _targetBranch + "\" ProviderCode=\"1G\" RetainReservation=\"Both\">");
             createPNRReq.Append("<BillingPointOfSaleInfo xmlns=\"http://www.travelport.com/schema/common_v52_0\" OriginApplication=\"UAPI\"/>");
             List<passkeytype> passengerdetails = (List<passkeytype>)JsonConvert.DeserializeObject(AdultTraveller, typeof(List<passkeytype>));
+            
+            
+            
             AirAsiaTripResponceModel Getdetails = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(_data, typeof(AirAsiaTripResponceModel));
             Getdetails.PriceSolution = _pricesolution.Replace("\\", "");
 
@@ -425,7 +430,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                     }
                     else if (passengerdetails[i].passengertypecode == "INF")
                     {
-                        createPNRReq.Append("<BookingTraveler xmlns=\"http://www.travelport.com/schema/common_v52_0\" Key=\"" + count + "\"  TravelerType=\"INF\" Age=\"1\" DOB=\"2023-07-25\" >");
+                        createPNRReq.Append("<BookingTraveler xmlns=\"http://www.travelport.com/schema/common_v52_0\" Key=\"" + count + "\" TravelerType=\"INF\" Age=\"1\" DOB=\"2023-08-25\" >");
                     }
                     else
                     {

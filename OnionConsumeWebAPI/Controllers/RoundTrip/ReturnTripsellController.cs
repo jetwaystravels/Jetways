@@ -2229,19 +2229,42 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 {
                                     a = Convert.ToInt32(getAirPriceRes[0].Fare.PaxFares[i].PaxType);
                                     paxType = "ADT";
-                                    paxcount = availibiltyRQGDS.passengercount.adultcount;
+                                    if (availibiltyRQGDS.passengercount != null)
+                                    {
+                                        paxcount = availibiltyRQGDS.passengercount.adultcount;
+                                    }
+                                    else
+                                    {
+                                        paxcount = availibiltyRQGDS.adultcount;
+                                    }
+
                                 }
                                 else if (getAirPriceRes[0].Fare.PaxFares[i].PaxType == PAXTYPE.CHD)
                                 {
                                     a = Convert.ToInt32(getAirPriceRes[0].Fare.PaxFares[i].PaxType);
                                     paxType = "CHD";
-                                    paxcount = availibiltyRQGDS.passengercount.childcount;
+                                    if (availibiltyRQGDS.passengercount != null)
+                                    {
+                                        paxcount = availibiltyRQGDS.passengercount.childcount;
+                                    }
+                                    else
+                                    {
+                                        paxcount = availibiltyRQGDS.childcount;
+                                    }
+
                                 }
                                 else if (getAirPriceRes[0].Fare.PaxFares[i].PaxType == PAXTYPE.INF)
                                 {
                                     a = Convert.ToInt32(getAirPriceRes[0].Fare.PaxFares[i].PaxType);
                                     paxType = "INF";
-                                    paxcount = availibiltyRQGDS.passengercount.infantcount;
+                                    if (availibiltyRQGDS.passengercount != null)
+                                    {
+                                        paxcount = availibiltyRQGDS.passengercount.infantcount;
+                                    }
+                                    else
+                                    {
+                                        paxcount = availibiltyRQGDS.infantcount;
+                                    }
                                 }
                                 for (int k = 0; k < paxcount; k++)
                                 {
@@ -2323,7 +2346,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             }
                             AirAsiaTripResponceobj.basefaretax = basefaretax;
                             AirAsiaTripResponceobj.journeys = AAJourneyList;
-                            passkeylist = passkeylist.OrderBy(p => p.passengerTypeCode).ToList();
+                            //passkeylist = passkeylist.OrderBy(p => p.passengerTypeCode).ToList();
                             AirAsiaTripResponceobj.passengers = passkeylist;
                             AirAsiaTripResponceobj.passengerscount = passengercount;
                             AirAsiaTripResponceobj.infttax = basefareInfttax;
