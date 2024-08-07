@@ -19,14 +19,14 @@
 </style>
 
 <div class="journey-box">
-    <ul class="nav nav-pills mb-3">
+    <ul class="nav nav-pills mb-3 ms-3">
         @{
 
             <input type="hidden" value="@Model.AkPassenger.passengerscount" id="passengercountid">
             var seatmaap2 = @Model.AkPassenger.journeys[0].segments.Count;
             if (seatmaap2 == 1)
             {
-                <li class="nav-item">
+                <li class="nav-item ms-3">
                     <button class="nav-link active px-2">@Model.AkPassenger.journeys[0].segments[0].designator.origin-@Model.AkPassenger.journeys[0].segments[0].designator.destination</button>
 
                 </li>
@@ -35,7 +35,7 @@
             {
                 @for (int i = 0; i < seatmaap2; i++)
                 {
-                    <li class="nav-item d-flex">
+                    <li class="nav-item me-3 d-flex">
                         @if (i == 0)
                         {
                             <div id="seattab1" class="nav-link active">@Model.AkPassenger.journeys[0].segments[i].designator.origin-@Model.AkPassenger.journeys[0].segments[i].designator.destination</div>
@@ -121,12 +121,14 @@
         </section>
     </div>
 </div>
+
 <div class="row">
     <div class="col-lg-12">
 
         @{
             var seatmaap = Model.AkPassenger.journeys[0].segments.Count;
-
+            int countcolumnseg_0 = 0;
+            int countcolumnseg_1 = 0;
             Hashtable ht0 = new Hashtable();
             Hashtable ht1 = new Hashtable();
 
@@ -200,9 +202,11 @@
                                     </ul>
 
                                     @{
-                                        @for (int i = 1; i <= 30; i++)
-                                        {
 
+                                        countcolumnseg_0 = Convert.ToInt32(Model.AkSeatmaplist.datalist[l].seatMap.SeatColumnCount);
+                                        //@for (int i = 1; i <= 30; i++)
+                                        @for (int i = 1; i <= countcolumnseg_0; i++)
+                                        {
                                             <ul class="column" id="itemList">
                                                 @{
                                                     for (int k = 6; k >= 1; k--)
@@ -223,44 +227,98 @@
                                                         }
                                                         else
                                                         {
-
-                                                            string[] feessplit = ht0[data].ToString().Split("_@");
-                                                            string feeamountF1 = feessplit[0];
-                                                            if (feeamountF1 == "0")
+                                                            string[] arrayofseat = ht0[data].ToString().Split("_@");
+                                                            string feeamountF1 = string.Empty;
+                                                            string seatavailability = string.Empty;
+                                                            if (arrayofseat.Length > 1)
                                                             {
-                                                                <li class="seat-li free-seat tooltip">
-                                                                    <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.AkPassenger.passengers[0].passengerKey" />
-                                                                    <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2]" id="unitKey_@l" />
-                                                                    <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
-                                                                </li>
+                                                                feeamountF1 = arrayofseat[0].Trim();
+                                                                seatavailability = arrayofseat[3].Trim();
                                                             }
-                                                            else if (feessplit[3] != "5")
+
+                                                            if (seatavailability != "5")
                                                             {
                                                                 <li class="seat-li chkbox">
                                                                     <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
                                                                 </li>
                                                             }
-                                                            else if (feeamountF1 != null && (feeamountF1.CompareTo("150") >= 0 && feeamountF1.CompareTo("350") <= 0))
+                                                            else
                                                             {
-                                                                <li class="seat-li seat-chargefeeAmount  tooltip">
-                                                                    <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.AkPassenger.passengers[0].passengerKey" />
-                                                                    <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2] " id="unitKey" />
-                                                                    <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
-                                                                </li>
+                                                                if (feeamountF1 == "0")
+                                                                {
 
+                                                                    <li class="seat-li free-seat tooltip">
+                                                                        <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.AkPassenger.passengers[0].passengerKey" />
+                                                                        <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@arrayofseat[1] _@data _@l _@arrayofseat[2]" id="unitKey_@l" />
+                                                                        <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                                    </li>
+                                                                }
+                                                                else if (Convert.ToDouble(feeamountF1) >= 120 && Convert.ToDouble(feeamountF1) <= 350)
+                                                                {
+                                                                    <li class="seat-li lowcomfort tooltip">
+                                                                        <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.AkPassenger.passengers[0].passengerKey" />
+                                                                        <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@arrayofseat[1] _@data _@l _@arrayofseat[2]" id="unitKey_@l" />
+                                                                        <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                                    </li>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <li class="seat-li midcomfort tooltip">
+                                                                        <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.AkPassenger.passengers[0].passengerKey" />
+                                                                        <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@arrayofseat[1] _@data _@l _@arrayofseat[2]" id="unitKey_@l" />
+                                                                        <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                                    </li>
+                                                                }
                                                             }
-
-                                                            else if (feessplit[3] == "5")
-                                                            {
-                                                                <li class="seat-li midcomfort tooltip">
-                                                                    <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.AkPassenger.passengers[0].passengerKey" />
-                                                                    <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2] " id="unitKey" />
-                                                                    <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
-                                                                </li>
-                                                            }
-
-
                                                         }
+
+
+                                                        // if (!ht0.Contains(data))
+                                                        // {
+                                                        //     <li class="seat-li chkbox">
+                                                        //         <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
+                                                        //     </li>
+                                                        // }
+                                                        // else
+                                                        // {
+
+                                                        //     string[] feessplit = ht0[data].ToString().Split("_@");
+                                                        //     string feeamountF1 = feessplit[0];
+                                                        //     if (feeamountF1 == "0")
+                                                        //     {
+                                                        //         <li class="seat-li free-seat tooltip">
+                                                        //             <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+                                                        //             <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2]" id="unitKey_@l" />
+                                                        //             <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                        //         </li>
+                                                        //     }
+                                                        //     else if (feessplit[3] != "5")
+                                                        //     {
+                                                        //         <li class="seat-li chkbox">
+                                                        //             <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
+                                                        //         </li>
+                                                        //     }
+                                                        //     else if (feeamountF1 != null && (feeamountF1.CompareTo("150") >= 0 && feeamountF1.CompareTo("350") <= 0))
+                                                        //     {
+                                                        //         <li class="seat-li seat-chargefeeAmount  tooltip">
+                                                        //             <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+                                                        //             <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2] " id="unitKey" />
+                                                        //             <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                        //         </li>
+
+                                                        //     }
+
+                                                        //     else if (feessplit[3] == "5")
+                                                        //     {
+                                                        //         <li class="seat-li midcomfort tooltip">
+                                                        //             <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+                                                        //             <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2] " id="unitKey" />
+                                                        //             <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                        //         </li>
+                                                        //     }
+
+
+                                                        //}
 
                                                         if (k == 4)
                                                         {
@@ -305,7 +363,9 @@
                                     </ul>
 
                                     @{
-                                        @for (int i = 1; i <= 30; i++)
+                                        //@for (int i = 1; i <= 30; i++)
+                                        countcolumnseg_1 = Convert.ToInt32(Model.AkSeatmaplist.datalist[l].seatMap.SeatColumnCount);
+                                        @for (int i = 1; i <= countcolumnseg_1; i++)
                                         {
 
                                             <ul class="column" id="itemList">
@@ -320,6 +380,7 @@
                                                         else if (k == 2) { data = i.ToString() + "B"; }
                                                         else if (k == 1) { data = i.ToString() + "A"; }
                                                         var designation = data;
+
                                                         if (!ht1.Contains(data))
                                                         {
                                                             <li class="seat-li chkbox">
@@ -328,44 +389,100 @@
                                                         }
                                                         else
                                                         {
+                                                            //string[] feessplit = ht1[data].ToString().Split("_@");
+                                                            //     string feeamountF1 = feessplit[0];//ht1[data].ToString();
 
-                                                            string[] feessplit = ht1[data].ToString().Split("_@");
-                                                            string feeamountF1 = feessplit[0];//ht1[data].ToString();
-                                                            if (feeamountF1 == "0")
+                                                            string[] arrayofseat = ht1[data].ToString().Split("_@");
+                                                            string feeamountF1 = string.Empty;
+                                                            string seatavailability = string.Empty;
+                                                            if (arrayofseat.Length > 1)
                                                             {
-                                                                <li class="seat-li free-seat tooltip">
-                                                                    <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.AkPassenger.passengers[0].passengerKey" />
-                                                                    <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2] " id="unitKey" />
-                                                                    <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
-                                                                </li>
+                                                                feeamountF1 = arrayofseat[0].Trim();
+                                                                seatavailability = arrayofseat[3].Trim();
                                                             }
-                                                            else if (feessplit[3] != "5")
+
+                                                            if (seatavailability != "5")
                                                             {
                                                                 <li class="seat-li chkbox">
                                                                     <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
                                                                 </li>
                                                             }
-                                                            else if (feeamountF1 != null && (feeamountF1.CompareTo("150") >= 0 && feeamountF1.CompareTo("350") <= 0))
+                                                            else
                                                             {
-                                                                <li class="seat-li seat-chargefeeAmount  tooltip">
-                                                                    <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.AkPassenger.passengers[0].passengerKey" />
-                                                                    <input type="checkbox" class="mycheck" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2] " id="unitKey" />
-                                                                    <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
-                                                                </li>
-
+                                                                if (feeamountF1 == "0")
+                                                                {
+                                                                    <li class="seat-li free-seat tooltip">
+                                                                        <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.AkPassenger.passengers[0].passengerKey" />
+                                                                        <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@arrayofseat[1] _@data _@l _@arrayofseat[2] " id="unitKey" />
+                                                                        <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                                    </li>
+                                                                }
+                                                                else if (Convert.ToDouble(feeamountF1) >= 120 && Convert.ToDouble(feeamountF1) <= 350)
+                                                                {
+                                                                    <li class="seat-li lowcomfort tooltip">
+                                                                        <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.AkPassenger.passengers[0].passengerKey" />
+                                                                        <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@arrayofseat[1] _@data _@l _@arrayofseat[2] " id="unitKey" />
+                                                                        <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                                    </li>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <li class="seat-li midcomfort tooltip">
+                                                                        <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.AkPassenger.passengers[0].passengerKey" />
+                                                                        <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@arrayofseat[1] _@data _@l _@arrayofseat[2] " id="unitKey" />
+                                                                        <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                                    </li>
+                                                                }
                                                             }
-                                                            else if (feessplit[3] == "5")
-                                                            {
-                                                                <li class="seat-li midcomfort tooltip">
-                                                                    <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.AkPassenger.passengers[0].passengerKey" />
-                                                                    <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2] " id="unitKey" />
-                                                                    <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
-                                                                </li>
-                                                            }
-
-
 
                                                         }
+
+                                                        // if (!ht1.Contains(data))
+                                                        // {
+                                                        //     <li class="seat-li chkbox">
+                                                        //         <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
+                                                        //     </li>
+                                                        // }
+                                                        // else
+                                                        // {
+
+                                                        //     string[] feessplit = ht1[data].ToString().Split("_@");
+                                                        //     string feeamountF1 = feessplit[0];//ht1[data].ToString();
+                                                        //     if (feeamountF1 == "0")
+                                                        //     {
+                                                        //         <li class="seat-li free-seat tooltip">
+                                                        //             <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+                                                        //             <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2] " id="unitKey" />
+                                                        //             <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                        //         </li>
+                                                        //     }
+                                                        //     else if (feessplit[3] != "5")
+                                                        //     {
+                                                        //         <li class="seat-li chkbox">
+                                                        //             <input type="checkbox" name="unitKey" value="" class="chkbox" disabled />
+                                                        //         </li>
+                                                        //     }
+                                                        //     else if (feeamountF1 != null && (feeamountF1.CompareTo("150") >= 0 && feeamountF1.CompareTo("350") <= 0))
+                                                        //     {
+                                                        //         <li class="seat-li seat-chargefeeAmount  tooltip">
+                                                        //             <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+                                                        //             <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2] " id="unitKey" />
+                                                        //             <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                        //         </li>
+
+                                                        //     }
+                                                        //     else if (feessplit[3] == "5")
+                                                        //     {
+                                                        //         <li class="seat-li midcomfort tooltip">
+                                                        //             <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+                                                        //             <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@feessplit[1] _@data _@l _@feessplit[2] " id="unitKey" />
+                                                        //             <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
+                                                        //         </li>
+                                                        //     }
+
+
+
+                                                        // }
 
                                                         if (k == 4)
                                                         {
@@ -394,6 +511,7 @@
 <script src="~/js/custom.js/customnew.js"></script>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/custom.js/akasaoneway.js"></script>
 <style>
     .pax-border {
         border-top: #ddd 1px solid;
@@ -426,11 +544,23 @@
             padding: 0 4px;
             color: #1e568f;
         }
-  
+
 
     .seat-chargefeeAmount {
         background: #9fd4f7;
         text-align: center;
+    }
+
+    .service-section .seat-section .inner-section .seat-li.lowcomfort {
+        background: #6ec3fb;
+        text-align: center;
+    }
+
+    .modal-content .nav .nav-item .nav-link {
+        font-size: 0.8rem;
+        cursor: pointer;
+        padding: 1rem 0 0;
+        margin: 0px 10px !important;
     }
 </style>
 <script type="text/javascript">
@@ -470,176 +600,243 @@
 <script>
 
     $(document).ready(function () {
-
+        // window.onload = function () {
+        //     localstorage.clear();
+        // }
         var count = $("#passengercountid").val();
+        //alert(count);
+
         $('.mycheck').on('change', function () {
+            debugger;
             if ($('.mycheck:checked').length > count) {
-                alert('You can only ' + count + ' select checkboxes.');
+                alert('you can not select more than' + count + 'seat.');
                 this.checked = false;
             }
         });
+
         $('.mycheck2').on('change', function () {
             if ($('.mycheck2:checked').length > count) {
-                alert('You can only ' + count + ' select checkboxes.');
+                alert('you can not select more than' + count + ' seat.');
                 this.checked = false;
             }
         });
 
-        var checkedValues = ['', '', '', '', '', '', '', '', '', ''];
-        var total = 0;
-        $('.mycheck').change(function () {
 
-            if ($(this).is(':checked')) {
-                debugger;
-                for (var i = 0; i < count; i++) {
-                    if (checkedValues[i] === '') {
-                        checkedValues[i] = $(this).val();
-                        total += parseInt($(this).val());
-                        $('#total').text(total.toFixed(2));
-                        document.getElementById("total").value = total.toFixed(2);
-                        const seatmap1 = document.getElementById("total").value;
-                        break;
-                    }
-                }
-            } else {
-                debugger;
-                var index = checkedValues.indexOf($(this).val());
-                console.log(index)
-                if (index !== -1) {
-                    checkedValues[index] = '';
-                    total -= parseFloat($(this).val()); // Subtract the unchecked value from total
-                    $('#total').text(total.toFixed(2)); // Update total display
-                    document.getElementById("total").value = total.toFixed(2);
-                    const seatmap1 = document.getElementById("total").value;
-                }
-            }
-            $('#input_0').val(checkedValues[0].seatDesignator);
-            $('#input_1').val(checkedValues[1].seatDesignator);
-            $('#input_2').val(checkedValues[2].seatDesignator);
-            $('#input_3').val(checkedValues[3].seatDesignator);
-            $('#input_4').val(checkedValues[4].seatDesignator);
-            $('#input_5').val(checkedValues[5].seatDesignator);
-            $('#input_6').val(checkedValues[6].seatDesignator);
-            $('#input_7').val(checkedValues[7].seatDesignator);
-            $('#input_8').val(checkedValues[8].seatDesignator);
-            updateInputsAndSpans(checkedValues);
-
-        });
-
+        var checkedValues = ['', '', '', '', '', '', '', '', ''];
+        // Function to update inputs and spans
         function updateInputsAndSpans(checkedValues) {
             debugger;
             for (var i = 0; i < checkedValues.length; i++) {
-                // debugger;
                 var parts = checkedValues[i].split('_');
                 $('#input_' + i).val(parts[2]);
                 $('#feeSpan_' + i).text(parts[0]);
-                //$('#outputDiv_' + i).text(parts[2]);
+                $('#outputDiv_' + i).text(parts[2]);
             }
         }
-        $('#cancelButton').click(function () {
-            debugger;
-            // Reset checkedValues to empty strings and total to 0
-            checkedValues = ['', '', '', '', '', '', '', '', '', ''];
-            total = 0;
-            // Update total display
-            $('#total').text(total.toFixed(2));
-            document.getElementById("total").value = total.toFixed(2);
-            // Clear seat inputs and spans
-            updateInputsAndSpans(checkedValues);
-        });
-        $('#flighticon').click(function () {
-            debugger;
-            var seatdata = [];
-            for (var i = 0; i < checkedValues.length; i++) {
-                //debugger;
-
-                var parts = checkedValues[i].split('_');
-                $('#outputDiv_' + i).text(parts[2]);
-                $('#outputDivvv_' + i).text(parts[1]);
-                if (parts != "") {
-                    seatdata.push(parts[1]);
-                }
-
-
-            }
-            localStorage.setItem("seatdata", JSON.stringify(seatdata));
-
-            var seatdataCon = [];
-            for (var j = 0; j < checkedValues2.length; j++) {
-                // debugger;
-                var parts = checkedValues2[j].split('_');
-                $('#outputDivConnect_' + j).text(parts[2]);
-                $('#outputDivvvtwo_' + j).text(parts[1]);
-                if (parts != "") {
-                    seatdataCon.push(parts[1]);
-                }
-
-                // updateCombinedTotal();
-
-            }
-            localStorage.setItem("seatdataCon", JSON.stringify(seatdataCon));
-
-        });
-        //Connceting 2 seat Code js
-        var checkedValues2 = ['', '', '', '', '', '', '', '', ''];
-        $('.mycheck2').change(function () {
+        // Function to update local storage
+        function clearLocalStorage() {
             //debugger;
+            localStorage.removeItem("checkedValues");
+            //localStorage.removeItem("selectedIds1");
+
+        }
+        function updateLocalStorage() {
+            debugger;
+            localStorage.setItem("checkedValues", JSON.stringify(checkedValues));
+        }
+
+        // Restore checked state and values from local storage on page load
+        var storedValues = JSON.parse(localStorage.getItem("checkedValues"));
+        if (storedValues) {
+            checkedValues = storedValues;
+            updateInputsAndSpans(checkedValues);
+        }
+
+        $('.mycheck').change(function () {
+            debugger;
+            var value = $(this).val();
+            var isChecked = $(this).is(':checked');
+
+            if (isChecked) {
+                for (var i = 0; i < checkedValues.length; i++) {
+                    if (checkedValues[i] === '') {
+                        checkedValues[i] = value;
+                        break;
+                    }
+                }
+            }
+            else {
+
+                var index = checkedValues.indexOf(value);
+                if (index !== -1) {
+                    checkedValues[index] = '';
+                    $('#outputDiv_' + index).text('');
+                }
+            }
+            updateInputsAndSpans(checkedValues);
+            updateLocalStorage();
+        });
+
+
+
+        //Cancel Button Code **************
+        $('#cancelButton1').click(function () {
+
+            for (var i = 0; i < checkedValues.length; i++) {
+                $('#outputDiv_' + i).text('');
+            }
+            clearLocalStorage();
+            var selectedIds = JSON.parse(localStorage.getItem("selectedIds1"));
+            if (selectedIds) {
+                selectedIds.forEach(function (id) {
+                    $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
+                });
+            }
+            //$('input[name="unitKey"]').prop('checked', false);
+            updatetotal();
+            localStorage.removeItem("selectedIds1");
+        });
+        $('#cancelButton2').click(function () {
+
+            for (var i = 0; i < checkedValues.length; i++) {
+                $('#outputDiv_' + i).text('');
+            }
+            clearLocalStorage();
+            var selectedIds = JSON.parse(localStorage.getItem("selectedIds1"));
+            if (selectedIds) {
+                selectedIds.forEach(function (id) {
+                    $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
+                });
+            }
+            //$('input[name="unitKey"]').prop('checked', false);
+            updatetotal();
+            localStorage.removeItem("selectedIds1");
+        });
+
+        //*********************** */
+
+
+
+        var checkedValues2 = ['', '', '', '', '', '', '', '', ''];
+        function updateInputsAndSpans2(checkedValues2) {
+            for (var i = 0; i < checkedValues2.length; i++) {
+                var parts = checkedValues2[i].split('_');
+                $('#inputConnect_' + i).val(parts[2]);
+                $('#feeSpanConnect_' + i).text(parts[0]);
+                $('#outputDivConnect_' + i).text(parts[2]);
+
+            }
+        }
+
+        // Function to update local storage for checkedValues2
+        function clearLocalStorage2() {
+            //debugger;
+            localStorage.removeItem("checkedValues2");
+            //localStorage.removeItem("selectedIds1");
+
+        }
+
+        function updateLocalStorage2() {
+            localStorage.setItem("checkedValues2", JSON.stringify(checkedValues2));
+        }
+
+        // Restore checked state and values from local storage on page load for checkedValues2
+        var storedValues2 = JSON.parse(localStorage.getItem("checkedValues2"));
+        if (storedValues2) {
+            checkedValues2 = storedValues2;
+            updateInputsAndSpans2(checkedValues2);
+        }
+
+        $('.mycheck2').change(function () {
             if ($(this).is(':checked')) {
-                // debugger;
-                for (var i = 0; i < count; i++) {
+                for (var i = 0; i < 9; i++) {
                     if (checkedValues2[i] === '') {
                         checkedValues2[i] = $(this).val();
-                        total += parseInt($(this).val());
-                        $('#total').text(total.toFixed(2));
-                        document.getElementById("total").value = total.toFixed(2);
-                        const seatmap1 = document.getElementById("total").value;
                         break;
                     }
                 }
             } else {
                 var index = checkedValues2.indexOf($(this).val());
-                console.log(index)
                 if (index !== -1) {
                     checkedValues2[index] = '';
-                    total -= parseFloat($(this).val());
-                    $('#total').text(total.toFixed(2));
-                    document.getElementById("total").value = total.toFixed(2);
-                    const seatmap1 = document.getElementById("total").value;
+                    $('#outputDivConnect_' + index).text('');
+
                 }
             }
-            $('#inputConnect_0').val(checkedValues2[0].seatDesignatorCon);
-            $('#inputConnect_1').val(checkedValues2[1].seatDesignatorCon);
-            $('#inputConnect_2').val(checkedValues2[2].seatDesignatorCon);
-            $('#inputConnect_3').val(checkedValues2[3].seatDesignatorCon);
-            $('#inputConnect_4').val(checkedValues2[4].seatDesignatorCon);
-            $('#inputConnect_5').val(checkedValues2[5].seatDesignatorCon);
-            $('#inputConnect_6').val(checkedValues2[6].seatDesignatorCon);
-            $('#inputConnect_7').val(checkedValues2[7].seatDesignatorCon);
-            $('#inputConnect_8').val(checkedValues2[8].seatDesignatorCon);
             updateInputsAndSpans2(checkedValues2);
-
+            updateLocalStorage2();
         });
 
-        function updateInputsAndSpans2(checkedValues2) {
-            // debugger;
+        $('#cancelButton3').click(function () {
+            //alert("T1");
+            // Loop through each element and set its text to an empty string
             for (var i = 0; i < checkedValues2.length; i++) {
-                // debugger;
-                var parts = checkedValues2[i].split('_');
-                $('#inputConnect_' + i).val(parts[2]);
-                $('#feeSpanConnect_' + i).text(parts[0]);
-                // $('#outputDivConnect_' + i).text(parts[2]);
+                $('#outputDivConnect_' + i).text('');
             }
-        }
-        $('#cancelButton').click(function () {
-            //debugger;
-            checkedValues2 = ['', '', '', '', '', '', '', '', '', ''];
-            total = 0;
-            $('#total').text(total.toFixed(2));
-            document.getElementById("total").value = total.toFixed(2);
-            // Clear seat inputs and spans
-            updateInputsAndSpans2(checkedValues2);
+            clearLocalStorage2();
+            var selectedIds = JSON.parse(localStorage.getItem("selectedIds2"));
+            if (selectedIds) {
+                selectedIds.forEach(function (id) {
+                    $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
+                });
+            }
+            //$('input[name="unitKey"]').prop('checked', false);
+            updatetotal();
+            localStorage.removeItem("selectedIds2");
+
         });
-        
+
+
+
+        // ************non stop code***********
+        var selectedIds = JSON.parse(localStorage.getItem("selectedIds1"));
+        if (selectedIds) {
+            selectedIds.forEach(function (id) {
+                $('input[name="unitKey"][value="' + id + '"]').prop('checked', true);
+            });
+        }
+
+
+        //*********connceting code*************
+        var selectedIds2 = JSON.parse(localStorage.getItem("selectedIds2"));
+        if (selectedIds2) {
+            selectedIds2.forEach(function (id) {
+                $('input[name="unitKey"][value="' + id + '"]').prop('checked', true);
+            });
+        }
+
+
+        //Seat Total Ammount
+
+        function updatetotal() {
+
+            var total = 0;
+            $('input[name="unitKey"]:checked').each(function () {
+                total += parseInt($(this).val() || 0);
+            });
+
+            //$('#total').text(total.toFixed(2));
+            //document.getElementById("total").value = total.toFixed(2);
+            var formattedTotal = total.toFixed(2).replace(/\.?0*$/, '');
+            $('#total').text(formattedTotal);
+            document.getElementById("total").value = formattedTotal;
+            const seatmap1 = document.getElementById("total").value;
+        }
+
+        $('input[name="unitKey"]').on('change', function () {
+            var selectedIds = [];
+            debugger;
+            var selectedIds = checkedValues.concat(checkedValues2);
+            localStorage.setItem("selectedIds", JSON.stringify(selectedIds));
+            updatetotal();
+            localStorage.setItem("selectedIds1", JSON.stringify(checkedValues));
+            localStorage.setItem("selectedIds2", JSON.stringify(checkedValues2));
+
+            updateCombinedTotal();
+
+
+        });
+
 
 
     });

@@ -389,6 +389,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                         {
                             AirAsiaTripResponceModel AirAsiaTripResponceobject = new AirAsiaTripResponceModel();
                             var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
+                            //logs.WriteLogs("Request: " + JsonConvert.SerializeObject(itenaryInfant) + "Url: " + "\n\n Response: " + JsonConvert.SerializeObject(_responsePassengers), "", "AkasaOneWay");
                             var JsonObjPassengers = JsonConvert.DeserializeObject<dynamic>(_responsePassengers);
                             var TotalAmount = JsonObjPassengers.data.breakdown.journeys[journeyKey].totalAmount;
                             var TotalTax = JsonObjPassengers.data.breakdown.journeys[journeyKey].totalTax;
@@ -732,16 +733,19 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                 if (AkresponseSeatmap.IsSuccessStatusCode)
                 {
                     //Logs logs = new Logs();
+                    string columncount0 = string.Empty;
                     var _AkresponseSeatmap = AkresponseSeatmap.Content.ReadAsStringAsync().Result;
                     logs.WriteLogs("Url: " + JsonConvert.SerializeObject(AppUrlConstant.AkasaAirSeatMap + journeyKey + "?IncludePropertyLookup=true") + "\n\n Response: " + JsonConvert.SerializeObject(_AkresponseSeatmap), "SeatMap", "AkasaOneWay");
                     var JsonAkasaObjSeatmap = JsonConvert.DeserializeObject<dynamic>(_AkresponseSeatmap);
                     var uniquekey1 = JsonAkasaObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[0].unitKey;
                     var data = JsonAkasaObjSeatmap.data.Count;
                     List<data> Akdatalist = new List<data>();
-                    for (int x = 0; x < data; x++)
+                    SeatMapResponceModel AkSeatMapResponceModel = null;
+                    int x = 0;
+                    foreach (Match mitem in Regex.Matches(_AkresponseSeatmap, @"seatMap"":[\s\S]*?ssrLookup", RegexOptions.IgnoreCase | RegexOptions.Multiline))
                     {
                         data Akasadataobj = new data();
-                        SeatMapResponceModel AkSeatMapResponceModel = new SeatMapResponceModel();
+                        AkSeatMapResponceModel = new SeatMapResponceModel();
                         List<SeatMapResponceModel> AkSeatMapResponceModellist = new List<SeatMapResponceModel>();
                         Fees AkFees = new Fees();
                         Seatmap AkSeatmapobj = new Seatmap();
@@ -753,57 +757,50 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                         AkSeatmapobj.equipmentTypeSuffix = JsonAkasaObjSeatmap.data[x].seatMap.equipmentTypeSuffix;
                         AkSeatmapobj.category = JsonAkasaObjSeatmap.data[x].seatMap.category;
                         AkSeatmapobj.seatmapReference = JsonAkasaObjSeatmap.data[x].seatMap.seatmapReference;
-                        Decks AkDecksobj = new Decks();
-                        AkDecksobj.availableUnits = JsonAkasaObjSeatmap.data[x].seatMap.availableUnits;
-                        AkDecksobj.designator = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.designator;
-                        AkDecksobj.length = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.length;
-                        AkDecksobj.width = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.width;
-                        AkDecksobj.sequence = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.sequence;
-                        AkDecksobj.orientation = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.orientation;
-                        AkSeatmapobj.decks = AkDecksobj;
-                        int compartmentsunitCount = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units.Count;
                         List<Unit> Akcompartmentsunitlist = new List<Unit>();
-                        // To do
-                        string strnewText = Regex.Match(_AkresponseSeatmap, @"data""[\s\S]*?fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup"":null}]",
+                        AkSeatmapobj.decksindigo = new List<Decks>();
+                        Decks AkDecksobj = null;
+                        string strnewText = Regex.Match(_AkresponseSeatmap, @"data""[\s\S]*?fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup""[\s\S]*?}]}\s",
                             RegexOptions.IgnoreCase | RegexOptions.Multiline).Value.ToString();
-                        int _counter = 0;
-                        foreach (var strTextdata in Regex.Matches(strnewText, @"seatMap"":[\s\S]*?ssrLookup"))
+                        string compartmenttext = Regex.Match(mitem.Value, "compartments\":(?<data>[\\s\\S]*?),\"seatmapReference", RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups["data"].Value.ToString();
+                        foreach (Match itemn in Regex.Matches(compartmenttext, @"(?:availableunits|availableUnits)[\s\S]*?""designator"":""(?<t>[^\""""]+)""[\s\S]*?]}", RegexOptions.IgnoreCase | RegexOptions.Multiline))
                         {
-                            if (x == _counter)
+                            string _compartmentblock = itemn.Groups["t"].Value.Trim();
+                            Akcompartmentsunitlist = new List<Unit>();
+                            AkDecksobj = new Decks();
+                            AkDecksobj.availableUnits = JsonAkasaObjSeatmap.data[x].seatMap.availableUnits;
+                            AkDecksobj.designator = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.designator;
+                            AkDecksobj.length = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.length;
+                            AkDecksobj.width = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.width;
+                            AkDecksobj.sequence = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.sequence;
+                            AkDecksobj.orientation = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.orientation;
+                            AkSeatmapobj.decks = AkDecksobj;
+                            int _count = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock]["units"].Count;
+                            //List<Unit> Akcompartmentsunitlist = new List<Unit>();
+                            for (int i1 = 0; i1 < JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock]["units"].Count; i1++)
                             {
-                                foreach (Match item in Regex.Matches(strTextdata.ToString(), @"fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup"))
-                                {
-                                }
-                            }
-                        }
+                                Unit Akcompartmentsunitobj = new Unit();
+                                Akcompartmentsunitobj.unitKey = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i1].unitKey;
+                                Akcompartmentsunitobj.assignable = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i1].assignable;
+                                Akcompartmentsunitobj.availability = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i1].availability;
+                                Akcompartmentsunitobj.compartmentDesignator = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i1].compartmentDesignator;
+                                Akcompartmentsunitobj.designator = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i1].designator;
+                                Akcompartmentsunitobj.type = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i1].type;
+                                Akcompartmentsunitobj.travelClassCode = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i1].travelClassCode;
+                                Akcompartmentsunitobj.set = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i1].set;
+                                Akcompartmentsunitobj.group = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i1].group;
+                                Akcompartmentsunitobj.priority = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i1].priority;
+                                Akcompartmentsunitobj.text = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i1].text;
+                                Akcompartmentsunitobj.setVacancy = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i1].setVacancy;
+                                Akcompartmentsunitobj.angle = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i1].angle;
+                                Akcompartmentsunitobj.width = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i1].width;
+                                Akcompartmentsunitobj.height = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i1].height;
+                                Akcompartmentsunitobj.zone = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i1].zone;
+                                Akcompartmentsunitobj.x = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i1].x;
+                                Akcompartmentsunitobj.y = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i1].y;
+                                //string a = JsonObjSeatmap.data[x].fees["MCFBRFQ-"].groups["1"].fees[0].serviceCharges[0].amount;
 
-
-                        for (int i = 0; i < compartmentsunitCount; i++)
-                        {
-                            Unit Akcompartmentsunitobj = new Unit();
-                            Akcompartmentsunitobj.unitKey = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].unitKey;
-                            Akcompartmentsunitobj.assignable = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].assignable;
-                            Akcompartmentsunitobj.availability = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].availability;
-                            Akcompartmentsunitobj.compartmentDesignator = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].compartmentDesignator;
-                            Akcompartmentsunitobj.designator = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].designator;
-                            Akcompartmentsunitobj.type = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].type;
-                            Akcompartmentsunitobj.travelClassCode = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].travelClassCode;
-                            Akcompartmentsunitobj.set = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].set;
-                            Akcompartmentsunitobj.group = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].group;
-                            Akcompartmentsunitobj.priority = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].priority;
-                            Akcompartmentsunitobj.text = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].text;
-                            Akcompartmentsunitobj.setVacancy = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].setVacancy;
-                            Akcompartmentsunitobj.angle = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].angle;
-                            Akcompartmentsunitobj.width = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].width;
-                            Akcompartmentsunitobj.height = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].height;
-                            Akcompartmentsunitobj.zone = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].zone;
-                            Akcompartmentsunitobj.x = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].x;
-                            Akcompartmentsunitobj.y = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].y;
-                            //string a = JsonObjSeatmap.data[x].fees["MCFBRFQ-"].groups["1"].fees[0].serviceCharges[0].amount;
-                            int counter = 0;
-                            foreach (var strTextdata in Regex.Matches(strnewText, @"seatMap"":[\s\S]*?ssrLookup"))
-                            {
-                                if (x == counter)
+                                foreach (var strTextdata in Regex.Matches(mitem.Value, @"seatMap"":[\s\S]*?ssrLookup"))
                                 {
                                     foreach (Match item in Regex.Matches(strTextdata.ToString(), @"fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup"))
                                     {
@@ -817,41 +814,49 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                                             if (Akcompartmentsunitobj.group == Convert.ToInt32(farearraygroupid))
                                             {
                                                 Akcompartmentsunitobj.servicechargefeeAmount = Convert.ToInt32(JsonAkasaObjSeatmap.data[x].fees[passengerkey12].groups[farearraygroupid].fees[0].serviceCharges[0].amount);
-
                                                 break;
                                             }
                                         }
                                     }
                                 }
-                                counter++;
-                            }
 
-                            Akcompartmentsunitlist.Add(Akcompartmentsunitobj);
-                            int compartmentypropertiesCount = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].properties.Count;
-                            List<Properties> Propertieslist = new List<Properties>();
-                            for (int j = 0; j < compartmentypropertiesCount; j++)
-                            {
-                                Properties compartmentyproperties = new Properties();
-                                compartmentyproperties.code = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].properties[j].code;
-                                compartmentyproperties.value = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i].properties[j].value;
-                                Propertieslist.Add(compartmentyproperties);
+                                Akcompartmentsunitlist.Add(Akcompartmentsunitobj);
+                                int compartmentypropertiesCount = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i1].properties.Count;
+                                List<Properties> Propertieslist = new List<Properties>();
+                                for (int j = 0; j < compartmentypropertiesCount; j++)
+                                {
+                                    Properties compartmentyproperties = new Properties();
+                                    compartmentyproperties.code = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i1].properties[j].code;
+                                    compartmentyproperties.value = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments.Y.units[i1].properties[j].value;
+                                    Propertieslist.Add(compartmentyproperties);
+                                }
+                                Akcompartmentsunitobj.properties = Propertieslist;
+                                if (Akcompartmentsunitobj.designator.Contains('$'))
+                                {
+                                    columncount0 = JsonAkasaObjSeatmap.data[x].seatMap.decks["1"].compartments[_compartmentblock].units[i1 - 1].designator;
+                                    break;
+                                }
+                                Akcompartmentsunitlist.Add(Akcompartmentsunitobj);
                             }
-                            Akcompartmentsunitobj.properties = Propertieslist;
                             AkDecksobj.units = Akcompartmentsunitlist;
+                            AkSeatmapobj.SeatColumnCount = Regex.Replace(columncount0, "[^0-9]", "");
+                            AkSeatmapobj.decksindigo.Add(AkDecksobj);
                         }
                         Akasadataobj.seatMap = AkSeatmapobj;
                         Akdatalist.Add(Akasadataobj);
                         AkSeatMapResponceModel.datalist = Akdatalist;
-                        HttpContext.Session.SetString("AKSeatmap", JsonConvert.SerializeObject(AkSeatMapResponceModel));
+                        x++;
                     }
+                    HttpContext.Session.SetString("AKSeatmap", JsonConvert.SerializeObject(AkSeatMapResponceModel));
                 }
-
+                //}
                 #endregion
-                return RedirectToAction("AkTripsellView", "AKTripsell");
             }
+            return RedirectToAction("AkTripsellView", "AKTripsell");
         }
     }
 }
+
 
 
 

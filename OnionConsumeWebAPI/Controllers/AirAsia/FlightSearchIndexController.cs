@@ -537,11 +537,11 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     {
                         var results = response.Content.ReadAsStringAsync().Result;
                         var JsonObject = JsonConvert.DeserializeObject<List<_credentials>>(results);
-                        if (JsonObject[1].FlightCode == 2)
+                        if (JsonObject[3].FlightCode == 2)
                         {
-                            _CredentialsAkasha.username = JsonObject[1].username;
-                            _CredentialsAkasha.password = JsonObject[1].password;
-                            _CredentialsAkasha.domain = JsonObject[1].domain;
+                            _CredentialsAkasha.username = JsonObject[3].username;
+                            _CredentialsAkasha.password = JsonObject[3].password;
+                            _CredentialsAkasha.domain = JsonObject[3].domain;
                             // _CredentialsAkasha.satus = JsonObject[1].status;
                         }
 
