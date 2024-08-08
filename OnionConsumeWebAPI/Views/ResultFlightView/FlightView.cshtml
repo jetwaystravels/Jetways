@@ -23,7 +23,7 @@
     <link href="~/css/roundviewpage.css" rel="stylesheet" />
     <link href="~/css/indexvny.css" rel="stylesheet" />
     <script src="~/js/custom.js/indexpage.js"></script>
-   
+
 
 </head>
 <body>
@@ -247,44 +247,89 @@
                                                                     <div class="btn-increase">
                                                                         <div class="decrement sub btn_sub">-</div>
 
-                                                                        <input type="number" id="field_adult" class="input-field" name="adultcount" value="1" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.adultcount" min="1" max="9">
+                                                                        <input type="number" id="field_adult" class="input-field" name="adultcount" value="@Model.simpleAvailabilityRequestModelEdit.passengers.types[0].count" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.adultcount" min="1" max="9">
                                                                         <div class="increment add btn_sub">+</div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="border-top-light mt-24 mb-24"></div>
                                                                 <div class="d-flex y-gap-10 justify-between items-center">
-                                                                    <div class="btn-incr-chld">
-                                                                        <div class="text-15 fw-500">
-                                                                            Children
-                                                                        </div>
-                                                                        <input type="hidden" name="childtype" value="CHD" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childtype" />
-                                                                        <div class="text-15 fw-500">
-                                                                            Aged 2-12 yrs
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="btn-increase">
-                                                                        <div class="decrement1 sub btn_sub">-</div>
-                                                                        <input type="number" id="field_child" class="input-field" value="0" name="childcount" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childcount" min="0" max="6">
-                                                                        <div class="increment1 add btn_sub">+</div>
 
-                                                                    </div>
+
+                                                                    @if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 1)
+                                                                    {
+                                                                        <div class="btn-incr-chld">
+                                                                            <div class="text-15 fw-500">
+                                                                                Children
+                                                                            </div>
+                                                                            <input type="hidden" name="childtype" value="CHD" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childtype" />
+                                                                            <div class="text-15 fw-500">
+                                                                                Aged 2-12 yrs
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="btn-increase">
+                                                                            <div class="decrement1 sub btn_sub">-</div>
+                                                                            <input type="number" id="field_child" class="input-field" value="@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count" name="childcount" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childcount" min="0" max="6">
+                                                                            <div class="increment1 add btn_sub">+</div>
+
+                                                                        </div>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <div class="btn-incr-chld">
+                                                                            <div class="text-15 fw-500">
+                                                                                Children
+                                                                            </div>
+                                                                            <input type="hidden" name="childtype" value="CHD" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childtype" />
+                                                                            <div class="text-15 fw-500">
+                                                                                Aged 2-12 yrs
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="btn-increase">
+                                                                            <div class="decrement1 sub btn_sub">-</div>
+                                                                            <input type="number" id="field_child" class="input-field" value="0" name="childcount" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childcount" min="0" max="6">
+                                                                            <div class="increment1 add btn_sub">+</div>
+
+                                                                        </div>
+
+                                                                    }
                                                                 </div>
                                                                 <div class="border-top-light mt-24 mb-24"></div>
                                                                 <div class="d-flex y-gap-10 justify-between items-center">
-                                                                    <div class="infant-area">
-                                                                        <div class="text-15 fw-500">Infants</div>
-                                                                        <input type="hidden" name="infanttype" value="INFT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infanttype" />
-                                                                        <div class="text-15 fw-500">
-                                                                            Below 2 yrs
+                                                                    @if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 2)
+                                                                    {
+                                                                        <div class="infant-area">
+                                                                            <div class="text-15 fw-500">Infants</div>
+                                                                            <input type="hidden" name="infanttype" value="INFT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infanttype" />
+                                                                            <div class="text-15 fw-500">
+                                                                                Below 2 yrs
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="btn-increase">
-                                                                        <div class="decrement2 sub btn_sub">-</div>
+                                                                        <div class="btn-increase">
+                                                                            <div class="decrement2 sub btn_sub">-</div>
 
-                                                                        <input type="number" id="field_infant" class="input-field" name="infantcount" value="0" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infantcount" min="0" max="6">
-                                                                        <div class="increment2 add btn_sub">+</div>
+                                                                            <input type="number" id="field_infant" class="input-field" name="infantcount" value="@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infantcount" min="0" max="6">
+                                                                            <div class="increment2 add btn_sub">+</div>
 
-                                                                    </div>
+                                                                        </div>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <div class="infant-area">
+                                                                            <div class="text-15 fw-500">Infants</div>
+                                                                            <input type="hidden" name="infanttype" value="INFT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infanttype" />
+                                                                            <div class="text-15 fw-500">
+                                                                                Below 2 yrs
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="btn-increase">
+                                                                            <div class="decrement2 sub btn_sub">-</div>
+
+                                                                            <input type="number" id="field_infant" class="input-field" name="infantcount" value="0" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infantcount" min="0" max="6">
+                                                                            <div class="increment2 add btn_sub">+</div>
+
+                                                                        </div>
+
+                                                                    }
                                                                 </div>
 
                                                                 <div class="border-top-light mt-24 mb-24"></div>
@@ -512,7 +557,6 @@
             </div>
         </footer>
         <!--====== Footer Area End ======-->
-
     </main>
 
     <div class="langMenu is-hidden js-langMenu" data-x="lang" data-x-toggle="is-hidden">
@@ -2140,7 +2184,6 @@
                 $('.Ftab4').show();
             }
         });
-
         $(document).on('click', '.flightT5', function () {
             if (!$(this).hasClass('active')) {
                 $('.Ftab1, .Ftab2, .Ftab3, .Ftab4').hide();
@@ -2150,8 +2193,6 @@
                 $('.Ftab5').show();
             }
         });
-
-
         $(document).on('click', '.showBtn', function (event) {
             event.preventDefault(); // Prevent default behavior of anchor tag
 
@@ -2168,8 +2209,6 @@
 
             }
         });
-
-
         // $(document).on('click', '.showBtn', function () {
 
         //     //$('.hideme').hide();
@@ -2203,10 +2242,9 @@
 
         // Add click event listener to each sort link
         sortLinks.forEach(sortLink => {
-            debugger;
+
             sortLink.addEventListener('click', function (e) {
                 e.preventDefault();
-                debugger;
                 const sortType = this.dataset.sort.split('_')[0];
                 const currentSortOrder = sortOrders[sortType];
                 sortOrders[sortType] = currentSortOrder === 'desc' ? 'asc' : 'desc';
@@ -2220,7 +2258,7 @@
         });
 
         function performSorting(sortOrder) {
-            debugger;
+
             var sortOrderName = sortOrder;
             $.ajax({
                 url: '@Url.Action("FlightView", "ResultFlightView")',
@@ -2313,12 +2351,6 @@
             $('#myInput').val(flyingToValue);
             $('#myInput1').val(flyingFromValue);
         });
-
-
-
-
-
-
         //**********Chosen Departure Code Start ****************//
         //*****************************************************//
 
@@ -2365,8 +2397,6 @@
             $('.chosen-drop').hide();
             dropdown.selectedIndex = -1;
         }
-
-
         //**********Chosen Arrival Code Start ****************//
         //*****************************************************//
 
@@ -2388,11 +2418,6 @@
                 $('.chosen-drop').hide();
             }
         });
-
-
-
-
-
         function toggleArrivalOneway() {
             //$('.chosen-drop').toggle();
             var chosenInputA = document.querySelector('.autoarrivalOneway input');
@@ -2442,7 +2467,7 @@
         setTimeout("preback()", -10);
         window.onupload = function () { null };
 
-      
+
     </script>
 
 </body>

@@ -169,7 +169,9 @@
                 </div>
                 <div class="fcbb">
                     @{
-                        basefaretax = @Model.passeengerlist.basefaretax + @Model.passeengerlistItanary.inftbasefaretax;
+                        
+                        basefaretax = @Model.passeengerlist.basefaretax;
+                        //+ @Model.passeengerlistItanary.inftbasefaretax;
                     }
 
                     <div class="text-15 fw-600">&#8377;@basefaretax</div>
