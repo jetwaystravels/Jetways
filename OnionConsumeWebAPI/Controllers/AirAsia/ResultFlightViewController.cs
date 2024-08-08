@@ -640,6 +640,7 @@ namespace OnionConsumeWebAPI.Controllers
                             foreach (var items in JsonObjPassengers.data.passengers)
                             {
                                 AAPassengers passkeytypeobject = new AAPassengers();
+                                int ServiceInfttax = 0;
                                 passkeytypeobject.passengerKey = items.Value.passengerKey;
                                 passkeytypeobject.passengerTypeCode = items.Value.passengerTypeCode;
                                 passkeyList.Add(passkeytypeobject);
@@ -654,6 +655,15 @@ namespace OnionConsumeWebAPI.Controllers
                                         int Feecount = JsonObjPassengers.data.passengers[passkeytypeobject.passengerKey].infant.fees.Count;
                                         Inftcount += Feecount;
                                         Inftbasefare = JsonObjPassengers.data.passengers[passkeytypeobject.passengerKey].infant.fees[0].serviceCharges[0].amount;
+                                        var ServiceInft = JsonObjPassengers.data.passengers[passkeytypeobject.passengerKey].infant.fees[0].serviceCharges;
+                                        int ServiceInftcount = ((Newtonsoft.Json.Linq.JContainer)ServiceInft).Count;
+                                       
+                                        for ( int inf=1; inf < ServiceInftcount; inf++ ) 
+                                        {
+                                            ServiceInfttax = JsonObjPassengers.data.passengers[passkeytypeobject.passengerKey].infant.fees[0].serviceCharges[inf].amount;
+                                            ServiceInfttax += ServiceInfttax;
+                                        }
+                                        Inftbasefare = Inftbasefare - ServiceInfttax;
                                         List<Fee> feeList = new List<Fee>();
                                         for (int i = 0; i < Feecount; i++)
                                         {
@@ -687,6 +697,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                                 AirAasiaobjectInfantdata.inftcount = Inftcount;
                                 AirAasiaobjectInfantdata.inftbasefare = Inftbasefare;
+                                AirAasiaobjectInfantdata.inftbasefaretax = ServiceInfttax;
 
                                 AirAasiaobjectInfantdata.journeys = AAJourneyList;
                                 AirAasiaobjectInfantdata.passengers = passkeyList;

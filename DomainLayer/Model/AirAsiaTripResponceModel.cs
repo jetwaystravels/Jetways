@@ -11,6 +11,7 @@ namespace DomainLayer.Model
     {
         public int inftcount { get; set; }
         public int inftbasefare { get; set; }
+        public int inftbasefaretax { get; set; }
         public int basefaretax {  get; set; }
 
         public int infttax { get; set; }

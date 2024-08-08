@@ -101,7 +101,7 @@
                 int finalbasefare = passengercountbase * amount;*@
 
                     @{
-                        if (@Model.passeengerlistItanary != null)
+                        if (infcount >0)
                         {
                             // infcount = Model.passeengerlistItanary.inftcount;
                             inftbasefare = Model.passeengerlistItanary.inftbasefare;
@@ -169,10 +169,10 @@
                 </div>
                 <div class="fcbb">
                     @{
-                        basefaretax = @Model.passeengerlist.basefaretax;
+                        basefaretax = @Model.passeengerlist.basefaretax + @Model.passeengerlistItanary.inftbasefaretax;
                     }
 
-                    <div class="text-15 fw-600">&#8377;@Model.passeengerlist.basefaretax</div>
+                    <div class="text-15 fw-600">&#8377;@basefaretax</div>
 
 
 
