@@ -339,6 +339,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 AAPassengers passkeytypeobj = new AAPassengers();
                                 passkeytypeobj.passengerKey = items.Value.passengerKey;
                                 passkeytypeobj.passengerTypeCode = items.Value.passengerTypeCode;
+                                passkeytypeobj._Airlinename = _JourneykeyRTData;
                                 passkeylist.Add(passkeytypeobj);
                                 passengerkey12 = passkeytypeobj.passengerKey;
 
@@ -922,6 +923,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 AAPassengers passkeytypeobj = new AAPassengers();
                                 passkeytypeobj.passengerKey = items.Value.passengerKey;
                                 passkeytypeobj.passengerTypeCode = items.Value.passengerTypeCode;
+                                passkeytypeobj._Airlinename = _JourneykeyRTData;
                                 passkeylist.Add(passkeytypeobj);
                                 passengerkey12 = passkeytypeobj.passengerKey;
 
@@ -1468,6 +1470,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     AAPassengers passkeytypeobj = new AAPassengers();
                                     passkeytypeobj.passengerKey = a.ToString();
                                     passkeytypeobj.passengerTypeCode = items.PaxType;
+                                    passkeytypeobj._Airlinename = _JourneykeyRTData;
                                     passkeylist.Add(passkeytypeobj);
                                     a++;
                                 }
@@ -1860,6 +1863,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     AAPassengers passkeytypeobj = new AAPassengers();
                                     passkeytypeobj.passengerKey = a.ToString();
                                     passkeytypeobj.passengerTypeCode = items.PaxType;
+                                    passkeytypeobj._Airlinename = _JourneykeyRTData;
                                     passkeylist.Add(passkeytypeobj);
                                     a++;
                                 }
@@ -2271,7 +2275,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
                                     AAPassengers passkeytypeobj = new AAPassengers();
                                     passkeytypeobj.passengerKey = a.ToString();
-                                    passkeytypeobj.passengerTypeCode = paxType; ;
+                                    passkeytypeobj.passengerTypeCode = paxType;
+                                    passkeytypeobj._Airlinename = _JourneykeyRTData;
                                     passkeylist.Add(passkeytypeobj);
                                     //a++;
                                 }

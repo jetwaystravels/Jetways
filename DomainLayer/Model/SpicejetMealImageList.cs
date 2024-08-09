@@ -71,7 +71,9 @@ namespace DomainLayer.Model
             //htSSr.Add("ABHF", "Shôndesh Tiramisù(Chargable meal code");
 
             //Indigo
+
             htSSr.Add("CJSW", "Chicken Junglee Sandwich");
+            htSSr.Add("FFWD", "Fast Forward");
             htSSr.Add("JNML", "Jain Meal / Tomato Cucumber");
             htSSr.Add("VLML", "Veg Lactose Meal /Paneer Bhatti");
             htSSr.Add("VGAN", "Vegan Meal  / 2 Dips with Baked Pita");

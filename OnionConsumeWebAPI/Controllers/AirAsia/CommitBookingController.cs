@@ -678,9 +678,12 @@ namespace OnionConsumeWebAPI.Controllers
                             //x.data.journeys[0].segments[0].passengerSegment["MCFBRFQ-"].seats[0].unitDesignator
                             int JourneysReturnCount1 = JsonObjPNRBooking.data.journeys.Count;
                             //int SegmentReturnCount = JsonObjPNRBooking.data.journeys[0].segments.Count-1;
-                            var flightseatnumber1 = JsonObjPNRBooking.data.journeys[0].segments[isegment].passengerSegment[tb_Passengerobj.PassengerKey].seats[0].unitDesignator;
+                            if (JsonObjPNRBooking.data.journeys[0].segments[isegment].passengerSegment[tb_Passengerobj.PassengerKey].seats != null && JsonObjPNRBooking.data.journeys[0].segments[isegment].passengerSegment[tb_Passengerobj.PassengerKey].seats.Count>0)
+                            {
+                                var flightseatnumber1 = JsonObjPNRBooking.data.journeys[0].segments[isegment].passengerSegment[tb_Passengerobj.PassengerKey].seats[0].unitDesignator;
 
-                            tb_Passengerobj.Seatnumber = flightseatnumber1;
+                                tb_Passengerobj.Seatnumber = flightseatnumber1;
+                            }
 
                             tb_Passengerobj.TotalAmount = JsonObjPNRBooking.data.breakdown.journeyTotals.totalAmount;
                             tb_Passengerobj.TotalAmount_tax = JsonObjPNRBooking.data.breakdown.journeyTotals.totalTax;

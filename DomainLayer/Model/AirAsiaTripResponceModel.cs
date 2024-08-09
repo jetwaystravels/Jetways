@@ -348,6 +348,8 @@ namespace DomainLayer.Model
         public object[] addresses { get; set; }
         public int weightCategory { get; set; }
         public object[] emdCoupons { get; set; }
+
+        public string _Airlinename { get; set; }
     }
     public class Infant
     {

@@ -13,7 +13,7 @@
         @for (var i = 0; i < Model.passeengerlistRT[0].passengers.Count; i++)
         {
 
-           string combinedkey = @Model.passeengerlistRT[0].passengers[i].passengerKey + "@" + @Model.passeengerlistRT[1].passengers[i].passengerKey;
+            string combinedkey = @Model.passeengerlistRT[0].passengers[i].passengerKey + "^" + @Model.passeengerlistRT[0].passengers[i]._Airlinename + "@" + @Model.passeengerlistRT[1].passengers[i].passengerKey + "^" + @Model.passeengerlistRT[1].passengers[i]._Airlinename;
 
             <input type="hidden" name="passengers[@i].origin" value="@Model.passeengerlistRT[0].journeys[0].designator.origin" />
             <input type="hidden" name="passengers[@i].departure" value="@Model.passeengerlistRT[0].journeys[0].designator.departure" />

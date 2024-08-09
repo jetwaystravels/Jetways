@@ -177,7 +177,7 @@
             <div class="bfg">
                 @{
                     basefaretax = @Model.passeengerlist.basefaretax;// + Model.passeengerlist.infttax;
-                    totaltax = @Model.passeengerlist.basefaretax;// + @Model.passeengerlist.infttax;
+                    totaltax = @Model.passeengerlist.basefaretax + @Model.passeengerlist.infttax;
                 }
 
                 <div class="text-15 fw-600">&#8377;@totaltax</div>
@@ -194,7 +194,8 @@
             <div class="total_ammount d-flex col-3">
                 @{
                     int totalBaseFare_tax = 0;
-                    totalBaseFare_tax = @basefare + @basefaretax;
+                    //totalBaseFare_tax = @basefare + @basefaretax;
+                    totalBaseFare_tax = @basefare + @totaltax;
 
                     <span>&#8377</span>
                     <input class="input-ammount fw-600" type="text" name="Totalamount" value="@totalBaseFare_tax" id="Totalamount" />

@@ -604,10 +604,29 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         PassengersModel _PassengersModel = new PassengersModel();
                         for (int i = 0; i < passengerdetails.Count; i++)
                         {
+                            string _airlinename = string.Empty;
                             string[] arraypaxkey = passengerdetails[i].passengerkey.Split('@');
                             if (arraypaxkey.Length > 1)
                             {
-                                passengerdetails[i].passengerkey = arraypaxkey[1];
+                                string[] arraypaxdata = arraypaxkey[0].Split('^');
+                                if (arraypaxdata.Length > 1)
+                                {
+                                    _airlinename = arraypaxdata[1];
+                                }
+                                if (dataArray[i1].ToLower() == _airlinename.ToLower())
+                                {
+                                    passengerdetails[i].passengerkey = arraypaxdata[0];
+                                }
+                                else
+                                {
+                                    arraypaxdata = arraypaxkey[1].Split('^');
+                                    _airlinename = arraypaxdata[1];
+                                    if (dataArray[i1].ToLower() == _airlinename.ToLower())
+                                    {
+                                        passengerdetails[i].passengerkey = arraypaxdata[0];
+                                    }
+
+                                }
                             }
                             if (passengerdetails[i].passengertypecode == "INFT" || passengerdetails[i].passengertypecode == "INF")
                                 continue;
@@ -668,7 +687,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
 
                                     _PassengersModel1.nationality = "IN";
-                                    _PassengersModel1.dateOfBirth = "2023-10-01";
+                                    _PassengersModel1.dateOfBirth = "2023-01-01";
                                     _PassengersModel1.residentCountry = "IN";
                                     _PassengersModel1.gender = "Male";
 
@@ -736,10 +755,29 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         PassengersModel _PassengersModel = new PassengersModel();
                         for (int i = 0; i < passengerdetails.Count; i++)
                         {
+                            string _airlinename = string.Empty;
                             string[] arraypaxkey = passengerdetails[i].passengerkey.Split('@');
                             if (arraypaxkey.Length > 1)
                             {
-                                passengerdetails[i].passengerkey = arraypaxkey[1];
+                                string[] arraypaxdata = arraypaxkey[0].Split('^');
+                                if (arraypaxdata.Length > 1)
+                                {
+                                    _airlinename = arraypaxdata[1];
+                                }
+                                if (dataArray[i1].ToLower() == _airlinename.ToLower())
+                                {
+                                    passengerdetails[i].passengerkey = arraypaxdata[0];
+                                }
+                                else
+                                {
+                                    arraypaxdata = arraypaxkey[1].Split('^');
+                                    _airlinename = arraypaxdata[1];
+                                    if (dataArray[i1].ToLower() == _airlinename.ToLower())
+                                    {
+                                        passengerdetails[i].passengerkey = arraypaxdata[0];
+                                    }
+
+                                }
                             }
                             if (passengerdetails[i].passengertypecode == "INFT" || passengerdetails[i].passengertypecode == "INF")
                                 continue;
