@@ -3992,8 +3992,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     {
                         Mealsdata = new List<string>();
                         Mealsdata.Add("<Start>" + JsonConvert.SerializeObject("") + "<End>");
-                        HttpContext.Session.SetString("SGMealsRT", JsonConvert.SerializeObject(Mealsdata));
-                        HttpContext.Session.SetString("MealsData", JsonConvert.SerializeObject(""));
+                        HttpContext.Session.SetString("SGMealsRT", JsonConvert.SerializeObject(""));
+                        HttpContext.Session.SetString("MealsData", JsonConvert.SerializeObject(Mealsdata));
                         if (!string.IsNullOrEmpty(JsonConvert.SerializeObject(Mealsdata)))
                         {
                             if (Mealsdata.Count == 2)
