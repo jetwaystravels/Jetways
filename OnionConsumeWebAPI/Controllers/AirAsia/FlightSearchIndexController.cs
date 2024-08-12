@@ -3064,7 +3064,8 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             _SimpleAvailibilityaAddResponceobjR.segments = Segmentobjlist;
                             DateTime currentDate = DateTime.Now;
                             var bookingdate = currentDate; //"2023-12-10T00:00:00";
-                            _SimpleAvailibilityaAddResponceobjR.bookingdate = Convert.ToDateTime(_IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].DepartureDate).ToString("dddd, dd MMM yyyy");
+                            //_SimpleAvailibilityaAddResponceobjR.bookingdate = Convert.ToDateTime(_IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].DepartureDate).ToString("dddd, dd MMM yyyy");
+                            _SimpleAvailibilityaAddResponceobjR.bookingdate = Convert.ToDateTime(bookingdate).ToString("dddd, dd MMM yyyy");
                             _SimpleAvailibilityaAddResponceobjR.fareTotalsum = Math.Round(fareTotalsum, 0);
                             _SimpleAvailibilityaAddResponceobjR.journeyKey = journeyKey;
                             _SimpleAvailibilityaAddResponceobjR.faresIndividual = fareIndividualsconnectedList;// fareIndividualsList;
@@ -3361,14 +3362,15 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             _SimpleAvailibilityaAddResponceobjR.segments = Segmentobjlist;
                             DateTime currentDate = DateTime.Now;
                             var bookingdate1 = currentDate; //"2023-12-10T00:00:00";
-                            if (_IndigoAvailabilityResponseobj == null)
-                            {
-                                _SimpleAvailibilityaAddResponceobjR.bookingdate = bookingdate1.ToString(); ;
-                            }
-                            else
-                            {
-                                _SimpleAvailibilityaAddResponceobjR.bookingdate = Convert.ToDateTime(_IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].DepartureDate).ToString("dddd, dd MMM yyyy");
-                            }
+                            _SimpleAvailibilityaAddResponceobjR.bookingdate = Convert.ToDateTime(bookingdate1).ToString("dddd, dd MMM yyyy");
+                            //if (_IndigoAvailabilityResponseobj == null)
+                            //{
+                               // _SimpleAvailibilityaAddResponceobjR.bookingdate = bookingdate1.ToString(); ;
+                            //}
+                            //else
+                            //{
+                                //_SimpleAvailibilityaAddResponceobjR.bookingdate = Convert.ToDateTime(_IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].DepartureDate).ToString("dddd, dd MMM yyyy");
+                            //}
                             _SimpleAvailibilityaAddResponceobjR.fareTotalsum = Math.Round(fareTotalsum, 0);
                             _SimpleAvailibilityaAddResponceobjR.journeyKey = journeyKey;
                             _SimpleAvailibilityaAddResponceobjR.faresIndividual = fareIndividualsconnectedList;// fareIndividualsList;

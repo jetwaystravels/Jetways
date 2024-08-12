@@ -1927,20 +1927,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             AirAsiaTripResponceobj.passengers = passkeylist;
                             AirAsiaTripResponceobj.passengerscount = passengercount;
                             //}
-                            Passengerdata = new List<string>();
-                            Passengerdata.Add("<Start>" + JsonConvert.SerializeObject(AirAsiaTripResponceobj) + "<End>");
-                            HttpContext.Session.SetString("SGkeypassengerRT", JsonConvert.SerializeObject(AirAsiaTripResponceobj));
-                            HttpContext.Session.SetString("keypassengerdata", JsonConvert.SerializeObject(Passengerdata));
-                            if (!string.IsNullOrEmpty(JsonConvert.SerializeObject(Passengerdata)))
-                            {
-                                if (Passengerdata.Count == 2)
-                                {
-                                    MainPassengerdata = new List<string>();
-                                }
-                                MainPassengerdata.Add(JsonConvert.SerializeObject(Passengerdata));
-                            }
-                            #endregion
 
+                            //paste here for infant tax
                             #region Indigo ItenaryRequest
                             IndigoBookingManager_.PriceItineraryResponse _getPriceItineraryRS = await objsell.GetItineraryPrice(Signature, _JourneykeyData, _FareKeyData, _Jparts[0], fareKey[p], TotalCount, adultcount, childcount, infantcount);
                             #endregion
@@ -1996,10 +1984,25 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                         }
 
                                     }
+                                    AirAsiaTripResponceobj.inftbasefare = AirAsiaTripResponceobj.inftbasefare - infttax;
                                     AirAsiaTripResponceobj.infttax = infttax * infantcount;
                                 }
                             }
+                            #endregion
+                            AirAsiaTripResponceobj.basefaretax += AirAsiaTripResponceobj.infttax;
 
+                            Passengerdata = new List<string>();
+                            Passengerdata.Add("<Start>" + JsonConvert.SerializeObject(AirAsiaTripResponceobj) + "<End>");
+                            HttpContext.Session.SetString("SGkeypassengerRT", JsonConvert.SerializeObject(AirAsiaTripResponceobj));
+                            HttpContext.Session.SetString("keypassengerdata", JsonConvert.SerializeObject(Passengerdata));
+                            if (!string.IsNullOrEmpty(JsonConvert.SerializeObject(Passengerdata)))
+                            {
+                                if (Passengerdata.Count == 2)
+                                {
+                                    MainPassengerdata = new List<string>();
+                                }
+                                MainPassengerdata.Add(JsonConvert.SerializeObject(Passengerdata));
+                            }
                             #endregion
                             HttpContext.Session.SetString("keypassengerItanary", JsonConvert.SerializeObject(AirAsiaTripResponceobj));
 
@@ -2116,7 +2119,14 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     {
                                         AADesignatorobj.arrival = Convert.ToDateTime(getAirPriceRes[0].Bonds[0].Legs[j].ArrivalTime);
                                     }
+                                    if (getAirPriceRes[0].Bonds[0].Legs[0].AirlineName == "UK")
+                                        getAirPriceRes[0].Bonds[0].Legs[0].AirlineName = "Vistara";
+                                    else if (getAirPriceRes[0].Bonds[0].Legs[0].AirlineName == "AI")
+                                        getAirPriceRes[0].Bonds[0].Legs[0].AirlineName = "AirIndia";
+                                    else if (getAirPriceRes[0].Bonds[0].Legs[0].AirlineName == "H1")
+                                        getAirPriceRes[0].Bonds[0].Legs[0].AirlineName = "hahnair";
 
+                                    AAJourneyobj.Airlinename = getAirPriceRes[0].Bonds[0].Legs[0].AirlineName;
                                     AAJourneyobj.designator = AADesignatorobj;
                                     AASegmentobj = new AASegment();
                                     AADesignator AASegmentDesignatorobj = new AADesignator();
