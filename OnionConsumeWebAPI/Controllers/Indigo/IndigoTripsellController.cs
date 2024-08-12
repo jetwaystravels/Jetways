@@ -191,7 +191,7 @@ namespace OnionConsumeWebAPI.Controllers
 
             //return RedirectToAction("IndigoSaverTripsell", "IndigoTripsell", passengerdetails);
         }
-        public async Task<IActionResult> PostUnitkey(List<string> unitKey, List<string> ssrKey, List<string> BaggageSSrkey, List<string> FastfarwardAddon, List<string> PPBGAddon)
+        public async Task<IActionResult> PostUnitkey(List<string> unitKey, List<string> ssrKey, List<string> BaggageSSrkey, List<string> FastfarwardAddon, List<string> PPBGAddon, bool Boolfastforward)
         {
             List<string> _unitkey = new List<string>();
             for (int i = 0; i < unitKey.Count; i++)
@@ -214,10 +214,12 @@ namespace OnionConsumeWebAPI.Controllers
             {
                 unitKey = new List<string>();
             }
+
             if (FastfarwardAddon.Count > 0 && FastfarwardAddon[0] == null)
             {
                 FastfarwardAddon = new List<string>();
             }
+
             if (PPBGAddon.Count > 0 && PPBGAddon[0] == null)
             {
                 PPBGAddon = new List<string>();
@@ -239,7 +241,7 @@ namespace OnionConsumeWebAPI.Controllers
                 {
                     #region SellSSr
                     _SellSSR obj_ = new _SellSSR(httpContextAccessorInstance);
-                    IndigoBookingManager_.SellResponse sellSsrResponse = await obj_.sellssr(token, passeengerKeyList, ssrKey, BaggageSSrkey, FastfarwardAddon, PPBGAddon, 0, "OneWay");
+                    IndigoBookingManager_.SellResponse sellSsrResponse = await obj_.sellssr(token, passeengerKeyList, ssrKey, BaggageSSrkey, FastfarwardAddon, PPBGAddon, Boolfastforward, 0, "OneWay");
                     #endregion
 
                 }

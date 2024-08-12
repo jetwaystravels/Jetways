@@ -14090,3 +14090,113 @@ Flight Ticket
     margin: 25px 0 15px;
     font-weight: 400;
 }
+
+
+/* ******************************
+start addons
+****************************** */
+
+.checkout .addons-box {
+    padding: 25px;
+}
+
+    .checkout .addons-box .blogCard__image {
+        border-radius: 6px;
+    }
+
+    .checkout .addons-box img {
+        border-radius: 6px;
+    }
+
+    .checkout .addons-box h4 {
+        font-size: 1rem;
+    }
+
+    .checkout .addons-box p {
+        text-align: left;
+        font-size: 14px;
+        padding: 5px 0;
+    }
+
+    .checkout .addons-box .btn {
+        padding: 12px 30px;
+        margin: 12px auto 0;
+        display: flex;
+        width: 143px;
+    }
+
+        .checkout .addons-box .btn svg {
+            font-size: 13px;
+            margin: 2px 6px 0;
+        }
+
+    .checkout .addons-box .bdr-bx {
+        border: #ddd 1px solid;
+        padding: 10px;
+        border-radius: 4px;
+        margin: 0 8px 14px;
+    }
+
+    .checkout .addons-box .col-lg-5.bdr-bx {
+        flex: 0 0 46.666667%;
+        max-width: 46.666667%;
+    }
+
+    .checkout .addons-box .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+        color: #E93329;
+        border: #E93329 1px solid;
+        border-radius: 3px;
+    }
+
+    .checkout .addons-box .nav-link {
+        padding: 0.4rem 1rem;
+        font-size: 1rem;
+        border-radius: 3px;
+        border: #222 1px solid;
+        border-radius: 3px;
+        margin-top: 8px;
+    }
+
+    .checkout .addons-box button:focus {
+        outline: none;
+    }
+
+    .checkout .addons-box ul.pass-N {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        line-height: normal;
+        height: 300px;
+        overflow: auto;
+    }
+
+        .checkout .addons-box ul.pass-N li {
+            border: #E0E8EF 1px solid;
+            border-radius: 2px 30px 30px 2px;
+            padding: 8px 14px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+            .checkout .addons-box ul.pass-N li.active {
+                background: #E0E8EF;
+                border: none;
+            }
+
+            .checkout .addons-box ul.pass-N li span {
+                display: block;
+            }
+
+                .checkout .addons-box ul.pass-N li span.name {
+                    font-weight: 600;
+                }
+
+                .checkout .addons-box ul.pass-N li span.fs-s {
+                    color: #6B879F;
+                    font-size: 14px;
+                }
+
+
+/* ******************************
+End addons
+****************************** */

@@ -698,7 +698,14 @@
 									<div class="text-15">&#8377;  <span id="bag1"></span> </div>
 								</div>
 							</div>
-
+							<div class="row y-gap-2 justify-between pb-1">
+								<div class="col-auto">
+									<div class="text-15">Fast Forward</div>
+								</div>
+								<div class="col-auto">
+									<div class="text-15">&#8377;  <span id="fastForwrd"></span> </div>
+								</div>
+							</div>
 
 							<div class="row y-gap-2 justify-between pt-2 border-top-light">
 								<div class="col-auto">
@@ -910,6 +917,7 @@
 			var baseFare = localStorage.getItem('basePayment1') || 0;
 			var basemeal = localStorage.getItem('mealTotal1') || 0;
 			var basebag = localStorage.getItem('bagTotal1') || 0;
+			var FastFFWD = localStorage.getItem('FastFFWD') || 0;
 			//alert(baseFare);
 			//alert(basemeal);
 			//alert(basebag);
@@ -917,10 +925,11 @@
 			document.getElementById("meal1").innerHTML = basemeal;
 			document.getElementById("bag1").innerHTML = basebag;
 			document.getElementById("seattotal").innerHTML = seatFare;
+			document.getElementById("fastForwrd").innerHTML = FastFFWD;
 
 
 			var conviniencefare = document.querySelector('#convinfare').value;
-			let Totalpaymnet = parseInt(seatFare) + parseInt(baseFare) + parseInt(basebag) + parseInt(basemeal) + parseInt(conviniencefare);
+			let Totalpaymnet = parseInt(seatFare) + parseInt(baseFare) + parseInt(basebag) + parseInt(basemeal) + parseInt(conviniencefare) + parseInt(FastFFWD);
 			document.getElementById("totalpayment").innerHTML = Totalpaymnet;
 			document.getElementById("Totalpayment").innerHTML = Totalpaymnet;
 			document.getElementById("totalpayment1").innerHTML = Totalpaymnet;

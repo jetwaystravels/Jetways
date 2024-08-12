@@ -2374,6 +2374,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
                                 else if (passeengerKeyList.journeys[0].Airlinename.ToLower() == "indigo")
                                 {
+                                    bool Boolfastforward = false;
                                     string tokenview = string.Empty;
                                     if (_a == 0)
                                     {
@@ -2387,7 +2388,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     token = tokenview.Replace(@"""", string.Empty);
                                     _SellSSR obj_ = new _SellSSR(httpContextAccessorInstance);
                                     //List<string> BaggageSSrkey = new List<string>();
-                                    IndigoBookingManager_.SellResponse sellSsrResponse = await obj_.sellssr(token, passeengerKeyList, ssrKey, BaggageSSrkey, FastfarwardAddon, PPBGAddon, _a);
+                                    //VinayFast
+                                    IndigoBookingManager_.SellResponse sellSsrResponse = await obj_.sellssr(token, passeengerKeyList, ssrKey, BaggageSSrkey, FastfarwardAddon, PPBGAddon,  Boolfastforward, _a);
                                 }
                                 _a++;
                             }

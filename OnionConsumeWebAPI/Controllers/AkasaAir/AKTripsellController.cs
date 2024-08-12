@@ -174,7 +174,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                 GSTPhonenumber Phonenumber = new GSTPhonenumber();
                 List<GSTPhonenumber> Phonenumberlist = new List<GSTPhonenumber>();
                 Phonenumber.type = "Other";
-                Phonenumber.number = contactobject.number; ;
+                Phonenumber.number = contactobject.number;
                 Phonenumberlist.Add(Phonenumber);
 
                 foreach (var item in Phonenumberlist)

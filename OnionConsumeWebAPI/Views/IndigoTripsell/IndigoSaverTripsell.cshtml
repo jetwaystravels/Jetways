@@ -27,11 +27,6 @@
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
     <style>
-        .whst_app i {
-            color: green;
-            font-size: 22px;
-        }
-
         .bg-h2 {
             background: #366480;
             color: #fff;
@@ -193,19 +188,46 @@
                             </div>
                         </div>
 
+
+                        <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
+                            <div id="toggleButton6" class="bg-h2" style="opacity:0.2"><h2 class="text-18 fw-600 fw-600 md:mt-20 ">Add-ons <span class="text-18">(Indigo Fast-Forward)</span></h2></div>
+                        </div>
+                        <div id="content6" class="row  hidden mt-2">
+                            <div class="flight-box-content p-4 addons-box rounded-4">
+
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-sm-4 bdr-bx">
+                                                <div class="blogCard__image">
+                                                    <img src="~/img/addons-img-1.jpg" alt="image">
+                                                    @*<img src="~/img/ffwd.png" />*@
+                                                </div>
+                                                <div class="pt-10">
+                                                    <h4>Fast Forward Add-on in Indigo Flight</h4>
+                                                    <p>Enjoy priority check-in, boarding, and baggage handling with the Fast Forward add-on in Indigo Flight.</p>
+
+                                                </div>
+                                                @* <button type="submit" class="btn btn-lg">Add <i class="fa fa-chevron-right"></i></button> *@
+                                                <input type="checkbox" id="toggleCheckbox" class="btn-checkbox">
+                                                <label for="toggleCheckbox" class="btn btn-lg btn-label">
+                                                    <span class="add-text">Add <i class="fa fa-plus"></i></span>
+                                                    <span class="remove-text">Remove <i class="fa fa-minus"></i></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
                         <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
                             <div id="toggleButton5" class="bg-h2" style="opacity:0.2"><h2 class="text-18 fw-600 md:mt-20 ">Travel Insurance  <span class="text-18">(Recommended)</span></h2></div>
                         </div>
                         <div id="content5" class="row hidden mt-2">
                             <partial name="_IndigoTravelInsurancePatialView.cshtml" />
                         </div>
-                        <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
-                            <div id="toggleButton6" class="bg-h2" style="opacity:0.2"><h2 class="text-18 fw-600 fw-600 md:mt-20 ">Add-ons <span class="text-18">(Recommended)</span></h2></div>
-                        </div>
-                        <div id="content6" class="row hidden mt-2">
-                            Add-Ons
-                        </div>
-
 
 
                         @* <form>
@@ -421,6 +443,26 @@
             border-radius: 4px 4px 0 0;
             padding-left: 0px;
         }
+
+        .btn-checkbox {
+            display: none;
+        }
+
+        .btn-label {
+            cursor: pointer;
+        }
+
+            .btn-label span {
+                display: inline-block;
+            }
+
+        .btn-checkbox:checked + .btn-label .add-text {
+            display: none;
+        }
+
+        .btn-checkbox:not(:checked) + .btn-label .remove-text {
+            display: none;
+        }
     </style>
 
 
@@ -471,6 +513,12 @@
 
             });
 
+            $('#toggleButton6').on('click', function () {
+                $('#content6').toggleClass('hidden');
+            });
+
+          
+
             $(".Continuebtnprice").click(function () {
                 // Retrieve and store meal total
                 const mealTotal = $('#AddMealTotal').text();
@@ -486,6 +534,8 @@
                 // Retrieve and store base payment total
                 const basePaymentTotal = $('#Totalamount').val();
                 localStorage.setItem('basePayment1', basePaymentTotal);
+                const FastFFWDTotal = $('#priceDisplay').text();
+                localStorage.setItem('FastFFWD', FastFFWDTotal);
                 //alert("Base" + basePaymentTotal);
             });
 
@@ -539,6 +589,8 @@
         window.onload = function () {
             updateCombinedTotal();
         }
+
+
 
     </script>
 

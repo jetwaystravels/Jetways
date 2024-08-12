@@ -51,6 +51,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
         string sequencenumber = string.Empty;
         decimal TotalMeal = 0;
         decimal TotalBag = 0;
+        decimal TotalFastFFWD = 0;
         decimal TotalBagtax = 0;
         decimal Totatamountmb = 0;
         DateTime Journeydatetime = new DateTime();
@@ -144,6 +145,8 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                             PassengerTotals passengerTotals = new PassengerTotals();
                             ReturnSeats returnSeats = new ReturnSeats();
                             passengerTotals.specialServices = new SpecialServices();
+                            passengerTotals.fastForward = new SpecialServices();
+
                             passengerTotals.baggage = new SpecialServices();
                             var totalTax = "";// _getPriceItineraryRS.data.breakdown.journeys[journeyKey].totalTax;
 
@@ -489,7 +492,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                                     {
                                         foreach (var item2 in item1.ServiceCharges)
                                         {
-                                            if ((!item2.ChargeCode.Equals("SEAT") || !item2.ChargeCode.Equals("INFT")) && !item2.ChargeType.ToString().ToLower().Contains("tax") && item2.ChargeCode.StartsWith("X", StringComparison.OrdinalIgnoreCase) == false)
+                                            if ((!item2.ChargeCode.Equals("SEAT") || !item2.ChargeCode.Equals("INFT")) && !item2.ChargeType.ToString().ToLower().Contains("tax") && !item2.ChargeCode.Equals("FFWD") && item2.ChargeCode.StartsWith("X", StringComparison.OrdinalIgnoreCase) == false)
                                             {
                                                 passengerTotals.specialServices.total += Convert.ToInt32(item2.Amount);
                                                 //breakdown.passengerTotals.seats.total += Convert.ToInt32(item2.Amount);
@@ -503,11 +506,16 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                                             }
                                             else
                                             {
+                                                if(item2.ChargeCode.Equals("FFWD"))
+                                                {
+                                                    passengerTotals.fastForward.total = Convert.ToInt32(item2.Amount);
+                                                    TotalFastFFWD = passengerTotals.fastForward.total;
+                                                }
                                                 passengerTotals.specialServices.taxes += Convert.ToInt32(item2.Amount);
                                                 //breakdown.passengerTotals.seats.taxes += Convert.ToInt32(item2.Amount);
                                                 TotalBagtax = passengerTotals.specialServices.taxes;
                                             }
-                                            Totatamountmb = TotalMeal + TotalBag;
+                                            Totatamountmb = TotalMeal + TotalBag + TotalFastFFWD;
                                         }
                                     }
                                 }
