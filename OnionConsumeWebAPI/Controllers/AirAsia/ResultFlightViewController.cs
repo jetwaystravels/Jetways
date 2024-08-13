@@ -564,7 +564,7 @@ namespace OnionConsumeWebAPI.Controllers
                             int Inftcount = 0;
                             int Inftbasefare = 0;
 
-                            List<AAJourney> AAJourneyList = new List<AAJourney>();
+                            List<AAJourney> AAJourneyList = new List<AAJourney>();  
                             for (int i = 0; i < Journeyscount; i++)
                             {
                                 AAJourney AAJourneyobject = new AAJourney();
@@ -682,7 +682,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                             }
 
-
+                            int ServiceInfttax = 0;
                             var Passanger = JsonObjPassengers.data.passengers;
                             int passengercount = ((Newtonsoft.Json.Linq.JContainer)Passanger).Count;
                             List<AAPassengers> passkeyList = new List<AAPassengers>();
@@ -691,15 +691,16 @@ namespace OnionConsumeWebAPI.Controllers
                             foreach (var items in JsonObjPassengers.data.passengers)
                             {
                                 AAPassengers passkeytypeobject = new AAPassengers();
-                                int ServiceInfttax = 0;
+                                
                                 passkeytypeobject.passengerKey = items.Value.passengerKey;
                                 passkeytypeobject.passengerTypeCode = items.Value.passengerTypeCode;
                                 passkeyList.Add(passkeytypeobject);
                                 passengerkey12 = passkeytypeobject.passengerKey;
                                 //infant
 
-                                if (passkeytypeobject.passengerTypeCode != "CHD")
-                                {
+
+                               // if (passkeytypeobject.passengerTypeCode != "CHD")
+                              //  {
 
                                     if (JsonObjPassengers.data.passengers[passkeytypeobject.passengerKey].infant != null)
                                     {
@@ -744,7 +745,7 @@ namespace OnionConsumeWebAPI.Controllers
                                             //feeobject.ServicechargeInfant = servicechargeInfantList;
                                         }
                                     }
-                                }
+                               // }
 
                                 AirAasiaobjectInfantdata.inftcount = Inftcount;
                                 AirAasiaobjectInfantdata.inftbasefare = Inftbasefare;

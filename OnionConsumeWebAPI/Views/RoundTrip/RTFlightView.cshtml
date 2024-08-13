@@ -869,16 +869,36 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td>Cancellation Charges</td>
-                                                                <td>Airline Free </td>
-                                                                <td>Before Departure</td>
-                                                                <td>As per Airline Fare rule</td>
-                                                            </tr>
+                                                                @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("SG"))
+                                                                {
+                                                                    <td>3600 RS. </td>
+                                                                    <td>within 96 hrs from Departure</td>
+                                                                    <td>As per Airline Fare rule</td>
+                                                                }
+                                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("6E"))
+                                                                {
+                                                                    <td>3500 RS. </td>
+                                                                    <td>3 days upto 2 hrs prior from departure</td>
+                                                                    <td>As per Airline Fare rule</td>
+                                                                }
+                                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("QP"))
+                                                                {
+                                                                    <td>3100 Rs.</td>
+                                                                    <td>4 days & above</td>
+                                                                    <td>As per Airline Fare rule</td>
+                                                                }
 
-                                                            <tr>
-                                                                <td>Reschedule Charges </td>
-                                                                <td>Airline Free </td>
-                                                                <td>Before Departure</td>
-                                                                <td>As per Airline Fare rule</td>
+                                                                else
+                                                                {
+                                                                    <td>Airline Free </td>
+                                                                    <td>Before Departure</td>
+                                                                    <td>As per Airline Fare rule</td>
+                                                                }
+
+
+
+
+
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -897,8 +917,13 @@
                                                 <!-----Ftab4 End----->
                                                 <div id="Fcontent5" class="Ftab5" style="display:none;">
                                                     <div class="dst-top mb-3">Airline Fare Rule</div>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                                    <p>Phasellus tortor augue, lobortis eu mauris aliquam, </p>
+                                                    <p>Jetways Travels does not guarantee the accuracy of cancel reschedule fees.</p>
+                                                    <p> Airlines doesn't allow any additional baggage allowance for any infant added in the booking.</p>
+                                                    <p>Airlines cancel reschedule should be reconfirmed before requesting for a cancellation or amendment.</p>
+                                                    <p>
+                                                        Wherever we incur any liability for a cancellation fee or charge for any booking which you cancel, you agree to indemnify us for the amount of that fee or
+                                                        charge.
+                                                    </p>
                                                 </div>
 
                                                 <!-----Ftab5 End----->
@@ -1445,16 +1470,36 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td>Cancellation Charges</td>
-                                                                <td>Airline Free </td>
-                                                                <td>Before Departure</td>
-                                                                <td>As per Airline Fare rule</td>
-                                                            </tr>
+                                                                @if (Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.carrierCode.Equals("SG"))
+                                                                {
+                                                                    <td>3600 RS. </td>
+                                                                    <td>within 96 hrs from Departure</td>
+                                                                    <td>As per Airline Fare rule</td>
+                                                                }
+                                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.carrierCode.Equals("6E"))
+                                                                {
+                                                                    <td>3500 RS. </td>
+                                                                    <td>3 days upto 2 hrs prior from departure</td>
+                                                                    <td>As per Airline Fare rule</td>
+                                                                }
+                                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.carrierCode.Equals("QP"))
+                                                                {
+                                                                    <td>3100 Rs.</td>
+                                                                    <td>4 days & above</td>
+                                                                    <td>As per Airline Fare rule</td>
+                                                                }
 
-                                                            <tr>
-                                                                <td>Reschedule Charges </td>
-                                                                <td>Airline Free </td>
-                                                                <td>Before Departure</td>
-                                                                <td>As per Airline Fare rule</td>
+                                                                else
+                                                                {
+                                                                    <td>Airline Free </td>
+                                                                    <td>Before Departure</td>
+                                                                    <td>As per Airline Fare rule</td>
+                                                                }
+
+
+
+
+
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -1473,8 +1518,14 @@
                                                 <!-----Ftab4 End----->
                                                 <div id="Fcontent5RT" class="Ftab5RT" style="display:none;">
                                                     <div class="dst-top mb-3">Airline Fare Rule</div>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                                    <p>Phasellus tortor augue, lobortis eu mauris aliquam, </p>
+                                                    <p>Jetways Travels does not guarantee the accuracy of cancel reschedule fees.</p>
+                                                    <p> Airlines doesn't allow any additional baggage allowance for any infant added in the booking.</p>
+                                                    <p>Airlines cancel reschedule should be reconfirmed before requesting for a cancellation or amendment.</p>
+                                                    <p>
+                                                        Wherever we incur any liability for a cancellation fee or charge for any booking which you cancel, you agree to indemnify us for the amount of that fee or
+                                                        charge.
+                                                    </p>
+                                                 
                                                 </div>
                                             </div>
                                             <!-----Ftab5 End----->

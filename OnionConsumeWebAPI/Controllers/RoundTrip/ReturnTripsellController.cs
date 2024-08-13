@@ -1715,6 +1715,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     AirAsiaTripResponceobj.infttax = infttax * infantcount;
                                 }
                             }
+                            AirAsiaTripResponceobj.basefaretax += AirAsiaTripResponceobj.infttax;
                             #endregion
                             HttpContext.Session.SetString("keypassengerItanary", JsonConvert.SerializeObject(AirAsiaTripResponceobj));
                             //HttpContext.Session.SetString("keypassengerItanary", JsonConvert.SerializeObject(AirAsiaTripResponceobj));

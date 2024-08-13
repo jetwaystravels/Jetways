@@ -140,7 +140,14 @@
                     basefare = (peradtamount * adtcount) + (perchdtamount * chdcount) + (toatlinftbasefare);
 
                     basefaretax = @Model.passeengerlistRT[a].basefaretax;
-                    totaltax = @Model.passeengerlistRT[a].basefaretax;
+                    if (@Model.passeengerlistRT[a].journeys[0].Airlinename.ToLower()=="spicejet")
+                    {
+                        totaltax = @Model.passeengerlistRT[a].basefaretax + @Model.passeengerlistItanary.infttax;
+                    }
+                    else
+                    {
+                        totaltax = @Model.passeengerlistRT[a].basefaretax;
+                    }
 
 
                     if (a == 1)
