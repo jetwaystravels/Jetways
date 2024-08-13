@@ -2871,9 +2871,10 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                                         }
                                                         else
                                                         {
-                                                            InfantfareTotals.totalTax += 0;// Convert.ToInt32(item2.Amount);
+                                                            InfantfareTotals.totalTax += Convert.ToInt32(item2.Amount);
                                                         }
                                                     }
+                                                    InfantfareTotals.totalAmount = InfantfareTotals.totalAmount - InfantfareTotals.totalTax;
                                                     journeyBaseFareobj.Add(InfantfareTotals);
                                                     breakdown.journeyfareTotals = journeyBaseFareobj;
                                                 }
@@ -3060,8 +3061,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 string res = string.Empty;
                                 string RecordLocator = string.Empty;
                                 string _TicketRecordLocator = string.Empty;
-                                for (int i = 0; i <= 1; i++)
-                                {
+                                //for (int i = 0; i <= 1; i++)
+                                //{
 
 
 
@@ -3077,10 +3078,10 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     //GetAirTicket
 
                                     strAirTicket = _objAvail.GetTicketdata(_TicketRecordLocator, _testURL, newGuid.ToString(), _targetBranch, _userName, _password, Logfolder);
-                                    if (strAirTicket.Contains("Unable to ticket without pricing"))
-                                        continue;
+                                    //if (strAirTicket.Contains("Unable to ticket without pricing"))
+                                        //continue;
 
-                                }
+                                //}
                                 //IndigoBookingManager_.BookingCommitResponse _BookingCommitResponse = await objcommit.commit(token, contactList, passeengerlist, "OneWay");
                                 GDSResModel.PnrResponseDetails pnrResDetail = new GDSResModel.PnrResponseDetails();
                                 if (!string.IsNullOrEmpty(strResponse) && !string.IsNullOrEmpty(RecordLocator))

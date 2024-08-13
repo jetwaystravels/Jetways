@@ -39,6 +39,7 @@
                         int peradtamounsegment = 0;
                         int segmentcount = @Model.passeengerlist.journeys[0].segments.Count;
                         int perchdamounsegment = 0;
+                        int innfanttax = 0;
 
                     }
 
@@ -48,10 +49,16 @@
                         {
                             peradtamounsegment = @Model.passeengerlist.journeys[0].segments[j].fares[0].passengerFares[0].serviceCharges[0].amount;
                             peradtamount += peradtamounsegment;
+                            inftbasefare = Model.passeengerlistItanary.inftbasefare;
+                            innfanttax = @Model.passeengerlistItanary.inftbasefaretax;
+                           
+
                             if (@Model.passeengerlist.journeys[0].segments[j].fares[0].passengerFares.Count == 2)
                             {
                                 perchdamounsegment = @Model.passeengerlist.journeys[0].segments[j].fares[0].passengerFares[1].serviceCharges[0].amount;
                                 perchdtamount += perchdamounsegment;
+                                inftbasefare = Model.passeengerlistItanary.inftbasefare;
+                                innfanttax = @Model.passeengerlistItanary.inftbasefaretax;
                             }
                         }
 
@@ -91,6 +98,8 @@
                         else if (passengertypecount == "INFT")
                         {
                             infcount = infcount + 1;
+                           
+                            
 
                             // Do something for infant passengers
                         }
@@ -103,11 +112,15 @@
                     @{
                         if (infcount >0)
                         {
-                            // infcount = Model.passeengerlistItanary.inftcount;
-                            inftbasefare = Model.passeengerlistItanary.inftbasefare;
+                            toatlinftbasefare = infcount * inftbasefare;
+                            basefare = (peradtamount * adtcount) + (perchdtamount * chdcount) + (toatlinftbasefare);
                         }
-                        toatlinftbasefare = infcount * inftbasefare;
-                        basefare = (peradtamount * adtcount) + (perchdtamount * chdcount) + (toatlinftbasefare);
+                        else
+                        {
+                           
+                            basefare = (peradtamount * adtcount) + (perchdtamount * chdcount);
+                        }
+                        
 
                     }
                     <div class="text-15 fw-600">&#8377; @basefare  </div>
@@ -171,7 +184,8 @@
                     @{
                         if (infcount > 0)
                         {
-                            basefaretax = @Model.passeengerlist.basefaretax + @Model.passeengerlistItanary.inftbasefaretax;
+                            basefaretax = @Model.passeengerlist.basefaretax;
+                            basefaretax = basefaretax + (@infcount * innfanttax);
                             
                         }
                         else

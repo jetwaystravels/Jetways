@@ -3030,6 +3030,11 @@
                 <span aria-hidden="true">×</span>
             </button>
         </div>
+        <div class="row m-4">
+            <div class="col-12">
+                <div id="flightInfoRow"></div>
+            </div>
+        </div>
     </div>
 
     <!-- Overlay -->
@@ -3042,6 +3047,11 @@
             <button id="closeModalR">
                 <span aria-hidden="true">×</span>
             </button>
+        </div>
+        <div class="row m-4">
+            <div class="col-12">
+                <div id="flightInfoRowR"></div>
+            </div>
         </div>
     </div>
 
@@ -3316,6 +3326,22 @@
         .climg {
             margin-right: 10px;
         }
+
+        #flightInfoRow {
+            background-color: #fff;
+            border: 1px solid rgba(156, 170, 179, .28);
+            box-shadow: 0 0 9px 0 rgba(0, 0, 0, .1);
+            border-radius: 8px;
+            color:#000;
+        }
+
+        #flightInfoRowR {
+            background-color: #fff;
+            border: 1px solid rgba(156, 170, 179, .28);
+            box-shadow: 0 0 9px 0 rgba(0, 0, 0, .1);
+            border-radius: 8px;
+            color: #000;
+        }
     </style>
 
 
@@ -3481,6 +3507,75 @@
             // Open modal box
             $("#openModal").click(function () {
                 $("#modal, #overlay").fadeIn();
+                const carrierCode = document.getElementById('carierCodedata').textContent;
+                const identifier = document.getElementById('IdentifierData').textContent;
+                const departure = document.getElementById('departureData').textContent;
+                const origin = document.getElementById('originData').textContent;
+                const diff = document.getElementById('diffData').textContent;
+                const stop = document.getElementById('stopData').textContent;
+                const arrival = document.getElementById('arrivalData').textContent;
+                const destination = document.getElementById('destinationData').textContent;
+                const fareTotal = document.getElementById('fareTotalsumData').textContent;
+
+                let imageSrc;
+
+                if (carrierCode == '6E') {
+                    imageSrc = '../img/flight-logo-icon/6E.png';
+                } else if (carrierCode == 'SG') {
+                    imageSrc = '../img/flight-logo-icon/SG.png';
+                } else if (carrierCode == 'IX') {
+                    imageSrc = '../img/flight-logo-icon/AIX_X_Logo_Orange.png';
+                } else if (carrierCode == 'QP') {
+                    imageSrc = '../img/flight-logo-icon/akasa.png';
+                } else if (carrierCode == 'AI') {
+                    imageSrc = '../img/flight-logo-icon/airindia.png';
+                } else if (carrierCode == 'UK') {
+                    imageSrc = '../img/flight-logo-icon/vistara.png';
+                } else if (carrierCode == 'H1') {
+                    imageSrc = '../img/flight-logo-icon/hahnair.png';
+                } else {
+                    imageSrc = '';
+                }
+
+            
+               
+                const flightInfoHTML = `
+                         <div class="d-flex d-flex justify-content-between p-2">
+                 
+                        <div class="fare-round d-flex align-items-center">
+                                            <img class="size-L" src="${imageSrc}"  alt="image">
+                            <div class="text-16 ms-2">${carrierCode}-${identifier}</div>
+                        </div>
+                        <div class="fare-round ms-2">
+                                <div class="text-20">Departure</div>
+                            <div class="text-16">${departure}</div>
+                            <div class="text-16">${origin}</div>
+                        </div>
+                        <div class="fare-round">
+                                    <div class="col text-center mt-4">
+                                <div class="px-20 md:px-0 text-16">${diff}</div>
+                                <div class="flightLine">
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                                <div class="mt-1">${stop}</div>
+                            </div>
+                        </div>
+                        <div class="fare-round">
+                                  <div class="text-20">Arrival</div>
+                            <div class="lh-15 text-16">${arrival}<span class="d-none" id="arrivalDatadate"></span></div>
+                            <div class="text-16 lh-15">${destination}</div>
+                        </div>
+                                <div class="fare-round ms-2 p-4">
+                            <div class="text-20 fw-600">₹${fareTotal}</div>
+                        </div>
+                    </div>
+                         
+                    `;
+
+                // Insert the new row into the HTML
+                document.getElementById('flightInfoRow').innerHTML = flightInfoHTML;
+               
             });
 
             // Close modal box
@@ -3489,7 +3584,72 @@
             });
 
             $("#openModalR").click(function () {
-                $("#modalR, #overlayR").fadeIn();
+                $("#modalR, #overlayR").fadeIn(); 
+                const carrierCodeR = $('#carrierreturndataR').text();
+                const identifierR = $('#identifierreturndataR').text();
+                const departureR = $('#departurereturndata').text();
+                const originR = $('#originreturndata').text();
+                const diffR = $('#diffreturndata').text();
+                const stopR = $('#stopsreturndata').text();
+                const arrivalR = $('#arrivalreturndataR').text();
+                const destinationR = $('#destinationreturndata').text();
+                const fareTotalR = $('#faretotalsumreturndata').text();
+
+                var imageSrc;
+
+                if (carrierCodeR == '6E') {
+                    imageSrc = '../img/flight-logo-icon/6E.png';
+                } else if (carrierCodeR == 'SG') {
+                    imageSrc = '../img/flight-logo-icon/SG.png';
+                } else if (carrierCodeR == 'IX') {
+                    imageSrc = '../img/flight-logo-icon/AIX_X_Logo_Orange.png';
+                } else if (carrierCodeR == 'QP') {
+                    imageSrc = '../img/flight-logo-icon/akasa.png';
+                } else if (carrierCodeR == 'AI') {
+                    imageSrc = '../img/flight-logo-icon/airindia.png';
+                } else if (carrierCodeR == 'UK') {
+                    imageSrc = '../img/flight-logo-icon/vistara.png';
+                } else if (carrierCodeR == 'H1') {
+                    imageSrc = '../img/flight-logo-icon/hahnair.png';
+                } else {
+                    imageSrc = '';
+                }
+
+                const flightInfoHTMLR = `
+            <div class="d-flex d-flex justify-content-between p-2">
+                <div class="fare-round d-flex align-items-center">
+                    <img class="size-L" src="${imageSrc}" alt="image">
+                    <div class="text-16 ms-2">${carrierCodeR}-${identifierR}</div>
+                </div>
+                <div class="fare-round ms-2">
+                    <div class="text-20">Departure</div>
+                    <div class="text-16">${departureR}</div>
+                    <div class="text-16">${originR}</div>
+                </div>
+                <div class="fare-round">
+                    <div class="col text-center mt-4">
+                        <div class="px-20 md:px-0 text-16">${diffR}</div>
+                        <div class="flightLine">
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <div class="mt-1">${stopR}</div>
+                    </div>
+                </div>
+                <div class="fare-round">
+                    <div class="text-20">Arrival</div>
+                    <div class="lh-15 text-16">${arrivalR}<span class="d-none" id="arrivalDatadate"></span></div>
+                    <div class="text-16 lh-15">${destinationR}</div>
+                </div>
+                <div class="fare-round ms-2 p-4">
+                    <div class="text-20 fw-600">₹${fareTotalR}</div>
+                </div>
+            </div>
+        `;
+
+                // Insert the new row into the HTML
+                $('#flightInfoRowR').html(flightInfoHTMLR);
+           
             });
 
             // Close modal box
@@ -3726,10 +3886,21 @@
             // Now, use the image source to set the src attribute of the image
             $('.size-R').attr('src', imageSrc);
 
-            // Sum Of Total fare left and right
+            // Sum Of Total fare left and right in footer
+
             var totalL = localStorage.getItem('TotalfareL');
-            var TotalfareLR = parseInt(totalL) + parseInt(fareTotalsumR, 10);
-            $('#totalfaretotalround').text(TotalfareLR);
+            if (totalL == null) {
+                var fareTotalsumL = $('.fareTotalsum').val();
+                totalL = fareTotalsumL;
+
+                var TotalfareLR = parseInt(totalL) + parseInt(fareTotalsumR, 10);
+                $('#totalfaretotalround').text(TotalfareLR);
+            }
+            else {
+                var TotalfareLR = parseInt(totalL) + parseInt(fareTotalsumR, 10);
+                $('#totalfaretotalround').text(TotalfareLR);
+            }
+
 
         }
 

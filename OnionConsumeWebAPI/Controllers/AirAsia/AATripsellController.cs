@@ -435,13 +435,23 @@ namespace OnionConsumeWebAPI.Controllers
         }
         public async Task<IActionResult> PostUnitkey(List<string> unitKey, List<string> mealssrKey, List<string> BaggageSSrkey, List<string> wheelSsrkey)
         {
-            if (unitKey.Count > 0)
+            List<string> _unitkey = new List<string>();
+            for (int i = 0; i < unitKey.Count; i++)
             {
-                if (unitKey[0] == null)
-                {
-                    unitKey = new List<string>();
-                }
+                if (unitKey[i] == null)
+                    continue;
+                _unitkey.Add(unitKey[i].Trim());
             }
+            unitKey = new List<string>();
+            unitKey = _unitkey;
+
+            //if (unitKey.Count > 0)
+            //{
+            //    if (unitKey[0] == null)
+            //    {
+            //        unitKey = new List<string>();
+            //    }
+            //}
             if (mealssrKey.Count > 0)
             {
                 if (mealssrKey[0] == null)
@@ -653,9 +663,9 @@ namespace OnionConsumeWebAPI.Controllers
                                 string unitKey1 = string.Empty;
                                 string passengerkey = passeengerKeyList.passengers[j].passengerKey;
                                 string journeyKey = passeengerKeyList.journeys[0].journeyKey;
-                                string pas_unitKey = unitKey[seatid];
-                                //string[] unitKey2 = unitKey1.Split('_');
-                                //string pas_unitKey = unitKey2[1];
+                                string pas_unitKeyS = unitKey[seatid];
+                                string[] partsPas_unitKey = pas_unitKeyS.Split('_');
+                                string pas_unitKey = partsPas_unitKey[1];
                                 SeatAssignmentModel _SeatAssignmentModel = new SeatAssignmentModel();
                                 _SeatAssignmentModel.journeyKey = journeyKey;
                                 var jsonSeatAssignmentRequest = JsonConvert.SerializeObject(_SeatAssignmentModel, Formatting.Indented);

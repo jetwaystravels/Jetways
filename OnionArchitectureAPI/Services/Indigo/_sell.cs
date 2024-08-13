@@ -215,7 +215,7 @@ namespace OnionArchitectureAPI.Services.Indigo
                 SellRequest sellSsrRequest = new SellRequest();
                 SellRequestData sellreqd = new SellRequestData();
                 sellSsrRequest.Signature = Signature;
-                sellSsrRequest.ContractVersion = 420;
+                sellSsrRequest.ContractVersion = 456;
                 sellreqd.SellBy = SellBy.SSR;
                 sellreqd.SellBySpecified = true;
                 sellreqd.SellSSR = new SellSSR();
@@ -261,6 +261,7 @@ namespace OnionArchitectureAPI.Services.Indigo
                                         sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].SSRCode = "INFT";
                                         sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].PassengerNumberSpecified = true;
                                         sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].PassengerNumber = Convert.ToInt16(i1);
+                                        sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].SSRNumberSpecified = true;
                                         sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].SSRNumber = Convert.ToInt16(0);
                                         sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].DepartureStation = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].DepartureStation;
                                         sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[i1].ArrivalStation = _getPriceItineraryRS.Booking.Journeys[i].Segments[j].ArrivalStation;

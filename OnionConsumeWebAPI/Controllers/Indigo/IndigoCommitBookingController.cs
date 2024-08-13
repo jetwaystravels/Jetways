@@ -482,9 +482,11 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                                             }
                                             else
                                             {
-                                                InfantfareTotals.totalTax += 0;// Convert.ToInt32(item2.Amount);
+                                                InfantfareTotals.totalTax += Convert.ToInt32(item2.Amount);
                                             }
                                         }
+                                        InfantfareTotals.totalAmount = InfantfareTotals.totalAmount - InfantfareTotals.totalTax;
+
                                         journeyBaseFareobj.Add(InfantfareTotals);
                                         breakdown.journeyfareTotals = journeyBaseFareobj;
                                     }

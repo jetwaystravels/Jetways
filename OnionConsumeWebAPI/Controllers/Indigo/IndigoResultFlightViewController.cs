@@ -463,6 +463,7 @@ namespace OnionConsumeWebAPI.Controllers
                                 }
 
                             }
+                            AirAsiaTripResponceobj.inftbasefare = AirAsiaTripResponceobj.inftbasefare - infttax;
                             AirAsiaTripResponceobj.infttax = infttax * infantcount;
                         }
                     }

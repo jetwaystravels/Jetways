@@ -132,27 +132,27 @@
 <script type="text/javascript">
     /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
     $(document).ready(function () {
-        $("#seattab1").addClass('active');
+        $("#seatTab1").addClass('active');
         $("#tabshow2").hide();
         $("#tabnew2").hide();
         $("#popbtnB").hide();
         $("#popbtnA").show();
-        $("#seattab1").click(function () {
+        $("#seatTab1").click(function () {
             $("#tabshow1").show();
             $("#tabnew1").show();
             $("#tabnew2").hide();
             $("#popbtnB").hide();
             $("#popbtnA").show();
             $("#tabshow2").hide();
-            $("#seattab1").addClass('active');
-            $("#seattab2").removeClass('active');
+            $("#seatTab1").addClass('active');
+            $("#seatTab2").removeClass('active');
 
         });
 
-        $("#seattab2").click(function () {
+        $("#seatTab2").click(function () {
             $("#tabshow2").css("display", "block");
-            $("#seattab2").addClass('active');
-            $("#seattab1").removeClass('active');
+            $("#seatTab2").addClass('active');
+            $("#seatTab1").removeClass('active');
             $("#popbtnA").hide();
             $("#tabshow1").hide();
             $("#tabnew1").hide();
@@ -300,7 +300,16 @@
         });
 
         $("#Continuebtn").click(function () {
-            var unitKey = JSON.parse(localStorage.getItem("selectedIds"));
+           
+            var seatdata = JSON.parse(localStorage.getItem("selectedIds"));
+            var unitKey1 = JSON.parse(localStorage.getItem("selectedIds1"));
+            var unitKey2 = JSON.parse(localStorage.getItem("selectedIds2"));
+            var unitKey;
+            if (unitKey2 && unitKey2.length > 0) {
+                unitKey = unitKey1.concat(unitKey2);
+            } else {
+                unitKey = unitKey1;
+            }
             // let mealcode1 = JSON.parse(localStorage.getItem("MealssrKeyCount"));
             // let mealcode2 = JSON.parse(localStorage.getItem("MealssrKeyCount2"));
             // var ssrKey = mealcode1 + "," + mealcode2;
@@ -405,7 +414,7 @@
                                         {
                                             <div class="d-flex">
                                                 <div>
-                                                    <button type="submit" id="" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
+                                                    <button type="submit" id="cancelButton1" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
                                                 </div>
                                                 <div>
 
@@ -421,17 +430,14 @@
                                                 @if (i == 1)
                                                 {
                                                     <div class="d-flex">
-                                                        <div>
-                                                            <button type="submit" id="" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
-                                                        </div>
-
                                                         <div id="popbtnA">
 
-
+                                                            <button type="submit" id="cancelButton2" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
                                                             <button type="submit" id="btnfocus" class="btn  btn-primary">Continue</button>
 
                                                         </div>
                                                         <div id="popbtnB" style="display:none;">
+                                                            <button type="submit" id="cancelButton3" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
                                                             <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
 
                                                         </div>
@@ -497,12 +503,12 @@
                                     <li class="nav-item d-flex">
                                         @if (i == 0)
                                         {
-                                            <div id="seattab1" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
+                                            <div id="seatTab1" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
 
                                         }
                                         else
                                         {
-                                            <div id="seattab2" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
+                                            <div id="seatTab2" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
                                         }
                                     </li>
 
