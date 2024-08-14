@@ -393,6 +393,8 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                             var JsonObjPassengers = JsonConvert.DeserializeObject<dynamic>(_responsePassengers);
                             var TotalAmount = JsonObjPassengers.data.breakdown.journeys[journeyKey].totalAmount;
                             var TotalTax = JsonObjPassengers.data.breakdown.journeys[journeyKey].totalTax;
+                            var infanttotal= JsonObjPassengers.data.breakdown.passengerTotals.infant.total;
+                            var infanttax = JsonObjPassengers.data.breakdown.passengerTotals.infant.taxes;
                             int Journeyscount = JsonObjPassengers.data.journeys.Count;
                             int Inftcount = 0;
                             int Inftbasefare = 0;
@@ -402,7 +404,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                             {
                                 AAJourney AAJourneyobject = new AAJourney();
 
-
+                                
                                 AAJourneyobject.flightType = JsonObjPassengers.data.journeys[i].flightType;
                                 AAJourneyobject.stops = JsonObjPassengers.data.journeys[i].stops;
                                 AAJourneyobject.journeyKey = JsonObjPassengers.data.journeys[i].journeyKey;
@@ -570,7 +572,8 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                                 }
 
                                 AirAsiaTripResponceobject.inftcount = Inftcount;
-                                AirAsiaTripResponceobject.inftbasefare = Inftbasefare;
+                                AirAsiaTripResponceobject.inftbasefare = infanttotal;
+                                AirAsiaTripResponceobject.inftbasefaretax = infanttax;
 
                                 AirAsiaTripResponceobject.journeys = AAJourneyList;
                                 AirAsiaTripResponceobject.passengers = passkeyList;

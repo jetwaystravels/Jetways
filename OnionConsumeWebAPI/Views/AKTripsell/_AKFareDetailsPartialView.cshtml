@@ -34,6 +34,7 @@
                         int peradtamount = 0;
                         int perchdtamount = 0;
                         int inftbasefare = 0;
+                        int infttax = 0;
                         int toatlinftbasefare = 0;
                         int totalBaseFareamount = 0;
                         int basefaretax = 0;
@@ -103,7 +104,7 @@
                         {
                             <div class="text-14">Child ( @chdcount X &#8377;@perchdtamount)</div>
                         }
-                        if (inftbasefare != 0)
+                        if (infcount >0)
                         {
                             <div class="text-14">Infant ( @infcount X &#8377;@inftbasefare) </div>
                         }
@@ -134,10 +135,21 @@
                 </div>
                 <div class="col-auto">
                     @{
-                        basefaretax = @Model.AkPassenger.basefaretax;
+                        if(infcount>0)
+                        {
+                            basefaretax = @Model.AkPassenger.basefaretax + Model.AkpasseengerItanary.inftbasefaretax;
+                           
+                        }
+                        else
+                        {
+                            basefaretax = @Model.AkPassenger.basefaretax;
+                            
+                        }
+                       
+                        
                     }
 
-                    <div class="text-15 fw-600">&#8377;@Model.AkPassenger.basefaretax</div>
+                    <div class="text-15 fw-600">&#8377;@basefaretax</div>
                 </div>
             </div>
 

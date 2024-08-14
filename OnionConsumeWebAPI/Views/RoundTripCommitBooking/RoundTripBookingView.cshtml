@@ -869,6 +869,32 @@
                                         <tbody>
                                             @for (int i2 = 0; i2 < Model.AirlinePNR[a].passengers.Count; i2++)
                                             {
+                                                string[] parts = @Model.AirlinePNR[a].passengers[i2].passengerKey.Split('@');
+                                                if (parts.Length > 1)
+                                                {
+                                                    if (a == 0)
+                                                    {
+                                                        string[] splitname = parts[0].Split('^');
+                                                        if (splitname.Length > 1)
+                                                        {
+                                                            if (splitname[1].ToLower() == "indigo")
+                                                            {
+                                                                Model.AirlinePNR[a].passengers[i2].passengerKey = splitname[0];
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        string[] splitname = parts[1].Split('^');
+                                                        if (splitname.Length > 1)
+                                                        {
+                                                            if (splitname[1].ToLower() == "indigo")
+                                                            {
+                                                                Model.AirlinePNR[a].passengers[i2].passengerKey = splitname[0];
+                                                            }
+                                                        }
+                                                    }
+                                                }
                                                 @for (int i3 = 0; i3 < @Model.AirlinePNR[a].journeys[0].segments.Count; i3++)
                                                 {
                                                     string barcodeimageUrl = string.Empty;
@@ -899,6 +925,7 @@
                                                         <td>@Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin - @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination </td>
                                                         <td>@Model.AirlinePNR[a].journeys[0].segments[i3].identifier.carrierCode - @Model.AirlinePNR[a].journeys[0].segments[i3].identifier.identifier</td>
                                                         @{
+                                                            
                                                             string hashdata = @Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination;
 
                                                             if (htseat != null)

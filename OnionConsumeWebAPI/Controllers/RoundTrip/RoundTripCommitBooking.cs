@@ -2882,10 +2882,14 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                                 {
                                                     foreach (var item2 in item1.ServiceCharges)
                                                     {
-                                                        if ((!item2.ChargeCode.Equals("SEAT") || !item2.ChargeCode.Equals("INFT")) && !item2.ChargeType.ToString().ToLower().Contains("tax"))
+                                                        if ((!item2.ChargeCode.Equals("SEAT") || !item2.ChargeCode.Equals("INFT")) && !item2.ChargeType.ToString().ToLower().Contains("tax") && item2.ChargeCode.StartsWith("X", StringComparison.OrdinalIgnoreCase) == false)
                                                         {
                                                             passengerTotals.specialServices.total += Convert.ToInt32(item2.Amount);
                                                             //breakdown.passengerTotals.seats.total += Convert.ToInt32(item2.Amount);
+                                                        }
+                                                        else if (item2.ChargeCode.StartsWith("X", StringComparison.OrdinalIgnoreCase) == true)
+                                                        {
+                                                            passengerTotals.baggage.total += Convert.ToInt32(item2.Amount);
                                                         }
                                                         else
                                                         {
