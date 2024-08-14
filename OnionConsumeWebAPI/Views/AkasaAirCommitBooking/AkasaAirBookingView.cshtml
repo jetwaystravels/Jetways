@@ -19,30 +19,47 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3/dist/JsBarcode.all.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script>
-    <style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-        #scissors {
-            height: 43px; /* image height */
-            width: 90%;
-            margin: auto auto;
-            background-image: url('http://i.stack.imgur.com/cXciH.png');
-            background-repeat: no-repeat;
-            background-position: right;
-            position: relative;
-            overflow: hidden;
+
+    <style>
+        .ticketdwn img {
+            cursor: pointer;
+        }
+    </style>
+
+
+    <script type="text/javascript">
+        window.jsPDF = window.jspdf.jsPDF;
+        var docPDF = new jsPDF();
+
+        function downloadPDF() {
+
+            var elementHTML = document.querySelector("#pdfdwonloadAkasa");
+            //var images = elementHTML.querySelectorAll('img');
+            //images.forEach(img => img.style.display = 'none');
+            var imageToHide = document.querySelector("#downicnIdAkasa");
+            if (imageToHide) {
+                imageToHide.style.visibility = 'hidden';
+            }
+            docPDF.html(elementHTML, {
+                callback: function (docPDF) {
+                    docPDF.save("Jetways_FlightTicket" + '.pdf');
+
+                    if (imageToHide) {
+                        imageToHide.style.visibility = '';  // Restore the specific image
+                    }
+                },
+                x: 12,
+                y: 15,
+                width: 160,
+                windowWidth: 820
+            });
         }
 
-            #scissors:after {
-                content: "";
-                position: relative;
-                top: 50%;
-                display: block;
-                border-top: 1px dashed #000;
-                margin-top: 0px;
-            }
-    </style>
+
+    </script>
 </head>
 <body>
     <!---New Tikec design- Start----->
@@ -52,11 +69,18 @@
             Hashtable htseat = Model.AirlinePNR[0].Seatdata;
             Hashtable htmeal = Model.AirlinePNR[0].Mealdata;
             Hashtable htbag = Model.AirlinePNR[0].Bagdata;
-            <div class="container">
+            <div class="container" id="pdfdwonloadAkasa">
 
                 <div class="flight-tckt-main">
+                    <div class="d-flex justify-content-end ticketdwn" type="button" onclick="downloadPDF()">
+                        <img src="~/img/dwicon.png" style="width:40px;" id="downicnIdAkasa">
+                    </div>
                     <div class="top">
-                        <label><img src="~/img/logo/logo.png" alt="brand-logo"></label>
+                        <label>
+                            <a asp-controller="FlightSearchIndex" asp-action="Index">
+                                <img src="~/img/logo/logo.png" alt="brand-logo">
+                            </a>
+                        </label>
                         <label class="fr">
                             <h4>E-Ticket </h4>
                             Jetways Travel Booking <strong>@Model.AirlinePNR[0].bookingKey</strong> <br> PNR. <span style="color: #EF0000;font-size: 16px;font-weight: 600;">@Model.AirlinePNR[0].recordLocator</span>
@@ -426,58 +450,7 @@
 
 </body>
 </html>
-<script type="text/javascript">
 
-    //JsBarcode("#barcode", "1234", {
-    //format: "pharmacode",
-    //lineColor: "#0aa",
-    //width: 4,
-    //height: 40,
-    //displayValue: false
-    //});
-
-    JsBarcode("#barcode", "Vinay", {
-        width: 1,
-        height: 30,
-        displayValue: false
-
-    });
-
-    //-----PDF-Filegenrate-Code-----------
-    //var testDivElement = document.getElementById('someHtml');
-
-    //function savePDF() {
-    // var imgData;
-    //html2canvas($("#someHtml"), {
-    //useCORS: true,
-    //onrendered: function (canvas) {
-    // imgData = canvas.toDataURL('image/png');
-    // var doc = new jsPDF('p', 'pt', 'a4');
-    // doc.addImage(imgData, 'PNG', 10, 10);
-    //doc.save('sample-file.pdf');
-    //window.open(imgData);
-    //}
-
-    //});
-    //};
-
-
-
-    function printDiv(divName) {
-
-        var printContents = document.getElementById(divName).innerHTML;
-
-        var originalContents = document.body.innerHTML;
-
-        document.body.innerHTML = printContents;
-
-        window.print();
-
-        document.body.innerHTML = originalContents;
-
-    }
-
-</script>
 
 
 

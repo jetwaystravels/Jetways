@@ -72,7 +72,6 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
             // HttpContext.Session.SetString("FlightDetail", JsonConvert.SerializeObject(vmobj));
             return View(vmobj);
         }
-
         public IActionResult PostReturnAATripsellView(int uniqueId, int uniqueIdR)
         {
             string Leftshowpopupdata = HttpContext.Session.GetString("LeftReturnViewFlightView");
@@ -89,55 +88,159 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
             return View(vmobject);
 
         }
-
         [HttpPost]
-        public IActionResult RTFlightView(List<int> selectedIds)
+        public IActionResult FlightView0111(string sortOrderName, List<string> FilterIdAirLine, List<int> FilterId)
         {
-            if (selectedIds.Count > 0 && selectedIds.Count >= 0)
+            ViewModel viewModelobject = new ViewModel();
+            string OnewayFlightData = HttpContext.Session.GetString("OneWayFlightView");
+            List<SimpleAvailibilityaAddResponce> OnewaydeserializedObjects = null;
+            OnewaydeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(OnewayFlightData);
+            ViewBag.NameSortParam = sortOrderName == "name_desc" ? "name_asc" : "name_desc";
+            ViewBag.PriceSortParam = sortOrderName == "price_desc" ? "price_asc" : "price_desc";
+            ViewBag.DepartSortParam = sortOrderName == "deprt_desc" ? "deprt_asc" : "deprt_desc";
+            ViewBag.arriveSortParam = sortOrderName == "arrive_desc" ? "arrive_asc" : "arrive_desc";
+            ViewBag.durationSortParam = sortOrderName == "duration_desc" ? "duration_asc" : "duration_desc";
+            switch (sortOrderName)
+            {
+                case "name_desc":
+                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderByDescending(f => f.Airline.ToString()).ToList();
+                    break;
+                case "name_asc":
+                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderBy(f => f.Airline.ToString()).ToList();
+                    break;
+                case "price_desc":
+                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderByDescending(p => p.fareTotalsum).ToList();
+                    break;
+                case "price_asc":
+                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderBy(p => p.fareTotalsum).ToList();
+                    break;
+                case "deprt_desc":
+                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderByDescending(d => d.designator.departure).ToList();
+                    break;
+                case "deprt_asc":
+                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderBy(d => d.designator.departure).ToList();
+                    break;
+                case "arrive_desc":
+                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderByDescending(d => d.designator.ArrivalTime).ToList();
+                    break;
+                case "arrive_asc":
+                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderBy(d => d.designator.ArrivalTime).ToList();
+                    break;
+                case "duration_desc":
+                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderByDescending(d => d.designator.formatTime).ToList();
+                    break;
+                case "duration_asc":
+                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderBy(d => d.designator.formatTime).ToList();
+                    break;
+                default:
+                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderBy(p => p.fareTotalsum).ToList();
+                    break;
+
+            }
+            if (FilterId != null && FilterId.Count > 0)
+            {
+                foreach (int value in FilterId)
+                {
+                    switch (value)
+                    {
+                        case 0:
+
+                            OnewaydeserializedObjects = OnewaydeserializedObjects.Where(x => FilterId.Contains(x.stops)).ToList();
+                            break;
+                        case 1:
+
+                            OnewaydeserializedObjects = OnewaydeserializedObjects.Where(x => FilterId.Contains(x.stops)).ToList();
+                            break;
+                        case 2:
+
+                            OnewaydeserializedObjects = OnewaydeserializedObjects.Where(x => FilterId.Contains(x.stops)).ToList();
+                            break;
+                        default:
+                            OnewaydeserializedObjects = OnewaydeserializedObjects.Where(x => FilterId.Contains(x.stops)).ToList();
+                            break;
+                    }
+                }
+
+            }
+            else if (FilterIdAirLine.Count > 0 && FilterIdAirLine.Count >= 0)
+            {
+                var FilterAirLineData = OnewaydeserializedObjects.Where(x => FilterIdAirLine.Contains(x.Airline.ToString())).ToList();
+                viewModelobject.SimpleAvailibilityaAddResponcelist = FilterAirLineData;
+                return PartialView("_FlightResultsSortingPartialView", viewModelobject);
+            }
+            viewModelobject.SimpleAvailibilityaAddResponcelist = OnewaydeserializedObjects;
+            return PartialView("_FlightResultsSortingPartialView", viewModelobject);
+        }
+        [HttpPost]
+        public IActionResult RTFlightView(List<int> selectedIds, List<string> RTFilterIdAirLine)
+        {
+
+            string LeftshowpopupdataStops = HttpContext.Session.GetString("LeftReturnViewFlightView");
+            string RightshowpopupdataStops = HttpContext.Session.GetString("RightReturnFlightView");
+
+            ViewModel vmobj = new ViewModel();
+            List<SimpleAvailibilityaAddResponce> RightdeserializedStops = null;
+            List<SimpleAvailibilityaAddResponce> LeftdeserializedStops = null;
+
+            if (!string.IsNullOrEmpty(LeftshowpopupdataStops))
+            {
+                LeftdeserializedStops = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(LeftshowpopupdataStops);
+            }
+
+            if (!string.IsNullOrEmpty(RightshowpopupdataStops))
+            {
+                RightdeserializedStops = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(RightshowpopupdataStops);
+            }
+
+            List<SimpleAvailibilityaAddResponce> FilterStopData = new List<SimpleAvailibilityaAddResponce>();
+            List<SimpleAvailibilityaAddResponce> FilterStopDataRight = new List<SimpleAvailibilityaAddResponce>();
+
+            if (selectedIds != null && selectedIds.Count > 0)
+            {
+                FilterStopData = LeftdeserializedStops?.Where(x => selectedIds.Contains(x.stops)).ToList();
+                FilterStopDataRight = RightdeserializedStops?.Where(x => selectedIds.Contains(x.stops)).ToList();
+
+                // Apply filtering based on selected stop counts
+                foreach (int value in selectedIds)
+                {
+                    switch (value)
+                    {
+                        case 0:
+                            FilterStopData = FilterStopData?.Where(x => selectedIds.Contains(x.stops)).ToList();
+                            FilterStopDataRight = FilterStopDataRight?.Where(x => selectedIds.Contains(x.stops)).ToList();
+                            break;
+                        case 1:
+                            FilterStopData = FilterStopData?.Where(x => selectedIds.Contains(x.stops)).ToList();
+                            FilterStopDataRight = FilterStopDataRight?.Where(x => selectedIds.Contains(x.stops)).ToList();
+                            break;
+                        case 2:
+                            FilterStopData = FilterStopData?.Where(x => selectedIds.Contains(x.stops)).ToList();
+                            FilterStopDataRight = FilterStopDataRight?.Where(x => selectedIds.Contains(x.stops)).ToList();
+                            break;
+                        default:
+                            FilterStopData = FilterStopData?.Where(x => selectedIds.Contains(x.stops)).ToList();
+                            FilterStopDataRight = FilterStopDataRight?.Where(x => selectedIds.Contains(x.stops)).ToList();
+                            break;
+                    }
+                }
+            }
+            else if (RTFilterIdAirLine.Count > 0 && RTFilterIdAirLine.Count >= 0)
             {
 
-                string LeftshowpopupdataStops = HttpContext.Session.GetString("LeftReturnViewFlightView");
-                string RightshowpopupdataStops = HttpContext.Session.GetString("RightReturnFlightView");
+                FilterStopData = LeftdeserializedStops?.Where(x => RTFilterIdAirLine.Contains(x.Airline.ToString())).ToList();
+                FilterStopDataRight = RightdeserializedStops?.Where(x => RTFilterIdAirLine.Contains(x.Airline.ToString())).ToList();
 
-                ViewModel vmobj = new ViewModel();
-                List<SimpleAvailibilityaAddResponce> RightdeserializedStops = null;
-                List<SimpleAvailibilityaAddResponce> LeftdeserializedStops = null;
-
-
-                LeftdeserializedStops = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(LeftshowpopupdataStops);
-                RightdeserializedStops = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(RightshowpopupdataStops);
-
-
-                var FilterStopData = LeftdeserializedStops.Where(x => selectedIds.Contains(x.stops)).ToList();
-
-                var FilterStopDataRight = RightdeserializedStops.Where(x => selectedIds.Contains(x.stops)).ToList();
-
-                //var FilterStopData = LeftdeserializedStops.Where(x=>x.stops== selectedIds).ToList();
-                //var FilterStopDataRight = RightdeserializedStops.Where(x => x.stops == selectedIds).ToList();
 
                 vmobj.SimpleAvailibilityaAddResponcelist = FilterStopData;
                 vmobj.SimpleAvailibilityaAddResponcelistR = FilterStopDataRight;
-                return View(vmobj);
+                return PartialView("_RTFlightResultsSortingPartialView", vmobj);
             }
-            else
-            {
-                ViewModel vmobj = new ViewModel();
-                string Leftshowpopupdata = HttpContext.Session.GetString("LeftReturnViewFlightView");
-                string Rightshowpopupdata = HttpContext.Session.GetString("RightReturnFlightView");
 
-                List<SimpleAvailibilityaAddResponce> LeftdeserializedObjects = null;
-                List<SimpleAvailibilityaAddResponce> RightdeserializedObjects = null;
+            vmobj.SimpleAvailibilityaAddResponcelist = FilterStopData ?? new List<SimpleAvailibilityaAddResponce>();
+            vmobj.SimpleAvailibilityaAddResponcelistR = FilterStopDataRight ?? new List<SimpleAvailibilityaAddResponce>();
 
-                LeftdeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(Leftshowpopupdata);
-                RightdeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(Rightshowpopupdata);
+            return PartialView("_RTFlightResultsSortingPartialView", vmobj);
 
-                vmobj.SimpleAvailibilityaAddResponcelist = LeftdeserializedObjects;
-                vmobj.SimpleAvailibilityaAddResponcelistR = RightdeserializedObjects;
-
-                // HttpContext.Session.SetString("FlightDetail", JsonConvert.SerializeObject(vmobj));
-                return View(vmobj);
-
-            }
         }
 
 

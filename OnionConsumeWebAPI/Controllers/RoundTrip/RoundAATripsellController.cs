@@ -952,6 +952,13 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         _updateContact obj = new _updateContact(httpContextAccessorInstance);
                         IndigoBookingManager_.UpdatePassengersResponse updatePaxResp = await obj.UpdatePassengers(Signature, passengerdetails);
                         string Str2 = JsonConvert.SerializeObject(updatePaxResp);
+
+                        #region GetState
+                        //_sell objsell = new _sell();
+                        //IndigoBookingManager_.GetBookingFromStateResponse _GetBookingFromStateRS1 = await objsell.GetBookingFromState(Signature, "");
+
+                        //string strdata = JsonConvert.SerializeObject(_GetBookingFromStateRS1);
+                        #endregion
                     }
                     if (dataArray[i1].ToLower() == "vistara" || dataArray[i1].ToLower() == "airindia")
                     {

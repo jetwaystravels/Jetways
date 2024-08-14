@@ -168,6 +168,15 @@ namespace OnionConsumeWebAPI.Controllers
                 IndigoBookingManager_.UpdatePassengersResponse updatePaxResp = await obj.UpdatePassengers(Signature, passengerdetails, "OneWay");
                 string Str2 = JsonConvert.SerializeObject(updatePaxResp);
             }
+
+            #region GetState
+            //_sell objsell = new _sell();
+            //IndigoBookingManager_.GetBookingFromStateResponse _GetBookingFromStateRS1 = await objsell.GetBookingFromState(Signature, "");
+
+            //string strdata = JsonConvert.SerializeObject(_GetBookingFromStateRS1);
+            #endregion
+
+
             string passenger = HttpContext.Session.GetString("SGkeypassenger"); //From Itenary Response
             string passengerInfant = HttpContext.Session.GetString("SGkeypassenger");
             string Seatmap = HttpContext.Session.GetString("Seatmap");

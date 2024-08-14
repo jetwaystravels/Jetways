@@ -121,7 +121,7 @@ namespace OnionArchitectureAPI.Services.Indigo
                     _paxes.Adults_.Add(travellers_[i]);
                 else if (travellers_[i].passengertypecode == "CHD")
                     _paxes.Childs_.Add(travellers_[i]);
-                else if (travellers_[i].passengertypecode == "INFT")
+                else if (travellers_[i].passengertypecode == "INFT" || travellers_[i].passengertypecode == "INF")
                     _paxes.Infant_.Add(travellers_[i]);
 
             }

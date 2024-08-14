@@ -428,7 +428,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                     {
                         createPNRReq.Append("<BookingTraveler xmlns=\"http://www.travelport.com/schema/common_v52_0\" Key=\"" + count + "\"  TravelerType=\"CNN\" Age=\"10\" DOB=\"2014-07-25\" >");
                     }
-                    else if (passengerdetails[i].passengertypecode == "INF")
+                    else if (passengerdetails[i].passengertypecode == "INF" || passengerdetails[i].passengertypecode == "INFT")
                     {
                         createPNRReq.Append("<BookingTraveler xmlns=\"http://www.travelport.com/schema/common_v52_0\" Key=\"" + count + "\" TravelerType=\"INF\" Age=\"1\" DOB=\"2023-08-25\" >");
                     }
@@ -444,11 +444,17 @@ namespace OnionArchitectureAPI.Services.Travelport
                     {
                         createPNRReq.Append("<BookingTravelerName  First=\"" + passengerdetails[i].first.ToUpper() + "\" Last=\"" + passengerdetails[i].last.ToUpper() + "\" Prefix=\"" + passengerdetails[i].title.ToUpper().Replace(".", "") + "\" />");
                     }
-                    if (passengerdetails[i].passengertypecode != "INF")
+                    if (passengerdetails[i].passengertypecode == "ADT" || passengerdetails[i].passengertypecode == "CHD" || passengerdetails[i].passengertypecode == "CNN")
                     {
                         createPNRReq.Append("<PhoneNumber Number=\"" + passengerdetails[i].mobile + "\"  />");
                         createPNRReq.Append("<Email EmailID=\"" + passengerdetails[i].Email + "\" />");
                     }
+                    else
+                    {
+                        createPNRReq.Append("<PhoneNumber Number=\"" + passengerdetails[0].mobile + "\"  />");
+                        createPNRReq.Append("<Email EmailID=\"" + passengerdetails[0].Email + "\" />");
+                    }
+
                     //if (!String.IsNullOrEmpty(paxDetail.FrequentFlierNumber) && paxDetail.FrequentFlierNumber.Length > 5)
                     //{
                     //if (segment_.Bonds[0].Legs[0].AirlineName.Equals("UK"))

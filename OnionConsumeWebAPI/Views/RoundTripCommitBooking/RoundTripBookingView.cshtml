@@ -18,32 +18,51 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3/dist/JsBarcode.all.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script>
-    <style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-        #scissors {
-            height: 43px; /* image height */
-            width: 90%;
-            margin: auto auto;
-            background-image: url('http://i.stack.imgur.com/cXciH.png');
-            background-repeat: no-repeat;
-            background-position: right;
-            position: relative;
-            overflow: hidden;
+
+    <style>
+        .ticketdwn img {
+            cursor: pointer;
+        }
+    </style>
+
+
+    <script type="text/javascript">
+        window.jsPDF = window.jspdf.jsPDF;
+        var docPDF = new jsPDF();
+
+        function downloadPDF() {
+
+            var elementHTML = document.querySelector("#pdfdwonloadRT");
+            //var images = elementHTML.querySelectorAll('img');
+            //images.forEach(img => img.style.display = 'none');
+            var imageToHide = document.querySelector(".downicnIdRT");
+            if (imageToHide) {
+                imageToHide.style.visibility = 'hidden';
+            }
+            docPDF.html(elementHTML, {
+                callback: function (docPDF) {
+                    docPDF.save("Jetways_FlightTicket" + '.pdf');
+
+                    if (imageToHide) {
+                        imageToHide.style.visibility = '';  // Restore the specific image
+                    }
+                },
+                x: 12,
+                y: 15,
+                width: 160,
+                windowWidth: 820
+            });
         }
 
-            #scissors:after {
-                content: "";
-                position: relative;
-                top: 50%;
-                display: block;
-                border-top: 1px dashed #000;
-                margin-top: 0px;
-            }
-    </style>
+
+    </script>
+
+
 </head>
-<body>
+<body id="pdfdwonloadRT">
 
     <form asp-action="PostTicketBooking" asp-controller="AirLinesTicket" method="post">
         @{
@@ -57,8 +76,15 @@
                     Hashtable htbag = Model.AirlinePNR[a].Bagdata;
                     <div class="container">
                         <div class="flight-tckt-main">
+                            <div class="d-flex justify-content-end ticketdwn" type="button" onclick="downloadPDF()">
+                                <img src="~/img/dwicon.png" style="width:40px;" class="downicnIdRT">
+                            </div>
                             <div class="top">
-                                <label><img src="~/img/logo/logo.png" alt="brand-logo"></label>
+                                <label>
+                                    <a asp-controller="FlightSearchIndex" asp-action="Index">
+                                        <img src="~/img/logo/logo.png" alt="brand-logo">
+                                    </a>
+                                </label>
                                 <label class="fr">
                                     <h4>E-Ticket </h4>
                                     Jetways Travel Booking <strong>@Model.AirlinePNR[a].bookingKey</strong> <br> PNR. <span style="color: #EF0000;font-size: 16px;font-weight: 600;">@Model.AirlinePNR[a].recordLocator</span>
@@ -869,28 +895,31 @@
                                         <tbody>
                                             @for (int i2 = 0; i2 < Model.AirlinePNR[a].passengers.Count; i2++)
                                             {
-                                                string[] parts = @Model.AirlinePNR[a].passengers[i2].passengerKey.Split('@');
-                                                if (parts.Length > 1)
+                                                if (@Model.AirlinePNR[a].passengers[i2].passengerKey != null)
                                                 {
-                                                    if (a == 0)
+                                                    string[] parts = @Model.AirlinePNR[a].passengers[i2].passengerKey.Split('@');
+                                                    if (parts.Length > 1)
                                                     {
-                                                        string[] splitname = parts[0].Split('^');
-                                                        if (splitname.Length > 1)
+                                                        if (a == 0)
                                                         {
-                                                            if (splitname[1].ToLower() == "indigo")
+                                                            string[] splitname = parts[0].Split('^');
+                                                            if (splitname.Length > 1)
                                                             {
-                                                                Model.AirlinePNR[a].passengers[i2].passengerKey = splitname[0];
+                                                                if (splitname[1].ToLower() == "indigo")
+                                                                {
+                                                                    Model.AirlinePNR[a].passengers[i2].passengerKey = splitname[0];
+                                                                }
                                                             }
                                                         }
-                                                    }
-                                                    else
-                                                    {
-                                                        string[] splitname = parts[1].Split('^');
-                                                        if (splitname.Length > 1)
+                                                        else
                                                         {
-                                                            if (splitname[1].ToLower() == "indigo")
+                                                            string[] splitname = parts[1].Split('^');
+                                                            if (splitname.Length > 1)
                                                             {
-                                                                Model.AirlinePNR[a].passengers[i2].passengerKey = splitname[0];
+                                                                if (splitname[1].ToLower() == "indigo")
+                                                                {
+                                                                    Model.AirlinePNR[a].passengers[i2].passengerKey = splitname[0];
+                                                                }
                                                             }
                                                         }
                                                     }
