@@ -8,8 +8,9 @@
 <link rel="stylesheet" href="~/css/vendors.css">
 <link rel="stylesheet" href="~/css/main.css" />
 <link rel="stylesheet" href="~/css/style.css">
-<script src="~/js/custom.js/SGCustom.js"></script>
-<script src="~/js/custom.js/customnew.js"></script>
+<script src="~/js/custom.js/akasaoneway.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <style>
     .MWidth {
@@ -413,7 +414,7 @@
                                                                 {
                                                                     <li class="seat-li free-seat tooltip">
                                                                         <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.AkPassenger.passengers[0].passengerKey" />
-                                                                        <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@arrayofseat[1] _@data _@l _@arrayofseat[2] " id="unitKey" />
+                                                                        <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@arrayofseat[1] _@data _@l _@arrayofseat[2]" id="unitKey" />
                                                                         <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
                                                                     </li>
                                                                 }
@@ -421,7 +422,7 @@
                                                                 {
                                                                     <li class="seat-li lowcomfort tooltip">
                                                                         <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.AkPassenger.passengers[0].passengerKey" />
-                                                                        <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@arrayofseat[1] _@data _@l _@arrayofseat[2] " id="unitKey" />
+                                                                        <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@arrayofseat[1] _@data _@l _@arrayofseat[2]" id="unitKey" />
                                                                         <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
                                                                     </li>
                                                                 }
@@ -429,7 +430,7 @@
                                                                 {
                                                                     <li class="seat-li midcomfort tooltip">
                                                                         <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.AkPassenger.passengers[0].passengerKey" />
-                                                                        <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@arrayofseat[1] _@data _@l _@arrayofseat[2] " id="unitKey" />
+                                                                        <input type="checkbox" class="mycheck2" name="unitKey" value="@feeamountF1 _@arrayofseat[1] _@data _@l _@arrayofseat[2]" id="unitKey" />
                                                                         <span class="tooltiptext">@data <span>&#8377; @feeamountF1</span></span>
                                                                     </li>
                                                                 }
@@ -508,10 +509,8 @@
      
     </div>
 </div>
-<script src="~/js/custom.js/customnew.js"></script>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/jquery/dist/jquery.js"></script>
-<script src="~/js/custom.js/akasaoneway.js"></script>
+
+
 <style>
     .pax-border {
         border-top: #ddd 1px solid;
@@ -695,6 +694,7 @@
             //$('input[name="unitKey"]').prop('checked', false);
             updatetotal();
             localStorage.removeItem("selectedIds1");
+            updateCombinedTotal();
         });
         $('#cancelButton2').click(function () {
 
@@ -711,6 +711,7 @@
             //$('input[name="unitKey"]').prop('checked', false);
             updatetotal();
             localStorage.removeItem("selectedIds1");
+            updateCombinedTotal();
         });
 
         //*********************** */
@@ -783,6 +784,7 @@
             //$('input[name="unitKey"]').prop('checked', false);
             updatetotal();
             localStorage.removeItem("selectedIds2");
+            updateCombinedTotal();
 
         });
 
