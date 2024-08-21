@@ -17,9 +17,9 @@ namespace DomainLayer.Model
         {
             List<Citynamelist> cityDataList = new List<Citynamelist>();
 
-           var cityDataCollection = new[]
-            {
-                //new { citycode = "AYJ", cityname = "Ayodhya", airportname = "Maharishi Valmiki International Airport "},
+            var cityDataCollection = new[]
+             {
+                new { citycode = "AYJ", cityname = "Ayodhya", airportname = "Maharishi Valmiki International Airport "},
                 new { citycode = "DEL", cityname = "New Delhi", airportname = "Indira Gandhi International Airport " },
             new { citycode = "BOM", cityname = "Mumbai", airportname = "Chhatrapati Shivaji Maharaj International Airport " },
             new { citycode = "BLR", cityname = "Bangalore", airportname = "Kempegowda International Airport " },
