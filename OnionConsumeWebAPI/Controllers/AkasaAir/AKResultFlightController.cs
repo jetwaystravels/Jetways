@@ -763,8 +763,8 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                         List<Unit> Akcompartmentsunitlist = new List<Unit>();
                         AkSeatmapobj.decksindigo = new List<Decks>();
                         Decks AkDecksobj = null;
-                        string strnewText = Regex.Match(_AkresponseSeatmap, @"data""[\s\S]*?fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup""[\s\S]*?}]}\s",
-                            RegexOptions.IgnoreCase | RegexOptions.Multiline).Value.ToString();
+                        //string strnewText = Regex.Match(_AkresponseSeatmap, @"data""[\s\S]*?fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup""[\s\S]*?}]}\s",
+                            //RegexOptions.IgnoreCase | RegexOptions.Multiline).Value.ToString();
                         string compartmenttext = Regex.Match(mitem.Value, "compartments\":(?<data>[\\s\\S]*?),\"seatmapReference", RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups["data"].Value.ToString();
                         foreach (Match itemn in Regex.Matches(compartmenttext, @"(?:availableunits|availableUnits)[\s\S]*?""designator"":""(?<t>[^\""""]+)""[\s\S]*?]}", RegexOptions.IgnoreCase | RegexOptions.Multiline))
                         {

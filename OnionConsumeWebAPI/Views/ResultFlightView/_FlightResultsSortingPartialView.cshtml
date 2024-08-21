@@ -137,6 +137,30 @@
 
                                         }
                                     }
+                                    if (SegmentDatacount == 3)
+                                    {
+                                        @for (var x = 0; x < SegmentDatacount; x++)
+                                        {
+                                            if (x == 0)
+                                            {
+
+                                                <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier <b>,</b></div>
+
+                                            }
+                                            else if (x == 1)
+                                            {
+
+                                                <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier <b>,</b></div>
+
+                                            }
+                                            else
+                                            {
+                                                <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier</div>
+
+                                            }
+
+                                        }
+                                    }
                                 }
                             </div>
 
@@ -186,28 +210,48 @@
                                         <div class="d-flex justify-center align-items-center">
                                             <div>@stops Stop via &nbsp;</div>
 
-
-                                            @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs.Count == 2)
+                                            @if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Vistara || Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.AirIndia || Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Hehnair)
                                             {
-                                                <div class="mt-1"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination,@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[1].designator.destination </div>
+                                                @if(Model.SimpleAvailibilityaAddResponcelist[j].segments.Count == 3)
+                                                {
+                                                    <div class="mt-1"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination,@Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination </div>
 
+                                                }
+                                                else if(Model.SimpleAvailibilityaAddResponcelist[j].segments.Count == 2)
+                                                {
+                                                    <div class="mt-1"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination </div>
+
+                                                }
+                                                else
+                                                {
+                                                    
+
+                                                }
                                             }
                                             else
                                             {
-                                                <div class="mt-1"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination  <b>,</b></div>
+                                                @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs.Count == 2)
+                                                {
+                                                    <div class="mt-1"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination,@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[1].designator.destination </div>
 
-                                            }
+                                                }
+                                                else
+                                                {
+                                                    <div class="mt-1"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination  <b>,</b></div>
+
+                                                }
 
 
 
-                                            @if (Model.SimpleAvailibilityaAddResponcelist[j].segments.Count > 1 && Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs.Count == 2)
-                                            {
-                                                <div class="mt-1"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination</div>
-                                            }
-                                            else
-                                            {
-                                                // <div class="mt-1">2 Stop via  @Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination  <b>,</b></div>
+                                                @if (Model.SimpleAvailibilityaAddResponcelist[j].segments.Count > 1 && Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs.Count == 2)
+                                                {
+                                                    <div class="mt-1"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination</div>
+                                                }
+                                                else
+                                                {
+                                                    // <div class="mt-1">2 Stop via  @Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination  <b>,</b></div>
 
+                                                }
                                             }
                                         </div>
 
@@ -334,7 +378,7 @@
                                     Faretype = "Flexi";
                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SP"))
                                     Faretype = "Special Fares";
-                                
+
                             }
                             else
                             {
@@ -593,8 +637,8 @@
 
                                 }
                                 //**********/
-                                
-                               else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.AkasaAir && Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "EC")
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.AkasaAir && Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "EC")
                                 {
                                     <td>7 Kg</td>
                                     <td><strong>15 kg (1 piece)</strong></td>
@@ -626,38 +670,38 @@
 
 
 
-                               else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "AV")
-                                    {
-                                        <td>7 Kg</td>
-                                        <td><strong>15 kg (1 piece)</strong></td>
-                                        <td>
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "AV")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td>
 
-                                            <div>
-                                                500 (4 days & above) 
-                                            </div>
-                                        </td>
-                                        <td>
+                                        <div>
+                                            500 (4 days & above)
+                                        </div>
+                                    </td>
+                                    <td>
 
-                                            <div>
-                                                2850 (4 days & above)
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div>
-                                                Free seats
-                                            </div>
+                                        <div>
+                                            2850 (4 days & above)
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
 
-                                        </td>
-                                        <td>
-                                            <div>
-                                                Complimentary meal
-                                            </div>
-                                        </td>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
 
-                                    }
+                                }
 
 
-                                
+
                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "HF")
                                 {
                                     <td>7 Kg</td>
@@ -781,16 +825,16 @@
                                                 <input type="submit" value="Book Now" class="button small-btn">
                                             </form>
                                         }
-                                        else if(@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("UK") || @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("AI") || @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("H1"))
+                                        else if (@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("UK") || @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("AI") || @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("H1"))
                                         {
                                             string data = "";
                                             try
                                             {
                                                 data = JsonConvert.SerializeObject(@Model.SimpleAvailibilityaAddResponcelist[j]);
                                             }
-                                            catch(Exception ex)
+                                            catch (Exception ex)
                                             {
-                                                
+
                                             }
 
                                             <form asp-action="GDSTripsell" asp-controller="GDSResultFlightView">
@@ -911,7 +955,7 @@
                                                         }
                                                         else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("H1"))
                                                         {
-                                                             CompanyName = "Hahnair";
+                                                            CompanyName = "Hahnair";
                                                         }
                                                         else
                                                         {

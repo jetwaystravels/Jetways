@@ -655,7 +655,10 @@ namespace OnionArchitectureAPI.Services.Travelport
                 }
                 XmlDocument pricingSolution = new XmlDocument();
                 NewPricingSolutionValue = new StringBuilder();
-                pricingSolution.LoadXml(AirPricingSolutinForPNR);
+                if (!string.IsNullOrEmpty(AirPricingSolutinForPNR))
+                {
+                    pricingSolution.LoadXml(AirPricingSolutinForPNR);
+                }
                 //pricingSolution.LoadXml(AirPricingSolutinForPNR.Replace("C11", "CNN"));
                 bool InitialNodeStatus = true;
                 int paxCount = 0;

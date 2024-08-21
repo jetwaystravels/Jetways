@@ -145,7 +145,7 @@ namespace OnionConsumeWebAPI.Controllers
                     Info info = new Info();
                     info.bookedDate = JsonObjPNRBooking.data.info.bookedDate;
                     returnTicketBooking.info = info;
-                    if (BarcodePNR.Length < 7)
+                    if (BarcodePNR != null && BarcodePNR.Length < 7)
                     {
                         BarcodePNR = BarcodePNR.PadRight(7);
                     }

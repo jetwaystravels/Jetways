@@ -274,13 +274,14 @@
                     // aircraft
                     if (item.segments[i].identifier.carrierCode.Equals("UK") || item.segments[i].identifier.carrierCode.Equals("AI") || item.segments[i].identifier.carrierCode.Equals("H1"))
                     {
+                        
                     }
                     else
                     {
-                        if (@Model.SeatmaplistRT != null && @Model.SeatmaplistRT.Count > 0)
+                        if (@Model.SeatmaplistRT != null && @Model.SeatmaplistRT.Count > 0 && Model.SeatmaplistRT[k]!=null)
                             AirCraftname = @Model.SeatmaplistRT[k].datalist[i].seatMap.name;
                     }
-                    if (i == 1)
+                    if (i >= 1)
                     {
                         formattedTime = string.Empty;
                         arrivalDate = item.segments[i - 1].designator.arrival;

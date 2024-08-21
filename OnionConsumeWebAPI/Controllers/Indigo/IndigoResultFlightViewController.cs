@@ -496,7 +496,7 @@ namespace OnionConsumeWebAPI.Controllers
                         List<legSsrs> SSRAvailabiltyLegssrlist = new List<legSsrs>();
 
                         SSRAvailabiltyResponceModel SSRAvailabiltyResponceobj = new SSRAvailabiltyResponceModel();
-                        int PaxssrListcount = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[0].AvailablePaxSSRList.Length;
+                        //int PaxssrListcount = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[0].AvailablePaxSSRList.Length;
                         try
                         {
                             legSsrs SSRAvailabiltyLegssrobj = new legSsrs();

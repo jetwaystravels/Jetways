@@ -1569,7 +1569,20 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         string departureTime = getAvailRes[i].Bonds[0].Legs[0].DepartureTime;// Regex.Match(journeykey, @Designatorobj.origin + @"[\s\S]*?~(?<STD>[\s\S]*?)~").Groups["STD"].Value.Trim();
                         string arrivalTime = getAvailRes[i].Bonds[0].Legs[0].ArrivalTime;// ; Regex.Match(journeykey, @Designatorobj.destination + @"[\s\S]*?~(?<STA>[\s\S]*?)~").Groups["STA"].Value.Trim();
                         Designatorobj.departure = Convert.ToDateTime(getAvailRes[i].Bonds[0].Legs[0].DepartureTime); // DateTime.ParseExact(departureTime, "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture); //Convert.ToDateTime(departureTime);
-                        Designatorobj.arrival = Convert.ToDateTime(getAvailRes[i].Bonds[0].Legs[0].ArrivalTime); // DateTime.ParseExact(arrivalTime, "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture); //Convert.ToDateTime(arrivalTime);
+
+                        if (getAvailRes[i].Bonds[0].Legs.Count == 3)
+                        {
+                            Designatorobj.arrival = Convert.ToDateTime(getAvailRes[i].Bonds[0].Legs[2].ArrivalTime);
+                        }
+                        else if (getAvailRes[i].Bonds[0].Legs.Count == 2)
+                        {
+                            Designatorobj.arrival = Convert.ToDateTime(getAvailRes[i].Bonds[0].Legs[1].ArrivalTime);
+                        }
+                        else
+                        {
+                            Designatorobj.arrival = Convert.ToDateTime(getAvailRes[i].Bonds[0].Legs[0].ArrivalTime);
+                        }
+                        //Designatorobj.arrival = Convert.ToDateTime(getAvailRes[i].Bonds[0].Legs[0].ArrivalTime); // DateTime.ParseExact(arrivalTime, "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture); //Convert.ToDateTime(arrivalTime);
                         Designatorobj.Arrival = "";// Regex.Match(journeykey, @Designatorobj.destination + @"[\s\S]*?~(?<STA>[\s\S]*?)~").Groups["STA"].Value.Trim();
                         //DateTime IarrivalDateTime = DateTime.ParseExact(Designatorobj.arrival, "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture);
                         //Designatorobj.ArrivalDate = IarrivalDateTime.ToString("yyyy-MM-dd");
@@ -1587,18 +1600,27 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         origin = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
                         Designatorobj.origin = origin;
                         string querydestination = string.Empty;
-                        if (getAvailRes[i].Bonds[0].Legs.Count > 1)
+                        if (getAvailRes[i].Bonds[0].Legs.Count == 3)
                         {
-                            querydestination = getAvailRes[i].Bonds[0].Legs[1].Destination;
+                            querydestination = getAvailRes[i].Bonds[0].Legs[2].Destination;
                             destination1 = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
                             Designatorobj.destination = destination1;
-
                         }
                         else
                         {
-                            querydestination = getAvailRes[i].Bonds[0].Legs[0].Destination;
-                            destination1 = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
-                            Designatorobj.destination = destination1;
+                            if (getAvailRes[i].Bonds[0].Legs.Count > 1)
+                            {
+                                querydestination = getAvailRes[i].Bonds[0].Legs[1].Destination;
+                                destination1 = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
+                                Designatorobj.destination = destination1;
+
+                            }
+                            else
+                            {
+                                querydestination = getAvailRes[i].Bonds[0].Legs[0].Destination;
+                                destination1 = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
+                                Designatorobj.destination = destination1;
+                            }
                         }
 
                         var segmentscount = getAvailRes[i].Bonds[0].Legs.Count;
@@ -1881,7 +1903,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         else if (_SimpleAvailibilityaAddResponceobj.segments[0].identifier.carrierCode.Equals("AI"))
                             _SimpleAvailibilityaAddResponceobj.Airline = Airlines.AirIndia;
                         else if (_SimpleAvailibilityaAddResponceobj.segments[0].identifier.carrierCode.Equals("H1"))
-                            _SimpleAvailibilityaAddResponceobj.Airline = Airlines.Hehnair; 
+                            _SimpleAvailibilityaAddResponceobj.Airline = Airlines.Hehnair;
                         uniqueidx++;
                         SpiceJetAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
                         SimpleAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
@@ -3165,7 +3187,19 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             string departureTime = getAvailRes[i].Bonds[0].Legs[0].DepartureTime;// Regex.Match(journeykey, @Designatorobj.origin + @"[\s\S]*?~(?<STD>[\s\S]*?)~").Groups["STD"].Value.Trim();
                             string arrivalTime = getAvailRes[i].Bonds[0].Legs[0].ArrivalTime;// ; Regex.Match(journeykey, @Designatorobj.destination + @"[\s\S]*?~(?<STA>[\s\S]*?)~").Groups["STA"].Value.Trim();
                             Designatorobj.departure = Convert.ToDateTime(getAvailRes[i].Bonds[0].Legs[0].DepartureTime); // DateTime.ParseExact(departureTime, "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture); //Convert.ToDateTime(departureTime);
-                            Designatorobj.arrival = Convert.ToDateTime(getAvailRes[i].Bonds[0].Legs[0].ArrivalTime); // DateTime.ParseExact(arrivalTime, "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture); //Convert.ToDateTime(arrivalTime);
+                            if (getAvailRes[i].Bonds[0].Legs.Count == 3)
+                            {
+                                Designatorobj.arrival = Convert.ToDateTime(getAvailRes[i].Bonds[0].Legs[2].ArrivalTime);
+                            }
+                            else if (getAvailRes[i].Bonds[0].Legs.Count == 2)
+                            {
+                                Designatorobj.arrival = Convert.ToDateTime(getAvailRes[i].Bonds[0].Legs[1].ArrivalTime);
+                            }
+                            else
+                            {
+                                Designatorobj.arrival = Convert.ToDateTime(getAvailRes[i].Bonds[0].Legs[0].ArrivalTime);
+                            }
+                            //Designatorobj.arrival = Convert.ToDateTime(getAvailRes[i].Bonds[0].Legs[0].ArrivalTime); // DateTime.ParseExact(arrivalTime, "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture); //Convert.ToDateTime(arrivalTime);
                             Designatorobj.Arrival = "";// Regex.Match(journeykey, @Designatorobj.destination + @"[\s\S]*?~(?<STA>[\s\S]*?)~").Groups["STA"].Value.Trim();
                                                        //DateTime IarrivalDateTime = DateTime.ParseExact(Designatorobj.arrival, "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture);
                                                        //Designatorobj.ArrivalDate = IarrivalDateTime.ToString("yyyy-MM-dd");
@@ -3183,18 +3217,27 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             origin = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
                             Designatorobj.origin = origin;
                             string querydestination = string.Empty;
-                            if (getAvailRes[i].Bonds[0].Legs.Count > 1)
+                            if (getAvailRes[i].Bonds[0].Legs.Count == 3)
                             {
-                                querydestination = getAvailRes[i].Bonds[0].Legs[1].Destination;
+                                querydestination = getAvailRes[i].Bonds[0].Legs[2].Destination;
                                 destination1 = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
                                 Designatorobj.destination = destination1;
-
                             }
                             else
                             {
-                                querydestination = getAvailRes[i].Bonds[0].Legs[0].Destination;
-                                destination1 = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
-                                Designatorobj.destination = destination1;
+                                if (getAvailRes[i].Bonds[0].Legs.Count > 1)
+                                {
+                                    querydestination = getAvailRes[i].Bonds[0].Legs[1].Destination;
+                                    destination1 = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
+                                    Designatorobj.destination = destination1;
+
+                                }
+                                else
+                                {
+                                    querydestination = getAvailRes[i].Bonds[0].Legs[0].Destination;
+                                    destination1 = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
+                                    Designatorobj.destination = destination1;
+                                }
                             }
 
                             var segmentscount = getAvailRes[i].Bonds[0].Legs.Count;
@@ -3368,11 +3411,11 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             _SimpleAvailibilityaAddResponceobjR.bookingdate = Convert.ToDateTime(bookingdate1).ToString("dddd, dd MMM yyyy");
                             //if (_IndigoAvailabilityResponseobj == null)
                             //{
-                               // _SimpleAvailibilityaAddResponceobjR.bookingdate = bookingdate1.ToString(); ;
+                            // _SimpleAvailibilityaAddResponceobjR.bookingdate = bookingdate1.ToString(); ;
                             //}
                             //else
                             //{
-                                //_SimpleAvailibilityaAddResponceobjR.bookingdate = Convert.ToDateTime(_IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].DepartureDate).ToString("dddd, dd MMM yyyy");
+                            //_SimpleAvailibilityaAddResponceobjR.bookingdate = Convert.ToDateTime(_IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0][0].DepartureDate).ToString("dddd, dd MMM yyyy");
                             //}
                             _SimpleAvailibilityaAddResponceobjR.fareTotalsum = Math.Round(fareTotalsum, 0);
                             _SimpleAvailibilityaAddResponceobjR.journeyKey = journeyKey;

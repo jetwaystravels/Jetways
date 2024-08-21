@@ -134,7 +134,8 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                             returnTicketBooking.airLines = "Indigo";
                             returnTicketBooking.recordLocator = _getBookingResponse.Booking.RecordLocator;
                             BarcodePNR = _getBookingResponse.Booking.RecordLocator;
-                            if (BarcodePNR.Length < 7)
+                            if (BarcodePNR != null && 
+                                BarcodePNR.Length < 7)
                             {
                                 BarcodePNR = BarcodePNR.PadRight(7);
                             }

@@ -1103,36 +1103,39 @@
                                         </tbody>
 
                                     </table>
-                                    <div class="Flight-Inclusion mt-15">
-                                        <h3>GST Details</h3>
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col" class="col-one">Company Number </th>
-                                                    <th scope="col" class="col-one">GST NUmber</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
+                                    @if (Model.AirlinePNR[a].customerNumber != null)
+                                    {
+                                        <div class="Flight-Inclusion mt-15">
+                                            <h3>GST Details</h3>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" class="col-one">Company Number </th>
+                                                        <th scope="col" class="col-one">GST NUmber</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
 
-                                                    @{
-                                                        if (@Model.AirlinePNR[a].customerNumber != null)
-                                                        {
-
-
-                                                            <td>@Model.AirlinePNR[a].companyName</td>
-
-
-                                                            <td>@Model.AirlinePNR[a].customerNumber</td>
+                                                        @{
+                                                            if (@Model.AirlinePNR[a].customerNumber != null)
+                                                            {
 
 
+                                                                <td>@Model.AirlinePNR[a].companyName</td>
+
+
+                                                                <td>@Model.AirlinePNR[a].customerNumber</td>
+
+
+                                                            }
                                                         }
-                                                    }
 
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    }
                                     <div class="Flight-Inclusion mt-15">
                                         <h3>Fare Details</h3>
                                         <table class="table table-bordered">
