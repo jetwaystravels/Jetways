@@ -2080,8 +2080,6 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         {
                             getAirPriceRes = _objP.ParseAirFareRsp(res, "OneWay", availibiltyRQGDS);
                         }
-
-                        HttpContext.Session.SetString("Total", getAirPriceRes[0].Fare.TotalFareWithOutMarkUp.ToString());
                         //_sell objsell = new _sell();
                         //IndigoBookingManager_.SellResponse _getSellRS = null;// await objsell.Sell(Signature, journeyKey, fareKey, "", "", TotalCount, adultcount, childcount, infantcount, "OneWay");
                         string str = JsonConvert.SerializeObject(getAirPriceRes);
@@ -2092,6 +2090,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         //str3 = JsonConvert.SerializeObject(_GetBookingFromStateRS1);
                         if (getAirPriceRes != null && getAirPriceRes.Count > 0)
                         {
+                            HttpContext.Session.SetString("Total", getAirPriceRes[0].Fare.TotalFareWithOutMarkUp.ToString());
                             AirAsiaTripResponceobj = new AirAsiaTripResponceModel();
                             #region Itenary segment and legs
                             int journeyscount = getAirPriceRes.Count;// _GetBookingFromStateRS1.BookingData.Journeys.Length;
@@ -2329,7 +2328,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
                                             if (AAJourneyList[0].segments[i].fares[k].passengerFares[l].passengerType == "INF")
                                             {
-                                                Inftcount = availibiltyRQGDS.passengercount.infantcount;
+                                                Inftcount = availibiltyRQGDS.infantcount;
                                                 for (int i2 = 0; i2 < AAJourneyList[0].segments[i].fares[k].passengerFares[l].serviceCharges.Count; i2++)
                                                 {
 
@@ -2393,6 +2392,11 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             #endregion
 
                         }
+                        //else
+                        //{ // in case gDS website not responding
+                        //    Passengerdata = new List<string>();
+                        //    MainPassengerdata.Add(JsonConvert.SerializeObject(Passengerdata));
+                        //}
                     }
                     #region SeatMap 
 
@@ -2454,8 +2458,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     List<Unit> compartmentsunitlist = new List<Unit>();
                                     Seatmapobj.decksindigo = new List<Decks>();
                                     Decks Decksobj = null;
-                                    string strnewText = Regex.Match(_responseSeatmap, @"data""[\s\S]*?fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup""[\s\S]*?}]}\s",
-                                        RegexOptions.IgnoreCase | RegexOptions.Multiline).Value.ToString();
+                                    //string strnewText = Regex.Match(_responseSeatmap, @"data""[\s\S]*?fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup""[\s\S]*?}]}\s",
+                                        //RegexOptions.IgnoreCase | RegexOptions.Multiline).Value.ToString();
                                     string compartmenttext = Regex.Match(mitem.Value, "compartments\":(?<data>[\\s\\S]*?),\"seatmapReference", RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups["data"].Value.ToString();
                                     foreach (Match itemn in Regex.Matches(compartmenttext, @"availableunits[\s\S]*?""designator"":""(?<t>[^\""""]+)""[\s\S]*?]}]", RegexOptions.IgnoreCase | RegexOptions.Multiline))
                                     {
@@ -2725,8 +2729,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                         List<Unit> compartmentsunitlist = new List<Unit>();
                                         Seatmapobj.decksindigo = new List<Decks>();
                                         Decks Decksobj = null;
-                                        string strnewText = Regex.Match(_responseSeatmap, @"data""[\s\S]*?fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup""[\s\S]*?}]}\s",
-                                            RegexOptions.IgnoreCase | RegexOptions.Multiline).Value.ToString();
+                                        //string strnewText = Regex.Match(_responseSeatmap, @"data""[\s\S]*?fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup""[\s\S]*?}]}\s",
+                                            //RegexOptions.IgnoreCase | RegexOptions.Multiline).Value.ToString();
                                         string compartmenttext = Regex.Match(mitem.Value, "compartments\":(?<data>[\\s\\S]*?),\"seatmapReference", RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups["data"].Value.ToString();
                                         foreach (Match itemn in Regex.Matches(compartmenttext, @"availableunits[\s\S]*?""designator"":""(?<t>[^\""""]+)""[\s\S]*?(?:]}]|]})", RegexOptions.IgnoreCase | RegexOptions.Multiline))
                                         {
@@ -3765,7 +3769,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 SSRAvailabiltyLegssrlist = new List<legSsrs>();
 
                                 SSRAvailabiltyResponceobj = new SSRAvailabiltyResponceModel();
-                                int PaxssrListcount = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[0].AvailablePaxSSRList.Length;
+                                //int PaxssrListcount = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[0].AvailablePaxSSRList.Length;
                                 try
                                 {
                                     legSsrs SSRAvailabiltyLegssrobj = new legSsrs();
@@ -3905,7 +3909,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             SpicejetMealImageList.GetAllmeal(htSSr);
                             SSRAvailabiltyLegssrlist = new List<legSsrs>();
                             SSRAvailabiltyResponceobj = new SSRAvailabiltyResponceModel();
-                            int PaxssrListcount = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[0].AvailablePaxSSRList.Length;
+                            //int PaxssrListcount = _res.SSRAvailabilityForBookingResponse.SSRSegmentList[0].AvailablePaxSSRList.Length;
                             try
                             {
                                 legSsrs SSRAvailabiltyLegssrobj = new legSsrs();

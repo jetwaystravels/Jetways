@@ -152,11 +152,23 @@ namespace OnionConsumeWebAPI.Controllers
                 _ContactModel.updateContactsRequestData.BookingContactList = new BookingContact[1];
                 _ContactModel.updateContactsRequestData.BookingContactList[0] = new BookingContact();
                 _ContactModel.updateContactsRequestData.BookingContactList[0].EmailAddress = obj.emailAddress;
-                if (obj.customerNumber != "")
+                if (obj.customerNumber != null && obj.customerNumber != "")
                 {
                     _ContactModel.updateContactsRequestData.BookingContactList[0].TypeCode = "G";
                     _ContactModel.updateContactsRequestData.BookingContactList[0].CompanyName = obj.companyName;
                     _ContactModel.updateContactsRequestData.BookingContactList[0].CustomerNumber = obj.customerNumber; //"22AAAAA0000A1Z5"; //GSTNumber Re_ Assistance required for SG API Integration\GST Logs.zip\GST Logs
+                }
+                else
+                {
+                    _ContactModel.updateContactsRequestData.BookingContactList[0].TypeCode = "P";
+                    _ContactModel.updateContactsRequestData.BookingContactList[0].CountryCode = "IN";
+                    _ContactModel.updateContactsRequestData.BookingContactList[0].HomePhone = obj.number;
+                    BookingName[] Name = new BookingName[1];
+                    Name[0] = new BookingName();
+                    Name[0].FirstName = obj.first;
+                    Name[0].LastName = obj.last;
+                    Name[0].Title = "MR";
+                    _ContactModel.updateContactsRequestData.BookingContactList[0].Names = Name;
                 }
                 SpiceJetApiController objSpiceJet = new SpiceJetApiController();
                 UpdateContactsResponse responseAddContact = await objSpiceJet.GetUpdateContactsAsync(_ContactModel);

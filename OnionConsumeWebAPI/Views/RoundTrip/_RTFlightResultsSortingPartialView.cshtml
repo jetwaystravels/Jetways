@@ -151,15 +151,58 @@
                                     }
                                     if (stops == 2)
                                     {
-                                        for (int l = 0; l < @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs.Count; l++)
+                                        @if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Vistara || Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.AirIndia || Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Hehnair)
                                         {
-                                            if (l == 0)
+                                            @if (Model.SimpleAvailibilityaAddResponcelist[j].segments.Count == 3)
                                             {
-                                                <div class="mt-1 r-stop">2 Stop Via  @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[l].designator.destination  <b>,</b></div>
+                                                <div class="mt-1 r-stop">@stops Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination,@Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination </div>
+
                                             }
-                                            else if (l == 1)
+                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments.Count == 2)
                                             {
-                                                <span class="r-stop"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[l].designator.destination</span>
+                                                <div class="r-stop">@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination </div>
+
+                                            }
+                                            else
+                                            {
+
+
+                                            }
+                                        }
+                                        else
+                                        {
+                                            // for (int l = 0; l < @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs.Count; l++)
+                                            // {
+                                            //     if (l == 0)
+                                            //     {
+                                            //         <div class="mt-1 r-stop">2 Stop Via  @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[l].designator.destination  <b>,</b></div>
+                                            //     }
+                                            //     else if (l == 1)
+                                            //     {
+                                            //         <span class="r-stop"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[l].designator.destination</span>
+                                            //     }
+                                            // }
+                                            @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs.Count == 2)
+                                            {
+                                                <div class="mt-1 r-stop"> @stops Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination,@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[1].designator.destination </div>
+
+                                            }
+                                            else
+                                            {
+                                                <div class="r-stop"> @stops Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination  <b>,</b></div>
+
+                                            }
+
+
+
+                                            @if (Model.SimpleAvailibilityaAddResponcelist[j].segments.Count > 1 && Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs.Count == 2)
+                                            {
+                                                <div class="r-stop"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination</div>
+                                            }
+                                            else
+                                            {
+                                                // <div class="mt-1">2 Stop via  @Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination  <b>,</b></div>
+
                                             }
                                         }
                                     }
@@ -501,6 +544,30 @@
 
                                                         }
                                                     }
+                                                    if (SegmentDatacount == 3)
+                                                    {
+                                                        @for (var x = 0; x < SegmentDatacount; x++)
+                                                        {
+                                                            if (x == 0)
+                                                            {
+
+                                                                <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier <b>,</b></div>
+
+                                                            }
+                                                            else if (x == 1)
+                                                            {
+
+                                                                <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier <b>,</b></div>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier</div>
+
+                                                            }
+
+                                                        }
+                                                    }
                                                 }
 
                                             </span>
@@ -734,15 +801,58 @@
                                     }
                                     if (stops == 2)
                                     {
-                                        for (int l = 0; l < @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].legs.Count; l++)
+                                        @if (Model.SimpleAvailibilityaAddResponcelistR[j].Airline == Airlines.Vistara || Model.SimpleAvailibilityaAddResponcelistR[j].Airline == Airlines.AirIndia || Model.SimpleAvailibilityaAddResponcelistR[j].Airline == Airlines.Hehnair)
                                         {
-                                            if (l == 0)
+                                            @if (Model.SimpleAvailibilityaAddResponcelistR[j].segments.Count == 3)
                                             {
-                                                <div class="mt-1 r-stop">2 Stop Via  @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].legs[l].designator.destination  <b>,</b></div>
+                                                <div class="mt-1 r-stop">@stops Stop via  @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].legs[0].designator.destination,@Model.SimpleAvailibilityaAddResponcelistR[j].segments[1].legs[0].designator.destination </div>
+
                                             }
-                                            else if (l == 1)
+                                            else if (Model.SimpleAvailibilityaAddResponcelistR[j].segments.Count == 2)
                                             {
-                                                <span class="r-stop"> @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].legs[l].designator.destination</span>
+                                                <div class="r-stop"> @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].legs[0].designator.destination </div>
+
+                                            }
+                                            else
+                                            {
+
+
+                                            }
+                                        }
+                                        else
+                                        {
+                                            // for (int l = 0; l < @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].legs.Count; l++)
+                                            // {
+                                            //     if (l == 0)
+                                            //     {
+                                            //         <div class="mt-1 r-stop">2 Stop Via  @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].legs[l].designator.destination  <b>,</b></div>
+                                            //     }
+                                            //     else if (l == 1)
+                                            //     {
+                                            //         <span class="r-stop"> @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].legs[l].designator.destination</span>
+                                            //     }
+                                            // }
+                                            @if (Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].legs.Count == 2)
+                                            {
+                                                <div class="mt-1 r-stop"> @stops Stop via @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].legs[0].designator.destination,@Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].legs[1].designator.destination </div>
+
+                                            }
+                                            else
+                                            {
+                                                <div class="r-stop"> @stops Stop via @Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].legs[0].designator.destination  <b>,</b></div>
+
+                                            }
+
+
+
+                                            @if (Model.SimpleAvailibilityaAddResponcelistR[j].segments.Count > 1 && Model.SimpleAvailibilityaAddResponcelistR[j].segments[1].legs.Count == 2)
+                                            {
+                                                <div class="r-stop"> @Model.SimpleAvailibilityaAddResponcelistR[j].segments[1].legs[0].designator.destination</div>
+                                            }
+                                            else
+                                            {
+                                                // <div class="mt-1">2 Stop via  @Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination  <b>,</b></div>
+
                                             }
                                         }
                                     }
@@ -1074,6 +1184,30 @@
                                                             else
                                                             {
                                                                 <div class="fliCode text-12"> @Model.SimpleAvailibilityaAddResponcelistR[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelistR[j].segments[x].identifier.identifier</div>
+
+                                                            }
+
+                                                        }
+                                                    }
+                                                    if (SegmentDatacount == 3)
+                                                    {
+                                                        @for (var x = 0; x < SegmentDatacount; x++)
+                                                        {
+                                                            if (x == 0)
+                                                            {
+
+                                                                <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelistR[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelistR[j].segments[x].identifier.identifier <b>,</b></div>
+
+                                                            }
+                                                            else if (x == 1)
+                                                            {
+
+                                                                <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelistR[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelistR[j].segments[x].identifier.identifier <b>,</b></div>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelistR[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelistR[j].segments[x].identifier.identifier</div>
 
                                                             }
 

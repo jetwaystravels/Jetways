@@ -404,12 +404,24 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     _ContactModelSG.updateContactsRequestData.BookingContactList = new BookingContact[1];
                     _ContactModelSG.updateContactsRequestData.BookingContactList[0] = new BookingContact();
                     _ContactModelSG.updateContactsRequestData.BookingContactList[0].EmailAddress = contactobject.emailAddress;
-                    //if (contactobject.customerNumber != null)
-                    //{
-                    _ContactModelSG.updateContactsRequestData.BookingContactList[0].TypeCode = "G";
-                    _ContactModelSG.updateContactsRequestData.BookingContactList[0].CompanyName = "Spicejet";// contactobject.companyName;//"Indigo";
-                    _ContactModelSG.updateContactsRequestData.BookingContactList[0].CustomerNumber = "22AAAAA0000A1Z2";// contactobject.customerNumber; //GSTNumber Re_ Assistance required for SG API Integration\GST Logs.zip\GST Logs
-                    //}
+                    if (contactobject.customerNumber != null && contactobject.customerNumber != "")
+                    {
+                        _ContactModelSG.updateContactsRequestData.BookingContactList[0].TypeCode = "G";
+                        _ContactModelSG.updateContactsRequestData.BookingContactList[0].CompanyName = contactobject.companyName;
+                        _ContactModelSG.updateContactsRequestData.BookingContactList[0].CustomerNumber = contactobject.customerNumber; //"22AAAAA0000A1Z5"; //GSTNumber Re_ Assistance required for SG API Integration\GST Logs.zip\GST Logs
+                    }
+                    else
+                    {
+                        _ContactModelSG.updateContactsRequestData.BookingContactList[0].TypeCode = "P";
+                        _ContactModelSG.updateContactsRequestData.BookingContactList[0].CountryCode = "IN";
+                        _ContactModelSG.updateContactsRequestData.BookingContactList[0].HomePhone = contactobject.number;
+                        BookingName[] Name = new BookingName[1];
+                        Name[0] = new BookingName();
+                        Name[0].FirstName = contactobject.first;
+                        Name[0].LastName = contactobject.last;
+                        Name[0].Title = "MR";
+                        _ContactModelSG.updateContactsRequestData.BookingContactList[0].Names = Name;
+                    }
                     SpiceJetApiController objSpiceJet = new SpiceJetApiController();
                     UpdateContactsResponse responseAddContactSG = await objSpiceJet.GetUpdateContactsAsync(_ContactModelSG);
                     HttpContext.Session.SetString("ContactDetails", JsonConvert.SerializeObject(_ContactModelSG));
@@ -590,7 +602,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                 {
                     if (!string.IsNullOrEmpty(tokenview) && dataArray[i1].ToLower() == "airasia")
                     {
-                       
+
                         tokenview = string.Empty;
                         if (i1 == 0)
                         {
@@ -740,7 +752,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     // Akasa trevvel Details Request ********
                     if (!string.IsNullOrEmpty(tokenview) && dataArray[i1].ToLower() == "akasaair")
                     {
-                        
+
                         tokenview = string.Empty;
                         if (i1 == 0)
                         {
@@ -2396,7 +2408,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     _SellSSR obj_ = new _SellSSR(httpContextAccessorInstance);
                                     //List<string> BaggageSSrkey = new List<string>();
                                     //VinayFast
-                                    IndigoBookingManager_.SellResponse sellSsrResponse = await obj_.sellssr(token, passeengerKeyList, ssrKey, BaggageSSrkey, FastfarwardAddon, PPBGAddon,  Boolfastforward, _a);
+                                    IndigoBookingManager_.SellResponse sellSsrResponse = await obj_.sellssr(token, passeengerKeyList, ssrKey, BaggageSSrkey, FastfarwardAddon, PPBGAddon, Boolfastforward, _a);
                                 }
                                 _a++;
                             }

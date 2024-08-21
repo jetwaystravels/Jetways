@@ -801,8 +801,8 @@ namespace OnionConsumeWebAPI.Controllers
                         List<Unit> compartmentsunitlist = new List<Unit>();
                         Seatmapobj.decksindigo = new List<Decks>();
                         Decks Decksobj = null;
-                        string strnewText = Regex.Match(_responseSeatmap, @"data""[\s\S]*?fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup""[\s\S]*?}]}\s",
-                            RegexOptions.IgnoreCase | RegexOptions.Multiline).Value.ToString();
+                        //string strnewText = Regex.Match(_responseSeatmap, @"data""[\s\S]*?fees[\s\S]*?groups""(?<data>[\s\S]*?)ssrLookup""[\s\S]*?}]}\s",
+                            //RegexOptions.IgnoreCase | RegexOptions.Multiline).Value.ToString();
                         string compartmenttext = Regex.Match(mitem.Value, "compartments\":(?<data>[\\s\\S]*?),\"seatmapReference", RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups["data"].Value.ToString();
                         foreach (Match itemn in Regex.Matches(compartmenttext, @"availableunits[\s\S]*?""designator"":""(?<t>[^\""""]+)""[\s\S]*?]}]", RegexOptions.IgnoreCase | RegexOptions.Multiline))
                         {

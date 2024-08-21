@@ -9,7 +9,7 @@ namespace OnionArchitectureAPI.Services.Indigo
     public class _GetSSR
     {
         Logs logs = new Logs();
-        public async Task<List<GetSeatAvailabilityResponse>> GetseatAvailability(string Signature, AirAsiaTripResponceModel AirAsiaTripResponceobj,string _AirlineWay="")
+        public async Task<List<GetSeatAvailabilityResponse>> GetseatAvailability(string Signature, AirAsiaTripResponceModel AirAsiaTripResponceobj, string _AirlineWay = "")
         {
 
             GetSeatAvailabilityRequest _getseatAvailabilityRequest = new GetSeatAvailabilityRequest();
@@ -20,27 +20,30 @@ namespace OnionArchitectureAPI.Services.Indigo
 
             SeatAvailabilityRequest _seatRequest = new SeatAvailabilityRequest();
             List<GetSeatAvailabilityResponse> SeatGroup = new List<GetSeatAvailabilityResponse>();
-            for (int i = 0; i < AirAsiaTripResponceobj.journeys[0].segments.Count; i++)
+            if (AirAsiaTripResponceobj.journeys.Count > 0)
             {
-                _seatRequest = new SeatAvailabilityRequest();
-                _seatRequest.STDSpecified = true;
-                _seatRequest.STD = AirAsiaTripResponceobj.journeys[0].segments[i].designator.departure;
-                _seatRequest.DepartureStation = AirAsiaTripResponceobj.journeys[0].segments[i].designator.origin;
-                _seatRequest.ArrivalStation = AirAsiaTripResponceobj.journeys[0].segments[i].designator.destination;
-                _seatRequest.IncludeSeatFees = true;
-                _seatRequest.IncludeSeatFeesSpecified = true;
-                _seatRequest.SeatAssignmentModeSpecified = true;
-                _seatRequest.SeatAssignmentMode = SeatAssignmentMode.PreSeatAssignment;
-                _seatRequest.FlightNumber = AirAsiaTripResponceobj.journeys[0].segments[i].identifier.identifier;
-                _seatRequest.OverrideSTDSpecified = true;
-                _seatRequest.OverrideSTD = AirAsiaTripResponceobj.journeys[0].segments[i].designator.departure;
-                _seatRequest.CarrierCode = AirAsiaTripResponceobj.journeys[0].segments[i].identifier.carrierCode;
-                _seatRequest.EnforceSeatGroupRestrictions = false;
-                _getseatAvailabilityRequest.SeatAvailabilityRequest = _seatRequest;
-                _getapi _obj = new _getapi();
-                _getSeatAvailabilityResponse = await _obj.GetseatAvailability(_getseatAvailabilityRequest);
-                SeatGroup.Add(_getSeatAvailabilityResponse);
+                for (int i = 0; i < AirAsiaTripResponceobj.journeys[0].segments.Count; i++)
+                {
+                    _seatRequest = new SeatAvailabilityRequest();
+                    _seatRequest.STDSpecified = true;
+                    _seatRequest.STD = AirAsiaTripResponceobj.journeys[0].segments[i].designator.departure;
+                    _seatRequest.DepartureStation = AirAsiaTripResponceobj.journeys[0].segments[i].designator.origin;
+                    _seatRequest.ArrivalStation = AirAsiaTripResponceobj.journeys[0].segments[i].designator.destination;
+                    _seatRequest.IncludeSeatFees = true;
+                    _seatRequest.IncludeSeatFeesSpecified = true;
+                    _seatRequest.SeatAssignmentModeSpecified = true;
+                    _seatRequest.SeatAssignmentMode = SeatAssignmentMode.PreSeatAssignment;
+                    _seatRequest.FlightNumber = AirAsiaTripResponceobj.journeys[0].segments[i].identifier.identifier;
+                    _seatRequest.OverrideSTDSpecified = true;
+                    _seatRequest.OverrideSTD = AirAsiaTripResponceobj.journeys[0].segments[i].designator.departure;
+                    _seatRequest.CarrierCode = AirAsiaTripResponceobj.journeys[0].segments[i].identifier.carrierCode;
+                    _seatRequest.EnforceSeatGroupRestrictions = false;
+                    _getseatAvailabilityRequest.SeatAvailabilityRequest = _seatRequest;
+                    _getapi _obj = new _getapi();
+                    _getSeatAvailabilityResponse = await _obj.GetseatAvailability(_getseatAvailabilityRequest);
+                    SeatGroup.Add(_getSeatAvailabilityResponse);
 
+                }
             }
 
             string str1 = JsonConvert.SerializeObject(SeatGroup);
@@ -57,7 +60,7 @@ namespace OnionArchitectureAPI.Services.Indigo
         }
 
 
-        public async Task<GetSSRAvailabilityForBookingResponse> GetSSRAvailabilityForBooking(string Signature, AirAsiaTripResponceModel passeengerlist, int TotalCount,string _AirlineWay="")
+        public async Task<GetSSRAvailabilityForBookingResponse> GetSSRAvailabilityForBooking(string Signature, AirAsiaTripResponceModel passeengerlist, int TotalCount, string _AirlineWay = "")
         {
             GetSSRAvailabilityForBookingRequest _req = new GetSSRAvailabilityForBookingRequest();
             GetSSRAvailabilityForBookingResponse _res = new GetSSRAvailabilityForBookingResponse();

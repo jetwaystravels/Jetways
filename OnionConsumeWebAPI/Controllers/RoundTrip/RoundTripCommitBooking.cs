@@ -1675,7 +1675,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                         returnTicketBooking.airLines = "SpiceJet";
                                         returnTicketBooking.recordLocator = _getBookingResponse.Booking.RecordLocator;
                                         BarcodePNR = _getBookingResponse.Booking.RecordLocator;
-                                        if (BarcodePNR.Length < 7)
+                                        if (BarcodePNR != null && BarcodePNR.Length < 7)
                                         {
                                             BarcodePNR = BarcodePNR.PadRight(7);
                                         }
@@ -3137,7 +3137,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                         returnTicketBooking.recordLocator = pnrResDetail.UniversalRecordLocator;// _getBookingResponse.Booking.RecordLocator;
                                         returnTicketBooking.bookingdate = pnrResDetail.bookingdate;
                                         BarcodePNR = pnrResDetail.UniversalRecordLocator;
-                                        if (BarcodePNR.Length < 7)
+                                        if (BarcodePNR != null && BarcodePNR.Length < 7)
                                         {
                                             BarcodePNR = BarcodePNR.PadRight(7);
                                         }

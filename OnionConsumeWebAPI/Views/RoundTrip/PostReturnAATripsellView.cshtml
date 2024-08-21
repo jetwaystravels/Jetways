@@ -162,7 +162,7 @@
         // Flight Icon Animation
         var flhticonDisplay = document.getElementById("flightImage");
         flhticonDisplay.style.display = "block";
-        $('#animationOverlay').fadeIn(8000);
+        $('#animationOverlay').fadeIn(20000);
 
         // Your existing AJAX code
         var formData = $('#reconnectingFlightOneway').serialize();
@@ -172,7 +172,7 @@
             type: 'POST',
             data: formData,
             success: function (response) {
-                $('#animationOverlay').fadeOut(4000);
+                $('#animationOverlay').fadeOut(20000);
             },
             error: function (xhr, status, error) {
                 // Handle error
