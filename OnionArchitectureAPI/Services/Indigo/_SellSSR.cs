@@ -56,10 +56,11 @@ namespace OnionArchitectureAPI.Services.Indigo
                 //FastfarwardAddon = new List<string>();
 
 
-                if (ssrKey.Count >= 0)
+                if (ssrKey.Count >= 0 || FastfarwardAddon.Count>0)
                 {
 
                     #region SellSSr
+                    string FinaldestinationforSSR = string.Empty;
                     SellRequest sellSsrRequest = new SellRequest();
                     SellRequestData sellreqd = new SellRequestData();
                     sellSsrRequest.Signature = Signature;
@@ -73,6 +74,14 @@ namespace OnionArchitectureAPI.Services.Indigo
                     for (int i = 0; i < journeyscount; i++)
                     {
                         int segmentscount = passeengerKeyList.journeys[i].segments.Count;
+                        if (segmentscount > 1)
+                        {
+                            FinaldestinationforSSR = passeengerKeyList.journeys[i].segments[1].designator.destination;
+                        }
+                        else
+                        {
+                            FinaldestinationforSSR = passeengerKeyList.journeys[i].segments[0].designator.destination;
+                        }
                         sellreqd.SellSSR.SSRRequest.SegmentSSRRequests = new SegmentSSRRequest[segmentscount];
                         for (int j = 0; j < segmentscount; j++)
                         {
@@ -339,7 +348,7 @@ namespace OnionArchitectureAPI.Services.Indigo
                                         else
                                         {
                                             int idx = 0;
-                                            if (_obj.SSRcodeOneWayI.Count > 0)//&& i1 + 1 <= ssrKey.Count
+                                            if (_obj.SSRcodeOneWayI.Count > 0 || _obj.SSRffwOneWayI.Count > 0)//&& i1 + 1 <= ssrKey.Count
                                             {
                                                 for (int i2 = 0; i2 < _obj.SSRcodeOneWayI.Count; i2++)//Paxnum 1 adult,1 child,1 infant 2 meal
                                                 {
@@ -404,7 +413,10 @@ namespace OnionArchitectureAPI.Services.Indigo
                                                         int baggagecount = _obj.SSRffwOneWayI.Count;
                                                         if (baggagecount > 0 && k + 1 <= baggagecount)
                                                         {
-                                                            idx++;
+                                                            if (idx > 0)
+                                                                idx++;
+                                                            else
+                                                                idx = k;
                                                             string[] wordsArray = _obj.SSRffwOneWayI[k].key.ToString().Split(' ');
                                                             //alert(wordsArray);
                                                             //var meal = null;
@@ -423,8 +435,8 @@ namespace OnionArchitectureAPI.Services.Indigo
                                                             sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].PassengerNumber = Convert.ToInt16(k);
                                                             sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRNumber = Convert.ToInt16(0);
                                                             sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
-                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
-
+                                                            sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ArrivalStation =  passeengerKeyList.journeys[i].segments[j].designator.destination;//FinaldestinationforSSR
+                                                            //idx++;
                                                         }
                                                     }
                                                 }

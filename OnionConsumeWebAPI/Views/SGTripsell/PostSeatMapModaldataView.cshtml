@@ -602,38 +602,38 @@
 
 
         //Cancel Button Code **************
-        $('#cancelButton1').click(function () {
+        // $('#cancelButton1').click(function () {
 
-            for (var i = 0; i < checkedValues.length; i++) {
-                $('#outputDiv_' + i).text('');
-            }
-            clearLocalStorage();
-            var selectedIds = JSON.parse(localStorage.getItem("selectedIds1"));
-            if (selectedIds) {
-                selectedIds.forEach(function (id) {
-                    $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
-                });
-            }
-            //$('input[name="unitKey"]').prop('checked', false);
-            updatetotal();
-            localStorage.removeItem("selectedIds1");
-        });
-        $('#cancelButton2').click(function () {
+        //     for (var i = 0; i < checkedValues.length; i++) {
+        //         $('#outputDiv_' + i).text('');
+        //     }
+        //     clearLocalStorage();
+        //     var selectedIds = JSON.parse(localStorage.getItem("selectedIds1"));
+        //     if (selectedIds) {
+        //         selectedIds.forEach(function (id) {
+        //             $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
+        //         });
+        //     }
+        //     //$('input[name="unitKey"]').prop('checked', false);
+        //     updatetotal();
+        //     localStorage.removeItem("selectedIds1");
+        // });
+        // $('#cancelButton2').click(function () {
 
-            for (var i = 0; i < checkedValues.length; i++) {
-                $('#outputDiv_' + i).text('');
-            }
-            clearLocalStorage();
-            var selectedIds = JSON.parse(localStorage.getItem("selectedIds1"));
-            if (selectedIds) {
-                selectedIds.forEach(function (id) {
-                    $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
-                });
-            }
-            //$('input[name="unitKey"]').prop('checked', false);
-            updatetotal();
-            localStorage.removeItem("selectedIds1");
-        });
+        //     for (var i = 0; i < checkedValues.length; i++) {
+        //         $('#outputDiv_' + i).text('');
+        //     }
+        //     clearLocalStorage();
+        //     var selectedIds = JSON.parse(localStorage.getItem("selectedIds1"));
+        //     if (selectedIds) {
+        //         selectedIds.forEach(function (id) {
+        //             $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
+        //         });
+        //     }
+        //     //$('input[name="unitKey"]').prop('checked', false);
+        //     updatetotal();
+        //     localStorage.removeItem("selectedIds1");
+        // });
 
         //*********************** */
 
@@ -689,24 +689,24 @@
             updateLocalStorage2();
         });
 
-        $('#cancelButton3').click(function () {
-            //alert("T1");
-            // Loop through each element and set its text to an empty string
-            for (var i = 0; i < checkedValues2.length; i++) {
-                $('#outputDivConnect_' + i).text('');
-            }
-            clearLocalStorage2();
-            var selectedIds = JSON.parse(localStorage.getItem("selectedIds2"));
-            if (selectedIds) {
-                selectedIds.forEach(function (id) {
-                    $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
-                });
-            }
-            //$('input[name="unitKey"]').prop('checked', false);
-            updatetotal();
-            localStorage.removeItem("selectedIds2");
+        // $('#cancelButton3').click(function () {
+        //     //alert("T1");
+        //     // Loop through each element and set its text to an empty string
+        //     for (var i = 0; i < checkedValues2.length; i++) {
+        //         $('#outputDivConnect_' + i).text('');
+        //     }
+        //     clearLocalStorage2();
+        //     var selectedIds = JSON.parse(localStorage.getItem("selectedIds2"));
+        //     if (selectedIds) {
+        //         selectedIds.forEach(function (id) {
+        //             $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
+        //         });
+        //     }
+        //     //$('input[name="unitKey"]').prop('checked', false);
+        //     updatetotal();
+        //     localStorage.removeItem("selectedIds2");
 
-        });
+        // });
 
 
 

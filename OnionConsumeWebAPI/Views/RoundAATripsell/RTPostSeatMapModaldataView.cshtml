@@ -452,44 +452,44 @@
 
 
         //Cancel Button Function...
-        $('#leftNstop1').click(function () {
+        // $('#leftNstop1').click(function () {
 
-            for (var i = 0; i < checkedValues.length; i++) {
-                $('#outputDiv_' + i).text('');
-            }
-            clearLocalStorage();
-            var selectedIds = JSON.parse(localStorage.getItem("selectedIds1"));
-            if (selectedIds) {
-                selectedIds.forEach(function (id) {
-                    $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
-                });
-            }
-            //$('input[name="unitKey"]').prop('checked', false);
-            updatetotal();
-            localStorage.removeItem("selectedIds1");
-            updateCombinedTotalRT();
-        });
+        //     for (var i = 0; i < checkedValues.length; i++) {
+        //         $('#outputDiv_' + i).text('');
+        //     }
+        //     clearLocalStorage();
+        //     var selectedIds = JSON.parse(localStorage.getItem("selectedIds1"));
+        //     if (selectedIds) {
+        //         selectedIds.forEach(function (id) {
+        //             $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
+        //         });
+        //     }
+        //     //$('input[name="unitKey"]').prop('checked', false);
+        //     updatetotal();
+        //     localStorage.removeItem("selectedIds1");
+        //     updateCombinedTotalRT();
+        // });
 
 
-        $('#leftConnect1').click(function () {
-            for (var i = 0; i < checkedValues.length; i++) {
-                checkedValues[i] = '';
-                $('#outputDiv_' + i).text('');
-            }
-            clearLocalStorage();
-            var selectedIds = JSON.parse(localStorage.getItem("selectedIds1"));
-            if (selectedIds) {
-                selectedIds.forEach(function (id) {
-                    $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
-                });
-            }
-            //$('input[name="unitKey"]').prop('checked', false);
-            updatetotal();
-            localStorage.removeItem("selectedIds1");
-            updateCombinedTotalRT();
-            //updateInputsAndSpans(checkedValues);
-            //updateLocalStorage();
-        });
+        // $('#leftConnect1').click(function () {
+        //     for (var i = 0; i < checkedValues.length; i++) {
+        //         checkedValues[i] = '';
+        //         $('#outputDiv_' + i).text('');
+        //     }
+        //     clearLocalStorage();
+        //     var selectedIds = JSON.parse(localStorage.getItem("selectedIds1"));
+        //     if (selectedIds) {
+        //         selectedIds.forEach(function (id) {
+        //             $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
+        //         });
+        //     }
+        //     //$('input[name="unitKey"]').prop('checked', false);
+        //     updatetotal();
+        //     localStorage.removeItem("selectedIds1");
+        //     updateCombinedTotalRT();
+        //     //updateInputsAndSpans(checkedValues);
+        //     //updateLocalStorage();
+        // });
 
 
         var checkedValues2 = ['', '', '', '', '', '', '', '', ''];
@@ -554,24 +554,24 @@
         });
 
 
-        $('#leftConnect_1').click(function () {
-            //alert("T1");
-            // Loop through each element and set its text to an empty string
-            for (var i = 0; i < checkedValues2.length; i++) {
-                $('#outputDivConnect_' + i).text('');
-            }
-            clearLocalStorage2();
-            var selectedIds = JSON.parse(localStorage.getItem("selectedIds2"));
-            if (selectedIds) {
-                selectedIds.forEach(function (id) {
-                    $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
-                });
-            }
-            //$('input[name="unitKey"]').prop('checked', false);
-            updatetotal();
-            localStorage.removeItem("selectedIds2");
-            updateCombinedTotalRT();
-        });
+        // $('#leftConnect_1').click(function () {
+        //     //alert("T1");
+        //     // Loop through each element and set its text to an empty string
+        //     for (var i = 0; i < checkedValues2.length; i++) {
+        //         $('#outputDivConnect_' + i).text('');
+        //     }
+        //     clearLocalStorage2();
+        //     var selectedIds = JSON.parse(localStorage.getItem("selectedIds2"));
+        //     if (selectedIds) {
+        //         selectedIds.forEach(function (id) {
+        //             $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
+        //         });
+        //     }
+        //     //$('input[name="unitKey"]').prop('checked', false);
+        //     updatetotal();
+        //     localStorage.removeItem("selectedIds2");
+        //     updateCombinedTotalRT();
+        // });
 
 
 
@@ -634,73 +634,73 @@
             updateLocalStorageRT();
         });
 
-        $('#rightNstop1').click(function () {
-            for (var i = 0; i < checkedValuesRT.length; i++) {
-                $('#outputDivRT_' + i).text('');
-            }
+        // $('#rightNstop1').click(function () {
+        //     for (var i = 0; i < checkedValuesRT.length; i++) {
+        //         $('#outputDivRT_' + i).text('');
+        //     }
 
-            clearLocalStorageRT();
-            var selectedIds = JSON.parse(localStorage.getItem("selectedIds3"));
-            if (selectedIds) {
-                selectedIds.forEach(function (id) {
-                    $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
-                });
-            }
-            //$('input[name="unitKey"]').prop('checked', false);
-            updatetotal();
-            localStorage.removeItem("selectedIds3");
-            updateCombinedTotalRT();
-        });
+        //     clearLocalStorageRT();
+        //     var selectedIds = JSON.parse(localStorage.getItem("selectedIds3"));
+        //     if (selectedIds) {
+        //         selectedIds.forEach(function (id) {
+        //             $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
+        //         });
+        //     }
+        //     //$('input[name="unitKey"]').prop('checked', false);
+        //     updatetotal();
+        //     localStorage.removeItem("selectedIds3");
+        //     updateCombinedTotalRT();
+        // });
 
-        $('#Lrightconnect1').click(function () {
-            for (var i = 0; i < checkedValuesRT.length; i++) {
-                $('#outputDivRT_' + i).text('');
-            }
-            clearLocalStorageRT();
-            var selectedIds = JSON.parse(localStorage.getItem("selectedIds3"));
-            if (selectedIds) {
-                selectedIds.forEach(function (id) {
-                    $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
-                });
-            }
-            //$('input[name="unitKey"]').prop('checked', false);
-            updatetotal();
-            localStorage.removeItem("selectedIds3");
-            updateCombinedTotalRT();
-        });
-        $('#rightconnect1').click(function () {
-            for (var i = 0; i < checkedValuesRT.length; i++) {
-                $('#outputDivRT_' + i).text('');
-            }
-            clearLocalStorageRT();
-            var selectedIds = JSON.parse(localStorage.getItem("selectedIds3"));
-            if (selectedIds) {
-                selectedIds.forEach(function (id) {
-                    $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
-                });
-            }
-            //$('input[name="unitKey"]').prop('checked', false);
-            updatetotal();
-            localStorage.removeItem("selectedIds3");
-            updateCombinedTotalRT();
-        });
+        // $('#Lrightconnect1').click(function () {
+        //     for (var i = 0; i < checkedValuesRT.length; i++) {
+        //         $('#outputDivRT_' + i).text('');
+        //     }
+        //     clearLocalStorageRT();
+        //     var selectedIds = JSON.parse(localStorage.getItem("selectedIds3"));
+        //     if (selectedIds) {
+        //         selectedIds.forEach(function (id) {
+        //             $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
+        //         });
+        //     }
+        //     //$('input[name="unitKey"]').prop('checked', false);
+        //     updatetotal();
+        //     localStorage.removeItem("selectedIds3");
+        //     updateCombinedTotalRT();
+        // });
+        // $('#rightconnect1').click(function () {
+        //     for (var i = 0; i < checkedValuesRT.length; i++) {
+        //         $('#outputDivRT_' + i).text('');
+        //     }
+        //     clearLocalStorageRT();
+        //     var selectedIds = JSON.parse(localStorage.getItem("selectedIds3"));
+        //     if (selectedIds) {
+        //         selectedIds.forEach(function (id) {
+        //             $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
+        //         });
+        //     }
+        //     //$('input[name="unitKey"]').prop('checked', false);
+        //     updatetotal();
+        //     localStorage.removeItem("selectedIds3");
+        //     updateCombinedTotalRT();
+        // });
 
-        $('#RightNonstop1').click(function () {
-            for (var i = 0; i < checkedValuesRT.length; i++) {
-                $('#outputDivRT_' + i).text('');
-            }
-            clearLocalStorageRT();
-            var selectedIds = JSON.parse(localStorage.getItem("selectedIds3"));
-            if (selectedIds) {
-                selectedIds.forEach(function (id) {
-                    $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
-                });
-            }
-            //$('input[name="unitKey"]').prop('checked', false);
-            updatetotal();
-            localStorage.removeItem("selectedIds3");
-            updateCombinedTotalRT();
-        });
+        // $('#RightNonstop1').click(function () {
+        //     for (var i = 0; i < checkedValuesRT.length; i++) {
+        //         $('#outputDivRT_' + i).text('');
+        //     }
+        //     clearLocalStorageRT();
+        //     var selectedIds = JSON.parse(localStorage.getItem("selectedIds3"));
+        //     if (selectedIds) {
+        //         selectedIds.forEach(function (id) {
+        //             $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
+        //         });
+        //     }
+        //     //$('input[name="unitKey"]').prop('checked', false);
+        //     updatetotal();
+        //     localStorage.removeItem("selectedIds3");
+        //     updateCombinedTotalRT();
+        // });
 
         // $('#cancelbtn3').click(function () {
         //     //alert("T3");
@@ -773,44 +773,44 @@
 
 
 
-        $('#Lrightconnect_1').click(function () {
-            //alert("T4");
-            // Loop through each element and set its text to an empty string
-            for (var i = 0; i < checkedValues2RT.length; i++) {
-                $('#outputDivConnectRT_' + i).text('');
-            }
-            clearLocalStorage2RT();
-            var selectedIds = JSON.parse(localStorage.getItem("selectedIds4"));
-            if (selectedIds) {
-                selectedIds.forEach(function (id) {
-                    $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
-                });
-            }
-            //$('input[name="unitKey"]').prop('checked', false);
-            updatetotal();
-            localStorage.removeItem("selectedIds4");
-            updateCombinedTotalRT();
+        // $('#Lrightconnect_1').click(function () {
+        //     //alert("T4");
+        //     // Loop through each element and set its text to an empty string
+        //     for (var i = 0; i < checkedValues2RT.length; i++) {
+        //         $('#outputDivConnectRT_' + i).text('');
+        //     }
+        //     clearLocalStorage2RT();
+        //     var selectedIds = JSON.parse(localStorage.getItem("selectedIds4"));
+        //     if (selectedIds) {
+        //         selectedIds.forEach(function (id) {
+        //             $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
+        //         });
+        //     }
+        //     //$('input[name="unitKey"]').prop('checked', false);
+        //     updatetotal();
+        //     localStorage.removeItem("selectedIds4");
+        //     updateCombinedTotalRT();
 
-        });
-        $('#rightconnect_1').click(function () {
-            //alert("T4");
-            // Loop through each element and set its text to an empty string
-            for (var i = 0; i < checkedValues2RT.length; i++) {
-                $('#outputDivConnectRT_' + i).text('');
-            }
-            clearLocalStorage2RT();
-            var selectedIds = JSON.parse(localStorage.getItem("selectedIds4"));
-            if (selectedIds) {
-                selectedIds.forEach(function (id) {
-                    $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
-                });
-            }
-            //$('input[name="unitKey"]').prop('checked', false);
-            updatetotal();
-            localStorage.removeItem("selectedIds4");
-            updateCombinedTotalRT();
+        // });
+        // $('#rightconnect_1').click(function () {
+        //     //alert("T4");
+        //     // Loop through each element and set its text to an empty string
+        //     for (var i = 0; i < checkedValues2RT.length; i++) {
+        //         $('#outputDivConnectRT_' + i).text('');
+        //     }
+        //     clearLocalStorage2RT();
+        //     var selectedIds = JSON.parse(localStorage.getItem("selectedIds4"));
+        //     if (selectedIds) {
+        //         selectedIds.forEach(function (id) {
+        //             $('input[name="unitKey"][value="' + id + '"]').prop('checked', false);
+        //         });
+        //     }
+        //     //$('input[name="unitKey"]').prop('checked', false);
+        //     updatetotal();
+        //     localStorage.removeItem("selectedIds4");
+        //     updateCombinedTotalRT();
 
-        });
+        // });
 
 
 

@@ -2171,7 +2171,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 }
                                 #endregion
                                 #region Addpayment For Api payment deduction
-                                //IndigoBookingManager_.AddPaymentToBookingResponse _BookingPaymentResponse = await objcommit.AddpaymenttoBook(token, Totalpayment);
+                                IndigoBookingManager_.AddPaymentToBookingResponse _BookingPaymentResponse = await objcommit.AddpaymenttoBook(token, Totalpayment);
 
                                 #endregion
                                 #region Commit Booking

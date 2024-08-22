@@ -637,17 +637,17 @@
                                                         // {
                                                         string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
                                                         string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
-                                                        string MealcodeData = Mealcode.StartsWith("V", StringComparison.OrdinalIgnoreCase).ToString();
+                                                       // string MealcodeData = Mealcode.StartsWith("V", StringComparison.OrdinalIgnoreCase).ToString();
                                                         string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " ₹" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
                                                         ssrkey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].ssrKey + "_" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price; ;
                                                         string passengerKey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].passengerKey;
-                                                        if (MealcodeData != "False")
-                                                        {
+                                                       // if (MealcodeData != "False")
+                                                        //{
                                                             if (ssrkey != null)
                                                             {
                                                                 mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
                                                             }
-                                                        }
+                                                      //  }
                                                         //}
 
                                                     }
@@ -698,7 +698,15 @@
 
                                                     string priceBaggage = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].price;
                                                     string Sssrcode = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].ssrCode;
-                                                    string bagcode = Sssrcode.StartsWith("P", StringComparison.OrdinalIgnoreCase).ToString();
+                                                    //string bagcode = Sssrcode.StartsWith("PB", StringComparison.OrdinalIgnoreCase).ToString();
+                                                    bool isSpecialCode = Sssrcode.Equals("PBCA", StringComparison.OrdinalIgnoreCase) ||
+                                                    Sssrcode.Equals("PBCB", StringComparison.OrdinalIgnoreCase) ||
+                                                    Sssrcode.Equals("PBA3", StringComparison.OrdinalIgnoreCase) ||
+                                                    Sssrcode.Equals("PBAB", StringComparison.OrdinalIgnoreCase) ||
+                                                    Sssrcode.Equals("PBAC", StringComparison.OrdinalIgnoreCase) ||
+                                                    Sssrcode.Equals("PBAD", StringComparison.OrdinalIgnoreCase) ||
+                                                    Sssrcode.Equals("PBAF", StringComparison.OrdinalIgnoreCase);
+                                                    string bagcode = isSpecialCode.ToString();
                                                     var bagname = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].name + "@" + Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].price;
                                                     bagkey = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[pa].ssrKey + "_" + Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].price;
                                                     string passengerKey = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[pa].passengerKey;

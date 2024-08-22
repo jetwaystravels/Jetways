@@ -280,7 +280,7 @@
             if (isChecked) {
                
                 var fastcheck = true;
-                passengerdata2 = @Model.passeengerlist.passengerscount;
+                passengerdata2 = document.getElementById('passengercountid').value;
                 var fastfwdprice = document.getElementById('fastfwdprice').value;
                 //alert(fastfwdprice);
                 fastPrice = parseInt(fastfwdprice) * parseInt(passengerdata2);
@@ -808,6 +808,12 @@
                                                         string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) ||
                                                         Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase) ||
                                                         Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase)).ToString();
+                                                        string fastFFDW = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
+                                                        // string Mcode = Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase).ToString();
+                                                        if (fastFFDW == "FFWD")
+                                                        {
+                                                            continue;
+                                                        }
                                                         if (Mcode.ToLower() == "true")
                                                         {
                                                             continue;

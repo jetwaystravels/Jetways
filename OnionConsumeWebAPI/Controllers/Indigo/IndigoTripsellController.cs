@@ -246,7 +246,7 @@ namespace OnionConsumeWebAPI.Controllers
             int passengerscount = passeengerKeyList.passengerscount;
             using (HttpClient client = new HttpClient())
             {
-                if (ssrKey.Count > 0)
+                if (ssrKey.Count > 0 || Boolfastforward==true)
                 {
                     #region SellSSr
                     _SellSSR obj_ = new _SellSSR(httpContextAccessorInstance);

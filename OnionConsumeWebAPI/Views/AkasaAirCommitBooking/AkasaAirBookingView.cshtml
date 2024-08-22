@@ -36,26 +36,42 @@
 
         function downloadPDF() {
 
-            var elementHTML = document.querySelector("#pdfdwonloadAkasa");
-            //var images = elementHTML.querySelectorAll('img');
-            //images.forEach(img => img.style.display = 'none');
+
+            var element = document.querySelector("#pdfdwonloadAkasa");
             var imageToHide = document.querySelector("#downicnIdAkasa");
             if (imageToHide) {
                 imageToHide.style.visibility = 'hidden';
             }
-            docPDF.html(elementHTML, {
-                callback: function (docPDF) {
-                    docPDF.save("Jetways_FlightTicket" + '.pdf');
+            html2canvas(element).then((canvas) => {
+                var imgData = canvas.toDataURL('image/png');
+                var pdf = new jsPDF('p', 'mm', 'a4');
+                var imgWidth = 210;
+                var pageHeight = 295;
+                var imgHeight = canvas.height * imgWidth / canvas.width;
+                var heightLeft = imgHeight;
+                var position = 0;
 
-                    if (imageToHide) {
-                        imageToHide.style.visibility = '';  // Restore the specific image
-                    }
-                },
-                x: 12,
-                y: 15,
-                width: 160,
-                windowWidth: 820
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+                var yyyy = today.getFullYear();
+                var filename = `ticket_${yyyy}-${mm}-${dd}.pdf`;
+                // var filename = `ticket_${dynamicValue}_${yyyy}-${mm}-${dd}.pdf`;
+                pdf.save(filename); // Save the PDF with the generated filename
+                if (imageToHide) {
+                    imageToHide.style.visibility = '';
+                }
             });
+          
         }
 
 

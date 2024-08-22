@@ -891,7 +891,12 @@
                                                                     Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase)).ToString();
 
                                                                     string inventry = Model.MealslistRT[0].legSsrs[l].legssrs[s].inventoryControlled.ToString();
-
+                                                                    string fastFFDW = Model.MealslistRT[0].legSsrs[l].legssrs[s].ssrCode;
+                                                                    // string Mcode = Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase).ToString();
+                                                                    if (fastFFDW == "FFWD")
+                                                                    {
+                                                                        continue;
+                                                                    }
                                                                     if (Mcode.ToLower() == "true")
                                                                     {
                                                                         continue;
@@ -1248,7 +1253,12 @@
                                                                     Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase)).ToString().ToString();
 
                                                                     string inventry = Model.MealslistRT[0].legSsrs[1].legssrs[s].inventoryControlled.ToString();
-
+                                                                    string fastFFDW = Model.MealslistRT[0].legSsrs[1].legssrs[s].ssrCode;
+                                                                    // string Mcode = Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase).ToString();
+                                                                    if (fastFFDW == "FFWD")
+                                                                    {
+                                                                        continue;
+                                                                    }
                                                                     if (Mcode.ToLower() == "true")
                                                                     {
                                                                         continue;
@@ -1516,7 +1526,12 @@
 
                                                                             // string Mcode = Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase).ToString();
                                                                             string inventry = Model.MealslistRT[1].legSsrs[0].legssrs[s].inventoryControlled.ToString();
-
+                                                                            string fastFFDW = Model.MealslistRT[1].legSsrs[0].legssrs[s].ssrCode;
+                                                                            // string Mcode = Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase).ToString();
+                                                                            if (fastFFDW == "FFWD")
+                                                                            {
+                                                                                continue;
+                                                                            }
                                                                             if (Mcode.ToLower() == "true")
                                                                             {
                                                                                 continue;
@@ -1954,7 +1969,12 @@
                                                                             Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase)).ToString().ToString();
 
                                                                             string inventry = Model.MealslistRT[1].legSsrs[1].legssrs[s].inventoryControlled.ToString();
-
+                                                                            string fastFFDW = Model.MealslistRT[1].legSsrs[1].legssrs[s].ssrCode;
+                                                                            // string Mcode = Mealcode.StartsWith("X", StringComparison.OrdinalIgnoreCase).ToString();
+                                                                            if (fastFFDW == "FFWD")
+                                                                            {
+                                                                                continue;
+                                                                            }
                                                                             if (Mcode.ToLower() == "true")
                                                                             {
                                                                                 continue;

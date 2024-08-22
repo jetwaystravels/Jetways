@@ -106,6 +106,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                             Hashtable htseatdata = new Hashtable();
                             Hashtable htmealdata = new Hashtable();
                             Hashtable htbagdata = new Hashtable();
+                            Hashtable htFFWDdata = new Hashtable();
                             int adultcount = Convert.ToInt32(HttpContext.Session.GetString("adultCount"));
                             int childcount = Convert.ToInt32(HttpContext.Session.GetString("childCount"));
                             int infantcount = Convert.ToInt32(HttpContext.Session.GetString("infantCount"));
@@ -501,7 +502,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                                                 //breakdown.passengerTotals.seats.total += Convert.ToInt32(item2.Amount);
                                                 TotalMeal = passengerTotals.specialServices.total;
                                             }
-                                            if (item2.ChargeCode.StartsWith("X", StringComparison.OrdinalIgnoreCase) == true)
+                                            else if (item2.ChargeCode.StartsWith("X", StringComparison.OrdinalIgnoreCase) == true)
                                             {
                                                 passengerTotals.baggage.total += Convert.ToInt32(item2.Amount);
                                                 //breakdown.passengerTotals.seats.total += Convert.ToInt32(item2.Amount);
@@ -511,10 +512,14 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                                             {
                                                 if(item2.ChargeCode.Equals("FFWD"))
                                                 {
-                                                    passengerTotals.fastForward.total = Convert.ToInt32(item2.Amount);
+                                                    passengerTotals.fastForward.total += Convert.ToInt32(item2.Amount);
                                                     TotalFastFFWD = passengerTotals.fastForward.total;
                                                 }
-                                                passengerTotals.specialServices.taxes += Convert.ToInt32(item2.Amount);
+                                                else
+                                                {
+                                                    passengerTotals.specialServices.taxes += Convert.ToInt32(item2.Amount);
+                                                }
+                                                
                                                 //breakdown.passengerTotals.seats.taxes += Convert.ToInt32(item2.Amount);
                                                 TotalBagtax = passengerTotals.specialServices.taxes;
                                             }

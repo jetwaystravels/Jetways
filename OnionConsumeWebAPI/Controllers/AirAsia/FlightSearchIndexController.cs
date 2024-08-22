@@ -1382,7 +1382,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                                     }
                                                     else
                                                     {
-                                                        continue;
+                                                        //continue;
                                                     }
                                                     discountamount = 0M;// JsonObj.data.faresAvailable[fareAvailabilityKey].fares[0].passengerFares[0].discountedFare;
                                                     finalamount = 0;
