@@ -858,17 +858,17 @@
 
                                                             string ssrprice = Model.Meals.legSsrs[1].legssrs[s].legpassengers[0].price;
                                                             string Mealcode = Model.Meals.legSsrs[1].legssrs[s].ssrCode;
-                                                            string MealData = Mealcode.StartsWith("V", StringComparison.OrdinalIgnoreCase).ToString();
+                                                            //string MealData = Mealcode.StartsWith("V", StringComparison.OrdinalIgnoreCase).ToString();
                                                             string Mealname = Model.Meals.legSsrs[1].legssrs[s].name + " @" + @Model.Meals.legSsrs[1].legssrs[s].legpassengers[0].price;
                                                             ssrkey = Model.Meals.legSsrs[1].legssrs[s].legpassengers[pas].ssrKey + "_" + @Model.Meals.legSsrs[1].legssrs[s].legpassengers[0].price;
                                                             string passengerKey = Model.Meals.legSsrs[1].legssrs[s].legpassengers[pas].passengerKey;
-                                                            if (MealData != "False")
-                                                            {
+                                                            //if (MealData != "False")
+                                                            //{
                                                                 if (ssrkey != null)
                                                                 {
                                                                     mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
                                                                 }
-                                                            }
+                                                            //}
                                                             //}
 
                                                         }

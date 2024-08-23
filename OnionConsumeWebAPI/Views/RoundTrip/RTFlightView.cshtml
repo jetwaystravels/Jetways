@@ -139,7 +139,7 @@
                                                     <label class=""></label>
 
                                                     <span class="input-group-text">
-                                                        <input id="myInput" name="origin" type="text" value="DEL" class="form-control" onclick="RTDropdown()">
+                                                        <input id="myInput" name="origin" type="text" value="@Model.simpleAvailabilityRequestModelEdit.origin" class="form-control" onclick="RTDropdown()">
 
                                                     </span>
                                                     <span class="autodropdownRT">
@@ -165,7 +165,7 @@
                                                     <label class=""></label>
 
                                                     <span class="input-group-text" id="basic-addon1">
-                                                        <input type="text" id="myInput1" name="destination" class="form-control" value="BOM" onclick="toggleArrivalRT()">
+                                                        <input type="text" id="myInput1" name="destination" class="form-control" value="@Model.simpleAvailabilityRequestModelEdit.destination" onclick="toggleArrivalRT()">
                                                         @* <span id="airportArval"></span> *@
                                                     </span>
                                                     <div id="errordestinaton" class="errorbox" style="display:none;">Enter Destination Name*</div>
@@ -188,14 +188,14 @@
                                                     <label style="margin-bottom: 0.1rem;">Departure</label>
                                                     <span class="input-group-text">
 
-                                                        <input id="Rway-date" name="beginDate" type="text" placeholder="Date" class="form-control">
+                                                        <input id="Rway-date" name="beginDate" type="text" value="@Model.simpleAvailabilityRequestModelEdit.beginDate" placeholder="Date" class="form-control">
                                                     </span>
                                                 </div>
                                                 <div class="col-12 col-md-10 col-lg-2 space">
                                                     <label style="margin-bottom: 0.1rem;">Return</label>
                                                     <span class="input-group-text" id="basic-addon1">
 
-                                                        <input id="Rway-endDate" name="endDate" type="text" placeholder="Date" class="form-control">
+                                                        <input id="Rway-endDate" name="endDate" type="text" value="@Model.simpleAvailabilityRequestModelEdit.endDate" placeholder="Date" class="form-control">
                                                     </span>
                                                 </div>
 
@@ -537,10 +537,6 @@
                 </div>
             </div>
         </section>
-
-
-
-
 
         <section class="rtfix-bottom ">
             <div class="booking-bottom">
@@ -2596,38 +2592,38 @@
 
 
                 const flightInfoHTML = `
-                                 <div class="d-flex d-flex justify-content-between p-2">
+                                         <div class="d-flex d-flex justify-content-between p-2">
 
-                                <div class="fare-round d-flex align-items-center">
-                                                    <img class="size-L" src="${imageSrc}"  alt="image">
-                                    <div class="text-16 ms-2">${carrierCode}-${identifier}</div>
-                                </div>
-                                <div class="fare-round ms-2">
-                                        <div class="text-20">Departure</div>
-                                    <div class="text-16">${departure}</div>
-                                    <div class="text-16">${origin}</div>
-                                </div>
-                                <div class="fare-round">
-                                            <div class="col text-center mt-4">
-                                        <div class="px-20 md:px-0 text-16">${diff}</div>
-                                        <div class="flightLine">
-                                            <div></div>
-                                            <div></div>
+                                        <div class="fare-round d-flex align-items-center">
+                                                            <img class="size-L" src="${imageSrc}"  alt="image">
+                                            <div class="text-16 ms-2">${carrierCode}-${identifier}</div>
                                         </div>
-                                        <div class="mt-1">${stop}</div>
+                                        <div class="fare-round ms-2">
+                                                <div class="text-20">Departure</div>
+                                            <div class="text-16">${departure}</div>
+                                            <div class="text-16">${origin}</div>
+                                        </div>
+                                        <div class="fare-round">
+                                                    <div class="col text-center mt-4">
+                                                <div class="px-20 md:px-0 text-16">${diff}</div>
+                                                <div class="flightLine">
+                                                    <div></div>
+                                                    <div></div>
+                                                </div>
+                                                <div class="mt-1">${stop}</div>
+                                            </div>
+                                        </div>
+                                        <div class="fare-round">
+                                                  <div class="text-20">Arrival</div>
+                                            <div class="lh-15 text-16">${arrival}<span class="d-none" id="arrivalDatadate"></span></div>
+                                            <div class="text-16 lh-15">${destination}</div>
+                                        </div>
+                                                <div class="fare-round ms-2 p-4">
+                                            <div class="text-20 fw-600">₹${fareTotal}</div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="fare-round">
-                                          <div class="text-20">Arrival</div>
-                                    <div class="lh-15 text-16">${arrival}<span class="d-none" id="arrivalDatadate"></span></div>
-                                    <div class="text-16 lh-15">${destination}</div>
-                                </div>
-                                        <div class="fare-round ms-2 p-4">
-                                    <div class="text-20 fw-600">₹${fareTotal}</div>
-                                </div>
-                            </div>
 
-                            `;
+                                    `;
 
                 // Insert the new row into the HTML
                 document.getElementById('flightInfoRow').innerHTML = flightInfoHTML;
@@ -2672,36 +2668,36 @@
                 }
 
                 const flightInfoHTMLR = `
-                    <div class="d-flex d-flex justify-content-between p-2">
-                        <div class="fare-round d-flex align-items-center">
-                            <img class="size-L" src="${imageSrc}" alt="image">
-                            <div class="text-16 ms-2">${carrierCodeR}-${identifierR}</div>
-                        </div>
-                        <div class="fare-round ms-2">
-                            <div class="text-20">Departure</div>
-                            <div class="text-16">${departureR}</div>
-                            <div class="text-16">${originR}</div>
-                        </div>
-                        <div class="fare-round">
-                            <div class="col text-center mt-4">
-                                <div class="px-20 md:px-0 text-16">${diffR}</div>
-                                <div class="flightLine">
-                                    <div></div>
-                                    <div></div>
+                            <div class="d-flex d-flex justify-content-between p-2">
+                                <div class="fare-round d-flex align-items-center">
+                                    <img class="size-L" src="${imageSrc}" alt="image">
+                                    <div class="text-16 ms-2">${carrierCodeR}-${identifierR}</div>
                                 </div>
-                                <div class="mt-1">${stopR}</div>
+                                <div class="fare-round ms-2">
+                                    <div class="text-20">Departure</div>
+                                    <div class="text-16">${departureR}</div>
+                                    <div class="text-16">${originR}</div>
+                                </div>
+                                <div class="fare-round">
+                                    <div class="col text-center mt-4">
+                                        <div class="px-20 md:px-0 text-16">${diffR}</div>
+                                        <div class="flightLine">
+                                            <div></div>
+                                            <div></div>
+                                        </div>
+                                        <div class="mt-1">${stopR}</div>
+                                    </div>
+                                </div>
+                                <div class="fare-round">
+                                    <div class="text-20">Arrival</div>
+                                    <div class="lh-15 text-16">${arrivalR}<span class="d-none" id="arrivalDatadate"></span></div>
+                                    <div class="text-16 lh-15">${destinationR}</div>
+                                </div>
+                                <div class="fare-round ms-2 p-4">
+                                    <div class="text-20 fw-600">₹${fareTotalR}</div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="fare-round">
-                            <div class="text-20">Arrival</div>
-                            <div class="lh-15 text-16">${arrivalR}<span class="d-none" id="arrivalDatadate"></span></div>
-                            <div class="text-16 lh-15">${destinationR}</div>
-                        </div>
-                        <div class="fare-round ms-2 p-4">
-                            <div class="text-20 fw-600">₹${fareTotalR}</div>
-                        </div>
-                    </div>
-                `;
+                        `;
 
                 // Insert the new row into the HTML
                 $('#flightInfoRowR').html(flightInfoHTMLR);

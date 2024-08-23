@@ -62,35 +62,20 @@
                     }
                     if (@Model.passeengerlist.passengers[i].passengerTypeCode == "INFT")
                     {
-                        <div class="col-md-4 infant-dob-input ">
-                            <div class="form-input dobinput d-flex">
+                        <div class="col-md-4 infant-dob-input">
+                            <div class="form-input dobinput d-flex" id="InfDOBCount_@inafantIdx">
                                 <div class="dob-picker">
-                                    <select class="brd-none day-select" name="passengerdetails[@i].day" required>
+                                    <select class="brd-none year-select" id="year_@inafantIdx" required>
+                                    </select>
+                                    <select class="brd-none month-select" id="month_@inafantIdx" required>
+                                    </select>
+                                    <select class="brd-none day-select" id="day_@inafantIdx" required>
                                         <option value="" disabled selected>Day</option>
                                     </select>
-                                    <select class="brd-none month-select" name="passengerdetails[@i].month" required>
-                                        <option value="" disabled selected>Month</option>
-                                        <option value="1">January</option>
-                                        <option value="2">February</option>
-                                        <option value="3">March</option>
-                                        <option value="4">April</option>
-                                        <option value="5">May</option>
-                                        <option value="6">June</option>
-                                        <option value="7">July</option>
-                                        <option value="8">August</option>
-                                        <option value="9">September</option>
-                                        <option value="10">October</option>
-                                        <option value="11">November</option>
-                                        <option value="12">December</option>
-                                    </select>
-                                    <select class="brd-none year-select" name="passengerdetails[@i].year" required>
-                                        <option value="" disabled selected>Year</option>
-                                    </select>
                                 </div>
-
                             </div>
-                            <div class="validation-message-Required error-message" style="color: red; display: none;"></div>
                         </div>
+                        inafantIdx++;
 
 
                     }
@@ -313,26 +298,46 @@
             }
         }
     }
-    document.addEventListener('DOMContentLoaded', function (event) {
-        event.preventDefault();
-        const infantContainers = document.querySelectorAll('.infant-dob-input');
+   
 
-        // Function to populate day options for a given container
-        function populateDayOptions(container, year, month) {
-            const daySelect = container.querySelector('.day-select');
-            daySelect.innerHTML = ''; // Clear existing options
-            const daysInMonth = new Date(year, month, 0).getDate(); // Get days in the selected month and year
+    document.addEventListener('DOMContentLoaded', function () {
+        const daySelects = document.querySelectorAll('.day-select');
+        const monthSelects = document.querySelectorAll('.month-select');
+        const yearSelects = document.querySelectorAll('.year-select');
+
+        const monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+        function isLeapYear(year) {
+            return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+        }
+
+        function populateDayOptions(daySelect, month, year) {
+            daySelect.innerHTML = '<option value="" disabled selected>Day</option>'; // Clear previous options
+            let daysInMonth = monthDays[month];
+            if (month === 1 && isLeapYear(year)) { // February and leap year
+                daysInMonth = 29;
+            }
             for (let i = 1; i <= daysInMonth; i++) {
                 const option = document.createElement('option');
                 option.value = i;
                 option.textContent = i;
                 daySelect.appendChild(option);
             }
+            daySelect.disabled = false;
         }
 
-        // Function to populate year options for a given container
-        function populateYearOptions(container) {
-            const yearSelect = container.querySelector('.year-select');
+        function populateMonthOptions(monthSelect) {
+            monthSelect.innerHTML = '<option value="" disabled selected>Month</option>';
+            for (let i = 0; i < 12; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = new Date(0, i).toLocaleString('en-US', { month: 'long' });
+                monthSelect.appendChild(option);
+            }
+            monthSelect.disabled = false;
+        }
+
+        function populateYearOptions(yearSelect) {
             const currentYear = new Date().getFullYear();
             const maxInfantAge = 2;
             for (let i = currentYear; i >= currentYear - maxInfantAge; i--) {
@@ -343,76 +348,56 @@
             }
         }
 
-        // Function to populate month options for a given container
-        function populateMonthOptions(container) {
-            const monthNames = [
-                'January', 'February', 'March', 'April', 'May', 'June',
-                'July', 'August', 'September', 'October', 'November', 'December'
-            ];
-            const monthSelect = container.querySelector('.month-select');
-            monthSelect.innerHTML = ''; // Clear existing options
-            monthNames.forEach((monthName, index) => {
-                const option = document.createElement('option');
-                option.value = index + 1; // Month numbers start from 1 (January) to 12 (December)
-                option.textContent = monthName;
-                monthSelect.appendChild(option);
-            });
+        yearSelects.forEach(populateYearOptions);
+
+        function handleYearChange() {
+            const year = parseInt(this.value);
+            const parent = this.parentElement;
+            const monthSelect = parent.querySelector('.month-select');
+            populateMonthOptions(monthSelect);
+            const daySelect = parent.querySelector('.day-select');
+            daySelect.innerHTML = '<option value="" disabled selected>Day</option>';
+            daySelect.disabled = true;
         }
 
-        infantContainers.forEach(function (container) {
-            populateYearOptions(container);
-            populateMonthOptions(container);
+        function handleMonthChange() {
+            const parent = this.parentElement;
+            const year = parseInt(parent.querySelector('.year-select').value);
+            const month = parseInt(this.value);
+            const daySelect = parent.querySelector('.day-select');
+            populateDayOptions(daySelect, month, year);
+        }
 
-            const yearSelect = container.querySelector('.year-select');
-            const monthSelect = container.querySelector('.month-select');
+        yearSelects.forEach(select => select.addEventListener('change', handleYearChange));
+        monthSelects.forEach(select => select.addEventListener('change', handleMonthChange));
 
-            // Initial population of days based on the default year and month
-            const defaultYear = yearSelect.value;
-            const defaultMonth = monthSelect.value;
-            populateDayOptions(container, defaultYear, defaultMonth);
-
-            yearSelect.addEventListener('change', function () {
-                const selectedYear = yearSelect.value;
-                const selectedMonth = monthSelect.value;
-                populateDayOptions(container, selectedYear, selectedMonth);
-            });
-
-            monthSelect.addEventListener('change', function () {
-                const selectedYear = yearSelect.value;
-                const selectedMonth = monthSelect.value;
-                populateDayOptions(container, selectedYear, selectedMonth);
-            });
-        });
+        // Initialize the day options for each set of dropdowns
+        document.querySelectorAll('select').forEach(select => select.dispatchEvent(new Event('change')));
     });
-    // document.addEventListener('DOMContentLoaded', function (event) {
-    //     event.preventDefault();
-    //     const infantContainers = document.querySelectorAll('.infant-dob-input');
-    //     function populateDayOptions(container) {
-    //         const daySelect = container.querySelector('.day-select');
-    //         for (let i = 1; i <= 31; i++) {
-    //             const option = document.createElement('option');
-    //             option.value = i;
-    //             option.textContent = i;
-    //             daySelect.appendChild(option);
-    //         }
-    //     }
-    //     // Function to populate year options for a given container
-    //     function populateYearOptions(container) {
-    //         const yearSelect = container.querySelector('.year-select');
-    //         const currentYear = new Date().getFullYear();
-    //         const maxInfantAge = 2;
-    //         for (let i = currentYear; i >= currentYear - maxInfantAge; i--) {
-    //             const option = document.createElement('option');
-    //             option.value = i;
-    //             option.textContent = i;
-    //             yearSelect.appendChild(option);
-    //         }
-    //     }
-    //     infantContainers.forEach(function (container) {
-    //         populateDayOptions(container);
-    //         populateYearOptions(container);
-    //     });
-    // });
+
+    function getSelectedDayValue(index) {
+        const daySelects = document.querySelectorAll('.day-select');
+        if (index < 0 || index >= daySelects.length) {
+            throw new Error('Index out of bounds');
+        }
+        return daySelects[index].value;
+    }
+
+    function getSelectedMonthValue(index) {
+        const monthSelects = document.querySelectorAll('.month-select');
+        if (index < 0 || index >= monthSelects.length) {
+            throw new Error('Index out of bounds');
+        }
+        return monthSelects[index].value;
+    }
+
+    function getSelectedYearValue(index) {
+        const yearSelects = document.querySelectorAll('.year-select');
+        if (index < 0 || index >= yearSelects.length) {
+            throw new Error('Index out of bounds');
+        }
+        return yearSelects[index].value;
+    }
 </script>
 
 <script type="text/javascript">
@@ -490,58 +475,101 @@
                 element.classList.add("error-input");
             }
             //Infant
-            if (!validateMultipleInfantDOBs()) {
-                return false;
-            }
-            function validateInfantDOB(dob) {
-                if (!dob) {
+            //Infant
+            function validateInfantDOB(inafantIdx) {
+                var year = document.getElementById("year_" + inafantIdx).value;
+                //var month = document.getElementById("month_" + inafantIdx).value;
+                var month = parseInt(document.getElementById("month_" + inafantIdx).value) + 1;
+                var day = document.getElementById("day_" + inafantIdx).value;
+                var dob = year + "-" + month + "-" + day;
+                if (year == "") {
+                    alert("Please select year for infant date-of-birth");
+                    return false;
+                }
+                if (month == "") {
+                    alert("Please select month for infant date-of-birth");
+                    return false;
+                }
+                if (day == "") {
+                    alert("Please select day for infant date-of-birth");
                     return false;
                 }
                 var dobDate = new Date(dob);
                 var currentDate = new Date();
-
-                if (isNaN(dobDate.getTime())) {
+                var timeDiff = currentDate.getTime() - dobDate.getTime();
+                var yearsDiff = timeDiff / (1000 * 3600 * 24 * 365.25);
+                // Check if the age is less than 2 years (24 months)
+                if (dobDate > currentDate) {
+                    alert("Date of birth cannot be in the future. Please select a valid date.");
                     return false;
                 }
-                var ageDiff = currentDate.getFullYear() - dobDate.getFullYear();
-                var monthDiff = currentDate.getMonth() - dobDate.getMonth();
-                var dayDiff = currentDate.getDate() - dobDate.getDate();
-                if (ageDiff > 2) {
+
+                if (yearsDiff < 2) {
+                    // if ($("#InfDOBCount_0").is(":visible")) {
+                    //     alert("Infant 1  DOB : " + dob);
+                    // }
+                    // else if ($("#InfDOBCount_1").is(":visible")) {
+                    //     alert("Infant 2  DOB : " + dob);
+                    // }
+                    // else if ($("#InfDOBCount_2").is(":visible")) {
+                    //     alert("Infant 3  DOB : " + dob);
+                    // }
+                    // else if ($("#InfDOBCount_3").is(":visible")) {
+                    //     alert("Infant 4  DOB : " + dob);
+                    // }
+                    // else if ($("#InfDOBCount_4").is(":visible")) {
+                    //     alert("Infant 5  DOB : " + dob);
+                    // }
+                    // else if ($("#InfDOBCount_5").is(":visible")) {
+                    //     alert("Infant 6  DOB : " + dob);
+                    // }
+                    return true; // Infant is valid
+                } else {
+
+                    return false; // Infant is too old
+                }
+            }
+
+            // Example usage:
+            if ($("#InfDOBCount_0").is(":visible")) {
+                if (!validateInfantDOB(0)) {
+                    alert("Infant 1 can't be greater than 2 years.");
                     return false;
                 }
-                if (ageDiff === 2) {
-                    if (monthDiff > 0 || (monthDiff === 0 && dayDiff >= 0)) {
-                        return false;
-                    }
+            }
+
+            if ($("#InfDOBCount_1").is(":visible")) {
+                if (!validateInfantDOB(1)) {
+                    alert("Infant 2 can't be greater than 2 years.");
+                    return false;
                 }
-                return true;
             }
-            function validateMultipleInfantDOBs() {
-                var infantsValid = true;
 
-                $(".dobinput:visible").each(function () {
-
-                    var day = $(this).find('.day-select').val();
-                    var month = $(this).find('.month-select').val();
-                    var year = $(this).find('.year-select').val();
-                    var dob = year + "-" + month + "-" + day;
-                    var validationMessageReq = $(this).closest('.infant-dob-input').find('.validation-message-Required');
-                    if (!day || !month || !year) {
-
-                        validationMessageReq.text("Enter valid date of birth.");
-                        validationMessageReq.show();
-                        infantsValid = false;
-                    } else if (!validateInfantDOB(dob)) {
-
-                        validationMessageReq.text("Infant can not be greater than 2 years.");
-                        validationMessageReq.show();
-                        infantsValid = false;
-                    } else {
-                        validationMessageReq.hide();
-                    }
-                });
-                return infantsValid;
+            if ($("#InfDOBCount_2").is(":visible")) {
+                if (!validateInfantDOB(2)) {
+                    alert("Infant 3 can't be greater than 2 years.");
+                    return false;
+                }
             }
+            if ($("#InfDOBCount_3").is(":visible")) {
+                if (!validateInfantDOB(3)) {
+                    alert("Infant 4 can't be greater than 2 years.");
+                    return false;
+                }
+            }
+            if ($("#InfDOBCount_4").is(":visible")) {
+                if (!validateInfantDOB(4)) {
+                    alert("Infant 5 can't be greater than 2 years.");
+                    return false;
+                }
+            }
+            if ($("#InfDOBCount_5").is(":visible")) {
+                if (!validateInfantDOB(5)) {
+                    alert("Infant 6 can't be greater than 2 years.");
+                    return false;
+                }
+            }
+            //End infant
             /*******Validation End*********/
 
 

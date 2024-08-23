@@ -345,7 +345,7 @@
 
                                                 }
                                                 <label>Flying From</label>
-                                                <span class="input-group-text flightdepr">
+                                                <span class="input-group-text flightdepr" id="myInputbx">
                                                     <input type="text" id="myInput" maxlength="40" asp-for="origin" class="form-control text-15 " value="@origin" placeholder="Enter AirportName" onclick="toggleDropdown()">
                                                     <span id="airportName"></span>
                                                 </span>
@@ -353,7 +353,7 @@
 
                                                 <span class="autodropdown">
                                                     <select id="selectedItemId" name="selectedItemId" onchange="handleSelection()">
-                                                        @* <option value="">Please select</option> *@
+                                                         <option value="" style="display:none;">Please select</option> 
 
                                                         @foreach (var item in Citynamelist.GetAllCityData())
                                                         {
@@ -377,7 +377,7 @@
                                                 <div id="errordestinaton" class="errorbox" style="display:none;">Enter Destination Name*</div>
                                                 <span class="autoarrival">
                                                     <select id="arrivalItemId" name="arrivalItemId" onchange="arrivalSelection()">
-                                                        @* <option value="">Please select</option> *@
+                                                        <option value="" style="display:none;">Please select</option>
 
                                                         @foreach (var item in Citynamelist.GetAllCityData())
                                                         {

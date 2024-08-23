@@ -68,7 +68,7 @@ $(document).ready(function () {
     $('#arrivalItemId').trigger('chosen:open');
 
 
-    $('#myInput1').on('click', function (event) {
+    $('#basic-addon1').on('click', function (event) {
         event.stopPropagation();
         $('#arrivalItemId').trigger('chosen:open');
         $('.chosen-drop').show();
@@ -178,7 +178,7 @@ $(document).ready(function () {
     $('.chosen-drop').hide();
     $('#selectedItemId').trigger('chosen:open');
 
-    $('#myInput').on('click', function (event) {
+    $('#myInputbx').on('click', function (event) {
         event.stopPropagation();
         $('#selectedItemId').trigger('chosen:open');
         $('.chosen-drop').show();

@@ -89,90 +89,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
         }
         [HttpPost]
-        public IActionResult FlightView0111(string sortOrderName, List<string> FilterIdAirLine, List<int> FilterId)
-        {
-            ViewModel viewModelobject = new ViewModel();
-            string OnewayFlightData = HttpContext.Session.GetString("OneWayFlightView");
-            List<SimpleAvailibilityaAddResponce> OnewaydeserializedObjects = null;
-            OnewaydeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(OnewayFlightData);
-            ViewBag.NameSortParam = sortOrderName == "name_desc" ? "name_asc" : "name_desc";
-            ViewBag.PriceSortParam = sortOrderName == "price_desc" ? "price_asc" : "price_desc";
-            ViewBag.DepartSortParam = sortOrderName == "deprt_desc" ? "deprt_asc" : "deprt_desc";
-            ViewBag.arriveSortParam = sortOrderName == "arrive_desc" ? "arrive_asc" : "arrive_desc";
-            ViewBag.durationSortParam = sortOrderName == "duration_desc" ? "duration_asc" : "duration_desc";
-            switch (sortOrderName)
-            {
-                case "name_desc":
-                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderByDescending(f => f.Airline.ToString()).ToList();
-                    break;
-                case "name_asc":
-                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderBy(f => f.Airline.ToString()).ToList();
-                    break;
-                case "price_desc":
-                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderByDescending(p => p.fareTotalsum).ToList();
-                    break;
-                case "price_asc":
-                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderBy(p => p.fareTotalsum).ToList();
-                    break;
-                case "deprt_desc":
-                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderByDescending(d => d.designator.departure).ToList();
-                    break;
-                case "deprt_asc":
-                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderBy(d => d.designator.departure).ToList();
-                    break;
-                case "arrive_desc":
-                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderByDescending(d => d.designator.ArrivalTime).ToList();
-                    break;
-                case "arrive_asc":
-                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderBy(d => d.designator.ArrivalTime).ToList();
-                    break;
-                case "duration_desc":
-                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderByDescending(d => d.designator.formatTime).ToList();
-                    break;
-                case "duration_asc":
-                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderBy(d => d.designator.formatTime).ToList();
-                    break;
-                default:
-                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderBy(p => p.fareTotalsum).ToList();
-                    break;
-
-            }
-            if (FilterId != null && FilterId.Count > 0)
-            {
-                foreach (int value in FilterId)
-                {
-                    switch (value)
-                    {
-                        case 0:
-
-                            OnewaydeserializedObjects = OnewaydeserializedObjects.Where(x => FilterId.Contains(x.stops)).ToList();
-                            break;
-                        case 1:
-
-                            OnewaydeserializedObjects = OnewaydeserializedObjects.Where(x => FilterId.Contains(x.stops)).ToList();
-                            break;
-                        case 2:
-
-                            OnewaydeserializedObjects = OnewaydeserializedObjects.Where(x => FilterId.Contains(x.stops)).ToList();
-                            break;
-                        default:
-                            OnewaydeserializedObjects = OnewaydeserializedObjects.Where(x => FilterId.Contains(x.stops)).ToList();
-                            break;
-                    }
-                }
-
-            }
-            else if (FilterIdAirLine.Count > 0 && FilterIdAirLine.Count >= 0)
-            {
-                var FilterAirLineData = OnewaydeserializedObjects.Where(x => FilterIdAirLine.Contains(x.Airline.ToString())).ToList();
-                viewModelobject.SimpleAvailibilityaAddResponcelist = FilterAirLineData;
-                return PartialView("_FlightResultsSortingPartialView", viewModelobject);
-            }
-            viewModelobject.SimpleAvailibilityaAddResponcelist = OnewaydeserializedObjects;
-            return PartialView("_FlightResultsSortingPartialView", viewModelobject);
-        }
-        [HttpPost]
-        public IActionResult RTFlightView(List<int> selectedIds, List<string> RTFilterIdAirLine)
+        public IActionResult RTFlightView(List<int> selectedIds, List<int> selectedIdsRight, List<string> RTFilterIdAirLine)
         {
 
             string LeftshowpopupdataStops = HttpContext.Session.GetString("LeftReturnViewFlightView");
@@ -192,13 +109,13 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                 RightdeserializedStops = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(RightshowpopupdataStops);
             }
 
-            List<SimpleAvailibilityaAddResponce> FilterStopData = new List<SimpleAvailibilityaAddResponce>();
-            List<SimpleAvailibilityaAddResponce> FilterStopDataRight = new List<SimpleAvailibilityaAddResponce>();
+            List<SimpleAvailibilityaAddResponce> FilterStopData = LeftdeserializedStops;
+            List<SimpleAvailibilityaAddResponce> FilterStopDataRight = RightdeserializedStops;
 
             if (selectedIds != null && selectedIds.Count > 0)
             {
                 FilterStopData = LeftdeserializedStops?.Where(x => selectedIds.Contains(x.stops)).ToList();
-                FilterStopDataRight = RightdeserializedStops?.Where(x => selectedIds.Contains(x.stops)).ToList();
+                //FilterStopDataRight = RightdeserializedStops?.Where(x => selectedIds.Contains(x.stops)).ToList();
 
                 // Apply filtering based on selected stop counts
                 foreach (int value in selectedIds)
@@ -207,19 +124,44 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     {
                         case 0:
                             FilterStopData = FilterStopData?.Where(x => selectedIds.Contains(x.stops)).ToList();
-                            FilterStopDataRight = FilterStopDataRight?.Where(x => selectedIds.Contains(x.stops)).ToList();
+
                             break;
                         case 1:
                             FilterStopData = FilterStopData?.Where(x => selectedIds.Contains(x.stops)).ToList();
-                            FilterStopDataRight = FilterStopDataRight?.Where(x => selectedIds.Contains(x.stops)).ToList();
+
                             break;
                         case 2:
                             FilterStopData = FilterStopData?.Where(x => selectedIds.Contains(x.stops)).ToList();
-                            FilterStopDataRight = FilterStopDataRight?.Where(x => selectedIds.Contains(x.stops)).ToList();
+
                             break;
                         default:
                             FilterStopData = FilterStopData?.Where(x => selectedIds.Contains(x.stops)).ToList();
-                            FilterStopDataRight = FilterStopDataRight?.Where(x => selectedIds.Contains(x.stops)).ToList();
+                            break;
+                    }
+                }
+            }
+            else if (selectedIdsRight != null && selectedIdsRight.Count > 0)
+            {
+                FilterStopDataRight = RightdeserializedStops?.Where(x => selectedIdsRight.Contains(x.stops)).ToList();
+                foreach (int value in selectedIdsRight)
+                {
+                    switch (value)
+                    {
+                        case 0:
+
+                            FilterStopDataRight = FilterStopDataRight?.Where(x => selectedIdsRight.Contains(x.stops)).ToList();
+                            break;
+                        case 1:
+
+                            FilterStopDataRight = FilterStopDataRight?.Where(x => selectedIdsRight.Contains(x.stops)).ToList();
+                            break;
+                        case 2:
+
+                            FilterStopDataRight = FilterStopDataRight?.Where(x => selectedIdsRight.Contains(x.stops)).ToList();
+                            break;
+                        default:
+
+                            FilterStopDataRight = FilterStopDataRight?.Where(x => selectedIdsRight.Contains(x.stops)).ToList();
                             break;
                     }
                 }
@@ -235,13 +177,164 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                 vmobj.SimpleAvailibilityaAddResponcelistR = FilterStopDataRight;
                 return PartialView("_RTFlightResultsSortingPartialView", vmobj);
             }
+            else
+            {
 
-            vmobj.SimpleAvailibilityaAddResponcelist = FilterStopData ?? new List<SimpleAvailibilityaAddResponce>();
-            vmobj.SimpleAvailibilityaAddResponcelistR = FilterStopDataRight ?? new List<SimpleAvailibilityaAddResponce>();
+                if (!string.IsNullOrEmpty(LeftshowpopupdataStops))
+                {
+                    LeftdeserializedStops = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(LeftshowpopupdataStops);
+                }
+
+                if (!string.IsNullOrEmpty(RightshowpopupdataStops))
+                {
+                    RightdeserializedStops = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(RightshowpopupdataStops);
+                }
+
+                vmobj.SimpleAvailibilityaAddResponcelist = LeftdeserializedStops;
+                vmobj.SimpleAvailibilityaAddResponcelistR = RightdeserializedStops;
+
+                string RTFlightEditData = HttpContext.Session.GetString("PassengerModelR");
+                SimpleAvailabilityRequestModel simpleAvailabilityRequestModel = null;
+                if (!string.IsNullOrEmpty(RTFlightEditData))
+                {
+                    simpleAvailabilityRequestModel = JsonConvert.DeserializeObject<SimpleAvailabilityRequestModel>(RTFlightEditData);
+                }
+                vmobj.simpleAvailabilityRequestModelEdit = simpleAvailabilityRequestModel;
+                return PartialView("_RTFlightResultsSortingPartialView", vmobj);
+            }
+
+            vmobj.SimpleAvailibilityaAddResponcelist = FilterStopData;
+            vmobj.SimpleAvailibilityaAddResponcelistR = FilterStopDataRight;
 
             return PartialView("_RTFlightResultsSortingPartialView", vmobj);
 
         }
+        public IActionResult ReturnFlightViewFilter(List<string> departure, List<string> arrival, List<string> departureRight, List<string> arrivalRight)
+        {
+            if (departure.Count > 0)
+            {
+                if (departure[0] == null)
+                {
+                    departure = departure.Where(d => d != null).ToList();
+                    //departure = new List<string>();
+                }
+            }
+            if (arrival.Count > 0)
+            {
+                if (arrival[0] == null)
+                {
+                    //arrival = new List<string>();
+                    arrival = arrival.Where(d => d != null).ToList();
+                }
+            }
+            if (departureRight.Count > 0)
+            {
+                if (departureRight[0] == null)
+                {
+                    departureRight = departureRight.Where(d => d != null).ToList();
+                }
+            }
+            if (arrivalRight.Count > 0)
+            {
+                if (arrivalRight[0] == null)
+                {
+                    arrivalRight = arrivalRight.Where(d => d != null).ToList();
+                }
+            }
+
+            string Leftshowpopupdata = HttpContext.Session.GetString("LeftReturnViewFlightView");
+            string Rightshowpopupdata = HttpContext.Session.GetString("RightReturnFlightView");
+            if (string.IsNullOrEmpty(Leftshowpopupdata))
+            {
+                return View("Error");
+            }
+            List<SimpleAvailibilityaAddResponce> LeftdeserializedObjects = null;
+            List<SimpleAvailibilityaAddResponce> RightdeserializedObjects = null;
+
+            ViewModel viewModelobject = new ViewModel();
+            if (!string.IsNullOrEmpty(Leftshowpopupdata))
+            {
+                LeftdeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(Leftshowpopupdata);
+            }
+
+            if (!string.IsNullOrEmpty(Rightshowpopupdata))
+            {
+                RightdeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(Rightshowpopupdata);
+            }
+            List<SimpleAvailibilityaAddResponce> filteredFlightsReturn = LeftdeserializedObjects;
+            List<SimpleAvailibilityaAddResponce> filteredFlightsRight = RightdeserializedObjects;
+            if (departure != null && departure.Count > 0)
+            {
+                filteredFlightsReturn = filteredFlightsReturn.Where(flight =>
+                    departure.Any(d =>
+                        (d.ToLower() == "before_6am" && flight.designator.departure.TimeOfDay < new TimeSpan(6, 0, 0)) ||
+                        (d.ToLower() == "6am_to_12pm" && flight.designator.departure.TimeOfDay >= new TimeSpan(6, 0, 0) && flight.designator.departure.TimeOfDay < new TimeSpan(12, 0, 0)) ||
+                        (d.ToLower() == "12pm_to_6pm" && flight.designator.departure.TimeOfDay >= new TimeSpan(12, 0, 0) && flight.designator.departure.TimeOfDay < new TimeSpan(18, 0, 0)) ||
+                        (d.ToLower() == "after_6pm" && flight.designator.departure.TimeOfDay >= new TimeSpan(18, 0, 0))
+                    )).ToList();
+            }
+            else if (arrival != null && arrival.Count > 0)
+            {
+                filteredFlightsReturn = filteredFlightsReturn.Where(flight =>
+                    arrival.Any(a =>
+                        (a.ToLower() == "before_6am" && flight.designator.arrival.TimeOfDay < new TimeSpan(6, 0, 0)) ||
+                        (a.ToLower() == "6am_to_12pm" && flight.designator.arrival.TimeOfDay >= new TimeSpan(6, 0, 0) && flight.designator.arrival.TimeOfDay < new TimeSpan(12, 0, 0)) ||
+                        (a.ToLower() == "12pm_to_6pm" && flight.designator.arrival.TimeOfDay >= new TimeSpan(12, 0, 0) && flight.designator.arrival.TimeOfDay < new TimeSpan(18, 0, 0)) ||
+                        (a.ToLower() == "after_6pm" && flight.designator.arrival.TimeOfDay >= new TimeSpan(18, 0, 0))
+                    )).ToList();
+            }
+            else if (departureRight != null && departureRight.Count > 0)
+            {
+                filteredFlightsRight = filteredFlightsRight.Where(flight =>
+                    departureRight.Any(a =>
+                        (a.ToLower() == "before_6am" && flight.designator.departure.TimeOfDay < new TimeSpan(6, 0, 0)) ||
+                        (a.ToLower() == "6am_to_12pm" && flight.designator.departure.TimeOfDay >= new TimeSpan(6, 0, 0) && flight.designator.departure.TimeOfDay < new TimeSpan(12, 0, 0)) ||
+                        (a.ToLower() == "12pm_to_6pm" && flight.designator.departure.TimeOfDay >= new TimeSpan(12, 0, 0) && flight.designator.departure.TimeOfDay < new TimeSpan(18, 0, 0)) ||
+                        (a.ToLower() == "after_6pm" && flight.designator.departure.TimeOfDay >= new TimeSpan(18, 0, 0))
+                    )).ToList();
+            }
+            else if (arrivalRight != null && arrivalRight.Count > 0)
+            {
+                filteredFlightsRight = filteredFlightsRight.Where(flight =>
+                    arrivalRight.Any(a =>
+                        (a.ToLower() == "before_6am" && flight.designator.arrival.TimeOfDay < new TimeSpan(6, 0, 0)) ||
+                        (a.ToLower() == "6am_to_12pm" && flight.designator.arrival.TimeOfDay >= new TimeSpan(6, 0, 0) && flight.designator.arrival.TimeOfDay < new TimeSpan(12, 0, 0)) ||
+                        (a.ToLower() == "12pm_to_6pm" && flight.designator.arrival.TimeOfDay >= new TimeSpan(12, 0, 0) && flight.designator.arrival.TimeOfDay < new TimeSpan(18, 0, 0)) ||
+                        (a.ToLower() == "after_6pm" && flight.designator.arrival.TimeOfDay >= new TimeSpan(18, 0, 0))
+                    )).ToList();
+            }
+            else
+            {
+
+                if (!string.IsNullOrEmpty(Leftshowpopupdata))
+                {
+                    LeftdeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(Leftshowpopupdata);
+                }
+
+                if (!string.IsNullOrEmpty(Rightshowpopupdata))
+                {
+                    RightdeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(Rightshowpopupdata);
+                }
+
+                viewModelobject.SimpleAvailibilityaAddResponcelist = LeftdeserializedObjects;
+                viewModelobject.SimpleAvailibilityaAddResponcelistR = RightdeserializedObjects;
+
+                string RTFlightEditData = HttpContext.Session.GetString("PassengerModelR");
+                SimpleAvailabilityRequestModel simpleAvailabilityRequestModel = null;
+                if (!string.IsNullOrEmpty(RTFlightEditData))
+                {
+                    simpleAvailabilityRequestModel = JsonConvert.DeserializeObject<SimpleAvailabilityRequestModel>(RTFlightEditData);
+                }
+                viewModelobject.simpleAvailabilityRequestModelEdit = simpleAvailabilityRequestModel;
+                return PartialView("_RTFlightResultsSortingPartialView", viewModelobject);
+            }
+
+            viewModelobject.SimpleAvailibilityaAddResponcelist = filteredFlightsReturn;
+            viewModelobject.SimpleAvailibilityaAddResponcelistR = filteredFlightsRight;
+
+            return PartialView("_RTFlightResultsSortingPartialView", viewModelobject);
+        }
+
 
 
     }
