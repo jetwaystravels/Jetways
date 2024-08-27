@@ -294,7 +294,7 @@
                                                             int segmentcount = @Model.AirlinePNR[a].journeys[0].segments.Count;
                                                             if (segmentcount == 1)
                                                             {
-                                                                <td rowspan="1" style="vertical-align:middle;width:110px;">
+                                                                <td rowspan="1" style="vertical-align:middle;width:254px;">
                                                                     @{
                                                                         var imageUrl1 = @Model.AirlinePNR[a].passengers[i2].barcodestring;
                                                                         // string imageUrl1 = ViewData["ImageBytes"] as string;
@@ -311,7 +311,7 @@
                                                             }
                                                             if (segmentcount == 2)
                                                             {
-                                                                <td rowspan="2" style="vertical-align:middle;width:110px;">
+                                                                <td rowspan="2" style="vertical-align:middle;width:254px;">
                                                                     @{
                                                                         var imageUrl1 = @Model.AirlinePNR[a].passengers[i2].barcodestring;
                                                                         // string imageUrl1 = ViewData["ImageBytes"] as string;
@@ -1016,7 +1016,7 @@
                                                                     int segmentscount = @Model.AirlinePNR[a].journeys[0].segments.Count;
                                                                     if (segmentscount == 1)
                                                                     {
-                                                                        <td rowspan="1" style="vertical-align:middle;width:154px;"><img src="@barcodeimageUrl" alt="barcode"></td>
+                                                                        <td rowspan="1" style="vertical-align:middle;width:254px;"><img src="@barcodeimageUrl" alt="barcode"></td>
                                                                     }
 
                                                                 }
@@ -1036,12 +1036,12 @@
                                                                     int segmentscount = @Model.AirlinePNR[a].journeys[0].segments.Count;
                                                                     if (segmentscount == 1)
                                                                     {
-                                                                        <td rowspan="1" style="vertical-align:middle;width:154px;"><img src="@barcodeimageUrl" alt="barcode"></td>
+                                                                        <td rowspan="1" style="vertical-align:middle;width:254px;"><img src="@barcodeimageUrl" alt="barcode"></td>
                                                                     }
 
                                                                     if (segmentscount == 2)
                                                                     {
-                                                                        <td rowspan="2" style="vertical-align:middle;width:154px;"><img src="@barcodeimageUrl" alt="barcode"></td>
+                                                                        <td rowspan="2" style="vertical-align:middle;width:254px;"><img src="@barcodeimageUrl" alt="barcode"></td>
                                                                     }
                                                                 }
 

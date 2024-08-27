@@ -250,7 +250,7 @@
                                                 int segmentcount = @Model.AirlinePNR[0].journeys[0].segments.Count;
                                                 if (segmentcount == 1)
                                                 {
-                                                    <td rowspan="1" style="vertical-align:middle;width:154px;">
+                                                    <td rowspan="1" style="vertical-align:middle;width:254px;">
 
                                                         @{
                                                             var imageUrl1 = @Model.AirlinePNR[0].passengers[p].barcodestring;
@@ -268,7 +268,7 @@
                                                 }
                                                 if (segmentcount == 2)
                                                 {
-                                                    <td rowspan="2" style="vertical-align:middle;width:154px;">
+                                                    <td rowspan="2" style="vertical-align:middle;width:254px;">
                                                         @{
                                                             var imageUrl1 = @Model.AirlinePNR[0].passengers[p].barcodestring;
                                                             // string imageUrl1 = ViewData["ImageBytes"] as string;
