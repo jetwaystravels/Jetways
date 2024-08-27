@@ -62,7 +62,10 @@ namespace OnionArchitectureAPI.Services.Travelport
                 bond.Legs = new List<GDSResModel.Leg>();
                 XmlDocument doc = new XmlDocument();
                 XmlDocument airSegmentList = new XmlDocument();
-                doc.LoadXml(AirFareResponse);
+                if (!string.IsNullOrEmpty(AirFareResponse))
+                {
+                    doc.LoadXml(AirFareResponse);
+                }
                 //cancelTime = new FareCancellationTime();
                 foreach (XmlNode rootNode in doc)
                 {
@@ -787,7 +790,10 @@ namespace OnionArchitectureAPI.Services.Travelport
             //List<Segment> data =  GetSegmentList(lowFareResponse);
             XmlDocument doc = new XmlDocument();
             XmlDocument airSegmentList = new XmlDocument();
-            doc.LoadXml(lowFareResponse);
+            if (!string.IsNullOrEmpty(lowFareResponse))
+            {
+                doc.LoadXml(lowFareResponse);
+            }
             //doc.LoadXml(lowFareResponse.Replace("C11", "CNN"));
             GDSResModel.Bond bond = new GDSResModel.Bond();
             bond.Legs = new List<GDSResModel.Leg>();

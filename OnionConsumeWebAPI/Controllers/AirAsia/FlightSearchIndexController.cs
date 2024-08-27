@@ -520,9 +520,11 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                     _SimpleAvailibilityaAddResponceobj.fareTotalsum = fareTotalsum;
                                     _SimpleAvailibilityaAddResponceobj.journeyKey = journeyKey;
                                     _SimpleAvailibilityaAddResponceobj.faresIndividual = fareIndividualsList;
-                                    _SimpleAvailibilityaAddResponceobj.uniqueId = i;
+                                    //_SimpleAvailibilityaAddResponceobj.uniqueId = i;
                                     _SimpleAvailibilityaAddResponceobj.Airline = Airlines.Airasia;
                                     _SimpleAvailibilityaAddResponceobj.uniqueId = uniqueidx;
+                                    if (_SimpleAvailibilityaAddResponceobj.fareTotalsum <= 0)
+                                        continue;
                                     uniqueidx++;
                                     SimpleAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
                                 }
@@ -834,10 +836,11 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                             _SimpleAvailibilityaAddResponceobj.fareTotalsum = fareTotalsum;
                                             _SimpleAvailibilityaAddResponceobj.journeyKey = journeyKey;
                                             _SimpleAvailibilityaAddResponceobj.faresIndividual = AkasafareIndividualsList;
-                                            _SimpleAvailibilityaAddResponceobj.uniqueId = i;
+                                            //_SimpleAvailibilityaAddResponceobj.uniqueId = i;
                                             _SimpleAvailibilityaAddResponceobj.Airline = Airlines.AkasaAir;
                                             _SimpleAvailibilityaAddResponceobj.uniqueId = uniqueidx;
-
+                                            if (_SimpleAvailibilityaAddResponceobj.fareTotalsum <= 0)
+                                                continue;
                                             uniqueidx++;
                                             //SimpleAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
                                             SimpleAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
@@ -1232,6 +1235,8 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         _SimpleAvailibilityaAddResponceobj.faresIndividual = fareIndividualsconnectedList;// fareIndividualsList;
                         _SimpleAvailibilityaAddResponceobj.uniqueId = uniqueidx;
                         _SimpleAvailibilityaAddResponceobj.Airline = Airlines.Spicejet;
+                        if (_SimpleAvailibilityaAddResponceobj.fareTotalsum <= 0)
+                            continue;
                         uniqueidx++;
                         SpiceJetAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
                         SimpleAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
@@ -1476,6 +1481,8 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             _SimpleAvailibilityaAddResponceobj.faresIndividual = fareIndividualsconnectedList;// fareIndividualsList;
                             _SimpleAvailibilityaAddResponceobj.uniqueId = uniqueidx;
                             _SimpleAvailibilityaAddResponceobj.Airline = Airlines.Indigo;
+                            if (_SimpleAvailibilityaAddResponceobj.fareTotalsum <= 0)
+                                continue;
                             uniqueidx++;
                             SpiceJetAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
                             SimpleAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
@@ -1904,6 +1911,8 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             _SimpleAvailibilityaAddResponceobj.Airline = Airlines.AirIndia;
                         else if (_SimpleAvailibilityaAddResponceobj.segments[0].identifier.carrierCode.Equals("H1"))
                             _SimpleAvailibilityaAddResponceobj.Airline = Airlines.Hehnair;
+                        if (_SimpleAvailibilityaAddResponceobj.fareTotalsum <= 0)
+                            continue;
                         uniqueidx++;
                         SpiceJetAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
                         SimpleAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
@@ -2218,6 +2227,8 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                         _SimpleAvailibilityaAddResponceobjR.faresIndividual = fareIndividualsList;
                                         _SimpleAvailibilityaAddResponceobjR.uniqueId = uniqueidx;
                                         _SimpleAvailibilityaAddResponceobjR.Airline = Airlines.Airasia;
+                                        if (_SimpleAvailibilityaAddResponceobjR.fareTotalsum <= 0)
+                                            continue;
                                         uniqueidx++;
                                         SimpleAvailibilityaAddResponcelistR.Add(_SimpleAvailibilityaAddResponceobjR);
                                     }
@@ -2525,7 +2536,8 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                             _SimpleAvailibilityaAddResponceobjR.uniqueId = i;
                                             _SimpleAvailibilityaAddResponceobjR.Airline = Airlines.AkasaAir;
                                             _SimpleAvailibilityaAddResponceobjR.uniqueId = uniqueidx;
-
+                                            if (_SimpleAvailibilityaAddResponceobjR.fareTotalsum <= 0)
+                                                continue;
                                             uniqueidx++;
                                             //SimpleAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
                                             SimpleAvailibilityaAddResponcelistR.Add(_SimpleAvailibilityaAddResponceobjR);
@@ -2859,6 +2871,8 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 _SimpleAvailibilityaAddResponceobjR.faresIndividual = fareIndividualsconnectedList;// fareIndividualsList;
                                 _SimpleAvailibilityaAddResponceobjR.uniqueId = uniqueidx;
                                 _SimpleAvailibilityaAddResponceobjR.Airline = Airlines.Spicejet;
+                                if (_SimpleAvailibilityaAddResponceobjR.fareTotalsum <= 0)
+                                    continue;
                                 uniqueidx++;
                                 SpiceJetAvailibilityaAddResponcelistR.Add(_SimpleAvailibilityaAddResponceobjR);
                                 SimpleAvailibilityaAddResponcelistR.Add(_SimpleAvailibilityaAddResponceobjR);
@@ -3096,6 +3110,8 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             _SimpleAvailibilityaAddResponceobjR.faresIndividual = fareIndividualsconnectedList;// fareIndividualsList;
                             _SimpleAvailibilityaAddResponceobjR.uniqueId = uniqueidx;
                             _SimpleAvailibilityaAddResponceobjR.Airline = Airlines.Indigo;
+                            if (_SimpleAvailibilityaAddResponceobjR.fareTotalsum <= 0)
+                                continue;
                             uniqueidx++;
                             SpiceJetAvailibilityaAddResponcelistR.Add(_SimpleAvailibilityaAddResponceobjR);
                             SimpleAvailibilityaAddResponcelistR.Add(_SimpleAvailibilityaAddResponceobjR);
@@ -3427,6 +3443,8 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 _SimpleAvailibilityaAddResponceobjR.Airline = Airlines.AirIndia;
                             else if (_SimpleAvailibilityaAddResponceobjR.segments[0].identifier.carrierCode.Equals("H1"))
                                 _SimpleAvailibilityaAddResponceobjR.Airline = Airlines.Hehnair;
+                            if (_SimpleAvailibilityaAddResponceobjR.fareTotalsum <= 0)
+                                continue;
                             uniqueidx++;
                             SpiceJetAvailibilityaAddResponcelistR.Add(_SimpleAvailibilityaAddResponceobjR);
                             SimpleAvailibilityaAddResponcelistR.Add(_SimpleAvailibilityaAddResponceobjR);
