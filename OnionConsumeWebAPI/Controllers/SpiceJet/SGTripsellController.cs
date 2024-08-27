@@ -151,15 +151,23 @@ namespace OnionConsumeWebAPI.Controllers
                 _ContactModel.ContractVersion = 420;
                 _ContactModel.updateContactsRequestData.BookingContactList = new BookingContact[1];
                 _ContactModel.updateContactsRequestData.BookingContactList[0] = new BookingContact();
-                _ContactModel.updateContactsRequestData.BookingContactList[0].EmailAddress = obj.emailAddress;
+              
                 if (obj.customerNumber != null && obj.customerNumber != "")
                 {
                     _ContactModel.updateContactsRequestData.BookingContactList[0].TypeCode = "G";
                     _ContactModel.updateContactsRequestData.BookingContactList[0].CompanyName = obj.companyName;
                     _ContactModel.updateContactsRequestData.BookingContactList[0].CustomerNumber = obj.customerNumber; //"22AAAAA0000A1Z5"; //GSTNumber Re_ Assistance required for SG API Integration\GST Logs.zip\GST Logs
+                    _ContactModel.updateContactsRequestData.BookingContactList[0].EmailAddress = obj.emailAddressgst;
+                    //if(obj.emailAddressgst == null)
+                    //{
+                    //    _ContactModel.updateContactsRequestData.BookingContactList[0].EmailAddress = obj.emailAddress;
+                    //}
+
+
                 }
                 else
                 {
+                    _ContactModel.updateContactsRequestData.BookingContactList[0].EmailAddress = obj.emailAddress;
                     _ContactModel.updateContactsRequestData.BookingContactList[0].TypeCode = "P";
                     _ContactModel.updateContactsRequestData.BookingContactList[0].CountryCode = "IN";
                     _ContactModel.updateContactsRequestData.BookingContactList[0].HomePhone = obj.number;

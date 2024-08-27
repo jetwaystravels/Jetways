@@ -79,6 +79,13 @@
 
         </div>
 
+        <div class="col-md-3">
+            <div class="form-input">
+                <input type="text" name="emailAddressgst" maxlength="266" oninput="validateEmailGST(event)" class="gstemail hid-block hidden" id="emailAddressGST" placeholder="Email ID">
+            </div>
+            <p id="emailErrorMessageGST" style="color: red; font-size:13px;"></p>
+        </div>
+
 
     </div>
 </form>
@@ -191,6 +198,8 @@
             document.getElementById('gstErrorMessage').innerText = "";
             document.getElementById("gstname").value = "";
             document.getElementById("gstnumber").value = "";
+            document.getElementById("emailAddressGST").value = "";
+            document.getElementById("emailErrorMessageGST").value = "";
             $(".hid-block").hide();
         }
     });
@@ -459,6 +468,33 @@
         }
 
     }
+
+    //GStEmail
+    function validateEmailGST(event) {
+
+        var email = event.target.value;
+        var regex = /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+        var errorMessage = document.getElementById('emailErrorMessageGST');
+        //var errorDisplay = document.getElementById('error-message7');
+
+        if (email.trim() === "") {
+            errorMessage.innerText = "";
+        } else if (!regex.test(email)) {
+            errorMessage.innerText = "Enter a valid Email Address.";
+        } else {
+            errorMessage.innerText = "";
+        }
+
+        // if (email.trim() === "") {
+        //     errorDisplay.style.display = "block";
+        //     document.getElementById("emailAddress").focus();
+        //     return false;
+        // } else {
+        //     errorDisplay.style.display = "none";
+        // }
+
+    }
+
 
     //Phone Number
     function validatePhoneNumber(event) {

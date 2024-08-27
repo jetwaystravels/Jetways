@@ -139,6 +139,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         {
                             returnTicketBooking.customerNumber = _getBookingResponse.Booking.BookingContacts[0].CustomerNumber;
                             returnTicketBooking.companyName = _getBookingResponse.Booking.BookingContacts[0].CompanyName;
+                            returnTicketBooking.emailAddressgst = _getBookingResponse.Booking.BookingContacts[0].EmailAddress;
                         }
                         Contacts _contact = new Contacts();
                         _contact.phoneNumbers = _getBookingResponse.Booking.BookingContacts[0].HomePhone.ToString();

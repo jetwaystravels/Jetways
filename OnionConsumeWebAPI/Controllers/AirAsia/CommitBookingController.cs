@@ -271,7 +271,7 @@ namespace OnionConsumeWebAPI.Controllers
                     {
                         returnTicketBooking.customerNumber = JsonObjPNRBooking.data.contacts.G.customerNumber;
                         returnTicketBooking.companyName = JsonObjPNRBooking.data.contacts.G.companyName;
-                        returnTicketBooking.emailAddress = JsonObjPNRBooking.data.contacts.G.emailAddress;
+                        returnTicketBooking.emailAddressgst = JsonObjPNRBooking.data.contacts.G.emailAddress;
                     }
                     Contacts _contactobj = new Contacts();
                     int PhoneNumberCount = JsonObjPNRBooking.data.contacts.P.phoneNumbers.Count;

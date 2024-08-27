@@ -284,7 +284,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             {
                                 returnTicketBooking.customerNumber = JsonObjPNRBooking.data.contacts.G.customerNumber;
                                 returnTicketBooking.companyName = JsonObjPNRBooking.data.contacts.G.companyName;
-                                returnTicketBooking.emailAddress = JsonObjPNRBooking.data.contacts.G.emailAddress;
+                                returnTicketBooking.emailAddressgst = JsonObjPNRBooking.data.contacts.G.emailAddress;
                             }
                             Contacts _contactobj = new Contacts();
                             int PhoneNumberCount = JsonObjPNRBooking.data.contacts.P.phoneNumbers.Count;
@@ -1050,7 +1050,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             {
                                 returnTicketBooking.customerNumber = JsonObjPNRBooking.data.contacts.G.customerNumber;
                                 returnTicketBooking.companyName = JsonObjPNRBooking.data.contacts.G.companyName;
-                                returnTicketBooking.emailAddress = JsonObjPNRBooking.data.contacts.G.emailAddress;
+                                returnTicketBooking.emailAddressgst = JsonObjPNRBooking.data.contacts.G.emailAddress;
                             }
                             Contacts _contactobj = new Contacts();
                             int PhoneNumberCount = JsonObjPNRBooking.data.contacts.P.phoneNumbers.Count;
@@ -1696,6 +1696,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                         {
                                             returnTicketBooking.customerNumber = _getBookingResponse.Booking.BookingContacts[0].CustomerNumber;
                                             returnTicketBooking.companyName = _getBookingResponse.Booking.BookingContacts[0].CompanyName;
+                                            returnTicketBooking.emailAddressgst = _getBookingResponse.Booking.BookingContacts[0].EmailAddress;
                                         }
                                         Contacts _contact = new Contacts();
                                         _contact.phoneNumbers = _getBookingResponse.Booking.BookingContacts[0].HomePhone.ToString();
@@ -2624,6 +2625,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                         {
                                             returnTicketBooking.customerNumber = _getBookingResponse.Booking.BookingContacts[0].CustomerNumber;
                                             returnTicketBooking.companyName = _getBookingResponse.Booking.BookingContacts[0].CompanyName;
+                                            returnTicketBooking.emailAddressgst = _getBookingResponse.Booking.BookingContacts[0].EmailAddress;
                                         }
 
                                         Contacts _contact = new Contacts();

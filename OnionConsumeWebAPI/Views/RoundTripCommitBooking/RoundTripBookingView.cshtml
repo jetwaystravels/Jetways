@@ -463,8 +463,9 @@
                                             <table class="table table-bordered">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col" class="col-one">Company Number </th>
-                                                        <th scope="col" class="col-one">GST NUmber</th>
+                                                        <th scope="col" class="text-center">Company Number </th>
+                                                        <th scope="col" class="text-center">GST Number</th>
+                                                        <th scope="col" class="text-center">Email</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -472,6 +473,7 @@
                                                         @{
                                                             <td>@Model.AirlinePNR[a].companyName</td>
                                                             <td>@Model.AirlinePNR[a].customerNumber</td>
+                                                            <td>@Model.AirlinePNR[a].emailAddressgst</td>
                                                         }
                                                     </tr>
                                                 </tbody>
@@ -792,8 +794,9 @@
                                             <table class="table table-bordered">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col" class="col-one">Company Number </th>
-                                                        <th scope="col" class="col-one">GST NUmber</th>
+                                                        <th scope="col" class="text-center">Company Number </th>
+                                                        <th scope="col" class="text-center">GST Number</th>
+                                                        <th scope="col" class="text-center">Email</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -801,6 +804,7 @@
                                                         @{
                                                             <td>@Model.AirlinePNR[a].companyName</td>
                                                             <td>@Model.AirlinePNR[a].customerNumber</td>
+                                                            <td>@Model.AirlinePNR[a].emailAddressgst</td>
                                                         }
                                                     </tr>
                                                 </tbody>
@@ -1126,8 +1130,9 @@
                                             <table class="table table-bordered">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col" class="col-one">Company Number </th>
-                                                        <th scope="col" class="col-one">GST NUmber</th>
+                                                        <th scope="col" class="text-center">Company Number </th>
+                                                        <th scope="col" class="text-center">GST Number</th>
+                                                        <th scope="col" class="text-center">Email</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -1136,14 +1141,9 @@
                                                         @{
                                                             if (@Model.AirlinePNR[a].customerNumber != null)
                                                             {
-
-
                                                                 <td>@Model.AirlinePNR[a].companyName</td>
-
-
                                                                 <td>@Model.AirlinePNR[a].customerNumber</td>
-
-
+                                                                <td>@Model.AirlinePNR[a].emailAddressgst</td>
                                                             }
                                                         }
 

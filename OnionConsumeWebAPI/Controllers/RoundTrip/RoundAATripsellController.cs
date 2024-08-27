@@ -403,18 +403,20 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     _ContactModelSG.ContractVersion = 420;
                     _ContactModelSG.updateContactsRequestData.BookingContactList = new BookingContact[1];
                     _ContactModelSG.updateContactsRequestData.BookingContactList[0] = new BookingContact();
-                    _ContactModelSG.updateContactsRequestData.BookingContactList[0].EmailAddress = contactobject.emailAddress;
+                   
                     if (contactobject.customerNumber != null && contactobject.customerNumber != "")
                     {
                         _ContactModelSG.updateContactsRequestData.BookingContactList[0].TypeCode = "G";
                         _ContactModelSG.updateContactsRequestData.BookingContactList[0].CompanyName = contactobject.companyName;
                         _ContactModelSG.updateContactsRequestData.BookingContactList[0].CustomerNumber = contactobject.customerNumber; //"22AAAAA0000A1Z5"; //GSTNumber Re_ Assistance required for SG API Integration\GST Logs.zip\GST Logs
+                        _ContactModelSG.updateContactsRequestData.BookingContactList[0].EmailAddress = contactobject.emailAddressgst;
                     }
                     else
                     {
                         _ContactModelSG.updateContactsRequestData.BookingContactList[0].TypeCode = "P";
                         _ContactModelSG.updateContactsRequestData.BookingContactList[0].CountryCode = "IN";
                         _ContactModelSG.updateContactsRequestData.BookingContactList[0].HomePhone = contactobject.number;
+                        _ContactModelSG.updateContactsRequestData.BookingContactList[0].EmailAddress = contactobject.emailAddress;
                         BookingName[] Name = new BookingName[1];
                         Name[0] = new BookingName();
                         Name[0].FirstName = contactobject.first;
@@ -444,7 +446,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     if (Signature == null) { Signature = ""; }
                     Signature = Signature.Replace(@"""", string.Empty);
                     _updateContact obj = new _updateContact(httpContextAccessorInstance);
-                    IndigoBookingManager_.UpdateContactsResponse _responseAddContact6E = await obj.GetUpdateContacts(Signature, contactobject.emailAddress, contactobject.number, contactobject.companyName, contactobject.customerNumber, "");
+                    IndigoBookingManager_.UpdateContactsResponse _responseAddContact6E = await obj.GetUpdateContacts(Signature, contactobject.emailAddress, contactobject.emailAddressgst, contactobject.number, contactobject.companyName, contactobject.customerNumber, "");
                     string Str1 = JsonConvert.SerializeObject(_responseAddContact6E);
                 }
 
@@ -491,7 +493,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     addinformation.cultureCode = "";
                     GSTAddress Address = new GSTAddress();
                     addinformation.Address = Address;
-                    addinformation.emailAddress = contactobject.emailAddress;
+                    addinformation.emailAddress = contactobject.emailAddressgst;
                     addinformation.customerNumber = contactobject.customerNumber;
                     addinformation.sourceOrganization = "";
                     addinformation.distributionOption = "None";
@@ -554,7 +556,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     Address.postalCode = "400006";
                     addinformation.Address = Address;
 
-                    addinformation.emailAddress = contactobject.emailAddress;
+                    addinformation.emailAddress = contactobject.emailAddressgst;
                     addinformation.customerNumber = contactobject.customerNumber;
                     //addinformation.sourceOrganization = "QPCCJ5003C";
                     addinformation.distributionOption = null;

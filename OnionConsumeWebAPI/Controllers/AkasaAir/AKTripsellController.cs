@@ -190,7 +190,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                 Address.postalCode = "400006";
                 addinformation.Address = Address;
 
-                addinformation.emailAddress = contactobject.emailAddress;
+                addinformation.emailAddress = contactobject.emailAddressgst;
                 addinformation.customerNumber = contactobject.customerNumber;
                 //addinformation.sourceOrganization = "QPCCJ5003C";
                 addinformation.distributionOption = null;

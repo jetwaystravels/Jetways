@@ -79,6 +79,13 @@
 
         </div>
 
+        <div class="col-md-3">
+            <div class="form-input">
+                <input type="text" name="emailAddressgst" maxlength="266" oninput="validateEmailGST(event)" class="gstemail hid-block hidden" id="emailAddressGST" placeholder="Email ID">
+            </div>
+            <p id="emailErrorMessageGST" style="color: red; font-size:13px;"></p>
+        </div>
+
     </div>
 </form>
 <style>
@@ -171,15 +178,6 @@
 
         } else {
 
-            // var gstToDisplay = document.getElementById("error-message9");
-            // gstToDisplay.style.display = "none";
-            // var gstnoToDisplay = document.getElementById("error-message10");
-            // gstnoToDisplay.style.display = "none";
-            // var gstnoToDisplay1 = document.getElementById("gstErrorMessage");
-            // gstnoToDisplay1.style.display = "none";
-            // //alert("Checkbox is unchecked");
-            // $(".hid-block").hide();
-
             var gstToDisplay = document.getElementById("error-message9");
             gstToDisplay.style.display = "none";
             var gstNToDisplay = document.getElementById("error-message10");
@@ -187,6 +185,8 @@
             document.getElementById('gstErrorMessage').innerText = "";
             document.getElementById("gstname").value = "";
             document.getElementById("gstnumber").value = "";
+            document.getElementById("emailAddressGST").value = "";
+            document.getElementById("emailErrorMessageGST").value = "";
             $(".hid-block").hide();
         }
     });
@@ -413,6 +413,32 @@
 
 
     }
+    function validateEmailGST(event) {
+
+        var email = event.target.value;
+        var regex = /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+        var errorMessage = document.getElementById('emailErrorMessageGST');
+        //var errorDisplay = document.getElementById('error-message7');
+
+        if (email.trim() === "") {
+            errorMessage.innerText = "";
+        } else if (!regex.test(email)) {
+            errorMessage.innerText = "Enter a valid Email Address.";
+        } else {
+            errorMessage.innerText = "";
+        }
+
+        // if (email.trim() === "") {
+        //     errorDisplay.style.display = "block";
+        //     document.getElementById("emailAddress").focus();
+        //     return false;
+        // } else {
+        //     errorDisplay.style.display = "none";
+        // }
+
+    }
+    
+    
     // Phone number
     function validatePhoneNumber(event) {
 

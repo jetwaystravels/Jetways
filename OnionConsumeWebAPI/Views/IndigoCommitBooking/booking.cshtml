@@ -402,8 +402,9 @@
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th scope="col" class="col-one">Company Number </th>
-                                                <th scope="col" class="col-one">GST NUmber</th>
+                                                <th scope="col" class="text-center">Company Number </th>
+                                                <th scope="col" class="text-center">GST Number</th>
+                                                <th scope="col" class="text-center">Email</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -412,13 +413,9 @@
                                                 @{
                                                     if (@Model.AirlinePNR[0].customerNumber != null)
                                                     {
-
                                                         <td>@Model.AirlinePNR[0].companyName</td>
-
-
                                                         <td>@Model.AirlinePNR[0].customerNumber</td>
-
-
+                                                        <td>@Model.AirlinePNR[0].emailAddressgst</td>
                                                     }
                                                 }
 

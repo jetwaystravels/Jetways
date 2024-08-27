@@ -186,7 +186,7 @@ namespace OnionConsumeWebAPI.Controllers
                 addinformation.cultureCode = "";
                 GSTAddress Address = new GSTAddress();
                 addinformation.Address = Address;
-                addinformation.emailAddress = contactobject.emailAddress;
+                addinformation.emailAddress = contactobject.emailAddressgst;
                 addinformation.customerNumber = contactobject.customerNumber;
                 addinformation.sourceOrganization = "";
                 addinformation.distributionOption = "None";

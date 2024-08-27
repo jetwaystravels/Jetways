@@ -433,7 +433,7 @@
                                                                             <div class="btn-increase">
                                                                                 <div class="decrement2 sub btn_sub">-</div>
 
-                                                                                <input type="number" id="field_infant" class="input-field" name="infantcount" value="@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infantcount" min="0" max="6">
+                                                                                <input type="number" id="field_infant" class="input-field" name="infantcount" value="@Model.simpleAvailabilityRequestModelEdit.passengers.types[2].count" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infantcount" min="0" max="6">
                                                                                 <div class="increment2 add btn_sub">+</div>
 
                                                                             </div>
@@ -2513,14 +2513,14 @@
 
 
         $(function () {
-            var today = new Date();
-            var dd = String(today.getDate() + 1).padStart(2, '0');
-            var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-            var yyyy = today.getFullYear();
-            var currentDate = yyyy + '-' + mm + '-' + dd;
+            // var today = new Date();
+            // var dd = String(today.getDate() + 1).padStart(2, '0');
+            // var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+            // var yyyy = today.getFullYear();
+            // var currentDate = yyyy + '-' + mm + '-' + dd;
 
             // Set the current date as the default value in the input field
-            $("#Rway-date").val(currentDate);
+            //$("#Rway-date").val(currentDate);
             $("#Rway-date").datepicker({
                 dateFormat: 'yy-mm-dd',
                 numberOfMonths: 2,
@@ -2532,14 +2532,14 @@
 
         //////**********End Date DatePicker**********
         $(function () {
-            var today = new Date();
-            var dd = String(today.getDate() + 1).padStart(2, '0');
-            var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-            var yyyy = today.getFullYear();
-            var currentDate = yyyy + '-' + mm + '-' + dd;
+            // var today = new Date();
+            // var dd = String(today.getDate() + 1).padStart(2, '0');
+            // var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+            // var yyyy = today.getFullYear();
+            // var currentDate = yyyy + '-' + mm + '-' + dd;
 
             // Set the current date as the default value in the input field
-            $("#Rway-endDate").val(currentDate);
+            //$("#Rway-endDate").val(currentDate);
             $("#Rway-endDate").datepicker({
                 dateFormat: 'yy-mm-dd',
                 numberOfMonths: 2,
