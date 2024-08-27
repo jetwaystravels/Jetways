@@ -160,7 +160,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             Info info = new Info();
                             info.bookedDate = JsonObjPNRBooking.data.info.bookedDate;
                             returnTicketBooking.info = info;
-                            if (BarcodePNR!=null && BarcodePNR.Length < 7)
+                            if (BarcodePNR != null && BarcodePNR.Length < 7)
                             {
                                 BarcodePNR = BarcodePNR.PadRight(7);
                             }
@@ -360,7 +360,29 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                         {
                                             SsrReturn ssrReturn = new SsrReturn();
                                             ssrReturn.ssrCode = item.Value.ssrs[t].ssrCode;
-                                            if (ssrReturn.ssrCode.StartsWith("P"))
+                                            //if (ssrReturn.ssrCode.StartsWith("P"))
+                                            //{
+                                            //    continue;
+                                            //}
+                                            //else
+                                            //{
+                                            //    if (!htmealdata.Contains(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination))
+                                            //    {
+
+
+                                            //        htmealdata.Add(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination, ssrReturn.ssrCode);
+                                            //    }
+                                            //    returnSeats.SSRCode += ssrReturn.ssrCode + ",";
+
+                                            //}
+                                            bool isSpecialCode = ssrReturn.ssrCode.Equals("PBCA", StringComparison.OrdinalIgnoreCase) ||
+                                                    ssrReturn.ssrCode.Equals("PBCB", StringComparison.OrdinalIgnoreCase) ||
+                                                    ssrReturn.ssrCode.Equals("PBA3", StringComparison.OrdinalIgnoreCase) ||
+                                                    ssrReturn.ssrCode.Equals("PBAB", StringComparison.OrdinalIgnoreCase) ||
+                                                    ssrReturn.ssrCode.Equals("PBAC", StringComparison.OrdinalIgnoreCase) ||
+                                                    ssrReturn.ssrCode.Equals("PBAD", StringComparison.OrdinalIgnoreCase) ||
+                                                    ssrReturn.ssrCode.Equals("PBAF", StringComparison.OrdinalIgnoreCase);
+                                            if (isSpecialCode)
                                             {
                                                 continue;
                                             }
@@ -368,12 +390,9 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                             {
                                                 if (!htmealdata.Contains(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination))
                                                 {
-
-
                                                     htmealdata.Add(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination, ssrReturn.ssrCode);
                                                 }
                                                 returnSeats.SSRCode += ssrReturn.ssrCode + ",";
-
                                             }
 
 
@@ -382,18 +401,28 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                         {
                                             SsrReturn ssrReturn = new SsrReturn();
                                             ssrReturn.ssrCode = item.Value.ssrs[t].ssrCode;
-                                            if (ssrReturn.ssrCode.StartsWith("V"))
-                                            {
-                                                continue;
-                                            }
-                                            else
+                                            bool isSpecialCode = ssrReturn.ssrCode.Equals("PBCA", StringComparison.OrdinalIgnoreCase) ||
+                                                    ssrReturn.ssrCode.Equals("PBCB", StringComparison.OrdinalIgnoreCase) ||
+                                                    ssrReturn.ssrCode.Equals("PBA3", StringComparison.OrdinalIgnoreCase) ||
+                                                    ssrReturn.ssrCode.Equals("PBAB", StringComparison.OrdinalIgnoreCase) ||
+                                                    ssrReturn.ssrCode.Equals("PBAC", StringComparison.OrdinalIgnoreCase) ||
+                                                    ssrReturn.ssrCode.Equals("PBAD", StringComparison.OrdinalIgnoreCase) ||
+                                                    ssrReturn.ssrCode.Equals("PBAF", StringComparison.OrdinalIgnoreCase);
+
+
+                                            if (isSpecialCode)
                                             {
                                                 if (!htBagdata.Contains(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination))
                                                 {
                                                     htBagdata.Add(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination, ssrReturn.ssrCode);
+
                                                 }
                                                 returnSeats.SSRCode += ssrReturn.ssrCode + ",";
 
+                                            }
+                                            else
+                                            {
+                                                continue;
                                             }
 
 
@@ -3070,20 +3099,20 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
 
 
-                                    res = _objAvail.CreatePNR(_testURL, createPNRReq, newGuid.ToString(), _targetBranch, _userName, _password, AdultTraveller, _data, _Total, Logfolder, _pricesolution);
+                                res = _objAvail.CreatePNR(_testURL, createPNRReq, newGuid.ToString(), _targetBranch, _userName, _password, AdultTraveller, _data, _Total, Logfolder, _pricesolution);
 
-                                    //string RecordLocator = Regex.Match(res, @"universal:ProviderReservationInfo[\s\S]*?LocatorCode=""(?<LocatorCode>[\s\S]*?)""", RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups["LocatorCode"].Value.Trim();
-                                    RecordLocator = Regex.Match(res, @"universal:UniversalRecord\s*LocatorCode=""(?<LocatorCode>[\s\S]*?)""", RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups["LocatorCode"].Value.Trim();
+                                //string RecordLocator = Regex.Match(res, @"universal:ProviderReservationInfo[\s\S]*?LocatorCode=""(?<LocatorCode>[\s\S]*?)""", RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups["LocatorCode"].Value.Trim();
+                                RecordLocator = Regex.Match(res, @"universal:UniversalRecord\s*LocatorCode=""(?<LocatorCode>[\s\S]*?)""", RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups["LocatorCode"].Value.Trim();
 
-                                    //getdetails
-                                    strResponse = _objAvail.RetrivePnr(RecordLocator, _UniversalRecordURL, newGuid.ToString(), _targetBranch, _userName, _password, Logfolder);
+                                //getdetails
+                                strResponse = _objAvail.RetrivePnr(RecordLocator, _UniversalRecordURL, newGuid.ToString(), _targetBranch, _userName, _password, Logfolder);
 
-                                    _TicketRecordLocator = Regex.Match(strResponse, @"AirReservation[\s\S]*?LocatorCode=""(?<LocatorCode>[\s\S]*?)""", RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups["LocatorCode"].Value.Trim();
-                                    //GetAirTicket
+                                _TicketRecordLocator = Regex.Match(strResponse, @"AirReservation[\s\S]*?LocatorCode=""(?<LocatorCode>[\s\S]*?)""", RegexOptions.IgnoreCase | RegexOptions.Multiline).Groups["LocatorCode"].Value.Trim();
+                                //GetAirTicket
 
-                                    strAirTicket = _objAvail.GetTicketdata(_TicketRecordLocator, _testURL, newGuid.ToString(), _targetBranch, _userName, _password, Logfolder);
-                                    //if (strAirTicket.Contains("Unable to ticket without pricing"))
-                                        //continue;
+                                strAirTicket = _objAvail.GetTicketdata(_TicketRecordLocator, _testURL, newGuid.ToString(), _targetBranch, _userName, _password, Logfolder);
+                                //if (strAirTicket.Contains("Unable to ticket without pricing"))
+                                //continue;
 
                                 //}
                                 //IndigoBookingManager_.BookingCommitResponse _BookingCommitResponse = await objcommit.commit(token, contactList, passeengerlist, "OneWay");

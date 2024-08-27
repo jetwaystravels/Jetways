@@ -389,13 +389,15 @@
                                                 if (htmeal != null && htmeal.ContainsKey(hashdata))
                                                 {
 
-                                                    var Mealname = htmeal[hashdata].ToString();
-                                                    var meal = MealImageList.GetAllmeal().Where(x => Mealname.Contains(x.MealCode)).ToList();
+                                                    var Mealcode = htmeal[hashdata].ToString();
+                                                    var meal = MealImageList.GetAllmeal().Where(x => Mealcode.Contains(x.MealCode)).ToList();
+                                                   // var meal = MealImageList.GetAllmeal().Where(x => mealcode.Contains(x.MealCode)).ToList();
                                                     if (meal != null)
                                                     {
                                                         foreach (var item in meal)
                                                         {
-                                                            <td>@item.MealImage</td>
+                                                            <td>@item.MealCode</td> //THIS IS FOR MEAL
+                                                            // <td>@item.MealImage</td>
                                                         }
                                                     }
                                                     // <td>@htmeal[hashdata]</td>
@@ -419,7 +421,8 @@
                                                     {
                                                         foreach (var item in Baggage)
                                                         {
-                                                            <td>@item.MealImage</td>
+                                                            // <td>@item.MealImage</td>
+                                                            <td>@item.MealCode</td> //THIS IS FOR BAGGAGE.
                                                         }
                                                     }
                                                 }

@@ -348,7 +348,14 @@ namespace OnionConsumeWebAPI.Controllers
                                 {
                                     SsrReturn ssrReturn = new SsrReturn();
                                     ssrReturn.ssrCode = item.Value.ssrs[t].ssrCode;
-                                    if (ssrReturn.ssrCode.StartsWith("P"))
+                                    bool isSpecialCode = ssrReturn.ssrCode.Equals("PBCA", StringComparison.OrdinalIgnoreCase) ||
+                                                    ssrReturn.ssrCode.Equals("PBCB", StringComparison.OrdinalIgnoreCase) ||
+                                                    ssrReturn.ssrCode.Equals("PBA3", StringComparison.OrdinalIgnoreCase) ||
+                                                    ssrReturn.ssrCode.Equals("PBAB", StringComparison.OrdinalIgnoreCase) ||
+                                                    ssrReturn.ssrCode.Equals("PBAC", StringComparison.OrdinalIgnoreCase) ||
+                                                    ssrReturn.ssrCode.Equals("PBAD", StringComparison.OrdinalIgnoreCase) ||
+                                                    ssrReturn.ssrCode.Equals("PBAF", StringComparison.OrdinalIgnoreCase);
+                                    if (isSpecialCode)
                                     {
                                         continue;
                                     }
@@ -365,18 +372,29 @@ namespace OnionConsumeWebAPI.Controllers
                                 {
                                     SsrReturn ssrReturn = new SsrReturn();
                                     ssrReturn.ssrCode = item.Value.ssrs[t].ssrCode;
-                                    if (ssrReturn.ssrCode.StartsWith("V"))
+
+                                    bool isSpecialCode = ssrReturn.ssrCode.Equals("PBCA", StringComparison.OrdinalIgnoreCase) ||
+                                                    ssrReturn.ssrCode.Equals("PBCB", StringComparison.OrdinalIgnoreCase) ||
+                                                    ssrReturn.ssrCode.Equals("PBA3", StringComparison.OrdinalIgnoreCase) ||
+                                                    ssrReturn.ssrCode.Equals("PBAB", StringComparison.OrdinalIgnoreCase) ||
+                                                    ssrReturn.ssrCode.Equals("PBAC", StringComparison.OrdinalIgnoreCase) ||
+                                                    ssrReturn.ssrCode.Equals("PBAD", StringComparison.OrdinalIgnoreCase) ||
+                                                    ssrReturn.ssrCode.Equals("PBAF", StringComparison.OrdinalIgnoreCase);
+
+
+                                    if (isSpecialCode)
                                     {
-                                        continue;
-                                    }
-                                    else
-                                    {
-                                        if(!htBagdata.Contains(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination)) 
+                                        if (!htBagdata.Contains(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination))
                                         {
                                             htBagdata.Add(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination, ssrReturn.ssrCode);
 
                                         }
                                         returnSeats.SSRCode += ssrReturn.ssrCode + ",";
+                                        
+                                    }
+                                    else
+                                    {
+                                        continue;
                                     }
 
 
