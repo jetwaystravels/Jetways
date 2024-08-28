@@ -50,6 +50,13 @@ namespace DomainLayer.Model
         public Hashtable Seatdata { get; set; }
         public Hashtable Mealdata { get; set; }
         public Hashtable Bagdata { get; set; }
+        public Hashtable htpax { get; set; }
+        public Hashtable htname { get; set; }
+        public Hashtable htnameempty { get; set; }
+
+
+
+
         public Hashtable TicketSeat { get; set; }
         public Hashtable TicketCarryBag { get; set; }
         public Hashtable TicketMeal { get; set; }
