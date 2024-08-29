@@ -109,11 +109,11 @@
                         @{
                             if (Model.passeengerlist.passengers[i].passengerKey == "0")
                             {
-                                <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlist.passengers[i].passengerKey" required />
+                                    <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlist.passengers[i].passengerKey" required />
                             }
                             else
                             {
-                                <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlist.passengers[i].passengerKey" required />
+                                    <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlist.passengers[i].passengerKey" required />
                             }
                         }
                         <input type="text" class="contactFname validate-field" data-validate="name" maxlength="32" oninput="validateInputT(event ,@i)" id="LeadPass1" placeholder="First & middle name" name="passengerdetails[@i].First" required />
@@ -134,33 +134,33 @@
                 @{
                     if (Model.passeengerlist.passengers[i].passengerTypeCode == "ADT" || Model.passeengerlist.passengers[i].passengerTypeCode == "CHD")
                     {
-                        <div class="col-md-3">
-                            <div class="form-input"><input type="text" data-validate="email" class="contactemail validate-field" maxlength="266" oninput="validateInputT(event,@i)" id="contactemailID" placeholder="email" name="" required /></div>
-                        </div>
-                        <p class="error-message error-emailname" style="display:none"></p>
-                        <p class="error-message-val " style="display:none"></p>
+                            <div class="col-md-3">
+                                <div class="form-input"><input type="text" data-validate="email" class="contactemail validate-field" maxlength="266" oninput="validateInputT(event,@i)" id="contactemailID" placeholder="email" name="" required /></div>
+                            </div>
+                            <p class="error-message error-emailname" style="display:none"></p>
+                            <p class="error-message-val " style="display:none"></p>
 
-                        <div class="col-md-2 ">
-                            <div class="form-input"><input type="text" data-validate="phone" id="contactphoneID" maxlength="10" class="contactphone validate-field" oninput="validateInputT(event,@i)" placeholder="phone" name="passengerdetails[@i].mobile" required /></div>
-                        </div>
-                        <p class="error-message error-phoneN" style="display:none"></p>
-                        <p class="error-message-val" style="display:none"></p>
+                            <div class="col-md-2 ">
+                                <div class="form-input"><input type="text" data-validate="phone" id="contactphoneID" maxlength="10" class="contactphone validate-field" oninput="validateInputT(event,@i)" placeholder="phone" name="passengerdetails[@i].mobile" required /></div>
+                            </div>
+                            <p class="error-message error-phoneN" style="display:none"></p>
+                            <p class="error-message-val" style="display:none"></p>
                     }
                     if (@Model.passeengerlist.passengers[i].passengerTypeCode == "INFT")
                     {
-                        <div class="col-md-4 infant-dob-input">
-                            <div class="form-input dobinput d-flex" id="InfDOBCount_@inafantIdx">
-                                <div class="dob-picker">
-                                    <select class="brd-none year-select" id="year_@inafantIdx" required>
-                                    </select>
-                                    <select class="brd-none month-select" id="month_@inafantIdx" required>
-                                    </select>
-                                    <select class="brd-none day-select" id="day_@inafantIdx" required>
-                                        <option value="" disabled selected>Day</option>
-                                    </select>
+                            <div class="col-md-4 infant-dob-input">
+                                <div class="form-input dobinput d-flex" id="InfDOBCount_@inafantIdx">
+                                    <div class="dob-picker">
+                                        <select class="brd-none year-select" id="year_@inafantIdx" required>
+                                        </select>
+                                        <select class="brd-none month-select" id="month_@inafantIdx" required>
+                                        </select>
+                                        <select class="brd-none day-select" id="day_@inafantIdx" required>
+                                            <option value="" disabled selected>Day</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         inafantIdx++;
 
                     }
@@ -533,13 +533,13 @@
         });
         $("#showReviewPopup").click(function (e) {
             e.preventDefault();
-            debugger;
+            alert("aa");
             /*******Validation Start*********/
             const fieldsToValidate = [
                 { className: 'contactFname', errorMessage: 'First name is required ', validationdata: /^[A-Za-z.]{3,32}$/ },
                 { className: 'contactLname', errorMessage: 'Last  name is required', validationdata: /^[A-Za-z.]{3,32}$/ },
                 { className: 'contactemail', errorMessage: 'Email Address is required', validationdata: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/ },
-                { className: 'contactphone', errorMessage: 'Phone number is required', validationdata: /^[1-9][0-9]*$/ }
+                { className: 'contactphone', errorMessage: 'Phone number is required', c validationdata = /^[0-9]$/; }
 
             ];
             let firstInvalidElement = null;

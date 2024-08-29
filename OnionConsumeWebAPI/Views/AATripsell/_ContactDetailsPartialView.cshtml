@@ -270,7 +270,8 @@
             //Phone Number
 
             let phonefocus = document.getElementById("number").value;
-            if (phonefocus == "") {
+            if (phonefocus == "")
+            {
                 let phoneEToDisplay = document.getElementById("error-message8");
                 phoneEToDisplay.style.display = "block";
                 document.getElementById('phoneNumberErrorMessage').innerText = "";
@@ -455,31 +456,40 @@
     function validatePhoneNumber(event) {
 
         const phoneNumber = event.target.value;
-        //const regex = /^(0|91)?[6-9][0-9]{9}$/;
-        const regex = /^[1-9][0-9]*$/;
+
+        // Regex to validate a phone number that starts with 1-9 and is followed by digits
+       // const regex = /^[1-9][0-9]{9}$/;
+    
+       const regex = /^[0-9][0-9]*$/;
+
+       // const regex = /^[0-9]+$/;
 
         if (!regex.test(phoneNumber)) {
-
+            if (phoneNumber === "") {
+                return false;
+            }
+          else { 
             document.getElementById('phoneNumberErrorMessage').innerText = "Invalid Phone Number";
             let phoneToDisplay = document.getElementById("error-message8");
-            phoneToDisplay.style.display = "none";
+            phoneToDisplay.style.display = "block";
+            return false;
+        }
         } else {
             document.getElementById('phoneNumberErrorMessage').innerText = "";
         }
 
         let phonefocus = document.getElementById("number").value;
-        if (phonefocus == "") {
-
+        if (phonefocus === "") {
             let phoneToDisplay = document.getElementById("error-message8");
             phoneToDisplay.style.display = "block";
-            document.getElementById('phoneNumberErrorMessage').innerText = "";
             document.getElementById("number").focus();
             return false;
-        }
-        else {
+        } else {
             let phoneToDisplay = document.getElementById("error-message8");
             phoneToDisplay.style.display = "none";
         }
+
+        return true;
     }
     //Gst Compamy
     function validateInputgst(event) {
@@ -536,32 +546,7 @@
     }
 </script>
 
-<script type="text/javascript">
-    // document.getElementById('number').addEventListener('keypress', function (event) {
-    //     const input = event.target;
-    //     const value = input.value;
-    //     let phonefocus = document.getElementById("number").value;
-    //     if (phonefocus == "") {
 
-    //         let phoneToDisplay = document.getElementById("error-message8");
-    //         phoneToDisplay.style.display = "block";
-    //         document.getElementById('phoneNumberErrorMessage').innerText = "";
-    //         document.getElementById("number").focus();
-    //         return false;
-    //     }
-
-    //     // Allow input only if it matches the criteria (1-9 followed by 0-9 up to 9 digits)
-    //     //const regex = /^(?!0)\d{0,9}$/;
-    //     const regex = /^[1-9]\d{0,9}$/;
-
-    //     // Get the current value after appending the pressed key
-    //     const nextValue = value.slice(0, input.selectionStart) + event.key + value.slice(input.selectionEnd);
-
-    //     if (!regex.test(nextValue)) {
-    //         event.preventDefault(); // Prevent the keypress event
-    //     }
-    // });
-</script>
 
 
 

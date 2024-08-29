@@ -2927,21 +2927,21 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                                 {
                                                     try
                                                     {
-                                                        if (!htmealdata.Contains(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation))
+                                                        if (!htmealdata.Contains(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation)&& item1.SSRCode != "INFT" && item1.SSRCode != "FFWD"  && !item1.SSRCode.StartsWith('X'))
                                                         {
-                                                            if (item1.SSRCode != "INFT" && item1.SSRCode != "FFWD")
-                                                            {
+                                                            //if (item1.SSRCode != "INFT" && item1.SSRCode != "FFWD")
+                                                            //{
                                                                 htmealdata.Add(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation, item1.SSRCode);
-                                                            }
+                                                            //}
                                                             returnSeats.SSRCode += item1.SSRCode + ",";
                                                         }
 
-                                                        else if (!htbagdata.Contains(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation))
+                                                        else if (!htbagdata.Contains(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation) && item1.SSRCode != "INFT" && item1.SSRCode != "FFWD")
                                                         {
-                                                            if (item1.SSRCode != "INFT" && item1.SSRCode != "FFWD")
-                                                            {
+                                                            //if (item1.SSRCode != "INFT" && item1.SSRCode != "FFWD")
+                                                            //{
                                                                 htbagdata.Add(item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation, item1.SSRCode);
-                                                            }
+                                                            //}
                                                             returnSeats.SSRCode += item1.SSRCode + ",";
 
 
@@ -2978,11 +2978,11 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                         {
                                             foreach (var item1 in item.PassengerFees)
                                             {
-                                                if (item1.FeeCode.Equals("SEAT"))
+                                                if (item1.FeeCode.Equals("SEAT") || item1.FeeType.ToString().ToLower().Contains("seat"))
                                                 {
                                                     foreach (var item2 in item1.ServiceCharges)
                                                     {
-                                                        if (item2.ChargeCode.Equals("SEAT"))
+                                                        if (item2.ChargeCode.Equals("SEAT") || item2.ChargeCode.Equals("SNXT"))
                                                         {
                                                             returnSeats.total += Convert.ToInt32(item2.Amount);
                                                             //breakdown.passengerTotals.seats.total += Convert.ToInt32(item2.Amount);

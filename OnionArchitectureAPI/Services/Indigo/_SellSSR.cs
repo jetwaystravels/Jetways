@@ -56,7 +56,7 @@ namespace OnionArchitectureAPI.Services.Indigo
                 //FastfarwardAddon = new List<string>();
 
 
-                if (ssrKey.Count >= 0 || FastfarwardAddon.Count>0)
+                if (ssrKey.Count >= 0 || FastfarwardAddon.Count>0 || BaggageSSrkey.Count>0)
                 {
 
                     #region SellSSr
@@ -348,7 +348,7 @@ namespace OnionArchitectureAPI.Services.Indigo
                                         else
                                         {
                                             int idx = 0;
-                                            if (_obj.SSRcodeOneWayI.Count > 0 || _obj.SSRffwOneWayI.Count > 0)//&& i1 + 1 <= ssrKey.Count
+                                            if (_obj.SSRcodeOneWayI.Count > 0 || _obj.SSRffwOneWayI.Count > 0 || _obj.SSRbaggagecodeOneWayI.Count > 0)//&& i1 + 1 <= ssrKey.Count
                                             {
                                                 for (int i2 = 0; i2 < _obj.SSRcodeOneWayI.Count; i2++)//Paxnum 1 adult,1 child,1 infant 2 meal
                                                 {
@@ -382,7 +382,11 @@ namespace OnionArchitectureAPI.Services.Indigo
                                                         int baggagecount = _obj.SSRbaggagecodeOneWayI.Count;
                                                         if (baggagecount > 0 && k + 1 <= baggagecount)
                                                         {
-                                                            idx++;
+                                                            if (idx > 0)
+                                                                idx++;
+                                                            else
+                                                                idx = k;
+                                                            //idx++;
                                                             string[] wordsArray = _obj.SSRbaggagecodeOneWayI[k].key.ToString().Split(' ');
                                                             //alert(wordsArray);
                                                             //var meal = null;
@@ -608,7 +612,7 @@ namespace OnionArchitectureAPI.Services.Indigo
                                         else
                                         {
                                             int idx = 0;
-                                            if (_obj.SSRcodeRTI.Count > 0)//&& i1 + 1 <= ssrKey.Count
+                                            if (_obj.SSRcodeRTI.Count > 0 || _obj.SSRbaggagecodeRTI.Count > 0)//&& i1 + 1 <= ssrKey.Count
                                             {
                                                 for (int i2 = 0; i2 < _obj.SSRcodeRTI.Count; i2++)//Paxnum 1 adult,1 child,1 infant 2 meal
                                                 {
@@ -643,7 +647,10 @@ namespace OnionArchitectureAPI.Services.Indigo
                                                         int baggagecount = _obj.SSRbaggagecodeRTI.Count;
                                                         if (baggagecount > 0 && k + 1 <= baggagecount)
                                                         {
-                                                            idx++;
+                                                            if (idx > 0)
+                                                                idx++;
+                                                            else
+                                                                idx = k;
                                                             string[] wordsArray = _obj.SSRbaggagecodeRTI[k].key.ToString().Split(' ');
                                                             //alert(wordsArray);
                                                             //var meal = null;
@@ -704,7 +711,11 @@ namespace OnionArchitectureAPI.Services.Indigo
                                                         int baggagecount = _obj.PPBGcodeRTI.Count;
                                                         if (baggagecount > 0 && k + 1 <= baggagecount)
                                                         {
-                                                            idx++;
+                                                            if (idx > 0)
+                                                                idx++;
+                                                            else
+                                                                idx = k;
+                                                            //idx++;
                                                             string[] wordsArray = _obj.PPBGcodeRTI[k].key.ToString().Split(' ');
                                                             //alert(wordsArray);
                                                             //var meal = null;
