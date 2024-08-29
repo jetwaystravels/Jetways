@@ -1,4 +1,5 @@
 ﻿@using System.Collections;
+@using OnionArchitectureAPI.Services.Barcode;
 @model DomainLayer.ViewModel.AirLinePNRTicket
 @{
     var data = Model;
@@ -111,6 +112,11 @@
                     Hashtable htseat = Model.AirlinePNR[a].Seatdata;
                     Hashtable htmeal = Model.AirlinePNR[a].Mealdata;
                     Hashtable htbag = Model.AirlinePNR[a].Bagdata;
+
+                    Hashtable htpax = Model.AirlinePNR[a].htpax;
+                    Hashtable htnameempty = Model.AirlinePNR[a].htnameempty;
+                    Hashtable htname = Model.AirlinePNR[a].htname;
+
                     <div class="container" id="pdfdwonloadSG">
                         <div class="flight-tckt-main">
                             <div class="d-flex justify-content-end ticketdwn" type="button" onclick="downloadPDF()">
@@ -223,7 +229,7 @@
                                             <th rowspan="2" class="align-middle">Passenger</th>
                                             <th colspan="2" class="text-center">Fllight Detail</th>
                                             <th rowspan="2" class="align-middle">Seat No</th>
-                                            <th rowspan="2" class="align-middle">Airline</th>
+                                            <th rowspan="2" class="align-middle">mobile  Number</th>
                                             <th rowspan="2" class="align-middle">Ticket Number</th>
                                             <th rowspan="2" class="align-middle">Status</th>
                                             <th rowspan="2" class="align-middle barcode">Bar code</th>
@@ -240,17 +246,38 @@
                                         {
                                             @for (int i3 = 0; i3 < @Model.AirlinePNR[a].journeys[0].segments.Count; i3++)
                                             {
-                                                string barcodeimageUrl = string.Empty;
-                                                if (Model.AirlinePNR[a].passengers[i2].barcodestringlst != null && Model.AirlinePNR[a].passengers[i2].barcodestringlst.Count > 0 && i3 == 0)
-                                                {
-                                                    barcodeimageUrl = @Model.AirlinePNR[a].passengers[i2].barcodestringlst[0].Trim();
-                                                }
-                                                else if (Model.AirlinePNR[a].passengers[i2].barcodestringlst != null && Model.AirlinePNR[a].passengers[i2].barcodestringlst.Count > 0 && i3 == 1)
-                                                {
-                                                    barcodeimageUrl = @Model.AirlinePNR[a].passengers[i2].barcodestringlst[1].Trim();
-                                                }
+                                                 string barcodeimageUrl = string.Empty;
+                                                // if (Model.AirlinePNR[a].passengers[i2].barcodestringlst != null && Model.AirlinePNR[a].passengers[i2].barcodestringlst.Count > 0 && i3 == 0)
+                                                // {
+                                                //     barcodeimageUrl = @Model.AirlinePNR[a].passengers[i2].barcodestringlst[0].Trim();
+                                                // }
+                                                // else if (Model.AirlinePNR[a].passengers[i2].barcodestringlst != null && Model.AirlinePNR[a].passengers[i2].barcodestringlst.Count > 0 && i3 == 1)
+                                                // {
+                                                //     barcodeimageUrl = @Model.AirlinePNR[a].passengers[i2].barcodestringlst[1].Trim();
+                                                // }
                                                 <tr>
                                                     @{
+                                                        BarcodeUtility BarcodeUtility = new BarcodeUtility();
+                                                        if (htpax.Contains(@Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].passengers[i2].name.last + "/" + @Model.AirlinePNR[a].passengers[i2].name.first + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination))
+                                                        {
+                                                            string _data = @Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].passengers[i2].name.last + "/" + @Model.AirlinePNR[a].passengers[i2].name.first + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination;
+                                                            if (htpax.Contains(_data))
+                                                            {
+                                                                barcodeimageUrl = htpax[_data].ToString();
+                                                                barcodeimageUrl = BarcodeUtility.BarcodereadUtility(barcodeimageUrl).Trim();
+                                                            }
+
+                                                        }
+                                                        else
+                                                        {
+                                                            string _data = @Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].passengers[i2].name.last + "/" + @Model.AirlinePNR[a].passengers[i2].name.first + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination;
+                                                            if (htnameempty.Contains(_data))
+                                                            {
+                                                                barcodeimageUrl = htnameempty[_data].ToString();
+                                                                barcodeimageUrl = BarcodeUtility.BarcodereadUtility(barcodeimageUrl).Trim();
+                                                            }
+
+                                                        }
                                                         if (i3 == 0)
                                                         {
                                                             int segmentscount = @Model.AirlinePNR[a].journeys[0].segments.Count;
@@ -302,6 +329,10 @@
                                                                 {
                                                                     <td rowspan="1" style="vertical-align:middle;width:254px;"><img src="@barcodeimageUrl" alt="barcode"></td>
                                                                 }
+                                                                if (segmentscount == 2)
+                                                                {
+                                                                    <td rowspan="1" style="vertical-align:middle;width:254px"><img src="@barcodeimageUrl" alt="barcode"></td>
+                                                                }
 
                                                             }
 
@@ -325,7 +356,7 @@
 
                                                                 if (segmentscount == 2)
                                                                 {
-                                                                    <td rowspan="2" style="vertical-align:middle;width:254px;"><img src="@barcodeimageUrl" alt="barcode"></td>
+                                                                    <td rowspan="1" style="vertical-align:middle;width:254px;"><img src="@barcodeimageUrl" alt="barcode"></td>
                                                                 }
                                                             }
 

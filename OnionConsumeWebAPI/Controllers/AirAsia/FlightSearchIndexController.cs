@@ -1456,6 +1456,15 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             //else
                             //StopCounter = Segmentobjlist.Count;
 
+                            var duplicates = fareIndividualsconnectedList.GroupBy(x => x.procuctclass).Where(g => g.Count() > 1).SelectMany(g => g).ToHashSet();
+
+                            // Remove all items that are duplicates
+                            fareIndividualsconnectedList = fareIndividualsconnectedList.Where(item => !duplicates.Contains(item)).ToList();
+
+                            //var duplicatesnonstop = fareIndividualsList.GroupBy(x => x.procuctclass).Where(g => g.Count() > 1).SelectMany(g => g).ToHashSet();
+
+                            //// Remove all items that are duplicates
+                            //fareIndividualsList = fareIndividualsList.Where(item => !duplicatesnonstop.Contains(item)).ToList();
 
                             fareTotalsum = 0;
                             //todo Viewprice
@@ -3083,6 +3092,11 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             }
                             else
                                 StopCounter = Segmentobjlist.Count;
+
+                            var duplicates = fareIndividualsconnectedList.GroupBy(x => x.procuctclass).Where(g => g.Count() > 1).SelectMany(g => g).ToHashSet();
+
+                            // Remove all items that are duplicates
+                            fareIndividualsconnectedList = fareIndividualsconnectedList.Where(item => !duplicates.Contains(item)).ToList();
 
 
                             fareTotalsum = 0;
