@@ -1447,6 +1447,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 #endregion
                             }
                             fareIndividualsconnectedList = fareIndividualsList;
+                            fareIndividualsconnectedList = fareIndividualsconnectedList.Where(d => d.fareKey.Contains('^')).ToList();
                             //int StopCounter = 0;
                             //if (Segmentobjlist.Count == 1)
                             //{
@@ -3084,6 +3085,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 #endregion
                             }
                             fareIndividualsconnectedList = fareIndividualsList;
+                            fareIndividualsconnectedList = fareIndividualsconnectedList.Where(d => d.fareKey.Contains('^')).ToList();
                             int StopCounter = 0;
                             if (Segmentobjlist.Count == 1)
                             {
