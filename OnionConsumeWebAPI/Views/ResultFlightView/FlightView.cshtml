@@ -2393,7 +2393,7 @@
 
             var sortOrderName = sortOrder;
             $.ajax({
-                url: '@Url.Action("FlightView", "ResultFlightView")',
+                url: '@Url.Action("FlightViewAirlineFilter", "ResultFlightView")',
                 type: 'POST',
                 data: { sortOrderName: sortOrderName },
                 success: function (data) {

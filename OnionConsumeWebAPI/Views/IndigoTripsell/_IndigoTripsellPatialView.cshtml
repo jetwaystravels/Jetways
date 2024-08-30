@@ -190,8 +190,8 @@
                     else
                         formattedTime = $"{(int)timeSpan.TotalHours} h : {(int)timeSpan.Minutes} m";
 
-                    <div class="py-15 px-20 rounded-4 text-15 bg-green-1 flex-center">
-                        Change planes at <span class="fw-600"> <div></div> (@item.segments[i].designator.origin),</span> Connecting Time: <span class="fw-600">@formattedTime</span>
+                    <div class="py-15 px-20 rounded-4 text-15  bg-blue-2 flex-center">
+                        Change planes at <span class="fw-600">  (@item.segments[i].designator.origin),</span> Connecting Time: <span class="fw-600">@formattedTime</span>
                     </div>
                 }
                 <div class="py-30 px-30 border-top-light">
@@ -215,10 +215,17 @@
                                     else
                                         formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
 
-                                    <div class="py-15 px-20 rounded-4 text-15 bg-green-1 flex-center">
-                                        Change planes at <span class="fw-600"> <div></div> (@item.segments[i].legs[j].designator.origin),</span> Connecting Time: <span class="fw-600">@formattedTime</span>
+                                    // <div class="py-15 px-20 rounded-4 text-15 bg-green-1 flex-center">
+                                    //     Change planes at <span class="fw-600"> <div></div> (@item.segments[i].legs[j].designator.origin),</span> Connecting Time: <span class="fw-600">@formattedTime</span>
+                                    // </div>
+
+                                    <div class="py-10 px-20 rounded-4 text-15 bg-blue-2 flex-center m-3">
+                                        Technical Support   <span class="fw-600 px-2">@formattedTime</span> Layover in <span class="fw-600 px-2"> @item.segments[i].legs[j].designator.origin</span>
                                     </div>
+
                                 }
+
+
                                 <div class="d-flex items-center mb-15">
                                     <div class="w-28 d-flex justify-center mr-15">
                                         <img class="size-30" src="~/img/flight-logo-icon/6E.png" alt="image">

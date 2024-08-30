@@ -16,7 +16,8 @@
                         <div class="d-flex items-center">
                             <div class="form-checkbox ">
 
-                                <input type="checkbox" class="selectCheckboxnon" value="0" name="stops" onclick="OnewayFunctionFirst()">
+                                @* <input type="checkbox" class="selectCheckboxnon" value="0" name="stops" onclick="OnewayFunctionFirst()"> *@
+                                <input type="checkbox" class="selectCheckboxNew" name="stops" value="0" onclick="getFiltered()">
                                 <div class="form-checkbox__mark">
                                     <div class="form-checkbox__icon fa fa-check"></div>
                                 </div>
@@ -34,7 +35,7 @@
 
                         <div class="d-flex items-center">
                             <div class="form-checkbox ">
-                                <input type="checkbox" name="name">
+                                <input type="checkbox" class="checkdepart" name="morningDeparture" data-departure="before_6am" onclick="OnewayFunctionTimeFilter()">
                                 <div class="form-checkbox__mark">
                                     <div class="form-checkbox__icon fa fa-check"></div>
                                 </div>
@@ -55,8 +56,9 @@
 
                         <div class="d-flex items-center">
                             <div class="form-checkbox ">
-                                <input type="checkbox" class="selectCheckboxAirLine" value="Airasia" name="Airline" onclick="OnewayFunctionAirline()">
-                                <div class="form-checkbox__mark">
+                             @*    <input type="checkbox" class="selectCheckboxAirLine" value="Airasia" name="Airline" onclick="OnewayFunctionAirline()"> *@
+                                <input type="checkbox" class="selectCheckboxNew" name="Airline" value="Airasia" onclick="getFiltered()">
+                             <div class="form-checkbox__mark">
                                     <div class="form-checkbox__icon fa fa-check"></div>
                                 </div>
                             </div>
@@ -74,8 +76,9 @@
 
                         <div class="d-flex items-center">
                             <div class="form-checkbox ">
-                                <input type="checkbox" class="selectCheckboxAirLine" value="AkasaAir" name="Airline" onclick="OnewayFunctionAirline()">
-                                <div class="form-checkbox__mark">
+                              @*   <input type="checkbox" class="selectCheckboxAirLine" value="AkasaAir" name="Airline" onclick="OnewayFunctionAirline()"> *@
+                                <input type="checkbox" class="selectCheckboxNew" name="Airline" value="AkasaAir" onclick="getFiltered()">
+                              <div class="form-checkbox__mark">
                                     <div class="form-checkbox__icon fa fa-check"></div>
                                 </div>
                             </div>
@@ -416,43 +419,100 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 
-    let selectedDepartureTimes = [];
-    let selectedArrivalTimes = [];
-    $('.flt-Tm-slt').click(function () {
-        debugger;
-        let departureTime = $(this).data('departure');
-        let arrivalTime = $(this).data('arrival');
-        $(this).toggleClass('active');
-        if ($(this).hasClass('active')) {
+    // let selectedDepartureTimes = [];
+    // let selectedArrivalTimes = [];
+    // $('.flt-Tm-slt').click(function () {
+    //     debugger;
+    //     let departureTime = $(this).data('departure');
+    //     let arrivalTime = $(this).data('arrival');
+    //     $(this).toggleClass('active');
+    //     if ($(this).hasClass('active')) {
+    //         debugger;
+    //         selectedDepartureTimes.push(departureTime);
+    //         selectedArrivalTimes.push(arrivalTime);
+    //     } else {
+    //         debugger;
+    //         selectedDepartureTimes = selectedDepartureTimes.filter(function (item) {
+    //             return item !== departureTime;
+    //         });
+    //         selectedArrivalTimes = selectedArrivalTimes.filter(function (item) {
+    //             return item !== arrivalTime;
+    //         });
+    //     }
+    //     $.ajax({
+    //         url: '/ResultFlightView/FlightViewFilter',
+    //         type: 'GET',
+    //         traditional: true,
+    //         data: {
+    //             departure: selectedDepartureTimes,
+    //             arrival: selectedArrivalTimes
+    //         },
+    //         success: function (response) {
+    //             $('#flight-results').html(response);
+    //         },
+    //         error: function (error) {
+    //             console.log('Error filtering flights:', error);
+    //         }
+    //     });
+    // });
+
+
+    function OnewayFunctionTimeFilter() {
+        let selectedDepartureTimes = [];
+        let selectedArrivalTimes = [];
+
+        // Assuming you use checkboxes or another form element that can trigger 'change'
+        $('.checkdepart').on('change', function () {
             debugger;
-            selectedDepartureTimes.push(departureTime);
-            selectedArrivalTimes.push(arrivalTime);
-        } else {
+            let departureTime = $(this).data('departure');
+            let arrivalTime = $(this).data('arrival');
+            if ($(this).is(':checked')) {
+                selectedDepartureTimes.push(departureTime);
+                selectedArrivalTimes.push(arrivalTime);
+            } else {
+                selectedDepartureTimes = selectedDepartureTimes.filter(function (item) {
+                    return item !== departureTime;
+                });
+                selectedArrivalTimes = selectedArrivalTimes.filter(function (item) {
+                    return item !== arrivalTime;
+                });
+            }
+
+            updateFlightViewFilter();
+        });
+
+        function updateFlightViewFilter() {
             debugger;
-            selectedDepartureTimes = selectedDepartureTimes.filter(function (item) {
-                return item !== departureTime;
-            });
-            selectedArrivalTimes = selectedArrivalTimes.filter(function (item) {
-                return item !== arrivalTime;
+            $.ajax({
+                url: '/ResultFlightView/GetFilteredFlights',
+                type: 'POST',
+                traditional: true,
+                data: {
+                    departure: selectedDepartureTimes,
+                    arrival: selectedArrivalTimes
+                },
+                success: function (response) {
+                    $('#flight-results').html(response);
+                    restoreTimeFilterData();
+                },
+                error: function (error) {
+                    console.log('Error filtering flights:', error);
+                }
             });
         }
-        $.ajax({
-            url: '/ResultFlightView/FlightViewFilter',
-            type: 'GET',
-            traditional: true,
-            data: {
-                departure: selectedDepartureTimes,
-                arrival: selectedArrivalTimes
-            },
-            success: function (response) {
-                $('#flight-results').html(response);
-            },
-            error: function (error) {
-                console.log('Error filtering flights:', error);
-            }
-        });
-    });
 
+        function restoreTimeFilterData() {
+            $('.flt-Tm-slt').each(function () {
+                let departureTime = $(this).data('departure');
+                let arrivalTime = $(this).data('arrival');
+                if (selectedDepartureTimes.includes(departureTime) && selectedArrivalTimes.includes(arrivalTime)) {
+                    $(this).prop('checked', true);
+                } else {
+                    $(this).prop('checked', false);
+                }
+            });
+        }
+    }
 
 
     function OnewayFunctionAirline() {
@@ -467,7 +527,7 @@
                 FilterIdAirLine.push($(this).val());
             });
             $.ajax({
-                url: '/ResultFlightView/FlightView',
+                url: '/ResultFlightView/GetFilteredFlights',
                 type: 'POST',
                 traditional: true,
                 data: { FilterIdAirLine: FilterIdAirLine },
@@ -499,7 +559,7 @@
                 FilterId.push($(this).val());
             });
             $.ajax({
-                url: '/ResultFlightView/FlightView',
+                url: '/ResultFlightView/GetFilteredFlights',
                 type: 'POST',
                 traditional: true,
                 data: { FilterId: FilterId },
@@ -520,6 +580,8 @@
             });
         }
     }
+   
+    
     function OnewayFunctionFirst() {
         debugger;
         $('.selectCheckboxnon').on('change', function () {
@@ -531,7 +593,7 @@
                 FilterId.push($(this).val());
             });
             $.ajax({
-                url: '/ResultFlightView/FlightView',
+                url: '/ResultFlightView/GetFilteredFlights',
                 type: 'POST',
                 traditional: true,
                 data: { FilterId: FilterId },
@@ -552,6 +614,59 @@
             });
         }
     }
+
+
+
+    function getFiltered() {
+        // Collect checkbox values
+        debugger;
+        let filterIdAirLine = [];
+        let filterId = [];
+        let departure = [];
+        let arrival = [];
+
+        //Assuming checkboxes have class 'selectCheckbox' and unique values for each category
+        $('.selectCheckboxNew').each(function () {
+            if ($(this).is(':checked')) {
+                let name = $(this).attr('name');
+                let value = $(this).val();
+
+                if (name === 'Airline') {
+                    filterIdAirLine.push(value);
+                } else if (name === 'stops') {
+                    filterId.push(parseInt(value, 10)); //Convert value to integer
+                } else if (name === 'departure') {
+                    departure.push(value);
+                } else if (name === 'arrival') {
+                    arrival.push(value);
+                }
+            }
+        });
+
+        // Send data to the server
+        $.ajax({
+            url: '/ResultFlightView/GetFilteredFlights',
+            type: 'POST', // or 'POST' depending on your preference
+            data: {
+                //sortOrderName: 'yourSortOrderName', 
+                FilterIdAirLine: filterIdAirLine,
+                FilterId: filterId,
+                departure: departure,
+                arrival: arrival
+            },
+            success: function (response) {
+                // Handle the response from the server
+                $('#flight-results').html(response);
+                console.log(response);
+            },
+            error: function (xhr, status, error) {
+                // Handle any errors
+                console.error(error);
+            }
+        });
+    }
+
+
 
 </script>
 

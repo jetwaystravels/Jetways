@@ -9,6 +9,7 @@ using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using DomainLayer.Model;
 using DomainLayer.ViewModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 
@@ -48,8 +49,69 @@ namespace OnionConsumeWebAPI.Controllers
 
             return View(viewModelobject);
         }
-        public IActionResult FlightViewFilter(List<string> departure, List<string> arrival)
+
+
+        //public IActionResult FlightViewFilter(List<string> departure, List<string> arrival)
+        //{
+        //    if (departure.Count > 0)
+        //    {
+        //        if (departure[0] == null)
+        //        {
+        //            departure = new List<string>();
+        //        }
+        //    }
+        //    if (arrival.Count > 0)
+        //    {
+        //        if (arrival[0] == null)
+        //        {
+        //            arrival = new List<string>();
+        //        }
+        //    }
+
+        //    string OnewayFlightData = HttpContext.Session.GetString("OneWayFlightView");
+        //    if (string.IsNullOrEmpty(OnewayFlightData))
+        //    {
+        //        return View("Error");
+        //    }
+        //    List<SimpleAvailibilityaAddResponce> OnewaydeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(OnewayFlightData);
+        //    List<SimpleAvailibilityaAddResponce> filteredFlights = OnewaydeserializedObjects;
+        //    if (departure != null && departure.Count > 0)
+        //    {
+        //        filteredFlights = filteredFlights.Where(flight =>
+        //            departure.Any(d =>
+        //                (d.ToLower() == "before_6am" && flight.designator.departure.TimeOfDay < new TimeSpan(6, 0, 0)) ||
+        //                (d.ToLower() == "6am_to_12pm" && flight.designator.departure.TimeOfDay >= new TimeSpan(6, 0, 0) && flight.designator.departure.TimeOfDay < new TimeSpan(12, 0, 0)) ||
+        //                (d.ToLower() == "12pm_to_6pm" && flight.designator.departure.TimeOfDay >= new TimeSpan(12, 0, 0) && flight.designator.departure.TimeOfDay < new TimeSpan(18, 0, 0)) ||
+        //                (d.ToLower() == "after_6pm" && flight.designator.departure.TimeOfDay >= new TimeSpan(18, 0, 0))
+        //            )).ToList();
+        //    }
+        //    if (arrival != null && arrival.Count > 0)
+        //    {
+        //        filteredFlights = filteredFlights.Where(flight =>
+        //            arrival.Any(a =>
+        //                (a.ToLower() == "before_6am" && flight.designator.arrival.TimeOfDay < new TimeSpan(6, 0, 0)) ||
+        //                (a.ToLower() == "6am_to_12pm" && flight.designator.arrival.TimeOfDay >= new TimeSpan(6, 0, 0) && flight.designator.arrival.TimeOfDay < new TimeSpan(12, 0, 0)) ||
+        //                (a.ToLower() == "12pm_to_6pm" && flight.designator.arrival.TimeOfDay >= new TimeSpan(12, 0, 0) && flight.designator.arrival.TimeOfDay < new TimeSpan(18, 0, 0)) ||
+        //                (a.ToLower() == "after_6pm" && flight.designator.arrival.TimeOfDay >= new TimeSpan(18, 0, 0))
+        //            )).ToList();
+        //    }
+        //    ViewModel viewModelobject = new ViewModel
+        //    {
+        //        SimpleAvailibilityaAddResponcelist = filteredFlights
+        //    };
+        //    return PartialView("_FlightResultsSortingPartialView", viewModelobject);
+        //}
+
+        [HttpPost]
+        // Nonstop:: FilterId - Airline Filetr -
+        public IActionResult GetFilteredFlights(string sortOrderName, List<string> FilterIdAirLine, List<int> FilterId, List<string> departure, List<string> arrival)
         {
+            
+            ViewModel viewModelobject = new ViewModel();
+            string OnewayFlightData = HttpContext.Session.GetString("OneWayFlightView");
+            List<SimpleAvailibilityaAddResponce> OnewaydeserializedObjects = null;
+            OnewaydeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(OnewayFlightData);
+
             if (departure.Count > 0)
             {
                 if (departure[0] == null)
@@ -65,12 +127,11 @@ namespace OnionConsumeWebAPI.Controllers
                 }
             }
 
-            string OnewayFlightData = HttpContext.Session.GetString("OneWayFlightView");
+            
             if (string.IsNullOrEmpty(OnewayFlightData))
             {
                 return View("Error");
             }
-            List<SimpleAvailibilityaAddResponce> OnewaydeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(OnewayFlightData);
             List<SimpleAvailibilityaAddResponce> filteredFlights = OnewaydeserializedObjects;
             if (departure != null && departure.Count > 0)
             {
@@ -92,25 +153,13 @@ namespace OnionConsumeWebAPI.Controllers
                         (a.ToLower() == "after_6pm" && flight.designator.arrival.TimeOfDay >= new TimeSpan(18, 0, 0))
                     )).ToList();
             }
-            ViewModel viewModelobject = new ViewModel
-            {
-                SimpleAvailibilityaAddResponcelist = filteredFlights
-            };
-            return PartialView("_FlightResultsSortingPartialView", viewModelobject);
-        }
-
-        [HttpPost]
-        public IActionResult FlightView(string sortOrderName, List<string> FilterIdAirLine, List<int> FilterId)
-        {
-            ViewModel viewModelobject = new ViewModel();
-            string OnewayFlightData = HttpContext.Session.GetString("OneWayFlightView");
-            List<SimpleAvailibilityaAddResponce> OnewaydeserializedObjects = null;
-            OnewaydeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(OnewayFlightData);
+          
             ViewBag.NameSortParam = sortOrderName == "name_desc" ? "name_asc" : "name_desc";
             ViewBag.PriceSortParam = sortOrderName == "price_desc" ? "price_asc" : "price_desc";
             ViewBag.DepartSortParam = sortOrderName == "deprt_desc" ? "deprt_asc" : "deprt_desc";
             ViewBag.arriveSortParam = sortOrderName == "arrive_desc" ? "arrive_asc" : "arrive_desc";
             ViewBag.durationSortParam = sortOrderName == "duration_desc" ? "duration_asc" : "duration_desc";
+
             switch (sortOrderName)
             {
                 case "name_desc":
@@ -148,6 +197,7 @@ namespace OnionConsumeWebAPI.Controllers
                     break;
 
             }
+
             if (FilterId != null && FilterId.Count > 0)
             {
                 foreach (int value in FilterId)
@@ -173,15 +223,38 @@ namespace OnionConsumeWebAPI.Controllers
                 }
 
             }
-            else if (FilterIdAirLine.Count > 0 && FilterIdAirLine.Count >= 0)
+
+             if (FilterIdAirLine.Count > 0 && FilterIdAirLine.Count >= 0)
             {
                 var FilterAirLineData = OnewaydeserializedObjects.Where(x => FilterIdAirLine.Contains(x.Airline.ToString())).ToList();
                 viewModelobject.SimpleAvailibilityaAddResponcelist = FilterAirLineData;
                 return PartialView("_FlightResultsSortingPartialView", viewModelobject);
             }
+
+            // if (filteredFlights.Count > 0 && filteredFlights.Count >= 0)
+            //{
+            //    viewModelobject = new ViewModel
+            //    {
+            //        SimpleAvailibilityaAddResponcelist = filteredFlights
+            //    };
+            //    return PartialView("_FlightResultsSortingPartialView", viewModelobject);
+
+            //}
+
+            if (FilterId.Count > 0 && FilterId.Count >= 0)
+            {
+                viewModelobject.SimpleAvailibilityaAddResponcelist = OnewaydeserializedObjects;
+                return PartialView("_FlightResultsSortingPartialView", viewModelobject);
+
+            }
+          
             viewModelobject.SimpleAvailibilityaAddResponcelist = OnewaydeserializedObjects;
             return PartialView("_FlightResultsSortingPartialView", viewModelobject);
+
         }
+
+       
+
         [HttpPost]
         public async Task<ActionResult> Tripsell(string fareKey, string journeyKey)
         {
