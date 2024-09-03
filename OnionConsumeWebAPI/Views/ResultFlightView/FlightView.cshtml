@@ -2341,26 +2341,7 @@
 
             }
         });
-        // $(document).on('click', '.showBtn', function () {
-
-        //     //$('.hideme').hide();
-        //     if ($(this).hasClass('active')) {
-        //         $(this).removeClass('active');
-        //         $('.hideme').slideUp(1);
-        //     } else {
-        //         $('.hideme').slideUp(1);
-        //         $('.showBtn').removeClass('active');
-        //         $(this).addClass('active');
-        //         $(this).next().filter('.hideme').slideDown(1);
-        //     }
-        // });
-
-
-
-
-
-
-
+       
 
         // Get all sort link elements
         const sortLinks = document.querySelectorAll('.sort-link');
@@ -2393,7 +2374,7 @@
 
             var sortOrderName = sortOrder;
             $.ajax({
-                url: '@Url.Action("FlightViewAirlineFilter", "ResultFlightView")',
+                url: '@Url.Action("GetFilteredFlights", "ResultFlightView")',
                 type: 'POST',
                 data: { sortOrderName: sortOrderName },
                 success: function (data) {

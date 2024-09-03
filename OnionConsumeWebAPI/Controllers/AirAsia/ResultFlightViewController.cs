@@ -142,6 +142,11 @@ namespace OnionConsumeWebAPI.Controllers
                         (d.ToLower() == "12pm_to_6pm" && flight.designator.departure.TimeOfDay >= new TimeSpan(12, 0, 0) && flight.designator.departure.TimeOfDay < new TimeSpan(18, 0, 0)) ||
                         (d.ToLower() == "after_6pm" && flight.designator.departure.TimeOfDay >= new TimeSpan(18, 0, 0))
                     )).ToList();
+
+                 OnewaydeserializedObjects = filteredFlights.ToList();
+                viewModelobject.SimpleAvailibilityaAddResponcelist = OnewaydeserializedObjects;
+
+
             }
             if (arrival != null && arrival.Count > 0)
             {
@@ -152,6 +157,8 @@ namespace OnionConsumeWebAPI.Controllers
                         (a.ToLower() == "12pm_to_6pm" && flight.designator.arrival.TimeOfDay >= new TimeSpan(12, 0, 0) && flight.designator.arrival.TimeOfDay < new TimeSpan(18, 0, 0)) ||
                         (a.ToLower() == "after_6pm" && flight.designator.arrival.TimeOfDay >= new TimeSpan(18, 0, 0))
                     )).ToList();
+                 OnewaydeserializedObjects = filteredFlights.ToList();
+                viewModelobject.SimpleAvailibilityaAddResponcelist = OnewaydeserializedObjects;
             }
           
             ViewBag.NameSortParam = sortOrderName == "name_desc" ? "name_asc" : "name_desc";
@@ -224,33 +231,30 @@ namespace OnionConsumeWebAPI.Controllers
 
             }
 
-             if (FilterIdAirLine.Count > 0 && FilterIdAirLine.Count >= 0)
+          
+            if (FilterIdAirLine.Count > 0 && FilterIdAirLine.Count >= 0)
             {
-                var FilterAirLineData = OnewaydeserializedObjects.Where(x => FilterIdAirLine.Contains(x.Airline.ToString())).ToList();
-                viewModelobject.SimpleAvailibilityaAddResponcelist = FilterAirLineData;
-                return PartialView("_FlightResultsSortingPartialView", viewModelobject);
+                 OnewaydeserializedObjects = OnewaydeserializedObjects.Where(x => FilterIdAirLine.Contains(x.Airline.ToString())).ToList();
+                viewModelobject.SimpleAvailibilityaAddResponcelist = OnewaydeserializedObjects;
+                
             }
 
-            // if (filteredFlights.Count > 0 && filteredFlights.Count >= 0)
-            //{
-            //    viewModelobject = new ViewModel
-            //    {
-            //        SimpleAvailibilityaAddResponcelist = filteredFlights
-            //    };
-            //    return PartialView("_FlightResultsSortingPartialView", viewModelobject);
 
-            //}
+           
+
 
             if (FilterId.Count > 0 && FilterId.Count >= 0)
             {
                 viewModelobject.SimpleAvailibilityaAddResponcelist = OnewaydeserializedObjects;
-                return PartialView("_FlightResultsSortingPartialView", viewModelobject);
+                //return PartialView("_FlightResultsSortingPartialView", viewModelobject);
 
             }
+
+
           
             viewModelobject.SimpleAvailibilityaAddResponcelist = OnewaydeserializedObjects;
+            //return PartialView("_FlightResultsSortingPartialView", viewModelobject);
             return PartialView("_FlightResultsSortingPartialView", viewModelobject);
-
         }
 
        

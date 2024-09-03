@@ -564,13 +564,16 @@
                     });
 
                     if (element.value.trim() === "") {
+
+                       
                         // If the field is blank, show the error message
                         showError(element, field.errorMessage);
                         if (!firstInvalidElement) {
-                            firstInvalidElement = element;
+                            firstInvalidElement = element; 
                         }
                     }else if (field.className !== 'contactphone' && !field.validationdata.test(element.value.trim())) {
                         // For other fields, check their pattern validation
+                        aler("c");
                         showError(element, field.errorMessage);
                         if (!firstInvalidElement) {
                             firstInvalidElement = element;
