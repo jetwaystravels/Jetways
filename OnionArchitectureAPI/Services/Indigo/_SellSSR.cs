@@ -382,7 +382,7 @@ namespace OnionArchitectureAPI.Services.Indigo
                                                         int baggagecount = _obj.SSRbaggagecodeOneWayI.Count;
                                                         if (baggagecount > 0 && k + 1 <= baggagecount)
                                                         {
-                                                            if (idx > 0)
+                                                            if (sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx] !=null)
                                                                 idx++;
                                                             else
                                                                 idx = k;
@@ -417,7 +417,7 @@ namespace OnionArchitectureAPI.Services.Indigo
                                                         int baggagecount = _obj.SSRffwOneWayI.Count;
                                                         if (baggagecount > 0 && k + 1 <= baggagecount)
                                                         {
-                                                            if (idx > 0)
+                                                            if (sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx] != null)
                                                                 idx++;
                                                             else
                                                                 idx = k;

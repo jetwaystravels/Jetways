@@ -292,7 +292,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                                     int julianDate = (currentDate - startOfYear).Days + 1;
                                     if (string.IsNullOrEmpty(sequencenumber))
                                     {
-                                        sequencenumber = "0000";
+                                        sequencenumber = "00000";
                                     }
                                     else
                                     {
@@ -332,7 +332,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                                                 flightnumber = flightnumber.PadRight(5);
                                             }
                                             if (sequencenumber.Length < 5)
-                                                sequencenumber = sequencenumber.PadRight(5);
+                                                sequencenumber = sequencenumber.PadRight(5,'0');
                                             seatnumber = "0000";
                                             if (seatnumber.Length < 4)
                                                 seatnumber = seatnumber.PadLeft(4, '0');
@@ -360,7 +360,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                                                     flightnumber = flightnumber.PadRight(5);
                                                 }
                                                 if (sequencenumber.Length < 5)
-                                                    sequencenumber = sequencenumber.PadRight(5);
+                                                    sequencenumber = sequencenumber.PadRight(5,'0');
                                                 seatnumber = htseatdata[item1.PassengerNumber.ToString() + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].DepartureStation + "_" + _getBookingResponse.Booking.Journeys[i].Segments[j].ArrivalStation].ToString();
                                                 if (seatnumber.Length < 4)
                                                     seatnumber = seatnumber.PadLeft(4, '0');

@@ -401,7 +401,7 @@ namespace OnionConsumeWebAPI.Controllers
             //string journeyKey = passeengerKeyList.journeys[0].journeyKey;
             using (HttpClient client = new HttpClient())
             {
-                if (ssrKey.Count > 0)
+                if (ssrKey.Count > 0 || BaggageSSrkey.Count>0)
                 {
                     #region SellSSr
                     SellRequest sellSsrRequest = new SellRequest();
@@ -441,7 +441,7 @@ namespace OnionConsumeWebAPI.Controllers
                             for (int k = 0; k < ssrKey.Count; k++)
                             {
                                 string[] sskeydata = new string[2];
-                                if (ssrKey[k].Contains("_0"))
+                                if (ssrKey[k].Contains("_0") && !ssrKey[k].Contains("_0_1"))
                                 {
                                     string[] wordsArray = ssrKey[k].ToString().Split('_');
                                     if (wordsArray.Length > 1 && !string.IsNullOrEmpty(wordsArray[0]))
@@ -546,7 +546,7 @@ namespace OnionConsumeWebAPI.Controllers
                                         else
                                         {
                                             int idx = 0;
-                                            if (_obj.SSRcode0.Count > 0)//&& i1 + 1 <= ssrKey.Count
+                                            if (_obj.SSRcode0.Count > 0 || _obj.SSRbaggagecode0.Count>0)//&& i1 + 1 <= ssrKey.Count
                                             {
                                                 for (int i1 = 0; i1 < _obj.SSRcode0.Count; i1++)//Paxnum 1 adult,1 child,1 infant 2 meal
                                                 {
@@ -580,7 +580,13 @@ namespace OnionConsumeWebAPI.Controllers
                                                         int baggagecount = _obj.SSRbaggagecode0.Count;
                                                         if (baggagecount > 0 && k + 1 <= baggagecount)
                                                         {
-                                                            idx++;
+                                                            if (sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx] != null)
+                                                            {
+                                                                idx++;
+                                                            }
+                                                            else
+                                                                idx = k;
+                                                            //idx++;
                                                             string[] wordsArray = _obj.SSRbaggagecode0[k].key.ToString().Split(' ');
                                                             //alert(wordsArray);
                                                             //var meal = null;
