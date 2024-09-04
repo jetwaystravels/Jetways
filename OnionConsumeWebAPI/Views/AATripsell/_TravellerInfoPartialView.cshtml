@@ -571,6 +571,13 @@
                         if (!firstInvalidElement) {
                             firstInvalidElement = element; 
                         }
+                        else if (field.className === 'contactphone' && element.value.trim().length < 10) {
+                            // If the phone number has less than 10 digits, show an error message
+                            showError(element, field.errorMessage);
+                            if (!firstInvalidElement) {
+                                firstInvalidElement = element;
+                            }
+
                     }else if (field.className !== 'contactphone' && !field.validationdata.test(element.value.trim())) {
                         // For other fields, check their pattern validation
                         aler("c");

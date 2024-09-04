@@ -1193,7 +1193,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     Logs logs = new Logs();
                                     using (HttpClient client = new HttpClient())
                                     {
-                                        if (ssrKey.Count >= 0)
+                                        if (ssrKey.Count >= 0 || BaggageSSrkey.Count > 0)
                                         {
                                             #region SellSSr
                                             for (int i = 0; i < passeengerKeyList.passengers.Count; i++)
@@ -1468,7 +1468,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                                                 else
                                                                 {
                                                                     int idx = 0;
-                                                                    if (_obj.SSRcodeOneWayI.Count > 0)//&& i1 + 1 <= ssrKey.Count
+                                                                    if (_obj.SSRcodeOneWayI.Count > 0 || _obj.SSRbaggagecodeOneWayI.Count > 0)//&& i1 + 1 <= ssrKey.Count
                                                                     {
                                                                         for (int i2 = 0; i2 < _obj.SSRcodeOneWayI.Count; i2++)//Paxnum 1 adult,1 child,1 infant 2 meal
                                                                         {
@@ -1502,7 +1502,13 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                                                                 int baggagecount = _obj.SSRbaggagecodeOneWayI.Count;
                                                                                 if (baggagecount > 0 && k + 1 <= baggagecount)
                                                                                 {
-                                                                                    idx++;
+                                                                                    if (sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx] != null)
+                                                                                    {
+                                                                                        idx++;
+                                                                                    }
+                                                                                    else
+                                                                                        idx = k;
+
                                                                                     string[] wordsArray = _obj.SSRbaggagecodeOneWayI[k].key.ToString().Split('_');
                                                                                     //alert(wordsArray);
                                                                                     //var meal = null;
@@ -1627,7 +1633,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                                                 else
                                                                 {
                                                                     int idx = 0;
-                                                                    if (_obj.SSRcodeOneWayII.Count > 0)//&& i1 + 1 <= ssrKey.Count
+                                                                    if (_obj.SSRcodeOneWayII.Count > 0 || _obj.SSRbaggagecodeOneWayII.Count > 0)//&& i1 + 1 <= ssrKey.Count
                                                                     {
                                                                         for (int i2 = 0; i2 < _obj.SSRcodeOneWayII.Count; i2++)//Paxnum 1 adult,1 child,1 infant 2 meal
                                                                         {
@@ -1726,7 +1732,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                                                 else
                                                                 {
                                                                     int idx = 0;
-                                                                    if (_obj.SSRcodeRTI.Count > 0)//&& i1 + 1 <= ssrKey.Count
+                                                                    if (_obj.SSRcodeRTI.Count > 0 || _obj.SSRbaggagecodeRTI.Count > 0)//&& i1 + 1 <= ssrKey.Count
                                                                     {
                                                                         for (int i2 = 0; i2 < _obj.SSRcodeRTI.Count; i2++)//Paxnum 1 adult,1 child,1 infant 2 meal
                                                                         {
@@ -1755,12 +1761,18 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                                                         }
                                                                         if (_obj.SSRbaggagecodeRTI.Count > 0)
                                                                         {
-                                                                            idx++;
+                                                                            //idx++;
                                                                             for (int k = 0; k < PaxNum.Adults_.Count + PaxNum.Childs_.Count; k++)//Paxnum 1 adult,1 child,1 infant 2 meal
                                                                             {
                                                                                 int baggagecount = _obj.SSRbaggagecodeRTI.Count;
                                                                                 if (baggagecount > 0 && k + 1 <= baggagecount)
                                                                                 {
+                                                                                    if (sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx] != null)
+                                                                                    {
+                                                                                        idx++;
+                                                                                    }
+                                                                                    else
+                                                                                        idx = k;
 
                                                                                     string[] wordsArray = _obj.SSRbaggagecodeRTI[k].key.ToString().Split('_');
                                                                                     //alert(wordsArray);
@@ -1781,7 +1793,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                                                                     sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].SSRNumber = Convert.ToInt16(0);
                                                                                     sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].DepartureStation = passeengerKeyList.journeys[i].segments[j].designator.origin;
                                                                                     sellreqd.SellSSR.SSRRequest.SegmentSSRRequests[j].PaxSSRs[idx].ArrivalStation = passeengerKeyList.journeys[i].segments[j].designator.destination;
-                                                                                    idx++;
+                                                                                    //idx++;
                                                                                 }
                                                                             }
                                                                         }
@@ -1891,7 +1903,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                                                 else
                                                                 {
                                                                     int idx = 0;
-                                                                    if (_obj.SSRcodeRTII.Count > 0)//&& i1 + 1 <= ssrKey.Count
+                                                                    if (_obj.SSRcodeRTII.Count > 0 || _obj.SSRbaggagecodeRTII.Count > 0)//&& i1 + 1 <= ssrKey.Count
                                                                     {
                                                                         for (int i2 = 0; i2 < _obj.SSRcodeRTII.Count; i2++)//Paxnum 1 adult,1 child,1 infant 2 meal
                                                                         {
