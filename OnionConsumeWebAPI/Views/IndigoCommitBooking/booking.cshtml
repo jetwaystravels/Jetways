@@ -27,7 +27,71 @@
             cursor: pointer;
         }
     </style>
+    <style>
+        /* Resetting default browser styles */
+        bodyD, h1, p {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
 
+        html, bodyD {
+            height: 100%;
+            margin: 0;
+        }
+
+        /* Main container for centering the content */
+        .main-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        /* Error container styling */
+        .error-container {
+            text-align: center;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 446px;
+            width: 100%;
+        }
+
+        /* Styling for the error message */
+        .error-message h1 {
+            font-size: 4rem;
+            color: #ff4d4d;
+            margin-bottom: 0.5rem;
+        }
+
+        .error-message p {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+            .error-message p a {
+                color: #007bff;
+                text-decoration: none;
+            }
+
+                .error-message p a:hover {
+                    text-decoration: underline;
+                }
+
+        .btncstm {
+            color: #000;
+            border: 1px solid #000;
+            width: 140px;
+            float: right;
+            padding: 4px;
+            background-color: #fdfbfb;
+        }
+
+    </style>
 
     <script type="text/javascript">
         window.jsPDF = window.jspdf.jsPDF;
@@ -591,6 +655,23 @@
                         </div>
                     </div>
                 }
+
+            }
+            else 
+            {
+                <div class="bodyD">
+                    <div class="main-container">
+                        <div class="error-container">
+                            <div class="error-message">
+                                <h1>Oops!</h1>
+                                <p>Due to a technical issue, your ticket could not be generated.</p>
+                                <a class="button btncstm" asp-controller="FlightSearchIndex" asp-action="Index">
+                                    Go to Home Page
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
         }
     </form>

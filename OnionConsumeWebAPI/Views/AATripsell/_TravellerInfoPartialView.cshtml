@@ -318,8 +318,8 @@
         const messages = {
             name: 'Enter First Name.',
             last: 'Enter Last Name.',
-            email: 'Enter valid email address.',
-            phone: 'Phone number not valid.',
+           // email: 'Enter valid email address.',
+          
             duplicate: 'Duplicate names are not allowed.'
         };
 
@@ -544,14 +544,14 @@
       //
         $("#showReviewPopup").click(function (e) {
             e.preventDefault();
-            alert("aa");
 
             /*******Validation Start*********/
             const fieldsToValidate = [
-                { className: 'contactFname', errorMessage: 'First name is required', validationdata: /^[A-Za-z.]{3,32}$/ },
-                { className: 'contactLname', errorMessage: 'Last name is required', validationdata: /^[A-Za-z.]{3,32}$/ },
-                { className: 'contactemail', errorMessage: 'Email Address is required', validationdata: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/ },
-                { className: 'contactphone', errorMessage: 'Phonenumber is required' ,validationdata: /^\d{10,}$/ }
+                { className: 'contactFname', errorMessage: 'First name is required', validationdata: /^[A-Za-z.]{1,32}$/ },
+                { className: 'contactLname', errorMessage: 'Last name is required', validationdata: /^[A-Za-z.]{1,32}$/ },
+                { className: 'contactemail', errorMessage: 'Email is invalid', validationdata: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/ },
+                { className: 'contactphone', errorMessage: 'Phonenumber at least 10 digits', validationdata: /^\d{10,}$/ }
+                
             ];
 
             let firstInvalidElement = null;
@@ -561,19 +561,30 @@
                 elements.forEach(element => {
                     element.addEventListener("input", function () {
                         removeError(element);
+                        // Restrict input to integers only for contactphone
+                        if (field.className === 'contactphone') {
+                            element.value = element.value.replace(/[^0-9]/g, '');
+                        }
                     });
 
                     if (element.value.trim() === "") {
+                        if (field.className !== 'contactphone' && field.className !== 'contactemail') {
+                            // If the field is blank and it's not the phone field, show the error message
+                            showError(element, field.errorMessage);
+                            if (!firstInvalidElement) {
+                                firstInvalidElement = element;
+                            }
 
-                       
-                        // If the field is blank, show the error message
-                        showError(element, field.errorMessage);
-                        if (!firstInvalidElement) {
-                            firstInvalidElement = element; 
                         }
-                    }else if (field.className !== 'contactphone' && !field.validationdata.test(element.value.trim())) {
+
+                    } else if (field.className === 'contactphone' && element.value.trim().length < 10) {
+                        // If the phone number has fewer than 10 digits, show an error message
+                        showError(element, 'Phone number must be at least 10 digits');
+                        if (!firstInvalidElement) {
+                            firstInvalidElement = element;
+                        }
+                    } else if (field.className !== 'contactphone' && !field.validationdata.test(element.value.trim())) {
                         // For other fields, check their pattern validation
-                        aler("c");
                         showError(element, field.errorMessage);
                         if (!firstInvalidElement) {
                             firstInvalidElement = element;
@@ -610,6 +621,7 @@
                 errorMessage.style.display = 'block';
                 element.classList.add("error-input");
             }
+
 
 
             //Infant
