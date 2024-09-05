@@ -375,7 +375,7 @@
                                                     }
                                                     if (segmentcount == 2)
                                                     {
-                                                        <td rowspan="2" style="vertical-align:middle;width:254px;">
+                                                        <td rowspan="1" style="vertical-align:middle;width:254px;">
                                                             @{
                                                                 var imageUrl1 = @Model.AirlinePNR[0].passengers[p].barcodestring;
                                                                 // string imageUrl1 = ViewData["ImageBytes"] as string;
@@ -489,7 +489,7 @@
                                                             foreach (var item in Baggage)
                                                             {
                                                                 // <td>@item.MealImage</td>
-                                                                <td>@item.MealCode</td>
+                                                                <td>@item.MealImage</td>
                                                                 //THIS IS FOR BAGGAGE.
                                                             }
                                                         }

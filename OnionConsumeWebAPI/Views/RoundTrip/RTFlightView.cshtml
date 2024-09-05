@@ -2308,8 +2308,8 @@
             z-index: 9999;
             left: 50%;
             width: 60%;
-            height: 80%;
-            top: 50%;
+            height: 30%;
+            top: 72%;
             transform: translate(-50%, -50%);
             background-color: #fff;
             padding: 8px;
@@ -2592,38 +2592,38 @@
 
 
                 const flightInfoHTML = `
-                                         <div class="d-flex d-flex justify-content-between p-2">
+                                                 <div class="d-flex d-flex justify-content-between p-2">
 
-                                        <div class="fare-round d-flex align-items-center">
-                                                            <img class="size-L" src="${imageSrc}"  alt="image">
-                                            <div class="text-16 ms-2">${carrierCode}-${identifier}</div>
-                                        </div>
-                                        <div class="fare-round ms-2">
-                                                <div class="text-20">Departure</div>
-                                            <div class="text-16">${departure}</div>
-                                            <div class="text-16">${origin}</div>
-                                        </div>
-                                        <div class="fare-round">
-                                                    <div class="col text-center mt-4">
-                                                <div class="px-20 md:px-0 text-16">${diff}</div>
-                                                <div class="flightLine">
-                                                    <div></div>
-                                                    <div></div>
+                                                <div class="fare-round d-flex align-items-center">
+                                                                    <img class="size-L" src="${imageSrc}"  alt="image">
+                                                    <div class="text-16 ms-2">${carrierCode}-${identifier}</div>
                                                 </div>
-                                                <div class="mt-1">${stop}</div>
+                                                <div class="fare-round ms-2">
+                                                        <div class="text-20">Departure</div>
+                                                    <div class="text-16">${departure}</div>
+                                                    <div class="text-16">${origin}</div>
+                                                </div>
+                                                <div class="fare-round">
+                                                            <div class="col text-center mt-4">
+                                                        <div class="px-20 md:px-0 text-16">${diff}</div>
+                                                        <div class="flightLine">
+                                                            <div></div>
+                                                            <div></div>
+                                                        </div>
+                                                        <div class="mt-1">${stop}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="fare-round">
+                                                          <div class="text-20">Arrival</div>
+                                                    <div class="lh-15 text-16">${arrival}<span class="d-none" id="arrivalDatadate"></span></div>
+                                                    <div class="text-16 lh-15">${destination}</div>
+                                                </div>
+                                                        <div class="fare-round ms-2 p-4">
+                                                    <div class="text-20 fw-600">₹${fareTotal}</div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="fare-round">
-                                                  <div class="text-20">Arrival</div>
-                                            <div class="lh-15 text-16">${arrival}<span class="d-none" id="arrivalDatadate"></span></div>
-                                            <div class="text-16 lh-15">${destination}</div>
-                                        </div>
-                                                <div class="fare-round ms-2 p-4">
-                                            <div class="text-20 fw-600">₹${fareTotal}</div>
-                                        </div>
-                                    </div>
 
-                                    `;
+                                            `;
 
                 // Insert the new row into the HTML
                 document.getElementById('flightInfoRow').innerHTML = flightInfoHTML;
@@ -2668,36 +2668,36 @@
                 }
 
                 const flightInfoHTMLR = `
-                            <div class="d-flex d-flex justify-content-between p-2">
-                                <div class="fare-round d-flex align-items-center">
-                                    <img class="size-L" src="${imageSrc}" alt="image">
-                                    <div class="text-16 ms-2">${carrierCodeR}-${identifierR}</div>
-                                </div>
-                                <div class="fare-round ms-2">
-                                    <div class="text-20">Departure</div>
-                                    <div class="text-16">${departureR}</div>
-                                    <div class="text-16">${originR}</div>
-                                </div>
-                                <div class="fare-round">
-                                    <div class="col text-center mt-4">
-                                        <div class="px-20 md:px-0 text-16">${diffR}</div>
-                                        <div class="flightLine">
-                                            <div></div>
-                                            <div></div>
+                                    <div class="d-flex d-flex justify-content-between p-2">
+                                        <div class="fare-round d-flex align-items-center">
+                                            <img class="size-L" src="${imageSrc}" alt="image">
+                                            <div class="text-16 ms-2">${carrierCodeR}-${identifierR}</div>
                                         </div>
-                                        <div class="mt-1">${stopR}</div>
+                                        <div class="fare-round ms-2">
+                                            <div class="text-20">Departure</div>
+                                            <div class="text-16">${departureR}</div>
+                                            <div class="text-16">${originR}</div>
+                                        </div>
+                                        <div class="fare-round">
+                                            <div class="col text-center mt-4">
+                                                <div class="px-20 md:px-0 text-16">${diffR}</div>
+                                                <div class="flightLine">
+                                                    <div></div>
+                                                    <div></div>
+                                                </div>
+                                                <div class="mt-1">${stopR}</div>
+                                            </div>
+                                        </div>
+                                        <div class="fare-round">
+                                            <div class="text-20">Arrival</div>
+                                            <div class="lh-15 text-16">${arrivalR}<span class="d-none" id="arrivalDatadate"></span></div>
+                                            <div class="text-16 lh-15">${destinationR}</div>
+                                        </div>
+                                        <div class="fare-round ms-2 p-4">
+                                            <div class="text-20 fw-600">₹${fareTotalR}</div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="fare-round">
-                                    <div class="text-20">Arrival</div>
-                                    <div class="lh-15 text-16">${arrivalR}<span class="d-none" id="arrivalDatadate"></span></div>
-                                    <div class="text-16 lh-15">${destinationR}</div>
-                                </div>
-                                <div class="fare-round ms-2 p-4">
-                                    <div class="text-20 fw-600">₹${fareTotalR}</div>
-                                </div>
-                            </div>
-                        `;
+                                `;
 
                 // Insert the new row into the HTML
                 $('#flightInfoRowR').html(flightInfoHTMLR);

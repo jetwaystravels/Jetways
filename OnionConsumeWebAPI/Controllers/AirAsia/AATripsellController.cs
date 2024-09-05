@@ -39,7 +39,7 @@ namespace OnionConsumeWebAPI.Controllers
         string uniquekey = string.Empty;
         string MealsData = string.Empty;
         string Baggagesdata = string.Empty;
-
+        Logs logs = new Logs();
         public IActionResult Tripsell()
         {
 
@@ -158,6 +158,7 @@ namespace OnionConsumeWebAPI.Controllers
                 if (responseAddContact.IsSuccessStatusCode)
                 {
                     var _responseAddContact = responseAddContact.Content.ReadAsStringAsync().Result;
+                    logs.WriteLogs("Url: " + JsonConvert.SerializeObject(AppUrlConstant.AirasiaContactDetail) + "Request:"+ jsonContactRequest + "\n\n Response: " + JsonConvert.SerializeObject(_responseAddContact), "ContactDetails", "AirAsiaOneWay");
                     var JsonObjAddContact = JsonConvert.DeserializeObject<dynamic>(_responseAddContact);
                 }
 
@@ -207,6 +208,8 @@ namespace OnionConsumeWebAPI.Controllers
                     if (responseAddContact.IsSuccessStatusCode)
                     {
                         var _responseAddContact = responseAddContact.Content.ReadAsStringAsync().Result;
+                        logs.WriteLogs("Url: " + JsonConvert.SerializeObject(AppUrlConstant.AirasiaGstDetail) + "Request: " + jsonContactRequest+  "\n\n Response: " + JsonConvert.SerializeObject(_responseAddContact), "GstDetails", "AirAsiaOneWay");
+
                         var JsonObjAddContact = JsonConvert.DeserializeObject<dynamic>(_responseAddContact);
                     }
                 }
@@ -263,7 +266,8 @@ namespace OnionConsumeWebAPI.Controllers
                             {
                                 var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
                                 Logs logs = new Logs();
-                                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_PassengersModel) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v3/booking/passengers/" + passengerdetails[i].passengerkey + "\n Response: " + JsonConvert.SerializeObject(_responsePassengers), "Update passenger", "AirAsiaRT");
+                                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_PassengersModel) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v3/booking/passengers/" + passengerdetails[i].passengerkey + "\n Response: " + JsonConvert.SerializeObject(_responsePassengers), "Update passenger", "AirAsiaRT");
+                                logs.WriteLogs("Url: " + JsonConvert.SerializeObject(AppUrlConstant.URLAirasia + "/api/nsk/v3/booking/passengers/" + passengerdetails[i].passengerkey) +"Request:" + jsonPassengers + "\n\n Response: " + JsonConvert.SerializeObject(_responsePassengers), "PassengerDetails", "AirAsiaOneWay");
 
                                 var JsonObjPassengers = JsonConvert.DeserializeObject<dynamic>(_responsePassengers);
                             }
@@ -309,7 +313,7 @@ namespace OnionConsumeWebAPI.Controllers
                                 {
                                     var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
                                     Logs logs = new Logs();
-                                    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_PassengersModel1) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v3/booking/passengers/" + passengerdetails[k].passengerkey + "/infant" + "\n Response: " + JsonConvert.SerializeObject(_responsePassengers), "Update passenger_Infant", "AirAsiaRT");
+                                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_PassengersModel1) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v3/booking/passengers/" + passengerdetails[k].passengerkey + "/infant" + "\n Response: " + JsonConvert.SerializeObject(_responsePassengers), "Update passenger_Infant", "AirAsiaOneWay");
 
                                     var JsonObjPassengers = JsonConvert.DeserializeObject<dynamic>(_responsePassengers);
                                 }
@@ -324,7 +328,7 @@ namespace OnionConsumeWebAPI.Controllers
                             {
                                 var _responceGetBooking = responceGetBooking.Content.ReadAsStringAsync().Result;
                                 Logs logs = new Logs();
-                                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject("GetBookingRequest") + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v1/booking" + "\n Response: " + JsonConvert.SerializeObject(_responceGetBooking), "GetBooking", "AirAsiaRT");
+                                logs.WriteLogs("Request: " + JsonConvert.SerializeObject("GetBookingRequest") + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v1/booking" + "\n Response: " + JsonConvert.SerializeObject(_responceGetBooking), "GetBooking", "AirAsiaOneWay");
 
                                 var JsonObjGetBooking = JsonConvert.DeserializeObject<dynamic>(_responceGetBooking);
                             }
@@ -361,6 +365,7 @@ namespace OnionConsumeWebAPI.Controllers
                 {
                     // string BaseURL1 = "http://localhost:5225/";
                     var _responceGetBooking = responceGetBooking01.Content.ReadAsStringAsync().Result;
+                    logs.WriteLogs( "Url: " + AppUrlConstant.AirasiaGetBoking + "\n Response: " + JsonConvert.SerializeObject(_responceGetBooking), "GetBooking", "AirAsiaOneWay");
 
                     var JsonObjGetBooking = JsonConvert.DeserializeObject<dynamic>(_responceGetBooking);
 
@@ -548,6 +553,7 @@ namespace OnionConsumeWebAPI.Controllers
                                     if (responseSellSSR.IsSuccessStatusCode)
                                     {
                                         var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
+                                        logs.WriteLogs("Url: " + JsonConvert.SerializeObject(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/ssrs/" + pas_SsrKey) + "Request: " + jsonSellSSR + "\n\n Response: " + JsonConvert.SerializeObject(_responseresponseSellSSR), "SellSSSRmeal", "AirAsiaOneWay");
                                         var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
                                     }
                                     mealid++;
@@ -592,6 +598,8 @@ namespace OnionConsumeWebAPI.Controllers
                                     if (responseSellSSR.IsSuccessStatusCode)
                                     {
                                         var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
+                                        logs.WriteLogs("Url: " + JsonConvert.SerializeObject(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/ssrs/" + pas_BaggageSsrKey) + "Request: " + jsonSellSSR + "\n\n Response: " + JsonConvert.SerializeObject(_responseresponseSellSSR), "SellBaggageSSR", "AirAsiaOneWay");
+
                                         var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
                                     }
                                     baggageid++;
@@ -676,6 +684,8 @@ namespace OnionConsumeWebAPI.Controllers
                                 if (responceSeatAssignment.IsSuccessStatusCode)
                                 {
                                     var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
+                                    logs.WriteLogs("Url: " + JsonConvert.SerializeObject(AppUrlConstant.AirasiaSeatSelect + passengerkey + "/seats/" + pas_unitKey) + "Request: " + jsonSeatAssignmentRequest + "\n\n Response: " + JsonConvert.SerializeObject(_responseSeatAssignment), "AssignSeat", "AirAsiaOneWay");
+
                                     var JsonObjSeatAssignment = JsonConvert.DeserializeObject<dynamic>(_responseSeatAssignment);
                                 }
                                 seatid++;
@@ -715,6 +725,7 @@ namespace OnionConsumeWebAPI.Controllers
                                     if (responseSellSSR.IsSuccessStatusCode)
                                     {
                                         var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
+                                        logs.WriteLogs("Url: " + JsonConvert.SerializeObject(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/ssrs/" + pas_SsrKey) + "Request: " + jsonSellSSR + "\n\n Response: " + JsonConvert.SerializeObject(_responseresponseSellSSR), "SellSSSRmeal", "AirAsiaOneWay");
                                         var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
                                     }
                                     mealid++;
@@ -759,6 +770,8 @@ namespace OnionConsumeWebAPI.Controllers
                                     if (responseSellSSR.IsSuccessStatusCode)
                                     {
                                         var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
+                                        logs.WriteLogs("Url: " + JsonConvert.SerializeObject(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/ssrs/" + pas_BaggageSsrKey) + "Request: " + jsonSellSSR + "\n\n Response: " + JsonConvert.SerializeObject(_responseresponseSellSSR), "SellBaggageSSR", "AirAsiaOneWay");
+
                                         var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
                                     }
                                     baggageid++;
@@ -802,6 +815,8 @@ namespace OnionConsumeWebAPI.Controllers
                                     if (responseSellSSR.IsSuccessStatusCode)
                                     {
                                         var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
+                                        logs.WriteLogs("Url: " + JsonConvert.SerializeObject(AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/ssrs/" + pas_WheelSsrKey) + "Request: " + jsonSellSSR + "\n\n Response: " + JsonConvert.SerializeObject(_responseresponseSellSSR), "SellWheelchairSSR", "AirAsiaOneWay");
+
                                         var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
                                     }
                                     WheelChairid++;
@@ -827,6 +842,7 @@ namespace OnionConsumeWebAPI.Controllers
                 {
 
                     var _responceGetBooking = responceGetBooking01.Content.ReadAsStringAsync().Result;
+                    logs.WriteLogs("Url: " + JsonConvert.SerializeObject(AppUrlConstant.AirasiaGetBoking) +  "\n\n Response: " + JsonConvert.SerializeObject(_responceGetBooking), "GetBooking", "AirAsiaOneWay");
 
                     var JsonObjGetBooking = JsonConvert.DeserializeObject<dynamic>(_responceGetBooking);
 

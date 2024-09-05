@@ -304,61 +304,7 @@
         }
     });
 
-    function validateInputT(event) {
-        const element = event.target;
-        const value = element.value.trim();
-        const validateType = element.getAttribute('data-validate');
-        const validators = {
-            name: /^[A-Za-z.]{0,32}$/,
-            last: /^[A-Za-z.]{0,32}$/,
-            email: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
-            phone: /^[0-9]{10}$/
-        };
-
-        const messages = {
-            name: 'Enter First Name.',
-            last: 'Enter Last Name.',
-           // email: 'Enter valid email address.',
-          
-            duplicate: 'Duplicate names are not allowed.'
-        };
-
-        if (value === "") {
-            if (validateType !== 'phone') {
-                showErrorVal(element, messages[validateType]);
-            } else {
-                removeErrorVal(element); // No error if phone is empty
-            }
-            return false;
-        } else {
-            removeErrorVal(element);
-        }
-
-        if (validateType === 'name' || validateType === 'last') {
-            element.value = value.replace(/[^A-Za-z.]/g, '');
-        }
-
-        if (validateType === 'phone') {
-            // No additional processing needed, skip validation if empty
-        }
-
-        if (!validators[validateType].test(value)) {
-            showErrorVal(element, messages[validateType]);
-        } else {
-            removeErrorVal(element);
-        }
-
-        if (validateType === 'name') {
-            const allNames = document.querySelectorAll(`[data-validate="${validateType}"]`);
-            const duplicate = Array.from(allNames).filter((el) => el.value.trim() === value && el !== element);
-            if (duplicate.length > 0) {
-                showErrorVal(element, messages['duplicate']);
-                return false;
-            } else {
-                removeErrorVal(element);
-            }
-        }
-    }
+   
    
     
     // document.addEventListener('DOMContentLoaded', function (event) {
@@ -542,6 +488,7 @@
             $("#dataPopup").hide();
         });
       //
+
         $("#showReviewPopup").click(function (e) {
             e.preventDefault();
 
@@ -550,8 +497,7 @@
                 { className: 'contactFname', errorMessage: 'First name is required', validationdata: /^[A-Za-z.]{1,32}$/ },
                 { className: 'contactLname', errorMessage: 'Last name is required', validationdata: /^[A-Za-z.]{1,32}$/ },
                 { className: 'contactemail', errorMessage: 'Email is invalid', validationdata: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/ },
-                { className: 'contactphone', errorMessage: 'Phonenumber at least 10 digits', validationdata: /^\d{10,}$/ }
-                
+                { className: 'contactphone', errorMessage: 'Phone number at least 10 digits', validationdata: /^\d{10,}$/ }
             ];
 
             let firstInvalidElement = null;
@@ -574,9 +520,7 @@
                             if (!firstInvalidElement) {
                                 firstInvalidElement = element;
                             }
-
                         }
-
                     } else if (field.className === 'contactphone' && element.value.trim().length < 10) {
                         // If the phone number has fewer than 10 digits, show an error message
                         showError(element, 'Phone number must be at least 10 digits');
@@ -592,6 +536,22 @@
                     }
                 });
             });
+
+            // Check for duplicate first names
+            const fnameElements = document.querySelectorAll('.contactFname');
+            const fnameValues = Array.from(fnameElements).map(el => el.value.trim());
+            const duplicates = fnameValues.filter((item, index) => fnameValues.indexOf(item) !== index && item !== "");
+
+            if (duplicates.length > 0) {
+                fnameElements.forEach(element => {
+                    if (duplicates.includes(element.value.trim())) {
+                        showError(element, 'Duplicate first names');
+                        if (!firstInvalidElement) {
+                            firstInvalidElement = element;
+                        }
+                    }
+                });
+            }
 
             if (firstInvalidElement) {
                 firstInvalidElement.focus();
@@ -622,11 +582,6 @@
                 element.classList.add("error-input");
             }
 
-
-
-            //Infant
-
-            //Infant
             function validateInfantDOB(inafantIdx) {
                 var year = document.getElementById("year_" + inafantIdx).value;
                 //var month = document.getElementById("month_" + inafantIdx).value;
@@ -720,8 +675,8 @@
                     return false;
                 }
             }
-            //End infant
 
+            // Infant validation (remains the same)
 
             /*******Validation End*********/
             var enteredData = "";
@@ -741,6 +696,9 @@
             $('#dataPopup').modal('show');
 
         });
+
+
+
         $("#ContinueData").click(function () {
             $('#passengers_id').hide();
             //*************Validation effect Start**********

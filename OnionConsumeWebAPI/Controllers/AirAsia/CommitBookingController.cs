@@ -64,6 +64,7 @@ namespace OnionConsumeWebAPI.Controllers
         double taxMinusBaggage = 0;
         double TotalAmountMeal = 0;
         double TotaAmountBaggage = 0;
+        Logs logs = new Logs();
         public async Task<IActionResult> booking()
         {
 
@@ -97,6 +98,7 @@ namespace OnionConsumeWebAPI.Controllers
                 if (responceCommit_Booking.IsSuccessStatusCode)
                 {
                     var _responceCommit_Booking = responceCommit_Booking.Content.ReadAsStringAsync().Result;
+                    logs.WriteLogs("Url: " + JsonConvert.SerializeObject(AppUrlConstant.AirasiaCommitBooking) + "Request:" + jsonCommitBookingRequest + "\n Response: " + _responceCommit_Booking, "CommitBooking", "AirAsiaOneWay");
                     var JsonObjCommit_Booking = JsonConvert.DeserializeObject<dynamic>(_responceCommit_Booking);
                 }
                 #endregion
@@ -130,8 +132,10 @@ namespace OnionConsumeWebAPI.Controllers
                     Hashtable TicketCarryBagAMount = new Hashtable();
                     DateTime departure;
 
-                    Logs logs = new Logs();
+
                     var _responcePNRBooking = responceGetBooking.Content.ReadAsStringAsync().Result;
+                    //string path = "C:\\Users\\Jet\\Desktop\\a.txt";
+                    //string _responcePNRBooking = System.IO.File.ReadAllText(path);
                     logs.WriteLogs("Request: " + JsonConvert.SerializeObject(AppUrlConstant.AirasiaPNRBooking + AirLinePNR) + "\n Response: " + _responcePNRBooking, "GetBookingDeatils", "AirAsiaOneWay");
                     var JsonObjPNRBooking = JsonConvert.DeserializeObject<dynamic>(_responcePNRBooking);
 
@@ -165,15 +169,15 @@ namespace OnionConsumeWebAPI.Controllers
                     InfantReturn infantReturnobj = new InfantReturn();
                     if (JsonObjPNRBooking.data.breakdown.passengerTotals.infant != null)
                     {
-                         //x.data.breakdown.journeyTotals.totalAmount; +x.data.breakdown.passengerTotals.infant.total; *@
+                        //x.data.breakdown.journeyTotals.totalAmount; +x.data.breakdown.passengerTotals.infant.total; *@
                         infantReturnobj.total = JsonObjPNRBooking.data.breakdown.passengerTotals.infant.total;
                         infantReturnobj.taxes = JsonObjPNRBooking.data.breakdown.passengerTotals.infant.taxes;
                         double TotalInfantAmount = infantReturnobj.total + infantReturnobj.taxes;
-                      //  double totalAmountSum = journeyTotalsobj.totalAmount + infantReturnobj.total + infantReturnobj.taxes;
-                     
-                        double totalAmountSum = journeyTotalsobj.totalAmount + infantReturnobj.total ;
+                        //  double totalAmountSum = journeyTotalsobj.totalAmount + infantReturnobj.total + infantReturnobj.taxes;
+
+                        double totalAmountSum = journeyTotalsobj.totalAmount + infantReturnobj.total;
                         double totaltax = journeyTotalsobj.totalTax + infantReturnobj.taxes;
-                       // double totaltax = journeyTotalsobj.totalTax;
+                        // double totaltax = journeyTotalsobj.totalTax;
 
                         double totalplusAmountSumtax = totalAmountSum + totaltax;
                         breakdown.totalAmountSum = totalAmountSum;
@@ -184,6 +188,8 @@ namespace OnionConsumeWebAPI.Controllers
                     PassengerTotals passengerTotals = new PassengerTotals();
                     SpecialServices serviceChargeReturn = new SpecialServices();
                     List<ReturnCharge> returnChargeList = new List<ReturnCharge>();
+
+
                     if (JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices != null)
                     {
                         int chargesCount = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.charges.Count;
@@ -193,40 +199,57 @@ namespace OnionConsumeWebAPI.Controllers
                             ReturnCharge returnChargeobj = new ReturnCharge();
                             returnChargeobj.amount = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.charges[ch].amount;
                             returnChargeobj.code = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.charges[ch].code;
-                            if (returnChargeobj.code.StartsWith("V"))
-                            {
-                                totalAmount += returnChargeobj.amount;
 
-                            }
-                            if (returnChargeobj.code.StartsWith("C"))
+                            if (returnChargeobj.code.StartsWith("CGST"))
                             {
-                                totalAmounttax += returnChargeobj.amount;
+                                continue;
+                                //totalAmounttax += returnChargeobj.amount;
                             }
-                            if (returnChargeobj.code.StartsWith("S"))
+                            if (returnChargeobj.code.StartsWith("SGST"))
                             {
-                                totalAmounttaxSGST += returnChargeobj.amount;
-                            }
-                            totalMealTax = totalAmounttax + totalAmounttaxSGST;
-                            taxMinusMeal = totalAmount - totalMealTax;
-                            TotalAmountMeal = totalMealTax + taxMinusMeal;
-
-                            if (returnChargeobj.code.StartsWith("P"))
-                            {
-                                totalAmountBaggage += returnChargeobj.amount;
-
-                            }
-                            if (returnChargeobj.code.StartsWith("C"))
-                            {
-                                totalAmounttaxBag += returnChargeobj.amount;
+                                continue;
+                                //totalAmounttaxSGST += returnChargeobj.amount;
                             }
 
-                            if (returnChargeobj.code.StartsWith("S"))
+                            bool isSpecialCode = returnChargeobj.code.Equals("PBCA", StringComparison.OrdinalIgnoreCase) ||
+                                                    returnChargeobj.code.Equals("PBCB", StringComparison.OrdinalIgnoreCase) ||
+                                                    returnChargeobj.code.Equals("PBA3", StringComparison.OrdinalIgnoreCase) ||
+                                                    returnChargeobj.code.Equals("PBAB", StringComparison.OrdinalIgnoreCase) ||
+                                                    returnChargeobj.code.Equals("PBAC", StringComparison.OrdinalIgnoreCase) ||
+                                                    returnChargeobj.code.Equals("PBAD", StringComparison.OrdinalIgnoreCase) ||
+                                                    returnChargeobj.code.Equals("PBAF", StringComparison.OrdinalIgnoreCase);
+
+
+                            if (isSpecialCode==false)
                             {
-                                totalAmounttaxSGSTBag += returnChargeobj.amount;
+                                TotalAmountMeal += returnChargeobj.amount;
                             }
-                            totalBaggageTax = totalAmounttaxBag + totalAmounttaxSGSTBag;
-                            taxMinusBaggage = totalAmountBaggage - totalBaggageTax;
-                            TotaAmountBaggage = totalBaggageTax + taxMinusBaggage;
+                            else
+                            {
+                                TotaAmountBaggage += returnChargeobj.amount;
+                            }
+                           
+                            //totalMealTax = totalAmounttax + totalAmounttaxSGST;
+                            //taxMinusMeal = totalAmount - totalMealTax;
+                            //TotalAmountMeal = totalAmount;// totalMealTax + taxMinusMeal;
+
+                            //if (returnChargeobj.code.Contains("P"))
+                            //{
+                                //TotaAmountBaggage += returnChargeobj.amount;
+
+                            //}
+                            //if (returnChargeobj.code.StartsWith("C"))
+                            //{
+                            //    totalAmounttaxBag += returnChargeobj.amount;
+                            //}
+
+                            //if (returnChargeobj.code.StartsWith("S"))
+                            //{
+                            //    totalAmounttaxSGSTBag += returnChargeobj.amount;
+                            //}
+                            //totalBaggageTax = totalAmounttaxBag + totalAmounttaxSGSTBag;
+                            //taxMinusBaggage = totalAmountBaggage - totalBaggageTax;
+                            //TotaAmountBaggage = totalBaggageTax + taxMinusBaggage;
 
 
                             returnChargeList.Add(returnChargeobj);
@@ -249,8 +272,14 @@ namespace OnionConsumeWebAPI.Controllers
                     SpecialServices specialServices = new SpecialServices();
                     if (JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices != null)
                     {
-                        specialServices.total = (decimal)JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.total;
-                        specialServices.taxes = (decimal)JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes;
+                        if (JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.total != null)
+                        {
+                            specialServices.total = (decimal)JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.total;
+                        }
+                        if (JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes != null)
+                        {
+                            specialServices.taxes = (decimal)JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes;
+                        }
                     }
                     //breakdown.journeyTotals = (int)ToatalBasePrice;
 
@@ -331,14 +360,15 @@ namespace OnionConsumeWebAPI.Controllers
                                     ReturnSeats returnSeatsObj = new ReturnSeats();
                                     returnSeatsObj.unitDesignator = item.Value.seats[q].unitDesignator;
                                     flightseatnumber = item.Value.seats[q].unitDesignator;
-                                    if (string.IsNullOrEmpty(seatnumber))
+                                    if (string.IsNullOrEmpty(flightseatnumber))
                                     {
                                         seatnumber = "0000"; // Set to "0000" if not available
                                     }
                                     else
                                     {
-                                        seatnumber = seatnumber.PadRight(4, '0'); // Right-pad with zeros if less than 4 characters
+                                        seatnumber = flightseatnumber.PadRight(4, '0'); // Right-pad with zeros if less than 4 characters
                                     }
+
                                     returnSeatsList.Add(returnSeatsObj);
                                     htseatdata.Add(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination, returnSeatsObj.unitDesignator);
                                     returnSeats.unitDesignator += returnSeatsObj.unitDesignator + ",";
@@ -390,7 +420,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                                         }
                                         returnSeats.SSRCode += ssrReturn.ssrCode + ",";
-                                        
+
                                     }
                                     else
                                     {
@@ -596,8 +626,14 @@ namespace OnionConsumeWebAPI.Controllers
                     tb_Booking.TotalAmount = JsonObjPNRBooking.data.breakdown.balanceDue;
                     if (JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices != null)
                     {
-                        tb_Booking.SpecialServicesTotal = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.total;
-                        tb_Booking.SpecialServicesTotal_Tax = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes;
+                        if (JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.total != null)
+                        {
+                            tb_Booking.SpecialServicesTotal = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.total;
+                        }
+                        if (JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes != null)
+                        {
+                            tb_Booking.SpecialServicesTotal_Tax = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes;
+                        }
                     }
                     if (JsonObjPNRBooking.data.breakdown.passengerTotals.seats != null)
                     {
@@ -665,7 +701,10 @@ namespace OnionConsumeWebAPI.Controllers
                     if (JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices != null)
                     {
                         tb_PassengerTotalobj.TotalMealsAmount = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.total;
-                        tb_PassengerTotalobj.TotalMealsAmount_Tax = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes;
+                        if (JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes != null)
+                        {
+                            tb_PassengerTotalobj.TotalMealsAmount_Tax = JsonObjPNRBooking.data.breakdown.passengerTotals.specialServices.taxes;
+                        }
                     }
                     if (JsonObjPNRBooking.data.breakdown.passengerTotals.seats != null)
                     {
@@ -703,7 +742,7 @@ namespace OnionConsumeWebAPI.Controllers
                             //x.data.journeys[0].segments[0].passengerSegment["MCFBRFQ-"].seats[0].unitDesignator
                             int JourneysReturnCount1 = JsonObjPNRBooking.data.journeys.Count;
                             //int SegmentReturnCount = JsonObjPNRBooking.data.journeys[0].segments.Count-1;
-                            if (JsonObjPNRBooking.data.journeys[0].segments[isegment].passengerSegment[tb_Passengerobj.PassengerKey].seats != null && JsonObjPNRBooking.data.journeys[0].segments[isegment].passengerSegment[tb_Passengerobj.PassengerKey].seats.Count>0)
+                            if (JsonObjPNRBooking.data.journeys[0].segments[isegment].passengerSegment[tb_Passengerobj.PassengerKey].seats != null && JsonObjPNRBooking.data.journeys[0].segments[isegment].passengerSegment[tb_Passengerobj.PassengerKey].seats.Count > 0)
                             {
                                 var flightseatnumber1 = JsonObjPNRBooking.data.journeys[0].segments[isegment].passengerSegment[tb_Passengerobj.PassengerKey].seats[0].unitDesignator;
 
