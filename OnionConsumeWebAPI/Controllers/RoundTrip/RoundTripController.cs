@@ -161,7 +161,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                 LeftdeserializedStops = filteredFlightsReturn.ToList();
                 vmobj.SimpleAvailibilityaAddResponcelist = LeftdeserializedStops;
             }
-            else if (arrival != null && arrival.Count > 0)
+            if (arrival != null && arrival.Count > 0)
             {
                 filteredFlightsReturn = filteredFlightsReturn.Where(flight =>
                     arrival.Any(a =>
@@ -187,7 +187,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                 RightdeserializedStops = filteredFlightsRight.ToList();
                 vmobj.SimpleAvailibilityaAddResponcelist = RightdeserializedStops;
             }
-            else if (arrivalRight != null && arrivalRight.Count > 0)
+            if (arrivalRight != null && arrivalRight.Count > 0)
             {
                 filteredFlightsRight = filteredFlightsRight.Where(flight =>
                     arrivalRight.Any(a =>

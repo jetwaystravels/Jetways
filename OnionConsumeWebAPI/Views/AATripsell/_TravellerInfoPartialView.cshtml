@@ -116,7 +116,7 @@
                                         <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlist.passengers[i].passengerKey" required />
                             }
                         }
-                        <input type="text" class="contactFname validate-field" data-validate="name" maxlength="32" oninput="validateInputT(event ,@i)" id="LeadPass1" placeholder="First & middle name" name="passengerdetails[@i].First" required />
+                        <input type="text" class="contactFname validate-field" data-validate="name" maxlength="32" oninput="validateInputT(event ,@i)" id="LeadPass1" placeholder="First & middle name" name="passengerdetails[@i].First" style='text-transform:uppercase' required />
 
                     </div>
                     <p id="error-Fname" class="error-message  error-CFname" style="display: none;"></p>
@@ -125,7 +125,7 @@
                 <div class="col-md-3">
 
                     <div class="form-input">
-                        <input type="text" class="contactLname validate-field" data-validate="last" oninput="validateInputT(event,@i)" maxlength="32" placeholder="Last name" name="passengerdetails[@i].Last" required />
+                        <input type="text" class="contactLname validate-field" data-validate="last" oninput="validateInputT(event,@i)" maxlength="32" placeholder="Last name" name="passengerdetails[@i].Last" style='text-transform:uppercase' required />
 
                     </div>
                     <p id="error-Lname" class="error-message error-CLname" style="display:none"></p>
@@ -251,21 +251,23 @@
             buttonLead.classList.remove('checked');
         }
         if (buttonLead.checked) {
-
+            debugger;
             alert("Checked!!")
             var emaiLeadPass = document.querySelector('.contactemail').value;
             var phoneLeadPass = document.querySelector('.contactphone').value;
+            alert(emaiLeadPass);
+            alert(phoneLeadPass);
             //Get all elements with class "contactemail" and set their value
             var emailInputsT = document.querySelectorAll(".contactemail");
             emailInputsT.forEach(function (input) {
                 input.value = emaiLeadPass;
-                validateInputT({ target: input });
+                //validateInputT({ target: input });
             });
             // Get all elements with class "contactphone" and set their value
             var phoneInputsT = document.querySelectorAll(".contactphone");
             phoneInputsT.forEach(function (input) {
                 input.value = phoneLeadPass;
-                validateInputT({ target: input });
+                //validateInputT({ target: input });
             });
         } else {
             alert("Checkbox is unchecked");
@@ -491,11 +493,11 @@
 
         $("#showReviewPopup").click(function (e) {
             e.preventDefault();
-
+            
             /*******Validation Start*********/
             const fieldsToValidate = [
-                { className: 'contactFname', errorMessage: 'First name is required', validationdata: /^[A-Za-z.]{1,32}$/ },
-                { className: 'contactLname', errorMessage: 'Last name is required', validationdata: /^[A-Za-z.]{1,32}$/ },
+                { className: 'contactFname', errorMessage: 'First name is required', validationdata: /^[A-Za-z]{1,32}$/ },
+                { className: 'contactLname', errorMessage: 'Last name is required', validationdata: /^[A-Za-z]{1,32}$/ },
                 { className: 'contactemail', errorMessage: 'Email is invalid', validationdata: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/ },
                 { className: 'contactphone', errorMessage: 'Phone number at least 10 digits', validationdata: /^\d{10,}$/ }
             ];
@@ -507,6 +509,12 @@
                 elements.forEach(element => {
                     element.addEventListener("input", function () {
                         removeError(element);
+
+
+                        // Restrict input to alphabetic characters for contactFname and contactLname
+                        if (field.className === 'contactFname' || field.className === 'contactLname') {
+                            element.value = element.value.replace(/[^A-Za-z]/g, ''); // Allow only alphabets
+                        }
                         // Restrict input to integers only for contactphone
                         if (field.className === 'contactphone') {
                             element.value = element.value.replace(/[^0-9]/g, '');
@@ -550,14 +558,25 @@
                             firstInvalidElement = element;
                         }
                     }
+                    else {
+                        // If no duplicates, remove the error
+                        removeError(element);
+                    }
                 });
             }
+               
 
             if (firstInvalidElement) {
                 firstInvalidElement.focus();
                 return false;
             } else {
-                // document.getElementById('passengerForm').submit();
+                fieldsToValidate.forEach(field => {
+                    const elements = document.querySelectorAll(`.${field.className}`);
+                    elements.forEach(element => {
+                        removeError(element);
+                    });
+                });
+               
             }
 
             function removeError(element) {

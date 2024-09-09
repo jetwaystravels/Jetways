@@ -2030,6 +2030,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                         int paxnum = 0;
                                         if (mealid < ssrKey.Count)
                                         {
+                                            ssrsubKey2 = null;
+                                            pas_ssrKey = string.Empty;
                                             if (ssrKey[mealid] == null)
                                             {
                                                 continue;

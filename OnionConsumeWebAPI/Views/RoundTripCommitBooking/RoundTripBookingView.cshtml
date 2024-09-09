@@ -151,7 +151,7 @@
             {
                 for (int a = 0; a < Model.AirlinePNR.Count; a++)
                 {
-                    if (Model.AirlinePNR[a] != null && Model.AirlinePNR[a].journeys!=null)
+                    if (Model.AirlinePNR[a] != null && Model.AirlinePNR[a].journeys != null)
                     {
 
                         Hashtable htseat = Model.AirlinePNR[a].Seatdata;
@@ -325,6 +325,28 @@
                                                     {
                                                         <tr>
                                                             @{
+                                                                string barcodeimageUrl = string.Empty;
+                                                                BarcodeUtility BarcodeUtility = new BarcodeUtility();
+                                                                if (htpax.Contains(@Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].passengers[i2].name.last + "/" + @Model.AirlinePNR[a].passengers[i2].name.first + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination))
+                                                                {
+                                                                    string _data = @Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].passengers[i2].name.last + "/" + @Model.AirlinePNR[a].passengers[i2].name.first + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination;
+                                                                    if (htpax.Contains(_data))
+                                                                    {
+                                                                        barcodeimageUrl = htpax[_data].ToString();
+                                                                        barcodeimageUrl = BarcodeUtility.BarcodereadUtility(barcodeimageUrl).Trim();
+                                                                    }
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    string _data = @Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].passengers[i2].name.last + "/" + @Model.AirlinePNR[a].passengers[i2].name.first + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination;
+                                                                    if (htnameempty.Contains(_data))
+                                                                    {
+                                                                        barcodeimageUrl = htnameempty[_data].ToString();
+                                                                        barcodeimageUrl = BarcodeUtility.BarcodereadUtility(barcodeimageUrl).Trim();
+                                                                    }
+
+                                                                }
                                                                 if (i3 == 0)
                                                                 {
                                                                     int segmentcount = Model.AirlinePNR[a].journeys[0].segments.Count;
@@ -372,16 +394,16 @@
                                                                         }
                                                                         @if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "ADT" || Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "CHD")
                                                                         {
-                                                                            @if (!string.IsNullOrEmpty(imageUrl1))
+                                                                            @if (!string.IsNullOrEmpty(barcodeimageUrl))
                                                                             {
-                                                                                <img src="@imageUrl1" alt="barcode" />
+                                                                                <img src="@barcodeimageUrl" alt="barcode" />
                                                                             }
                                                                         }
                                                                     </td>
                                                                 }
                                                                 if (segmentcount == 2)
                                                                 {
-                                                                    <td rowspan="2" style="vertical-align:middle;width:254px;">
+                                                                    <td rowspan="1" style="vertical-align:middle;width:254px;">
                                                                         @{
                                                                             var imageUrl1 = @Model.AirlinePNR[a].passengers[i2].barcodestring;
                                                                             // string imageUrl1 = ViewData["ImageBytes"] as string;
@@ -389,9 +411,47 @@
                                                                         }
                                                                         @if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "ADT" || Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "CHD")
                                                                         {
-                                                                            @if (!string.IsNullOrEmpty(imageUrl1))
+                                                                            @if (!string.IsNullOrEmpty(barcodeimageUrl))
                                                                             {
-                                                                                <img src="@imageUrl1" alt="barcode" />
+                                                                                <img src="@barcodeimageUrl" alt="barcode" />
+                                                                            }
+                                                                        }
+                                                                    </td>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                int segmentcount = @Model.AirlinePNR[a].journeys[0].segments.Count;
+                                                                if (segmentcount == 1)
+                                                                {
+                                                                    <td rowspan="1" style="vertical-align:middle;width:254px;">
+                                                                        @{
+                                                                            var imageUrl1 = @Model.AirlinePNR[a].passengers[i2].barcodestring;
+                                                                            // string imageUrl1 = ViewData["ImageBytes"] as string;
+                                                                            string barcode = ViewData["Barcode"] as string;
+                                                                        }
+                                                                        @if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "ADT" || Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "CHD")
+                                                                        {
+                                                                            @if (!string.IsNullOrEmpty(barcodeimageUrl))
+                                                                            {
+                                                                                <img src="@barcodeimageUrl" alt="barcode" />
+                                                                            }
+                                                                        }
+                                                                    </td>
+                                                                }
+                                                                if (segmentcount == 2)
+                                                                {
+                                                                    <td rowspan="1" style="vertical-align:middle;width:254px;">
+                                                                        @{
+                                                                            var imageUrl1 = @Model.AirlinePNR[a].passengers[i2].barcodestring;
+                                                                            // string imageUrl1 = ViewData["ImageBytes"] as string;
+                                                                            string barcode = ViewData["Barcode"] as string;
+                                                                        }
+                                                                        @if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "ADT" || Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "CHD")
+                                                                        {
+                                                                            @if (!string.IsNullOrEmpty(barcodeimageUrl))
+                                                                            {
+                                                                                <img src="@barcodeimageUrl" alt="barcode" />
                                                                             }
                                                                         }
                                                                     </td>
@@ -465,7 +525,7 @@
                                                                     {
                                                                         foreach (var item in meal)
                                                                         {
-                                                                            <td>@item.MealImage</td>
+                                                                            <td>@item.MealCode</td>
                                                                         }
                                                                     }
                                                                     // <td>@htmeal[hashdata]</td>
@@ -489,7 +549,14 @@
                                                                     {
                                                                         foreach (var item in Baggage)
                                                                         {
-                                                                            <td>@item.MealImage</td>
+                                                                            if (i3 == 0)
+                                                                            {
+                                                                                <td>@item.MealImage</td>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <td></td>
+                                                                            }
                                                                         }
                                                                     }
                                                                 }
@@ -1356,20 +1423,20 @@
                     }
                     else
                     {
-                        if(a==0)
+                        if (a == 0)
                         {
-                        <div class="bodyD">
-                            <div class="main-container">
-                                <div class="error-container">
-                                    <div class="error-message">
-                                        <h1>Oops!</h1>
-                                        <p>Due to a technical issue, your onward journey ticket could not be generated.</p>
-                                        <a class="button btncstm" asp-controller="FlightSearchIndex" asp-action="Index">
-                                            Go to Home Page
-                                        </a>
+                            <div class="bodyD">
+                                <div class="main-container">
+                                    <div class="error-container">
+                                        <div class="error-message">
+                                            <h1>Oops!</h1>
+                                            <p>Due to a technical issue, your onward journey ticket could not be generated.</p>
+                                            <a class="button btncstm" asp-controller="FlightSearchIndex" asp-action="Index">
+                                                Go to Home Page
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             </div>
                         }
                         else

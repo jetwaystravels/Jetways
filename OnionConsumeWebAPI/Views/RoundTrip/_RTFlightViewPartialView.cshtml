@@ -576,7 +576,26 @@
 
         $('.selectCheckboxAirLineRT').on('change', function () {
             updateFilter();
-        });  
+        });
+        
+        function restoreCheckboxState(selectedIds, selectedIdsRight, RTFilterIdAirLine) {
+            // Restore the state of the checkboxes for the first set
+            $('.selectionCheckbox').each(function () {
+                var checkboxValue = $(this).val();
+                $(this).prop('checked', selectedIds.includes(checkboxValue));
+            });
+
+            // Restore the state of the checkboxes for the second set
+            $('.selectionCheckboxRight').each(function () {
+                var checkboxValue = $(this).val();
+                $(this).prop('checked', selectedIdsRight.includes(checkboxValue));
+            });
+
+            $('.selectCheckboxAirLineRT').each(function () {
+                var checkboxValue = $(this).val();
+                $(this).prop('checked', RTFilterIdAirLine.includes(checkboxValue));
+            });
+        }
     }
 
 
@@ -620,123 +639,7 @@
         });
     }
 
-    function restoreCheckboxState(selectedIds, selectedIdsRight, RTFilterIdAirLine) {
-        // Restore the state of the checkboxes for the first set
-        $('.selectionCheckbox').each(function () {
-            var checkboxValue = $(this).val();
-            $(this).prop('checked', selectedIds.includes(checkboxValue));
-        });
-
-        // Restore the state of the checkboxes for the second set
-        $('.selectionCheckboxRight').each(function () {
-            var checkboxValue = $(this).val();
-            $(this).prop('checked', selectedIdsRight.includes(checkboxValue));
-        });
-
-        $('.selectCheckboxAirLineRT').each(function () {
-            var checkboxValue = $(this).val();
-            $(this).prop('checked', RTFilterIdAirLine.includes(checkboxValue));
-        });
-    }
-
-
-    // function nonStopFunction() {
-    //     $('.selectionCheckbox').on('change', function () {
-    //         updateFilter();
-    //     });
-    //     function updateFilter() {
-    //         var selectedIds = [];
-    //         $('input.selectionCheckbox:checked').each(function () {
-    //             selectedIds.push($(this).val());
-    //         });
-    //         $.ajax({
-    //             url: '/RoundTrip/RTFlightView',
-    //             type: 'POST',
-    //             traditional: true,
-    //             data: { selectedIds: selectedIds },
-    //             success: function (response) {
-    //                 $('#RTflight-results').html(response);
-    //                 restoreCheckboxState(selectedIds);
-    //             },
-    //             error: function (xhr, status, error) {
-    //                 console.error('Error occurred:', error);
-    //             }
-    //         });
-    //     }
-    //     function restoreCheckboxState(selectedIds) {
-    //         $('.selectionCheckbox').each(function () {
-    //             var checkboxValue = $(this).val();
-    //             $(this).prop('checked', selectedIds.includes(checkboxValue));
-    //         });
-    //     }
-    // } 
-
-
-    // function nonStopFunctionRight() {
-    //     $('.selectionCheckboxRight').on('change', function () {
-    //         updateFilterRight();
-    //     });
-    //     function updateFilterRight() {
-    //         var selectedIdsRight = [];
-    //         $('input.selectionCheckboxRight:checked').each(function () {
-    //             selectedIdsRight.push($(this).val());
-    //         });
-    //         $.ajax({
-    //             url: '/RoundTrip/RTFlightView',
-    //             type: 'POST',
-    //             traditional: true,
-    //             data: { selectedIdsRight: selectedIdsRight },
-    //             success: function (response) {
-    //                 $('#RTflight-results').html(response);
-    //                 restoreCheckboxStateRight(selectedIdsRight);
-    //             },
-    //             error: function (xhr, status, error) {
-    //                 console.error('Error occurred:', error);
-    //             }
-    //         });
-    //     }
-    //     function restoreCheckboxStateRight(selectedIdsRight) {
-    //         $('.selectionCheckboxRight').each(function () {
-    //             var checkboxValue = $(this).val();
-    //             $(this).prop('checked', selectedIdsRight.includes(checkboxValue));
-    //         });
-    //     }
-    // }
-
-
-
-    // function OnewayFunctionAirline() {
-    //     debugger;
-    //     $('.selectCheckboxAirLineRT').on('change', function () {
-    //         updatedataFilter();
-    //     });
-    //     function updatedataFilter() {
-    //         debugger;
-    //         var RTFilterIdAirLine = [];
-    //         $('input.selectCheckboxAirLineRT:checked').each(function () {
-    //             RTFilterIdAirLine.push($(this).val());
-    //         });
-    //         $.ajax({
-    //             url: '/RoundTrip/RTFlightView',
-    //             type: 'POST',
-    //             traditional: true,
-    //             data: { RTFilterIdAirLine: RTFilterIdAirLine },
-    //             success: function (response) {
-    //                 $('#RTflight-results').html(response);
-    //                 restoreCheckboxData(RTFilterIdAirLine);
-    //             },
-    //             error: function (xhr, status, error) {
-    //                 console.error('Error occurred:', error);
-    //             }
-    //         });
-    //     }
-    //     function restoreCheckboxData(RTFilterIdAirLine) {
-    //         $('.selectCheckboxAirLineRT').each(function () {
-    //             var checkboxValue = $(this).val();
-    //             $(this).prop('checked', RTFilterIdAirLine.includes(checkboxValue));
-    //         });
-    //     }
-    // }
+    
 </script>
 
 
