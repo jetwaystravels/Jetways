@@ -76,10 +76,10 @@
 
         <div class="col-md-3">
             <div class="form-input">
-                <input type="text" name="emailAddressgst" maxlength="40" oninput="validateEmailGST(event)" class="gstemail hid-block hidden" id="emailAddressGST" placeholder="Email ID">
+                <input type="text" id="emailAddressGST" name="emailAddressgst" maxlength="40" oninput="validateEmailGST(event)" class="gstemail hid-block hidden" placeholder="Email ID">
             </div>
             <p id="emailErrorMessageGST" style="color: red; font-size:13px;"></p>
-            <p id="emailgst" class="error-message" style="display:none">Enter GST email</p>
+            <p id="error-message11" class="error-message" style="display:none">Enter GST email</p>
            
         </div>
 
@@ -330,17 +330,13 @@
                 var emailRegex = /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
 
                 if (gstemailfocus == "") {
-                    var emailToDisplay = document.getElementById("error-message11");
-                    emailToDisplay.style.display = "block";
-                    document.getElementById("emailAddressGST").focus();
-                    return false;
+                  
                 } else if (!emailRegex.test(gstemailfocus)) {
                     document.getElementById('gstEmailErrorMessage').innerText = "Enter a valid email address.";
                     return false;
                 } else {
-                    document.getElementById('gstEmailErrorMessage').innerText = "";
-                    var emailToDisplay = document.getElementById("error-message11");
-                    emailToDisplay.style.display = "none";
+                  
+                   
                 }
             
 
