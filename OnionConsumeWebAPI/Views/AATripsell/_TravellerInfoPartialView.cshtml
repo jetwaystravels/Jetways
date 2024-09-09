@@ -135,7 +135,7 @@
                     if (Model.passeengerlist.passengers[i].passengerTypeCode == "ADT" || Model.passeengerlist.passengers[i].passengerTypeCode == "CHD")
                     {
                                 <div class="col-md-3">
-                                    <div class="form-input"><input type="text" data-validate="email" class="contactemail validate-field" maxlength="266" oninput="validateInputT(event,@i)" id="contactemailID" placeholder="email" name="" required /></div>
+                                    <div class="form-input"><input type="text" data-validate="email" class="contactemail validate-field" maxlength="50" oninput="validateInputT(event,@i)" id="contactemailID" placeholder="email" name="" required /></div>
                                 </div>
                                 <p class="error-message error-emailname" style="display:none"></p>
                                 <p class="error-message-val " style="display:none"></p>
@@ -252,11 +252,11 @@
         }
         if (buttonLead.checked) {
             debugger;
-            alert("Checked!!")
+            //alert("Checked!!")
             var emaiLeadPass = document.querySelector('.contactemail').value;
             var phoneLeadPass = document.querySelector('.contactphone').value;
-            alert(emaiLeadPass);
-            alert(phoneLeadPass);
+           // alert(emaiLeadPass);
+            //alert(phoneLeadPass);
             //Get all elements with class "contactemail" and set their value
             var emailInputsT = document.querySelectorAll(".contactemail");
             emailInputsT.forEach(function (input) {
@@ -270,7 +270,7 @@
                 //validateInputT({ target: input });
             });
         } else {
-            alert("Checkbox is unchecked");
+            //alert("Checkbox is unchecked");
             debugger;
             var emaiLeadPass = "";
             var phoneLeadPass = "";
@@ -309,77 +309,7 @@
    
    
     
-    // document.addEventListener('DOMContentLoaded', function (event) {
-    //     event.preventDefault();
-    //     const infantContainers = document.querySelectorAll('.infant-dob-input');
-
-    //     // Function to populate day options for a given container
-    //     function populateDayOptions(container, year, month) {
-    //         const daySelect = container.querySelector('.day-select');
-    //         daySelect.innerHTML = ''; // Clear existing options
-    //         const daysInMonth = new Date(year, month, 0).getDate(); // Get days in the selected month and year
-    //         for (let i = 1; i <= daysInMonth; i++) {
-    //             const option = document.createElement('option');
-    //             option.value = i;
-    //             option.textContent = i;
-    //             daySelect.appendChild(option);
-    //         }
-    //     }
-
-    //     // Function to populate year options for a given container
-    //     function populateYearOptions(container) {
-    //         const yearSelect = container.querySelector('.year-select');
-    //         const currentYear = new Date().getFullYear();
-    //         const maxInfantAge = 2;
-    //         for (let i = currentYear; i >= currentYear - maxInfantAge; i--) {
-    //             const option = document.createElement('option');
-    //             option.value = i;
-    //             option.textContent = i;
-    //             yearSelect.appendChild(option);
-    //         }
-    //     }
-
-    //     // Function to populate month options for a given container
-    //     function populateMonthOptions(container) {
-    //         const monthNames = [
-    //             'January', 'February', 'March', 'April', 'May', 'June',
-    //             'July', 'August', 'September', 'October', 'November', 'December'
-    //         ];
-    //         const monthSelect = container.querySelector('.month-select');
-    //         monthSelect.innerHTML = ''; // Clear existing options
-    //         monthNames.forEach((monthName, index) => {
-    //             const option = document.createElement('option');
-    //             option.value = index + 1; // Month numbers start from 1 (January) to 12 (December)
-    //             option.textContent = monthName;
-    //             monthSelect.appendChild(option);
-    //         });
-    //     }
-
-    //     infantContainers.forEach(function (container) {
-    //         populateYearOptions(container);
-    //         populateMonthOptions(container);
-
-    //         const yearSelect = container.querySelector('.year-select');
-    //         const monthSelect = container.querySelector('.month-select');
-
-    //         // Initial population of days based on the default year and month
-    //         const defaultYear = yearSelect.value;
-    //         const defaultMonth = monthSelect.value;
-    //         populateDayOptions(container, defaultYear, defaultMonth);
-
-    //         yearSelect.addEventListener('change', function () {
-    //             const selectedYear = yearSelect.value;
-    //             const selectedMonth = monthSelect.value;
-    //             populateDayOptions(container, selectedYear, selectedMonth);
-    //         });
-
-    //         monthSelect.addEventListener('change', function () {
-    //             const selectedYear = yearSelect.value;
-    //             const selectedMonth = monthSelect.value;
-    //             populateDayOptions(container, selectedYear, selectedMonth);
-    //         });
-    //     });
-    // });
+    
 
 
     document.addEventListener('DOMContentLoaded', function () {

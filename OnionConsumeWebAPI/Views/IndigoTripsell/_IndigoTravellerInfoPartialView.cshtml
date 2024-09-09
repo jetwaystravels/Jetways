@@ -34,7 +34,7 @@
                 <div class="col-md-3 inputFirstname">
                     <div class="form-input">
 
-                        <input type="text" class="contactFname validate-field" data-validate="name" maxlength="32" oninput="validateInputI(event ,@i)" id="LeadPass[@i]" placeholder="First & middle name" name="passengerdetails[@i].First" required />
+                        <input type="text" class="contactFname validate-field" data-validate="name" maxlength="32" oninput="validateInputI(event ,@i)" id="LeadPass[@i]" placeholder="First & middle name" name="passengerdetails[@i].First" style='text-transform:uppercase' required />
 
                     </div>
                     <p id="error-Fname" class="error-message  error-CFname" style="display: none;"></p>
@@ -43,7 +43,7 @@
                 <div class="col-md-3">
 
                     <div class="form-input">
-                        <input type="text" class="contactLname validate-field" data-validate="last" oninput="validateInputI(event,@i)" maxlength="32" placeholder="Last name" name="passengerdetails[@i].Last" required />
+                        <input type="text" class="contactLname validate-field" data-validate="last" oninput="validateInputI(event,@i)" maxlength="32" placeholder="Last name" name="passengerdetails[@i].Last" style='text-transform:uppercase' required />
 
                     </div>
                     <p id="error-Lname" class="error-message error-CLname" style="display:none"></p>
@@ -53,7 +53,7 @@
                     if (Model.passeengerlist.passengers[i].passengerTypeCode == "ADT" || Model.passeengerlist.passengers[i].passengerTypeCode == "CHD")
                     {
                         <div class="col-md-3">
-                            <div class="form-input"><input type="text" data-validate="email" class="contactemail validate-field" maxlength="266" oninput="validateInputI(event,@i)" id="contactemailID" placeholder="email" name="" required /></div>
+                            <div class="form-input"><input type="text" data-validate="email" class="contactemail validate-field" maxlength="50" oninput="validateInputI(event,@i)" id="contactemailID" placeholder="email" name="" required /></div>
                         </div>
                         <p class="error-message error-emailname" style="display:none"></p>
                         <p class="error-message-val " style="display:none"></p>
@@ -380,8 +380,8 @@
 
             /*******Validation Start*********/
             const fieldsToValidate = [
-                { className: 'contactFname', errorMessage: 'First name is required', validationdata: /^[A-Za-z.]{1,32}$/ },
-                { className: 'contactLname', errorMessage: 'Last name is required', validationdata: /^[A-Za-z.]{1,32}$/ },
+                { className: 'contactFname', errorMessage: 'First name is required', validationdata: /^[A-Za-z]{1,32}$/ },
+                { className: 'contactLname', errorMessage: 'Last name is required', validationdata: /^[A-Za-z]{1,32}$/ },
                 { className: 'contactemail', errorMessage: 'Email is invalid', validationdata: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/ },
                 { className: 'contactphone', errorMessage: 'Phone number at least 10 digits', validationdata: /^\d{10,}$/ }
             ];
@@ -393,6 +393,12 @@
                 elements.forEach(element => {
                     element.addEventListener("input", function () {
                         removeError(element);
+
+
+                        // Restrict input to alphabetic characters for contactFname and contactLname
+                        if (field.className === 'contactFname' || field.className === 'contactLname') {
+                            element.value = element.value.replace(/[^A-Za-z]/g, ''); // Allow only alphabets
+                        }
                         // Restrict input to integers only for contactphone
                         if (field.className === 'contactphone') {
                             element.value = element.value.replace(/[^0-9]/g, '');
@@ -436,14 +442,25 @@
                             firstInvalidElement = element;
                         }
                     }
+                    else {
+                        // If no duplicates, remove the error
+                        removeError(element);
+                    }
                 });
             }
+
 
             if (firstInvalidElement) {
                 firstInvalidElement.focus();
                 return false;
             } else {
-                // document.getElementById('passengerForm').submit();
+                fieldsToValidate.forEach(field => {
+                    const elements = document.querySelectorAll(`.${field.className}`);
+                    elements.forEach(element => {
+                        removeError(element);
+                    });
+                });
+
             }
 
             function removeError(element) {

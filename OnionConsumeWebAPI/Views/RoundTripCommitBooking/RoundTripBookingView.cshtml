@@ -327,7 +327,7 @@
                                                             @{
                                                                 string barcodeimageUrl = string.Empty;
                                                                 BarcodeUtility BarcodeUtility = new BarcodeUtility();
-                                                                if (htpax.Contains(@Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].passengers[i2].name.last + "/" + @Model.AirlinePNR[a].passengers[i2].name.first + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination))
+                                                                if (htpax!=null && htpax.Contains(@Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].passengers[i2].name.last + "/" + @Model.AirlinePNR[a].passengers[i2].name.first + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination))
                                                                 {
                                                                     string _data = @Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].passengers[i2].name.last + "/" + @Model.AirlinePNR[a].passengers[i2].name.first + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination;
                                                                     if (htpax.Contains(_data))
@@ -340,7 +340,7 @@
                                                                 else
                                                                 {
                                                                     string _data = @Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].passengers[i2].name.last + "/" + @Model.AirlinePNR[a].passengers[i2].name.first + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination;
-                                                                    if (htnameempty.Contains(_data))
+                                                                    if (htnameempty!=null && htnameempty.Contains(_data))
                                                                     {
                                                                         barcodeimageUrl = htnameempty[_data].ToString();
                                                                         barcodeimageUrl = BarcodeUtility.BarcodereadUtility(barcodeimageUrl).Trim();
@@ -1107,7 +1107,7 @@
                                                             @{
                                                                 string barcodeimageUrl = string.Empty;
                                                                 BarcodeUtility BarcodeUtility = new BarcodeUtility();
-                                                                if (htpax.Contains(@Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].passengers[i2].name.last + "/" + @Model.AirlinePNR[a].passengers[i2].name.first + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination))
+                                                                if (htpax!=null && htpax.Contains(@Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].passengers[i2].name.last + "/" + @Model.AirlinePNR[a].passengers[i2].name.first + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination))
                                                                 {
                                                                     string _data = @Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].passengers[i2].name.last + "/" + @Model.AirlinePNR[a].passengers[i2].name.first + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination;
                                                                     if (htpax.Contains(_data))
@@ -1120,7 +1120,7 @@
                                                                 else
                                                                 {
                                                                     string _data = @Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].passengers[i2].name.last + "/" + @Model.AirlinePNR[a].passengers[i2].name.first + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination;
-                                                                    if (htnameempty.Contains(_data))
+                                                                    if (htnameempty != null && htnameempty.Contains(_data))
                                                                     {
                                                                         barcodeimageUrl = htnameempty[_data].ToString();
                                                                         barcodeimageUrl = BarcodeUtility.BarcodereadUtility(barcodeimageUrl).Trim();

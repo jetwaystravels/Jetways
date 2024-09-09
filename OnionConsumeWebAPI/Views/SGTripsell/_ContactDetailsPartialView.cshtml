@@ -6,7 +6,7 @@
 
         <div class="col-md-3">
             <div class="form-input ">
-                <input type="text" name="first" maxlength="32" oninput="validateInput(event)" id="first" class="firstNClass" placeholder="First Name">
+                <input type="text" id="first" name="first" maxlength="32" oninput="validateInput(event)" class="firstNClass" style='text-transform:uppercase' placeholder="First Name">
             </div>
             <p id="error-message1" class="error-message" style="display:none">Enter First name</p>
             <p id="errorMessage" style="color: red;font-size:13px;"></p>
@@ -14,7 +14,7 @@
 
         <div class="col-md-3">
             <div class="form-input ">
-                <input type="text" name="last" maxlength="32" id="last" oninput="validateInput2(event)" class="lastNClass" placeholder="Last Name">
+                <input type="text" id="last" name="last" maxlength="32" oninput="validateInput2(event)" class="lastNClass" style='text-transform:uppercase' placeholder="Last Name">
             </div>
             <p id="error-message2" class="error-message" style="display:none">Enter Last name</p>
             <p id="errorMessage2" style="color: red;font-size:13px;"></p>
@@ -23,7 +23,7 @@
 
         <div class="col-md-3">
             <div class="form-input">
-                <input type="text" name="emailAddress" maxlength="266" oninput="validateEmail(event)" class="emailNClass" id="emailAddress" placeholder="Email ID">
+                <input type="text" name="emailAddress" maxlength="50" oninput="validateEmail(event)" class="emailNClass" id="emailAddress" placeholder="Email ID">
             </div>
             <p id="error-message7" class="error-message" style="display:none">Enter email address</p>
             <p id="emailErrorMessage" style="color: red; font-size:13px;"></p>
@@ -78,7 +78,7 @@
         </div>
         <div class="col-md-3">
             <div class="form-input">
-                <input type="text" name="emailAddressgst" maxlength="266" oninput="validateEmailGST(event)" class="gstemail hid-block hidden" id="emailAddressGST" placeholder="Email ID">
+                <input type="text" id="emailAddressGST" name="emailAddressgst" maxlength="266" oninput="validateEmailGST(event)" class="gstemail hid-block hidden" placeholder="Email ID">
             </div>
             <p id="emailErrorMessageGST" style="color: red; font-size:13px;"></p>
         </div>
@@ -328,6 +328,20 @@
                 else {
                     var gstnoToDisplay = document.getElementById("error-message10");
                     gstnoToDisplay.style.display = "none";
+                }
+
+                let gstemailfocus = document.getElementById("emailAddressGST").value;
+
+                var emailRegex = /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+
+                if (gstemailfocus == "") {
+
+                } else if (!emailRegex.test(gstemailfocus)) {
+                    document.getElementById('gstEmailErrorMessage').innerText = "Enter a valid email address.";
+                    return false;
+                } else {
+
+
                 }
 
 

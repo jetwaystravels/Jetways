@@ -45,7 +45,7 @@
                             @* <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlistRT[0].passengers[i].passengerKey" required />*@
                 //}
                         }
-                        <input type="text" class="contactFname validate-field" data-validate="name" maxlength="32" oninput="validateInputT(event ,@i)" id="LeadPass[@i]" placeholder="First & middle name" name="passengerdetails[@i].First" required />
+                        <input type="text" class="contactFname validate-field" data-validate="name" maxlength="32" oninput="validateInputT(event ,@i)" id="LeadPass[@i]" placeholder="First & middle name" name="passengerdetails[@i].First" style='text-transform:uppercase' required />
 
                     </div>
                     <p id="error-Fname" class="error-message  error-CFname" style="display: none;">Enter First Name</p>
@@ -53,7 +53,7 @@
                 <div class="col-md-3">
 
                     <div class="form-input">
-                        <input type="text" class="contactLname validate-field" data-validate="last" oninput="validateInputT(event,@i)" maxlength="32" placeholder="Last name" name="passengerdetails[@i].Last" required />
+                        <input type="text" class="contactLname validate-field" data-validate="last" oninput="validateInputT(event,@i)" maxlength="32" placeholder="Last name" name="passengerdetails[@i].Last" style='text-transform:uppercase' required />
 
                     </div>
                     <p id="error-Lname" class="error-message error-CLname" style="display:none">Enter Last Name</p>
@@ -63,7 +63,7 @@
                     if (Model.passeengerlistRT[0].passengers[i].passengerTypeCode == "ADT" || Model.passeengerlistRT[0].passengers[i].passengerTypeCode == "CHD")
                     {
                         <div class="col-md-3">
-                            <div class="form-input"><input type="text" data-validate="email" class="contactemail validate-field" maxlength="266" oninput="validateInputT(event,@i)" id="contactemailID" placeholder="email" name="passengerdetails[@i].email" required /></div>
+                            <div class="form-input"><input type="text" data-validate="email" class="contactemail validate-field" maxlength="50" oninput="validateInputT(event,@i)" id="contactemailID" placeholder="email" name="passengerdetails[@i].email" required /></div>
                         </div>
                         <p class="error-message error-emailname" style="display:none">Enter your email</p>
                         <div class="col-md-2">
@@ -253,13 +253,13 @@
             var emailInputsT = document.querySelectorAll(".contactemail");
             emailInputsT.forEach(function (input) {
                 input.value = emaiLeadPass;
-                validateInputT({ target: input });
+               // validateInputT({ target: input });
             });
             // Get all elements with class "contactphone" and set their value
             var phoneInputsT = document.querySelectorAll(".contactphone");
             phoneInputsT.forEach(function (input) {
                 input.value = phoneLeadPass;
-                validateInputT({ target: input });
+               // validateInputT({ target: input });
             });
         } else {
 
@@ -271,13 +271,13 @@
 
             emailInputsT.forEach(function (input) {
                 input.value = emaiLeadPass;
-                validateInputT({ target: input });
+               // validateInputT({ target: input });
             });
             var phoneInputsT = document.querySelectorAll(".contactphone");
 
             phoneInputsT.forEach(function (input) {
                 input.value = phoneLeadPass;
-                validateInputT({ target: input });
+              //  validateInputT({ target: input });
             });
 
             var emaiLeadPassenger = localStorage.getItem('Leadpassenger3');
@@ -288,51 +288,51 @@
         }
     });
 
-    function validateInputT(event) {
+    // function validateInputT(event) {
 
-        const element = event.target;
-        const value = element.value.trim();
-        const validateType = element.getAttribute('data-validate');
-        const validators = {
-            name: /^[A-Za-z.]{0,32}$/,
-            last: /^[A-Za-z.]{0,32}$/,
-            email: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
-            phone: /^\d{10}$/
-        };
+    //     const element = event.target;
+    //     const value = element.value.trim();
+    //     const validateType = element.getAttribute('data-validate');
+    //     const validators = {
+    //         name: /^[A-Za-z.]{0,32}$/,
+    //         last: /^[A-Za-z.]{0,32}$/,
+    //         email: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/,
+    //         phone: /^\d{10}$/
+    //     };
 
-        const messages = {
-            name: 'Enter First Name.',
-            last: 'Enter Last Name.',
-            email: 'Enter valid email address.',
-            phone: 'Enter valid phone number.',
-            duplicate: 'Duplicate names are not allowed.'
-        };
-        if (value === "") {
-            showErrorVal(element, messages[validateType]);
-            return false;
-        } else {
-            removeErrorVal(element);
-        }
-        if (validateType === 'name' || validateType === 'last') {
-            element.value = value.replace(/[^A-Za-z.]/g, '');
-        }
+    //     const messages = {
+    //         name: 'Enter First Name.',
+    //         last: 'Enter Last Name.',
+    //         email: 'Enter valid email address.',
+    //         phone: 'Enter valid phone number.',
+    //         duplicate: 'Duplicate names are not allowed.'
+    //     };
+    //     if (value === "") {
+    //         showErrorVal(element, messages[validateType]);
+    //         return false;
+    //     } else {
+    //         removeErrorVal(element);
+    //     }
+    //     if (validateType === 'name' || validateType === 'last') {
+    //         element.value = value.replace(/[^A-Za-z.]/g, '');
+    //     }
 
-        if (!validators[validateType].test(value)) {
-            showErrorVal(element, messages[validateType]);
-        } else {
-            removeErrorVal(element);
-        }
-        if (validateType === 'name') {
-            const allNames = document.querySelectorAll(`[data-validate="${validateType}"]`);
-            const duplicate = Array.from(allNames).filter((el) => el.value.trim() === value && el !== element);
-            if (duplicate.length > 0) {
-                showErrorVal(element, messages['duplicate']);
-                return false;
-            } else {
-                removeErrorVal(element);
-            }
-        }
-    }
+    //     if (!validators[validateType].test(value)) {
+    //         showErrorVal(element, messages[validateType]);
+    //     } else {
+    //         removeErrorVal(element);
+    //     }
+    //     if (validateType === 'name') {
+    //         const allNames = document.querySelectorAll(`[data-validate="${validateType}"]`);
+    //         const duplicate = Array.from(allNames).filter((el) => el.value.trim() === value && el !== element);
+    //         if (duplicate.length > 0) {
+    //             showErrorVal(element, messages['duplicate']);
+    //             return false;
+    //         } else {
+    //             removeErrorVal(element);
+    //         }
+    //     }
+    // }
 
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -450,13 +450,13 @@
             e.preventDefault();
 
             /*******Validation Start*********/
-
             const fieldsToValidate = [
-                { className: 'contactFname', errorMessage: 'First name is required ', validationdata: /^[A-Za-z.]{0,32}$/ },
-                { className: 'contactLname', errorMessage: 'Last  name is required', validationdata: /^[A-Za-z.]{0,32}$/ },
-                { className: 'contactemail', errorMessage: 'Email Address is required', validationdata: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/ },
-                { className: 'contactphone', errorMessage: 'Phone number is required', validationdata: /^\d{10}$/ }
+                { className: 'contactFname', errorMessage: 'First name is required', validationdata: /^[A-Za-z]{1,32}$/ },
+                { className: 'contactLname', errorMessage: 'Last name is required', validationdata: /^[A-Za-z]{1,32}$/ },
+                { className: 'contactemail', errorMessage: 'Email is invalid', validationdata: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/ },
+                { className: 'contactphone', errorMessage: 'Phone number at least 10 digits', validationdata: /^\d{10,}$/ }
             ];
+
             let firstInvalidElement = null;
 
             fieldsToValidate.forEach(field => {
@@ -464,32 +464,77 @@
                 elements.forEach(element => {
                     element.addEventListener("input", function () {
                         removeError(element);
+
+
+                        // Restrict input to alphabetic characters for contactFname and contactLname
+                        if (field.className === 'contactFname' || field.className === 'contactLname') {
+                            element.value = element.value.replace(/[^A-Za-z]/g, ''); // Allow only alphabets
+                        }
+                        // Restrict input to integers only for contactphone
+                        if (field.className === 'contactphone') {
+                            element.value = element.value.replace(/[^0-9]/g, '');
+                        }
                     });
+
                     if (element.value.trim() === "") {
-                        debugger;
+                        if (field.className !== 'contactphone' && field.className !== 'contactemail') {
+                            // If the field is blank and it's not the phone field, show the error message
+                            showError(element, field.errorMessage);
+                            if (!firstInvalidElement) {
+                                firstInvalidElement = element;
+                            }
+                        }
+                    } else if (field.className === 'contactphone' && element.value.trim().length < 10) {
+                        // If the phone number has fewer than 10 digits, show an error message
+                        showError(element, 'Phone number must be at least 10 digits');
+                        if (!firstInvalidElement) {
+                            firstInvalidElement = element;
+                        }
+                    } else if (field.className !== 'contactphone' && !field.validationdata.test(element.value.trim())) {
+                        // For other fields, check their pattern validation
                         showError(element, field.errorMessage);
                         if (!firstInvalidElement) {
                             firstInvalidElement = element;
                         }
-                    } else if (!field.validationdata.test(element.value.trim())) {
-                        debugger;
-                        showErrorVal(element, message);
-                        // element.value = ""; // Clear the value if the pattern is wrong
-                        // if (!firstInvalidElement) {
-                        //     firstInvalidElement = element;
-                        // }
                     }
                 });
             });
-            if (firstInvalidElement) {
 
+            // Check for duplicate first names
+            const fnameElements = document.querySelectorAll('.contactFname');
+            const fnameValues = Array.from(fnameElements).map(el => el.value.trim());
+            const duplicates = fnameValues.filter((item, index) => fnameValues.indexOf(item) !== index && item !== "");
+
+            if (duplicates.length > 0) {
+                fnameElements.forEach(element => {
+                    if (duplicates.includes(element.value.trim())) {
+                        showError(element, 'Duplicate first names');
+                        if (!firstInvalidElement) {
+                            firstInvalidElement = element;
+                        }
+                    }
+                    else {
+                        // If no duplicates, remove the error
+                        removeError(element);
+                    }
+                });
+            }
+
+
+            if (firstInvalidElement) {
                 firstInvalidElement.focus();
                 return false;
             } else {
-                // document.getElementById('passengerForm').submit();
-            }
-            function removeError(element) {
+                fieldsToValidate.forEach(field => {
+                    const elements = document.querySelectorAll(`.${field.className}`);
+                    elements.forEach(element => {
+                        removeError(element);
+                    });
+                });
 
+            }
+
+            function removeError(element) {
                 const parentElement = element.closest('.col-md-3,.col-md-2');
                 const errorMessage = parentElement.querySelector(".error-message");
                 if (errorMessage) {
@@ -497,13 +542,9 @@
                 }
                 element.classList.remove("error-input");
             }
-            function showError(element, message) {
 
+            function showError(element, message) {
                 const parentElement = element.closest('.col-md-3, .col-md-2');
-                const errorMessagedata = parentElement.querySelector('.error-message-val');
-                if (errorMessagedata) {
-                    errorMessagedata.style.display = 'none';
-                }
                 let errorMessage = parentElement.querySelector(".error-message");
                 if (!errorMessage) {
                     errorMessage = document.createElement("p");
@@ -515,7 +556,6 @@
                 element.classList.add("error-input");
             }
 
-            //Infant
             function validateInfantDOB(inafantIdx) {
                 var year = document.getElementById("year_" + inafantIdx).value;
                 //var month = document.getElementById("month_" + inafantIdx).value;
@@ -538,6 +578,7 @@
                 var currentDate = new Date();
                 var timeDiff = currentDate.getTime() - dobDate.getTime();
                 var yearsDiff = timeDiff / (1000 * 3600 * 24 * 365.25);
+                // Check if the age is less than 2 years (24 months)
                 if (dobDate > currentDate) {
                     alert("Date of birth cannot be in the future. Please select a valid date.");
                     return false;
@@ -608,8 +649,9 @@
                     return false;
                 }
             }
-            //End infant
-            
+
+            // Infant validation (remains the same)
+
             /*******Validation End*********/
 
             var enteredData = "";
@@ -625,12 +667,9 @@
                 enteredData += "First Name: " + firstName + "<br>";
                 enteredData += "Last Name: " + lastName + "</p>";
             }
-            // Display the entered data in the popup
             $("#enteredData").html(enteredData);
-            // Show the popup
             $('#dataPopup').modal('show');
-            // Hide the form
-            //$('#passengerForm').hide();
+
         });
         $("#ContinueData").click(function () {
 

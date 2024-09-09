@@ -2797,9 +2797,16 @@
         /////////Pop ID
         var uniqueId, uniqueIdR;
         // Function to handle radio button change and display data
-        function handleRadioChange() {
-            var uniqueId = $('input[type=radio][name=dynamicRadio]:checked').val();
-            //alert(uniqueId);
+
+        function RenderData(uniqueId) {
+            uniqueIdR = localStorage.getItem('IDRIGHT');
+            handleRadioChange(uniqueId, uniqueIdR);
+        }
+
+
+        function handleRadioChange(uniqueId, uniqueIdR) {
+            
+             //uniqueId = $('input[type=radio][name=dynamicRadio]:checked').val();
             localStorage.setItem('IDLEFT', uniqueId);
             // Retrieve values from hidden input fields
             var departureTime = $('.departuretime').eq(uniqueId).val();
@@ -2863,22 +2870,27 @@
             $('.size-L').attr('src', imageSrc);
             // Store in session Total Fare Left
             localStorage.setItem('TotalfareL', fareTotalsumL);
-            handleReturnRadioChange();
+           // handleReturnRadioChange();
+            RenderDataR(uniqueIdR);
         }
 
         // Trigger change event on radio button selection
-        $('input[type=radio][name=dynamicRadio]').change(handleRadioChange);
 
+        $('input[type=radio][name=dynamicRadio]').change(RenderData(0));
         // Auto-select the first radio button and trigger its change event
         $('input[type=radio][name=dynamicRadio]').first().prop('checked', true).trigger('change');
 
 
+        function RenderDataR(uniqueIdR) {
+            handleReturnRadioChange(uniqueIdR);
+        }
+
 
         // Function to handle return radio button change and display data
-        function handleReturnRadioChange() {
-            var uniqueIdR = $('input[type=radio][name=dynamicRadioR]:checked').val();
-            //alert(uniqueIdR);
-            localStorage.setItem('IDRIGHT', uniqueIdR);
+        function handleReturnRadioChange(uniqueIdR) {
+            //alert("Right Id " + uniqueIdR);
+            //var uniqueIdR = $('input[type=radio][name=dynamicRadioR]:checked').val();
+             localStorage.setItem('IDRIGHT', uniqueIdR);
             // Retrieve values from hidden input fields for return radio buttons
             var departureTimeR = $('.departurereturn').eq(uniqueIdR).val();
             var originR = $('.originreturn').eq(uniqueIdR).val();
@@ -2941,6 +2953,7 @@
             // Sum Of Total fare left and right in footer
 
             var totalL = localStorage.getItem('TotalfareL');
+
             if (totalL == null) {
                 var fareTotalsumL = $('.fareTotalsum').val();
                 totalL = fareTotalsumL;
@@ -2950,6 +2963,7 @@
             }
             else {
                 var TotalfareLR = parseInt(totalL) + parseInt(fareTotalsumR, 10);
+               
                 $('#totalfaretotalround').text(TotalfareLR);
             }
 
@@ -2957,13 +2971,12 @@
         }
 
         // Trigger change event on return radio button selection
-        $('input[type=radio][name=dynamicRadioR]').change(handleReturnRadioChange);
+        $('input[type=radio][name=dynamicRadioR]').change(handleReturnRadioChange(0));
 
         // Auto-select the first return radio button and trigger its change event
         $('input[type=radio][name=dynamicRadioR]').first().prop('checked', true).trigger('change');
 
-
-
+       
 
         $('#ReturnButtonId').click(function () {
 
@@ -3004,15 +3017,8 @@
 
 
 
-
-
-
-
-
-
-
-            let uniqueId = localStorage.getItem('IDLEFT');
-            let uniqueIdR = localStorage.getItem('IDRIGHT');
+           uniqueId = $('input[type=radio][name=dynamicRadio]:checked').val(); //localStorage.getItem('IDLEFT');
+           uniqueIdR = $('input[type=radio][name=dynamicRadioR]:checked').val(); //localStorage.getItem('IDRIGHT');
 
             //alert("hello");
             debugger;

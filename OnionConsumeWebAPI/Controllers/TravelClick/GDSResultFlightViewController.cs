@@ -294,17 +294,39 @@ namespace OnionConsumeWebAPI.Controllers.TravelClick
                         if (getAirPriceRes[0].Fare.PaxFares[i].PaxType == PAXTYPE.ADT)
                         {
                             paxType = "ADT";
-                            paxcount = availibiltyRQGDS.passengercount.adultcount;
+                            if(availibiltyRQGDS.passengercount!=null)
+                            {
+                                paxcount = availibiltyRQGDS.passengercount.adultcount;
+                            }
+                            else
+                            {
+                                paxcount = availibiltyRQGDS.adultcount;
+                            }
+                            
                         }
                         else if (getAirPriceRes[0].Fare.PaxFares[i].PaxType == PAXTYPE.CHD)
                         {
                             paxType = "CHD";
-                            paxcount = availibiltyRQGDS.passengercount.childcount;
+                            if (availibiltyRQGDS.passengercount != null)
+                            {
+                                paxcount = availibiltyRQGDS.passengercount.childcount;
+                            }
+                            else
+                            {
+                                paxcount = availibiltyRQGDS.childcount;
+                            }
                         }
                         else if (getAirPriceRes[0].Fare.PaxFares[i].PaxType == PAXTYPE.INF)
                         {
                             paxType = "INF";
-                            paxcount = availibiltyRQGDS.passengercount.infantcount;
+                            if (availibiltyRQGDS.passengercount != null)
+                            {
+                                paxcount = availibiltyRQGDS.passengercount.infantcount;
+                            }
+                            else
+                            {
+                                paxcount = availibiltyRQGDS.infantcount;
+                            }
                         }
                         for (int k = 0; k < paxcount; k++)
                         {
@@ -353,7 +375,14 @@ namespace OnionConsumeWebAPI.Controllers.TravelClick
 
                                     if (AAJourneyList[0].segments[i].fares[k].passengerFares[l].passengerType == "INF")
                                     {
-                                        Inftcount = availibiltyRQGDS.passengercount.infantcount;
+                                        if (availibiltyRQGDS.passengercount != null)
+                                        {
+                                            Inftcount = availibiltyRQGDS.passengercount.infantcount;
+                                        }
+                                        else
+                                        {
+                                            Inftcount = availibiltyRQGDS.infantcount;
+                                        }
                                         for (int i2 = 0; i2 < AAJourneyList[0].segments[i].fares[k].passengerFares[l].serviceCharges.Count; i2++)
                                         {
 
