@@ -301,11 +301,12 @@
                                                                 <div class="border-top-light mt-24 mb-24"></div>
                                                                 @if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 1)
                                                                 {
-                                                                    <div class="d-flex y-gap-10 justify-between items-center">
 
 
-                                                                        @if (Model.simpleAvailabilityRequestModelEdit.passengers.types[1].type == "CHD")
-                                                                        {
+
+                                                                    @if (Model.simpleAvailabilityRequestModelEdit.passengers.types[1].type == "CHD")
+                                                                    {
+                                                                        <div class="d-flex y-gap-10 justify-between items-center">
                                                                             <div class="btn-incr-chld">
                                                                                 <div class="text-15 fw-500">
                                                                                     Children
@@ -321,9 +322,11 @@
                                                                                 <div class="increment1 add btn_sub">+</div>
 
                                                                             </div>
-                                                                        }
-                                                                        else
-                                                                        {
+                                                                        </div>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <div class="d-flex y-gap-10 justify-between items-center">
                                                                             <div class="btn-incr-chld">
                                                                                 <div class="text-15 fw-500">
                                                                                     Children
@@ -339,10 +342,10 @@
                                                                                 <div class="increment1 add btn_sub">+</div>
 
                                                                             </div>
+                                                                        </div>
+                                                                    }
 
-                                                                        }
 
-                                                                    </div>
                                                                     <div class="border-top-light mt-24 mb-24"></div>
                                                                     <div class="d-flex y-gap-10 justify-between items-center">
                                                                         @if (Model.simpleAvailabilityRequestModelEdit.passengers.types[1].type == "INFT")
@@ -400,6 +403,7 @@
                                                                 }
                                                                 else
                                                                 {
+                                                                    <div class="d-flex y-gap-10 justify-between items-center">
                                                                     <div class="btn-incr-chld">
                                                                         <div class="text-15 fw-500">
                                                                             Children
@@ -415,6 +419,8 @@
                                                                         <div class="increment1 add btn_sub">+</div>
 
                                                                     </div>
+                                                                    </div>
+                                                                    <div class="border-top-light mt-24 mb-24"></div>
 
                                                                 }
                                                                 @* <div class="border-top-light mt-24 mb-24"></div> *@

@@ -727,6 +727,28 @@
                                                     {
                                                         <tr>
                                                             @{
+                                                                string barcodeimageUrl = string.Empty;
+                                                                BarcodeUtility BarcodeUtility = new BarcodeUtility();
+                                                                if (htpax.Contains(@Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].passengers[i2].name.last + "/" + @Model.AirlinePNR[a].passengers[i2].name.first + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination))
+                                                                {
+                                                                    string _data = @Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].passengers[i2].name.last + "/" + @Model.AirlinePNR[a].passengers[i2].name.first + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination;
+                                                                    if (htpax.Contains(_data))
+                                                                    {
+                                                                        barcodeimageUrl = htpax[_data].ToString();
+                                                                        barcodeimageUrl = BarcodeUtility.BarcodereadUtility(barcodeimageUrl).Trim();
+                                                                    }
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    string _data = @Model.AirlinePNR[a].passengers[i2].passengerKey + "_" + @Model.AirlinePNR[a].passengers[i2].name.last + "/" + @Model.AirlinePNR[a].passengers[i2].name.first + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.origin + "_" + @Model.AirlinePNR[a].journeys[0].segments[i3].designator.destination;
+                                                                    if (htnameempty.Contains(_data))
+                                                                    {
+                                                                        barcodeimageUrl = htnameempty[_data].ToString();
+                                                                        barcodeimageUrl = BarcodeUtility.BarcodereadUtility(barcodeimageUrl).Trim();
+                                                                    }
+
+                                                                }
                                                                 if (i3 == 0)
                                                                 {
                                                                     int segmentcount = Model.AirlinePNR[a].journeys[0].segments.Count;
@@ -766,7 +788,7 @@
                                                                 int segmentcount = @Model.AirlinePNR[a].journeys[0].segments.Count;
                                                                 if (segmentcount == 1)
                                                                 {
-                                                                    <td rowspan="1" style="vertical-align:middle;width:110px;">
+                                                                    <td rowspan="1" style="vertical-align:middle;width:254px;">
                                                                         @{
                                                                             var imageUrl1 = @Model.AirlinePNR[a].passengers[i2].barcodestring;
                                                                             // string imageUrl1 = ViewData["ImageBytes"] as string;
@@ -774,16 +796,16 @@
                                                                         }
                                                                         @if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "ADT" || Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "CHD")
                                                                         {
-                                                                            @if (!string.IsNullOrEmpty(imageUrl1))
+                                                                            @if (!string.IsNullOrEmpty(barcodeimageUrl))
                                                                             {
-                                                                                <img src="@imageUrl1" alt="barcode" />
+                                                                                <img src="@barcodeimageUrl" alt="barcode" />
                                                                             }
                                                                         }
                                                                     </td>
                                                                 }
                                                                 if (segmentcount == 2)
                                                                 {
-                                                                    <td rowspan="2" style="vertical-align:middle;width:110px;">
+                                                                    <td rowspan="1" style="vertical-align:middle;width:254px;">
                                                                         @{
                                                                             var imageUrl1 = @Model.AirlinePNR[a].passengers[i2].barcodestring;
                                                                             // string imageUrl1 = ViewData["ImageBytes"] as string;
@@ -791,9 +813,47 @@
                                                                         }
                                                                         @if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "ADT" || Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "CHD")
                                                                         {
-                                                                            @if (!string.IsNullOrEmpty(imageUrl1))
+                                                                            @if (!string.IsNullOrEmpty(barcodeimageUrl))
                                                                             {
-                                                                                <img src="@imageUrl1" alt="barcode" />
+                                                                                <img src="@barcodeimageUrl" alt="barcode" />
+                                                                            }
+                                                                        }
+                                                                    </td>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                int segmentcount = @Model.AirlinePNR[a].journeys[0].segments.Count;
+                                                                if (segmentcount == 1)
+                                                                {
+                                                                    <td rowspan="1" style="vertical-align:middle;width:254px;">
+                                                                        @{
+                                                                            var imageUrl1 = @Model.AirlinePNR[a].passengers[i2].barcodestring;
+                                                                            // string imageUrl1 = ViewData["ImageBytes"] as string;
+                                                                            string barcode = ViewData["Barcode"] as string;
+                                                                        }
+                                                                        @if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "ADT" || Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "CHD")
+                                                                        {
+                                                                            @if (!string.IsNullOrEmpty(barcodeimageUrl))
+                                                                            {
+                                                                                <img src="@barcodeimageUrl" alt="barcode" />
+                                                                            }
+                                                                        }
+                                                                    </td>
+                                                                }
+                                                                if (segmentcount == 2)
+                                                                {
+                                                                    <td rowspan="1" style="vertical-align:middle;width:254px;">
+                                                                        @{
+                                                                            var imageUrl1 = @Model.AirlinePNR[a].passengers[i2].barcodestring;
+                                                                            // string imageUrl1 = ViewData["ImageBytes"] as string;
+                                                                            string barcode = ViewData["Barcode"] as string;
+                                                                        }
+                                                                        @if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "ADT" || Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "CHD")
+                                                                        {
+                                                                            @if (!string.IsNullOrEmpty(barcodeimageUrl))
+                                                                            {
+                                                                                <img src="@barcodeimageUrl" alt="barcode" />
                                                                             }
                                                                         }
                                                                     </td>

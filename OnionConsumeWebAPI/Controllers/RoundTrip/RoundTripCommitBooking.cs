@@ -760,6 +760,10 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         HttpResponseMessage responcepnrBooking = await client.GetAsync(AppUrlConstant.AkasaPNRBooking + BookingKeyAkasa);
                         if (responcepnrBooking.IsSuccessStatusCode)
                         {
+                            Hashtable htname = new Hashtable();
+                            Hashtable htnameempty = new Hashtable();
+                            Hashtable htpax = new Hashtable();
+                            string sequencenumber = string.Empty;
 
                             Hashtable htseatdata = new Hashtable();
                             Hashtable htmealdata = new Hashtable();
@@ -791,7 +795,12 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             var BaseTotalTax = journeyTotalsobj.totalTax;
 
                             var ToatalBasePrice = journeyTotalsobj.totalAmount + journeyTotalsobj.totalTax;
+                            //changes for Passeneger name:
 
+                            foreach (var items in JsonObjPNRBooking.data.passengers)
+                            {
+                                htname.Add(items.Value.passengerKey.ToString(), items.Value.name.last.ToString() + "/" + items.Value.name.first.ToString());
+                            }
                             InfantReturn infantReturnobj = new InfantReturn();
                             if (JsonObjPNRBooking.data.breakdown.passengerTotals.infant != null)
                             {
@@ -940,9 +949,53 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     designatorReturn.departure = JsonObjPNRBooking.data.journeys[i].segments[j].designator.departure;
                                     designatorReturn.arrival = JsonObjPNRBooking.data.journeys[i].segments[j].designator.arrival;
                                     segmentReturnobj.designator = designatorReturn;
+                                    orides = designatorReturn.origin + designatorReturn.destination;
 
                                     var passengersegmentCount = JsonObjPNRBooking.data.journeys[i].segments[j].passengerSegment;
                                     int passengerReturnCount = ((Newtonsoft.Json.Linq.JContainer)passengersegmentCount).Count;
+                                    string dateString = JsonObjPNRBooking.data.journeys[i].designator.departure;
+                                    DateTime date = DateTime.ParseExact(dateString, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                                    //julian date
+                                    int year = date.Year;
+                                    int month = date.Month;
+                                    int day = date.Day;
+
+                                    // Calculate the number of days from January 1st to the given date
+                                    DateTime currentDate = new DateTime(year, month, day);
+                                    DateTime startOfYear = new DateTime(year, 1, 1);
+                                    int julianDate = (currentDate - startOfYear).Days + 1;
+                                    sequencenumber = SequenceGenerator.GetNextSequenceNumber();
+
+                                    flightnumber = JsonObjPNRBooking.data.journeys[i].segments[j].identifier.identifier;
+                                    if (flightnumber.Length < 5)
+                                    {
+                                        flightnumber = flightnumber.PadRight(5);
+                                    }
+                                    carriercode = JsonObjPNRBooking.data.journeys[i].segments[j].identifier.carrierCode;
+                                    if (carriercode.Length < 3)
+                                    {
+                                        carriercode = carriercode.PadRight(3);
+                                    }
+
+                                    foreach (var items in JsonObjPNRBooking.data.passengers)
+                                    {
+                                        if (!htnameempty.Contains(items.Value.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination))
+                                        {
+                                            if (carriercode.Length < 3)
+                                                carriercode = carriercode.PadRight(3);
+                                            if (flightnumber.Length < 5)
+                                            {
+                                                flightnumber = flightnumber.PadRight(5);
+                                            }
+                                            if (sequencenumber.Length < 5)
+                                                sequencenumber = sequencenumber.PadRight(5, '0');
+                                            seatnumber = "0000";
+                                            if (seatnumber.Length < 4)
+                                                seatnumber = seatnumber.PadLeft(4, '0');
+                                            BarcodeString = "M" + "1" + htname[items.Value.passengerKey.ToString()] + " " + BarcodePNR + "" + orides + carriercode + "" + flightnumber + "" + julianDate + "Y" + seatnumber + "" + sequencenumber + "1" + "00";
+                                            htnameempty.Add(items.Value.passengerKey.ToString() + "_" + htname[items.Value.passengerKey.ToString()] + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination, BarcodeString);
+                                        }
+                                    }
                                     List<PassengerSegment> passengerSegmentsList = new List<PassengerSegment>();
                                     foreach (var item in JsonObjPNRBooking.data.journeys[i].segments[j].passengerSegment)
                                     {
@@ -968,6 +1021,22 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                             returnSeatsList.Add(returnSeatsObj);
                                             htseatdata.Add(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination, returnSeatsObj.unitDesignator);
                                             returnSeats.unitDesignator += returnSeatsObj.unitDesignator + ",";
+                                            if (!htpax.Contains(passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination))
+                                            {
+                                                if (carriercode.Length < 3)
+                                                    carriercode = carriercode.PadRight(3);
+                                                if (flightnumber.Length < 5)
+                                                {
+                                                    flightnumber = flightnumber.PadRight(5);
+                                                }
+                                                if (sequencenumber.Length < 5)
+                                                    sequencenumber = sequencenumber.PadRight(5, '0');
+                                                seatnumber = htseatdata[passengerSegmentobj.passengerKey.ToString() + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination].ToString();
+                                                if (seatnumber.Length < 4)
+                                                    seatnumber = seatnumber.PadLeft(4, '0');
+                                                BarcodeString = "M" + "1" + htname[passengerSegmentobj.passengerKey] + " " + BarcodePNR + "" + orides + carriercode + "" + flightnumber + "" + julianDate + "Y" + seatnumber + "" + sequencenumber + "1" + "00";
+                                                htpax.Add(passengerSegmentobj.passengerKey.ToString() + "_" + htname[passengerSegmentobj.passengerKey] + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.origin + "_" + JsonObjPNRBooking.data.journeys[i].segments[j].designator.destination, BarcodeString);
+                                            }
                                         }
                                         List<SsrReturn> SrrcodereturnsList = new List<SsrReturn>();
                                         for (int t = 0; t < ssrCodeCount; t++)
@@ -1105,11 +1174,13 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 returnPassengersobj.passengerKey = items.Value.passengerKey;
                                 returnPassengersobj.passengerTypeCode = items.Value.passengerTypeCode;
                                 returnPassengersobj.name = new Name();
-                                returnPassengersobj.name.first = items.Value.name.first + " " + items.Value.name.last;
+                                //returnPassengersobj.name.first = items.Value.name.first + " " + items.Value.name.last;
+                                returnPassengersobj.name.first = items.Value.name.first;
+                                returnPassengersobj.name.last = items.Value.name.last;
                                 //returnPassengersobj.name.last = items.Value.name.last;
                                 for (int i = 0; i < PassengerDataDetailsList.Count; i++)
                                 {
-                                    if (returnPassengersobj.passengerTypeCode == PassengerDataDetailsList[i].passengertypecode && returnPassengersobj.name.first.ToLower() == PassengerDataDetailsList[i].first.ToLower() + " " + PassengerDataDetailsList[i].last.ToLower())
+                                    if (returnPassengersobj.passengerTypeCode == PassengerDataDetailsList[i].passengertypecode && returnPassengersobj.name.first.ToLower() == PassengerDataDetailsList[i].first.ToLower() && returnPassengersobj.name.last.ToLower() == PassengerDataDetailsList[i].last.ToLower())
                                     {
                                         returnPassengersobj.MobNumber = PassengerDataDetailsList[i].mobile;
                                         returnPassengersobj.passengerKey = PassengerDataDetailsList[i].passengerkey;
@@ -1131,30 +1202,32 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 DateTime currentDate = new DateTime(year, month, day);
                                 DateTime startOfYear = new DateTime(year, 1, 1);
                                 int julianDate = (currentDate - startOfYear).Days + 1;
-                                if (string.IsNullOrEmpty(sequencenumber))
-                                {
-                                    sequencenumber = "00000";
-                                }
-                                else
-                                {
-                                    sequencenumber = sequencenumber.PadRight(5, '0');
-                                }
+                                //if (string.IsNullOrEmpty(sequencenumber))
+                                //{
+                                //    sequencenumber = "00000";
+                                //}
+                                //else
+                                //{
+                                //    sequencenumber = sequencenumber.PadRight(5, '0');
+                                //}
 
-                                BarcodeString = "M" + "1" + items.Value.name.last + "/" + items.Value.name.first + " " + BarcodePNR + "" + orides + carriercode + "" + flightnumber + "" + julianDate + "Y" + seatnumber + " " + sequencenumber + "1" + "00";
-                                BarcodeUtility BarcodeUtility = new BarcodeUtility();
-                                var barcodeImage = BarcodeUtility.BarcodereadUtility(BarcodeString);
-                                returnPassengersobj.barcodestring = barcodeImage;
+                                //BarcodeString = "M" + "1" + items.Value.name.last + "/" + items.Value.name.first + " " + BarcodePNR + "" + orides + carriercode + "" + flightnumber + "" + julianDate + "Y" + seatnumber + " " + sequencenumber + "1" + "00";
+                                //BarcodeUtility BarcodeUtility = new BarcodeUtility();
+                                //var barcodeImage = BarcodeUtility.BarcodereadUtility(BarcodeString);
+                                //returnPassengersobj.barcodestring = barcodeImage;
                                 //InfantReturn infantsObject = new InfantReturn();
                                 if (items.Value.infant != null)
                                 {
                                     returnPassengersobj = new ReturnPassengers();
                                     returnPassengersobj.name = new Name();
                                     returnPassengersobj.passengerTypeCode = "INFT";
-                                    returnPassengersobj.name.first = items.Value.infant.name.first + " " + items.Value.infant.name.last;
+                                    //returnPassengersobj.name.first = items.Value.infant.name.first + " " + items.Value.infant.name.last;
+                                    returnPassengersobj.name.first = items.Value.infant.name.first;
+                                    returnPassengersobj.name.last = items.Value.infant.name.last;
                                     //passkeytypeobj.MobNumber = "";
                                     for (int i = 0; i < PassengerDataDetailsList.Count; i++)
                                     {
-                                        if (returnPassengersobj.passengerTypeCode == PassengerDataDetailsList[i].passengertypecode && returnPassengersobj.name.first.ToLower() == PassengerDataDetailsList[i].first.ToLower() + " " + PassengerDataDetailsList[i].last.ToLower())
+                                        if (returnPassengersobj.passengerTypeCode == PassengerDataDetailsList[i].passengertypecode && returnPassengersobj.name.first.ToLower() == PassengerDataDetailsList[i].first.ToLower() && returnPassengersobj.name.last.ToLower() == PassengerDataDetailsList[i].last.ToLower())
                                         {
                                             returnPassengersobj.passengerKey = PassengerDataDetailsList[i].passengerkey;
                                             break;
@@ -1179,6 +1252,9 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             returnTicketBooking.totalAmountBaggage = totalAmountBaggage;
                             returnTicketBooking.TotalAmountMeal = TotalAmountMeal;
                             returnTicketBooking.TotaAmountBaggage = TotaAmountBaggage;
+                            returnTicketBooking.htname = htname;
+                            returnTicketBooking.htnameempty = htnameempty;
+                            returnTicketBooking.htpax = htpax;
                             returnTicketBooking.Seatdata = htseatdata;
                             returnTicketBooking.Mealdata = htmealdata;
                             returnTicketBooking.Bagdata = htBagdata;
