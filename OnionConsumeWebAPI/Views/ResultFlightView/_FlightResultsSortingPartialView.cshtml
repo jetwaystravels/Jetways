@@ -760,6 +760,7 @@
                                     </td>
 
                                 }
+
                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "VV")
                                 {
                                     <td>7 Kg</td>
@@ -790,6 +791,67 @@
                                     </td>
 
                                 }
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "Economy Lite")
+                                {
+                                    <td>7 k.g</td>
+                                    <td><strong>15 k.g </strong></td>
+                                    <td>
+
+                                        <div>
+                                            Fee starts at (Rs. 3710) Onward.
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div>
+                                            Fee starts at (Rs. 3180) Onward.
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "Economy Standard")
+                                {
+                                    <td>7 k.g</td>
+                                    <td><strong>15 k.g </strong></td>
+                                    <td>
+
+                                        <div>
+                                            Fee starts at (Rs. 3371) Onward.
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div>
+                                            Fee starts at (Rs. 2809) Onward.
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+
                                 <td>
                                     <div class="text-center md:text-left mb-10">
                                         <div class="price">₹ @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal.ToString("N0")</div>
@@ -1111,6 +1173,16 @@
                                     CompanyName = "AkasaAir";
                                     <img class="size-40" src="~/img/flight-logo-icon/akasa.png" alt="image">
                                 }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("UK"))
+                                {
+                                    CompanyName = "Vistara";
+                                    <img class="size-40" src="~/img/flight-logo-icon/vistara.png" alt="image">
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("AI"))
+                                {
+                                    CompanyName = "AirIndia";
+                                    <img class="size-40" src="~/img/flight-logo-icon/airindia.png" alt="image">
+                                }
                                 else
                                 {
                                     CompanyName = "Air India Exp..";
@@ -1188,11 +1260,22 @@
                                 <td>4 days & above</td>
                                 <td>As per Airline Fare rule</td>
                             }
-
+                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("UK"))
+                            {
+                                <td>Fee starts at (Rs. 3710) Onward.</td>
+                                <td>Fee starts at (Rs. 3710) Onward.</td>
+                                <td>As per Airline Fare rule</td>
+                            }
+                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("AI"))
+                            {
+                                <td>Fee starts at (Rs. 4000) Onward.</td>
+                                <td>Fee starts at (Rs. 4000) Onward.</td>
+                                <td>As per Airline Fare rule</td>
+                            }
                             else
                             {
-                                <td>Airline Free </td>
-                                <td>Before Departure</td>
+                                <td>3500 Rs.</td>
+                                <td>upto 2 hrs prior from departure</td>
                                 <td>As per Airline Fare rule</td>
                             }
 

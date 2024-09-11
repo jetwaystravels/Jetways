@@ -699,9 +699,7 @@
                                                     string priceBaggage = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].price;
                                                     string Sssrcode = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].ssrCode;
                                                     //string bagcode = Sssrcode.StartsWith("PB", StringComparison.OrdinalIgnoreCase).ToString();
-                                                    bool isSpecialCode = Sssrcode.Equals("PBCA", StringComparison.OrdinalIgnoreCase) ||
-                                                    Sssrcode.Equals("PBCB", StringComparison.OrdinalIgnoreCase) ||
-                                                    Sssrcode.Equals("PBA3", StringComparison.OrdinalIgnoreCase) ||
+                                                    bool isSpecialCode = Sssrcode.Equals("PBA3", StringComparison.OrdinalIgnoreCase) ||
                                                     Sssrcode.Equals("PBAB", StringComparison.OrdinalIgnoreCase) ||
                                                     Sssrcode.Equals("PBAC", StringComparison.OrdinalIgnoreCase) ||
                                                     Sssrcode.Equals("PBAD", StringComparison.OrdinalIgnoreCase) ||
@@ -740,7 +738,7 @@
                                                 {
                                                     <select id="ddlbagOptions" class="servc-bordrbaggage">
                                                         <option value=""><b>Please select Baggage</b></option>
-                                                        @foreach (var option in BaggageOptions)
+                                                        @foreach (var option in BaggageOptions.OrderBy(o => o.Value))
                                                         {
                                                             <option value="@option.Value">
                                                                 @option.Text

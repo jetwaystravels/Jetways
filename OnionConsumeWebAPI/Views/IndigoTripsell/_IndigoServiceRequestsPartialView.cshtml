@@ -665,7 +665,8 @@
                                             <div class="servc-content select-baggage">
 
                                                 @{
-                                                    List<SelectListItem> BaggageOptions = new List<SelectListItem>();
+                                                   // List<SelectListItem> BaggageOptions = new List<SelectListItem>();
+                                                    var baggageOptions = new List<SelectListItem>();
 
                                                     // string Sssrcode = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].ssrCode;
                                                     // string bagcode = Sssrcode.StartsWith("P", StringComparison.OrdinalIgnoreCase).ToString();
@@ -698,7 +699,7 @@
                                                         if (bagcode != null)
                                                         {
                                                             // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
-                                                            BaggageOptions.Add(new SelectListItem { Text = Bagname, Value = Sssrcode });
+                                                            baggageOptions.Add(new SelectListItem { Text = Bagname, Value = Sssrcode });
                                                         }
                                                     }
 
@@ -707,7 +708,11 @@
 
                                                     <select id="ddlbagOptions" class="servc-bordr servc-bordrbaggage">
                                                         <option selected="selected" value="">Please Select</option>
-                                                        @foreach (var option in BaggageOptions)
+                                                         @{ var sortedBaggageOptions = baggageOptions
+                                                            .OrderBy(o => int.Parse(new string(o.Text.Where(char.IsDigit).ToArray())))
+                                                            .ToList();
+                                                           }
+                                                        @foreach (var option in sortedBaggageOptions)
                                                         {
                                                             <option value="@option.Value" data-bagkey=@bagkey>
                                                                 @option.Text

@@ -615,7 +615,9 @@
                                                 if (Model.AkBaggageDetails != null)
                                                 {
 
-                                                    List<SelectListItem> BaggageOptions = new List<SelectListItem>();
+                                                // List<SelectListItem> BaggageOptions = new List<SelectListItem>();
+                                                    var baggageOptions = new List<SelectListItem>();
+                                                   
 
                                                     for (int s = 0; s < Model.AkBaggageDetails.journeySsrsBaggage[0].baggageSsr.Count; s++)
                                                     {
@@ -626,13 +628,20 @@
                                                         bagkey = Model.AkBaggageDetails.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[pa].ssrKey + "_" + Model.AkBaggageDetails.journeySsrsBaggage[0].baggageSsr[s].passengersAvailabilityBaggage[0].price;
                                                         if (bagcode != "False")
                                                         {
-                                                            BaggageOptions.Add(new SelectListItem { Text = bagname, Value = bagkey });
+                                                            baggageOptions.Add(new SelectListItem { Text = bagname, Value = bagkey });
+                                                           
                                                         }
+                                                       
                                                     }
                                                     <div class="d-flex">
                                                         <select id="ddlbagOptions" class="servc-bordrbaggage">
                                                             <option value=""><b>Please select Baggage</b></option>
-                                                            @foreach (var option in BaggageOptions)
+                                                           @{ var sortedBaggageOptions = baggageOptions
+                                                            .OrderBy(o => int.Parse(new string(o.Text.Where(char.IsDigit).ToArray())))
+                                                            .ToList();
+                                                           }
+
+                                                            @foreach (var option in sortedBaggageOptions)
                                                             {
                                                                 <option value="@option.Value">
                                                                     @option.Text

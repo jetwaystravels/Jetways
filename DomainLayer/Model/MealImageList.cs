@@ -63,11 +63,17 @@
            new { MealCode = "PVIP", MealImage = "Xpress Ahead- Prebook" },
            new { MealCode = "PBCB", MealImage = "+ 5Kgs Xtra-Carry-On" },
            new { MealCode = "PBCA", MealImage = "+3Kgs Xtra-Carry-On" },
-           new { MealCode = "PBAF", MealImage = "+ 25 Kg Xcess Baggage" },
-           new { MealCode = "PBAD", MealImage = "+ 15 kg Xcess Baggage" },
-           new { MealCode = "PBAC", MealImage = "+ 10 kg Xcess Baggage" },
-           new { MealCode = "PBAB", MealImage = "+ 5 kg Xcess Baggage" },
+
+
            new { MealCode = "PBA3", MealImage = "+3 kgs Xcess Baggage" },
+           new { MealCode = "PBAB", MealImage = "+ 5 kg Xcess Baggage" },
+           new { MealCode = "PBAC", MealImage = "+ 10 kg Xcess Baggage" },
+           new { MealCode = "PBAD", MealImage = "+ 15 kg Xcess Baggage" },
+           new { MealCode = "PBAF", MealImage = "+ 25 Kg Xcess Baggage" },
+           
+          
+          
+           
            //Indigo Bag Code
            new { MealCode = "XBPD", MealImage = "+30 kgs Xcess Baggage" },
            new { MealCode = "XBPJ", MealImage = "+ 20 kg Xcess Baggage" },

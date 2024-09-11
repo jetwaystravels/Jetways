@@ -113,14 +113,14 @@
         padding: 8px;
     }
 
-    .airliname {
+   /*  .airliname {
         border-radius: 20px;
         margin-left: 8px;
         padding: 7px 12px;
         font-size: 13px;
         border: 1px solid #2f647e;
         font-weight: 700;
-    }
+    } */
 
 
 </style>
@@ -429,37 +429,37 @@
                                     @{
                                         string Faretype = string.Empty;
 
-                                        @if (item.segments[i].fares[f].productClass.Equals("A"))
+                                        @if (item.segments[i].fares[f].productClass.Equals("Economy Lite"))
                                         {
-                                            // <div class="text-13 mt-1">Economy: @Faretype<b>Xpress Value</b></div>
+                                            <div class="text-13 mt-1">Economy: @Faretype<b>Economy Lite</b></div>
                                             <span class="tooltipF">
-                                                Fare Type:  @Faretype<b>Family Fare</b>
+                                                Fare Type:  @Faretype<b>Economy Lite</b>
                                                 <span class="tooltiptext">
                                                     <ul>
                                                         <li>1: Cabin Bag: 7 k.g</li>
                                                         <li>2: Check-In: 15 k.g  (1 piece)</li>
-                                                        <li>3: Cancellation: 3500 :-  3 hrs before departure</li>
-                                                        <li>4: Date Change: 3200 :-  3 hrs before departure</li>
-                                                        <li>5: Seat: Chargable</li>
-                                                        <li>6: Meal: Chargable</li>
+                                                        <li>3: Cancellation: 3710 :- Fee starts at Onward.</li>
+                                                        <li>4: Date Change: 3180 :-  Fee starts at Onward.</li>
+                                                        <li>5: Seat: Free seats</li>
+                                                        <li>6: Meal: Complimentary meal</li>
 
                                                     </ul>
                                                 </span>
                                             </span>
                                         }
-                                        else if (item.segments[i].fares[f].productClass.Equals("O"))
+                                        else if (item.segments[i].fares[f].productClass.Equals("Economy Standard"))
                                         {
                                             //<div class="text-13 mt-1">Economy: @Faretype<b>Vista Flex</b></div>
                                             <span class="tooltipF">
-                                                Fare Type:  @Faretype<b>Super 6E</b>
+                                                Fare Type:  @Faretype<b>Economy Standard</b>
                                                 <span class="tooltiptext">
                                                     <ul>
                                                         <li>1: Cabin Bag: 7 k.g</li>
                                                         <li>2: Check-In: 25  k.g  (1 piece)</li>
-                                                        <li>3: Cancellation: 500 :-  Before 3days upto 2 hrs from departure</li>
-                                                        <li>4: Date Change: 500 :-  Before 3days upto 2 hrs from departure</li>
+                                                        <li>3: Cancellation: 3371 :- Fee starts at Onward.</li>
+                                                        <li>4: Date Change: 2809 :-  Fee starts at Onward.</li>
                                                         <li>5: Seat: Free seats</li>
-                                                        <li>6: Meal: (Free meal) per person</li>
+                                                        <li>6: Meal: Complimentary meal</li>
 
                                                     </ul>
                                                 </span>
@@ -547,7 +547,7 @@
             @{
                 foreach (var item in Model.passeengerlist.journeys)
                 {
-                    <img class="size-30" src="~/img/flight-logo-icon/6E.png" alt="image">
+                    <img class="size-30" src="~/img/flight-logo-icon/vistara.png" alt="image">
                     <div>@item.designator.origin-@item.designator.destination</div>
                 }
             }
@@ -568,7 +568,7 @@
                                 @{
                                     string Faretype = string.Empty;
 
-                                    @if (item.segments[i].fares[f].productClass.Equals("A"))
+                                    @if (item.segments[i].fares[f].productClass.Equals("Economy Lite"))
                                     {
                                         <table style="width:100%">
                                             <tr>
@@ -577,15 +577,15 @@
 
                                             </tr>
                                             <tr>
-                                                <td>3 hrs before departure</td>
-                                                <td>Rs.3500 per adult</td>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs.3710 per adult</td>
 
                                             </tr>
 
                                         </table>
 
                                     }
-                                    else if (item.segments[i].fares[f].productClass.Equals("O"))
+                                    else if (item.segments[i].fares[f].productClass.Equals("Economy Standard"))
                                     {
                                         <table style="width:100%">
                                             <tr>
@@ -594,8 +594,8 @@
 
                                             </tr>
                                             <tr>
-                                                <td>Before 3days upto 2 hrs from departure</td>
-                                                <td>Rs.500</td>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs.3371</td>
 
                                             </tr>
 
@@ -664,7 +664,7 @@
                                     string Faretype = string.Empty;
 
 
-                                    @if (item.segments[i].fares[f].productClass.Equals("A"))
+                                    @if (item.segments[i].fares[f].productClass.Equals("Economy Lite"))
                                     {
                                         <table style="width:100%">
                                             <tr>
@@ -673,15 +673,15 @@
 
                                             </tr>
                                             <tr>
-                                                <td>3 hrs before departure</td>
-                                                <td>Rs.3200 per adult</td>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs.3180 per adult</td>
 
                                             </tr>
 
                                         </table>
 
                                     }
-                                    else if (item.segments[i].fares[f].productClass.Equals("O"))
+                                    else if (item.segments[i].fares[f].productClass.Equals("Economy Standard"))
                                     {
                                         <table style="width:100%">
                                             <tr>
@@ -690,8 +690,8 @@
 
                                             </tr>
                                             <tr>
-                                                <td>Before 3days upto 2 hrs from departure</td>
-                                                <td>Rs.500</td>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs.2809</td>
 
                                             </tr>
 
