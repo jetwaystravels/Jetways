@@ -228,23 +228,23 @@
         }
         if (buttonLead.checked) {
 
-            alert("Checked!!")
+           // alert("Checked!!")
             var emaiLeadPass = document.querySelector('.contactemail').value;
             var phoneLeadPass = document.querySelector('.contactphone').value;
             //Get all elements with class "contactemail" and set their value
             var emailInputsT = document.querySelectorAll(".contactemail");
             emailInputsT.forEach(function (input) {
                 input.value = emaiLeadPass;
-                validateInputI({ target: input });
+                //validateInputI({ target: input });
             });
             // Get all elements with class "contactphone" and set their value
             var phoneInputsT = document.querySelectorAll(".contactphone");
             phoneInputsT.forEach(function (input) {
                 input.value = phoneLeadPass;
-                validateInputI({ target: input });
+                //validateInputI({ target: input });
             });
         } else {
-            alert("Checkbox is unchecked");
+           // alert("Checkbox is unchecked");
             debugger;
             var emaiLeadPass = "";
             var phoneLeadPass = "";
@@ -263,6 +263,8 @@
             var phoneLeadPassenger = localStorage.getItem('Leadpassenger4');
             document.querySelector("#contactemailID").value = emaiLeadPassenger;
             document.querySelector("#contactphoneID").value = phoneLeadPassenger;
+
+
         }
     });
 

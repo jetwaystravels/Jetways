@@ -113,8 +113,12 @@
                                 <div class="d-flex items-center mb-15">
                                     <div class="w-28 d-flex justify-center mr-15">
                                         <img class="size-30" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
+
+                                        @{
+                                        var aircraftname= @Model.Seatmaplist.datalist[i].seatMap.name;
+                                        }
                                     </div>
-                                    <div class="text-14 text-light-1">Air India Expr... @item.segments[i].identifier.carrierCode @item.segments[i].identifier.identifier</div><span class="airliname">@Model.Seatmaplist.datalist[i].seatMap.name</span>
+                                    <div class="text-14 text-light-1">Air India Expr... @item.segments[i].identifier.carrierCode @item.segments[i].identifier.identifier</div><span class="airliname">@aircraftname</span>
                                 </div>
 
                                 <div class="relative z-0">
@@ -685,6 +689,7 @@
         padding: 7px 12px;
         font-size: 13px;
         border: 1px solid #2f647e;
+        font-weight: 700;
     }
 
     .tooltipF {

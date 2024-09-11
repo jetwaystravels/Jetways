@@ -89,7 +89,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> SearchResultFlight(SimpleAvailabilityRequestModel _GetfligthModel)
+        public async Task<IActionResult> SearchResultFlight(SimpleAvailabilityRequestModel _GetfligthModel, string flightclass)
         {
             if (_GetfligthModel.passengercount != null)
             {

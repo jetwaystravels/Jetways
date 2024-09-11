@@ -270,7 +270,7 @@
                 //validateInputT({ target: input });
             });
         } else {
-            //alert("Checkbox is unchecked");
+           // alert("Checkbox is unchecked");
             debugger;
             var emaiLeadPass = "";
             var phoneLeadPass = "";
@@ -278,13 +278,13 @@
 
             emailInputsT.forEach(function (input) {
                 input.value = emaiLeadPass;
-                validateInputT({ target: input });
+                //validateInputT({ target: input });
             });
             var phoneInputsT = document.querySelectorAll(".contactphone");
 
             phoneInputsT.forEach(function (input) {
                 input.value = phoneLeadPass;
-                validateInputT({ target: input });
+                //validateInputT({ target: input });
             });
 
             var emaiLeadPassenger = localStorage.getItem('Leadpassenger3');
@@ -292,16 +292,7 @@
             document.querySelector("#contactemailID").value = emaiLeadPassenger;
             document.querySelector("#contactphoneID").value = phoneLeadPassenger;
 
-            // Remove specific items from localStorage
-            localStorage.removeItem('Leadpassenger3');
-            localStorage.removeItem('Leadpassenger4');
-
-            // Optionally, clear all items from localStorage
-            // localStorage.clear();
-
-            // Clear the input fields if necessary
-            document.querySelector("#contactemailID").value = '';
-            document.querySelector("#contactphoneID").value = '';
+           
 
         }
     });
