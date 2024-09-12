@@ -300,11 +300,11 @@
                                                                 <div class="border-top-light mt-24 mb-24"></div>
                                                                 @if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 1)
                                                                 {
-                                                                  
 
 
-                                                                        @if (Model.simpleAvailabilityRequestModelEdit.passengers.types[1].type == "CHD")
-                                                                        {
+
+                                                                    @if (Model.simpleAvailabilityRequestModelEdit.passengers.types[1].type == "CHD")
+                                                                    {
                                                                         <div class="d-flex y-gap-10 justify-between items-center">
                                                                             <div class="btn-incr-chld">
                                                                                 <div class="text-15 fw-500">
@@ -321,10 +321,10 @@
                                                                                 <div class="increment1 add btn_sub">+</div>
 
                                                                             </div>
-                                                                            </div>
-                                                                        }
-                                                                        else
-                                                                        {
+                                                                        </div>
+                                                                    }
+                                                                    else
+                                                                    {
                                                                         <div class="d-flex y-gap-10 justify-between items-center">
                                                                             <div class="btn-incr-chld">
                                                                                 <div class="text-15 fw-500">
@@ -343,9 +343,9 @@
                                                                             </div>
                                                                         </div>
 
-                                                                        }
+                                                                    }
 
-                                                                    
+
                                                                     <div class="border-top-light mt-24 mb-24"></div>
                                                                     <div class="d-flex y-gap-10 justify-between items-center">
                                                                         @if (Model.simpleAvailabilityRequestModelEdit.passengers.types[1].type == "INFT")
@@ -404,21 +404,21 @@
                                                                 else
                                                                 {
                                                                     <div class="d-flex y-gap-10 justify-between items-center">
-                                                                    <div class="btn-incr-chld">
-                                                                        <div class="text-15 fw-500">
-                                                                            Children
+                                                                        <div class="btn-incr-chld">
+                                                                            <div class="text-15 fw-500">
+                                                                                Children
+                                                                            </div>
+                                                                            <input type="hidden" name="childtype" value="CHD" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childtype" />
+                                                                            <div class="text-15 fw-500">
+                                                                                Aged 2-12 yrs
+                                                                            </div>
                                                                         </div>
-                                                                        <input type="hidden" name="childtype" value="CHD" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childtype" />
-                                                                        <div class="text-15 fw-500">
-                                                                            Aged 2-12 yrs
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="btn-increase">
-                                                                        <div class="decrement1 sub btn_sub">-</div>
-                                                                        <input type="number" id="field_child" class="input-field" value="0" name="childcount" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childcount" min="0" max="6">
-                                                                        <div class="increment1 add btn_sub">+</div>
+                                                                        <div class="btn-increase">
+                                                                            <div class="decrement1 sub btn_sub">-</div>
+                                                                            <input type="number" id="field_child" class="input-field" value="0" name="childcount" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childcount" min="0" max="6">
+                                                                            <div class="increment1 add btn_sub">+</div>
 
-                                                                    </div>
+                                                                        </div>
                                                                     </div>
                                                                     <div class="border-top-light mt-24 mb-24"></div>
 
@@ -2281,6 +2281,152 @@
     </style>
     <script>
 
+// Sorting - Filter Start
+
+        // Get all sort link elements
+
+        var sortOrderName
+        const sortLinks = document.querySelectorAll('.sort-link');
+        const sortOrders = {
+            name: 'desc',
+            price: 'desc',
+            arrival: 'desc',
+            duration: 'desc',
+            deprt: 'desc'
+        };
+
+        // Add click event listener to each sort link
+        sortLinks.forEach(sortLink => {
+
+            sortLink.addEventListener('click', function (e) {
+                e.preventDefault();
+                const sortType = this.dataset.sort.split('_')[0];
+                const currentSortOrder = sortOrders[sortType];
+                sortOrders[sortType] = currentSortOrder === 'desc' ? 'asc' : 'desc';
+                const newSortOrder = currentSortOrder === 'desc' ? `${sortType}_desc` : `${sortType}_asc`;
+                this.dataset.sort = newSortOrder;
+                performSorting(newSortOrder);
+
+                // Make AJAX request to post the sorting order to the controller
+                postSortOrder(newSortOrder);
+            });
+        });
+
+        function performSorting(sortOrder) {
+            sortOrderName = sortOrder;
+            getFiltered();
+        }
+
+
+
+        var selectedDepartureTimes = [];
+        var selectedArrivalTimes = [];
+
+        $('.flt-Tm-slt').click(function () {
+            let departureTime = $(this).data('departure');
+            let arrivalTime = $(this).data('arrival');
+
+            $(this).toggleClass('active');
+
+            if ($(this).hasClass('active')) {
+                // Add selected times to arrays
+                if (!selectedDepartureTimes.includes(departureTime)) {
+                    selectedDepartureTimes.push(departureTime);
+                }
+                if (!selectedArrivalTimes.includes(arrivalTime)) {
+                    selectedArrivalTimes.push(arrivalTime);
+                }
+            } else {
+                // Remove deselected times from arrays
+                selectedDepartureTimes = selectedDepartureTimes.filter(function (item) {
+                    return item !== departureTime;
+                });
+                selectedArrivalTimes = selectedArrivalTimes.filter(function (item) {
+                    return item !== arrivalTime;
+                });
+            }
+            getFiltered();
+        });
+
+
+
+
+        function DepartureCheckbox() {
+            selectedDepartureTimes = [];
+            $('.selectCheckboxNew[name="morningDeparture"]:checked').each(function () {
+                let departureTime = $(this).data('departure');
+                if (!selectedDepartureTimes.includes(departureTime)) {
+                    selectedDepartureTimes.push(departureTime);
+                }
+            });
+        }
+
+
+        $('.selectCheckboxNew[name="morningDeparture"]').on('change', function () {
+            DepartureCheckbox();
+            getFiltered();
+        });
+
+
+        function getFiltered() {
+            let filterIdAirLine = [];
+            let filterId = [];
+            $('.selectCheckboxNew').each(function () {
+                if ($(this).is(':checked')) {
+                    let name = $(this).attr('name');
+                    let value = $(this).val();
+
+                    if (name === 'Airline') {
+                        filterIdAirLine.push(value);
+                    } else if (name === 'stops') {
+                        filterId.push(parseInt(value, 10));
+                    }
+                }
+            });
+
+
+            $.ajax({
+                url: '/ResultFlightView/GetFilteredFlights',
+                type: 'POST',
+                data: {
+                    FilterIdAirLine: filterIdAirLine,
+                    FilterId: filterId,
+                    departure: selectedDepartureTimes,
+                    arrival: selectedArrivalTimes,
+                    sortOrderName: sortOrderName
+                },
+                success: function (response) {
+
+                    $('#flight-results').html(response);
+                    console.log(response);
+                },
+                error: function (xhr, status, error) {
+
+                    console.error(error);
+                }
+            });
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //--------*************************Sorting End--****************************************
+
+
+
+
+
         //Flight Detail js code
         $(document).on('click', '.flightT1', function () {
             if (!$(this).hasClass('active')) {
@@ -2348,51 +2494,9 @@
 
             }
         });
-       
 
-        // Get all sort link elements
-        const sortLinks = document.querySelectorAll('.sort-link');
-        const sortOrders = {
-            name: 'desc',
-            price: 'desc',
-            arrival: 'desc',
-            duration: 'desc',
-            deprt: 'desc'
-        };
 
-        // Add click event listener to each sort link
-        sortLinks.forEach(sortLink => {
 
-            sortLink.addEventListener('click', function (e) {
-                e.preventDefault();
-                const sortType = this.dataset.sort.split('_')[0];
-                const currentSortOrder = sortOrders[sortType];
-                sortOrders[sortType] = currentSortOrder === 'desc' ? 'asc' : 'desc';
-                const newSortOrder = currentSortOrder === 'desc' ? `${sortType}_desc` : `${sortType}_asc`;
-                this.dataset.sort = newSortOrder;
-                performSorting(newSortOrder);
-
-                // Make AJAX request to post the sorting order to the controller
-                postSortOrder(newSortOrder);
-            });
-        });
-
-        function performSorting(sortOrder) {
-
-            var sortOrderName = sortOrder;
-            $.ajax({
-                url: '@Url.Action("GetFilteredFlights", "ResultFlightView")',
-                type: 'POST',
-                data: { sortOrderName: sortOrderName },
-                success: function (data) {
-                    $('#flight-results').html(data);
-
-                },
-                error: function (xhr, status, error) {
-
-                }
-            });
-        }
         $(function () {
             $("#Oneway-date").datepicker({
                 dateFormat: 'yy-mm-dd',
@@ -2583,9 +2687,15 @@
             }
         }, 1000);
 
+
+
+
+
         function preback() { window.history.forward(); }
         setTimeout("preback()", -10);
         window.onupload = function () { null };
+
+
 
 
     </script>

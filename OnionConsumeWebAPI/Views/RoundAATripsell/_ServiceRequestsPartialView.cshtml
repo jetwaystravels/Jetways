@@ -940,7 +940,7 @@
                                                         @if (mealOptions.Count > 0)
                                                         {
                                                             <select id="ddlMealOptions" class="servc-bordr servc-bordrm1">
-                                                                <option selected="selected" value="">Please select meal</option>
+                                                                <option selected="selected" value="">Please select meal-INDIGO</option>
                                                                 @foreach (var option in mealOptions)
                                                                 {
                                                                     <option value="@option.Value" data-ssrkey=@ssrkey>
@@ -1088,7 +1088,7 @@
 
                                                     <select id="ddlbagOptions" class="servc-bordr servc-bordrbaggage">
                                                         <option selected="selected" value="">Please select baggage</option>
-                                                        @foreach (var option in BaggageOptions)
+                                                        @foreach (var option in BaggageOptions.OrderBy(o => o.Value))
                                                         {
                                                             <option value="@option.Value" data-bagkey=@bagkey>
                                                                 @option.Text
@@ -1771,7 +1771,7 @@
 
                                                         <select id="ddlbagOptions" class="servc-bordr servc-bordrbaggagem2">
                                                             <option selected="selected" value="">Please select baggage</option>
-                                                            @foreach (var option in BaggageOptions)
+                                                            @foreach (var option in BaggageOptions.OrderBy(o => o.Value))
                                                             {
                                                                 <option value="@option.Value" data-bagkey=@bagkeyAA>
                                                                     @option.Text
