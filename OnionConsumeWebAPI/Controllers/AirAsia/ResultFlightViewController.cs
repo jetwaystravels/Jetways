@@ -51,58 +51,6 @@ namespace OnionConsumeWebAPI.Controllers
             return View(viewModelobject);
         }
 
-
-        //public IActionResult FlightViewFilter(List<string> departure, List<string> arrival)
-        //{
-        //    if (departure.Count > 0)
-        //    {
-        //        if (departure[0] == null)
-        //        {
-        //            departure = new List<string>();
-        //        }
-        //    }
-        //    if (arrival.Count > 0)
-        //    {
-        //        if (arrival[0] == null)
-        //        {
-        //            arrival = new List<string>();
-        //        }
-        //    }
-
-        //    string OnewayFlightData = HttpContext.Session.GetString("OneWayFlightView");
-        //    if (string.IsNullOrEmpty(OnewayFlightData))
-        //    {
-        //        return View("Error");
-        //    }
-        //    List<SimpleAvailibilityaAddResponce> OnewaydeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(OnewayFlightData);
-        //    List<SimpleAvailibilityaAddResponce> filteredFlights = OnewaydeserializedObjects;
-        //    if (departure != null && departure.Count > 0)
-        //    {
-        //        filteredFlights = filteredFlights.Where(flight =>
-        //            departure.Any(d =>
-        //                (d.ToLower() == "before_6am" && flight.designator.departure.TimeOfDay < new TimeSpan(6, 0, 0)) ||
-        //                (d.ToLower() == "6am_to_12pm" && flight.designator.departure.TimeOfDay >= new TimeSpan(6, 0, 0) && flight.designator.departure.TimeOfDay < new TimeSpan(12, 0, 0)) ||
-        //                (d.ToLower() == "12pm_to_6pm" && flight.designator.departure.TimeOfDay >= new TimeSpan(12, 0, 0) && flight.designator.departure.TimeOfDay < new TimeSpan(18, 0, 0)) ||
-        //                (d.ToLower() == "after_6pm" && flight.designator.departure.TimeOfDay >= new TimeSpan(18, 0, 0))
-        //            )).ToList();
-        //    }
-        //    if (arrival != null && arrival.Count > 0)
-        //    {
-        //        filteredFlights = filteredFlights.Where(flight =>
-        //            arrival.Any(a =>
-        //                (a.ToLower() == "before_6am" && flight.designator.arrival.TimeOfDay < new TimeSpan(6, 0, 0)) ||
-        //                (a.ToLower() == "6am_to_12pm" && flight.designator.arrival.TimeOfDay >= new TimeSpan(6, 0, 0) && flight.designator.arrival.TimeOfDay < new TimeSpan(12, 0, 0)) ||
-        //                (a.ToLower() == "12pm_to_6pm" && flight.designator.arrival.TimeOfDay >= new TimeSpan(12, 0, 0) && flight.designator.arrival.TimeOfDay < new TimeSpan(18, 0, 0)) ||
-        //                (a.ToLower() == "after_6pm" && flight.designator.arrival.TimeOfDay >= new TimeSpan(18, 0, 0))
-        //            )).ToList();
-        //    }
-        //    ViewModel viewModelobject = new ViewModel
-        //    {
-        //        SimpleAvailibilityaAddResponcelist = filteredFlights
-        //    };
-        //    return PartialView("_FlightResultsSortingPartialView", viewModelobject);
-        //}
-
         [HttpPost]
         // Nonstop:: FilterId - Airline Filetr -
         public IActionResult GetFilteredFlights(string sortOrderName, List<string> FilterIdAirLine, List<int> FilterId, List<string> departure, List<string> arrival)
