@@ -296,14 +296,28 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     _SimpleAvailabilityobj.promotionCode = "";
                     string[] sortOptions = new string[1];
                     sortOptions[0] = "ServiceType";
-                    string[] fareTypes = new string[2];
-                    fareTypes[0] = "R";
-                    fareTypes[1] = "M";
-                    string[] productClasses = new string[3];
-                    productClasses[0] = "EC";
-                    productClasses[1] = "EP";
-                    productClasses[2] = "HF";
                     Filters Filters = new Filters();
+                    if (flightclass == "B")
+                    {
+                        string[] fareTypes = new string[1];
+                        fareTypes[0] = "R";
+                        string[] productClasses = new string[1];
+                        productClasses[0] = "VV";
+                        Filters.fareTypes = fareTypes;
+                        Filters.productClasses = productClasses;
+                    }
+                    else
+                    {
+                        string[] fareTypes = new string[2];
+                        fareTypes[0] = "R";
+                        fareTypes[1] = "M";
+                        string[] productClasses = new string[3];
+                        productClasses[0] = "EC";
+                        productClasses[1] = "EP";
+                        productClasses[2] = "HF";
+                        Filters.fareTypes = fareTypes;
+                        Filters.productClasses = productClasses;
+                    }
                     Filters.exclusionType = "Default";
                     Filters.loyalty = "MonetaryOnly";
                     Filters.includeAllotments = true;
@@ -311,8 +325,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     Filters.compressionType = "CompressByProductClass";
                     Filters.sortOptions = sortOptions;
                     Filters.maxConnections = 10;
-                    Filters.fareTypes = fareTypes;
-                    Filters.productClasses = productClasses;
+                    
                     _SimpleAvailabilityobj.filters = Filters;
                     _SimpleAvailabilityobj.taxesAndFees = "Taxes";
                     _SimpleAvailabilityobj.ssrCollectionsMode = "Leg";
@@ -620,11 +633,11 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         _SimpleAvailabilityobj.codes = _codes;
                         sortOptions = new string[1];
                         sortOptions[0] = "NoSort";
-                        fareTypes = new string[3];
+                        string [] fareTypes = new string[3];
                         fareTypes[0] = "R";
                         fareTypes[1] = "V";
                         fareTypes[2] = "S";
-                        productClasses = new string[3];
+                        string [] productClasses = new string[3];
                         productClasses[0] = "EC";
                         productClasses[1] = "AV";
                         productClasses[2] = "SP";
@@ -1263,7 +1276,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     int count2 = 0;
                     if (_IndigologonResponseobj != null)
                     {
-                        _IndigoAvailabilityResponseobj = await objgetAvail_.GetTripAvailability(_GetfligthModel, _IndigologonResponseobj, TotalCount, adultcount, childcount, infantcount, "IndigoOneWay");
+                        _IndigoAvailabilityResponseobj = await objgetAvail_.GetTripAvailability(_GetfligthModel, _IndigologonResponseobj, TotalCount, adultcount, childcount, infantcount, flightclass, "IndigoOneWay");
                         count2 = 0;
                         if (_IndigoAvailabilityResponseobj != null && _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0].Length > 0)
                         {
@@ -1447,7 +1460,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 #endregion
                             }
                             fareIndividualsconnectedList = fareIndividualsList;
-                            fareIndividualsconnectedList = fareIndividualsconnectedList.Where(d => d.fareKey.Contains('^')).ToList();
+                            //fareIndividualsconnectedList = fareIndividualsconnectedList.Where(d => d.fareKey.Contains('^')).ToList();
                             //int StopCounter = 0;
                             //if (Segmentobjlist.Count == 1)
                             //{
@@ -2914,7 +2927,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         _GetfligthModel.beginDate = _GetfligthModel.endDate;
                         TempData["originR"] = _GetfligthModel.origin;
                         TempData["destinationR"] = _GetfligthModel.destination;
-                        IndigoBookingManager_.GetAvailabilityVer2Response _IndigoAvailabilityResponseobjR = await objgetAvail_.GetTripAvailability(_GetfligthModel, _IndigologonResponseobjR, TotalCount, adultcount, childcount, infantcount);
+                        IndigoBookingManager_.GetAvailabilityVer2Response _IndigoAvailabilityResponseobjR = await objgetAvail_.GetTripAvailability(_GetfligthModel, _IndigologonResponseobjR, TotalCount, adultcount, childcount, infantcount,flightclass);
                         count2 = 0;
                         if (_IndigoAvailabilityResponseobjR != null && _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0].Length > 0)
                         {
@@ -3085,7 +3098,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 #endregion
                             }
                             fareIndividualsconnectedList = fareIndividualsList;
-                            fareIndividualsconnectedList = fareIndividualsconnectedList.Where(d => d.fareKey.Contains('^')).ToList();
+                            //fareIndividualsconnectedList = fareIndividualsconnectedList.Where(d => d.fareKey.Contains('^')).ToList();
                             int StopCounter = 0;
                             if (Segmentobjlist.Count == 1)
                             {

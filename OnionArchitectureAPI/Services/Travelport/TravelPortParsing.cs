@@ -1329,11 +1329,16 @@ namespace OnionArchitectureAPI.Services.Travelport
                                                                                                                         {
                                                                                                                             foreach (XmlNode brandText in brand)
                                                                                                                             {
-                                                                                                                                if (brandText.Name.Equals("air:Text", StringComparison.OrdinalIgnoreCase) && brandText.Attributes["Type"].Value.Equals("MarketingAgent", StringComparison.OrdinalIgnoreCase))
+                                                                                                                                if (brandText.Name.Equals("air:Title", StringComparison.OrdinalIgnoreCase) && brandText.Attributes["Type"].Value.Equals("External", StringComparison.OrdinalIgnoreCase))
                                                                                                                                 {
                                                                                                                                     _BrandDesc = brandText.InnerText;
 
                                                                                                                                 }
+                                                                                                                                //if (brandText.Name.Equals("air:Text", StringComparison.OrdinalIgnoreCase) && brandText.Attributes["Type"].Value.Equals("MarketingAgent", StringComparison.OrdinalIgnoreCase))
+                                                                                                                                //{
+                                                                                                                                //    _BrandDesc = brandText.InnerText;
+
+                                                                                                                                //}
                                                                                                                             }
 
                                                                                                                         }
@@ -1362,7 +1367,12 @@ namespace OnionArchitectureAPI.Services.Travelport
                                                                                                                                 {
                                                                                                                                     foreach (XmlNode brandText in brand)
                                                                                                                                     {
-                                                                                                                                        if (brandText.Name.Equals("air:Text", StringComparison.OrdinalIgnoreCase) && brandText.Attributes["Type"].Value.Equals("MarketingAgent", StringComparison.OrdinalIgnoreCase))
+                                                                                                                                        //if (brandText.Name.Equals("air:Text", StringComparison.OrdinalIgnoreCase) && brandText.Attributes["Type"].Value.Equals("MarketingAgent", StringComparison.OrdinalIgnoreCase))
+                                                                                                                                        //{
+                                                                                                                                        //    _BrandDesc = brandText.InnerText;
+
+                                                                                                                                        //}
+                                                                                                                                        if (brandText.Name.Equals("air:Title", StringComparison.OrdinalIgnoreCase) && brandText.Attributes["Type"].Value.Equals("External", StringComparison.OrdinalIgnoreCase))
                                                                                                                                         {
                                                                                                                                             _BrandDesc = brandText.InnerText;
 

@@ -22,7 +22,7 @@ namespace OnionArchitectureAPI.Services.Indigo
             _httpContextAccessor.HttpContext.Session.SetString(key, value);
         }
         Logs logs = new Logs();
-        public async Task<GetAvailabilityVer2Response> GetTripAvailability(SimpleAvailabilityRequestModel _GetfligthModel, LogonResponse _IndigologonResponseobj, int TotalCount, int adultcount, int childcount, int infantcount, string _AirlineWay = "")
+        public async Task<GetAvailabilityVer2Response> GetTripAvailability(SimpleAvailabilityRequestModel _GetfligthModel, LogonResponse _IndigologonResponseobj, int TotalCount, int adultcount, int childcount, int infantcount,string flightclass, string _AirlineWay = "")
         {
             #region Logon
 
@@ -109,8 +109,16 @@ namespace OnionArchitectureAPI.Services.Indigo
             _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareTypes = faretypesreturn;
 
             //string[] productclassesreturn = { "R", "S", "A","N","J","B","T","O" };
-            string[] productclassesreturn = { "R", "J", "A", "O" };
-            _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].ProductClasses = productclassesreturn;
+            if (flightclass == "B") // Business Class
+            {
+                string[] productclassesreturn = { "BR","BC" };
+                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].ProductClasses = productclassesreturn;
+            }
+            else
+            {
+                string[] productclassesreturn = { "R", "J", "A", "O" };
+                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].ProductClasses = productclassesreturn;
+            }
             _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].MaximumConnectingFlights = 20;
             _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].MaximumConnectingFlightsSpecified = true;
 

@@ -67,12 +67,11 @@ namespace OnionArchitectureAPI.Services.Travelport
             sbReq.Append("<Provider xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"1G\" />");
             sbReq.Append("</PreferredProviders>");
 
-            // for prohibited carrier
-            //sbReq.Append("<air:PermittedCarriers xmlns=\"http://www.travelport.com/schema/common_v52_0\">");
-            //sbReq.Append("<Carrier Code='UK' xmlns=\"http://www.travelport.com/schema/common_v52_0\"/>");
-            //sbReq.Append("<Carrier Code='A!' xmlns=\"http://www.travelport.com/schema/common_v52_0\"/>");
-            //sbReq.Append("</air:PermittedCarriers>");
-
+            // Start for prohibited carrier
+            sbReq.Append("<ProhibitedCarriers>");
+            sbReq.Append("<Carrier Code='H1' xmlns=\"http://www.travelport.com/schema/common_v52_0\"/>");
+            sbReq.Append("</ProhibitedCarriers>");
+            //End  for prohibited carrier
 
             sbReq.Append("</AirSearchModifiers>");
             if (_GetfligthModel.passengercount != null)
