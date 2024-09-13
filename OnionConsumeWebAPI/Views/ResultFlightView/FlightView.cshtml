@@ -22,9 +22,6 @@
     <link rel="stylesheet" href="~/css/daterangepicker.css">
     <link href="~/css/roundviewpage.css" rel="stylesheet" />
     <link href="~/css/indexvny.css" rel="stylesheet" />
-    <script src="~/js/custom.js/indexpage.js"></script>
-
-
 </head>
 <body>
 
@@ -120,21 +117,20 @@
                         <div class="col-12 col-md-7 col-lg-12">
                             <div class="row justify-content-center">
                                 <div class="search-box">
-                                    <div class="S-option">
+                                   <div class="S-option">
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="Radio" value="option1" checked>
+                                            <input class="form-radio-input" type="radio" name="Radio" value="option1" checked>
                                             <label class="form-check-label">One way</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="Radio" value="option2">
+                                            <input class="form-radio-input" type="radio" name="Radio" value="option2">
                                             <label class="form-check-label">Round Trip</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="Radio" value="option2">
+                                            <input class="form-radio-input" type="radio" name="Radio" value="option2">
                                             <label class="form-check-label">Multi City</label>
                                         </div>
-
-                                    </div>
+                                    </div> 
 
                                     <form asp-action="SearchResultFlight" asp-controller="FlightSearchIndex" method="post" id="multipleValuesForm">
                                         <div class="col-lg-12">
@@ -188,15 +184,13 @@
                                                 <div class="col-12 col-md-10 col-lg-2 space">
                                                     <label style="margin-bottom: 0.1rem;">Departure</label>
                                                     <span class="input-group-text">
-
                                                         <input id="Oneway-date" name="beginDate" type="text" value="@Model.simpleAvailabilityRequestModelEdit.beginDate" class="form-control">
                                                     </span>
                                                 </div>
                                                 <div class="col-12 col-md-10 col-lg-2 space">
                                                     <label style="margin-bottom: 0.1rem;">Return</label>
-                                                    <span class="input-group-text" id="basic-addon1">
-
-                                                        <input id="Oneway-endDate" name="endDate" type="text" class="form-control" disabled>
+                                                    <span class="input-group-text">
+                                                        <input id="Oneway-endDate" name="endDate" type="text" class="form-control" value="" disabled>
                                                     </span>
                                                 </div>
                                                 <div class="col-12 col-md-10 col-lg-2 space travellers">
@@ -491,12 +485,24 @@
                                                             </div>
                                                             <div class="toggle-element -dropdown  js-click-dropdown js-economy-toggle">
                                                                 <div class="text-14 y-gap-8 js-dropdown-list">
-
-                                                                    <div><a href="#" class="d-block js-dropdown-link">Economic</a></div>
-                                                                    <div><a href="#" class="d-block js-dropdown-link">Premium</a></div>
-                                                                    <div><a href="#" class="d-block js-dropdown-link">Business</a></div>
-                                                                    <div><a href="#" class="d-block js-dropdown-link">First</a></div>
+                                                                    <a href="#" class="d-block js-dropdown-link" onclick="toggleRadio(event, 'radioid1')">
+                                                                        <input class="m-2 form-radio-input d-none" type="radio" name="flightclass" value="E" id="radioid1">
+                                                                        Economic
+                                                                    </a>
+                                                                    <a href="#" class="d-block js-dropdown-link" onclick="toggleRadio(event, 'radioid2')">
+                                                                        <input class="m-2 form-radio-input d-none" type="radio" name="flightclass" value="P" id="radioid2">
+                                                                        Premium
+                                                                    </a>
+                                                                    <a href="#" class="d-block js-dropdown-link" onclick="toggleRadio(event, 'radioid3')">
+                                                                        <input class="m-2 form-radio-input d-none" type="radio" name="flightclass" value="B" id="radioid3">
+                                                                        Business
+                                                                    </a>
+                                                                    <a href="#" class="d-block js-dropdown-link" onclick="toggleRadio(event, 'radioid4')">
+                                                                        <input class="m-2 form-radio-input d-none" type="radio" name="flightclass" value="F" id="radioid4">
+                                                                        First
+                                                                    </a>
                                                                 </div>
+
                                                             </div>
                                                         </div>
                                                         <div class="custom-control custom-checkbox custom-control-inline">
@@ -2118,6 +2124,15 @@
     <script src="~/lib/jquery/chosen.jquery.js"></script>
     <script src="~/lib/jquery/chosen.jquery.min.js"></script>
     <style type="text/css">
+        #ui-datepicker-div{
+            position: fixed;
+            left: 536.156px;
+            z-index: 100;
+            top: 137px!important;
+            width: 34em;
+        }
+
+
         .custom-flex p {
             font-size: 12px;
         }
@@ -2281,10 +2296,24 @@
     </style>
     <script>
 
-// Sorting - Filter Start
+        //***********Strip Validation*/
+        function toggleRadio(event, radioId) {
+            event.preventDefault(); // Prevent the default anchor behavior
 
-        // Get all sort link elements
+            // Uncheck all radio buttons
+            document.querySelectorAll('.form-radio-input').forEach(radio => {
+                radio.checked = false;
+            });
 
+            // Check the selected radio button
+            var radioButton = document.getElementById(radioId);
+            radioButton.checked = true;
+        }
+
+
+        //*********End***************/
+
+        // Sorting - Filter Start
         var sortOrderName;
         const sortLinks = document.querySelectorAll('.sort-link');
         const sortOrders = {
@@ -2409,18 +2438,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
         //--------*************************Sorting End--****************************************
 
 
@@ -2505,6 +2522,16 @@
                 minDate: '0'
             });
         });
+
+        $(function () {
+            $("#Oneway-endDate").datepicker({
+                dateFormat: 'yy-mm-dd',
+                numberOfMonths: 2,
+                maxDate: '+3m',
+                minDate: '0'
+            });
+        });
+
 
         document.addEventListener('DOMContentLoaded', function () {
             // Select the input fields for adults, children, and infants
@@ -2689,15 +2716,12 @@
 
 
 
-
-
         function preback() { window.history.forward(); }
         setTimeout("preback()", -10);
         window.onupload = function () { null };
 
 
-
-
+     
     </script>
 
 </body>

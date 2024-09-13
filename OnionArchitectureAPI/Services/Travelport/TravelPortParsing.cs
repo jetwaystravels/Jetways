@@ -199,6 +199,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                                                                                                 //leg.ArrivalDate = Utility.Utility.GDateFormate(airSegment.Attributes["ArrivalTime"].Value.Split('T')[0], Utility.Engine.TravelPort);
                                                                                                 leg.ArrivalTime = airSegment.Attributes["ArrivalTime"].Value;// airSegment.Attributes["ArrivalTime"].Value.Split('T')[1];
                                                                                                 leg.FareClassOfService = airSegment.Attributes["ClassOfService"].Value;
+                                                                                                leg._Equipment= airSegment.Attributes["Equipment"].Value;
                                                                                                 if (airSegment.Attributes["FlightTime"] != null)
                                                                                                 {
                                                                                                     leg.Duration = airSegment.Attributes["FlightTime"].Value;

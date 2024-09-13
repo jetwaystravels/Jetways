@@ -186,6 +186,15 @@
         {
             for (int i = 0; i < item.segments.Count; i++)
             {
+                //AirLine
+                string seatMapName = @Model.Seatmaplist.datalist[i].seatMap.name;
+                int hyphenIndex = @Model.Seatmaplist.datalist[i].seatMap.name.LastIndexOf('-');
+                // Extract the substring before the hyphen
+                string  result = hyphenIndex == -1 ? seatMapName : seatMapName.Substring(0, hyphenIndex);
+                string aircraftModel = result.Replace("B", "Boeing ").Replace("A", "Airbus ");
+               
+
+
                 if (i == 1)
                 {
                     formattedTime = string.Empty;
@@ -248,7 +257,7 @@
                                         <img class="size-30" src="~/img/flight-logo-icon/SG.png" alt="image">
                                     </div>
 
-                                    <div class="text-14 text-light-1"> SpiceJet @item.segments[i].identifier.carrierCode @item.segments[i].identifier.identifier <span class="fw-700 ms-2">Plane Type:</span><span class="airliname">@Model.Seatmaplist.datalist[i].seatMap.name</span></div>
+                                    <div class="text-14 text-light-1"> SpiceJet @item.segments[i].identifier.carrierCode @item.segments[i].identifier.identifier <span class="fw-700 ms-2">Plane Type:</span><span class="airliname">@aircraftModel</span></div>
                                 </div>
 
                                 <div class="relative z-0">

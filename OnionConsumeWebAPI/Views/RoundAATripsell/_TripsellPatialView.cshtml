@@ -293,9 +293,9 @@
                         if (@Model.SeatmaplistRT != null && @Model.SeatmaplistRT.Count > 0 && Model.SeatmaplistRT[k]!=null)
                             AirCraftname = @Model.SeatmaplistRT[k].datalist[i].seatMap.name;
                         //AirLine
-                        int hyphenIndex = AirCraftname.IndexOf('-');
-                        // Extract the substring before the hyphen
-                        aircraftModel = hyphenIndex == -1 ? AirCraftname : AirCraftname.Substring(0, hyphenIndex);
+                        int hyphenIndex = AirCraftname.LastIndexOf('-');
+                        string result = hyphenIndex == -1 ? AirCraftname : AirCraftname.Substring(0, hyphenIndex);
+                        aircraftModel = result.Replace("B", "Boeing ").Replace("A", "Airbus ");
                     }
                     if (i >= 1)
                     {
@@ -322,6 +322,11 @@
 
                                 @for (int j = 0; j < item.segments[i].legs.Count; j++)
                                 {
+                                    if (item.segments[i].identifier.carrierCode.Equals("UK") || item.segments[i].identifier.carrierCode.Equals("AI"))
+                                    {
+                                        aircraftModel = @item.segments[i].legs[j].legInfo.equipmentType.ToString();
+                                        aircraftModel = aircraftModel.Replace("B", "Boeing ").Replace("A", "Airbus ");
+                                    }
                                     if (j == 1)
                                     {
                                         formattedTime = string.Empty;

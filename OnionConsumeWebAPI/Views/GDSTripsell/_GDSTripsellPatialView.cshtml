@@ -113,14 +113,14 @@
         padding: 8px;
     }
 
-   /*  .airliname {
+     .airliname {
         border-radius: 20px;
         margin-left: 8px;
         padding: 7px 12px;
         font-size: 13px;
         border: 1px solid #2f647e;
         font-weight: 700;
-    } */
+    } 
 
 
 </style>
@@ -289,7 +289,7 @@
                                         
                                     </div>
 
-                                    <div class="text-14 text-light-1"> @CarrierCodeName @item.segments[i].identifier.carrierCode @item.segments[i].identifier.identifier <span class="airliname">@*@Model.Seatmaplist.datalist[i].seatMap.name*@</span></div>
+                                    <div class="text-14 text-light-1"> @CarrierCodeName @item.segments[i].identifier.carrierCode @item.segments[i].identifier.identifier <span class="fw-700 ms-2">Plane Type:</span> <span class="airliname">@item.segments[i].legs[j].legInfo.equipmentType</span></div>
                                 </div>
 
                                 <div class="relative z-0">

@@ -195,8 +195,8 @@ namespace OnionConsumeWebAPI.Controllers.TravelClick
                             //{
                             AAFare AAFareobj = new AAFare();
                             AAFareobj.fareKey = ""; //_GetBookingFromStateRS1.BookingData.Journeys[i].Segments[j].Fares[k].FareSellKey;
-                            AAFareobj.productClass = "";// _GetBookingFromStateRS1.BookingData.Journeys[i].Segments[j].Fares[k].ProductClass;
-                                                        //var passengerFares = _GetBookingFromStateRS1.BookingData.Journeys[i].Segments[j].Fares[k].PaxFares;
+                            AAFareobj.productClass = journeyKey;// _GetBookingFromStateRS1.BookingData.Journeys[i].Segments[j].Fares[k].ProductClass;
+                                                                //var passengerFares = _GetBookingFromStateRS1.BookingData.Journeys[i].Segments[j].Fares[k].PaxFares;
                             int passengerFarescount = getAirPriceRes[0].Fare.PaxFares.Count;// _GetBookingFromStateRS1.BookingData.Journeys[i].Segments[j].Fares[k].PaxFares.Length;
                             if (j == 0)                                                           //List<AAPassengerfare> AAPassengerfarelist = new List<AAPassengerfare>();
                             {
@@ -248,21 +248,22 @@ namespace OnionConsumeWebAPI.Controllers.TravelClick
                             List<AALeg> AALeglist = new List<AALeg>();
                             //for (int n = 0; n < legcount; n++)
                             //{
-                                AALeg AALeg = new AALeg();
-                                AADesignator AAlegDesignatorobj = new AADesignator();
-                                AAlegDesignatorobj.origin = getAirPriceRes[0].Bonds[0].Legs[j].Origin;
-                                AAlegDesignatorobj.destination = getAirPriceRes[0].Bonds[0].Legs[j].Destination;
-                                AAlegDesignatorobj.departure = Convert.ToDateTime(getAirPriceRes[0].Bonds[0].Legs[j].DepartureTime);
-                                AAlegDesignatorobj.arrival = Convert.ToDateTime(getAirPriceRes[0].Bonds[0].Legs[j].ArrivalTime);
-                                AALeg.designator = AAlegDesignatorobj;
+                            AALeg AALeg = new AALeg();
+                            AADesignator AAlegDesignatorobj = new AADesignator();
+                            AAlegDesignatorobj.origin = getAirPriceRes[0].Bonds[0].Legs[j].Origin;
+                            AAlegDesignatorobj.destination = getAirPriceRes[0].Bonds[0].Legs[j].Destination;
+                            AAlegDesignatorobj.departure = Convert.ToDateTime(getAirPriceRes[0].Bonds[0].Legs[j].DepartureTime);
+                            AAlegDesignatorobj.arrival = Convert.ToDateTime(getAirPriceRes[0].Bonds[0].Legs[j].ArrivalTime);
+                            AALeg.designator = AAlegDesignatorobj;
 
-                                AALeginfo AALeginfoobj = new AALeginfo();
-                                AALeginfoobj.arrivalTerminal = getAirPriceRes[0].Bonds[0].Legs[j].ArrivalTerminal;
-                                AALeginfoobj.arrivalTime = Convert.ToDateTime(getAirPriceRes[0].Bonds[0].Legs[j].ArrivalTime);
-                                AALeginfoobj.departureTerminal = getAirPriceRes[0].Bonds[0].Legs[j].DepartureTerminal;
-                                AALeginfoobj.departureTime = Convert.ToDateTime(getAirPriceRes[0].Bonds[0].Legs[j].DepartureTime);
-                                AALeg.legInfo = AALeginfoobj;
-                                AALeglist.Add(AALeg);
+                            AALeginfo AALeginfoobj = new AALeginfo();
+                            AALeginfoobj.arrivalTerminal = getAirPriceRes[0].Bonds[0].Legs[j].ArrivalTerminal;
+                            AALeginfoobj.arrivalTime = Convert.ToDateTime(getAirPriceRes[0].Bonds[0].Legs[j].ArrivalTime);
+                            AALeginfoobj.departureTerminal = getAirPriceRes[0].Bonds[0].Legs[j].DepartureTerminal;
+                            AALeginfoobj.departureTime = Convert.ToDateTime(getAirPriceRes[0].Bonds[0].Legs[j].DepartureTime);
+                            AALeginfoobj.equipmentType = getAirPriceRes[0].Bonds[0].Legs[j]._Equipment;
+                            AALeg.legInfo = AALeginfoobj;
+                            AALeglist.Add(AALeg);
 
                             //}
                             AASegmentobj.legs = AALeglist;

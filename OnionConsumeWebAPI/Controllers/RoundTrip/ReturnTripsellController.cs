@@ -2208,6 +2208,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     AALeginfoobj.arrivalTime = Convert.ToDateTime(getAirPriceRes[0].Bonds[0].Legs[j].ArrivalTime);
                                     AALeginfoobj.departureTerminal = getAirPriceRes[0].Bonds[0].Legs[j].DepartureTerminal;
                                     AALeginfoobj.departureTime = Convert.ToDateTime(getAirPriceRes[0].Bonds[0].Legs[j].DepartureTime);
+                                    AALeginfoobj.equipmentType = getAirPriceRes[0].Bonds[0].Legs[j]._Equipment;
                                     AALeg.legInfo = AALeginfoobj;
                                     AALeglist.Add(AALeg);
 

@@ -115,10 +115,17 @@
                                         <img class="size-30" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
 
                                         @{
-                                        var aircraftname= @Model.Seatmaplist.datalist[i].seatMap.name;
+
+                                            string seatMapName = @Model.Seatmaplist.datalist[i].seatMap.name;
+                                            int hyphenIndex = @Model.Seatmaplist.datalist[i].seatMap.name.LastIndexOf('-');
+                                            // Extract the substring before the hyphen
+                                            string aircraftModel = hyphenIndex == -1 ? seatMapName : seatMapName.Substring(0, hyphenIndex);
+
+                                       // var aircraftname= @Model.Seatmaplist.datalist[i].seatMap.name;
+
                                         }
                                     </div>
-                                    <div class="text-14 text-light-1">Air India Expr... @item.segments[i].identifier.carrierCode @item.segments[i].identifier.identifier</div><span class="fw-700 ms-2">Plane Type:</span><span class="airliname">@aircraftname</span>
+                                    <div class="text-14 text-light-1">Air India Expr... @item.segments[i].identifier.carrierCode @item.segments[i].identifier.identifier</div><span class="fw-700 ms-2">Plane Type:</span><span class="airliname">@aircraftModel</span>
                                 </div>
 
                                 <div class="relative z-0">
