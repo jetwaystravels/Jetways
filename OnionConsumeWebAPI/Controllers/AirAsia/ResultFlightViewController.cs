@@ -61,22 +61,25 @@ namespace OnionConsumeWebAPI.Controllers
             List<SimpleAvailibilityaAddResponce> OnewaydeserializedObjects = null;
             OnewaydeserializedObjects = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(OnewayFlightData);
 
+          
             if (departure.Count > 0)
             {
                 if (departure[0] == null)
                 {
-                    departure = new List<string>();
+                    departure = departure.Where(d => d != null).ToList();
+                    //departure = new List<string>();
                 }
             }
             if (arrival.Count > 0)
             {
                 if (arrival[0] == null)
                 {
-                    arrival = new List<string>();
+                    //arrival = new List<string>();
+                    arrival = arrival.Where(d => d != null).ToList();
                 }
             }
 
-            
+
             if (string.IsNullOrEmpty(OnewayFlightData))
             {
                 return View("Error");
@@ -137,10 +140,10 @@ namespace OnionConsumeWebAPI.Controllers
                     OnewaydeserializedObjects = OnewaydeserializedObjects.OrderBy(d => d.designator.departure).ToList();
                     break;
                 case "arrive_desc":
-                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderByDescending(d => d.designator.ArrivalTime).ToList();
+                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderByDescending(d => d.designator.arrival).ToList();
                     break;
                 case "arrive_asc":
-                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderBy(d => d.designator.ArrivalTime).ToList();
+                    OnewaydeserializedObjects = OnewaydeserializedObjects.OrderBy(d => d.designator.arrival).ToList();
                     break;
                 case "duration_desc":
                     OnewaydeserializedObjects = OnewaydeserializedObjects.OrderByDescending(d => d.designator.formatTime).ToList();

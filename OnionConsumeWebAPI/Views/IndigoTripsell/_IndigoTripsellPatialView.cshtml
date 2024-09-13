@@ -169,6 +169,7 @@
         formattedTime = $"{(int)timeSpan.Minutes} m";
     else
         formattedTime = $"{(int)timeSpan.TotalHours} h : {(int)timeSpan.Minutes} m";
+
 }
 <div class="flight-box-content rounded-4">
     <div class="py-10 px-30">
@@ -185,6 +186,11 @@
         {
             for (int i = 0; i < item.segments.Count; i++)
             {
+                //AirLine
+                string seatMapName = @Model.Seatmaplist.datalist[i].seatMap.name;
+                int hyphenIndex = @Model.Seatmaplist.datalist[i].seatMap.name.IndexOf('-');
+                // Extract the substring before the hyphen
+                string aircraftModel = hyphenIndex == -1 ? seatMapName : seatMapName.Substring(0, hyphenIndex);
 
                 if (i == 1)
                 {
@@ -241,7 +247,7 @@
                                         <img class="size-30" src="~/img/flight-logo-icon/6E.png" alt="image">
                                     </div>
 
-                                    <div class="text-14 text-light-1"> Indigo @item.segments[i].identifier.carrierCode @item.segments[i].identifier.identifier <span class="airliname">@Model.Seatmaplist.datalist[i].seatMap.name</span></div>
+                                    <div class="text-14 text-light-1"> Indigo @item.segments[i].identifier.carrierCode @item.segments[i].identifier.identifier <span class="airliname">@aircraftModel</span></div>
                                 </div>
 
                                 <div class="relative z-0">

@@ -1089,7 +1089,11 @@
 
                                                     <select id="ddlbagOptions" class="servc-bordr servc-bordrbaggage">
                                                         <option selected="selected" value="">Please select baggage</option>
-                                                        @foreach (var option in BaggageOptions.OrderBy(o => o.Value))
+                                                        @{
+                                                            var sortedBaggageOptions = BaggageOptions.OrderBy(o => int.Parse(new string(o.Text.Where(char.IsDigit).ToArray())))
+                                                            .ToList();
+                                                        }
+                                                        @foreach (var option in sortedBaggageOptions)
                                                         {
                                                             <option value="@option.Value" data-bagkey=@bagkey>
                                                                 @option.Text
@@ -1772,8 +1776,19 @@
                                                     <div class="d-flex">
 
                                                         <select id="ddlbagOptions" class="servc-bordr servc-bordrbaggagem2">
+
+                                                            
+
+
+
+
+
                                                             <option selected="selected" value="">Please select baggage</option>
-                                                            @foreach (var option in BaggageOptions.OrderBy(o => o.Value))
+                                                            @{
+                                                                var sortedBaggageOptions = BaggageOptions.OrderBy(o => int.Parse(new string(o.Text.Where(char.IsDigit).ToArray())))
+                                                                .ToList();
+                                                            }
+                                                            @foreach (var option in sortedBaggageOptions)
                                                             {
                                                                 <option value="@option.Value" data-bagkey=@bagkeyAA>
                                                                     @option.Text

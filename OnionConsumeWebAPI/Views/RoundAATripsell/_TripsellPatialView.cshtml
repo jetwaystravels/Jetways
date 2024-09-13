@@ -235,7 +235,7 @@
             string AirCraftname = string.Empty;
             var AirLinename = Model.passeengerlistRT[k].journeys[0].Airlinename;
 
-
+            string aircraftModel = string.Empty;
             string formattedTime = string.Empty;
             var arrivalDate = Model.passeengerlistRT[k].journeys[0].designator.arrival;
             var departureDate = Model.passeengerlistRT[k].journeys[0].designator.departure;
@@ -292,6 +292,10 @@
                     {
                         if (@Model.SeatmaplistRT != null && @Model.SeatmaplistRT.Count > 0 && Model.SeatmaplistRT[k]!=null)
                             AirCraftname = @Model.SeatmaplistRT[k].datalist[i].seatMap.name;
+                        //AirLine
+                        int hyphenIndex = AirCraftname.IndexOf('-');
+                        // Extract the substring before the hyphen
+                        aircraftModel = hyphenIndex == -1 ? AirCraftname : AirCraftname.Substring(0, hyphenIndex);
                     }
                     if (i >= 1)
                     {
@@ -374,7 +378,7 @@
                                             }
                                             @* <img class="size-30" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">*@
                                         </div>
-                                        <div class="text-14 text-light-1">@AirLinename @item.segments[i].identifier.carrierCode @item.segments[i].identifier.identifier <span class="airliname">@AirCraftname</span></div>
+                                        <div class="text-14 text-light-1">@AirLinename @item.segments[i].identifier.carrierCode @item.segments[i].identifier.identifier <span class="airliname">@aircraftModel</span></div>
                                     </div>
 
                                     <div class="relative z-0">
