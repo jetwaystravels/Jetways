@@ -293,7 +293,18 @@
                                                             <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
                                                         }
                                                         <div class="name">
-                                                            <span class="lh-15">@Model.SimpleAvailibilityaAddResponcelist[j].Airline </span>
+                                                            @{
+                                                                string _airlinename = string.Empty;
+                                                                if (Model.SimpleAvailibilityaAddResponcelist[j].Airline.ToString().ToLower().Equals("airasia"))
+                                                                {
+                                                                    _airlinename = "Air India Exp...";
+                                                                }
+                                                                else
+                                                                {
+                                                                    _airlinename = Model.SimpleAvailibilityaAddResponcelist[j].Airline.ToString();
+                                                                }
+                                                            }
+                                                            <span class="lh-15">@_airlinename </span>
                                                             <span class="text-light-1">@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode|@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.identifier</span>
                                                         </div>
                                                     </div>
@@ -745,7 +756,18 @@
                                                         @* <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image"> *@
 
                                                         <div class="name">
-                                                            <span class="lh-15">@Model.SimpleAvailibilityaAddResponcelistR[j].Airline</span>
+                                                            @{
+                                                                string _airlinenameR = string.Empty;
+                                                                if (Model.SimpleAvailibilityaAddResponcelistR[j].Airline.ToString().ToLower().Equals("airasia"))
+                                                                {
+                                                                    _airlinenameR = "Air India Exp...";
+                                                                }
+                                                                else
+                                                                {
+                                                                    _airlinenameR = Model.SimpleAvailibilityaAddResponcelistR[j].Airline.ToString();
+                                                                }
+                                                            }
+                                                            <span class="lh-15">@_airlinenameR </span>
                                                             <span class="text-light-1">@Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.carrierCode|@Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.identifier</span>
                                                         </div>
                                                     </div>

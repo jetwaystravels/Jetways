@@ -233,7 +233,15 @@
         for (int k = 0; k < Model.passeengerlistRT.Count; k++)
         {
             string AirCraftname = string.Empty;
-            var AirLinename = Model.passeengerlistRT[k].journeys[0].Airlinename;
+            string AirLinename = string.Empty;
+            if (Model.passeengerlistRT[k].journeys[0].Airlinename.ToLower() == "airasia")
+            {
+                AirLinename = "Air India Expr..";
+            }
+            else
+            {
+                AirLinename = Model.passeengerlistRT[k].journeys[0].Airlinename;
+            }
 
             string aircraftModel = string.Empty;
             string formattedTime = string.Empty;
@@ -294,8 +302,9 @@
                             AirCraftname = @Model.SeatmaplistRT[k].datalist[i].seatMap.name;
                         //AirLine
                         int hyphenIndex = AirCraftname.LastIndexOf('-');
-                        string result = hyphenIndex == -1 ? AirCraftname : AirCraftname.Substring(0, hyphenIndex);
-                        aircraftModel = result.Replace("B", "Boeing ").Replace("A", "Airbus ");
+                        aircraftModel = hyphenIndex == -1 ? AirCraftname : AirCraftname.Substring(0, hyphenIndex);
+                        if (!aircraftModel.ToLower().Contains("boeing"))
+                            aircraftModel = aircraftModel.Replace("B", "Boeing ").Replace("A", "Airbus ");
                     }
                     if (i >= 1)
                     {
@@ -325,6 +334,7 @@
                                     if (item.segments[i].identifier.carrierCode.Equals("UK") || item.segments[i].identifier.carrierCode.Equals("AI"))
                                     {
                                         aircraftModel = @item.segments[i].legs[j].legInfo.equipmentType.ToString();
+                                        if (!aircraftModel.ToLower().Contains("boeing"))
                                         aircraftModel = aircraftModel.Replace("B", "Boeing ").Replace("A", "Airbus ");
                                     }
                                     if (j == 1)
@@ -553,7 +563,7 @@
                                             {
                                                 // <div class="text-13 mt-1">Economy: @Faretype<b>Xpress Value</b></div>
                                                 <span class="tooltipF">
-                                                    Economy:  @Faretype<b>Xpress Value</b>
+                                                    Fare Type:  @Faretype<b>Xpress Value</b>
                                                     <span class="tooltiptext">
                                                         <ul>
                                                             <li>1: Cabin Bag: 7 k.g</li>
@@ -571,7 +581,7 @@
                                             {
                                                 //<div class="text-13 mt-1">Economy: @Faretype<b>Vista Flex</b></div>
                                                 <span class="tooltipF">
-                                                    Economy:  @Faretype<b>Vista Flex</b>
+                                                    Fare Type:  @Faretype<b>Vista Flex</b>
                                                     <span class="tooltiptext">
                                                         <ul>
                                                             <li>1: Cabin Bag: 7 k.g</li>
@@ -590,7 +600,7 @@
                                             {
                                                 //<div class="text-13 mt-1">Economy: @Faretype<b>Xpress lite</b></div>
                                                 <span class="tooltipF">
-                                                    Economy:  @Faretype<b>Xpress lite</b>
+                                                    Fare Type:  @Faretype<b>Xpress lite</b>
                                                     <span class="tooltiptext">
                                                         <ul>
                                                             <li>1: Cabin Bag: 0</li>
@@ -608,7 +618,7 @@
                                             {
                                                 //<div class="text-13 mt-1">Economy: @Faretype<b>Xpress Bizz</b></div>
                                                 <span class="tooltipF">
-                                                    Economy:  @Faretype<b>Xpress Bizz</b>
+                                                    Fare Type:  @Faretype<b>Xpress Bizz</b>
                                                     <span class="tooltiptext">
                                                         <ul>
                                                             <li>1: Cabin Bag: 7 k.g</li>
@@ -630,7 +640,7 @@
                                             {
                                                 //<div class="text-13 mt-1">Economy: @Faretype<b>Xpress Bizz</b></div>
                                                 <span class="tooltipF">
-                                                    Economy:  @Faretype<b>Super 6E</b>
+                                                    Fare Type:  @Faretype<b>Super 6E</b>
                                                     <span class="tooltiptext">
                                                         <ul>
                                                             <li>1: CABIN BAG: 7 k.g</li>
@@ -649,7 +659,7 @@
                                             {
                                                 //<div class="text-13 mt-1">Economy: @Faretype<b>Xpress Bizz</b></div>
                                                 <span class="tooltipF">
-                                                    Economy:  @Faretype<b>Flexi plus</b>
+                                                    Fare Type:  @Faretype<b>Flexi plus</b>
                                                     <span class="tooltiptext">
                                                         <ul>
                                                             <li>1: CABIN BAG: 7 k.g</li>
@@ -668,7 +678,7 @@
                                             {
                                                 //<div class="text-13 mt-1">Economy: @Faretype<b>Xpress Bizz</b></div>
                                                 <span class="tooltipF">
-                                                    Economy:  @Faretype<b>Retail Fare</b>
+                                                    Fare Type:  @Faretype<b>Retail Fare</b>
                                                     <span class="tooltiptext">
                                                         <ul>
                                                             <li>1: CABIN BAG: 7 k.g</li>
@@ -687,7 +697,7 @@
                                             {
                                                 //<div class="text-13 mt-1">Economy: @Faretype<b>Xpress Bizz</b></div>
                                                 <span class="tooltipF">
-                                                    Economy:  @Faretype<b>Family Fare</b>
+                                                    Fare Type:  @Faretype<b>Family Fare</b>
                                                     <span class="tooltiptext">
                                                         <ul>
                                                             <li>1: CABIN BAG: 7 k.g</li>
@@ -708,7 +718,7 @@
                                             {
                                                 //<div class="text-13 mt-1">Economy: @Faretype<b>Xpress Bizz</b></div>
                                                 <span class="tooltipF">
-                                                    Economy:  @Faretype<b>Spice Plus</b>
+                                                    Fare Type:  @Faretype<b>Spice Plus</b>
                                                     <span class="tooltiptext">
                                                         <ul>
                                                             <li>1: Cabin Bag: 7 k.g</li>
@@ -727,7 +737,7 @@
                                             {
                                                 //<div class="text-13 mt-1">Economy: @Faretype<b>Xpress Bizz</b></div>
                                                 <span class="tooltipF">
-                                                    Economy:  @Faretype<b>Spice Flex</b>
+                                                    Fare Type:  @Faretype<b>Spice Flex</b>
                                                     <span class="tooltiptext">
                                                         <ul>
                                                             <li>1: Cabin Bag: 7 k.g</li>
@@ -746,7 +756,7 @@
                                             {
                                                 //<div class="text-13 mt-1">Economy: @Faretype<b>Xpress Bizz</b></div>
                                                 <span class="tooltipF">
-                                                    Economy:  @Faretype<b>Spice Max</b>
+                                                    Fare Type:  @Faretype<b>Spice Max</b>
                                                     <span class="tooltiptext">
                                                         <ul>
                                                             <li>1: Cabin Bag: 7 k.g</li>
@@ -765,7 +775,7 @@
                                             {
                                                 //<div class="text-13 mt-1">Economy: @Faretype<b>Xpress Bizz</b></div>
                                                 <span class="tooltipF">
-                                                    Economy:  @Faretype<b>Saver Fare</b>
+                                                    Fare Type:  @Faretype<b>Saver Fare</b>
                                                     <span class="tooltiptext">
                                                         <ul>
                                                             <li>1: Cabin Bag: 7 k.g</li>
@@ -787,7 +797,7 @@
                                             {
 
                                                 <span class="tooltipF">
-                                                    Economy:  @Faretype<b>Saver</b>
+                                                    Fare Type:  @Faretype<b>Saver</b>
                                                     <span class="tooltiptext">
                                                         <ul>
                                                             <li>1: Cabin Bag: 7 k.g</li>
@@ -806,7 +816,7 @@
                                             {
 
                                                 <span class="tooltipF">
-                                                    Economy:  @Faretype<b>Flexi</b>
+                                                    Fare Type:  @Faretype<b>Flexi</b>
                                                     <span class="tooltiptext">
                                                         <ul>
                                                             <li>1: Cabin Bag: 7 k.g</li>
@@ -824,7 +834,7 @@
                                             {
 
                                                 <span class="tooltipF">
-                                                    Economy:  @Faretype<b>Saver Fare</b>
+                                                    Fare Type:  @Faretype<b>Saver Fare</b>
                                                     <span class="tooltiptext">
                                                         <ul>
                                                             <li>1: Cabin Bag: -</li>
@@ -845,7 +855,7 @@
                                             {
                                                 //<div class="text-13 mt-1">Economy: @Faretype<b>Saver Fare</b></div>
                                                 <span class="tooltipF">
-                                                    Economy:  @Faretype<b>Saver Fare</b>
+                                                    Fare Type:  @Faretype<b>Saver Fare</b>
                                                     <span class="tooltiptext">
                                                         <ul>
                                                             <li>1: CABIN BAG: </li>
