@@ -117,26 +117,18 @@
                         <div class="col-12 col-md-7 col-lg-12">
                             <div class="row justify-content-center">
                                 <div class="search-box">
-                                   <div class="S-option">
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-radio-input" type="radio" name="Radio" value="option1" checked>
-                                            <label class="form-check-label">One way</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-radio-input" type="radio" name="Radio" value="option2">
-                                            <label class="form-check-label">Round Trip</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-radio-input" type="radio" name="Radio" value="option2">
-                                            <label class="form-check-label">Multi City</label>
-                                        </div>
-                                    </div> 
-
-                                    <form asp-action="SearchResultFlight" asp-controller="FlightSearchIndex" method="post" id="multipleValuesForm">
+                                    <form asp-action="SearchResultFlight" asp-controller="FlightSearchIndex" method="post" id="multipleValuesForm" onsubmit="return validateInputs()">
                                         <div class="col-lg-12">
-                                            <div class="row">
+                                            <div class="row S-optionlist">
                                                 <div class="col-12 col-md-10 col-lg-2 space autocomplete">
-                                                    <label class=""></label>
+                                                    <div class="d-flex radioW-400">
+                                                        <input type="radio" name="Radio" value="option1" onclick="checkRadio(this)" checked>
+                                                        <label class="form-check-label">One Way</label>
+                                                        <input type="radio" name="Radio" value="option2" onclick="checkRadio(this)">
+                                                        <label class="form-check-label">Round Trip</label>
+                                                        <input type="radio" name="Radio" value="option3" onclick="checkRadio(this)">
+                                                        <label class="form-check-label">Multi City</label>
+                                                    </div>
                                                     <span class="input-group-text">
                                                         <input id="myInput" name="origin" type="text" value="@Model.simpleAvailabilityRequestModelEdit.origin" class="form-control" onclick="onewayDropdown()">
                                                         @* <span id="airportName"></span> *@
@@ -149,16 +141,12 @@
                                                                 <option value="@item.citycode">@item.cityname - @item.citycode -<br>@item.airportname </option>
 
                                                             }
-
                                                         </select>
                                                     </span>
-
                                                 </div>
-
                                                 <div class="rplc-btn">
                                                     <img src="~/img/direction-arrows.png" />
                                                 </div>
-
                                                 <div class="col-12 col-md-10 col-lg-2 space autocomplete">
                                                     <label class=""></label>
                                                     <span class="input-group-text" id="basic-addon1">
@@ -280,13 +268,11 @@
                                                                 <div class="d-flex y-gap-10 justify-between items-center">
                                                                     <div class="btn-incr-adult">
                                                                         <div class="text-15 fw-500">Adults</div>
-
                                                                         <input type="hidden" name="adulttype" value="ADT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.adulttype" />
                                                                         <div class="text-15 fw-500">Aged 12+ yrs</div>
                                                                     </div>
                                                                     <div class="btn-increase">
                                                                         <div class="decrement sub btn_sub">-</div>
-
                                                                         <input type="number" id="field_adult" class="input-field" name="adultcount" value="@Model.simpleAvailabilityRequestModelEdit.passengers.types[0].count" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.adultcount" min="1" max="9">
                                                                         <div class="increment add btn_sub">+</div>
                                                                     </div>
@@ -313,7 +299,6 @@
                                                                                 <div class="decrement1 sub btn_sub">-</div>
                                                                                 <input type="number" id="field_child" class="input-field" value="@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count" name="childcount" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childcount" min="0" max="6">
                                                                                 <div class="increment1 add btn_sub">+</div>
-
                                                                             </div>
                                                                         </div>
                                                                     }
@@ -333,7 +318,6 @@
                                                                                 <div class="decrement1 sub btn_sub">-</div>
                                                                                 <input type="number" id="field_child" class="input-field" value="0" name="childcount" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childcount" min="0" max="6">
                                                                                 <div class="increment1 add btn_sub">+</div>
-
                                                                             </div>
                                                                         </div>
 
@@ -353,10 +337,8 @@
                                                                             </div>
                                                                             <div class="btn-increase">
                                                                                 <div class="decrement2 sub btn_sub">-</div>
-
                                                                                 <input type="number" id="field_infant" class="input-field" name="infantcount" value="@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infantcount" min="0" max="6">
                                                                                 <div class="increment2 add btn_sub">+</div>
-
                                                                             </div>
                                                                         }
                                                                         else
@@ -473,7 +455,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-md-10 col-lg-2"><button style="margin-top:0px;" type="submit" class="btn btn-lg btn-block"><i class="fa fa-search mr-10" aria-hidden="true"></i>Modify Search</button></div>
+                                                <div class="col-12 col-md-10 col-lg-2"><button style="margin-top:0px;" type="submit" class="btn btn-lg btn-block" onclick="validateInputs()"><i class="fa fa-search mr-10" aria-hidden="true"></i>Modify Search</button></div>
 
                                                 <div class="col-12 col-md-12 col-lg-12 search-bottom"></div>
                                                 <div class="col-12 col-md-10 col-lg-9 pl-0">
@@ -2124,11 +2106,11 @@
     <script src="~/lib/jquery/chosen.jquery.js"></script>
     <script src="~/lib/jquery/chosen.jquery.min.js"></script>
     <style type="text/css">
-        #ui-datepicker-div{
+        #ui-datepicker-div {
             position: fixed;
             left: 536.156px;
             z-index: 100;
-            top: 137px!important;
+            top: 137px !important;
             width: 34em;
         }
 
@@ -2154,6 +2136,13 @@
             .rplc-btn img {
                 transform: rotate(90deg);
             }
+
+        .S-optionlist {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+            margin-top: 60px;
+        }
 
         .service-section .swiper-slide.active {
             border: none !important;
@@ -2293,19 +2282,103 @@
                 padding-left: 40px;
             }
 
+        .radioW-400 {
+            width: 400px;
+        }
+
+        #Oneway-endDate {
+            background: #919497;
+        }
     </style>
     <script>
 
         //***********Strip Validation*/
-        function toggleRadio(event, radioId) {
-            event.preventDefault(); // Prevent the default anchor behavior
 
-            // Uncheck all radio buttons
+
+        // TextBox Validation
+        function validateInputs() {
+            const origin = document.getElementById('myInput').value;
+            const destination = document.getElementById('myInput1').value;
+            const beginDate = document.getElementById('Oneway-date').value;
+            const endDateInput = document.getElementById('Oneway-endDate');
+            const endDate = endDateInput.value;
+
+            if (!origin) {
+                alert('Please enter the origin.');
+                return false;
+            }
+            if (!destination) {
+                alert('Please enter the destination.');
+                return false;
+            }
+            if (!beginDate) {
+                alert('Please select a start date.');
+                return false;
+            }
+            if (!endDateInput.disabled && !endDate) {
+                alert('Please select an end date.');
+                return false;
+            }
+            
+            return true;
+        }
+
+
+
+        // Validation Oneway , Roundtrip, multicity
+        function checkRadio(radio) {
+            const endDateInput = document.getElementById('Oneway-endDate');
+            const beginDateInput = document.getElementById('Oneway-date');
+            if (radio.value === 'option1') {
+                endDateInput.disabled = true;
+                endDateInput.value = '';
+                endDateInput.style.backgroundColor = '#919497';
+            }
+            else if (radio.value === 'option2') {
+                endDateInput.disabled = false;
+                endDateInput.value = beginDateInput.value;
+                endDateInput.style.backgroundColor = '';
+                endDateInput.style.backgroundColor = '#0E4D74';
+            }
+            else if (radio.value === 'option3') {
+                endDateInput.disabled = true;
+                endDateInput.value = '';
+                endDateInput.style.backgroundColor = '#919497';
+            }
+        }
+
+        //Date Picker Validation
+        $(function () {
+            $("#Oneway-date").datepicker({
+                dateFormat: 'yy-mm-dd',
+                numberOfMonths: 2,
+                maxDate: '+2m',
+                minDate: '0',
+                onSelect: function (selectedDate) {
+                    var startDate = $(this).datepicker('getDate');
+                    $("#Oneway-endDate").datepicker("option", "minDate", startDate);
+                }
+            });
+
+            $("#Oneway-endDate").datepicker({
+                dateFormat: 'yy-mm-dd',
+                numberOfMonths: 2,
+                maxDate: '+3m',
+                minDate: '0',
+                onSelect: function (selectedDate) {
+                    var endDate = $(this).datepicker('getDate');
+                    $("#Oneway-date").datepicker("option", "maxDate", endDate);
+                }
+            });
+        });
+
+
+        // Bussines Class Validation radio button
+        function toggleRadio(event, radioId) {
+            event.preventDefault();
             document.querySelectorAll('.form-radio-input').forEach(radio => {
                 radio.checked = false;
             });
-
-            // Check the selected radio button
             var radioButton = document.getElementById(radioId);
             radioButton.checked = true;
         }
@@ -2514,23 +2587,23 @@
 
 
 
-        $(function () {
-            $("#Oneway-date").datepicker({
-                dateFormat: 'yy-mm-dd',
-                numberOfMonths: 2,
-                maxDate: '+2m',
-                minDate: '0'
-            });
-        });
+        // $(function () {
+        //     $("#Oneway-date").datepicker({
+        //         dateFormat: 'yy-mm-dd',
+        //         numberOfMonths: 2,
+        //         maxDate: '+2m',
+        //         minDate: '0'
+        //     });
+        // });
 
-        $(function () {
-            $("#Oneway-endDate").datepicker({
-                dateFormat: 'yy-mm-dd',
-                numberOfMonths: 2,
-                maxDate: '+3m',
-                minDate: '0'
-            });
-        });
+        // $(function () {
+        //     $("#Oneway-endDate").datepicker({
+        //         dateFormat: 'yy-mm-dd',
+        //         numberOfMonths: 2,
+        //         maxDate: '+3m',
+        //         minDate: '0'
+        //     });
+        // });
 
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -2721,7 +2794,7 @@
         window.onupload = function () { null };
 
 
-     
+
     </script>
 
 </body>
