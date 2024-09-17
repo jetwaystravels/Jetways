@@ -19,8 +19,8 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3/dist/JsBarcode.all.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
 
         #scissors {
@@ -108,6 +108,53 @@
         }
 
     </style>
+
+    <script type="text/javascript">
+        window.jsPDF = window.jspdf.jsPDF;
+        var docPDF = new jsPDF();
+
+        function downloadPDF() {
+
+
+            var element = document.querySelector("#pdfdwonloadAkasa");
+            var imageToHide = document.querySelector("#downicnIdAkasa");
+            if (imageToHide) {
+                imageToHide.style.visibility = 'hidden';
+            }
+            html2canvas(element).then((canvas) => {
+                var imgData = canvas.toDataURL('image/png');
+                var pdf = new jsPDF('p', 'mm', 'a4');
+                var imgWidth = 210;
+                var pageHeight = 295;
+                var imgHeight = canvas.height * imgWidth / canvas.width;
+                var heightLeft = imgHeight;
+                var position = 0;
+
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+                var yyyy = today.getFullYear();
+                var filename = `ticket_${yyyy}-${mm}-${dd}.pdf`;
+                // var filename = `ticket_${dynamicValue}_${yyyy}-${mm}-${dd}.pdf`;
+                pdf.save(filename); // Save the PDF with the generated filename
+                if (imageToHide) {
+                    imageToHide.style.visibility = '';
+                }
+            });
+
+        }
+
+
+    </script>
 </head>
 <body>
     <form asp-action="PostTicketBooking" asp-controller="AirLinesTicket" method="post">
@@ -120,10 +167,17 @@
                     Hashtable htseat = Model.AirlinePNR[a].Seatdata;
                     Hashtable htmeal = Model.AirlinePNR[a].Mealdata;
                     Hashtable htbag = Model.AirlinePNR[a].Bagdata;
-                    <div class="container">
+                    <div class="container" id="pdfdwonloadAkasa">
                         <div class="flight-tckt-main">
+                            <div class="d-flex justify-content-end ticketdwn" type="button" onclick="downloadPDF()">
+                                <img src="~/img/dwicon.png" style="width:40px;" id="downicnIdAkasa">
+                            </div>
                             <div class="top">
-                                <label><img src="~/img/logo/logo.png" alt="brand-logo"></label>
+                                <label>
+                                    <a asp-controller="FlightSearchIndex" asp-action="Index">
+                                        <img src="~/img/logo/logo.png" alt="brand-logo">
+                                    </a>
+                                </label>
                                 <label class="fr">
                                     <h4>E-Ticket </h4>
                                     Jetways Travel Booking <strong>@Model.AirlinePNR[a].bookingKey</strong> <br> PNR. <span style="color: #EF0000;font-size: 16px;font-weight: 600;">@Model.AirlinePNR[a].recordLocator</span>
@@ -331,57 +385,57 @@
                                                     <td>AD1WSM/1/1</td>
                                                     <td>Confirm</td>
                                                     @* @if (i3 == 1)
-                                                    // {
-                                                    //     if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "INFT")
-                                                    //     {
-                                                    //         <td></td>
-                                                    //     }
-                                                    //     else
-                                                    //     {
-                                                    //         if (barcodeimageUrl != "")
-                                                    //         {
-                                                    //             int segmentscount = @Model.AirlinePNR[a].journeys[0].segments.Count;
-                                                    //             if (segmentscount == 1)
-                                                    //             {
-                                                    //                 <td rowspan="1" style="vertical-align:middle;"><img src="@barcodeimageUrl" alt="barcode"></td>
-                                                    //             }
-                                                    //             if (segmentscount == 2)
-                                                    //             {
-                                                    //                 <td rowspan="2" style="vertical-align:middle;"><img src="@barcodeimageUrl" alt="barcode"></td>
-                                                    //             }
-                                                    //         }
-                                                    //         // else
-                                                    //         // {
-                                                    //         //     <td></td>
-                                                    //         // }
-                                                    //     }
-                                                    // }
-                                                    // else
-                                                    // {
-                                                    //     if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "INFT")
-                                                    //     {
-                                                    //         <td></td>
-                                                    //     }
-                                                    //     else
-                                                    //     {
-                                                    //         if (barcodeimageUrl != "")
-                                                    //         {
-                                                    //             int segmentscount = @Model.AirlinePNR[a].journeys[0].segments.Count;
-                                                    //             if (segmentscount == 1)
-                                                    //             {
-                                                    //                 <td rowspan="1" style="vertical-align:middle;width:110px;"><img src="@barcodeimageUrl" alt="barcode"></td>
-                                                    //             }
-                                                    //             if (segmentscount == 2)
-                                                    //             {
-                                                    //                 <td rowspan="2" style="vertical-align:middle;width:110px;"><img src="@barcodeimageUrl" alt="barcode"></td>
-                                                    //             }
-                                                    //         }
-                                                    //         // else
-                                                    //         // {
-                                                    //         //     <td></td>
-                                                    //         // }
-                                                    //     }
-                                                    // }*@
+                                // {
+                                //     if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "INFT")
+                                //     {
+                                //         <td></td>
+                                //     }
+                                //     else
+                                //     {
+                                //         if (barcodeimageUrl != "")
+                                //         {
+                                //             int segmentscount = @Model.AirlinePNR[a].journeys[0].segments.Count;
+                                //             if (segmentscount == 1)
+                                //             {
+                                //                 <td rowspan="1" style="vertical-align:middle;"><img src="@barcodeimageUrl" alt="barcode"></td>
+                                //             }
+                                //             if (segmentscount == 2)
+                                //             {
+                                //                 <td rowspan="2" style="vertical-align:middle;"><img src="@barcodeimageUrl" alt="barcode"></td>
+                                //             }
+                                //         }
+                                //         // else
+                                //         // {
+                                //         //     <td></td>
+                                //         // }
+                                //     }
+                                // }
+                                // else
+                                // {
+                                //     if (Model.AirlinePNR[a].passengers[i2].passengerTypeCode == "INFT")
+                                //     {
+                                //         <td></td>
+                                //     }
+                                //     else
+                                //     {
+                                //         if (barcodeimageUrl != "")
+                                //         {
+                                //             int segmentscount = @Model.AirlinePNR[a].journeys[0].segments.Count;
+                                //             if (segmentscount == 1)
+                                //             {
+                                //                 <td rowspan="1" style="vertical-align:middle;width:110px;"><img src="@barcodeimageUrl" alt="barcode"></td>
+                                //             }
+                                //             if (segmentscount == 2)
+                                //             {
+                                //                 <td rowspan="2" style="vertical-align:middle;width:110px;"><img src="@barcodeimageUrl" alt="barcode"></td>
+                                //             }
+                                //         }
+                                //         // else
+                                //         // {
+                                //         //     <td></td>
+                                //         // }
+                                //     }
+                                // }*@
                                                 </tr>
                                             }
                                         }
@@ -466,34 +520,34 @@
 
                                 </table>
                                 @*<div class="Flight-Inclusion mt-15">
-                                    <h3>GST Details</h3>
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" class="col-one">Company Number </th>
-                                                <th scope="col" class="col-one">GST NUmber</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
+                    <h3>GST Details</h3>
+                    <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                    <th scope="col" class="col-one">Company Number </th>
+                    <th scope="col" class="col-one">GST NUmber</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
 
-                                                @{
-                                                    if (@Model.AirlinePNR[0].customerNumber != null)
-                                                    {
+                    @{
+                    if (@Model.AirlinePNR[0].customerNumber != null)
+                    {
 
-                                                        <td>@Model.AirlinePNR[0].companyName</td>
-
-
-                                                        <td>@Model.AirlinePNR[0].customerNumber</td>
+                    <td>@Model.AirlinePNR[0].companyName</td>
 
 
-                                                    }
-                                                }
+                    <td>@Model.AirlinePNR[0].customerNumber</td>
 
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>*@
+
+                    }
+                    }
+
+                    </tr>
+                    </tbody>
+                    </table>
+                    </div>*@
                                 <div class="Flight-Inclusion mt-15">
                                     <h3>Fare Details</h3>
                                     <table class="table table-bordered">
@@ -642,41 +696,6 @@
 
 
 <script type="text/javascript">
-
-    //JsBarcode("#barcode", "1234", {
-    //format: "pharmacode",
-    //lineColor: "#0aa",
-    //width: 4,
-    //height: 40,
-    //displayValue: false
-    //});
-
-    JsBarcode("#barcode", "Vinay", {
-        width: 1,
-        height: 30,
-        displayValue: false
-
-    });
-
-    //-----PDF-Filegenrate-Code-----------
-    //var testDivElement = document.getElementById('someHtml');
-
-    //function savePDF() {
-    // var imgData;
-    //html2canvas($("#someHtml"), {
-    //useCORS: true,
-    //onrendered: function (canvas) {
-    // imgData = canvas.toDataURL('image/png');
-    // var doc = new jsPDF('p', 'pt', 'a4');
-    // doc.addImage(imgData, 'PNG', 10, 10);
-    //doc.save('sample-file.pdf');
-    //window.open(imgData);
-    //}
-
-    //});
-    //};
-
-
 
     function printDiv(divName) {
 
