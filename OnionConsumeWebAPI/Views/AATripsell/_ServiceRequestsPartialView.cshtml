@@ -846,7 +846,8 @@
                                             <div class="servc-content select-option2">
 
                                                 @{
-                                                    if (Model.Meals.legSsrs.Count == 2)
+                                                    //if (Model.Meals.legSsrs.Count == 2) change meal not show
+                                                    if (Model.Meals.legSsrs.Count >= 2)
                                                     {
                                                         List<SelectListItem> mealOptions = new List<SelectListItem>();
                                                         for (int s = 0; s < Model.Meals.legSsrs[1].legssrs.Count; s++)

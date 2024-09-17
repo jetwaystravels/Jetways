@@ -1556,7 +1556,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     httpContextAccessorInstance = new HttpContextAccessor();
                     TravelPort _objAvail = null;
                     _objAvail = new TravelPort(httpContextAccessorInstance);
-                    res = _objAvail.GetAvailabilty(_testURL, sbReq, _objAvail, _GetfligthModel, newGuid.ToString(), _CredentialsGDS.domain, _CredentialsGDS.username, _CredentialsGDS.password, "GDSOneWay");
+                    res = _objAvail.GetAvailabilty(_testURL, sbReq, _objAvail, _GetfligthModel, newGuid.ToString(), _CredentialsGDS.domain, _CredentialsGDS.username, _CredentialsGDS.password, flightclass, "GDSOneWay");
                     TempData["origin"] = _GetfligthModel.origin;
                     TempData["destination"] = _GetfligthModel.destination;
                     TravelPortParsing _objP = new TravelPortParsing();
@@ -3216,7 +3216,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         httpContextAccessorInstance = new HttpContextAccessor();
                         _objAvail = null;
                         _objAvail = new TravelPort(httpContextAccessorInstance);
-                        res = _objAvail.GetAvailabilty(_testURL, sbReq, _objAvail, _GetfligthModel, newGuidR.ToString(), _CredentialsGDS.domain, _CredentialsGDS.username, _CredentialsGDS.password, "");
+                        res = _objAvail.GetAvailabilty(_testURL, sbReq, _objAvail, _GetfligthModel, newGuidR.ToString(), _CredentialsGDS.domain, _CredentialsGDS.username, _CredentialsGDS.password, flightclass, "");
                         TempData["originR"] = _GetfligthModel.origin;
                         TempData["destinationR"] = _GetfligthModel.destination;
                         _objP = new TravelPortParsing();

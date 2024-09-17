@@ -16,11 +16,14 @@ namespace Utility
 
             WebRequest mywebrequest = WebRequest.Create(uri);
             mywebrequest.Method = "POST";
+            mywebrequest.ContentType = "text/xml;charset=UTF-8";
             // Credentials
             //byte[] authBytes = Encoding.UTF8.GetBytes(("Universal API/uAPI5098257106-beb65aec" + ":" + "Q!f5-d7A3D").ToCharArray());
             byte[] authBytes = Encoding.UTF8.GetBytes((_userName + ":" + _password).ToCharArray());
             mywebrequest.Headers["Authorization"] = "Basic " + Convert.ToBase64String(authBytes);
             mywebrequest.Headers["Accept-Encoding"] = "gzip";
+            mywebrequest.Headers["Connection"] = "keep-alive";
+            
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             byte[] mybytes = Encoding.ASCII.GetBytes(parameters);
             Stream os = null;
