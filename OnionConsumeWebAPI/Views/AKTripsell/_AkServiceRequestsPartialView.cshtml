@@ -533,6 +533,7 @@
                                 {
 
                                     string ssrkey = string.Empty;
+                                    int ssrType = 0;
                                     string bagkey = string.Empty;
                                     string otherbagkey = string.Empty;
                                     string ssrAvailable = string.Empty;
@@ -563,7 +564,7 @@
                                                             string passengerKey = Model.AkMealslist.legSsrs[0].legssrs[s].legpassengers[pa].passengerKey;
 
                                                             ssrAvailable = Model.AkMealslist.legSsrs[0].legssrs[s].available.ToString();
-
+                                                            ssrType = Model.AkMealslist.legSsrs[0].legssrs[s].ssrType;
                                                             if (ssrkey != null)
                                                             {
                                                                 mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
@@ -572,7 +573,7 @@
                                                         }
                                                         <div class="d-flex">
 
-                                                            @if (ssrAvailable == "")
+                                                            @if (string.IsNullOrEmpty(ssrAvailable))
 
                                                             {
 
@@ -717,6 +718,7 @@
                                     {
 
                                         string ssrkey = string.Empty;
+                                        int ssrType = 0;
                                         string bagkey = string.Empty;
                                         string otherbagkey = string.Empty;
                                         string ssrAvailable = string.Empty;
@@ -743,7 +745,7 @@
                                                                     ssrkey = Model.AkMealslist.legSsrs[1].legssrs[s].legpassengers[pas].ssrKey + "_" + @Model.AkMealslist.legSsrs[1].legssrs[s].legpassengers[0].price;
                                                                     string passengerKey = Model.AkMealslist.legSsrs[1].legssrs[s].legpassengers[pas].passengerKey;
                                                                     ssrAvailable = Model.AkMealslist.legSsrs[1].legssrs[s].available.ToString();
-
+                                                                    ssrType = Model.AkMealslist.legSsrs[1].legssrs[s].ssrType;
                                                                     if (ssrkey != null)
                                                                     {
                                                                         mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
@@ -757,7 +759,7 @@
 
                                                                             }
                                                             <div class="d-flex">
-                                                                @if (ssrAvailable == "")
+                                                                @if (string.IsNullOrEmpty(ssrAvailable))
                                                                 {
                                                                     <select style="background:#f0f0f0" id="ddlMealOptions" class="servc-bordr servc-bordrm1" disabled>
                                                                         <option selected="selected" value="">Meal Unavailable</option>

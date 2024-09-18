@@ -301,10 +301,10 @@
                         if (@Model.SeatmaplistRT != null && @Model.SeatmaplistRT.Count > 0 && Model.SeatmaplistRT[k]!=null)
                             AirCraftname = @Model.SeatmaplistRT[k].datalist[i].seatMap.name;
                         //AirLine
-                        int hyphenIndex = AirCraftname.LastIndexOf('-');
+                        int hyphenIndex = AirCraftname.LastIndexOf('_');
                         aircraftModel = hyphenIndex == -1 ? AirCraftname : AirCraftname.Substring(0, hyphenIndex);
                         if (!aircraftModel.ToLower().Contains("boeing"))
-                            aircraftModel = aircraftModel.Replace("B", "Boeing ").Replace("A", "Airbus ");
+                            aircraftModel = aircraftModel.Replace("B", "Boeing ");
                     }
                     if (i >= 1)
                     {

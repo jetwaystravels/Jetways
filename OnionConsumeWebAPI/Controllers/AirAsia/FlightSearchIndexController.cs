@@ -293,7 +293,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     _SimpleAvailabilityobj.codes = _codes;
                     _SimpleAvailabilityobj.sourceOrganization = "";
                     _SimpleAvailabilityobj.currentSourceOrganization = "";
-                    _SimpleAvailabilityobj.promotionCode = "";
+                    _SimpleAvailabilityobj.promotionCode = "OTAPROMO";
                     string[] sortOptions = new string[1];
                     sortOptions[0] = "ServiceType";
                     Filters Filters = new Filters();
