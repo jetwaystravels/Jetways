@@ -242,7 +242,14 @@ namespace OnionConsumeWebAPI.Controllers.TravelClick
 
                             AAIdentifierobj.identifier = getAirPriceRes[0].Bonds[0].Legs[j].FlightNumber;
                             AAIdentifierobj.carrierCode = getAirPriceRes[0].Bonds[0].Legs[j].CarrierCode;
-
+                            if (AAIdentifierobj.carrierCode == "AI")
+                            {
+                                AAJourneyobj.Airlinename = "AirIndia";
+                            }
+                            if (AAIdentifierobj.carrierCode == "UK")
+                            {
+                                AAJourneyobj.Airlinename = "Vistara";
+                            }
                             AASegmentobj.identifier = AAIdentifierobj;
 
                             var leg = getAirPriceRes[0].Bonds[0].Legs;

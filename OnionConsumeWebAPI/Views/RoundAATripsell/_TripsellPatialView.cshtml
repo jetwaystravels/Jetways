@@ -570,8 +570,8 @@
                                                             <li>2: Check-In: 15 k.g  (1 piece)</li>
                                                             <li>3: Cancellation: 3500 :-  (upto 2 hrs prior from departure)</li>
                                                             <li>4: Date Change: 3000 :-  (upto 2 hrs prior from departure)</li>
-                                                            <li>5: Seat: (Chargable)</li>
-                                                            <li>6: Meal: (Chargable)</li>
+                                                            <li>5: Seat: (Chargeable)</li>
+                                                            <li>6: Meal: (Chargeable)</li>
                                                             @* <li>7: Category Class : (Economy)</li>*@
                                                         </ul>
                                                     </span>
@@ -685,8 +685,8 @@
                                                             <li>2: CHECK-IN: 15 k.g  (1 piece)</li>
                                                             <li>3: CANCELLATION: 3500 :-  (3 days upto 2 hrs prior from departure)</li>
                                                             <li>4: DATE CHANGE: 3000:- Before 3days upto 2 hrs from departure</li>
-                                                            <li>5: SEAT : Chargable</li>
-                                                            <li>6: MEAL : Chargable</li>
+                                                            <li>5: SEAT : Chargeable</li>
+                                                            <li>6: MEAL : Chargeable</li>
                                                             @* <li>7: Category Class : (Business)</li>*@
                                                         </ul>
                                                     </span>
@@ -704,14 +704,58 @@
                                                             <li>2: CHECK-IN: 15 k.g  (1 piece)</li>
                                                             <li>3: CANCELLATION: 3500 (3 hrs before departure</li>
                                                             <li>4: DATE CHANGE: 3200 (3 hrs before departure</li>
-                                                            <li>5: SEAT : Chargable</li>
-                                                            <li>6: MEAL : Chargable</li>
+                                                            <li>5: SEAT : Chargeable</li>
+                                                            <li>6: MEAL : Chargeable</li>
                                                             @* <li>7: Category Class : (Business)</li>*@
                                                         </ul>
                                                     </span>
                                                 </span>
 
                                             }
+
+                                            else if (item.segments[i].fares[f].productClass.Equals("BR"))
+                                            {
+                                                
+                                                <span class="tooltipF">
+                                                    Fare Type:  @Faretype<b>Stretch</b>
+                                                    <span class="tooltiptext">
+                                                        <ul>
+                                                            <li>1: CABIN BAG: 7 k.g</li>
+                                                            <li>2: CHECK-IN: 30 k.g.</li>
+                                                            <li>3: CANCELLATION: Fee starts at (Rs. 3499) Onward.</li>
+                                                            <li>4: DATE CHANGE: Fee starts at (Rs. 2499) Onward.</li>
+                                                            <li>5: SEAT : Free seats</li>
+                                                            <li>6: MEAL : Complimentary meal</li>
+                                                            @* <li>7: Category Class : (Business)</li>*@
+                                                        </ul>
+                                                    </span>
+                                                </span>
+
+                                            }
+                                            
+                                            else if (item.segments[i].fares[f].productClass.Equals("BC"))
+                                            {
+                                                
+                                                <span class="tooltipF">
+                                                    Fare Type:  @Faretype<b>Stretch+</b>
+                                                    <span class="tooltiptext">
+                                                        <ul>
+                                                            <li>1: CABIN BAG: 7 k.g.</li>
+                                                            <li>2: CHECK-IN: 40 k.g.</li>
+                                                            <li>3: CANCELLATION: Fee starts at (Rs. 2499) Onward.</li>
+                                                            <li>4: DATE CHANGE: Fee starts at (Rs. 999) Onward.</li>
+                                                            <li>5: SEAT : Free seats</li>
+                                                            <li>6: MEAL : Complimentary meal</li>
+                                                            @* <li>7: Category Class : (Business)</li>*@
+                                                        </ul>
+                                                    </span>
+                                                </span>
+
+                                            }
+
+
+
+
 
                                             //Spice Jet
                                             else if (item.segments[i].fares[f].productClass.Equals("RS"))
@@ -804,8 +848,8 @@
                                                             <li>2: Check-In: 15 k.g  (1 piece)</li>
                                                             <li>3: Cancellation: 3100 Rs (4 days & above)</li>
                                                             <li>4: Date Change: 2850 RS (4 days & above)</li>
-                                                            <li>5: Seat : Chargable</li>
-                                                            <li>6: Meal : Chargable</li>
+                                                            <li>5: Seat : Chargeable</li>
+                                                            <li>6: Meal : Chargeable</li>
 
                                                         </ul>
                                                     </span>
@@ -849,6 +893,176 @@
                                                 </span>
 
                                             }
+                                            else if (item.segments[i].fares[f].productClass.Equals("Premium Comfort Plus"))
+                                            {
+
+                                                <span class="tooltipF">
+                                                    Fare Type:  @Faretype<b>Premium Comfort Plus</b>
+                                                    <span class="tooltiptext">
+                                                        <ul>
+                                                            <li>1: Cabin Bag: 7 k.g</li>
+                                                            <li>2: Check-In: 15 k.g</li>
+                                                            <li>3: Cancellation: Fee starts at (Rs. 3500) Onward.</li>
+                                                            <li>4: Date Change: Fee starts at (Rs. 3000) Onward.</li>
+                                                            <li>5: Seat : Free seats</li>
+                                                            <li>6: Meal : Complimentary meal</li>
+
+                                                        </ul>
+                                                    </span>
+                                                </span>
+
+                                            }
+                                            else if (item.segments[i].fares[f].productClass.Equals("Premium Flex"))
+                                            {
+
+                                                <span class="tooltipF">
+                                                    Fare Type:  @Faretype<b>Premium Flex</b>
+                                                    <span class="tooltiptext">
+                                                        <ul>
+                                                            <li>1: Cabin Bag: 7 k.g</li>
+                                                            <li>2: Check-In: 25 k.g</li>
+                                                            <li>3: Cancellation: Lower cancellation fee. 500</li>
+                                                            <li>4: Date Change: No Refund on  Date change</li>
+                                                            <li>5: Seat : Free seats</li>
+                                                            <li>6: Meal : Complimentary meal</li>
+
+                                                        </ul>
+                                                    </span>
+                                                </span>
+
+                                            }
+
+                                            else if (item.segments[i].fares[f].productClass.Equals("Eco Flex"))
+                                            {
+                                                <span class="tooltipF">
+                                                    Fare Type:  @Faretype<b>Eco Flex</b>
+                                                    <span class="tooltiptext">
+                                                        <ul>
+                                                            <li>1: Cabin Bag: 7 k.g</li>
+                                                            <li>2: Check-In: 25 k.g</li>
+                                                            <li>3: Cancellation: Lower cancellation fee. 500</li>
+                                                            <li>4: Date Change: No Refund on  Date change</li>
+                                                            <li>5: Seat : Free seats</li>
+                                                            <li>6: Meal : Complimentary meal</li>
+                                                        </ul>
+                                                    </span>
+                                                </span>
+                                            }
+                                            else if (item.segments[i].fares[f].productClass.Equals("Eco Comfort Plus"))
+                                            {
+                                                <span class="tooltipF">
+                                                    Fare Type:  @Faretype<b>Eco Comfort Plus</b>
+                                                    <span class="tooltiptext">
+                                                        <ul>
+                                                            <li>1: Cabin Bag: 7 k.g</li>
+                                                            <li>2: Check-In: 15 k.g.</li>
+                                                            <li>3: Cancellation: Fee starts at (Rs. 3500) Onward.</li>
+                                                            <li>4: Date Change: Fee starts at (Rs. 3000) Onward.</li>
+                                                            <li>5: Seat : Free seats</li>
+                                                            <li>6: Meal : Complimentary meal</li>
+                                                        </ul>
+                                                    </span>
+                                                </span>
+                                            }
+                                            else if (item.segments[i].fares[f].productClass.Equals("Eco Comfort"))
+                                            {
+                                                <span class="tooltipF">
+                                                    Fare Type:  @Faretype<b>Eco Comfort</b>
+                                                    <span class="tooltiptext">
+                                                        <ul>
+                                                            <li>1: Cabin Bag: 7 k.g</li>
+                                                            <li>2: Check-In: 15 k.g.</li>
+                                                            <li>3: Cancellation:  Fee starts at (Rs. 4000) Onward.</li>
+                                                            <li>4: Date Change: Fee starts at (Rs. 3000) Onward.</li>
+                                                            <li>5: Seat : Free seats</li>
+                                                            <li>6: Meal : Complimentary meal</li>
+                                                        </ul>
+                                                    </span>
+                                                </span>
+                                            }
+                                            else if (item.segments[i].fares[f].productClass.Equals("Premium Economy Standard"))
+                                            {
+                                                <span class="tooltipF">
+                                                    Fare Type:  @Faretype<b>Premium Economy Standard</b>
+                                                    <span class="tooltiptext">
+                                                        <ul>
+                                                            <li>1: Cabin Bag: 7 k.g</li>
+                                                            <li>2: Check-In: 25 k.g.</li>
+                                                            <li>3: Cancellation:  Fee starts at (Rs. 3180) Onward.</li>
+                                                            <li>4: Date Change: Fee starts at (Rs. 2650) Onward.</li>
+                                                            <li>5: Seat : Free seats</li>
+                                                            <li>6: Meal : Complimentary meal</li>
+                                                        </ul>
+                                                    </span>
+                                                </span>
+                                            }
+
+                                            else if (item.segments[i].fares[f].productClass.Equals("Economy Flexi"))
+                                            {
+                                                <span class="tooltipF">
+                                                    Fare Type:  @Faretype<b>Economy Flexi</b>
+                                                    <span class="tooltiptext">
+                                                        <ul>
+                                                            <li>1: Cabin Bag: 7 k.g</li>
+                                                            <li>2: Check-In: 20 k.g.</li>
+                                                            <li>3: Cancellation:  Fee starts at (Rs. 3371) Onward.</li>
+                                                            <li>4: Date Change: Fee starts at (Rs. 2801) Onward.</li>
+                                                            <li>5: Seat : Free seats</li>
+                                                            <li>6: Meal : Complimentary meal</li>
+                                                        </ul>
+                                                    </span>
+                                                </span>
+                                            }
+
+                                            else if (item.segments[i].fares[f].productClass.Equals("Premium Economy Value"))
+                                            {
+                                                <span class="tooltipF">
+                                                    Fare Type:  @Faretype<b>Premium Economy Value</b>
+                                                    <span class="tooltiptext">
+                                                        <ul>
+                                                            <li>1: Cabin Bag: 7 k.g</li>
+                                                            <li>2: Check-In: 20 k.g.</li>
+                                                            <li>3: Cancellation:  Fee starts at (Rs. 3445) Onward.</li>
+                                                            <li>4: Date Change:  Fee starts at (Rs. 2915) Onward.</li>
+                                                            <li>5: Seat : Free seats</li>
+                                                            <li>6: Meal : Complimentary meal</li>
+                                                        </ul>
+                                                    </span>
+                                                </span>
+                                            }
+                                            else if (item.segments[i].fares[f].productClass.Equals("Economy Standard"))
+                                            {
+                                                <span class="tooltipF">
+                                                    Fare Type:  @Faretype<b>Economy Standard</b>
+                                                    <span class="tooltiptext">
+                                                        <ul>
+                                                            <li>1: Cabin Bag: 7 k.g</li>
+                                                            <li>2: Check-In: 15 k.g.</li>
+                                                            <li>3: Cancellation:  Fee starts at (Rs. 3371) Onward.</li>
+                                                            <li>4: Date Change:  Fee starts at (Rs. 2809) Onward.</li>
+                                                            <li>5: Seat : Free seats</li>
+                                                            <li>6: Meal : Complimentary meal</li>
+                                                        </ul>
+                                                    </span>
+                                                </span>
+                                            }
+                                            else if (item.segments[i].fares[f].productClass.Equals("Economy Lite"))
+                                            {
+                                                <span class="tooltipF">
+                                                    Fare Type:  @Faretype<b>Economy Lite</b>
+                                                    <span class="tooltiptext">
+                                                        <ul>
+                                                            <li>1: Cabin Bag: 7 k.g</li>
+                                                            <li>2: Check-In: 15 k.g.</li>
+                                                            <li>3: Cancellation:  Fee starts at (Rs. 3710) Onward.</li>
+                                                            <li>4: Date Change:  Fee starts at (Rs. 3180) Onward.</li>
+                                                            <li>5: Seat : Free seats</li>
+                                                            <li>6: Meal : Complimentary meal</li>
+                                                        </ul>
+                                                    </span>
+                                                </span>
+                                            }
+
 
 
                                             else
@@ -1105,6 +1319,44 @@
                                         </table>
 
                                     }
+                                      else if (item.segments[i].fares[f].productClass.Equals("BR") && item.Airlinename.Equals("Indigo"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs.3499</td>
+
+                                            </tr>
+
+                                        </table>
+
+                                    }
+
+                                    else if (item.segments[i].fares[f].productClass.Equals("BC") && item.Airlinename.Equals("Indigo"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs.2499</td>
+
+                                            </tr>
+
+                                        </table>
+
+                                    }
+
+
+
                                     //Spice Jet
                                     else if (item.segments[i].fares[f].productClass.Equals("RS") || item.segments[i].fares[f].productClass.Equals("SF") || item.segments[i].fares[f].productClass.Equals("SC") || item.segments[i].fares[f].productClass.Equals("SS"))
                                     {
@@ -1163,17 +1415,162 @@
                                             <tr>
                                                 <td><b>Time</b></td>
                                                 <td><b>Charges</b></td>
-
                                             </tr>
                                             <tr>
                                                 <td>--</td>
                                                 <td>Rs.--</td>
-
                                             </tr>
-
                                         </table>
 
                                     }
+
+                                    else if (item.segments[i].fares[f].productClass.Equals("Premium Comfort Plus"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs.3500</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+
+                                    else if (item.segments[i].fares[f].productClass.Equals("Premium Flex"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Lower cancellation fee. 500</td>
+                                                <td>Rs.500</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+
+                                    else if (item.segments[i].fares[f].productClass.Equals("Eco Flex"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Lower cancellation fee. 500</td>
+                                                <td>Rs.500</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+
+
+                                    else if (item.segments[i].fares[f].productClass.Equals("Eco Comfort Plus"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td> Fee starts at  Onward.</td>
+                                                <td>Rs. 3500</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+
+                                    else if (item.segments[i].fares[f].productClass.Equals("Eco Comfort"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 4000</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("Premium Economy Standard"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 3180</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("Economy Flexi"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 3371</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("Premium Economy Value"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 3445</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("Economy Standard"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 3371</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("Economy Lite"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 3710</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+
+
 
 
                                     else
@@ -1338,6 +1735,7 @@
                                         </table>
 
                                     }
+
                                     else if (item.segments[j].fares[k].productClass.Equals("R"))
                                     {
                                         <table style="width:100%">
@@ -1355,6 +1753,38 @@
                                         </table>
 
                                     }
+
+                                    else if (item.segments[j].fares[k].productClass.Equals("BR") && item.Airlinename.Equals("Indigo"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs.2499</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+
+                                    else if (item.segments[j].fares[k].productClass.Equals("BC") && item.Airlinename.Equals("Indigo"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs. 999</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+
+
                                     else if (item.segments[j].fares[k].productClass.Equals("RS") || item.segments[j].fares[k].productClass.Equals("SF") || item.segments[j].fares[k].productClass.Equals("SC") || item.segments[j].fares[k].productClass.Equals("SS"))
                                     {
                                         <table style="width:100%">
@@ -1421,6 +1851,153 @@
 
                                             </tr>
 
+                                        </table>
+
+                                    }
+
+
+                                    else if (item.segments[j].fares[k].productClass.Equals("Premium Comfort Plus"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 3000</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+
+                                    else if (item.segments[j].fares[k].productClass.Equals("Premium Flex"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>No Refund on  Date change</td>
+                                                <td>No Refund on  Date change</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+
+                                    else if (item.segments[j].fares[k].productClass.Equals("Eco Flex"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>No Refund on  Date change</td>
+                                                <td>No Refund on  Date change</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+
+
+                                    else if (item.segments[j].fares[k].productClass.Equals("Eco Comfort Plus"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td> Fee starts at  Onward.</td>
+                                                <td>Rs. 3000</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+
+                                    else if (item.segments[j].fares[k].productClass.Equals("Eco Comfort"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 3000</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+                                    else if (item.segments[j].fares[k].productClass.Equals("Premium Economy Standard"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 2650</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+                                    else if (item.segments[j].fares[k].productClass.Equals("Economy Flexi"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 2801</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+                                    else if (item.segments[j].fares[k].productClass.Equals("Premium Economy Value"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 2915</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+                                    else if (item.segments[j].fares[k].productClass.Equals("Economy Standard"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 2809</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+                                    else if (item.segments[j].fares[k].productClass.Equals("Economy Lite"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 2809</td>
+                                            </tr>
                                         </table>
 
                                     }
@@ -1685,6 +2262,39 @@
                                         </table>
 
                                     }
+                                    else if (item.segments[i].fares[f].productClass.Equals("BR") && item.Airlinename.Equals("Indigo"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs.3499</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+
+                                    else if (item.segments[i].fares[f].productClass.Equals("BC") && item.Airlinename.Equals("Indigo"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs. 2499</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+
+
+
+
                                     else if (item.segments[i].fares[f].productClass.Equals("RS") || item.segments[i].fares[f].productClass.Equals("SF") || item.segments[i].fares[f].productClass.Equals("SC") || item.segments[i].fares[f].productClass.Equals("SS"))
                                     {
                                         <table style="width:100%">
@@ -1736,6 +2346,10 @@
 
                                         </table>
                                     }
+
+                                  
+
+                                    
                                     else if (item.segments[i].fares[f].productClass.Equals("SP"))
                                     {
                                         <table style="width:100%">
@@ -1753,6 +2367,154 @@
                                         </table>
 
                                     }
+
+
+                                    else if (item.segments[i].fares[f].productClass.Equals("Premium Comfort Plus"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs.3500</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+
+                                    else if (item.segments[i].fares[f].productClass.Equals("Premium Flex"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Lower cancellation fee. 500</td>
+                                                <td>Rs.500</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+
+                                    else if (item.segments[i].fares[f].productClass.Equals("Eco Flex"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Lower cancellation fee. 500</td>
+                                                <td>Rs.500</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+
+
+                                    else if (item.segments[i].fares[f].productClass.Equals("Eco Comfort Plus"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td> Fee starts at  Onward.</td>
+                                                <td>Rs. 3500</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+
+                                    else if (item.segments[i].fares[f].productClass.Equals("Eco Comfort"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 4000</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("Premium Economy Standard"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 3180</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("Economy Flexi"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 3371</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("Premium Economy Value"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 3445</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("Economy Standard"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 3371</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("Economy Lite"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 3710</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+
 
 
 
@@ -1938,6 +2700,38 @@
                                         </table>
 
                                     }
+                                    else if (item.segments[j].fares[k].productClass.Equals("BR"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs.2499</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+
+                                    else if (item.segments[j].fares[k].productClass.Equals("BC"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs. 999</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+
+
+
                                     else if (item.segments[j].fares[k].productClass.Equals("RS") || item.segments[j].fares[k].productClass.Equals("SF") || item.segments[j].fares[k].productClass.Equals("SC") || item.segments[j].fares[k].productClass.Equals("SS"))
                                     {
                                         <table style="width:100%">
@@ -2006,7 +2800,155 @@
 
                                     }
 
+                                    else if (item.segments[j].fares[k].productClass.Equals("Premium Comfort Plus"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 3000</td>
+                                            </tr>
+                                        </table>
 
+                                    }
+
+                                    else if (item.segments[j].fares[k].productClass.Equals("Premium Flex"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>No Refund on  Date change</td>
+                                                <td>No Refund on  Date change</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+
+                                    else if (item.segments[j].fares[k].productClass.Equals("Eco Flex"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>No Refund on  Date change</td>
+                                                <td>No Refund on  Date change</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+
+
+                                    else if (item.segments[j].fares[k].productClass.Equals("Eco Comfort Plus"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td> Fee starts at  Onward.</td>
+                                                <td>Rs. 3000</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+
+                                    else if (item.segments[j].fares[k].productClass.Equals("Eco Comfort"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 3000</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+                                    else if (item.segments[j].fares[k].productClass.Equals("Premium Economy Standard"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 2650</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+                                    else if (item.segments[j].fares[k].productClass.Equals("Economy Flexi"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 2801</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+                                    else if (item.segments[j].fares[k].productClass.Equals("Premium Economy Value"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 2915</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+                                    else if (item.segments[j].fares[k].productClass.Equals("Economy Standard"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 2809</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+                                    else if (item.segments[j].fares[k].productClass.Equals("Economy Lite"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at  Onward.</td>
+                                                <td>Rs. 2809</td>
+                                            </tr>
+                                        </table>
+
+                                    }
+
+
+                                    
+                                    
                                     else
                                     {
                                         <table style="width:100%">

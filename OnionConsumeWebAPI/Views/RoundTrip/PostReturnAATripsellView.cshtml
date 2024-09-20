@@ -415,6 +415,40 @@
 
 
                                             }
+                                            //Airindia GDS
+                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.AirIndia)
+                                            {
+                                                if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Premium Comfort Plus"))
+                                                    Faretype = "Premium Comfort Plus";
+                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Premium Flex"))
+                                                    Faretype = "Premium Flex";
+                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Eco Flex"))
+                                                    Faretype = "Eco Flex";
+                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Eco Comfort Plus"))
+                                                    Faretype = "Eco Comfort Plus";
+                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Eco Comfort"))
+                                                    Faretype = "Eco Comfort";
+                                                else
+                                                    Faretype = "";
+
+                                            }
+
+                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Vistara)
+                                            {
+                                                if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Premium Economy Standard"))
+                                                    Faretype = "Premium Economy Standard";
+                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Premium Economy Value"))
+                                                    Faretype = "Premium Economy Value";
+                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Economy Standard"))
+                                                    Faretype = "Economy Standard";
+                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Economy Flexi"))
+                                                    Faretype = "Economy Flexi";
+                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Economy Lite"))
+                                                    Faretype = "Economy Lite";
+                                                else
+                                                    Faretype = "";
+                                            }
+
 
                                             else
                                             {
@@ -446,22 +480,24 @@
 
                                                             }
                                                             <input type="hidden" class="fareKey" value="@dataGDS" />
+                                                            <input type="hidden" class="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass" />
                                                         }
                                                         else
                                                         {
-                                                            <input type="hidden" class="fareKey"  value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
+                                                            <input type="hidden" class="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
+                                                             <input type="hidden" class="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
                                                         }
 
                                                     }
-                                                    <input type="hidden" class="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
+                                                   
                                                     <input type="hidden" class="Airline" value="@Model.SimpleAvailibilityaAddResponcelist[j].Airline" />
                                                     <input type="radio" name="fareRadioGroup" class="fareRadio" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal" onclick="collectData('fare', @k)">
 
                                                     @*  <input type="radio" name="name"> *@
 
-                                                    <span> @Faretype @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass </span>
+                                                    <span>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass </span>
                                                     <span class="price">
-                                                        ₹  @Math.Round(Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal,0)
+                                                        ₹  @Math.Round(Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal, 0)
                                                         <div class="rtfare-1">
                                                             <input type="hidden" id="IdPOPL" class="farekeyIDL" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal" />
 
@@ -469,6 +505,135 @@
                                                     </span>
                                                 </div>
                                                 @{
+                                                    //*******************/
+                                                    if (@Faretype == "Premium Comfort Plus")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 15 k.g  (1 piece)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs. 3500 :-  Fee starts at  Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs. 3000 :- Fee starts at Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+                                                    if (@Faretype == "Premium Flex")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 25 k.g  (1 piece)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation :-  Lower cancellation fee. 500</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change :- No Refund on  Date change</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :-Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+
+                                                    if (@Faretype == "Eco Flex")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 25 k.g  (1 piece)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation :- Lower cancellation fee. 500</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change :- No Refund on  Date change</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :-Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+                                                    if (@Faretype == "Eco Comfort Plus")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 15 k.g.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation :- Fee starts at (Rs. 3500) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change :- Fee starts at (Rs. 3000) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :-Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+
+                                                    if (@Faretype == "Eco Comfort")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 15 k.g.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation :- Fee starts at (Rs. 4000) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change :- Fee starts at (Rs. 3000) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :-Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+                                                    if (@Faretype == "Premium Economy Standard")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 25 k.g.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation :- Fee starts at (Rs. 3180) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change :- Fee starts at (Rs. 2650) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :-Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+
+                                                    if (@Faretype == "Economy Flexi")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 20 k.g.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation :- Fee starts at (Rs. 3371) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change :- Fee starts at (Rs. 2801) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :-Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+
+                                                    if (@Faretype == "Premium Economy Value")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 20 k.g </li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation :- Fee starts at (Rs. 3445) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change :- Fee starts at (Rs. 2915) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :-Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+                                                    if (@Faretype == "Economy Standard")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 15 k.g</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation :- Fee starts at (Rs. 3371) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change :- Fee starts at (Rs. 2809) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :-Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+
+                                                    if (@Faretype == "Economy Lite")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 15 k.g</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation :- Fee starts at (Rs. 3710) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change :- Fee starts at (Rs. 3180) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :-Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+
+
+                                                    ////******************************/
                                                     if (@Faretype == "Flexi Plus")
                                                     {
                                                         <ul>
@@ -489,8 +654,8 @@
                                                             <li><img src="~/img/included.png" alt="icon">Check in 15 k.g  (1 piece)</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs 3500 :-  (3 days upto 2 hrs prior from departure)</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs 3000:- Before 3days upto 2 hrs from departure</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargable</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Chargable</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargeable</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Chargeable</li>
 
                                                         </ul>
                                                     }
@@ -515,8 +680,60 @@
                                                             <li><img src="~/img/included.png" alt="icon">Check in - </li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - 3500 (3 hrs before departure</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs - 3200 (3 hrs before departure</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargable</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Chargable</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargeable</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Chargeable</li>
+
+                                                        </ul>
+                                                    }
+
+                                                    if (@Faretype == "Stretch")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag - 7 k.g</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in - 30 k.g.  (1 piece)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - Fee starts at (Rs. 3499) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs - Fee starts at (Rs. 2499) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+                                                    if (@Faretype == "Stretch+")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag - 7 k.g</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in - 40 k.g.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - Fee starts at (Rs. 2499) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs - Fee starts at (Rs. 999) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+
+
+                                                    if (@Faretype == "Premium Comfort Plus")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag - 7 k.g</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in - 15 k.g </li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - Fee starts at (Rs. 3500) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs - Fee starts at (Rs. 3000) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+
+                                                    if (@Faretype == "Premium Flex")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag - 7 k.g</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in - 25 k.g</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - Lower cancellation fee. 500</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs - No Refund on  Date change</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
 
                                                         </ul>
                                                     }
@@ -529,8 +746,8 @@
                                                             <li><img src="~/img/included.png" alt="icon">Check in - 15 k.g  (1 piece)</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - 3100 (4 days & above)</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs -  2850 (4 days & above)</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargable</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Chargable</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargeable</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Chargeable</li>
 
                                                         </ul>
                                                     }
@@ -621,8 +838,8 @@
                                                             <li><img src="~/img/included.png" alt="icon">Check in 15 Kgs  (1 piece)</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs 3500 :-  (upto 2 hrs prior from departure)</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs 3000 :-  (upto 2 hrs prior from departure)</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargable</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Chargable</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargeable</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Chargeable</li>
 
                                                         </ul>
                                                     }
@@ -705,6 +922,8 @@
                             }
                         </form>
                     </div>
+
+
                     <div class="col-xl-6 col-lg-6 rf-p">
                         <span class="d-none" id="resultright"></span>
                         <form id="reconnectingFlight">
@@ -895,6 +1114,44 @@
                                                     Faretype = "Saver Fare";
 
                                             }
+                                            //Airindia GDS
+                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.AirIndia)
+                                            {
+                                                if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Premium Comfort Plus"))
+                                                    Faretype = "Premium Comfort Plus";
+                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Premium Flex"))
+                                                    Faretype = "Premium Flex";
+                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Eco Flex"))
+                                                    Faretype = "Eco Flex";
+                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Eco Comfort Plus"))
+                                                    Faretype = "Eco Comfort Plus";
+                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Eco Comfort"))
+                                                    Faretype = "Eco Comfort";
+                                                else
+                                                    Faretype = "";
+
+                                            }
+
+                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Vistara)
+                                            {
+                                                if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Premium Economy Standard"))
+                                                    Faretype = "Premium Economy Standard";
+                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Premium Economy Value"))
+                                                    Faretype = "Premium Economy Value";
+                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Economy Standard"))
+                                                    Faretype = "Economy Standard";
+                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Economy Flexi"))
+                                                    Faretype = "Economy Flexi";
+                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Economy Lite"))
+                                                    Faretype = "Economy Lite";
+                                                else
+                                                    Faretype = "";
+
+                                            }
+
+
+
+
                                             <div class="corbox active-bx">
                                                 <div class="dst-top pl-0">
                                                     @{
@@ -910,21 +1167,24 @@
 
                                                             }
                                                             <input type="hidden" class="fareKeyReturn" value="@dataGDS" />
+
+                                                            <input type="hidden" class="journeyKeyReturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass" />
                                                         }
                                                         else
                                                         {
+                                                            <input type="hidden" class="journeyKeyReturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].journeyKey" />
                                                             <input type="hidden" class="fareKeyReturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].fareKey" />
                                                         }
 
                                                     }
-                                                    <input type="hidden" class="journeyKeyReturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].journeyKey" />
+                                                   
                                                     <input type="hidden" class="AirlineReturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].Airline" />
                                                     <input type="radio" name="renderRadioGroup" class="renderRadio" value="@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal" onclick="collectData('render', @k)">
                                                     @*  <input type="radio" name="name"> *@
 
-                                                    <span> @Faretype @Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass  </span>
+                                                    <span>  @Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass  </span>
                                                     <span class="price">
-                                                        ₹  @Math.Round(Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal,0)
+                                                        ₹  @Math.Round(Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal, 0)
                                                         <div class="rtfare-1">
                                                             <input type="hidden" id="IdPOPR" class="farekeyIDR" value="@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal" />
 
@@ -932,6 +1192,139 @@
                                                     </span>
                                                 </div>
                                                 @{
+
+
+                                                    //*******************/
+                                                    if (@Faretype == "Premium Comfort Plus")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 15 k.g  (1 piece)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs. 3500 :-  Fee starts at  Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs. 3000 :- Fee starts at Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+                                                    if (@Faretype == "Premium Flex")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 25 k.g  (1 piece)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation :-  Lower cancellation fee. 500</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change :- No Refund on  Date change</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :-Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+
+                                                    if (@Faretype == "Eco Flex")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 25 k.g  (1 piece)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation :- Lower cancellation fee. 500</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change :- No Refund on  Date change</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :-Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+                                                    if (@Faretype == "Eco Comfort Plus")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 15 k.g.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation :- Fee starts at (Rs. 3500) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change :- Fee starts at (Rs. 3000) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+
+                                                    if (@Faretype == "Eco Comfort")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 15 k.g.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation :- Fee starts at (Rs. 4000) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change :- Fee starts at (Rs. 3000) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :-Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+                                                    if (@Faretype == "Premium Economy Standard")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 25 k.g.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation :- Fee starts at (Rs. 3180) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change :- Fee starts at (Rs. 2650) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :-Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+
+                                                    if (@Faretype == "Economy Flexi")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 20 k.g.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation :- Fee starts at (Rs. 3371) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change :- Fee starts at (Rs. 2801) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :-Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+
+                                                    if (@Faretype == "Premium Economy Value")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 20 k.g </li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation :- Fee starts at (Rs. 3445) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change :- Fee starts at (Rs. 2915) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :-Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+                                                    if (@Faretype == "Economy Standard")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 15 k.g</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation :- Fee starts at (Rs. 3371) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change :- Fee starts at (Rs. 2809) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :-Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+
+                                                    if (@Faretype == "Economy Lite")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in 15 k.g</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation :- Fee starts at (Rs. 3710) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change :- Fee starts at (Rs. 3180) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :-Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    
                                                     if (@Faretype == "Flexi Plus")
                                                     {
                                                         <ul>
@@ -952,8 +1345,8 @@
                                                             <li><img src="~/img/included.png" alt="icon">Check in 15 k.g  (1 piece)</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs 3500 :-  (3 days upto 2 hrs prior from departure)</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs 3000:- Before 3days upto 2 hrs from departure</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargable</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Chargable</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargeable</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Chargeable</li>
 
                                                         </ul>
                                                     }
@@ -978,8 +1371,62 @@
                                                             <li><img src="~/img/included.png" alt="icon">Check in - 15 k.g  (1 piece)</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - 3500 (3 hrs before departure</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs - 3200 (3 hrs before departure</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargable</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Chargable</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargeable</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Chargeable</li>
+
+                                                        </ul>
+                                                    }
+
+                                                    if (@Faretype == "Stretch")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag - 7 k.g</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in - 30 k.g.  (1 piece)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - Fee starts at (Rs. 3499) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs - Fee starts at (Rs. 2499) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+                                                    if (@Faretype == "Stretch+")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag - 7 k.g</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in - 40 k.g.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - Fee starts at (Rs. 2499) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs - Fee starts at (Rs. 999) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+
+                                                    //AirIndia
+
+
+                                                    if (@Faretype == "Premium Comfort Plus")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag - 7 k.g</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in - 15 k.g </li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - Fee starts at (Rs. 3500) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs - Fee starts at (Rs. 3000) Onward.</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
+
+                                                        </ul>
+                                                    }
+
+                                                    if (@Faretype == "Premium Flex")
+                                                    {
+                                                        <ul>
+                                                            <li><img src="~/img/included.png" alt="icon">Cabin Bag - 7 k.g</li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in - 25 k.g</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - Lower cancellation fee. 500</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs - No Refund on  Date change</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
 
                                                         </ul>
                                                     }
@@ -992,8 +1439,8 @@
                                                             <li><img src="~/img/included.png" alt="icon">Check in - 15 k.g  (1 piece)</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - 3100 (4 days & above)</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs -  2850 (4 days & above)</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargable</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Chargable</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargeable</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Chargeable</li>
 
                                                         </ul>
                                                     }
@@ -1086,8 +1533,8 @@
                                                             <li><img src="~/img/included.png" alt="icon">Check in 15 Kgs  (1 piece)</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs 3500 :-  (upto 2 hrs prior from departure)</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs 3000 :-  (upto 2 hrs prior from departure)</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargable</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Chargable</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargeable</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Chargeable</li>
 
                                                         </ul>
                                                     }
@@ -1129,64 +1576,13 @@
                                                         </ul>
                                                     }
 
-                                                    // //Spice Jet Detail
-                                                    // if (@Faretype == "Saver")
-                                                    // {
-                                                    //         <ul>
-                                                    //             <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
-                                                    //             <li><img src="~/img/included.png" alt="icon">Check in 15 Kgs  (1 piece)</li>
-                                                    //             <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs 3600:- (within 96 hrs from Departure)</li>
-                                                    //             <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs 3350:- (within 96 hrs from Departure)</li>
-                                                    //             <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
-                                                    //             <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
 
-                                                    //         </ul>
-                                                    // }
-
-                                                    // if (@Faretype == "Flexi")
-                                                    // {
-                                                    //         <ul>
-                                                    //             <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
-                                                    //             <li><img src="~/img/included.png" alt="icon">Check in 15 Kgs  (1 piece)</li>
-                                                    //             <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs 3600:- (within 96 hrs from Departure)</li>
-                                                    //             <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs 3350:- (within 96 hrs from Departure)</li>
-                                                    //             <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
-                                                    //             <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
-
-                                                    //         </ul>
-                                                    // }
 
                                                 }
 
                                             </div>
                                         }
-                                        @*       <div class="corbox">
-                                    <div class="dst-top pl-0">
-                                    <input type="radio" name="name">
-                                    <span>Standard </span>
-                                    <span class="price">₹ 36000</span>
-                                    </div>
-                                    <ul>
-                                    <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
-                                    <li><img src="~/img/included.png" alt="icon">check in 25 Kgs</li>
-                                    <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs As per airlines policy onwards</li>
-                                    <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs As per airlines policy onwards</li>
-                                    </ul>
-                                    </div>
 
-                                    <div class="corbox">
-                                    <div class="dst-top pl-0">
-                                    <input type="radio" name="name">
-                                    <span>Economy Flexi </span>
-                                    <span class="price">₹ 39000</span>
-                                    </div>
-                                    <ul>
-                                    <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
-                                    <li><img src="~/img/included.png" alt="icon">check in 25 Kgs</li>
-                                    <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs As per airlines policy onwards</li>
-                                    <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs As per airlines policy onwards</li>
-                                    </ul>
-                                    </div> *@
 
                                     </div>
                                 </div>
