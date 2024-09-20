@@ -117,26 +117,33 @@
                         <div class="col-12 col-md-7 col-lg-12">
                             <div class="row justify-content-center">
                                 <div class="search-box">
-                                    <div class="S-option">
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="Radio" value="option1">
-                                            <label class="form-check-label">One way</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="Radio" value="option2" checked>
-                                            <label class="form-check-label">Round Trip</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="Radio" value="option2">
-                                            <label class="form-check-label">Multi City</label>
-                                        </div>
-
+                                    @* <div class="S-option">
+                                    <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="Radio" value="option1">
+                                    <label class="form-check-label">One way</label>
                                     </div>
-                                    <form asp-action="SearchResultFlight" asp-controller="FlightSearchIndex" method="post" id="multipleValuesForm">
+                                    <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="Radio" value="option2" checked>
+                                    <label class="form-check-label">Round Trip</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="Radio" value="option2">
+                                    <label class="form-check-label">Multi City</label>
+                                    </div>
+
+                                    </div> *@
+                                    <form asp-action="SearchResultFlight" asp-controller="FlightSearchIndex" method="post" id="multipleValuesForm" onsubmit="return validateInputs()">
                                         <div class="col-lg-12">
-                                            <div class="row">
+                                            <div class="row S-optionlist">
                                                 <div class="col-12 col-md-10 col-lg-2 space autocomplete">
-                                                    <label class=""></label>
+                                                    <div class="d-flex radioW-400">
+                                                        <input type="radio" name="Radio" value="option1" onclick="checkRadio(this)">
+                                                        <label class="form-check-label">One Way</label>
+                                                        <input type="radio" name="Radio" value="option2" onclick="checkRadio(this)" checked>
+                                                        <label class="form-check-label">Round Trip</label>
+                                                        <input type="radio" name="Radio" value="option3" onclick="checkRadio(this)">
+                                                        <label class="form-check-label">Multi City</label>
+                                                    </div>
 
                                                     <span class="input-group-text">
                                                         <input id="myInput" name="origin" type="text" value="@Model.simpleAvailabilityRequestModelEdit.origin" class="form-control" onclick="RTDropdown()">
@@ -195,7 +202,7 @@
                                                     <label style="margin-bottom: 0.1rem;">Return</label>
                                                     <span class="input-group-text" id="basic-addon1">
 
-                                                        <input id="Rway-endDate" name="endDate" type="text" value="@Model.simpleAvailabilityRequestModelEdit.endDate" placeholder="Date" class="form-control">
+                                                        <input id="Rway-endDate" name="endDate" type="text" value="@Model.simpleAvailabilityRequestModelEdit.endDate" placeholder="" class="form-control">
                                                     </span>
                                                 </div>
 
@@ -404,21 +411,21 @@
                                                                 else
                                                                 {
                                                                     <div class="d-flex y-gap-10 justify-between items-center">
-                                                                    <div class="btn-incr-chld">
-                                                                        <div class="text-15 fw-500">
-                                                                            Children
+                                                                        <div class="btn-incr-chld">
+                                                                            <div class="text-15 fw-500">
+                                                                                Children
+                                                                            </div>
+                                                                            <input type="hidden" name="childtype" value="CHD" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childtype" />
+                                                                            <div class="text-15 fw-500">
+                                                                                Aged 2-12 yrs
+                                                                            </div>
                                                                         </div>
-                                                                        <input type="hidden" name="childtype" value="CHD" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childtype" />
-                                                                        <div class="text-15 fw-500">
-                                                                            Aged 2-12 yrs
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="btn-increase">
-                                                                        <div class="decrement1 sub btn_sub">-</div>
-                                                                        <input type="number" id="field_child" class="input-field" value="0" name="childcount" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childcount" min="0" max="6">
-                                                                        <div class="increment1 add btn_sub">+</div>
+                                                                        <div class="btn-increase">
+                                                                            <div class="decrement1 sub btn_sub">-</div>
+                                                                            <input type="number" id="field_child" class="input-field" value="0" name="childcount" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childcount" min="0" max="6">
+                                                                            <div class="increment1 add btn_sub">+</div>
 
-                                                                    </div>
+                                                                        </div>
                                                                     </div>
                                                                     <div class="border-top-light mt-24 mb-24"></div>
 
@@ -479,26 +486,38 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-md-10 col-lg-2"><button style="margin-top:0px;" type="submit" class="btn btn-lg btn-block"><i class="fa fa-search mr-10" aria-hidden="true"></i>Modify Search</button></div>
+                                                <div class="col-12 col-md-10 col-lg-2"><button style="margin-top:0px;" type="submit" class="btn btn-lg btn-block" onclick="validateInputs()"><i class="fa fa-search mr-10" aria-hidden="true"></i>Modify Search</button></div>
                                                 <div class="col-12 col-md-12 col-lg-12 search-bottom"></div>
                                                 <div class="col-12 col-md-10 col-lg-9 pl-0">
-                                                    <div class="form-group pt-2">
-                                                        <div class="dropdown js-dropdown js-economy-active" style="display:inline-block;">
-                                                            <div class="dropdown__button d-flex items-center  text-15" data-el-toggle=".js-economy-toggle" data-el-toggle-active=".js-economy-active">
-                                                                <span class="js-dropdown-title">Show Class </span>
-                                                                <i class="fa fa-angle-down ml-1 icon icon-chevron-sm-down" aria-hidden="true"></i>
-                                                            </div>
-                                                            <div class="toggle-element -dropdown  js-click-dropdown js-economy-toggle">
+                                                    <div class="form-group pt-2 d-flex">
 
-                                                                <div class="text-14 y-gap-8 js-dropdown-list">
-                                                                    <div><a href="#" class="d-block js-dropdown-link">Economic</a></div>
-                                                                    <div><a href="#" class="d-block js-dropdown-link">Premium</a></div>
-                                                                    <div><a href="#" class="d-block js-dropdown-link">Business</a></div>
-                                                                    <div><a href="#" class="d-block js-dropdown-link">First</a></div>
-                                                                </div>
+                                                        <div class="classtoggle me-4">
+                                                            <span class="colorcon">Show Class</span>
+                                                            <i class="fa fa-angle-down ml-1 icon icon-chevron-sm-down text-light" aria-hidden="true"></i>
+                                                        </div>
 
+                                                        <div class="bcon" style="display: none;">
+                                                            <div class="text-14 y-gap-8 js-dropdown-list">
+                                                                <a href="#" class="d-block js-dropdown-link" onclick="toggleRadio(event, 'radioid1', 'Economic')">
+                                                                    <input class="m-2 form-radio-input d-none" type="radio" name="flightclass" value="E" id="radioid1">
+                                                                    Economic
+                                                                </a>
+                                                                <a href="#" class="d-block js-dropdown-link" onclick="toggleRadio(event, 'radioid2', 'Premium')">
+                                                                    <input class="m-2 form-radio-input d-none" type="radio" name="flightclass" value="P" id="radioid2">
+                                                                    Premium
+                                                                </a>
+                                                                <a href="#" class="d-block js-dropdown-link" onclick="toggleRadio(event, 'radioid3', 'Business')">
+                                                                    <input class="m-2 form-radio-input d-none" type="radio" name="flightclass" value="B" id="radioid3">
+                                                                    Business
+                                                                </a>
+                                                                <a href="#" class="d-block js-dropdown-link" onclick="toggleRadio(event, 'radioid4', 'First')">
+                                                                    <input class="m-2 form-radio-input d-none" type="radio" name="flightclass" value="F" id="radioid4">
+                                                                    First
+                                                                </a>
                                                             </div>
                                                         </div>
+
+
                                                         <div class="custom-control custom-checkbox custom-control-inline">
                                                             <input type="checkbox" class="custom-control-input" id="defaultInline3">
                                                             <label class="custom-control-label" for="defaultInline3">Direct Flights</label>
@@ -2407,11 +2426,157 @@
             .searchMenu-guests__field.-is-active {
                 display: block;
             }
+
+        .radioW-400 {
+            width: 400px;
+        }
+
+        .S-optionlist {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+            margin-top: 60px;
+        }
+
+        .classtoggle {
+            margin-left:15px;
+        }
+        .bcon{
+            position: absolute;
+            top: calc(69% + 10px);
+            left: 10%;
+            padding: 7px 13px;
+            background-color: white;
+            box-shadow: 0px 25px 70px rgba(1, 33, 58, 0.07);
+            min-width: 160px;
+            border-radius: 4px;
+            border: 1px solid var(--color-border);
+            font-weight: 500;
+            transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transform: translateX(-50%);
+        }
+        .colorcon{
+            color:#fff;
+            font-size:15px;
+            cursor: pointer;
+            font-weight:600;
+        }
+
     </style>
 
 
 
     <script>
+
+        function checkRadio(radio) {
+            const endDateInput = document.getElementById('Rway-endDate');
+            const beginDateInput = document.getElementById('Rway-date');
+            if (radio.value === 'option1') {
+                endDateInput.disabled = true;
+                endDateInput.value = '';
+                endDateInput.style.backgroundColor = '#0e4d74';
+            }
+            else if (radio.value === 'option2') {
+                endDateInput.disabled = false;
+                endDateInput.value = beginDateInput.value;
+                endDateInput.style.backgroundColor = '';
+                endDateInput.style.backgroundColor = '#0E4D74';
+            }
+            else if (radio.value === 'option3') {
+                endDateInput.disabled = true;
+                endDateInput.value = '';
+                endDateInput.style.backgroundColor = '#0e4d74';
+            }
+        }
+
+
+
+        //Date Picker Validation
+        $(function () {
+            $("#Rway-date").datepicker({
+                dateFormat: 'yy-mm-dd',
+                numberOfMonths: 2,
+                maxDate: '+2m',
+                minDate: '0',
+                onSelect: function (selectedDate) {
+                    var startDate = $(this).datepicker('getDate');
+                    $("#Rway-endDate").datepicker("option", "minDate", startDate);
+                }
+            });
+
+            $("#Rway-endDate").datepicker({
+                dateFormat: 'yy-mm-dd',
+                numberOfMonths: 2,
+                maxDate: '+2m',
+                minDate: '0',
+                onSelect: function (selectedDate) {
+                    var endDate = $(this).datepicker('getDate');
+                    $("#Rway-date").datepicker("option", "maxDate", endDate);
+                }
+            });
+        });
+
+        // TextBox Validation
+        function validateInputs() {
+            const origin = document.getElementById('myInput').value;
+            const destination = document.getElementById('myInput1').value;
+            const beginDate = document.getElementById('Rway-date').value;
+            const endDateInput = document.getElementById('Rway-endDate');
+            const endDate = endDateInput.value;
+
+            if (!origin) {
+                alert('Please enter the origin.');
+                return false;
+            }
+            if (!destination) {
+                alert('Please enter the destination.');
+                return false;
+            }
+            if (!beginDate) {
+                alert('Please select a start date.');
+                return false;
+            }
+            if (!endDateInput.disabled && !endDate) {
+                alert('Please select an end date.');
+                return false;
+            }
+
+            return true;
+        }
+
+
+        ///Bussines Class Validation radio button
+        function toggleRadio(event, radioId, selectedClass) {
+            event.preventDefault();
+            document.querySelectorAll('.form-radio-input').forEach(radio => {
+                radio.checked = false;
+            });
+            var radioButton = document.getElementById(radioId);
+            radioButton.checked = true;
+            document.querySelector('.colorcon').textContent = selectedClass;
+            document.querySelector('.bcon').style.display = 'none';
+        }
+
+        document.addEventListener('click', function (event) {
+            const bcon = document.querySelector('.bcon');
+            const toggleButton = document.querySelector('.classtoggle');
+            if (!bcon.contains(event.target) && !toggleButton.contains(event.target)) {
+                bcon.style.display = 'none';
+            }
+        });
+
+
+        /////////*************************//////////////
+
+        $(document).ready(function () {
+            $('.classtoggle').on('click', function () {
+                $('.bcon').toggle(); // Toggle visibility of .bcon
+                $(this).find('.icon').toggleClass('fa-angle-down fa-angle-up'); // Change the icon
+            });
+        });
+
+
+        ///////////*******************************/////////
         document.querySelector('[data-x-dd-click="searchMenu-guests"]').addEventListener('click', function () {
             const target = document.querySelector('[data-x-dd="searchMenu-guests"]');
             target.classList.toggle('-is-active');
@@ -2527,41 +2692,41 @@
 
 
 
-        $(function () {
-            // var today = new Date();
-            // var dd = String(today.getDate() + 1).padStart(2, '0');
-            // var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-            // var yyyy = today.getFullYear();
-            // var currentDate = yyyy + '-' + mm + '-' + dd;
+        // $(function () {
+        //     // var today = new Date();
+        //     // var dd = String(today.getDate() + 1).padStart(2, '0');
+        //     // var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+        //     // var yyyy = today.getFullYear();
+        //     // var currentDate = yyyy + '-' + mm + '-' + dd;
 
-            // Set the current date as the default value in the input field
-            //$("#Rway-date").val(currentDate);
-            $("#Rway-date").datepicker({
-                dateFormat: 'yy-mm-dd',
-                numberOfMonths: 2,
-                maxDate: '+2m',
-                minDate: '0'
-            });
-        });
+        //     // Set the current date as the default value in the input field
+        //     //$("#Rway-date").val(currentDate);
+        //     $("#Rway-date").datepicker({
+        //         dateFormat: 'yy-mm-dd',
+        //         numberOfMonths: 2,
+        //         maxDate: '+2m',
+        //         minDate: '0'
+        //     });
+        // });
 
 
-        //////**********End Date DatePicker**********
-        $(function () {
-            // var today = new Date();
-            // var dd = String(today.getDate() + 1).padStart(2, '0');
-            // var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-            // var yyyy = today.getFullYear();
-            // var currentDate = yyyy + '-' + mm + '-' + dd;
+        // //////**********End Date DatePicker**********
+        // $(function () {
+        //     // var today = new Date();
+        //     // var dd = String(today.getDate() + 1).padStart(2, '0');
+        //     // var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+        //     // var yyyy = today.getFullYear();
+        //     // var currentDate = yyyy + '-' + mm + '-' + dd;
 
-            // Set the current date as the default value in the input field
-            //$("#Rway-endDate").val(currentDate);
-            $("#Rway-endDate").datepicker({
-                dateFormat: 'yy-mm-dd',
-                numberOfMonths: 2,
-                maxDate: '+2m',
-                minDate: '0'
-            });
-        });
+        //     // Set the current date as the default value in the input field
+        //     //$("#Rway-endDate").val(currentDate);
+        //     $("#Rway-endDate").datepicker({
+        //         dateFormat: 'yy-mm-dd',
+        //         numberOfMonths: 2,
+        //         maxDate: '+2m',
+        //         minDate: '0'
+        //     });
+        // });
 
     </script>
 
@@ -2607,38 +2772,38 @@
 
 
                 const flightInfoHTML = `
-                                                 <div class="d-flex d-flex justify-content-between p-2">
+                                                                 <div class="d-flex d-flex justify-content-between p-2">
 
-                                                <div class="fare-round d-flex align-items-center">
-                                                                    <img class="size-L" src="${imageSrc}"  alt="image">
-                                                    <div class="text-16 ms-2">${carrierCode}-${identifier}</div>
-                                                </div>
-                                                <div class="fare-round ms-2">
-                                                        <div class="text-20">Departure</div>
-                                                    <div class="text-16">${departure}</div>
-                                                    <div class="text-16">${origin}</div>
-                                                </div>
-                                                <div class="fare-round">
-                                                            <div class="col text-center mt-4">
-                                                        <div class="px-20 md:px-0 text-16">${diff}</div>
-                                                        <div class="flightLine">
-                                                            <div></div>
-                                                            <div></div>
-                                                        </div>
-                                                        <div class="mt-1">${stop}</div>
-                                                    </div>
-                                                </div>
-                                                <div class="fare-round">
-                                                          <div class="text-20">Arrival</div>
-                                                    <div class="lh-15 text-16">${arrival}<span class="d-none" id="arrivalDatadate"></span></div>
-                                                    <div class="text-16 lh-15">${destination}</div>
-                                                </div>
-                                                        <div class="fare-round ms-2 p-4">
-                                                    <div class="text-20 fw-600">₹${fareTotal}</div>
-                                                </div>
-                                            </div>
+                                                                <div class="fare-round d-flex align-items-center">
+                                                                                    <img class="size-L" src="${imageSrc}"  alt="image">
+                                                                    <div class="text-16 ms-2">${carrierCode}-${identifier}</div>
+                                                                </div>
+                                                                <div class="fare-round ms-2">
+                                                                        <div class="text-20">Departure</div>
+                                                                    <div class="text-16">${departure}</div>
+                                                                    <div class="text-16">${origin}</div>
+                                                                </div>
+                                                                <div class="fare-round">
+                                                                            <div class="col text-center mt-4">
+                                                                        <div class="px-20 md:px-0 text-16">${diff}</div>
+                                                                        <div class="flightLine">
+                                                                            <div></div>
+                                                                            <div></div>
+                                                                        </div>
+                                                                        <div class="mt-1">${stop}</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fare-round">
+                                                                          <div class="text-20">Arrival</div>
+                                                                    <div class="lh-15 text-16">${arrival}<span class="d-none" id="arrivalDatadate"></span></div>
+                                                                    <div class="text-16 lh-15">${destination}</div>
+                                                                </div>
+                                                                        <div class="fare-round ms-2 p-4">
+                                                                    <div class="text-20 fw-600">₹${fareTotal}</div>
+                                                                </div>
+                                                            </div>
 
-                                            `;
+                                                            `;
 
                 // Insert the new row into the HTML
                 document.getElementById('flightInfoRow').innerHTML = flightInfoHTML;
@@ -2683,36 +2848,36 @@
                 }
 
                 const flightInfoHTMLR = `
-                                    <div class="d-flex d-flex justify-content-between p-2">
-                                        <div class="fare-round d-flex align-items-center">
-                                            <img class="size-L" src="${imageSrc}" alt="image">
-                                            <div class="text-16 ms-2">${carrierCodeR}-${identifierR}</div>
-                                        </div>
-                                        <div class="fare-round ms-2">
-                                            <div class="text-20">Departure</div>
-                                            <div class="text-16">${departureR}</div>
-                                            <div class="text-16">${originR}</div>
-                                        </div>
-                                        <div class="fare-round">
-                                            <div class="col text-center mt-4">
-                                                <div class="px-20 md:px-0 text-16">${diffR}</div>
-                                                <div class="flightLine">
-                                                    <div></div>
-                                                    <div></div>
-                                                </div>
-                                                <div class="mt-1">${stopR}</div>
-                                            </div>
-                                        </div>
-                                        <div class="fare-round">
-                                            <div class="text-20">Arrival</div>
-                                            <div class="lh-15 text-16">${arrivalR}<span class="d-none" id="arrivalDatadate"></span></div>
-                                            <div class="text-16 lh-15">${destinationR}</div>
-                                        </div>
-                                        <div class="fare-round ms-2 p-4">
-                                            <div class="text-20 fw-600">₹${fareTotalR}</div>
-                                        </div>
-                                    </div>
-                                `;
+                                                    <div class="d-flex d-flex justify-content-between p-2">
+                                                        <div class="fare-round d-flex align-items-center">
+                                                            <img class="size-L" src="${imageSrc}" alt="image">
+                                                            <div class="text-16 ms-2">${carrierCodeR}-${identifierR}</div>
+                                                        </div>
+                                                        <div class="fare-round ms-2">
+                                                            <div class="text-20">Departure</div>
+                                                            <div class="text-16">${departureR}</div>
+                                                            <div class="text-16">${originR}</div>
+                                                        </div>
+                                                        <div class="fare-round">
+                                                            <div class="col text-center mt-4">
+                                                                <div class="px-20 md:px-0 text-16">${diffR}</div>
+                                                                <div class="flightLine">
+                                                                    <div></div>
+                                                                    <div></div>
+                                                                </div>
+                                                                <div class="mt-1">${stopR}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="fare-round">
+                                                            <div class="text-20">Arrival</div>
+                                                            <div class="lh-15 text-16">${arrivalR}<span class="d-none" id="arrivalDatadate"></span></div>
+                                                            <div class="text-16 lh-15">${destinationR}</div>
+                                                        </div>
+                                                        <div class="fare-round ms-2 p-4">
+                                                            <div class="text-20 fw-600">₹${fareTotalR}</div>
+                                                        </div>
+                                                    </div>
+                                                `;
 
                 // Insert the new row into the HTML
                 $('#flightInfoRowR').html(flightInfoHTMLR);
