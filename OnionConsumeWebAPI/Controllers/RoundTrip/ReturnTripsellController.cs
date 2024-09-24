@@ -3078,18 +3078,28 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                         Fees.groups = GroupsFeelist;
 
                                     }
-                                }
-                                dataobj.seatMap = Seatmapobj;
-                                dataobj.seatMapfees = Fees;
-                                datalist.Add(dataobj);
-                                SeatMapResponceModel.datalist = datalist;
-                            }
-                            string strseat = JsonConvert.SerializeObject(SeatMapResponceModel);
+                                    dataobj.seatMap = Seatmapobj;
+                                    dataobj.seatMapfees = Fees;
+                                    datalist.Add(dataobj);
+                                    SeatMapResponceModel.datalist = datalist;
 
-                            SeatMapdata = new List<string>();
-                            SeatMapdata.Add("<Start>" + JsonConvert.SerializeObject(SeatMapResponceModel) + "<End>");
-                            HttpContext.Session.SetString("SeatmapRT", JsonConvert.SerializeObject(SeatMapResponceModel));
-                            HttpContext.Session.SetString("SeatmapData", JsonConvert.SerializeObject(SeatMapdata));
+                                    string strseat = JsonConvert.SerializeObject(SeatMapResponceModel);
+
+                                    SeatMapdata = new List<string>();
+                                    SeatMapdata.Add("<Start>" + JsonConvert.SerializeObject(SeatMapResponceModel) + "<End>");
+                                    HttpContext.Session.SetString("SeatmapRT", JsonConvert.SerializeObject(SeatMapResponceModel));
+                                    HttpContext.Session.SetString("SeatmapData", JsonConvert.SerializeObject(SeatMapdata));
+                                }
+                                else
+                                {
+                                    SeatMapdata = new List<string>();
+                                    SeatMapResponceModel = new SeatMapResponceModel();
+                                    SeatMapResponceModel.datalist = new List<data>();
+                                    SeatMapdata.Add("<Start>" + JsonConvert.SerializeObject(SeatMapResponceModel) + "<End>");
+                                    HttpContext.Session.SetString("SeatmapRT", JsonConvert.SerializeObject(SeatMapResponceModel));
+                                    HttpContext.Session.SetString("SeatmapData", JsonConvert.SerializeObject(SeatMapdata));
+                                }
+                            }
                             if (!string.IsNullOrEmpty(JsonConvert.SerializeObject(SeatMapdata)))
                             {
                                 if (SeatMapdata.Count == 2)
@@ -3862,6 +3872,23 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
 
                                 SSRAvailabiltyResponceobj.legSsrs = SSRAvailabiltyLegssrlist;
+                                Mealsdata = new List<string>();
+                                Mealsdata.Add("<Start>" + JsonConvert.SerializeObject(SSRAvailabiltyResponceobj) + "<End>");
+                                HttpContext.Session.SetString("SGMealsRT", JsonConvert.SerializeObject(SSRAvailabiltyResponceobj));
+                                HttpContext.Session.SetString("MealsData", JsonConvert.SerializeObject(Mealsdata));
+                                if (!string.IsNullOrEmpty(JsonConvert.SerializeObject(Mealsdata)))
+                                {
+                                    if (Mealsdata.Count == 2)
+                                    {
+                                        MainMealsdata = new List<string>();
+                                    }
+                                    MainMealsdata.Add(JsonConvert.SerializeObject(Mealsdata));
+                                }
+
+                            }
+                            else
+                            {
+                                SSRAvailabiltyResponceobj = new SSRAvailabiltyResponceModel();
                                 Mealsdata = new List<string>();
                                 Mealsdata.Add("<Start>" + JsonConvert.SerializeObject(SSRAvailabiltyResponceobj) + "<End>");
                                 HttpContext.Session.SetString("SGMealsRT", JsonConvert.SerializeObject(SSRAvailabiltyResponceobj));

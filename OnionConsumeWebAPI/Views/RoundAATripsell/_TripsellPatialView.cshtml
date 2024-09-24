@@ -147,9 +147,6 @@
         font-weight: 700;
     }
 
-
-
-
 </style>
 <script>
     $(document).ready(function () {
@@ -299,17 +296,20 @@
                     // aircraft
                     if (item.segments[i].identifier.carrierCode.Equals("UK") || item.segments[i].identifier.carrierCode.Equals("AI") || item.segments[i].identifier.carrierCode.Equals("H1"))
                     {
-                        
+
                     }
                     else
                     {
-                        if (@Model.SeatmaplistRT != null && @Model.SeatmaplistRT.Count > 0 && Model.SeatmaplistRT[k]!=null)
+                        if (@Model.SeatmaplistRT != null && @Model.SeatmaplistRT.Count > 0 && Model.SeatmaplistRT[k] != null && Model.SeatmaplistRT[k].datalist != null && Model.SeatmaplistRT[k].datalist.Count>0)
                             AirCraftname = @Model.SeatmaplistRT[k].datalist[i].seatMap.name;
                         //AirLine
-                        int hyphenIndex = AirCraftname.LastIndexOf('_');
-                        aircraftModel = hyphenIndex == -1 ? AirCraftname : AirCraftname.Substring(0, hyphenIndex);
-                        if (!aircraftModel.ToLower().Contains("boeing"))
-                            aircraftModel = aircraftModel.Replace("B", "Boeing ");
+                        if (AirCraftname != null)
+                        {
+                            int hyphenIndex = AirCraftname.LastIndexOf('_');
+                            aircraftModel = hyphenIndex == -1 ? AirCraftname : AirCraftname.Substring(0, hyphenIndex);
+                            if (!aircraftModel.ToLower().Contains("boeing"))
+                                aircraftModel = aircraftModel.Replace("B", "Boeing ");
+                        }
                     }
                     if (i >= 1)
                     {
@@ -340,7 +340,7 @@
                                     {
                                         aircraftModel = @item.segments[i].legs[j].legInfo.equipmentType.ToString();
                                         if (!aircraftModel.ToLower().Contains("boeing"))
-                                        aircraftModel = aircraftModel.Replace("B", "Boeing ").Replace("A", "Airbus ");
+                                            aircraftModel = aircraftModel.Replace("B", "Boeing ").Replace("A", "Airbus ");
                                     }
                                     if (j == 1)
                                     {
@@ -720,7 +720,7 @@
 
                                             else if (item.segments[i].fares[f].productClass.Equals("BR"))
                                             {
-                                                
+
                                                 <span class="tooltipF">
                                                     Fare Type:  @Faretype<b>Stretch</b>
                                                     <span class="tooltiptext">
@@ -737,10 +737,10 @@
                                                 </span>
 
                                             }
-                                            
+
                                             else if (item.segments[i].fares[f].productClass.Equals("BC"))
                                             {
-                                                
+
                                                 <span class="tooltipF">
                                                     Fare Type:  @Faretype<b>Stretch+</b>
                                                     <span class="tooltiptext">
@@ -1324,7 +1324,7 @@
                                         </table>
 
                                     }
-                                      else if (item.segments[i].fares[f].productClass.Equals("BR") && item.Airlinename.Equals("Indigo"))
+                                    else if (item.segments[i].fares[f].productClass.Equals("BR") && item.Airlinename.Equals("Indigo"))
                                     {
                                         <table style="width:100%">
                                             <tr>
@@ -1689,7 +1689,7 @@
 
 
                                     //Indigo fare Code Start
-                                    else if (item.segments[j].fares[k].productClass.Equals("A") &&  item.Airlinename.Equals("Indigo"))
+                                    else if (item.segments[j].fares[k].productClass.Equals("A") && item.Airlinename.Equals("Indigo"))
                                     {
                                         <table style="width:100%">
                                             <tr>
@@ -2208,15 +2208,15 @@
 
                                             </tr>
                                             <tr>
-                                              <td>Before  3 hrs from departure</td>
-                                             <td>Rs.3500</td>
+                                                <td>Before  3 hrs from departure</td>
+                                                <td>Rs.3500</td>
 
                                             </tr>
 
                                         </table>
 
 
-                        
+
                                     }
                                     else if (item.segments[i].fares[f].productClass.Equals("O"))
                                     {
@@ -2354,9 +2354,9 @@
                                         </table>
                                     }
 
-                                  
 
-                                    
+
+
                                     else if (item.segments[i].fares[f].productClass.Equals("SP"))
                                     {
                                         <table style="width:100%">
@@ -2954,8 +2954,8 @@
                                     }
 
 
-                                    
-                                    
+
+
                                     else
                                     {
                                         <table style="width:100%">

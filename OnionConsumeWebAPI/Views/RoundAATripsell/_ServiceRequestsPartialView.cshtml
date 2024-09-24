@@ -1338,9 +1338,9 @@
                                                         }
                                                         else
                                                         {
-                                                            if (Model.MealslistRT != null && Model.MealslistRT.Count > 0 && Model.MealslistRT[1] != null)
+                                                            if (Model.MealslistRT != null && Model.MealslistRT.Count > 1 && Model.MealslistRT[1] != null)
                                                             {
-                                                                if (Model.MealslistRT.Count > 1)
+                                                                if (Model.MealslistRT.Count > 1 && Model.MealslistRT[1].legSsrs!=null)
                                                                 {
                                                                     for (int s = 0; s < Model.MealslistRT[1].legSsrs[0].legssrs.Count; s++)
                                                                     {
@@ -1545,7 +1545,7 @@
                                                             {
                                                                 var bagkey = "";
                                                                 string Bagname = "";
-                                                                if (Model.MealslistRT.Count > 1)
+                                                                if (Model.MealslistRT.Count > 1 && Model.MealslistRT[1].legSsrs!=null)
                                                                 {
                                                                     for (int s = 0; s < Model.MealslistRT[1].legSsrs[0].legssrs.Count; s++)
                                                                     {
@@ -1755,7 +1755,7 @@
                                                         {
                                                             if (Model.MealslistRT != null && Model.MealslistRT.Count > 0 && Model.MealslistRT[1] != null)
                                                             {
-                                                                if (Model.MealslistRT.Count > 1)
+                                                                if (Model.MealslistRT.Count > 1 && Model.MealslistRT[1].legSsrs!=null)
                                                                 {
                                                                     if (Model.MealslistRT[1].legSsrs.Count > 1)
                                                                     {
