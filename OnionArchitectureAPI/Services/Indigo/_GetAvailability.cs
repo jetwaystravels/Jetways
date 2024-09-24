@@ -22,7 +22,7 @@ namespace OnionArchitectureAPI.Services.Indigo
             _httpContextAccessor.HttpContext.Session.SetString(key, value);
         }
         Logs logs = new Logs();
-        public async Task<GetAvailabilityVer2Response> GetTripAvailability(SimpleAvailabilityRequestModel _GetfligthModel, LogonResponse _IndigologonResponseobj, int TotalCount, int adultcount, int childcount, int infantcount,string flightclass, string _AirlineWay = "")
+        public async Task<GetAvailabilityVer2Response> GetTripAvailability(SimpleAvailabilityRequestModel _GetfligthModel, LogonResponse _IndigologonResponseobj, int TotalCount, int adultcount, int childcount, int infantcount, string flightclass, string _AirlineWay = "")
         {
             #region Logon
 
@@ -103,22 +103,40 @@ namespace OnionArchitectureAPI.Services.Indigo
 
             _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].BookingStatusSpecified = true;
             _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].BookingStatus = BookingStatus.Default;
-            //string[] faretypesreturn = { "R", "Z", "F"};
-            string[] faretypesreturn = { "R" };
-            // string[] faretypes = {"R"};
-            _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareTypes = faretypesreturn;
+            //string[] faretypesreturn = { "R" };
+            //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareTypes = faretypesreturn;
+            //if (flightclass == "B") // Business Class
+            //{
+            //    string[] productclassesreturn = { "BR","BC" };
+            //    _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].ProductClasses = productclassesreturn;
+            //}
+            //else
+            //{
+            //    string[] productclassesreturn = { "R", "J", "A", "O" };
+            //    _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].ProductClasses = productclassesreturn;
+            //}
 
-            //string[] productclassesreturn = { "R", "S", "A","N","J","B","T","O" };
-            if (flightclass == "B") // Business Class
+
+            // Different Product Class
+            string[] faretypesreturn = { "R", "Z", "F" };
+            //string[] faretypesreturn = { "R" };
+            _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareTypes = faretypesreturn;
+            if (flightclass == "F") // Corporate Class
             {
-                string[] productclassesreturn = { "BR","BC" };
+                string[] productclassesreturn = { "F", "M", "C" };
                 _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].ProductClasses = productclassesreturn;
             }
-            else
+            else if (flightclass == "B") // Business Class
             {
-                string[] productclassesreturn = { "R", "J", "A", "O" };
+                string[] productclassesreturn = { "BR", "BC" };
                 _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].ProductClasses = productclassesreturn;
             }
+            else //Retails
+            {
+                string[] productclassesreturn = { "R", "J", "A", "O", "S", "N", "B", "T" };
+                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].ProductClasses = productclassesreturn;
+            }
+
             _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].MaximumConnectingFlights = 20;
             _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].MaximumConnectingFlightsSpecified = true;
 
