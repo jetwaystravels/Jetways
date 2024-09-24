@@ -157,11 +157,13 @@
         $("#openModal_0").click(function () {
             $("#modal, #overlay").fadeIn();
             //$("#tabContent1").show();
+            $("body").css("overflow", "hidden");
         });
 
         // Close modal box
         $("#closeModal, #overlay").click(function () {
             $("#modal, #overlay").fadeOut();
+            $("body").css("overflow", "auto");
         });
 
 
@@ -218,11 +220,14 @@
             $("#modal1, #overlay1").fadeIn();
             $("#tabContentRT3").show();
             $("#tabContentRT4").hide();
+            $("body").css("overflow", "hidden");
+
         });
 
         // Close modal box
         $("#closeModal1, #overlay1").click(function () {
             $("#modal1, #overlay1").fadeOut();
+            $("body").css("overflow", "auto");
         });
 
 
@@ -326,7 +331,7 @@
                     }
                     <div class="py-30 px-30 border-top-light">
                         <div class="row y-gap-10 justify-between">
-                            <div class="col-lg-8">
+                            <div class="col-lg-7">
 
 
                                 @for (int j = 0; j < item.segments[i].legs.Count; j++)
@@ -1200,7 +1205,7 @@
                                         </table>
 
                                     }
-                                    else if (item.segments[i].fares[f].productClass.Equals("HF"))
+                                    else if (item.segments[i].fares[f].productClass.Equals("HF") && item.Airlinename.Equals("Airasia"))
                                     {
                                         <table style="width:100%">
                                             <tr>
@@ -1260,8 +1265,8 @@
 
                                             </tr>
                                             <tr>
-                                                <td>-</td>
-                                                <td>-</td>
+                                                <td>Before  3 hrs from departure</td>
+                                                <td>Rs. 3500 </td>
 
                                             </tr>
 
@@ -1337,7 +1342,7 @@
 
                                     }
 
-                                    else if (item.segments[i].fares[f].productClass.Equals("BC") && item.Airlinename.Equals("Indigo"))
+                                    else if (item.segments[i].fares[f].productClass.Equals("BR") && item.Airlinename.Equals("Indigo"))
                                     {
                                         <table style="width:100%">
                                             <tr>
@@ -1632,7 +1637,7 @@
 
                                         </table>
                                     }
-                                    else if (item.segments[j].fares[k].productClass.Equals("HF"))
+                                    else if (item.segments[j].fares[k].productClass.Equals("HF") && item.Airlinename.Equals("Airasia"))
                                     {
                                         <table style="width:100%">
                                             <tr>
@@ -1684,7 +1689,7 @@
 
 
                                     //Indigo fare Code Start
-                                    else if (item.segments[j].fares[k].productClass.Equals("A"))
+                                    else if (item.segments[j].fares[k].productClass.Equals("A") &&  item.Airlinename.Equals("Indigo"))
                                     {
                                         <table style="width:100%">
                                             <tr>
@@ -1693,8 +1698,8 @@
 
                                             </tr>
                                             <tr>
-                                                <td>-</td>
-                                                <td>-</td>
+                                                <td>Before  3 hrs from departure</td>
+                                                <td>Rs.3200</td>
 
                                             </tr>
 
@@ -1754,7 +1759,7 @@
 
                                     }
 
-                                    else if (item.segments[j].fares[k].productClass.Equals("BR") && item.Airlinename.Equals("Indigo"))
+                                    else if (item.segments[j].fares[k].productClass.Equals("BC") && item.Airlinename.Equals("Indigo"))
                                     {
                                         <table style="width:100%">
                                             <tr>
@@ -2112,7 +2117,7 @@
         <!---------******************tab 1 ************---------------->
         <div class="tabRT" id="tabContentRT3">
 
-            @foreach (var item in Model.passeengerlistRT[0].journeys)
+            @foreach (var item in Model.passeengerlistRT[1].journeys)
             {
                 for (int i = 0; i < item.segments.Count; i++)
                 {
@@ -2194,7 +2199,7 @@
                                     }
 
                                     //Indigo fare Code Start
-                                    else if (item.segments[i].fares[f].productClass.Equals("A"))
+                                    else if (item.segments[i].fares[f].productClass.Equals("A") && item.Airlinename.Equals("Indigo"))
                                     {
                                         <table style="width:100%">
                                             <tr>
@@ -2203,13 +2208,15 @@
 
                                             </tr>
                                             <tr>
-                                                <td>-</td>
-                                                <td>-</td>
+                                              <td>Before  3 hrs from departure</td>
+                                             <td>Rs.3500</td>
 
                                             </tr>
 
                                         </table>
 
+
+                        
                                     }
                                     else if (item.segments[i].fares[f].productClass.Equals("O"))
                                     {
@@ -2641,8 +2648,8 @@
 
                                             </tr>
                                             <tr>
-                                                <td>-</td>
-                                                <td>-</td>
+                                                <td>Before  3 hrs from departure</td>
+                                                <td>Rs.3200</td>
 
                                             </tr>
 

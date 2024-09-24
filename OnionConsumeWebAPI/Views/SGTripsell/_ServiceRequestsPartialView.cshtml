@@ -543,35 +543,37 @@
 
                                                 @{
                                                     List<SelectListItem> mealOptions = new List<SelectListItem>();
-
-                                                    for (int s = 0; s < Model.Meals.legSsrs[0].legssrs.Count; s++)
+                                                    if (Model.Meals.legSsrs.Count > 0)
                                                     {
-                                                        string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                        string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode + "_" + Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price + "_0";
-                                                        string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " ₹" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                        string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) || Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase)).ToString();
-                                                        if (Mcode.ToLower() == "true")
+                                                        for (int s = 0; s < Model.Meals.legSsrs[0].legssrs.Count; s++)
                                                         {
-                                                            continue;
+                                                            string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                            string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode + "_" + Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price + "_0";
+                                                            string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " ₹" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                            string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) || Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase)).ToString();
+                                                            if (Mcode.ToLower() == "true")
+                                                            {
+                                                                continue;
+                                                            }
+                                                            else
+                                                                ssrkey = Mealcode;
+
+                                                            if (Mealcode != null)
+                                                            {
+                                                                // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
+                                                                mealOptions.Add(new SelectListItem { Text = Mealname, Value = Mealcode });
+                                                            }
+
+                                                            // string queryMeal = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
+                                                            // var mealData = SpicejetMealImageList.GetAllmeal().SingleOrDefault(x => x.MealCode == queryMeal);
+
+                                                            // if (mealData != null)
+                                                            // {
+                                                            //     // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
+                                                            //     mealOptions.Add(new SelectListItem { Text = mealData.MealImage, Value = mealData.MealCode });
+                                                            // }
+
                                                         }
-                                                        else
-                                                            ssrkey = Mealcode;
-
-                                                        if (Mealcode != null)
-                                                        {
-                                                            // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
-                                                            mealOptions.Add(new SelectListItem { Text = Mealname, Value = Mealcode });
-                                                        }
-
-                                                        // string queryMeal = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
-                                                        // var mealData = SpicejetMealImageList.GetAllmeal().SingleOrDefault(x => x.MealCode == queryMeal);
-
-                                                        // if (mealData != null)
-                                                        // {
-                                                        //     // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
-                                                        //     mealOptions.Add(new SelectListItem { Text = mealData.MealImage, Value = mealData.MealCode });
-                                                        // }
-
                                                     }
                                                 }
                                                 <div class="d-flex">
@@ -624,26 +626,29 @@
                                                     // }
                                                     var bagkey = "";
                                                     string Bagname = "";
-                                                    for (int s = 0; s < Model.Meals.legSsrs[0].legssrs.Count; s++)
+                                                    if (Model.Meals.legSsrs.Count > 0)
                                                     {
-                                                        string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                        string Sssrcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode + "_" + Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                        string bagcode = Sssrcode.StartsWith("E", StringComparison.OrdinalIgnoreCase).ToString();
-                                                        if (bagcode.ToLower() == "true")
+                                                        for (int s = 0; s < Model.Meals.legSsrs[0].legssrs.Count; s++)
                                                         {
+                                                            string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                            string Sssrcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode + "_" + Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                            string bagcode = Sssrcode.StartsWith("E", StringComparison.OrdinalIgnoreCase).ToString();
+                                                            if (bagcode.ToLower() == "true")
+                                                            {
 
-                                                            Bagname = Model.Meals.legSsrs[0].legssrs[s].name + " ₹" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                                Bagname = Model.Meals.legSsrs[0].legssrs[s].name + " ₹" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
 
-                                                            bagkey = Sssrcode; //Model.Meals.legSsrs[0].legssrs[s].legpassengers[pas].ssrKey;
-                                                        }             //string passengerKey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pas].passengerKey;
-                                                        else
-                                                            continue;
+                                                                bagkey = Sssrcode; //Model.Meals.legSsrs[0].legssrs[s].legpassengers[pas].ssrKey;
+                                                            }             //string passengerKey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pas].passengerKey;
+                                                            else
+                                                                continue;
 
 
-                                                        if (bagcode != null)
-                                                        {
-                                                            // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
-                                                            BaggageOptions.Add(new SelectListItem { Text = Bagname, Value = Sssrcode });
+                                                            if (bagcode != null)
+                                                            {
+                                                                // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
+                                                                BaggageOptions.Add(new SelectListItem { Text = Bagname, Value = Sssrcode });
+                                                            }
                                                         }
                                                     }
 
@@ -742,37 +747,39 @@
 
                                                 @{
                                                     List<SelectListItem> mealOptions = new List<SelectListItem>();
-
-                                                    for (int s = 0; s < Model.Meals.legSsrs[0].legssrs.Count; s++)
+                                                    if (Model.Meals.legSsrs.Count > 0)
                                                     {
-                                                        string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                        string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode + "_" + Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price + "_1";
-                                                        string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " ₹" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
-
-                                                        string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) || Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase)).ToString();
-                                                        if (Mcode.ToLower() == "true")
+                                                        for (int s = 0; s < Model.Meals.legSsrs[0].legssrs.Count; s++)
                                                         {
-                                                            continue;
+                                                            string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                            string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode + "_" + Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price + "_1";
+                                                            string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " ₹" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
+
+                                                            string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) || Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase)).ToString();
+                                                            if (Mcode.ToLower() == "true")
+                                                            {
+                                                                continue;
+                                                            }
+                                                            else
+                                                                ssrkey = Mealcode;
+
+
+                                                            if (Mealcode != null)
+                                                            {
+                                                                // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
+                                                                mealOptions.Add(new SelectListItem { Text = Mealname, Value = Mealcode });
+                                                            }
+
+                                                            // string queryMeal = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
+                                                            // var mealData = SpicejetMealImageList.GetAllmeal().SingleOrDefault(x => x.MealCode == queryMeal);
+
+                                                            // if (mealData != null)
+                                                            // {
+                                                            //     // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
+                                                            //     mealOptions.Add(new SelectListItem { Text = mealData.MealImage, Value = mealData.MealCode });
+                                                            // }
+
                                                         }
-                                                        else
-                                                            ssrkey = Mealcode;
-
-
-                                                        if (Mealcode != null)
-                                                        {
-                                                            // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
-                                                            mealOptions.Add(new SelectListItem { Text = Mealname, Value = Mealcode });
-                                                        }
-
-                                                        // string queryMeal = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
-                                                        // var mealData = SpicejetMealImageList.GetAllmeal().SingleOrDefault(x => x.MealCode == queryMeal);
-
-                                                        // if (mealData != null)
-                                                        // {
-                                                        //     // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
-                                                        //     mealOptions.Add(new SelectListItem { Text = mealData.MealImage, Value = mealData.MealCode });
-                                                        // }
-
                                                     }
                                                 }
                                                 <div class="d-flex">

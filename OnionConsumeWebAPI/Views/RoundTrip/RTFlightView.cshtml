@@ -117,21 +117,7 @@
                         <div class="col-12 col-md-7 col-lg-12">
                             <div class="row justify-content-center">
                                 <div class="search-box">
-                                    @* <div class="S-option">
-                                    <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="Radio" value="option1">
-                                    <label class="form-check-label">One way</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="Radio" value="option2" checked>
-                                    <label class="form-check-label">Round Trip</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="Radio" value="option2">
-                                    <label class="form-check-label">Multi City</label>
-                                    </div>
-
-                                    </div> *@
+                                 
                                     <form asp-action="SearchResultFlight" asp-controller="FlightSearchIndex" method="post" id="multipleValuesForm" onsubmit="return validateInputs()">
                                         <div class="col-lg-12">
                                             <div class="row S-optionlist">
@@ -2464,6 +2450,39 @@
 
     </style>
 
+    <script>
+        $(document).ready(function () {
+            $('.showBtn').click(function () {
+                //$('.hideme').hide();
+                $('.flightT1').addClass('tabBG');
+                $('.flightT1').click();
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                    $('.hideme').slideUp(1);
+                } else {
+                    $('.hideme').slideUp(1);
+                    $('.showBtn').removeClass('active');
+                    $(this).addClass('active');
+                    $(this).next().filter('.hideme').slideDown(1);
+                }
+            });
+
+            $('.showBtn2').click(function () {
+                //$('.hideme').hide();
+                $('.flightT1RT').addClass('tabBG');
+                $('.flightT1RT').click();
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                    $('.hideme2').slideUp(1);
+                } else {
+                    $('.hideme2').slideUp(1);
+                    $('.showBtn2').removeClass('active');
+                    $(this).addClass('active');
+                    $(this).next().filter('.hideme2').slideDown(1);
+                }
+            });
+        });
+    </script>
 
 
     <script>
@@ -2574,6 +2593,236 @@
                 $(this).find('.icon').toggleClass('fa-angle-down fa-angle-up'); // Change the icon
             });
         });
+
+
+
+        ///////****************************///////////
+        // Sorting - Filter Start
+        // var sortOrderName;
+        // var sortOrderNameR;
+        // const sortLinks = document.querySelectorAll('.sort-link');
+        // const sortOrders = {
+        //     name: 'desc',
+        //     price: 'desc',
+        //     arrival: 'desc',
+        //     duration: 'desc',
+        //     deprt: 'desc'
+        // };
+
+        // // Add click event listener to each sort link
+        // sortLinks.forEach(sortLink => {
+
+        //     sortLink.addEventListener('click', function (e) {
+        //         e.preventDefault();
+        //         const sortType = this.dataset.sort.split('_')[0];
+        //         const currentSortOrder = sortOrders[sortType];
+        //         sortOrders[sortType] = currentSortOrder === 'desc' ? 'asc' : 'desc';
+        //         const newSortOrder = currentSortOrder === 'desc' ? `${sortType}_desc` : `${sortType}_asc`;
+        //         this.dataset.sort = newSortOrder;
+        //         performSorting(newSortOrder);
+
+        //         // Make AJAX request to post the sorting order to the controller
+        //         postSortOrder(newSortOrder);
+        //     });
+        // });
+
+        // function performSorting(sortOrder) {
+        //     sortOrderName = sortOrder;
+        //     updateFilter();
+        // }
+
+        var sortOrderName;
+        var sortOrderNameR;
+        const sortLinks = document.querySelectorAll('.sort-link');
+        const sortLinksR = document.querySelectorAll('.sort-linkR');
+
+        const sortOrders = {
+            name: 'desc',
+            price: 'desc',
+            arrival: 'desc',
+            duration: 'desc',
+            deprt: 'desc'
+        };
+
+       
+        sortLinks.forEach(sortLink => {
+
+            sortLink.addEventListener('click', function (e) {
+                e.preventDefault();
+                const sortType = this.dataset.sort.split('_')[0];
+                const currentSortOrder = sortOrders[sortType];
+                sortOrders[sortType] = currentSortOrder === 'desc' ? 'asc' : 'desc';
+                const newSortOrder = currentSortOrder === 'desc' ? `${sortType}_desc` : `${sortType}_asc`;
+                this.dataset.sort = newSortOrder;
+                performSorting(newSortOrder);
+                postSortOrder(newSortOrder);
+            });
+        });
+
+      
+        sortLinksR.forEach(sortLinkR => {
+
+            sortLinkR.addEventListener('click', function (e) {
+                e.preventDefault();
+                const sortTypeR = this.dataset.sort.split('_')[0];
+                const currentSortOrderR = sortOrders[sortTypeR];
+                sortOrders[sortTypeR] = currentSortOrderR === 'desc' ? 'asc' : 'desc';
+                const newSortOrderR = currentSortOrderR === 'desc' ? `${sortTypeR}_desc` : `${sortTypeR}_asc`;
+                this.dataset.sort = newSortOrderR;
+                performSortingR(newSortOrderR);
+                postSortOrder(newSortOrderR);
+            });
+        });
+
+        function performSorting(sortOrder) {
+            sortOrderName = sortOrder;
+            updateFilter();
+        }
+
+        function performSortingR(sortOrderR) {
+            sortOrderNameR = sortOrderR;
+            updateFilter();
+        }
+
+
+
+      
+     var selectedDepartureTimesR = [];
+        var selectedArrivalTimesR = [];
+        $('.flt-Tm-new').click(function () {
+            debugger;
+            let departureTimeR = $(this).data('departure');
+            let arrivalTimeR = $(this).data('arrival');
+            $(this).toggleClass('active');
+            if ($(this).hasClass('active')) {
+                debugger;
+                selectedDepartureTimesR.push(departureTimeR);
+                selectedArrivalTimesR.push(arrivalTimeR);
+            } else {
+                debugger;
+                selectedDepartureTimesR = selectedDepartureTimesR.filter(function (item) {
+                    return item !== departureTimeR;
+                });
+                selectedArrivalTimesR = selectedArrivalTimesR.filter(function (item) {
+                    return item !== arrivalTimeR;
+                });
+            }
+            updateFilter();
+
+        });
+
+
+        var selectedDepartureTimesRight = [];
+        var selectedArrivalTimesRight = [];
+        $('.Returnfilter').click(function () {
+            debugger;
+            let departureTimeRight = $(this).data('departure');
+            let arrivalTimeRight = $(this).data('arrival');
+            $(this).toggleClass('active');
+            if ($(this).hasClass('active')) {
+                debugger;
+                selectedDepartureTimesRight.push(departureTimeRight);
+                selectedArrivalTimesRight.push(arrivalTimeRight);
+            } else {
+                debugger;
+                selectedDepartureTimesRight = selectedDepartureTimesRight.filter(function (item) {
+                    return item !== departureTimeRight;
+                });
+                selectedArrivalTimesRight = selectedArrivalTimesRight.filter(function (item) {
+                    return item !== arrivalTimeRight;
+                });
+            }
+            updateFilter();
+
+        });
+
+
+
+
+
+
+
+        function combinedFilterFunction() {
+            // Set up event listeners for both sets of checkboxes
+            $('.selectionCheckbox').on('change', function () {
+                updateFilter();
+            });
+            $('.selectionCheckboxRight').on('change', function () {
+                updateFilter();
+            });
+
+            $('.selectCheckboxAirLineRT').on('change', function () {
+                updateFilter();
+            });
+
+            function restoreCheckboxState(selectedIds, selectedIdsRight, RTFilterIdAirLine) {
+                // Restore the state of the checkboxes for the first set
+                $('.selectionCheckbox').each(function () {
+                    var checkboxValue = $(this).val();
+                    $(this).prop('checked', selectedIds.includes(checkboxValue));
+                });
+
+                // Restore the state of the checkboxes for the second set
+                $('.selectionCheckboxRight').each(function () {
+                    var checkboxValue = $(this).val();
+                    $(this).prop('checked', selectedIdsRight.includes(checkboxValue));
+                });
+
+                $('.selectCheckboxAirLineRT').each(function () {
+                    var checkboxValue = $(this).val();
+                    $(this).prop('checked', RTFilterIdAirLine.includes(checkboxValue));
+                });
+            }
+        }
+
+
+        function updateFilter() {
+            var selectedIds = [];
+            var selectedIdsRight = [];
+            var RTFilterIdAirLine = [];
+            // Collect selected IDs for both sets of checkboxes
+            $('input.selectionCheckbox:checked').each(function () {
+                selectedIds.push($(this).val());
+            });
+            $('input.selectionCheckboxRight:checked').each(function () {
+                selectedIdsRight.push($(this).val());
+            });
+
+            $('input.selectCheckboxAirLineRT:checked').each(function () {
+                RTFilterIdAirLine.push($(this).val());
+            });
+
+            // Send data to the server
+            $.ajax({
+                url: '/RoundTrip/RTFlightView',
+                type: 'POST',
+                traditional: true,
+                data: {
+                    selectedIds: selectedIds,
+                    selectedIdsRight: selectedIdsRight,
+                    RTFilterIdAirLine: RTFilterIdAirLine,
+                    departure: selectedDepartureTimesR,
+                    arrival: selectedArrivalTimesR,
+                    departureRight: selectedDepartureTimesRight,
+                    arrivalRight: selectedArrivalTimesRight,
+                    sortOrderName: sortOrderName,
+                    sortOrderNameR: sortOrderNameR
+                },
+                success: function (response) {
+                    $('#RTflight-results').html(response);
+                    restoreCheckboxState(selectedIds, selectedIdsRight, RTFilterIdAirLine);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error occurred:', error);
+                }
+            });
+        }
+
+        ///////*******************************///////////
+
+
+
+
 
 
         ///////////*******************************/////////
@@ -3235,20 +3484,7 @@
 
 
 
-        $('.showBtn').click(function () {
-            //$('.hideme').hide();
-            $('.flightT1').addClass('tabBG');
-            $('.flightT1').click();
-            if ($(this).hasClass('active')) {
-                $(this).removeClass('active');
-                $('.hideme').slideUp(1);
-            } else {
-                $('.hideme').slideUp(1);
-                $('.showBtn').removeClass('active');
-                $(this).addClass('active');
-                $(this).next().filter('.hideme').slideDown(1);
-            }
-        });
+    
 
         //**********Chosen Departure Code Start ****************//
         //*****************************************************//

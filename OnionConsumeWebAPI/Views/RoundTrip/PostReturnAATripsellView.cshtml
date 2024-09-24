@@ -418,15 +418,15 @@
                                             //Airindia GDS
                                             else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.AirIndia)
                                             {
-                                                if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Premium Comfort Plus"))
+                                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("Premium Comfort Plus"))
                                                     Faretype = "Premium Comfort Plus";
-                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Premium Flex"))
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("Premium Flex"))
                                                     Faretype = "Premium Flex";
-                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Eco Flex"))
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("Eco Flex"))
                                                     Faretype = "Eco Flex";
-                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Eco Comfort Plus"))
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("Eco Comfort Plus"))
                                                     Faretype = "Eco Comfort Plus";
-                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Eco Comfort"))
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("Eco Comfort"))
                                                     Faretype = "Eco Comfort";
                                                 else
                                                     Faretype = "";
@@ -435,15 +435,15 @@
 
                                             else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Vistara)
                                             {
-                                                if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Premium Economy Standard"))
+                                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("Premium Economy Standard"))
                                                     Faretype = "Premium Economy Standard";
-                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Premium Economy Value"))
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("Premium Economy Value"))
                                                     Faretype = "Premium Economy Value";
-                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Economy Standard"))
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("Economy Standard"))
                                                     Faretype = "Economy Standard";
-                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Economy Flexi"))
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("Economy Flexi"))
                                                     Faretype = "Economy Flexi";
-                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Economy Lite"))
+                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("Economy Lite"))
                                                     Faretype = "Economy Lite";
                                                 else
                                                     Faretype = "";
@@ -485,7 +485,7 @@
                                                         else
                                                         {
                                                             <input type="hidden" class="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
-                                                             <input type="hidden" class="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
+                                                            <input type="hidden" class="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
                                                         }
 
                                                     }
@@ -493,9 +493,18 @@
                                                     <input type="hidden" class="Airline" value="@Model.SimpleAvailibilityaAddResponcelist[j].Airline" />
                                                     <input type="radio" name="fareRadioGroup" class="fareRadio" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal" onclick="collectData('fare', @k)">
 
-                                                    @*  <input type="radio" name="name"> *@
-
-                                                    <span>@Faretype @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass </span>
+                                                   
+                                                    @{
+                                                        if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("AI") || Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("UK"))
+                                                        {
+                                                            <span>@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass </span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>@Faretype @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass </span>
+                                                        }
+                                                    }
+                                                   @* <span>@Faretype @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass </span>*@
                                                     <span class="price">
                                                         ₹  @Math.Round(Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal, 0)
                                                         <div class="rtfare-1">
@@ -677,7 +686,7 @@
                                                     {
                                                         <ul>
                                                             <li><img src="~/img/included.png" alt="icon">Cabin Bag - 7 k.g</li>
-                                                            <li><img src="~/img/included.png" alt="icon">Check in - </li>
+                                                            <li><img src="~/img/included.png" alt="icon">Check in - 15k.g.</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - 3500 (3 hrs before departure</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs - 3200 (3 hrs before departure</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargeable</li>
@@ -890,33 +899,6 @@
                                             </div>
                                         }
 
-                                        @*  <div class="corbox">
-                                    <div class="dst-top pl-0">
-                                    <input type="radio" name="name">
-                                    <span>Standard </span>
-                                    <span class="price">₹ 36000</span>
-                                    </div>
-                                    <ul>
-                                    <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
-                                    <li><img src="~/img/included.png" alt="icon">check in 25 Kgs</li>
-                                    <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs As per airlines policy onwards</li>
-                                    <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs As per airlines policy onwards</li>
-                                    </ul>
-                                    </div>
-
-                                    <div class="corbox">
-                                    <div class="dst-top pl-0">
-                                    <input type="radio" name="name">
-                                    <span>Economy Flexi </span>
-                                    <span class="price">₹ 39000</span>
-                                    </div>
-                                    <ul>
-                                    <li><img src="~/img/included.png" alt="icon">Cabin Bag 7 Kgs</li>
-                                    <li><img src="~/img/included.png" alt="icon">check in 25 Kgs</li>
-                                    <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs As per airlines policy onwards</li>
-                                    <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs As per airlines policy onwards</li>
-                                    </ul>
-                                    </div>  *@
                                     </div>
                                 </div>
                             }
@@ -1086,21 +1068,21 @@
                                             }
                                             // Akasa fair Details
                                             //AkasaAir
-                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.AkasaAir)
+                                            else if (Model.SimpleAvailibilityaAddResponcelistR[j].Airline == Airlines.AkasaAir)
                                             {
 
-                                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("EC"))
+                                                if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("EC"))
                                                     Faretype = "Saver";
-                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("AV"))
+                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("AV"))
                                                     Faretype = "Flexi";
-                                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SP"))
+                                                else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("SP"))
                                                     Faretype = "Special Fares";
 
 
                                             }
 
                                             //Airasia
-                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Airasia)
+                                            else if (Model.SimpleAvailibilityaAddResponcelistR[j].Airline == Airlines.Airasia)
                                             {
                                                 if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("EC"))
                                                     Faretype = "Xpress Value";
@@ -1115,7 +1097,7 @@
 
                                             }
                                             //Airindia GDS
-                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.AirIndia)
+                                            else if (Model.SimpleAvailibilityaAddResponcelistR[j].Airline == Airlines.AirIndia)
                                             {
                                                 if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Premium Comfort Plus"))
                                                     Faretype = "Premium Comfort Plus";
@@ -1127,12 +1109,11 @@
                                                     Faretype = "Eco Comfort Plus";
                                                 else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Eco Comfort"))
                                                     Faretype = "Eco Comfort";
-                                                else
-                                                    Faretype = "";
+                                                
 
                                             }
 
-                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Vistara)
+                                            else if (Model.SimpleAvailibilityaAddResponcelistR[j].Airline == Airlines.Vistara)
                                             {
                                                 if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Premium Economy Standard"))
                                                     Faretype = "Premium Economy Standard";
@@ -1144,8 +1125,7 @@
                                                     Faretype = "Economy Flexi";
                                                 else if (Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass.Equals("Economy Lite"))
                                                     Faretype = "Economy Lite";
-                                                else
-                                                    Faretype = "";
+                                               
 
                                             }
 
@@ -1181,8 +1161,18 @@
                                                     <input type="hidden" class="AirlineReturn" value="@Model.SimpleAvailibilityaAddResponcelistR[j].Airline" />
                                                     <input type="radio" name="renderRadioGroup" class="renderRadio" value="@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal" onclick="collectData('render', @k)">
                                                     @*  <input type="radio" name="name"> *@
+                                                    @{
+                                                        if (Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.carrierCode.Equals("AI") || Model.SimpleAvailibilityaAddResponcelistR[j].segments[0].identifier.carrierCode.Equals("UK"))
+                                                        {
+                                                            <span>@Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>@Faretype  @Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass  </span>
+                                                        }
 
-                                                    <span>@Faretype  @Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].procuctclass  </span>
+                                                    }
+                                                    
                                                     <span class="price">
                                                         ₹  @Math.Round(Model.SimpleAvailibilityaAddResponcelistR[j].faresIndividual[k].faretotal, 0)
                                                         <div class="rtfare-1">

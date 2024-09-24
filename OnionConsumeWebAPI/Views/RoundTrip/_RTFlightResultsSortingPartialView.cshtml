@@ -44,18 +44,38 @@
             @{
                 if (Model.SimpleAvailibilityaAddResponcelist.Count > 0)
                 {
-                    <div class="fontSize16 d-flex justify-content-between"><div class="fw-600">@originL → @destinationL</div>  <div>@Model.SimpleAvailibilityaAddResponcelist[0].bookingdate</div></div>
+                        <div class="fontSize16 d-flex justify-content-between"><div class="fw-600">@originL → @destinationL</div>  <div>@Model.SimpleAvailibilityaAddResponcelist[0].bookingdate</div></div>
 
-                    <input type="hidden" id="leftdate" value="@Model.SimpleAvailibilityaAddResponcelist[0].bookingdate" />
+                        <input type="hidden" id="leftdate" value="@Model.SimpleAvailibilityaAddResponcelist[0].bookingdate" />
                 }
             }
-            <ul class="shorting-tab">
+           @*  <ul class="shorting-tab">
                 <li><a href="#">Airlines </a></li>
                 <li><a href="#">Depart</a></li>
                 <li><a href="#">Duration</a></li>
                 <li><a href="#">Arrive</a></li>
                 <li><a href="#" class="active">Price</a></li>
-            </ul>
+            </ul> *@
+
+            <div class="d-flex justify-between shorting-tab">
+                <div>
+                    <a href="#" class="sort-link text-14" data-sort="name_desc">Airlines</a>
+                </div>
+                <div>
+                    <a href="#" class="sort-link text-14" data-sort="deprt_desc"> Depart</a>
+                </div>
+                <div>
+                    <a href="#" class="sort-link text-14" data-sort="duration_desc">Duration</a>
+                </div>
+                <div>
+                    <a href="#" class="sort-link text-14" data-sort="arrive_desc">Arrive</a>
+                </div>
+                <div>
+                    <a href="#" class="sort-link text-14" data-sort="price_desc">Price</a>
+                </div>
+            </div>
+
+
         </div>
         <form id="reconnectingFlight">
             @for (var j = 0; j < Model.SimpleAvailibilityaAddResponcelist.Count; j++)
@@ -697,18 +717,28 @@
             @{
                 if (Model.SimpleAvailibilityaAddResponcelistR.Count > 0)
                 {
-                    <div class="fontSize1 d-flex justify-content-between"><div class="fw-600">@destinationR → @originR</div>  <div>@Model.SimpleAvailibilityaAddResponcelistR[0].bookingdate</div></div>
+                        <div class="fontSize1 d-flex justify-content-between"><div class="fw-600">@destinationR → @originR</div>  <div>@Model.SimpleAvailibilityaAddResponcelistR[0].bookingdate</div></div>
 
-                    <input type="hidden" id="rightdate" value="@Model.SimpleAvailibilityaAddResponcelistR[0].bookingdate" />
+                        <input type="hidden" id="rightdate" value="@Model.SimpleAvailibilityaAddResponcelistR[0].bookingdate" />
                 }
             }
-            <ul class="shorting-tab">
-                <li><a href="#">Airlines </a></li>
-                <li><a href="#">Depart</a></li>
-                <li><a href="#">Duration</a></li>
-                <li><a href="#">Arrive</a></li>
-                <li><a href="#" class="active">Price</a></li>
-            </ul>
+            <div class="d-flex justify-between shorting-tab">
+                <div>
+                    <a href="#" class="sort-linkR text-14" data-sort="name_desc">Airlines</a>
+                </div>
+                <div>
+                    <a href="#" class="sort-linkR text-14" data-sort="deprt_desc"> Depart</a>
+                </div>
+                <div>
+                    <a href="#" class="sort-linkR text-14" data-sort="duration_desc">Duration</a>
+                </div>
+                <div>
+                    <a href="#" class="sort-linkR text-14" data-sort="arrive_desc">Arrive</a>
+                </div>
+                <div>
+                    <a href="#" class="sort-linkR text-14" data-sort="price_desc">Price</a>
+                </div>
+            </div>
         </div>
 
         <!--Vinay Round Right detail--->
@@ -889,8 +919,8 @@
                         </div>
                     </div>
 
-                    <div class="rtflight-dtl text-12 showBtn"><a href="#">Flight Details <i class="fa fa-angle-down" data-unicode="f107"></i></a></div>
-                    <div class="hideme" style="display:none;">
+                    <div class="rtflight-dtl text-12 showBtn2"><a href="#">Flight Details <i class="fa fa-angle-down" data-unicode="f107"></i></a></div>
+                    <div class="hideme2" style="display:none;">
                         <div class="d-flex justify-between items-center bg-listtab">
                             <div class="text-12 active tabBG  flightT1RT text-light-1 fw-500">Itinerary</div>
                             <div class="text-12 flightT2RT text-light-1 fw-500">Fare Details</div>

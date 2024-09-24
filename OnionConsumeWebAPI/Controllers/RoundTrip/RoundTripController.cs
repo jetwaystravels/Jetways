@@ -89,7 +89,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
         }
         [HttpPost]
-        public IActionResult RTFlightView(List<int> selectedIds, List<int> selectedIdsRight, List<string> RTFilterIdAirLine, List<string> departure, List<string> arrival, List<string> departureRight, List<string> arrivalRight)
+        public IActionResult RTFlightView(string sortOrderName, string sortOrderNameR, List<int> selectedIds, List<int> selectedIdsRight, List<string> RTFilterIdAirLine, List<string> departure, List<string> arrival, List<string> departureRight, List<string> arrivalRight)
         {
             string LeftshowpopupdataStops = HttpContext.Session.GetString("LeftReturnViewFlightView");
             string RightshowpopupdataStops = HttpContext.Session.GetString("RightReturnFlightView");
@@ -199,6 +199,97 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                 RightdeserializedStops = filteredFlightsRight.ToList();
                 vmobj.SimpleAvailibilityaAddResponcelist = RightdeserializedStops;
             }
+
+            ViewBag.NameSortParam = sortOrderName == "name_desc" ? "name_asc" : "name_desc";
+            ViewBag.PriceSortParam = sortOrderName == "price_desc" ? "price_asc" : "price_desc";
+            ViewBag.DepartSortParam = sortOrderName == "deprt_desc" ? "deprt_asc" : "deprt_desc";
+            ViewBag.arriveSortParam = sortOrderName == "arrive_desc" ? "arrive_asc" : "arrive_desc";
+            ViewBag.durationSortParam = sortOrderName == "duration_desc" ? "duration_asc" : "duration_desc";
+
+            switch (sortOrderName)
+            {
+                case "name_desc":
+                    LeftdeserializedStops = LeftdeserializedStops.OrderByDescending(f => f.Airline.ToString()).ToList();
+                    break;
+                case "name_asc":
+                    LeftdeserializedStops = LeftdeserializedStops.OrderBy(f => f.Airline.ToString()).ToList();
+                    break;
+                case "price_desc":
+                    LeftdeserializedStops = LeftdeserializedStops.OrderByDescending(p => p.fareTotalsum).ToList();
+                    break;
+                case "price_asc":
+                    LeftdeserializedStops = LeftdeserializedStops.OrderBy(p => p.fareTotalsum).ToList();
+                    break;
+                case "deprt_desc":
+                    LeftdeserializedStops = LeftdeserializedStops.OrderByDescending(d => d.designator.departure).ToList();
+                    break;
+                case "deprt_asc":
+                    LeftdeserializedStops = LeftdeserializedStops.OrderBy(d => d.designator.departure).ToList();
+                    break;
+                case "arrive_desc":
+                    LeftdeserializedStops = LeftdeserializedStops.OrderByDescending(d => d.designator.arrival).ToList();
+                    break;
+                case "arrive_asc":
+                    LeftdeserializedStops = LeftdeserializedStops.OrderBy(d => d.designator.arrival).ToList();
+                    break;
+                case "duration_desc":
+                    LeftdeserializedStops = LeftdeserializedStops.OrderByDescending(d => d.designator.formatTime).ToList();
+                    break;
+                case "duration_asc":
+                    LeftdeserializedStops = LeftdeserializedStops.OrderBy(d => d.designator.formatTime).ToList();
+                    break;
+                default:
+                    LeftdeserializedStops = LeftdeserializedStops.OrderBy(p => p.fareTotalsum).ToList();
+                    break;
+
+            }
+
+
+            ViewBag.NameSortParam = sortOrderNameR == "name_desc" ? "name_asc" : "name_desc";
+            ViewBag.PriceSortParam = sortOrderNameR == "price_desc" ? "price_asc" : "price_desc";
+            ViewBag.DepartSortParam = sortOrderNameR == "deprt_desc" ? "deprt_asc" : "deprt_desc";
+            ViewBag.arriveSortParam = sortOrderNameR == "arrive_desc" ? "arrive_asc" : "arrive_desc";
+            ViewBag.durationSortParam = sortOrderNameR == "duration_desc" ? "duration_asc" : "duration_desc";
+
+            switch (sortOrderNameR)
+            {
+                case "name_desc":
+                    RightdeserializedStops = RightdeserializedStops.OrderByDescending(f => f.Airline.ToString()).ToList();
+                    break;
+                case "name_asc":
+                    RightdeserializedStops = RightdeserializedStops.OrderBy(f => f.Airline.ToString()).ToList();
+                    break;
+                case "price_desc":
+                    RightdeserializedStops = RightdeserializedStops.OrderByDescending(p => p.fareTotalsum).ToList();
+                    break;
+                case "price_asc":
+                    RightdeserializedStops = RightdeserializedStops.OrderBy(p => p.fareTotalsum).ToList();
+                    break;
+                case "deprt_desc":
+                    RightdeserializedStops = RightdeserializedStops.OrderByDescending(d => d.designator.departure).ToList();
+                    break;
+                case "deprt_asc":
+                    RightdeserializedStops = RightdeserializedStops.OrderBy(d => d.designator.departure).ToList();
+                    break;
+                case "arrive_desc":
+                    RightdeserializedStops = RightdeserializedStops.OrderByDescending(d => d.designator.arrival).ToList();
+                    break;
+                case "arrive_asc":
+                    RightdeserializedStops = RightdeserializedStops.OrderBy(d => d.designator.arrival).ToList();
+                    break;
+                case "duration_desc":
+                    RightdeserializedStops = RightdeserializedStops.OrderByDescending(d => d.designator.formatTime).ToList();
+                    break;
+                case "duration_asc":
+                    RightdeserializedStops = RightdeserializedStops.OrderBy(d => d.designator.formatTime).ToList();
+                    break;
+                default:
+                    RightdeserializedStops = RightdeserializedStops.OrderBy(p => p.fareTotalsum).ToList();
+                    break;
+
+            }
+
+
             // vmobj.SimpleAvailibilityaAddResponcelist = filteredFlightsReturn;
             // vmobj.SimpleAvailibilityaAddResponcelistR = filteredFlightsRight;
             //return PartialView("_RTFlightResultsSortingPartialView", viewModelobject);

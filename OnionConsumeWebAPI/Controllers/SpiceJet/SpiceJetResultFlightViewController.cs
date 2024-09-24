@@ -899,6 +899,12 @@ namespace OnionConsumeWebAPI.Controllers
                                 HttpContext.Session.SetString("Meals", JsonConvert.SerializeObject(SSRAvailabiltyResponceobj));
 
                             }
+                            else
+                            {
+                                SSRAvailabiltyResponceModel SSRAvailabiltyResponceobj = new SSRAvailabiltyResponceModel();
+                                SSRAvailabiltyResponceobj.legSsrs = new List<legSsrs>();
+                                HttpContext.Session.SetString("Meals", JsonConvert.SerializeObject(SSRAvailabiltyResponceobj));
+                            }
 
                             //*********Vinay***********//
                         }
@@ -950,7 +956,7 @@ namespace OnionConsumeWebAPI.Controllers
                         // data[0].seatMap.decks['1'].compartments.Y.units[0].unitKey
 
 
-                        if (SeatGroup != null)
+                        if (SeatGroup[0] != null)
                         {
                             string columncount0 = string.Empty;
                             var data = SeatGroup.Count;// _getSeatAvailabilityResponse.SeatAvailabilityResponse.EquipmentInfos.Length;
@@ -1156,6 +1162,14 @@ namespace OnionConsumeWebAPI.Controllers
                                 SeatMapResponceModel.datalist = datalist;
                             }
                             string strseat = JsonConvert.SerializeObject(SeatMapResponceModel);
+                            HttpContext.Session.SetString("Seatmap", JsonConvert.SerializeObject(SeatMapResponceModel));
+
+                        }
+                        else
+                        {
+                            SeatMapResponceModel SeatMapResponceModel = new SeatMapResponceModel();
+                            SeatMapResponceModel.datalist = new List<data>();
+                            List<SeatMapResponceModel> SeatMapResponceModellist = new List<SeatMapResponceModel>();
                             HttpContext.Session.SetString("Seatmap", JsonConvert.SerializeObject(SeatMapResponceModel));
 
                         }
