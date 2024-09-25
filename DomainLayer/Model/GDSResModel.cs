@@ -112,6 +112,7 @@ namespace DomainLayer.Model
         {
             public string BoundType { get; set; }
             public string JourneyTime { get; set; }
+            public string FlightNumber { get; set; }
             public List<Leg> Legs { get; set; }
 
 

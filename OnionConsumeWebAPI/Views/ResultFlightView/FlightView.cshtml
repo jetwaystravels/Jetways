@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="~/css/daterangepicker.css">
     <link href="~/css/roundviewpage.css" rel="stylesheet" />
     <link href="~/css/indexvny.css" rel="stylesheet" />
+    <script src="~/js/custom.js/indexpage.js"></script>
 </head>
 <body>
 
@@ -127,7 +128,7 @@
                                                         <input type="radio" name="Radio" value="option2" onclick="checkRadio(this)">
                                                         <label class="form-check-label">Round Trip</label>
                                                         <input type="radio" name="Radio" value="option3" onclick="checkRadio(this)">
-                                                        <label class="form-check-label">Multi City</label>
+                                                        <label class="form-check-label">Same Airline Roundtrip</label>
                                                     </div>
                                                     <span class="input-group-text">
                                                         <input id="myInput" name="origin" type="text" value="@Model.simpleAvailabilityRequestModelEdit.origin" class="form-control" onclick="onewayDropdown()">
@@ -135,7 +136,7 @@
                                                     </span>
                                                     <span class="autodropdownOneWay">
                                                         <select id="autodropdownOneWayId" name="autodropdownOneWayId" onchange="OnewaySelection()">
-
+                                                            <option value="" style="display:none;">Please select</option>
                                                             @foreach (var item in Citynamelist.GetAllCityData())
                                                             {
                                                                 <option value="@item.citycode">@item.cityname - @item.citycode -<br>@item.airportname </option>
@@ -158,7 +159,7 @@
                                                     <span class="autoarrivalOneway">
                                                         <select id="arrivalItemOnewayId" name="arrivalItemOnewayId" onchange="arrivalOneway()">
                                                             @* <option value="">Please select</option> *@
-
+                                                            <option value="" style="display:none;">Please select</option>
                                                             @foreach (var item in Citynamelist.GetAllCityData())
                                                             {
                                                                 <option value="@item.citycode">@item.cityname - @item.citycode -<br>@item.airportname </option>
@@ -488,16 +489,16 @@
                                                             </div>
                                                         </div>
                                                         <div class="custom-control custom-checkbox custom-control-inline">
-                                                            <input type="checkbox" class="custom-control-input" id="defaultInline3">
+                                                            <input type="checkbox" class="custom-control-input" name="farecheck" id="defaultInline3" onclick="checkOnlyThis(this)">
                                                             <label class="custom-control-label" for="defaultInline3">Senior Citizen</label>
                                                         </div>
                                                         <div class="custom-control custom-checkbox custom-control-inline">
-                                                            <input type="checkbox" class="custom-control-input" id="defaultInline4">
+                                                            <input type="checkbox" class="custom-control-input" name="farecheck" id="defaultInline4" onclick="checkOnlyThis(this)">
                                                             <label class="custom-control-label" for="defaultInline4">Defence Fare</label>
                                                         </div>
                                                         <div class="custom-control custom-checkbox custom-control-inline">
-                                                            <input type="checkbox" class="custom-control-input" id="defaultInline5">
-                                                            <label class="custom-control-label" for="defaultInline5">Student Fare </label>
+                                                            <input type="checkbox" class="custom-control-input" name="farecheck" id="defaultInline5" onclick="checkOnlyThis(this)">
+                                                            <label class="custom-control-label" for="defaultInline5">Student Fare</label>
                                                         </div>
                                                     </div>
                                                 </div>

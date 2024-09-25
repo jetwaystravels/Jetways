@@ -123,12 +123,13 @@
                                             <div class="row S-optionlist">
                                                 <div class="col-12 col-md-10 col-lg-2 space autocomplete">
                                                     <div class="d-flex radioW-400">
-                                                        <input type="radio" name="Radio" value="option1" onclick="checkRadio(this)">
+                                                        <input type="radio" name="SameAirlineRT" value="OneWay" onclick="checkRadio(this)">
                                                         <label class="form-check-label">One Way</label>
-                                                        <input type="radio" name="Radio" value="option2" onclick="checkRadio(this)" checked>
+                                                        <input type="radio" name="SameAirlineRT" value="RoundTrip" onclick="checkRadio(this)" checked>
                                                         <label class="form-check-label">Round Trip</label>
-                                                        <input type="radio" name="Radio" value="option3" onclick="checkRadio(this)">
-                                                        <label class="form-check-label">Multi City</label>
+                                                        <input type="radio" name="SameAirlineRT" value="AirlineRT" onclick="checkRadio(this)">
+                                                        <label class="form-check-label">Same Airline Roundtrip</label>
+
                                                     </div>
 
                                                     <span class="input-group-text">
@@ -137,7 +138,7 @@
                                                     </span>
                                                     <span class="autodropdownRT">
                                                         <select id="autodropdownRTId" name="autodropdownRTId" onchange="RTSelection()">
-
+                                                            <option value="" style="display:none;">Please select</option>
 
                                                             @foreach (var item in Citynamelist.GetAllCityData())
                                                             {
@@ -166,7 +167,7 @@
                                                     <span class="autoarrivalRT">
                                                         <select id="arrivalItemRTId" name="arrivalItemRTId" onchange="arrivalRT()">
                                                             @* <option value="">Please select</option> *@
-
+                                                            <option value="" style="display:none;">Please select</option>
                                                             @foreach (var item in Citynamelist.GetAllCityData())
                                                             {
                                                                 <option value="@item.citycode">@item.cityname - @item.citycode -<br>@item.airportname </option>
@@ -478,7 +479,7 @@
                                                     <div class="form-group pt-2 d-flex">
 
                                                         <div class="classtoggle me-4">
-                                                            <span class="colorcon">Show Class</span>
+                                                            <span class="colorcon" id="flightClass">Show Class</span>
                                                             <i class="fa fa-angle-down ml-1 icon icon-chevron-sm-down text-light" aria-hidden="true"></i>
                                                         </div>
 
@@ -503,18 +504,17 @@
                                                             </div>
                                                         </div>
 
-
                                                         <div class="custom-control custom-checkbox custom-control-inline">
-                                                            <input type="checkbox" class="custom-control-input" id="defaultInline3">
-                                                            <label class="custom-control-label" for="defaultInline3">Direct Flights</label>
+                                                            <input type="checkbox" class="custom-control-input" name="farecheck" id="defaultInline3" onclick="checkOnlyThis(this)">
+                                                            <label class="custom-control-label" for="defaultInline3">Senior Citizen</label>
                                                         </div>
                                                         <div class="custom-control custom-checkbox custom-control-inline">
-                                                            <input type="checkbox" class="custom-control-input" id="defaultInline4">
+                                                            <input type="checkbox" class="custom-control-input" name="farecheck" id="defaultInline4" onclick="checkOnlyThis(this)">
                                                             <label class="custom-control-label" for="defaultInline4">Defence Fare</label>
                                                         </div>
                                                         <div class="custom-control custom-checkbox custom-control-inline">
-                                                            <input type="checkbox" class="custom-control-input" id="defaultInline5">
-                                                            <label class="custom-control-label" for="defaultInline5">Student Fare </label>
+                                                            <input type="checkbox" class="custom-control-input" name="farecheck" id="defaultInline5" onclick="checkOnlyThis(this)">
+                                                            <label class="custom-control-label" for="defaultInline5">Student Fare</label>
                                                         </div>
                                                     </div>
                                                 </div>

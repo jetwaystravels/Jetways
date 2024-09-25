@@ -1056,6 +1056,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                                                                             }
                                                                         }
                                                                     }
+                                                                    bond.FlightNumber = flightnumber;
                                                                 }
                                                             }
                                                         }

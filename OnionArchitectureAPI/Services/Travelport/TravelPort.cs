@@ -35,6 +35,144 @@ namespace OnionArchitectureAPI.Services.Travelport
         //    _userName = userName_;
         //    _password = password_;
         //}
+        public string GetAvailabiltyRT(string _testURL, StringBuilder sbReq, TravelPort _objAvail, SimpleAvailabilityRequestModel _GetfligthModel, string newGuid, string _targetBranch, string _userName, string _password, string flightclass, string _AirlineWay)
+        {
+
+            sbReq = new StringBuilder();
+            sbReq.Append("<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+            sbReq.Append("<soap:Body>");
+            sbReq.Append("<LowFareSearchReq xmlns=\"http://www.travelport.com/schema/air_v52_0\" SolutionResult=\"true\" TraceId=\"" + newGuid + "\" TargetBranch=\"" + _targetBranch + "\" ReturnUpsellFare =\"true\">");
+            sbReq.Append("<BillingPointOfSaleInfo xmlns=\"http://www.travelport.com/schema/common_v52_0\" OriginApplication=\"UAPI\"/>");
+            sbReq.Append("<SearchAirLeg>");
+            sbReq.Append("<SearchOrigin>");
+            sbReq.Append("<CityOrAirport xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"" + _GetfligthModel.origin + "\" PreferCity=\"true\" />");
+            sbReq.Append("</SearchOrigin>");
+            sbReq.Append("<SearchDestination>");
+            sbReq.Append("<CityOrAirport xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"" + _GetfligthModel.destination + "\" PreferCity=\"true\" />");
+            sbReq.Append("</SearchDestination>");
+            sbReq.Append("<SearchDepTime PreferredTime=\"" + _GetfligthModel.beginDate + "\"/>");
+            sbReq.Append("</SearchAirLeg>");
+
+            sbReq.Append("<SearchAirLeg>");
+            sbReq.Append("<SearchOrigin>");
+            sbReq.Append("<CityOrAirport xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"" + _GetfligthModel.destination + "\" PreferCity=\"true\" />");
+            sbReq.Append("</SearchOrigin>");
+            sbReq.Append("<SearchDestination>");
+            sbReq.Append("<CityOrAirport xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"" + _GetfligthModel.origin + "\" PreferCity=\"true\" />");
+            sbReq.Append("</SearchDestination>");
+            sbReq.Append("<SearchDepTime PreferredTime=\"" + _GetfligthModel.endDate + "\"/>");
+            sbReq.Append("</SearchAirLeg>");
+
+            sbReq.Append("<AirSearchModifiers>");
+            sbReq.Append("<PreferredProviders>");
+            sbReq.Append("<Provider xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"1G\" />");
+            sbReq.Append("</PreferredProviders>");
+
+            // Start for prohibited carrier
+            sbReq.Append("<ProhibitedCarriers>");
+            sbReq.Append("<Carrier Code='H1' xmlns=\"http://www.travelport.com/schema/common_v52_0\"/>");
+            sbReq.Append("</ProhibitedCarriers>");
+            //End  for prohibited carrier
+
+            // Business class
+            if (flightclass == "B")
+            {
+                sbReq.Append("<PermittedCabins>");
+                sbReq.Append("<CabinClass Type=\"PremiumEconomy\" xmlns=\"http://www.travelport.com/schema/common_v52_0\"/>");
+                sbReq.Append("</PermittedCabins>");
+            }
+
+            //Permitted Carrier
+            //sbReq.Append("<air:PermittedCarriers xmlns=\"http://www.travelport.com/schema/common_v52_0\">");
+            //sbReq.Append("<Carrier Code='9W' xmlns=\"http://www.travelport.com/schema/common_v52_0\"/>");
+            //sbReq.Append("<Carrier Code='AI' xmlns=\"http://www.travelport.com/schema/common_v52_0\"/>");
+            //sbReq.Append("<Carrier Code='UK' xmlns=\"http://www.travelport.com/schema/common_v52_0\"/>");
+            //sbReq.Append("</air:PermittedCarriers>");
+
+            sbReq.Append("</AirSearchModifiers>");
+            int pax = 0;
+            if (_GetfligthModel.passengercount != null)
+            {
+                if (_GetfligthModel.passengercount.adultcount != 0)
+                {
+                    for (int i = 0; i < _GetfligthModel.passengercount.adultcount; i++)
+                    {
+                        pax++;
+                        sbReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"ADT\" BookingTravelerRef=\"" + pax + "\" />");
+                    }
+                }
+
+                if (_GetfligthModel.passengercount.infantcount != 0)
+                {
+                    for (int i = 0; i < _GetfligthModel.passengercount.infantcount; i++)
+                    {
+                        pax++;
+                        sbReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"INF\" BookingTravelerRef=\"" + pax + "\" PricePTCOnly=\"true\" Age=\"01\"/>");
+                    }
+                }
+
+                if (_GetfligthModel.passengercount.childcount != 0)
+                {
+                    for (int i = 0; i < _GetfligthModel.passengercount.childcount; i++)
+                    {
+                        pax++;
+                        sbReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"CNN\" BookingTravelerRef=\"" + pax + "\" Age=\"10\"/>");
+                    }
+                }
+            }
+            else
+            {
+                if (_GetfligthModel.adultcount != 0)
+                {
+                    for (int i = 0; i < _GetfligthModel.adultcount; i++)
+                    {
+                        pax++;
+                        sbReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"ADT\" BookingTravelerRef=\"" + pax + "\" />");
+                    }
+                }
+                if (_GetfligthModel.infantcount != 0)
+                {
+                    for (int i = 0; i < _GetfligthModel.infantcount; i++)
+                    {
+                        pax++;
+                        sbReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"INF\" BookingTravelerRef=\"" + pax + "\" PricePTCOnly=\"true\" Age=\"01\"/>");
+                    }
+                }
+                if (_GetfligthModel.childcount != 0)
+                {
+                    for (int i = 0; i < _GetfligthModel.childcount; i++)
+                    {
+                        pax++;
+                        sbReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"CNN\" BookingTravelerRef=\"" + pax + "\" Age=\"10\"/>");
+                    }
+                }
+
+
+
+            }
+            sbReq.Append("<AirPricingModifiers FaresIndicator=\"AllFares\" ETicketability=\"Required\">");
+            sbReq.Append("<AccountCodes>");
+            sbReq.Append("<AccountCode xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"-\" />");
+            sbReq.Append("</AccountCodes>");
+            sbReq.Append("<FlightType TripleInterlineCon=\"false\" DoubleInterlineCon=\"false\" SingleInterlineCon=\"true\" TripleOnlineCon=\"false\" DoubleOnlineCon=\"false\" SingleOnlineCon=\"true\" StopDirects=\"true\" NonStopDirects=\"true\" />");
+            sbReq.Append("</AirPricingModifiers>");
+            sbReq.Append("</LowFareSearchReq></soap:Body></soap:Envelope>");
+
+            string res = Methodshit.HttpPost(_testURL, sbReq.ToString(), _userName, _password);
+            SetSessionValue("GDSAvailibilityRequest", JsonConvert.SerializeObject(_GetfligthModel));
+            SetSessionValue("GDSPassengerModel", JsonConvert.SerializeObject(_GetfligthModel));
+
+
+            if (_AirlineWay.ToLower() == "gdsoneway")
+            {
+                logs.WriteLogs("URL: " + _testURL + "\n\n Request: " + sbReq + "\n\n Response: " + res, "GetAvailability", "GDSOneWay");
+            }
+            else
+            {
+                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(sbReq) + "\n\n Response: " + JsonConvert.SerializeObject(res), "GetAvailability", "GDSRT");
+            }
+            return res;
+        }
 
         public string GetAvailabilty(string _testURL, StringBuilder sbReq, TravelPort _objAvail, SimpleAvailabilityRequestModel _GetfligthModel, string newGuid, string _targetBranch, string _userName, string _password, string flightclass, string _AirlineWay)
         {
