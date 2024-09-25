@@ -449,8 +449,7 @@
                                                     Faretype = "";
                                             }
 
-
-                                            else
+                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Airasia)
                                             {
                                                 if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("EC"))
                                                     Faretype = "Xpress Value";
@@ -461,9 +460,22 @@
                                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("VV"))
                                                     Faretype = "Xpress Bizz";
                                                 else
-                                                    Faretype = "Saver Fare";
-
+                                                    Faretype = "";
                                             }
+                                                // else
+                                            // {
+                                            //     if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("EC"))
+                                            //         Faretype = "Xpress Value";
+                                            //     else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("HF"))
+                                            //         Faretype = "Vista Flex";
+                                            //     else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("LT"))
+                                            //         Faretype = "Xpress lite";
+                                            //     else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("VV"))
+                                            //         Faretype = "Xpress Bizz";
+                                            //     else
+                                            //         Faretype = "Saver Fare";
+
+                                            // }
                                             <div class="corbox active-bx">
 
                                                 <div class="dst-top pl-0">
@@ -753,8 +765,8 @@
                                                         <ul>
                                                             <li><img src="~/img/included.png" alt="icon">Cabin Bag - 7 k.g</li>
                                                             <li><img src="~/img/included.png" alt="icon">Check in - 15 k.g  (1 piece)</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - 3100 (4 days & above)</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs -  2850 (4 days & above)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - 2999 (4 days before departure)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs -  2250 (4 days before departure)</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargeable</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Chargeable</li>
 
@@ -766,8 +778,8 @@
                                                         <ul>
                                                             <li><img src="~/img/included.png" alt="icon">Cabin Bag - 7 k.g</li>
                                                             <li><img src="~/img/included.png" alt="icon">Check in - 15 k.g  (1 piece)</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - 500 (4 days & above)</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs -  2850 (4 days & above)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - 1999 (4 days before departure)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs -  299 (4 days before departure)</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
 
@@ -1427,8 +1439,8 @@
                                                         <ul>
                                                             <li><img src="~/img/included.png" alt="icon">Cabin Bag - 7 k.g</li>
                                                             <li><img src="~/img/included.png" alt="icon">Check in - 15 k.g  (1 piece)</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - 3100 (4 days & above)</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs -  2850 (4 days & above)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - 2999 (4 days before departure)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs -  2250 (4 days before departure)</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Chargeable</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Chargeable</li>
 
@@ -1440,8 +1452,8 @@
                                                         <ul>
                                                             <li><img src="~/img/included.png" alt="icon">Cabin Bag - 7 k.g</li>
                                                             <li><img src="~/img/included.png" alt="icon">Check in - 15 k.g  (1 piece)</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - 500 (4 days & above)</li>
-                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs -  2850 (4 days & above)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Cancellation Rs - 1999 (4 days before departure)</li>
+                                                            <li><img src="~/img/partial_inclusion.png" alt="icon">Date Change Rs -  299 (4 days before departure)</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Seat :- Free seats</li>
                                                             <li><img src="~/img/partial_inclusion.png" alt="icon">Meal :- Complimentary meal</li>
 
