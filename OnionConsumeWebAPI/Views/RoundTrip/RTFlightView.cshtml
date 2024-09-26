@@ -2537,7 +2537,7 @@
         });
 
         // TextBox Validation
-        function validateInputs() {
+        function validateInputs(event) {
             const origin = document.getElementById('myInput').value;
             const destination = document.getElementById('myInput1').value;
             const beginDate = document.getElementById('Rway-date').value;
@@ -2586,6 +2586,15 @@
             if (!endDateInput.disabled && !endDate) {
                 alert('Please select an end date.');
                 return false;
+            }
+
+            var adultCount = parseInt(document.getElementById('field_adult').value);
+            var childCount = parseInt(document.getElementById('field_child').value);
+            var totalCount = adultCount + childCount;
+            if (totalCount > 9) {
+                alert("The combined total of adults and children must be 9 or less.");
+                return false;
+                event.preventDefault();
             }
 
             return true;

@@ -49,6 +49,18 @@ function validateForm() {
                 event.preventDefault(); // Stop the form submission
             }
         }
+
+        // Traveller Count Validation 9
+        var adultCount = parseInt(document.getElementById('field_adult').value);
+        var childCount = parseInt(document.getElementById('field_child').value);
+        var totalCount = adultCount + childCount;
+        if (totalCount > 9) {
+            alert("The combined total of adults and children must be 9 or less.");
+            return false;
+            event.preventDefault();
+        }
+
+        //////*****************/////////
         var loader = document.getElementById("loader");
         loader.style.display = "block";
         $("body").css("overflow", "hidden");
