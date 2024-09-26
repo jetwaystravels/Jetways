@@ -123,11 +123,11 @@
                                             <div class="row S-optionlist">
                                                 <div class="col-12 col-md-10 col-lg-2 space autocomplete">
                                                     <div class="d-flex radioW-400">
-                                                        <input type="radio" name="Radio" value="option1" onclick="checkRadio(this)" checked>
+                                                        <input type="radio" name="SameAirlineRT" value="OneWay" onclick="checkRadio(this)" checked>
                                                         <label class="form-check-label">One Way</label>
-                                                        <input type="radio" name="Radio" value="option2" onclick="checkRadio(this)">
+                                                        <input type="radio" name="SameAirlineRT" value="RoundTrip" onclick="checkRadio(this)">
                                                         <label class="form-check-label">Round Trip</label>
-                                                        <input type="radio" name="Radio" value="option3" onclick="checkRadio(this)">
+                                                        <input type="radio" name="SameAirlineRT" value="AirlineRT" onclick="checkRadio(this)">
                                                         <label class="form-check-label">Same Airline Roundtrip</label>
                                                     </div>
                                                     <span class="input-group-text">
@@ -2303,7 +2303,13 @@
             const beginDate = document.getElementById('Oneway-date').value;
             const endDateInput = document.getElementById('Oneway-endDate');
             const endDate = endDateInput.value;
+            if (origin == destination) {
+                alert("Departure and Arrival Airport are same please change it..")
+                return false;
+                event.preventDefault(); // Stop the form submission
 
+            }
+            
             if (!origin) {
                 alert('Please enter the origin.');
                 return false;
@@ -2330,20 +2336,21 @@
         function checkRadio(radio) {
             const endDateInput = document.getElementById('Oneway-endDate');
             const beginDateInput = document.getElementById('Oneway-date');
-            if (radio.value === 'option1') {
+            if (radio.value === 'OneWay') {
                 endDateInput.disabled = true;
                 endDateInput.value = '';
                 endDateInput.style.backgroundColor = '#0e4d74';
             }
-            else if (radio.value === 'option2') {
+            else if (radio.value === 'RoundTrip') {
                 endDateInput.disabled = false;
                 endDateInput.value = beginDateInput.value;
                 endDateInput.style.backgroundColor = '';
                 endDateInput.style.backgroundColor = '#0E4D74';
             }
-            else if (radio.value === 'option3') {
-                endDateInput.disabled = true;
-                endDateInput.value = '';
+            else if (radio.value === 'AirlineRT') {
+                endDateInput.disabled = false;
+                endDateInput.value = beginDateInput.value;
+                endDateInput.style.backgroundColor = '';
                 endDateInput.style.backgroundColor = '#0e4d74';
             }
         }
@@ -2588,25 +2595,6 @@
 
 
 
-        // $(function () {
-        //     $("#Oneway-date").datepicker({
-        //         dateFormat: 'yy-mm-dd',
-        //         numberOfMonths: 2,
-        //         maxDate: '+2m',
-        //         minDate: '0'
-        //     });
-        // });
-
-        // $(function () {
-        //     $("#Oneway-endDate").datepicker({
-        //         dateFormat: 'yy-mm-dd',
-        //         numberOfMonths: 2,
-        //         maxDate: '+3m',
-        //         minDate: '0'
-        //     });
-        // });
-
-
         document.addEventListener('DOMContentLoaded', function () {
             // Select the input fields for adults, children, and infants
             const adultInputField = document.getElementById('field_adult');
@@ -2667,14 +2655,15 @@
             }
         });
         $('.rplc-btn').on('click', function () {
-            debugger;
-            // Get values from the first input box
             var flyingFromValue = $('#myInput').val();
-            // Get values from the second input box
             var flyingToValue = $('#myInput1').val();
-            // Swap values between the two input boxes
             $('#myInput').val(flyingToValue);
             $('#myInput1').val(flyingFromValue);
+            if (flyingFromValue == flyingToValue) {
+                alert("Departure and Arrival Airport are the same. Please change it.");
+                return false;
+                event.preventDefault();
+            }
         });
         //**********Chosen Departure Code Start ****************//
         //*****************************************************//

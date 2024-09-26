@@ -2447,7 +2447,7 @@
             cursor: pointer;
             font-weight:600;
         }
-
+       #autodropdownRTId_chosen{margin-top:-30px;}
     </style>
 
     <script>
@@ -2490,21 +2490,22 @@
         function checkRadio(radio) {
             const endDateInput = document.getElementById('Rway-endDate');
             const beginDateInput = document.getElementById('Rway-date');
-            if (radio.value === 'option1') {
+            if (radio.value === 'OneWay') {
                 endDateInput.disabled = true;
                 endDateInput.value = '';
                 endDateInput.style.backgroundColor = '#0e4d74';
             }
-            else if (radio.value === 'option2') {
+            else if (radio.value === 'RoundTrip') {
                 endDateInput.disabled = false;
                 endDateInput.value = beginDateInput.value;
                 endDateInput.style.backgroundColor = '';
                 endDateInput.style.backgroundColor = '#0E4D74';
             }
-            else if (radio.value === 'option3') {
-                endDateInput.disabled = true;
-                endDateInput.value = '';
-                endDateInput.style.backgroundColor = '#0e4d74';
+            else if (radio.value === 'AirlineRT') {
+                endDateInput.disabled = false;
+                endDateInput.value = beginDateInput.value;
+                endDateInput.style.backgroundColor = '';
+                endDateInput.style.backgroundColor = '#0E4D74';
             }
         }
 
@@ -2542,6 +2543,33 @@
             const beginDate = document.getElementById('Rway-date').value;
             const endDateInput = document.getElementById('Rway-endDate');
             const endDate = endDateInput.value;
+          
+            if (origin == "") {
+                //alert("Enter Origin Name");
+                var originToDisplay = document.getElementById("errororigin");
+                originToDisplay.style.display = "block";
+                document.getElementById("myInput").focus();
+                return false;
+                event.preventDefault(); // Stop the form submission
+            }
+         
+            if (destination == "") {
+                //alert("Enter Origin Name");
+                var originToDisplay = document.getElementById("errordestinaton");
+                originToDisplay.style.display = "block";
+                document.getElementById("myInput1").focus();
+                return false;
+            }
+
+            if (origin == destination) {
+                alert("Departure and Arrival Airport are same please change it..")
+                return false;
+                event.preventDefault(); // Stop the form submission
+
+            }
+
+
+
 
             if (!origin) {
                 alert('Please enter the origin.');
@@ -2563,6 +2591,10 @@
             return true;
         }
 
+
+       
+
+           
 
         ///Bussines Class Validation radio button
         function toggleRadio(event, radioId, selectedClass) {
@@ -2595,41 +2627,6 @@
         });
 
 
-
-        ///////****************************///////////
-        // Sorting - Filter Start
-        // var sortOrderName;
-        // var sortOrderNameR;
-        // const sortLinks = document.querySelectorAll('.sort-link');
-        // const sortOrders = {
-        //     name: 'desc',
-        //     price: 'desc',
-        //     arrival: 'desc',
-        //     duration: 'desc',
-        //     deprt: 'desc'
-        // };
-
-        // // Add click event listener to each sort link
-        // sortLinks.forEach(sortLink => {
-
-        //     sortLink.addEventListener('click', function (e) {
-        //         e.preventDefault();
-        //         const sortType = this.dataset.sort.split('_')[0];
-        //         const currentSortOrder = sortOrders[sortType];
-        //         sortOrders[sortType] = currentSortOrder === 'desc' ? 'asc' : 'desc';
-        //         const newSortOrder = currentSortOrder === 'desc' ? `${sortType}_desc` : `${sortType}_asc`;
-        //         this.dataset.sort = newSortOrder;
-        //         performSorting(newSortOrder);
-
-        //         // Make AJAX request to post the sorting order to the controller
-        //         postSortOrder(newSortOrder);
-        //     });
-        // });
-
-        // function performSorting(sortOrder) {
-        //     sortOrderName = sortOrder;
-        //     updateFilter();
-        // }
 
         var sortOrderName;
         var sortOrderNameR;
@@ -2936,47 +2933,6 @@
 
 
 
-
-
-
-
-
-        // $(function () {
-        //     // var today = new Date();
-        //     // var dd = String(today.getDate() + 1).padStart(2, '0');
-        //     // var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-        //     // var yyyy = today.getFullYear();
-        //     // var currentDate = yyyy + '-' + mm + '-' + dd;
-
-        //     // Set the current date as the default value in the input field
-        //     //$("#Rway-date").val(currentDate);
-        //     $("#Rway-date").datepicker({
-        //         dateFormat: 'yy-mm-dd',
-        //         numberOfMonths: 2,
-        //         maxDate: '+2m',
-        //         minDate: '0'
-        //     });
-        // });
-
-
-        // //////**********End Date DatePicker**********
-        // $(function () {
-        //     // var today = new Date();
-        //     // var dd = String(today.getDate() + 1).padStart(2, '0');
-        //     // var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-        //     // var yyyy = today.getFullYear();
-        //     // var currentDate = yyyy + '-' + mm + '-' + dd;
-
-        //     // Set the current date as the default value in the input field
-        //     //$("#Rway-endDate").val(currentDate);
-        //     $("#Rway-endDate").datepicker({
-        //         dateFormat: 'yy-mm-dd',
-        //         numberOfMonths: 2,
-        //         maxDate: '+2m',
-        //         minDate: '0'
-        //     });
-        // });
-
     </script>
 
 
@@ -3140,15 +3096,15 @@
 
 
             $('.rplc-btn').on('click', function () {
-                // Get values from the first input box
                 var flyingFromValue = $('#myInput').val();
-
-                // Get values from the second input box
                 var flyingToValue = $('#myInput1').val();
-
-                // Swap values between the two input boxes
                 $('#myInput').val(flyingToValue);
                 $('#myInput1').val(flyingFromValue);
+                if (flyingFromValue == flyingToValue) {
+                    alert("Departure and Arrival Airport are the same. Please change it.");
+                    return false;
+                    event.preventDefault();
+                }
             });
 
             ///END Ready
