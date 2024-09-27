@@ -35,6 +35,10 @@ namespace DomainLayer.Model
 
         public string bookingdate { get; set; }
         public string Segmentiddata { get; set; }
+        public string SegmentidLeftdata { get; set; }
+        public string SegmentidRightdata { get; set; }
+
+
 
 
     }

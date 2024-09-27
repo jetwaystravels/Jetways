@@ -80,9 +80,12 @@ namespace DomainLayer.Model
             new { citycode = "PAT", cityname = "Patna", airportname = "Lok Nayak Jayaprakash Airport" },
             new { citycode = "CNN", cityname = "Kannur", airportname = "Kannur International Airport" },
             new { citycode = "DGH", cityname = "Deoghar", airportname = "Deoghar Airport" },
-            new { citycode = "ATQ", cityname = "Amritsar", airportname = "Sri Guru Ram Dass Jee International Airport" }
+            new { citycode = "ATQ", cityname = "Amritsar", airportname = "Sri Guru Ram Dass Jee International Airport" },
             // Add more data as needed...
 
+            new { citycode = "KUL", cityname = "Kuala Lumpur, Malaysia", airportname = "Kuala Lumpur Intl Malaysia" },
+            new { citycode = "MCT", cityname = "Muscat", airportname = "Seeb Oman" },
+            new { citycode = "CMB", cityname = "Colombo, Sri Lanka", airportname = "Bandaranayake Intl" }
 
             //new { citycode = "AAA", cityname = "Anaa", airportname = "Anaa Arpt "},
             //new { citycode = "AAB", cityname = "Arrabury", airportname = "Arrabury Airport "},

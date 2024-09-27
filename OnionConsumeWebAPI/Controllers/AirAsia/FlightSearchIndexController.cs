@@ -91,10 +91,15 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
         [Route("")]
         public async Task<IActionResult> SearchResultFlight(SimpleAvailabilityRequestModel _GetfligthModel, string flightclass, string SameAirlineRT)
         {
+            TempData["RoundTripRadioButton"] = SameAirlineRT;
             if (SameAirlineRT.ToLower() == "airlinert")
             {
                 TempData["FlightModel"] = JsonConvert.SerializeObject(_GetfligthModel);
                 return RedirectToAction("FlightSameAirline", "FlightSearchIndexRT", new { flightclass = flightclass, SameAirlineRT = SameAirlineRT });
+            }
+            else
+            {
+                //HttpContext.Session.Remove("SameAirlineRT");
             }
 
             if (_GetfligthModel.passengercount != null)

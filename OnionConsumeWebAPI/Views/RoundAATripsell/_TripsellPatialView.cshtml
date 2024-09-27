@@ -2089,13 +2089,15 @@
         </div>
         <div class="fligtbox align-item-center d-flex">
             @{
-                foreach (var item in Model.passeengerlistRT[1].journeys)
+                if (Model.passeengerlistRT.Count > 1)
                 {
-                    <div>
-                        @for (int i = 0; i < 1; i++)
-                        {
-                            @if (item.segments[i].identifier.carrierCode.Equals("SG"))
+                    foreach (var item in Model.passeengerlistRT[1].journeys)
+                    {
+                        <div>
+                            @for (int i = 0; i < 1; i++)
                             {
+                                @if (item.segments[i].identifier.carrierCode.Equals("SG"))
+                                {
 
                                 <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
                             }
@@ -2131,22 +2133,24 @@
                         }
 
 
-                    </div>
-                    <div>@item.designator.origin-@item.designator.destination</div>
+                        </div>
+                        <div>@item.designator.origin-@item.designator.destination</div>
+                    }
                 }
             }
         </div>
         <!---------******************tab 1 ************---------------->
         <div class="tabRT" id="tabContentRT3">
-
-            @foreach (var item in Model.passeengerlistRT[1].journeys)
+            @if (Model.passeengerlistRT.Count > 1)
             {
-                for (int i = 0; i < item.segments.Count; i++)
+                @foreach (var item in Model.passeengerlistRT[1].journeys)
                 {
-                    @if (i == 0)
+                    for (int i = 0; i < item.segments.Count; i++)
                     {
-                        @for (int f = 0; f < @item.segments[i].fares.Count; f++)
+                        @if (i == 0)
                         {
+                            @for (int f = 0; f < @item.segments[i].fares.Count; f++)
+                            {
 
                             <div class="col-auto text-center md:text-left">
 
@@ -2564,8 +2568,9 @@
                                         </table>
                                     }
 
-                                }
-                            </div>
+                                    }
+                                </div>
+                            }
                         }
                     }
                 }
@@ -2578,15 +2583,16 @@
 
         <!---------******************tab 2 ************---------------->
         <div class="tabRT" id="tabContentRT4">
-
-            @foreach (var item in Model.passeengerlistRT[1].journeys)
+            @if (Model.passeengerlistRT.Count > 1)
             {
-                for (int j = 0; j < item.segments.Count; j++)
+                @foreach (var item in Model.passeengerlistRT[1].journeys)
                 {
-                    @if (j == 0)
+                    for (int j = 0; j < item.segments.Count; j++)
                     {
-                        @for (int k = 0; k < @item.segments[j].fares.Count; k++)
+                        @if (j == 0)
                         {
+                            @for (int k = 0; k < @item.segments[j].fares.Count; k++)
+                            {
 
                             <div class="col-auto text-center md:text-left">
 
@@ -2995,8 +3001,9 @@
                                         </table>
                                     }
 
-                                }
-                            </div>
+                                    }
+                                </div>
+                            }
                         }
                     }
                 }

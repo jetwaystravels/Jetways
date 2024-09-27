@@ -54,6 +54,7 @@ namespace OnionConsumeWebAPI.Controllers.SameAirlineRoundTrip
 
         public async Task<IActionResult> FlightSameAirline(string flightclass, string SameAirlineRT)
         {
+            HttpContext.Session.SetString("SameAirlineRT", JsonConvert.SerializeObject(SameAirlineRT));
             var modelJson = TempData["FlightModel"] as string;
             SimpleAvailabilityRequestModel _GetfligthModel = null;
 
@@ -1539,7 +1540,7 @@ namespace OnionConsumeWebAPI.Controllers.SameAirlineRoundTrip
                     httpContextAccessorInstance = new HttpContextAccessor();
                     TravelPort _objAvail = null;
                     _objAvail = new TravelPort(httpContextAccessorInstance);
-                    res = _objAvail.GetAvailabiltyRT(_testURL, sbReq, _objAvail, _GetfligthModel, newGuid.ToString(), _CredentialsGDS.domain, _CredentialsGDS.username, _CredentialsGDS.password, flightclass, "GDSOneWay");
+                    res = _objAvail.GetAvailabiltyRT(_testURL, sbReq, _objAvail, _GetfligthModel, newGuid.ToString(), _CredentialsGDS.domain, _CredentialsGDS.username, _CredentialsGDS.password, flightclass, "GDSRT");
                     TempData["origin"] = _GetfligthModel.origin;
                     TempData["destination"] = _GetfligthModel.destination;
                     TravelPortParsing _objP = new TravelPortParsing();
@@ -1768,6 +1769,14 @@ namespace OnionConsumeWebAPI.Controllers.SameAirlineRoundTrip
                                     else
                                     {
                                         _SimpleAvailibilityaAddResponceobj.Identifier += "@" + getAvailRes[i].Bonds[0].Legs[l].FlightNumber;
+                                    }
+                                    if (string.IsNullOrEmpty(_SimpleAvailibilityaAddResponceobj.SegmentidLeftdata))
+                                    {
+                                        _SimpleAvailibilityaAddResponceobj.SegmentidLeftdata = getAvailRes[i].Bonds[0].Legs[l].AircraftCode;
+                                    }
+                                    else
+                                    {
+                                        _SimpleAvailibilityaAddResponceobj.SegmentidLeftdata += "@" + getAvailRes[i].Bonds[0].Legs[l].AircraftCode;
                                     }
                                 }
                                 IndoStopcounter += segmentscount;
@@ -2034,6 +2043,14 @@ namespace OnionConsumeWebAPI.Controllers.SameAirlineRoundTrip
                                     else
                                     {
                                         _SimpleAvailibilityaAddResponceobjR.Identifier += "@" + getAvailRes[i].Bonds[1].Legs[l].FlightNumber;
+                                    }
+                                    if (string.IsNullOrEmpty(_SimpleAvailibilityaAddResponceobjR.SegmentidRightdata))
+                                    {
+                                        _SimpleAvailibilityaAddResponceobjR.SegmentidRightdata = getAvailRes[i].Bonds[1].Legs[l].AircraftCode;
+                                    }
+                                    else
+                                    {
+                                        _SimpleAvailibilityaAddResponceobjR.SegmentidRightdata += "@" + getAvailRes[i].Bonds[1].Legs[l].AircraftCode;
                                     }
                                 }
                                 IndoStopcounter += segmentscount;
@@ -3744,5 +3761,6 @@ namespace OnionConsumeWebAPI.Controllers.SameAirlineRoundTrip
             }
 
         }
+
     }
 }

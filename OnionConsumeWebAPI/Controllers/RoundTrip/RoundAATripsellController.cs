@@ -239,7 +239,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
             string[] dataArray = JsonConvert.DeserializeObject<string[]>(SelectedAirlinedata);
             for (int i = 0; i < dataArray.Length; i++)
             {
-
+                if (dataArray[i] == null)  // Change for same Airline Roundtrip-26-09-2024
+                    continue;
                 string tokenview = string.Empty;
                 if (i == 0)
                 {
@@ -463,6 +464,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
             string[] dataArray = JsonConvert.DeserializeObject<string[]>(SelectedAirlinedata);
             for (int i = 0; i < dataArray.Length; i++)
             {
+                if (dataArray[i] == null) // Change for same Airline Roundtrip-26-09-2024
+                    continue;
                 string tokenview = string.Empty;
                 if (i == 0)
                 {
@@ -605,7 +608,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
             {
                 string tokenview = HttpContext.Session.GetString("AirasiaTokan");
 
-
+                if (dataArray[i1] == null) // Change for same Airline Roundtrip-26-09-2024
+                    continue;
                 using (HttpClient client = new HttpClient())
                 {
                     if (!string.IsNullOrEmpty(tokenview) && dataArray[i1].ToLower() == "airasia")
