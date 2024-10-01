@@ -1093,17 +1093,17 @@
                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "Premium Flex")
                                 {
                                     <td>7 k.g</td>
-                                    <td><strong>15 k.g </strong></td>
+                                    <td><strong>25 k.g </strong></td>
                                     <td>
 
                                         <div>
-                                            Fee starts at (Rs. 3500) Onward.
+                                            Lower cancellation fees Rs. 500
                                         </div>
                                     </td>
                                     <td>
 
                                         <div>
-                                            Fee starts at (Rs. 3000) Onward.
+                                            No refund on date change.
                                         </div>
                                     </td>
                                     <td>
@@ -1489,9 +1489,104 @@
 
                                 </span>
                             </td>
-                            <td>Adult</td>
-                            <td>15 Kg</td>
-                            <td>7 Kg</td>
+                            @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("SG"))
+                            {
+                                <td>Adult</td>
+                                <td>15 kg</td>
+                                <td>7 kg</td>
+                            }
+                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("6E"))
+                            {
+                                <td>Adult</td>
+                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("BR"))
+                                {
+                                    <td>30 kg</td>
+                                    <td>7 kg</td>
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("BC"))
+                                {
+                                    <td>40 kg</td>
+                                    <td>7 kg</td>
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("O"))
+                                {
+                                    <td>25 kg</td>
+                                    <td>7 kg</td>
+                                }
+                                else
+                                {
+                                    <td>15 kg</td>
+                                    <td>7 kg</td>
+                                }
+
+                            }
+                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("QP"))
+                            {
+                                <td>Adult</td>
+                                <td>15 kg</td>
+                                <td>7 kg</td>
+                            }
+                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("UK"))
+                            {
+                                <td>Adult</td>
+                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Premium Economy Value"))
+                                {
+                                    <td>20 kg</td>
+                                    <td>7 kg</td>
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Economy Flexi"))
+                                {
+                                    <td>20 kg</td>
+                                    <td>7 kg</td>
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Premium Economy Standard"))
+                                {
+                                    <td>25 kg</td>
+                                    <td>7 kg</td>
+                                }
+                                else
+                                {
+                                    <td>15 kg</td>
+                                    <td>7 kg</td>
+                                }
+
+                            }
+                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("AI"))
+                            {
+                                <td>Adult</td>
+                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Eco Flex"))
+                                {
+                                    <td>25 kg</td>
+                                    <td>7 kg</td>
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Premium Flex"))
+                                {
+                                    <td>25 kg</td>
+                                    <td>10 kg</td>
+                                }
+                                else
+                                {
+                                    <td>15 kg</td>
+                                    <td>7 kg</td>
+                                }
+
+                            }
+
+                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("IX"))
+                            {
+                                <td>Adult</td>
+                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("VV"))
+                                {
+                                    <td>25 kg</td>
+                                    <td>7 kg</td>
+                                }
+                                else
+                                {
+                                    <td>15 kg</td>
+                                    <td>7 kg</td>
+                                }
+
+                            }
                         </tr>
                     </tbody>
                 </table>
@@ -1525,21 +1620,95 @@
                             }
                             else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("QP"))
                             {
-                                <td>3100 Rs.</td>
-                                <td>4 days & above</td>
-                                <td>As per Airline Fare rule</td>
+                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("EC"))
+                                {
+                                    <td>2999 Rs.</td>
+                                     <td>4 days & above</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("AV"))
+                                {
+                                    <td>Rs. 1999</td>
+                                    <td>4 days & above</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+                                
+                              
                             }
                             else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("UK"))
                             {
-                                <td>Fee starts at (Rs. 3710) Onward.</td>
-                                <td>Fee starts at (Rs. 3710) Onward.</td>
-                                <td>As per Airline Fare rule</td>
+                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Economy Lite"))
+                                {
+                                    <td>Rs. 3710</td>
+                                    <td>Fee starts at Onward</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Economy Standard"))
+                                {
+                                    <td>Rs. 3371</td>
+                                    <td>Fee starts at Onward</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Premium Economy Value"))
+                                {
+                                    <td>Rs. 3445</td>
+                                    <td>Fees starts at onward</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Economy Flexi"))
+                                {
+                                    <td>Rs. 3371</td>
+                                    <td>Fees starts at onward</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Premium Economy Standard"))
+                                {
+                                    <td>Rs. 3180</td>
+                                    <td>Fees starts at onward</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+                                else
+                                {
+                                    <td>Rs. 3445</td>
+                                    <td>Fees starts at onward</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
                             }
                             else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("AI"))
                             {
-                                <td>Fee starts at (Rs. 4000) Onward.</td>
-                                <td>Fee starts at (Rs. 4000) Onward.</td>
-                                <td>As per Airline Fare rule</td>
+
+                               
+                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Eco Flex"))
+                                {
+                                    <td>Rs. 500</td>
+                                    <td>Lower cancellation fess</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Premium Flex"))
+                                {
+                                    <td> Rs. 500</td>
+                                    <td>Lower cancellation fess</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Premium Comfort Plus"))
+                                {
+                                    <td>Rs. 3500</td>
+                                    <td>Fees starts at onward</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Eco Comfort Plus"))
+                                {
+                                    <td>Rs. 3500</td>
+                                    <td>Fees starts at onward</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+                                else
+                                {
+                                    <td>Rs. 4000</td>
+                                    <td>Rs. 3000</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+
                             }
                             else
                             {

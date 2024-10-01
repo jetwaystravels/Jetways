@@ -3338,8 +3338,8 @@
 
             }
             else {
-                // If none of the above conditions match, you can set a default image source here
-                imageSrc = ''; // Set a default image source or leave it blank if you don't want to show any image
+               
+                imageSrc = ''; 
             }
 
             // Now, use the image source to set the src attribute of the image
@@ -3374,17 +3374,25 @@
        
 
         $('#ReturnButtonId').click(function () {
-
-
+            var sameairLine = $('.sameairLine').val();
+            if (sameairLine === "AirlineRT") 
+            {
+                var bottomLeft = $('#carierCodedata').text();
+                var bottomRight = $('#carrierreturndataR').text();
+                if (bottomLeft !== bottomRight) {
+                    alert("Please select both sides with the same airline.");
+                    return false;
+                }
+               
+            }
+            
             var arrivalTime = $('#arrivalData').text();
             var returnFlightTime = $('#departurereturndata').text();
             var Leftdate = $('#leftdate').val();
             var rightdate = $('#rightdate').val();
             var LeftdateL = $('#arrivalDatadate').text();
             var rightdateR = $('#arrivalreturndataR').text();
-            //alert(LeftdateL);
-            //alert(rightdateR);
-            if (Leftdate == rightdate) {
+             if (Leftdate == rightdate) {
                 //alert("SameDate");
                 var arrivalMinutes = convertToMinutes(arrivalTime);
                 var returnFlightMinutes = convertToMinutes(returnFlightTime);

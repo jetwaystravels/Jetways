@@ -2,6 +2,12 @@
     @{
         string queryorigin = string.Empty;
         string querydestination = string.Empty;
+        string SameAirlinesRT = string.Empty; 
+        if (ViewData["SameAirlineRT"] != null)
+        {
+            SameAirlinesRT = ViewData["SameAirlineRT"].ToString();
+        }
+
         if (ViewData["origin"] != null)
         {
             queryorigin = ViewData["origin"].ToString();
@@ -121,6 +127,7 @@
                                 <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
                             }
 
+                           <input type="hidden" class="sameairLine" name="sameairLine" value="@SameAirlinesRT" />
                             <input type="hidden" value="@Model.SimpleAvailibilityaAddResponcelist[j].uniqueId" />
                             <input type="hidden" class="carrierCode" name="carrierCode" value="@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode" />
                             <input type="hidden" class="identifier" name="identifier" value="@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.identifier" />

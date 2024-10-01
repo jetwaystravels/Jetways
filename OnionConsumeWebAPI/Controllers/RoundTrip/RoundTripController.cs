@@ -25,6 +25,10 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
         public IActionResult RTFlightView()
         {
 
+
+            var sameAirlineRT = TempData["RoundTripSameAirline"];
+            ViewData["SameAirlineRT"] = sameAirlineRT;
+            
             var searchcount = TempData["count"];
             ViewData["count"] = searchcount;
 
