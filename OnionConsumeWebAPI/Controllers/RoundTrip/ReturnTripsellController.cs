@@ -38,14 +38,14 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
         public async Task<IActionResult> ReturnTripsellView(List<string> fareKey, List<string> journeyKey)
         {
 		    //Code for Same Airline Roundtrip 26-09-2024
-            string SameAirlineRT= JsonConvert.DeserializeObject<string>(HttpContext.Session.GetString("SameAirlineRT"));
-            string getRadioButton = TempData["RoundTripRadioButton"].ToString();
-            if (getRadioButton.ToLower() != "roundtrip")
-            {
-                TempData["fareKeyModel"] = JsonConvert.SerializeObject(fareKey);
-                TempData["journeyKeyModel"] = JsonConvert.SerializeObject(journeyKey);
-                return RedirectToAction("ReturnTripsellView", "ReturnTripsellRT");
-            }
+            //string SameAirlineRT= JsonConvert.DeserializeObject<string>(HttpContext.Session.GetString("SameAirlineRT"));
+            //string getRadioButton = TempData["RoundTripRadioButton"].ToString();
+            //if (getRadioButton.ToLower() != "roundtrip")
+            //{
+            //    TempData["fareKeyModel"] = JsonConvert.SerializeObject(fareKey);
+            //    TempData["journeyKeyModel"] = JsonConvert.SerializeObject(journeyKey);
+            //    return RedirectToAction("ReturnTripsellView", "ReturnTripsellRT");
+            //}
 			//end here
 
             Airlinenameforcommit airlinenameforcommit = new Airlinenameforcommit();

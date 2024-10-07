@@ -32,7 +32,11 @@ namespace OnionArchitectureAPI.Services.Indigo
             _ContactModel6E.ContractVersion = 456;
             _ContactModel6E.updateContactsRequestData.BookingContactList = new BookingContact[1];
             _ContactModel6E.updateContactsRequestData.BookingContactList[0] = new BookingContact();
-           
+            _ContactModel6E.updateContactsRequestData.BookingContactList[0].Names=new BookingName[1];
+            _ContactModel6E.updateContactsRequestData.BookingContactList[0].Names[0] = new BookingName();
+            _ContactModel6E.updateContactsRequestData.BookingContactList[0].Names[0].FirstName = "TestFirst";
+            _ContactModel6E.updateContactsRequestData.BookingContactList[0].Names[0].LastName = "Testlast";
+
             if (customerNumber != null && customerNumber != "")
             {
                 _ContactModel6E.updateContactsRequestData.BookingContactList[0].TypeCode = "I";
