@@ -22,7 +22,7 @@
                 <input type="text" name="emailAddress" maxlength="40" oninput="validateEmail(event)" class="emailNClass" id="emailAddress" placeholder="Email ID">
             </div>
             <p id="emailErrorMessage" style="color: red; font-size:13px;"></p>
-            <p id="error-message7" class="error-message" style="display:none">Enter Email Address.</p>
+            <p id="error-message7" class="error-message" style="display:none">Enter a valid email address.</p>
         </div>
 
         <div class="col-md-1 phone-code">
@@ -36,7 +36,7 @@
                 <input type="text" name="number" id="number" maxlength="10" class="phoneNClass" placeholder="Phone Number" oninput="validatePhoneNumber(event)">
 
             </div>
-            <p id="error-message8" class="error-message" style="display:none">Enter Phone Number</p>
+            <p id="error-message8" class="error-message" style="display:none">Enter valid Phone Number</p>
             <p id="phoneNumberErrorMessage" style="color: red;font-size:13px;"></p>
         </div>
         <div class="d-flex justify-content-between mt-3">
@@ -247,11 +247,12 @@
 
             // email
             let emailfocus = document.getElementById("emailAddress").value;
-            var regex = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            //var regex = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            var regex = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;     
             if (!regex.test(emailfocus)) {
                 let emailToDisplay = document.getElementById("error-message7");
                 emailToDisplay.style.display = "none";
-                document.getElementById('emailErrorMessage').innerText = "Enter Email Address.";
+                document.getElementById('emailErrorMessage').innerText = "Enter a valid email address.";
 
                 return false;
 
@@ -327,17 +328,18 @@
                 // GST Email Validation
                 let gstemailfocus = document.getElementById("emailAddressGST").value;
                 
-                var emailRegex = /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
-
+                //var emailRegex = /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+                var emailRegex = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
                 if (gstemailfocus == "") {
                   
                 } else if (!emailRegex.test(gstemailfocus)) {
-                    document.getElementById('gstEmailErrorMessage').innerText = "Enter a valid email address.";
+                    //document.getElementById('gstEmailErrorMessage').innerText = "Enter a valid email address.";
+                    document.getElementById('emailErrorMessageGST').innerText = "Enter a valid email address.";
                     return false;
                 } else {
                   
                    
-                }
+                } 
             
 
             }
@@ -475,9 +477,9 @@
         const phoneNumber = event.target.value;
         
         // Regex to validate a phone number that starts with 1-9 and is followed by digits
-        const regex = /^[1-9][0-9]{9}$/;
+        //const regex = /^[1-9][0-9]{9}$/;
 
-       // const regex = /^\d{10,}$/;
+        const regex = /^\d{10,}$/;
 
        // const regex = /^[0-9]+$/;
 
@@ -485,8 +487,8 @@
             if (phoneNumber === "") {
                 return false;
             }
-          else { 
-            document.getElementById('phoneNumberErrorMessage').innerText = "Invalid Phone Number";
+          else {
+                document.getElementById('phoneNumberErrorMessage').innerText = "";//Invalid Phone Number
             let phoneToDisplay = document.getElementById("error-message8");
             phoneToDisplay.style.display = "block";
             return false;

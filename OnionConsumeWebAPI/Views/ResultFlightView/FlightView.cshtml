@@ -2,6 +2,7 @@
 @{
     Layout = null;
     var data = Model;
+
 }
 
 <!DOCTYPE html>
@@ -22,7 +23,7 @@
     <link rel="stylesheet" href="~/css/daterangepicker.css">
     <link href="~/css/roundviewpage.css" rel="stylesheet" />
     <link href="~/css/indexvny.css" rel="stylesheet" />
-    <script src="~/js/custom.js/indexpage.js"></script>
+   
 </head>
 <body>
 
@@ -182,280 +183,383 @@
                                                         <input id="Oneway-endDate" name="endDate" type="text" class="form-control" value="" disabled>
                                                     </span>
                                                 </div>
-                                                <div class="col-12 col-md-10 col-lg-2 space travellers">
-                                                    <label style="margin-bottom: 0.1rem;">Travellers </label>
-                                                    <div class="searchMenu-guests js-form-dd js-form-counters">
-                                                        <div data-x-dd-click="searchMenu-guests">
-                                                            <div class="text-15 text-light-1 ls-2 lh-16">
-                                                                <span class="js-count-adult  text-16 text-light-1 fw-400" id="count_adult">@Model.simpleAvailabilityRequestModelEdit.passengers.types[0].count</span> adults
-                                                                @if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 1)
-                                                                {
+                                                @{
+                                                   
 
-                                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types[1].type == "CHD")
-                                                                    {
-                                                                        <span class="js-count-child  text-16 text-light-1 fw-400" id="count_child">@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count</span>
-                                                                        <span>children</span>
-                                                                    }
-                                                                    else
-                                                                    {
+                                                    int AdultCount = 0;
+                                                    int ChildCount = 0;
+                                                    int InfantCount = 0;
+                                                   
+                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 0
+                                                    && Model.simpleAvailabilityRequestModelEdit.passengers.types[0].type == "ADT")
+                                                    {
+                                                        AdultCount = Model.simpleAvailabilityRequestModelEdit.passengers.types[0].count;
+                                                    }
 
-                                                                        <span class="js-count-child text-16 text-light-1 fw-400" id="count_child">0</span>
-                                                                        <span>children</span>
+                                                    
+                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 1
+                                                    && Model.simpleAvailabilityRequestModelEdit.passengers.types[1].type == "CHD")
+                                                    {
+                                                        ChildCount = Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count;
+                                                    }
 
-                                                                    }
-                                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types[1].type == "INFT")
-                                                                    {
-                                                                        <span class="js-count-infents  text-16 text-light-1 fw-400" id="count_infant">@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count</span>
-                                                                        <span>infant</span>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 2)
-                                                                        {
-                                                                            if (Model.simpleAvailabilityRequestModelEdit.passengers.types[2].type == "INFT")
-                                                                            {
-
-                                                                            }
-                                                                        }
-                                                                        else if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 3)
-                                                                        {
-
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <span class="js-count-infents text-16 text-light-1 fw-400" id="count_infant">0</span>
-                                                                            <span>infant</span>
-
-                                                                        }
-
-                                                                    }
-
-                                                                }
-                                                                else
-                                                                {
-                                                                    <span class="js-count-child text-16 text-light-1 fw-400" id="count_child">0</span>
-                                                                    <span>children</span>
-                                                                }
-                                                                @if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 2)
-                                                                {
-                                                                    <span class="js-count-infents  text-16 text-light-1 fw-400" id="count_infant">@Model.simpleAvailabilityRequestModelEdit.passengers.types[2].count</span>
-
-                                                                    <span>infant</span>
-                                                                }
-                                                                else
-                                                                {
-                                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 1)
-                                                                    {
-
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <span class="js-count-infents text-16 text-light-1 fw-400" id="count_infant">0</span>
-                                                                        <span>infant</span>
-
-                                                                    }
-
-                                                                }
-
-                                                            </div>
-                                                        </div>
+                                                    
+                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 2
+                                                    && Model.simpleAvailabilityRequestModelEdit.passengers.types[2].type == "INFT")
+                                                    {
+                                                        InfantCount = Model.simpleAvailabilityRequestModelEdit.passengers.types[2].count;
+                                                    }
 
 
-                                                        <div class="searchMenu-guests__field shadow-2" data-x-dd="searchMenu-guests" data-x-dd-toggle="-is-active">
+                                                    <div class="col-12 col-md-10 col-lg-2 space travellers">
+                                                        <label style="margin-bottom: 0.1rem;">Travellers </label>
 
-                                                            <div class="bg-white px-30 py-30 rounded-4">
+                                                        <div class="searchMenu-guests js-form-dd js-form-counters">
+                                                            <div data-x-dd-click="searchMenu-guests">
 
-                                                                @*  ------------------------ *@
-                                                                <div class="d-flex y-gap-10 justify-between items-center">
-                                                                    <div class="btn-incr-adult">
-                                                                        <div class="text-15 fw-500">Adults</div>
-                                                                        <input type="hidden" name="adulttype" value="ADT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.adulttype" />
-                                                                        <div class="text-15 fw-500">Aged 12+ yrs</div>
-                                                                    </div>
-                                                                    <div class="btn-increase">
-                                                                        <div class="decrement sub btn_sub">-</div>
-                                                                        <input type="number" id="field_adult" class="input-field" name="adultcount" value="@Model.simpleAvailabilityRequestModelEdit.passengers.types[0].count" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.adultcount" min="1" max="9">
-                                                                        <div class="increment add btn_sub">+</div>
-                                                                    </div>
+                                                                <div class="text-15 text-light-1 ls-2 lh-16">
+                                                                    <span class="js-count-adult text-22 text-light-1 fw-600" id="count_adult">@AdultCount</span> adults
+                                                                    -
+                                                                    <span class="js-count-child text-22 text-light-1 fw-600" id="count_child">@ChildCount</span> children
+                                                                    -
+                                                                    <span class="js-count-infents text-22 text-light-1 fw-600" id="count_infant">@InfantCount</span> Infants
                                                                 </div>
-                                                                <div class="border-top-light mt-24 mb-24"></div>
-                                                                @if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 1)
-                                                                {
+                                                            </div>
 
+                                                            <div class="searchMenu-guests__field shadow-2" data-x-dd="searchMenu-guests" data-x-dd-toggle="-is-active">
 
+                                                                <div class="bg-white px-30 py-30 rounded-4">
 
-                                                                    @if (Model.simpleAvailabilityRequestModelEdit.passengers.types[1].type == "CHD")
-                                                                    {
-                                                                        <div class="d-flex y-gap-10 justify-between items-center">
-                                                                            <div class="btn-incr-chld">
-                                                                                <div class="text-15 fw-500">
-                                                                                    Children
-                                                                                </div>
-                                                                                <input type="hidden" name="childtype" value="CHD" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childtype" />
-                                                                                <div class="text-15 fw-500">
-                                                                                    Aged 2-12 yrs
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="btn-increase">
-                                                                                <div class="decrement1 sub btn_sub">-</div>
-                                                                                <input type="number" id="field_child" class="input-field" value="@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count" name="childcount" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childcount" min="0" max="6">
-                                                                                <div class="increment1 add btn_sub">+</div>
-                                                                            </div>
+                                                                    @*  ------------------------ *@
+                                                                    <div class="d-flex y-gap-10 justify-between items-center">
+                                                                        <div class="btn-incr-adult text-dark">
+                                                                            <div class="text-13 fw-600">Adults</div>
+
+                                                                            <input type="hidden" name="adulttype" value="ADT" asp-for="@AdultCount" />
+                                                                            <div class="text-13 fw-500">Aged 12+ yrs</div>
                                                                         </div>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <div class="d-flex y-gap-10 justify-between items-center">
-                                                                            <div class="btn-incr-chld">
-                                                                                <div class="text-15 fw-500">
-                                                                                    Children
-                                                                                </div>
-                                                                                <input type="hidden" name="childtype" value="CHD" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childtype" />
-                                                                                <div class="text-15 fw-500">
-                                                                                    Aged 2-12 yrs
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="btn-increase">
-                                                                                <div class="decrement1 sub btn_sub">-</div>
-                                                                                <input type="number" id="field_child" class="input-field" value="0" name="childcount" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childcount" min="0" max="6">
-                                                                                <div class="increment1 add btn_sub">+</div>
-                                                                            </div>
+                                                                        <div class="btn-increase">
+                                                                            <div class="decrement sub btn_sub">-</div>
+
+                                                                            <input type="number" id="field_adult" name="adultcount" class="input-field" value="@AdultCount" asp-for="@AdultCount" min="1" max="9">
+                                                                            <div class="increment add btn_sub">+</div>
                                                                         </div>
-
-                                                                    }
-
-
+                                                                    </div>
                                                                     <div class="border-top-light mt-24 mb-24"></div>
                                                                     <div class="d-flex y-gap-10 justify-between items-center">
-                                                                        @if (Model.simpleAvailabilityRequestModelEdit.passengers.types[1].type == "INFT")
-                                                                        {
-                                                                            <div class="infant-area">
-                                                                                <div class="text-15 fw-500">Infants</div>
-                                                                                <input type="hidden" name="infanttype" value="INFT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infanttype" />
-                                                                                <div class="text-15 fw-500">
-                                                                                    Below 2 yrs
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="btn-increase">
-                                                                                <div class="decrement2 sub btn_sub">-</div>
-                                                                                <input type="number" id="field_infant" class="input-field" name="infantcount" value="@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infantcount" min="0" max="6">
-                                                                                <div class="increment2 add btn_sub">+</div>
-                                                                            </div>
-                                                                        }
-                                                                        else
-                                                                        {
-
-                                                                            if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 2)
-                                                                            {
-                                                                                if (Model.simpleAvailabilityRequestModelEdit.passengers.types[2].type == "INFT")
-                                                                                {
-
-                                                                                }
-                                                                            }
-                                                                            else if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 3)
-                                                                            {
-
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                                <div class="infant-area">
-                                                                                    <div class="text-15 fw-500">Infants</div>
-                                                                                    <input type="hidden" name="infanttype" value="INFT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infanttype" />
-                                                                                    <div class="text-15 fw-500">
-                                                                                        Below 2 yrs
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="btn-increase">
-                                                                                    <div class="decrement2 sub btn_sub">-</div>
-
-                                                                                    <input type="number" id="field_infant" class="input-field" name="infantcount" value="0" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infantcount" min="0" max="6">
-                                                                                    <div class="increment2 add btn_sub">+</div>
-
-                                                                                </div>
-                                                                            }
-
-                                                                        }
-
-                                                                    </div>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <div class="d-flex y-gap-10 justify-between items-center">
-                                                                        <div class="btn-incr-chld">
-                                                                            <div class="text-15 fw-500">
+                                                                        <div class="btn-incr-chld  text-dark">
+                                                                            <div class="text-13 fw-600">
                                                                                 Children
                                                                             </div>
-                                                                            <input type="hidden" name="childtype" value="CHD" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childtype" />
-                                                                            <div class="text-15 fw-500">
+                                                                            <input type="hidden" name="childtype" value="CHD" asp-for="@ChildCount" />
+                                                                            <div class="text-13 fw-500">
                                                                                 Aged 2-12 yrs
                                                                             </div>
                                                                         </div>
                                                                         <div class="btn-increase">
                                                                             <div class="decrement1 sub btn_sub">-</div>
-                                                                            <input type="number" id="field_child" class="input-field" value="0" name="childcount" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childcount" min="0" max="6">
+                                                                            <input type="number" id="field_child" name="childcount" class="input-field" value="@ChildCount" asp-for="@ChildCount" min="0" max="6">
                                                                             <div class="increment1 add btn_sub">+</div>
 
                                                                         </div>
                                                                     </div>
                                                                     <div class="border-top-light mt-24 mb-24"></div>
-
-                                                                }
-                                                                @* <div class="border-top-light mt-24 mb-24"></div> *@
-                                                                <div class="d-flex y-gap-10 justify-between items-center">
-                                                                    @if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 2)
-                                                                    {
-                                                                        @if (Model.simpleAvailabilityRequestModelEdit.passengers.types[2].type == "INFT")
-                                                                        {
-                                                                            <div class="infant-area">
-                                                                                <div class="text-15 fw-500">Infants</div>
-                                                                                <input type="hidden" name="infanttype" value="INFT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infanttype" />
-                                                                                <div class="text-15 fw-500">
-                                                                                    Below 2 yrs
-                                                                                </div>
+                                                                    <div class="d-flex y-gap-10 justify-between items-center">
+                                                                        <div class="infant-area  text-dark">
+                                                                            <div class="text-13 fw-600">Infants</div>
+                                                                            <input type="hidden" name="infanttype" value="INFT" asp-for="@InfantCount" />
+                                                                            <div class="text-13 fw-500">
+                                                                                Below 2 yrs
                                                                             </div>
-                                                                            <div class="btn-increase">
-                                                                                <div class="decrement2 sub btn_sub">-</div>
+                                                                        </div>
+                                                                        <div class="btn-increase">
+                                                                            <div class="decrement2 sub btn_sub">-</div>
 
-                                                                                <input type="number" id="field_infant" class="input-field" name="infantcount" value="@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infantcount" min="0" max="6">
-                                                                                <div class="increment2 add btn_sub">+</div>
+                                                                            <input type="number" id="field_infant" name="infantcount" class="input-field" value="@InfantCount" asp-for="@InfantCount" min="0" max="6">
+                                                                            <div class="increment2 add btn_sub">+</div>
 
-                                                                            </div>
-                                                                        }
-                                                                    }
-                                                                    else
-                                                                    {
+                                                                        </div>
+                                                                    </div>
 
-                                                                        if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 1)
-                                                                        {
+                                                                    <div class="border-top-light mt-24 mb-24"></div>
 
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <div class="infant-area">
-                                                                                <div class="text-15 fw-500">Infants</div>
-                                                                                <input type="hidden" name="infanttype" value="INFT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infanttype" />
-                                                                                <div class="text-15 fw-500">
-                                                                                    Below 2 yrs
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="btn-increase">
-                                                                                <div class="decrement2 sub btn_sub">-</div>
-
-                                                                                <input type="number" id="field_infant" class="input-field" name="infantcount" value="0" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infantcount" min="0" max="6">
-                                                                                <div class="increment2 add btn_sub">+</div>
-
-                                                                            </div>
-                                                                        }
-
-                                                                    }
                                                                 </div>
-
-                                                                @*  <div class="border-top-light mt-24 mb-24"></div> *@
-
                                                             </div>
                                                         </div>
+
+                                                        @* <div class="searchMenu-guests js-form-dd js-form-counters">
+                                                    <div data-x-dd-click="searchMenu-guests">
+                                                    <div class="text-15 text-light-1 ls-2 lh-16">
+                                                    <span class="js-count-adult  text-16 text-light-1 fw-400" id="count_adult">@Model.simpleAvailabilityRequestModelEdit.passengers.types[0].count</span> adults
+                                                    @if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 1)
+                                                    {
+
+                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types[1].type == "CHD")
+                                                    {
+                                                    <span class="js-count-child  text-16 text-light-1 fw-400" id="count_child">@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count</span>
+                                                    <span>children</span>
+                                                    }
+                                                    else
+                                                    {
+
+                                                    <span class="js-count-child text-16 text-light-1 fw-400" id="count_child">0</span>
+                                                    <span>children</span>
+
+                                                    }
+                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types[1].type == "INFT")
+                                                    {
+                                                    <span class="js-count-infents  text-16 text-light-1 fw-400" id="count_infant">@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count</span>
+                                                    <span>infant</span>
+                                                    }
+                                                    else
+                                                    {
+                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 2)
+                                                    {
+                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types[2].type == "INFT")
+                                                    {
+
+                                                    }
+                                                    }
+                                                    else if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 3)
+                                                    {
+
+                                                    }
+                                                    else
+                                                    {
+                                                    <span class="js-count-infents text-16 text-light-1 fw-400" id="count_infant">0</span>
+                                                    <span>infant</span>
+
+                                                    }
+
+                                                    }
+
+                                                    }
+                                                    else
+                                                    {
+                                                    <span class="js-count-child text-16 text-light-1 fw-400" id="count_child">0</span>
+                                                    <span>children</span>
+                                                    }
+                                                    @if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 2)
+                                                    {
+                                                    <span class="js-count-infents  text-16 text-light-1 fw-400" id="count_infant">@Model.simpleAvailabilityRequestModelEdit.passengers.types[2].count</span>
+
+                                                    <span>infant</span>
+                                                    }
+                                                    else
+                                                    {
+                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 1)
+                                                    {
+
+                                                    }
+                                                    else
+                                                    {
+                                                    <span class="js-count-infents text-16 text-light-1 fw-400" id="count_infant">0</span>
+                                                    <span>infant</span>
+
+                                                    }
+
+                                                    }
+
                                                     </div>
-                                                </div>
+                                                    </div>
+
+
+                                                    <div class="searchMenu-guests__field shadow-2" data-x-dd="searchMenu-guests" data-x-dd-toggle="-is-active">
+
+                                                    <div class="bg-white px-30 py-30 rounded-4">
+
+                                                    @*  ------------------------
+                                                    <div class="d-flex y-gap-10 justify-between items-center">
+                                                    <div class="btn-incr-adult">
+                                                    <div class="text-15 fw-500">Adults</div>
+                                                    <input type="hidden" name="adulttype" value="ADT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.adulttype" />
+                                                    <div class="text-15 fw-500">Aged 12+ yrs</div>
+                                                    </div>
+                                                    <div class="btn-increase">
+                                                    <div class="decrement sub btn_sub">-</div>
+                                                    <input type="number" id="field_adult" class="input-field" name="adultcount" value="@Model.simpleAvailabilityRequestModelEdit.passengers.types[0].count" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.adultcount" min="1" max="9">
+                                                    <div class="increment add btn_sub">+</div>
+                                                    </div>
+                                                    </div>
+                                                    <div class="border-top-light mt-24 mb-24"></div>
+                                                    @if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 1)
+                                                    {
+
+
+
+                                                    @if (Model.simpleAvailabilityRequestModelEdit.passengers.types[1].type == "CHD")
+                                                    {
+                                                    <div class="d-flex y-gap-10 justify-between items-center">
+                                                    <div class="btn-incr-chld">
+                                                    <div class="text-15 fw-500">
+                                                    Children
+                                                    </div>
+                                                    <input type="hidden" name="childtype" value="CHD" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childtype" />
+                                                    <div class="text-15 fw-500">
+                                                    Aged 2-12 yrs
+                                                    </div>
+                                                    </div>
+                                                    <div class="btn-increase">
+                                                    <div class="decrement1 sub btn_sub">-</div>
+                                                    <input type="number" id="field_child" class="input-field" value="@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count" name="childcount" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childcount" min="0" max="6">
+                                                    <div class="increment1 add btn_sub">+</div>
+                                                    </div>
+                                                    </div>
+                                                    }
+                                                    else
+                                                    {
+                                                    <div class="d-flex y-gap-10 justify-between items-center">
+                                                    <div class="btn-incr-chld">
+                                                    <div class="text-15 fw-500">
+                                                    Children
+                                                    </div>
+                                                    <input type="hidden" name="childtype" value="CHD" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childtype" />
+                                                    <div class="text-15 fw-500">
+                                                    Aged 2-12 yrs
+                                                    </div>
+                                                    </div>
+                                                    <div class="btn-increase">
+                                                    <div class="decrement1 sub btn_sub">-</div>
+                                                    <input type="number" id="field_child" class="input-field" value="0" name="childcount" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childcount" min="0" max="6">
+                                                    <div class="increment1 add btn_sub">+</div>
+                                                    </div>
+                                                    </div>
+
+                                                    }
+
+
+                                                    <div class="border-top-light mt-24 mb-24"></div>
+                                                    <div class="d-flex y-gap-10 justify-between items-center">
+                                                    @if (Model.simpleAvailabilityRequestModelEdit.passengers.types[1].type == "INFT")
+                                                    {
+                                                    <div class="infant-area">
+                                                    <div class="text-15 fw-500">Infants</div>
+                                                    <input type="hidden" name="infanttype" value="INFT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infanttype" />
+                                                    <div class="text-15 fw-500">
+                                                    Below 2 yrs
+                                                    </div>
+                                                    </div>
+                                                    <div class="btn-increase">
+                                                    <div class="decrement2 sub btn_sub">-</div>
+                                                    <input type="number" id="field_infant" class="input-field" name="infantcount" value="@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infantcount" min="0" max="6">
+                                                    <div class="increment2 add btn_sub">+</div>
+                                                    </div>
+                                                    }
+                                                    else
+                                                    {
+
+                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 2)
+                                                    {
+                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types[2].type == "INFT")
+                                                    {
+
+                                                    }
+                                                    }
+                                                    else if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 3)
+                                                    {
+
+                                                    }
+                                                    else
+                                                    {
+                                                    <div class="infant-area">
+                                                    <div class="text-15 fw-500">Infants</div>
+                                                    <input type="hidden" name="infanttype" value="INFT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infanttype" />
+                                                    <div class="text-15 fw-500">
+                                                    Below 2 yrs
+                                                    </div>
+                                                    </div>
+                                                    <div class="btn-increase">
+                                                    <div class="decrement2 sub btn_sub">-</div>
+
+                                                    <input type="number" id="field_infant" class="input-field" name="infantcount" value="0" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infantcount" min="0" max="6">
+                                                    <div class="increment2 add btn_sub">+</div>
+
+                                                    </div>
+                                                    }
+
+                                                    }
+
+                                                    </div>
+                                                    }
+                                                    else
+                                                    {
+                                                    <div class="d-flex y-gap-10 justify-between items-center">
+                                                    <div class="btn-incr-chld">
+                                                    <div class="text-15 fw-500">
+                                                    Children
+                                                    </div>
+                                                    <input type="hidden" name="childtype" value="CHD" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childtype" />
+                                                    <div class="text-15 fw-500">
+                                                    Aged 2-12 yrs
+                                                    </div>
+                                                    </div>
+                                                    <div class="btn-increase">
+                                                    <div class="decrement1 sub btn_sub">-</div>
+                                                    <input type="number" id="field_child" class="input-field" value="0" name="childcount" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childcount" min="0" max="6">
+                                                    <div class="increment1 add btn_sub">+</div>
+
+                                                    </div>
+                                                    </div>
+                                                    <div class="border-top-light mt-24 mb-24"></div>
+
+                                                    }
+                                                    @* <div class="border-top-light mt-24 mb-24"></div>
+                                                    <div class="d-flex y-gap-10 justify-between items-center">
+                                                    @if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 2)
+                                                    {
+                                                    @if (Model.simpleAvailabilityRequestModelEdit.passengers.types[2].type == "INFT")
+                                                    {
+                                                    <div class="infant-area">
+                                                    <div class="text-15 fw-500">Infants</div>
+                                                    <input type="hidden" name="infanttype" value="INFT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infanttype" />
+                                                    <div class="text-15 fw-500">
+                                                    Below 2 yrs
+                                                    </div>
+                                                    </div>
+                                                    <div class="btn-increase">
+                                                    <div class="decrement2 sub btn_sub">-</div>
+
+                                                    <input type="number" id="field_infant" class="input-field" name="infantcount" value="@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infantcount" min="0" max="6">
+                                                    <div class="increment2 add btn_sub">+</div>
+
+                                                    </div>
+                                                    }
+                                                    }
+                                                    else
+                                                    {
+
+                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 1)
+                                                    {
+
+                                                    }
+                                                    else
+                                                    {
+                                                    <div class="infant-area">
+                                                    <div class="text-15 fw-500">Infants</div>
+                                                    <input type="hidden" name="infanttype" value="INFT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infanttype" />
+                                                    <div class="text-15 fw-500">
+                                                    Below 2 yrs
+                                                    </div>
+                                                    </div>
+                                                    <div class="btn-increase">
+                                                    <div class="decrement2 sub btn_sub">-</div>
+
+                                                    <input type="number" id="field_infant" class="input-field" name="infantcount" value="0" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infantcount" min="0" max="6">
+                                                    <div class="increment2 add btn_sub">+</div>
+
+                                                    </div>
+                                                    }
+
+                                                    }
+                                                    </div>
+
+                                                    @*  <div class="border-top-light mt-24 mb-24"></div>
+
+                                                    </div>
+                                                    </div>
+                                                    </div> *@
+                                                    </div>
+                                                }
                                                 <div class="col-12 col-md-10 col-lg-2"><button style="margin-top:0px;" type="submit" class="btn btn-lg btn-block" onclick="validateInputs()"><i class="fa fa-search mr-10" aria-hidden="true"></i>Modify Search</button></div>
 
                                                 <div class="col-12 col-md-12 col-lg-12 search-bottom"></div>
@@ -2294,6 +2398,86 @@
     <script>
 
         //***********Strip Validation*/
+        $(document).ready(function () {
+           
+
+            var maxField = 6;
+            var maxField_adult = 9;
+            var count_adult = parseInt(localStorage.getItem("adultcount")) || 1; 
+            var count_child = 0;
+            var count_infant = 0;
+
+            $('#count_adult').text(count_adult);
+            $('#field_adult').val(count_adult);
+
+            $('.increment').on('click', function () {
+                if (count_adult < maxField_adult) {
+                    count_adult++;
+                    $('#count_adult').text(count_adult);
+                    $('#field_adult').val(count_adult);
+                    localStorage.setItem("adultcount", count_adult);
+                }
+            });
+
+            $('.decrement').on('click', function () {
+                if (count_adult > 1) {
+                    count_adult--;
+                    $('#count_adult').text(count_adult);
+                    $('#field_adult').val(count_adult);
+                    localStorage.setItem("adultcount", count_adult); // Store adult count in local storage
+
+                    // Adjust infant count to match adult count
+                    if (count_infant > count_adult) {
+                        count_infant = count_adult;
+                        $('#count_infant').text(count_infant);
+                        $('#field_infant').val(count_infant);
+                    }
+                }
+            });
+
+            $('.increment1').on('click', function () {
+                if (count_child < maxField) {
+                    count_child++;
+                    $('#count_child').text(count_child);
+                    $('#field_child').val(count_child);
+                }
+            });
+
+            $('.decrement1').on('click', function () {
+                if (count_child > 0) {
+                    count_child--;
+                    $('#count_child').text(count_child);
+                    $('#field_child').val(count_child);
+                }
+            });
+
+            $('.increment2').on('click', function (event) {
+                debugger;
+                if (count_infant < maxField) {
+                    var adultcounttotal = parseInt(localStorage.getItem("adultcount")) || 1; 
+                    if (count_infant >= adultcounttotal) {
+                        alert("Number of infants cannot be more than adults");
+                        return false;
+                        event.preventDefault();
+                    }
+                        count_infant++;
+                        $('#count_infant').text(count_infant);
+                        $('#field_infant').val(count_infant);
+                   
+                }
+            });
+
+            $('.decrement2').on('click', function () {
+                if (count_infant > 0) {
+                    count_infant--;
+                    $('#count_infant').text(count_infant);
+                    $('#field_infant').val(count_infant);
+                }
+            });
+            
+
+        });
+
 
 
         // TextBox Validation
@@ -2309,7 +2493,7 @@
                 event.preventDefault(); // Stop the form submission
 
             }
-            
+
             if (!origin) {
                 alert('Please enter the origin.');
                 return false;
@@ -2336,7 +2520,15 @@
                 return false;
                 event.preventDefault();
             }
-            
+           
+            var adulttravelcount = $('#field_adult').val();
+            var infanttravelcount = $('#field_infant').val();
+            if (infanttravelcount > adulttravelcount || infanttravelcount > 6) {
+                alert("Number of infants cannot be more than adults or exceed 6.");
+                return false;
+                event.preventDefault();
+
+            }
             return true;
         }
 

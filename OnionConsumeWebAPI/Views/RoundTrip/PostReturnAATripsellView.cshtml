@@ -99,8 +99,9 @@
     }
 
 
-
+   
     function PostdataReturnTripsell() {
+     
         //  console.log('Fare Keys:', fareKey);
         //  console.log('Journey Keys:', journeyKey);
         const form = new FormData();
@@ -138,6 +139,13 @@
             form.append('fareKey', fareKey[i]);
             form.append('journeyKey', journeyKey[i]);
         }
+
+         var sameairLine = $('.sameairLine').val();
+        if (sameairLine === "AirlineRT") { 
+            alert(sameairLine);
+        }
+
+
         fetch('/ReturnTripsell/ReturnTripsellView', {
             method: 'POST',
             body: form
@@ -341,15 +349,15 @@
                                                             var stops = @Model.SimpleAvailibilityaAddResponcelist[j].stops;
                                                             if (stops == 0)
                                                             {
-                                                                <div class="mt-1">NonStop</div>
+                                                                        <div class="mt-1">NonStop</div>
                                                             }
                                                             if (stops == 1)
                                                             {
-                                                                <div class="mt-1">1 Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination </div>
+                                                                        <div class="mt-1">1 Stop via @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination </div>
                                                             }
                                                             if (stops == 2)
                                                             {
-                                                                <div class="mt-1">2 Stop</div>
+                                                                        <div class="mt-1">2 Stop</div>
                                                             }
                                                         }
                                                     </div>
