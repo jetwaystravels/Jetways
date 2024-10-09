@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Sign-Up</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 300px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], input[type="password"], input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #085ac0;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+            input[type="submit"]:hover {
+                background-color: #085ac0;
+            }
+
+        .form-switch {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+            .form-switch a {
+                color: #007BFF;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+                .form-switch a:hover {
+                    text-decoration: underline;
+                }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Login</h2>
+        <form asp-controller="Login" asp-action="UserLogin" id="login-form" method="post">
+            <input type="text" name="username" id="login-username" placeholder="Username" required>
+            <input type="password" name="password" id="login-password" placeholder="Password" required>
+            <input type="submit" value="Log In">
+            <p style="color:red;font-weight:600">@ViewBag.ErrorMessage</p>
+        </form>
+
+       @*  <div class="form-switch">
+            <p>Don't have an account? <a id="signup-link">Sign Up</a></p>
+        </div> *@
+    </div>
+@* 
+    <div class="container" style="display:none;" id="signup-container">
+        <h2>Sign Up</h2>
+
+        <form method="post" asp-controller="Home" asp-action="AdminSignUp" id="signup-form">
+            <label for="adminName">Admin Name</label>
+            <input type="text" id="adminName" name="adminName" placeholder="Admin Name" required><br>
+
+            <label for="adminEmail">Email</label>
+            <input type="email" id="adminEmail" name="adminEmail" placeholder="Email" required><br>
+
+            <label for="adminPassword">Password</label>
+            <input type="password" id="adminPassword" name="adminPassword" placeholder="Password" required><br>
+
+            <input type="submit" value="Sign Up">
+        </form>
+        @if (ViewBag.messagea != null)
+        {
+            <p>@ViewBag.messagea</p>
+        }
+        <div class="form-switch">
+            <p>Already have an account? <a id="login-link">Log In</a></p>
+        </div>
+    </div>
+ *@
+    <script>
+        const signupLink = document.getElementById('signup-link');
+        const loginLink = document.getElementById('login-link');
+        const loginContainer = document.querySelector('.container');
+        const signupContainer = document.getElementById('signup-container');
+
+        signupLink.addEventListener('click', () => {
+            loginContainer.style.display = 'none';
+            signupContainer.style.display = 'block';
+        });
+
+        loginLink.addEventListener('click', () => {
+            signupContainer.style.display = 'none';
+            loginContainer.style.display = 'block';
+        });
+
+        //// You can add further validation and functionality here, like form submission handling.
+        //document.getElementById('login-form').addEventListener('submit', function (e) {
+        //    e.preventDefault();
+        //    // Handle login here (AJAX to backend, form validation, etc.)
+        //    alert('Login form submitted');
+        //});
+
+        //document.getElementById('signup-form').addEventListener('submit', function (e) {
+        //    e.preventDefault();
+        //    // Handle sign-up here (AJAX to backend, form validation, etc.)
+        //    alert('Sign-up form submitted');
+        //});
+    </script>
+</body>
+</html>

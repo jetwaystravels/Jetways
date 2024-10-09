@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Airlines", "Airlines", "{A6
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Indigo", "Indigo\Indigo.csproj", "{00E6BDC4-FAD3-4C68-96F7-FD67576A36B5}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corprate", "..\..\CorprateTest\OnionConsumeWebAPI\Corprate.csproj", "{2F284C5A-6863-4202-967A-1AE2B64BDFF2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{00E6BDC4-FAD3-4C68-96F7-FD67576A36B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00E6BDC4-FAD3-4C68-96F7-FD67576A36B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00E6BDC4-FAD3-4C68-96F7-FD67576A36B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F284C5A-6863-4202-967A-1AE2B64BDFF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F284C5A-6863-4202-967A-1AE2B64BDFF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F284C5A-6863-4202-967A-1AE2B64BDFF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F284C5A-6863-4202-967A-1AE2B64BDFF2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
