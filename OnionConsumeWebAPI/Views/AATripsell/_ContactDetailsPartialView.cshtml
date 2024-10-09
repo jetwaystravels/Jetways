@@ -5,7 +5,7 @@
             <div class="form-input ">
                 <input type="text" name="first" maxlength="32" oninput="validateInput(event)" id="first" class="firstNClass" style='text-transform:uppercase' placeholder="First Name">
             </div>
-            <p id="error-message1" class="error-message" style="display:none">Enter First name</p>
+            <p id="error-message1" class="error-message" style="display:none">Enter first name</p>
             <p id="errorMessage" style="color: red;font-size:13px;"></p>
         </div>
 
@@ -13,7 +13,7 @@
             <div class="form-input ">
                 <input type="text" name="last" maxlength="32" id="last" oninput="validateInput2(event)" style='text-transform:uppercase' class="lastNClass" placeholder="Last Name">
             </div>
-            <p id="error-message2" class="error-message" style="display:none"></p>
+            <p id="error-message2" class="error-message" style="display:none">Enter last name</p>
             <p id="errorMessage2" style="color: red;font-size:13px;"></p>
         </div>
 
@@ -141,7 +141,7 @@
             localStorage.setItem('Leadpassenger4', phoneLeadPass);
         } else {
             debugger;
-            alert("Checkbox is unchecked");
+            //alert("Checkbox is unchecked");
             var firstLeadPass = "";
             var lastLeadPass = "";
             var emaiLeadPass = "";
@@ -248,7 +248,8 @@
             // email
             let emailfocus = document.getElementById("emailAddress").value;
             //var regex = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            var regex = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;     
+            //var regex = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;     
+            var regex =/^[a-zA-Z0-9._%+-]+[^\.]@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;     
             if (!regex.test(emailfocus)) {
                 let emailToDisplay = document.getElementById("error-message7");
                 emailToDisplay.style.display = "none";
@@ -329,7 +330,8 @@
                 let gstemailfocus = document.getElementById("emailAddressGST").value;
                 
                 //var emailRegex = /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
-                var emailRegex = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
+                //var emailRegex = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
+                var emailRegex = /^[a-zA-Z0-9._%+-]+[^\.]@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
                 if (gstemailfocus == "") {
                   
                 } else if (!emailRegex.test(gstemailfocus)) {

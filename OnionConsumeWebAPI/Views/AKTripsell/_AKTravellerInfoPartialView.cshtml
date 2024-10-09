@@ -616,9 +616,9 @@
             /*******Validation End*********/
             var enteredData = "";
             for (var i = 0; i < @Model.AkPassenger.passengers.Count; i++) {
-                var firstName = $("input[name='passengerdetails[" + i + "].First']").val();
-                var lastName = $("input[name='passengerdetails[" + i + "].Last']").val();
-                var title = $("select[name='passengerdetails[" + i + "].Title']").val();
+                var firstName = $("input[name='passengerdetails[" + i + "].First']").val().toUpperCase();
+                var lastName = $("input[name='passengerdetails[" + i + "].Last']").val().toUpperCase();
+                var title = $("select[name='passengerdetails[" + i + "].Title']").val().toUpperCase();
                 var Passengertypecode = $("input[name='passengerdetails[" + i + "].passengertypecode']").val();
                 if (Passengertypecode == "ADT") { Passengertypecode = "Adult"; }
                 if (Passengertypecode == "CHD") { Passengertypecode = "Child"; }

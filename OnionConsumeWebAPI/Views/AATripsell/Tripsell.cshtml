@@ -122,7 +122,7 @@
                             <partial name="_TripsellPatialView.cshtml" />
                         </div>
                         <div class="row x-gap-20 y-gap-20 mt-3 ">
-                            <div id="toggleButton" class="bg-h2"><h2 class="text-18 fw-600 md:mt-20 ">Enter Contact Details</h2></div>
+                            <div id="toggleButton" class="bg-h2"><h2 class="text-18 fw-600 md:mt-20 ">Contact Details</h2></div>
                         </div>
                         <div id="content" class="row bg-white mt-2">
                             <partial name="_ContactDetailsPartialView.cshtml" />  <br> <br>
@@ -132,7 +132,7 @@
 
 
                         <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
-                            <div id="toggleButton2" class="bg-h2" style="opacity:0.2"><h2 class="text-18 fw-600 md:mt-20 ">Enter Traveller Details</h2></div>
+                            <div id="toggleButton2" class="bg-h2" style="opacity:0.2"><h2 class="text-18 fw-600 md:mt-20 ">Traveller Details</h2></div>
                         </div>
 
                         <div id="content2" class="row hidden">
@@ -498,6 +498,11 @@
         window.onload = function () {
             
             updateCombinedTotal();
+
+            localStorage.removeItem('Leadpassenger1');
+            localStorage.removeItem('Leadpassenger2');
+            localStorage.removeItem('Leadpassenger3');
+            localStorage.removeItem('Leadpassenger4');
         }
     </script>
 
