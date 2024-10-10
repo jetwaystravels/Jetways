@@ -1,0 +1,890 @@
+﻿
+@{
+    Layout = null;
+}
+
+@*<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Payment</title>
+    <h2>Wecome Payment page</h2>
+    
+</head>
+<body>
+    <form>
+        <input type="submit" asp-controller="CommitBooking" asp-action="booking" value="Continue" class="button small-btn">
+    </form>
+</body>
+</html>*@
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- Title  -->
+	<title>Jetways Travels</title>
+	<!-- Favicon  -->
+	<link rel="icon" href="~/img/favicon.png">
+    <!-- Style css -->
+    <script src="~/jqueryui/jquery-ui.min.js"></script>
+    <script src="~/jqueryui/jquery-ui.js"></script>
+	<link rel="stylesheet" href="~/css/vendors.css">
+	<link rel="stylesheet" href="~/css/main.css">
+	<link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/daterangepicker.css">
+    <link href="~/css/payment.css" rel="stylesheet" />
+
+</head>
+	<body>
+	<main>
+		<!-- ***** Header Start ***** -->
+		<header class="navbar navbar-sticky navbar-expand-lg inner-bg">
+			<div class="container position-relative">
+				<a class="navbar-brand" href="index.html">
+					<img class="navbar-brand-regular" src="~/img/logo/logo.png" alt="brand-logo">
+					<img class="navbar-brand-sticky" src="~/img/logo/logo.png" alt="sticky brand-logo">
+				</a>
+				<button class="navbar-toggler d-lg-none" type="button" data-toggle="navbarToggler" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="navbar-inner">
+					<!--  Mobile Menu Toggler -->
+					<button class="navbar-toggler d-lg-none" type="button" data-toggle="navbarToggler" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+
+					<div class="nav-bar col-12 col-md-7 col-lg-12">
+						<ul class="nav nav-pills" id="pills-tab" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link active" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-1.png">Flight</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-2.png">Hotel</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-3.png">Visa</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-4.png">Holidays</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-5.png">Trains</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-6.png">Buses</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-7.png">Cabs</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-8.png">Flight Passes</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#"><img class="mr-2" src="~/img/nav-icon-8.png">Login</a>
+							</li>
+						</ul>
+					</div>
+					<nav id="mobile-nav">
+						<ul class="navbar-nav" id="navbar-nav">
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="#">
+									Home
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link scroll" href="features">Features</a>
+							</li>
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="#">
+									Pages
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link scroll" href="#">Screenshots</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link scroll" href="#">Pricing</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link scroll" href="#">Contact</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</header>
+		<!-- ***** Header End ***** -->
+		<!-- ***** Start payment section ***** -->
+		<section class="pt-90">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-lg-9 col-12 payment-section">
+						<div class="card card0">
+							<div class="d-flex" id="wrapper">
+								<!-- Sidebar -->
+								<div class="bg-light" id="sidebar-wrapper">
+									<div class="sidebar-heading pt-4 pb-4"><strong>Payment Method</strong></div>
+									<div class="list-group list-group-flush">
+										<a data-toggle="tab" href="#menu1" id="tab1" class="tabs list-group-item bg-light active1">
+											<div class="list-div my-2">
+												<div class="fa fa-credit-card" style="margin-right:10px;"></div> Credit Card
+											</div>
+										</a>
+										<a data-toggle="tab" href="#menu2" id="tab2" class="tabs list-group-item bg-light">
+											<div class="list-div my-2">
+												<div class="fa fa-credit-card" style="margin-right:10px;"></div> Debit Card
+											</div>
+										</a>
+										<a data-toggle="tab" href="#menu3" id="tab3" class="tabs list-group-item bg-light">
+											<div class="list-div my-2">
+												<div class="fa fa-university" style="margin-right:10px;"></div> Net Banking
+											</div>
+										</a>
+
+										<a data-toggle="tab" href="#menu4" id="tab4" class="tabs list-group-item bg-light">
+											<div class="list-div my-2">
+												<img class="navbar-brand-regular" src="~/img/upi-icon.png" alt="UPI"> UPI Options
+											</div>
+										</a>
+
+										<a data-toggle="tab" href="#menu5" id="tab5" class="tabs list-group-item bg-light">
+											<div class="list-div my-2">
+												<img class="navbar-brand-regular" src="~/img/emi-icon.png" alt="EMI"> Interest Free EMI
+											</div>
+										</a>
+
+										<a data-toggle="tab" href="#menu6" id="tab6" class="tabs list-group-item bg-light">
+											<div class="list-div my-2">
+												<img class="navbar-brand-regular" src="~/img/google-pay.png" alt="pay-later"> Google Pay
+											</div>
+										</a>
+										<a data-toggle="tab" href="#menu7" id="tab7" class="tabs list-group-item bg-light">
+											<div class="list-div my-2">
+												<img class="navbar-brand-regular" src="~/img/book-my-later-icon.png" alt="pay-later"> Buy Now Pay Later
+											</div>
+										</a>
+
+										<a data-toggle="tab" href="#menu8" id="tab8" class="tabs list-group-item bg-light">
+											<div class="list-div my-2">
+												<img class="navbar-brand-regular" src="~/img/gift-voucher-icon.png" alt="gift-voucher"> Gift Vouchers
+											</div>
+										</a>
+
+									</div>
+								</div> <!-- Page Content -->
+								<div id="page-content-wrapper">
+									<div class="tab-content">
+										<div id="menu1" class="tab-pane in active">
+											<div class="row y-gap-10 pt-10">
+												<div class="text-18 fw-600 col-lg-12">Pay with Credit Card</div>
+
+												<div class="col-md-6">
+													<div class="form-input">
+														<input type="text" required>
+														<label class="lh-1 text-16 text-light-1">Credit Card Number</label>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-input">
+														<input type="text" required>
+														<label class="lh-1 text-16 text-light-1">Name On Card</label>
+													</div>
+												</div>
+												<span>Expiry Month Year</span>
+												<div class="col-md-3">
+													<select class="form-control">
+														<option>Month</option>
+														<option>01</option>
+														<option>02</option>
+														<option>03</option>
+														<option>04</option>
+														<option>05</option>
+														<option>06</option>
+														<option>07</option>
+														<option>08</option>
+														<option>09</option>
+														<option>10</option>
+														<option>11</option>
+														<option>12</option>
+													</select>
+												</div>
+												<div class="col-md-3">
+													<select class="form-control">
+														<option value="">Year</option>
+														<option value="2023">2023</option>
+														<option value="2024">2024</option>
+														<option value="2025">2025</option>
+														<option value="2026">2026</option>
+														<option value="2027">2027</option>
+														<option value="2028">2028</option>
+														<option value="2029">2029</option>
+														<option value="2030">2030</option>
+														<option value="2031">2031</option>
+														<option value="2032">2032</option>
+														<option value="2033">2033</option>
+														<option value="2034">2034</option>
+														<option value="2035">2035</option>
+														<option value="2036">2036</option>
+														<option value="2037">2037</option>
+														<option value="2038">2038</option>
+														<option value="2039">2039</option>
+														<option value="2040">2040</option>
+														<option value="2041">2041</option>
+														<option value="2042">2042</option>
+														<option value="2043">2043</option>
+														<option value="2044">2044</option>
+														<option value="2045">2045</option>
+														<option value="2046">2046</option>
+														<option value="2047">2047</option>
+														<option value="2048">2048</option>
+														<option value="2049">2049</option>
+														<option value="2050">2050</option>
+														<option value="2051">2051</option>
+														<option value="2052">2052</option>
+														<option value="2053">2053</option>
+														<option value="2054">2054</option>
+														<option value="2055">2055</option>
+														<option value="2056">2056</option>
+														<option value="2057">2057</option>
+														<option value="2058">2058</option>
+														<option value="2059">2059</option>
+														<option value="2060">2060</option>
+														<option value="2061">2061</option>
+														<option value="2062">2062</option>
+													</select>
+												</div>
+												<div class="col-md-4">
+													<div class="form-input">
+														<input type="text" required>
+														<label class="lh-1 text-16 text-light-1">Enter Card CVV</label>
+													</div>
+												</div>
+												<div class="pt-20">
+													<div class="d-flex justify-content-between">
+														<span class="text-20 lh-13 fw-700 pt-3">&#8377; 7,219</span>
+														@*<button class="btn btn-lg">Pay Now</button>*@
+														<form>
+															<input type="submit" asp-controller="ReturnCommitBooking" asp-action="RoundTripBookingView" value="Pay Now" class="btn btn-lg">
+														</form>
+														  </div>
+													<p class="text">By clicking on Pay Now, you are agreeing to our Terms & Conditions , Privacy policy, User Agreement and Covid-19 Guidelines.</p>
+												</div>
+											</div>
+										</div>
+										<div id="menu2" class="tab-pane">
+											<div class="row y-gap-10 pt-10">
+												<div class="text-18 fw-600 col-lg-12">Pay with Debit Card</div>
+												<div class="col-md-6">
+													<div class="form-input">
+														<input type="text" required>
+														<label class="lh-1 text-16 text-light-1">Credit Card Number</label>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-input">
+														<input type="text" required>
+														<label class="lh-1 text-16 text-light-1">Name On Card</label>
+													</div>
+												</div>
+												<span>Expiry Month Year</span>
+												<div class="col-md-3">
+													<select class="form-control">
+														<option>Month</option>
+														<option>01</option>
+														<option>02</option>
+														<option>03</option>
+														<option>04</option>
+														<option>05</option>
+														<option>06</option>
+														<option>07</option>
+														<option>08</option>
+														<option>09</option>
+														<option>10</option>
+														<option>11</option>
+														<option>12</option>
+													</select>
+												</div>
+												<div class="col-md-3">
+													<select class="form-control">
+														<option value="">Year</option>
+														<option value="2023">2023</option>
+														<option value="2024">2024</option>
+														<option value="2025">2025</option>
+														<option value="2026">2026</option>
+														<option value="2027">2027</option>
+														<option value="2028">2028</option>
+														<option value="2029">2029</option>
+														<option value="2030">2030</option>
+														<option value="2031">2031</option>
+														<option value="2032">2032</option>
+														<option value="2033">2033</option>
+														<option value="2034">2034</option>
+														<option value="2035">2035</option>
+														<option value="2036">2036</option>
+														<option value="2037">2037</option>
+														<option value="2038">2038</option>
+														<option value="2039">2039</option>
+														<option value="2040">2040</option>
+														<option value="2041">2041</option>
+														<option value="2042">2042</option>
+														<option value="2043">2043</option>
+														<option value="2044">2044</option>
+														<option value="2045">2045</option>
+														<option value="2046">2046</option>
+														<option value="2047">2047</option>
+														<option value="2048">2048</option>
+														<option value="2049">2049</option>
+														<option value="2050">2050</option>
+														<option value="2051">2051</option>
+														<option value="2052">2052</option>
+														<option value="2053">2053</option>
+														<option value="2054">2054</option>
+														<option value="2055">2055</option>
+														<option value="2056">2056</option>
+														<option value="2057">2057</option>
+														<option value="2058">2058</option>
+														<option value="2059">2059</option>
+														<option value="2060">2060</option>
+														<option value="2061">2061</option>
+														<option value="2062">2062</option>
+													</select>
+												</div>
+												<div class="col-md-4">
+													<div class="form-input">
+														<input type="text" required>
+														<label class="lh-1 text-16 text-light-1">Enter Card CVV</label>
+													</div>
+												</div>
+												<div class="pt-20">
+													<div class="d-flex justify-content-between">
+														<span class="text-20 lh-13 fw-700 pt-3">&#8377; 7,219</span>
+														<button class="btn btn-lg">Pay Now</button>
+													</div>
+													<p class="text">By clicking on Pay Now, you are agreeing to our Terms & Conditions , Privacy policy, User Agreement and Covid-19 Guidelines.</p>
+												</div>
+											</div>
+										</div>
+										<div id="menu3" class="tab-pane">
+											<div class="y-gap-10 pt-10">
+												<div class="text-18 fw-600">Pay with Net Banking</div>
+												<ul class="bank-list">
+													<li>
+														<input type="radio" name="redio">
+														<label>
+															<span class="bank-logo-sprite bank-logo-axis resize-bank-icon"></span>
+															<span class="font14">Axis Bank</span>
+														</label>
+													</li>
+													<li>
+														<input type="radio" name="redio">
+														<label>
+															<span class="bank-logo-sprite bank-logo-hdfc resize-bank-icon"></span>
+															<span class="font14">Axis Bank</span>
+														</label>
+													</li>
+													<li>
+														<input type="radio" name="redio">
+														<label>
+															<span class="bank-logo-sprite bank-logo-icici resize-bank-icon"></span>
+															<span class="font14">Axis Bank</span>
+														</label>
+													</li>
+													<li>
+														<input type="radio" name="redio">
+														<label>
+															<span class="bank-logo-sprite bank-logo-sbi resize-bank-icon"></span>
+															<span class="font14">Axis Bank</span>
+														</label>
+													</li>
+												</ul>
+												<div class="text-18 fw-600">Other banks</div>
+												<div>
+													<select class="form-control">
+														<option selected="selected" value="">Select Your Bank</option>
+														<option value="AU_SFB" iframeenabled="false">AU Small Finance Bank</option>
+														<option value="ATP" iframeenabled="false">Airtel Payments Bank</option>
+														<option value="ALB" iframeenabled="false">Allahabad Bank</option>
+														<option value="ADH" iframeenabled="false">Andhra Bank</option>
+														<option value="BBK" iframeenabled="false">Bank Of Bahrain And Kuwait</option>
+														<option value="BBC" iframeenabled="false">Bank Of Baroda Corporate</option>
+														<option value="BBR" iframeenabled="false">Bank Of Baroda Retail</option>
+														<option value="BOI" iframeenabled="false">Bank Of India</option>
+														<option value="BOM" iframeenabled="false">Bank Of Maharashtra</option>
+														<option value="BCB" iframeenabled="false">Bassien Catholic Co-Operative Bank </option>
+														<option value="BMB" iframeenabled="false">Bhartiya Mahila Bank</option>
+														<option value="CNB" iframeenabled="false">Canara Bank</option>
+														<option value="CSB_NB" iframeenabled="false">Catholic Syrian Bank</option>
+														<option value="CBI" iframeenabled="false">Central Bank Of India</option>
+														<option value="CUB" iframeenabled="false">City Union Bank</option>
+														<option value="CRP" iframeenabled="false">Corporation Bank</option>
+														<option value="DBS_NB" iframeenabled="false">DBS Bank India Ltd</option>
+														<option value="DCB" iframeenabled="false">DCB BANK</option>
+														<option value="DEN" iframeenabled="false">Dena Bank</option>
+														<option value="DBK" iframeenabled="false">Deutsche Bank</option>
+														<option value="DLB" iframeenabled="false">Dhanlaxmi Bank</option>
+														<option value="FBK" iframeenabled="false">Federal Bank</option>
+														<option value="HSB_N" iframeenabled="false">HSBC Retail NetBanking</option>
+														<option value="IDFC" iframeenabled="false">IDFC Bank</option>
+														<option value="INB" iframeenabled="false">Indian Bank</option>
+														<option value="IOB" iframeenabled="false">Indian Overseas Bank</option>
+														<option value="IDS" iframeenabled="false">IndusInd</option>
+														<option value="JKB" iframeenabled="false">Jammu &amp; Kashmir Bank</option>
+														<option value="KBL" iframeenabled="false">Karnataka Bank</option>
+														<option value="KVB" iframeenabled="false">Karur Vysya Bank</option>
+														<option value="LVC" iframeenabled="false">Lakshmi Vilas Bank</option>
+														<option value="LVR" iframeenabled="false">Lakshmi Vilas Retail Banking</option>
+														<option value="OBC" iframeenabled="false">Oriental Bank Of Commerce</option>
+														<option value="PMC" iframeenabled="false">Punjab &amp; Maharashtra Bank</option>
+														<option value="CPN" iframeenabled="false">Punjab National Bank Corporate</option>
+														<option value="SAR" iframeenabled="false">Saraswat Bank</option>
+														<option value="SVC" iframeenabled="false">Shamrao Vithal Bank</option>
+														<option value="SHB" iframeenabled="false">Shivalik Small Finance Bank</option>
+														<option value="SIB" iframeenabled="false">South Indian Bank</option>
+														<option value="SCB" iframeenabled="false">Standard Chartered Bank</option>
+														<option value="SBJ" iframeenabled="false">State Bank Of Bikaner And Jaipur</option>
+														<option value="SBH" iframeenabled="false">State Bank Of Hyderabad</option>
+														<option value="SBM" iframeenabled="false">State Bank Of Mysore</option>
+														<option value="SBP" iframeenabled="false">State Bank Of Patiala</option>
+														<option value="SBT" iframeenabled="false">State Bank Of Travancore</option>
+														<option value="SYD" iframeenabled="false">Syndicate Bank</option>
+														<option value="TMB" iframeenabled="false">Tamilnad Mercantile Bank</option>
+														<option value="TNC" iframeenabled="false">Tamilnadu Cooperative Bank</option>
+														<option value="UCO" iframeenabled="false">UCO Bank</option>
+														<option value="UBI" iframeenabled="false">Union Bank Of India</option>
+														<option value="UNI" iframeenabled="false">United Bank Of India</option>
+														<option value="VJB" iframeenabled="false">Vijaya Bank</option>
+														<option value="YBK" iframeenabled="false">Yes Bank</option>
+													</select>
+												</div>
+												<div class="pt-20">
+													<div class="d-flex justify-content-between">
+														<span class="text-20 lh-13 fw-700 pt-3">&#8377; 5,269</span>
+														<button class="btn btn-lg">Pay Now</button>
+													</div>
+													<p class="text">By clicking on Pay Now, you are agreeing to our Terms & Conditions , Privacy policy, User Agreement and Covid-19 Guidelines.</p>
+												</div>
+											</div>
+										</div>
+
+										<div id="menu4" class="tab-pane">
+											<div class="y-gap-10 pt-10">
+												<div class="text-18 fw-600 pb-3">Pay with UPI</div>
+											</div>
+										</div>
+
+										<div id="menu5" class="tab-pane">
+											<div class="y-gap-10 pt-10">
+												<div class="text-18 fw-600 pb-3">Pay with EMI</div>
+											</div>
+											<div class="row">
+												<div class="col-md-7">
+													<select class="form-control">
+														<option value="">Select your Card Issuer</option>
+														<option value="amex">AMEX</option>
+														<option value="axis">AXIS Bank</option>
+														<option value="bajaj">Bajaj Finserv - Interest Free EMI</option>
+														<option value="bob">Bank Of Baroda</option>
+														<option value="citi">CITI Bank</option>
+														<option value="hdfc">HDFC Bank</option>
+													</select>
+												</div>
+												<div class="col-md-2 sel-bank-bg"><span class="bank-logo-sprite bank-logo-axis resize-bank-icon"></span></div>
+											</div>
+											<table class="table mt-20">
+												<thead class="bg-light-2">
+													<tr>
+														<th>&nbsp;</th>
+														<th>Tenure(months)</th>
+														<th>Issuer Interest Rate(%)</th>
+														<th>Monthly installments</th>
+														<th>Interest paid to Issuer</th>
+														<th>Total Amount Payable</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td><input type="radio" name="redio"></td>
+														<td>3</td>
+														<td>Interest Free EMI</td>
+														<td>Rs.1,785</td>
+														<td>Rs.0</td>
+														<td>Rs.5,355</td>
+													</tr>
+													<tr>
+														<td><input type="radio" name="redio"></td>
+														<td>3</td>
+														<td>Interest Free EMI</td>
+														<td>Rs.1,785</td>
+														<td>Rs.0</td>
+														<td>Rs.5,355</td>
+													</tr>
+													<tr>
+														<td><input type="radio" name="redio"></td>
+														<td>3</td>
+														<td>Interest Free EMI</td>
+														<td>Rs.1,785</td>
+														<td>Rs.0</td>
+														<td>Rs.5,355</td>
+													</tr>
+													<tr>
+														<td><input type="radio" name="redio"></td>
+														<td>3</td>
+														<td>Interest Free EMI</td>
+														<td>Rs.1,785</td>
+														<td>Rs.0</td>
+														<td>Rs.5,355</td>
+													</tr>
+
+													<tr class="bg-green-1">
+														<td colspan="6">
+															<ul class="table-btm-note">
+																<li style="list-style:inherit;">122.57 has been given as interest free emi discount.</li>
+																<li style="list-style:inherit;">5232.44 will be blocked on your card now, it will be converted into emi in 3-4 working days.</li>
+																<li style="list-style:inherit;">
+																	Bank will charge interest on 5232.44, however total amount you will pay to bank(excluding GST) will be equal to product price. GST will charged additional on interest amount. Processing fee will be charged as per Bank's terms and
+																	conditions.
+																</li>
+															</ul>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+											<label class="align-checkbox fs-base cursor-pointer gray" ng-show="whatsApp.show &amp;&amp; !yatraAgent.isAgent">
+												<span class="ui-checkbox">
+													<input type="checkbox" class="ng-pristine ng-untouched ng-valid" ng-model="whatsApp.checked" ng-click="clickWhatsApp(whatsApp.checked);">
+													<i class="ytfi-checker"></i>
+												</span>
+												Yes, I have gone through the details and accept the <a href="#">terms and conditions</a> for payment by EMI option.
+											</label>
+
+											<div class="row y-gap-10 pt-10">
+												<div class="col-md-6">
+													<div class="form-input">
+														<input type="text" required>
+														<label class="lh-1 text-16 text-light-1">Credit Card Number</label>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-input">
+														<input type="text" required>
+														<label class="lh-1 text-16 text-light-1">Name On Card</label>
+													</div>
+												</div>
+												<span>Expiry Month Year</span>
+												<div class="col-md-3">
+													<select class="form-control">
+														<option>Month</option>
+														<option>01</option>
+														<option>02</option>
+														<option>03</option>
+														<option>04</option>
+														<option>05</option>
+														<option>06</option>
+														<option>07</option>
+														<option>08</option>
+														<option>09</option>
+														<option>10</option>
+														<option>11</option>
+														<option>12</option>
+													</select>
+												</div>
+												<div class="col-md-3">
+													<select class="form-control">
+														<option value="">Year</option>
+														<option value="2023">2023</option>
+														<option value="2024">2024</option>
+														<option value="2025">2025</option>
+														<option value="2026">2026</option>
+														<option value="2027">2027</option>
+														<option value="2028">2028</option>
+														<option value="2029">2029</option>
+														<option value="2030">2030</option>
+														<option value="2031">2031</option>
+														<option value="2032">2032</option>
+														<option value="2033">2033</option>
+														<option value="2034">2034</option>
+														<option value="2035">2035</option>
+														<option value="2036">2036</option>
+														<option value="2037">2037</option>
+														<option value="2038">2038</option>
+														<option value="2039">2039</option>
+														<option value="2040">2040</option>
+														<option value="2041">2041</option>
+														<option value="2042">2042</option>
+														<option value="2043">2043</option>
+														<option value="2044">2044</option>
+														<option value="2045">2045</option>
+														<option value="2046">2046</option>
+														<option value="2047">2047</option>
+														<option value="2048">2048</option>
+														<option value="2049">2049</option>
+														<option value="2050">2050</option>
+														<option value="2051">2051</option>
+														<option value="2052">2052</option>
+														<option value="2053">2053</option>
+														<option value="2054">2054</option>
+														<option value="2055">2055</option>
+														<option value="2056">2056</option>
+														<option value="2057">2057</option>
+														<option value="2058">2058</option>
+														<option value="2059">2059</option>
+														<option value="2060">2060</option>
+														<option value="2061">2061</option>
+														<option value="2062">2062</option>
+													</select>
+												</div>
+												<div class="col-md-4">
+													<div class="form-input">
+														<input type="text" required>
+														<label class="lh-1 text-16 text-light-1">Enter Card CVV</label>
+													</div>
+												</div>
+												<div class="pt-20">
+													<div class="d-flex justify-content-between">
+														<span class="text-20 lh-13 fw-700 pt-3">&#8377; 7,219</span>
+														<button class="btn btn-lg">Pay Now</button>
+													</div>
+													<p class="text">By clicking on Pay Now, you are agreeing to our Terms & Conditions , Privacy policy, User Agreement and Covid-19 Guidelines.</p>
+												</div>
+
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-3 col-lg-3 checkout">
+						<h2 class="text-20 fw-600 mt-14" style="padding:12px;">Payment Details</h2>
+						<div class="px-20 py-10 border-light rounded-0 bg-white mb-3">
+							<div class="row y-gap-2 justify-between pt-2 pb-1">
+								<div class="col-auto">
+									<div class="text-15">Total Flight Price</div>
+								</div>
+								<div class="col-auto">
+									<div class="text-15">&#8377; <span id="value-output"></span></div>
+								</div>
+							</div>
+							<div class="row y-gap-3 justify-between pb-1">
+								<div class="col-auto">
+									<div class="text-14">(-) ICB Discount </div>
+									<div> </div>
+								</div>
+								<div class="col-auto">
+									<div class="text-15 text-success">&#8377;  100</div>
+								</div>
+							</div>
+							<div class="row y-gap-2 justify-between pb-1">
+								<div class="col-auto">
+									<div class="text-15">Convenience Fee</div>
+								</div>
+								<div class="col-auto">
+									<div class="text-15">&#8377; 415</div>
+								</div>
+							</div>
+							<div class="row y-gap-2 justify-between pt-2 border-top-light">
+								<div class="col-auto">
+									<div class="text-20 fw-600">You Pay</div>
+								</div>
+								<div class="col-auto">
+									<div class="text-20 fw-600">&#8377; 4,224</div>
+								</div>
+							</div>
+
+
+							<div class="row y-gap-3 justify-between bg-light-2 hideme" style="display:none;">
+								<div class="col-auto">
+									<div class="text-14">TAKE OFF Contribution</div>
+									<div> </div>
+								</div>
+								<div class="col-auto">
+									<div class="text-15">&#8377; 10</div>
+								</div>
+							</div>
+							<div class="row y-gap-3 justify-between mt-2 pt-1 border-top-light">
+								<div class="col-auto">
+									<div class="text-15">Earn eCash</div>
+								</div>
+								<div class="col-auto">
+									<div class="text-15">&#8377; 250</div>
+								</div>
+							</div>
+						</div>
+						<h2 class="text-20 fw-600 mt-14" style="padding:12px;">Booking Summary</h2>
+						<div class="px-20 py-10 border-light rounded-0 bg-white mb-3">
+							<div class="row y-gap-5 justify-between">
+							</div>
+						</div>
+						<h2 class="text-20 fw-600 mt-14" style="padding:12px;">Contact Details</h2>
+						<div class="px-20 py-10 border-light rounded-0 bg-white mb-3">
+							<div class="row y-gap-5 justify-between">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- ***** End Payment section ***** -->
+		<!--====== Footer Area Start ======-->
+		<footer class="footer-area footer-fixed">
+			<!-- Footer Top -->
+			<div class="footer-top ptb_62">
+				<div class="container">
+					<h3 class="footer-title mb-2">Travel Guide</h3>
+					<div class="row">
+						<div class="col-12 col-sm-6 col-lg-3">
+							<!-- Footer Items -->
+							<div class="footer-items">
+								<ul>
+									<li class="py-2"><a href="#">Andaman and Nicobar Travel Guide</a></li>
+									<li class="py-2"><a href="#">Kerala Travel Guide</a></li>
+									<li class="py-2"><a href="#">Himachal Travel Guide</a></li>
+									<li class="py-2"><a href="#">Kashmir Travel Guide</a></li>
+									<li class="py-2"><a href="#">Gujarat Travel Guide</a></li>
+									<li class="py-2"><a href="#">Maharashtra Travel Guide</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-12 col-sm-6 col-lg-3">
+							<!-- Footer Items -->
+							<div class="footer-items">
+								<ul>
+									<li class="py-2"><a href="#">Lakshwadweep Travel Guide</a></li>
+									<li class="py-2"><a href="#">Assam Travel Guide</a></li>
+									<li class="py-2"><a href="#">Arunachal Pradesh Travel Guide</a></li>
+									<li class="py-2"><a href="#">Andhra Pradesh Travel Guide</a></li>
+									<li class="py-2"><a href="#">Manipur Travel Guide</a></li>
+									<li class="py-2"><a href="#">Madhya Pradesh Travel Guide</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-12 col-sm-6 col-lg-3">
+							<!-- Footer Items -->
+							<div class="footer-items">
+								<ul>
+									<li class="py-2"><a href="#">Nagaland Travel Guide</a></li>
+									<li class="py-2"><a href="#">Odisha Travel Guide</a></li>
+									<li class="py-2"><a href="#">Tamil Nadu Travel Guide</a></li>
+									<li class="py-2"><a href="#">Uttaranchal Travel Guide</a></li>
+									<li class="py-2"><a href="#">West Bengal Travel Guide</a></li>
+									<li class="py-2"><a href="#">Karnataka Travel Guide</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-12 col-sm-6 col-lg-3">
+							<!-- Footer Items -->
+							<div class="footer-items">
+								<ul>
+									<li class="py-2"><a href="#">Lakshwadweep Travel Guide</a></li>
+									<li class="py-2"><a href="#">Assam Travel Guide</a></li>
+									<li class="py-2"><a href="#">Arunachal Pradesh Travel Guide</a></li>
+									<li class="py-2"><a href="#">Andhra Pradesh Travel Guide</a></li>
+									<li class="py-2"><a href="#">Manipur Travel Guide</a></li>
+									<li class="py-2"><a href="#">Madhya Pradesh Travel Guide</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="footer-mid ptb_50">
+				<div class="container">
+					<h3 class="footer-title mb-2">Why jetwaystravel.com?</h3>
+					<p>Our competitive rates and exclusive offers are what gives us a top notch over our competitors. We promise 'Unbeatable' services both in pricing and quality. For instance: Every Wednesday, travelers can save big with our ZERO Convenience fee on flight bookings.</p>
+					<p>Also, we get it - travel’s a big decision. It’s not every day that you fly across the world to wander the souks of Dubai or enjoy a dreamy sunrise in Paris. But for us, it’s been our every day job for the past four decades. Let’s just say we know what travelers really want. We give you the pros and cons for all the different travel products and allow you to decide what works best for you and your family. While many travel companies claim to have experts, we believe few, match our own specialists for genuine- firsthand knowledge. We combine first-hand knowledge with exceptional special offers, and we take care of every detail to create a holiday as unique as you are. You will no more need to worry about coordinating flight bookings, hotel reservations, visa stamps or tours as all your needs are taken care of under one roof; the Jetways Travels roof. More than 85% of clients come back to us for future trips.</p>
+					<p>When you choose Jetways Travels, your trip is in safe hands. Whilst you are abroad our team is available 24 hours a day, 365 days a year should you need assistance. We do absolutely everything for you, all you need to do is turn up at the airport with your bags and go!</p>
+				</div>
+			</div>
+
+			<div class="footer-mid-bottom ptb_25">
+				<div class="container">
+					<div class="row">
+						<div class="col-12 col-sm-6 col-lg-6">
+							<!-- Social Icons -->
+							<div class="social-icons d-flex">
+								<a class="facebook" href="#">
+									<i class="fab fa-facebook-f"></i>
+									<i class="fab fa-facebook-f"></i>
+								</a>
+								<a class="twitter" href="#">
+									<i class="fab fa-twitter"></i>
+									<i class="fab fa-twitter"></i>
+								</a>
+								<a class="google-plus" href="#">
+									<i class="fab fa-google-plus-g"></i>
+									<i class="fab fa-google-plus-g"></i>
+								</a>
+							</div>
+						</div>
+
+						<div class="col-12 col-sm-6 col-lg-6 text-right">
+							<img src="assets/img/card.png" alt="card">
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<!-- Footer Bottom -->
+			<div class="footer-bottom">
+				<div class="container">
+					<div class="row">
+						<div class="col-12">
+							<!-- Copyright Area -->
+							<div class="copyright-area text-center py-4">
+								<!-- Copyright-->
+								<div class="copyright">Copyrights &copy; 2023 www.jetwaystravel.com All Rights Reserved..</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+		<!--====== Footer Area End ======-->
+
+	</main>
+	<!-- ***** All jQuery Plugins ***** -->
+	<!-- Social media js -->
+	<script src="~/js/jquery/jquery.min.js"></script>
+	<script src="~/js/jquery/jquery.js"></script>
+	<!-- Plugins js -->
+	<script src="~/js/plugins.js"></script>
+	<!-- ***** Clander js ***** -->
+	<script src="~/js/daterangepicker.js"></script>
+	<!-- Bootstrap js -->
+	<script src="~/js/bootstrap/bootstrap.min.js"></script>
+	<script src="~/js/bootstrap/popper.min.js"></script>
+	<!-- Travellers js -->
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAz77U5XQuEME6TpftaMdX0bBelQxXRlM"></script>
+	<!-- Active js -->
+    <script src="~/js/payment.js"></script>
+    <script src="~/js/active.js"></script>
+    <script src="~/js/datepicker.js"></script>
+    <script src="~/js/main.js"></script>
+    <script src="~/js/site.js"></script>
+    <script src="~/js/vendors.js"></script>
+    <script src="~/js/payment.js"></script>
+    <script src="~/js/plugins/plugins.min.js"></script>
+    <script src="~/js/vendor/bootstrap.min.js"></script>
+    <script src="~/js/vendor/bootstrap.js"></script>
+    <script src="~/js/vendor/jquery-1.11.2.min.js"></script>
+    <script src="~/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <script src="~/js/vendor/npm.js"></script>
+    <script src="~/js/custom.js/customnew.js"></script>
+	<script type="text/javascript">
+		window.onload= function () {
+			debugger;
+			// Get the value from localStorage
+			var value = localStorage.getItem('myValue');
+			// Display the value on the page
+			document.getElementById("value-output").innerHTML = value;
+		};
+	</script>
+</body>
+
+</html>

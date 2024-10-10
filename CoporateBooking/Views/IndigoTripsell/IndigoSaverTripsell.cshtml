@@ -1,0 +1,602 @@
+﻿@model DomainLayer.ViewModel.ViewModel
+@{
+    Layout = null;
+
+}
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Title  -->
+    <title>Jetways Travels</title>
+    <!-- Favicon  -->
+    <link rel="icon" href="~/img/favicon.png">
+    <!-- Style css -->
+    <link rel="stylesheet" href="~/css/vendors.css">
+    <link rel="stylesheet" href="~/css/main.css" />
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/daterangepicker.css">
+    <script src="~/js/app.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <style>
+        .bg-h2 {
+            background: #366480;
+            color: #fff;
+            border-radius: 4px 4px 0 0;
+            padding-left: 0px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <main>
+        <!-- ***** Header Start ***** -->
+        <header class="navbar navbar-sticky navbar-expand-lg inner-bg">
+            <div class="container position-relative">
+                @*<a class="navbar-brand" href="index.html">*@
+                <a class="navbar-brand" asp-controller="FlightSearchIndex" asp-action="Index">
+                    <img class="navbar-brand-regular" src="~/img/logo/logo.png" alt="brand-logo">
+                    <img class="navbar-brand-sticky" src="~/img/logo/logo.png" alt="sticky brand-logo">
+                </a>
+                <button class="navbar-toggler d-lg-none" type="button" data-toggle="navbarToggler" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-inner">
+                    <!--  Mobile Menu Toggler -->
+                    <button class="navbar-toggler d-lg-none" type="button" data-toggle="navbarToggler" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="nav-bar col-12 col-md-7 col-lg-12">
+                        <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-1.png">Flight</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-2.png">Hotel</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-3.png">Visa</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-4.png">Holidays</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-5.png">Trains</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-6.png">Buses</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-7.png">Cabs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-8.png">Flight Passes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><img class="mr-2" src="~/img/nav-icon-8.png">Login</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <nav id="mobile-nav">
+                        <ul class="navbar-nav" id="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#">
+                                    Home
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll" href="features">Features</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#">
+                                    Pages
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll" href="#">Screenshots</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll" href="#">Pricing</a>
+                                <a class="nav-link scroll" href="#">Contact</a>
+                            </li>
+                            <li class="nav-item">
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <!-- ***** Header End ***** -->
+        <!-- ***** Start checkout section ***** -->
+
+        <section class="pt-90 layout-pb-md checkout bg-light-2">
+
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-xl-8 col-lg-8">
+                        <div class="row x-gap-20 y-gap-20 pt-9">
+                            <h2 class="text-18 fw-600 mt-10 md:mt-24">Review Your Booking</h2>
+                            <partial name="_IndigoTripsellPatialView.cshtml" />
+                        </div>
+                        <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
+                            <div id="toggleButton" class="bg-h2"><h2 class="text-18 fw-600 md:mt-20 ">Contact Details</h2></div>
+                        </div>
+                        <div id="content" class="row bg-white mt-2">
+                            <partial name="_IndigoContactDetailsPartialView.cshtml" />  <br> <br>
+
+                        </div>
+
+
+                        <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
+                            <div id="toggleButton2" class="bg-h2" style="opacity:0.2"><h2 class="text-18 fw-600 md:mt-20 ">Traveller Details</h2></div>
+                        </div>
+                        <div id="content2" class="row hidden">
+                            <partial name="_IndigoTravellerInfoPartialView.cshtml" />
+                        </div>
+
+                        @* <div class="row x-gap-20 y-gap-20 mt-3 pt-10">
+                        <div id="toggleButton3" class="bg-h2" style="opacity:0.2"><h2 class="text-22 fw-600 md:mt-20 ">Add your GST Details (Optional)</h2></div>
+                        </div> *@
+                        <div id="content3" class="hidden">
+                            <div id="gst_hide" class="row mt-5">
+                                @*  <div class="col-md-10 border-bottom-light">
+                                <!----<div class="text-18 fw-600">Add your GST Details (Optional)</div>-->
+                                <div class="text-14">Claim credit of GST charges. Your taxes may get updated post submitting your GST details.</div>
+                                </div>
+                                <div class="col-md-2 showBtn border-bottom-light"><button class="button mb-3 -md -outline-blue-1 text-blue-1">Add</button></div>
+                                <partial name="_IndigoGSTDetailsPartialView.cshtml" />*@
+                                <div class="col-md-12 border-bottom-light showBtn">
+                                    <div class="text-18 fw-600">Travelling for work?</div>
+                                    <div class="text-14">
+                                        <span class="ui-checkbox mr-1">
+                                            <input type="checkbox" class="ng-pristine ng-untouched ng-valid" ng-model="whatsApp.checked" ng-click="clickWhatsApp(whatsApp.checked);">
+                                            <i class="ytfi-checker"></i>
+                                        </span>Join Yatra for Business <a href="#" class="ml-2"><strong>View Benefits</strong></a>
+                                    </div>
+                                </div>
+                                <partial name="_IndigoTravellingBebefitPartialView.cshtml" />
+                            </div>
+                        </div>
+
+
+
+                        @* <form asp-action="PostUnitkey" asp-controller="IndigoTripsell" method="post">*@
+
+                        <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
+                            <div id="toggleButton4" class="bg-h2" style="opacity:0.2"><h2 class="text-18  fw-600 md:mt-20 ">Seat, Meal & Baggage</h2></div>
+                        </div>
+                        <div id="content4" class="hidden">
+                            <div id="show" class="row x-gap-20 y-gap-20 mt-10 bg-white service-section">
+                                <div class="seathide">
+                                    <div id="IndigoPartialView">
+                                    </div>
+                                    @* <partial name="_IndigoServiceRequestsPartialView.cshtml" />*@
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
+                            <div id="toggleButton6" class="bg-h2" style="opacity:0.2"><h2 class="text-18 fw-600 fw-600 md:mt-20 ">Add-ons <span class="text-18">(Indigo Fast-Forward)</span></h2></div>
+                        </div>
+                        <div id="content6" class="row  hidden mt-2">
+                            <div class="flight-box-content p-4 addons-box rounded-4">
+
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-sm-4 bdr-bx">
+                                                <div class="blogCard__image">
+                                                    <img src="~/img/addons-img-1.jpg" alt="image">
+                                                    @*<img src="~/img/ffwd.png" />*@
+                                                </div>
+                                                <div class="pt-10">
+                                                    <h4>Fast Forward Add-on in Indigo Flight</h4>
+                                                    <p>Enjoy priority check-in, boarding, and baggage handling with the Fast Forward add-on in Indigo Flight.</p>
+
+                                                </div>
+                                                @* <button type="submit" class="btn btn-lg">Add <i class="fa fa-chevron-right"></i></button> *@
+                                                <input type="checkbox" id="toggleCheckbox" class="btn-checkbox">
+                                                <label for="toggleCheckbox" class="btn btn-lg btn-label">
+                                                    <span class="add-text">Add <i class="fa fa-plus"></i></span>
+                                                    <span class="remove-text">Remove <i class="fa fa-minus"></i></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
+                            <div id="toggleButton5" class="bg-h2" style="opacity:0.2"><h2 class="text-18 fw-600 md:mt-20 ">Travel Insurance  <span class="text-18">(Recommended)</span></h2></div>
+                        </div>
+                        <div id="content5" class="row hidden mt-2">
+                            <partial name="_IndigoTravelInsurancePatialView.cshtml" />
+                        </div>
+
+
+                        @* <form>
+                        <div class="row x-gap-20 y-gap-20 mt-30 bg-white">
+                        <input type="submit" asp-action="SpiceJetPayment" asp-controller="SGPaymentGateway" value="Proceed to payment" class="btn btn-primary btn-lg">
+
+                        </div>
+                        </form> *@
+
+
+                        <div class="flex-center x-gap-20 y-gap-20 mt-30">
+                            @* <input type="submit" class="btn btn-btn-primary" value="Continue" /> *@
+                            <input type="submit" id="Continuebtn" class="btn btn-btn-primary Continuebtnprice" value="Continue" style="opacity:0.2" disabled />
+                        </div>
+
+
+                        @*  </form>  *@
+
+                    </div>
+
+                    <div class="col-xl-4 col-lg-4">
+                        <partial name="_IndigoFareDetailsPartialView.cshtml" />
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Review Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div>
+                        <p>Please ensure that the spelling of your name and other details match with your travel document/govt. ID, as these cannot be changed later. Errors might lead to cancellation penalties.</p>
+
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ***** End checkout section ***** -->
+        <!--====== Footer Area Start ======-->
+        <footer class="footer-area footer-fixed">
+            <!-- Footer Top -->
+            <div class="footer-top ptb_62">
+                <div class="container">
+                    <h3 class="footer-title mb-2">Travel Guide</h3>
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <!-- Footer Items -->
+                            <div class="footer-items">
+                                <ul>
+                                    <li class="py-2"><a href="#">Andaman and Nicobar Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Kerala Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Himachal Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Kashmir Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Gujarat Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Maharashtra Travel Guide</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <!-- Footer Items -->
+                            <div class="footer-items">
+                                <ul>
+                                    <li class="py-2"><a href="#">Lakshwadweep Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Assam Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Arunachal Pradesh Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Andhra Pradesh Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Manipur Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Madhya Pradesh Travel Guide</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <!-- Footer Items -->
+                            <div class="footer-items">
+                                <ul>
+                                    <li class="py-2"><a href="#">Nagaland Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Odisha Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Tamil Nadu Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Uttaranchal Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">West Bengal Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Karnataka Travel Guide</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <!-- Footer Items -->
+                            <div class="footer-items">
+                                <ul>
+                                    <li class="py-2"><a href="#">Lakshwadweep Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Assam Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Arunachal Pradesh Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Andhra Pradesh Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Manipur Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Madhya Pradesh Travel Guide</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-mid ptb_50">
+                <div class="container">
+                    <h3 class="footer-title mb-2">Why jetwaystravel.com?</h3>
+                    <p>Our competitive rates and exclusive offers are what gives us a top notch over our competitors. We promise 'Unbeatable' services both in pricing and quality. For instance: Every Wednesday, travelers can save big with our ZERO Convenience fee on flight bookings.</p>
+                    <p>Also, we get it - travel’s a big decision. It’s not every day that you fly across the world to wander the souks of Dubai or enjoy a dreamy sunrise in Paris. But for us, it’s been our every day job for the past four decades. Let’s just say we know what travelers really want. We give you the pros and cons for all the different travel products and allow you to decide what works best for you and your family. While many travel companies claim to have experts, we believe few, match our own specialists for genuine- firsthand knowledge. We combine first-hand knowledge with exceptional special offers, and we take care of every detail to create a holiday as unique as you are. You will no more need to worry about coordinating flight bookings, hotel reservations, visa stamps or tours as all your needs are taken care of under one roof; the Jetways Travels roof. More than 85% of clients come back to us for future trips.</p>
+                    <p>When you choose Jetways Travels, your trip is in safe hands. Whilst you are abroad our team is available 24 hours a day, 365 days a year should you need assistance. We do absolutely everything for you, all you need to do is turn up at the airport with your bags and go!</p>
+                </div>
+            </div>
+
+            <div class="footer-mid-bottom ptb_25">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-lg-6">
+                            <!-- Social Icons -->
+                            <div class="social-icons d-flex">
+                                <a class="facebook" href="#">
+                                    <i class="fab fa-facebook-f"></i>
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a class="twitter" href="#">
+                                    <i class="fab fa-twitter"></i>
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a class="google-plus" href="#">
+                                    <i class="fab fa-google-plus-g"></i>
+                                    <i class="fab fa-google-plus-g"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-6 text-right">
+                            <img src="~/img/card.png" alt="card">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Copyright Area -->
+                            <div class="copyright-area text-center py-4">
+                                <!-- Copyright-->
+                                <div class="copyright">Copyrights &copy; 2023 www.jetwaystravel.com All Rights Reserved..</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!--====== Footer Area End ======-->
+
+    </main>
+    <!-- ***** All jQuery Plugins ***** -->
+    <!-- Social media js -->
+    <!-- Social media js -->
+    <script src="~/js/jquery/jquery.min.js"></script>
+    <!-- Plugins js -->
+    <script src="~/js/plugins/plugins.min.js"></script>
+
+    <!-- ***** Clander js ***** -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+    <script src="assets/js/daterangepicker.js"></script>
+
+    <!-- Bootstrap js -->
+
+    <script src="~/js/bootstrap/popper.min.js"></script>
+    <script src="~/js/bootstrap/bootstrap.min.js"></script>
+    <!-- Travellers js -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAz77U5XQuEME6TpftaMdX0bBelQxXRlM"></script>
+    <script src="~/js/vendors.js"></script>
+    <script src="~/js/main.js"></script>
+
+    <!-- Active js -->
+    <script src="~/js/active.js"></script>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Include Bootstrap JavaScript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="~/js/custom.js/indigooneway.js"></script>
+
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        .bg-h2 {
+            background: #366480;
+            color: #fff;
+            border-radius: 4px 4px 0 0;
+            padding-left: 0px;
+        }
+
+        .btn-checkbox {
+            display: none;
+        }
+
+        .btn-label {
+            cursor: pointer;
+        }
+
+            .btn-label span {
+                display: inline-block;
+            }
+
+        .btn-checkbox:checked + .btn-label .add-text {
+            display: none;
+        }
+
+        .btn-checkbox:not(:checked) + .btn-label .remove-text {
+            display: none;
+        }
+    </style>
+
+
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            $('#show').click(function () {
+                $('.seathide').show(1000);
+            });
+            $('#show1').click(function () {
+                $('#seathide1').show(1000);
+            });
+            $('#show2').click(function () {
+                $('#seathide3').show(1000);
+            });
+
+
+            $('#toggleButton').on('click', function () {
+                //$('#content').toggleClass('hidden');
+                $('#content').show();
+                $('#content2').hide();
+                $('#content4').hide();
+                var toggleButton2 = document.getElementById("toggleButton2");
+                toggleButton2.style.opacity = "0.2";
+                // var toggleButton3To = document.getElementById("toggleButton3");
+                // toggleButton3To.style.opacity = "0.2";
+                // var content3To = document.getElementById("content3");
+                // content3To.style.display = "none";
+                var SGtoggleButton4To = document.getElementById("toggleButton4");
+                SGtoggleButton4To.style.opacity = "0.2";
+                var SGcontent4To = document.getElementById("content4");
+                SGcontent4To.style.display = "none";
+
+                var GSTContinuebtn1 = document.querySelector("#Continuebtn");
+                GSTContinuebtn1.disabled = true;
+                GSTContinuebtn1.style.opacity = "0.2";
+            });
+
+            $('#toggleButton2').on('click', function () {
+                //$('#content').toggleClass('hidden');
+                $('#content').hide();
+                $('#content2').show();
+                $('#content4').hide();
+                var servicetoggle = document.getElementById("toggleButton4");
+                servicetoggle.style.opacity = "0.2";
+
+            });
+
+            //$('#toggleButton6').on('click', function () {
+            //    $('#content6').toggleClass('hidden');
+            //});
+
+          
+
+            $(".Continuebtnprice").click(function () {
+                // Retrieve and store meal total
+                const mealTotal = $('#AddMealTotal').text();
+                localStorage.setItem('mealTotal1', mealTotal);
+                //alert("Meal" + mealTotal);
+                // Retrieve and store baggage total
+                const baggageTotal = $('#AddBaggage').text();
+                localStorage.setItem('bagTotal1', baggageTotal);
+                //alert("Bag" + baggageTotal);
+                const seatTotal = $('#total').val();
+                localStorage.setItem('seatPayment', seatTotal);
+
+                // Retrieve and store base payment total
+                const basePaymentTotal = $('#Totalamount').val();
+                localStorage.setItem('basePayment1', basePaymentTotal);
+                const FastFFWDTotal = $('#priceDisplay').text();
+                localStorage.setItem('FastFFWD', FastFFWDTotal);
+                //alert("Base" + basePaymentTotal);
+            });
+
+
+        });
+
+
+
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            updateConfig();
+            function updateConfig() {
+                var options = {};
+                if ($('#locale').is(':checked')) {
+                    $('#rtl-wrap').show();
+                    options.locale = {
+                        daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+                        monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                        firstDay: 1
+                    };
+                }
+
+                $('#start-date').daterangepicker(options, function (start, end, label) { console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')'); }).click();;
+
+            }
+
+        });
+
+        <!--show and hide-- >
+
+            $('.showBtn').click(function () {
+                //$('.hideme').hide();
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                    $('.hideme').slideUp(1);
+                } else {
+                    $('.hideme').slideUp(1);
+                    $('.showBtn').removeClass('active');
+                    $(this).addClass('active');
+                    $(this).next().filter('.hideme').slideDown(1);
+                }
+            });
+
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
+        window.onload = function () {
+            updateCombinedTotal();
+        }
+
+
+
+    </script>
+
+
+</body>
+
+</html>
+
+

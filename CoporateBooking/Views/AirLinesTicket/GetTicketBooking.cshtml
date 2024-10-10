@@ -1,0 +1,514 @@
+﻿@model List<DomainLayer.Model.TicketBooking>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Spicejet</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style_ticket.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!--<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>--->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"> </script>
+    <link href="~/css/style_ticket.css" rel="stylesheet" />
+</head>
+<body>
+    <form asp-action="PostTicketBooking" asp-controller="AirLinesTicket" method="post">
+        @foreach (var item in Model)
+        {
+            <div class="container">
+                <div class="row mt-5">
+                    <div class="d-flex flex-row justify-content-end">
+                        <div class="Tlogo">
+                            <img src="~/img/images/logo.png">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!----------Legal Entity Section-------------->
+
+            <section class="container mt-3">
+                <div class="row border-dot">
+                    <div class="col-12 bg-ticket">
+                        <div class="d-flex align-items-center">
+                            <span class="mb-0 fw-bold-600">Company / Legal Entity :</span>
+                            <span class="text-uppercase mb-0  ms-1 tc-color"><span>[18T004]</span> TUV-SUD SOUTH ASIA pvt ltd</span>
+                        </div>
+                    </div>
+
+                    <div class="col-12 border-top Talign-center">
+                        <div class="d-flex  flex-wrap justify-content-around tpadding-dot">
+                            <div class="col-auto">
+                                <div class="T-ID ">
+                                    Trip ID
+                                </div>
+                                <div class="T-ID fw-bold-600">
+                                    @*429709*@
+                                    <span>@item.tripId </span>
+                                </div>
+
+                            </div>
+                            <div class="col-auto border-right"></div>
+
+                            <div class="col-auto">
+                                <div class="T-ID ">
+                                    Travel Mode
+                                </div>
+                                <div class="T-ID fw-bold-600">
+                                    @* Guest Booking*@
+                                    <span>@item.guestBooking</span>
+                                </div>
+                            </div>
+                            <div class="col-auto border-right"></div>
+                            <div class="col-auto">
+                                <div class="T-ID ">
+                                    Booking Status
+                                </div>
+                                <div class="T-ID fw-bold-600">
+                                    @* Confirmed*@
+                                    <span>@item.bookingStatus</span>
+                                </div>
+                            </div>
+                            <div class="col-auto border-right"></div>
+                            <div class="col-auto">
+                                <div class="T-ID ">
+                                    Booking Reference Number
+                                </div>
+                                <div class="T-ID fw-bold-600">
+                                    @*JPNQ14SEP23A0094*@
+                                    <span>@item.bookingReferenceNumber</span>
+                                </div>
+                            </div>
+                            <div class="col-auto border-right"></div>
+                            <div class="col-auto ">
+                                <div class="T-ID ">
+                                    Booking Date & Time
+                                </div>
+                                <div class="T-ID fw-bold-600">
+                                    <span>@item.bookingDateTime</span>
+                                </div>
+                            </div>
+
+                            <!--------------------->
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </section>
+
+            <!-------------Air Line PNR Section ------------->
+            <section class="container mt-4">
+                <div class="row border-dot pt-2">
+                    <div class="d-flex flex-row justify-content-between flex-wrap">
+                        <div class="TPNR">
+                            @*<span class="mb-0 fw-bold-600"><span id="depart"> Kolkata</span><span> to</span><span id="tarrive"> Chennai</span></span>*@
+                            <span class="mb-0 fw-bold-600"><span id="depart"> @item.origin</span><span> to</span><span id="tarrive"> @item.desination</span></span>
+                        </div>
+                        <div class="TPNR d-flex">
+                            @* <div class="mb-0 fw-bold-600"id="Tpnr">Airline PNR : </div><div id="PNR" class="ms-2 t-color "><h5>FUYJND</h5></div>*@
+                            <div class="mb-0 fw-bold-600" id="Tpnr">Airline PNR : </div><div id="PNR" class="ms-2 t-color "><h5>@item.airlinePNR</h5></div>
+                        </div>
+                    </div>
+                    <div class="col-12 border-width"></div>
+                    <div class="d-flex flex-row flex-wrap align-items-center justify-content-between Clogo-padding">
+                        <div class="Clogo">
+                            <span class="Clogo2"><img src="~/img/images/clogo.png"></span><span id="CName" class="fw-bold-600">@item.airLines</span> |
+                            <span id="Cnomer" class="fw-bold-600">@item.carrierCode @item.identifier</span>
+                            @*<span class="Clogo2"><img src="~/img/images/clogo.png"></span><span id="CName" class="fw-bold-600"> AirAsia</span> |
+                        <span id="Cnomer" class="fw-bold-600"> 6E 833</span>*@
+                        </div>
+                        <div class="TEconomy">
+                            <span id="eco-class">Class : </span>
+                            @* <span id="Cnomer" class="fw-bold-600"> Economy (R)</span><span class="fw-bold-600"> | </span>*@
+                            <span id="Cnomer" class="fw-bold-600">@item.Class (R)</span><span class="fw-bold-600"> | </span>
+                            <span id="eco-class">Type :</span>
+                            <span id="Cnomer" class="fw-bold-600"> Client</span>
+                        </div>
+                    </div>
+                    <div class="col-12 border-width"></div>
+                    <!--------------Non-Stop------------------------->
+                    <div class="row mt-2">
+                        <div class="col-4">
+                            @* <div id="citycode" class="fw-bold-600">Kolkata CCU</div>*@
+                            <div id="citycode" class="fw-bold-600">@item.origin</div>
+                            @*  <div class="fw-bold-600">10:30 Thu 21 Sep, 2023</div>*@
+                            <div class="fw-bold-600">@item.departure</div>
+                            <p>Netaji Subhash Chandra Bose International Airport, Kolkata</p>
+                            @*   <p>Terminal: <span class="fw-bold-600">NA</span></p>*@
+                            <p>Terminal: <span class="fw-bold-600">@item.sourceTerminal</span></p>
+                        </div>
+                        @{
+                            var arrivalDate = item.arrival;
+                            var departureDate = item.departure;
+                            var diffarrival = (arrivalDate - departureDate);
+                        }
+                        <div class="col-4 t-center">
+
+                            @* <div id="Ttiming" class="fw-bold-600  mb-3">2 hr 20 mins</div>*@
+                            <div id="Ttiming" class="fw-bold-600  mb-3">@diffarrival</div>
+                            <div class="flyicon mb-2">
+                                <div class="col-12 border-icon"></div>
+                                <div class="flyimg"><img src="~/img/images/clogo.png"></div>
+                            </div>
+                            <p>Non-Stop</p>
+                        </div>
+                        <div class="col-4">
+                            @*  <div id="citycode2" class="fw-bold-600">Chennai MAA</div>*@
+                            <div id="citycode2" class="fw-bold-600">@item.desination</div>
+                            @* <div class="fw-bold-600">12:50 Thu 21 Sep, 2023</div>*@
+                            <div class="fw-bold-600">@item.arrival</div>
+                            <p>Chennai, Chennai</p>
+                            @*  <p>Terminal: <span class="fw-bold-600">1</span></p>*@
+                            <p>Terminal: <span class="fw-bold-600">@item.desinationTerminal</span></p>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="col-12 border-width"></div>
+                            <div class="d-flex flex-row justify-content-between">
+                                <div class="fw-bold-600">
+                                    <span>Fare Basis: R0CRP</span>
+                                </div>
+                                <div class="fw-bold-600">
+                                    @* <span>GDS PNR: FUYJND</span>*@
+                                    <span>GDS PNR: @item.airlinePNR</span>
+                                </div>
+                                <div class="fw-bold-600">
+                                    <span>Deal Code: </span>
+                                </div>
+                                <div class="fw-bold-600">
+                                    <span>
+                                        Tour Code:
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-12 border-width"></div>
+                        </div>
+
+
+                        <!------Passengers-Detail-Section--------->
+                        <div class="col-12 PDetail">
+                            <div class="d-flex flex-row justify-content-between">
+                                <div class="Pdetail1">
+
+                                    <ul class="td-inline">
+                                        <li class="tlist-none"><span id="Adult1">Passengers (1 Adults)</span></li>
+                                        @*   <li class="tlist-none"><span id="Pname1"  class="fw-bold-600">Mr. Vinay Kumar Singh</span></li>*@
+                                        <li class="tlist-none"><span id="Pname1" class="fw-bold-600">@item.Title @item.passengerName</span></li>
+                                        <li class="tlist-none"><span>(Adult)</span></li>
+                                    </ul>
+                                </div>
+                                <div class="Pdetail1">
+                                    <ul class="td-inline">
+                                        @* <li class="tlist-none"><span>Ticket No.:</span><span  class="fw-bold-600"> FUYJND</span></li>
+                                    <li class="tlist-none"> <span>Mobile No.:</span><span class="fw-bold-600"> 9457000000</span></li>
+                                    <li class="tlist-none"><span>Email:</span><span class="fw-bold-600"> vinay.ks@jetwaystravels.com</span></li>*@
+                                        <li class="tlist-none"><span>Ticket No.:</span><span class="fw-bold-600">@item.airlinePNR</span></li>
+                                        <li class="tlist-none"> <span>Mobile No.:</span><span class="fw-bold-600"> @item.phoneNumber</span></li>
+                                        <li class="tlist-none"><span>Email:</span><span class="fw-bold-600">@item.emailId</span></li>
+                                    </ul>
+                                </div>
+                                <div class="Pdetail1">
+                                    <ul class="td-inline">
+                                        <li class="tlist-none"><span>Status:</span><span class="fw-bold-600"> @item.bookingStatus</span></li>
+                                        <li class="tlist-none"> <span>Emp Id:</span><span class="fw-bold-600"> NA</span></li>
+                                        <li class="tlist-none"><span>Price:</span><span class="fw-bold-600">@item.price</span></li>
+                                        <li class="tlist-none"><span>Freq. Flyer No:</span><span class="fw-bold-600"> NA</span></li>
+                                        @*<li class="tlist-none"><span>Status:</span><span  class="fw-bold-600"> Confirmed</span></li>
+                                    <li class="tlist-none"> <span>Emp Id:</span><span class="fw-bold-600"> NA</span></li>
+                                    <li class="tlist-none"><span>Price:</span><span class="fw-bold-600"> 7,309</span></li>
+                                    <li class="tlist-none"><span>Freq. Flyer No:</span><span class="fw-bold-600"> NA</span></li>*@
+                                    </ul>
+                                </div>
+                                <div class="Pdetail1">
+                                    <ul class="td-inline">
+                                        <!--<li class="tlist-none"><input type="text" id="text-input" placeholder="Enter text or URL"> </li>
+                                        <li class="tlist-none"><button id="generate-button">Generate QR Code</button></li>
+                                        <li class="tlist-none"><div id="qrcode"></div></li>---->
+                                        <li class="tlist-none"><div class="qrsize" id="qrcode"></div></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="col-12 mt-3">
+                            <div class="col-12 border-width"></div>
+                            <div class="d-flex flex-row justify-content-between px-2 py-2">
+                                <div class="tseat5d d-flex align-items-center">
+                                    <span><img src="~/img/images/pseat.png"></span>
+                                    <div class="seat5d ps-2">
+                                        @*   <span class="fw-bold-600"> Seat 5D</span>*@
+                                        <span class="fw-bold-600"> @item.seatNumber</span>
+                                    </div>
+                                </div>
+                                <div class="tseat5d d-flex align-items-center">
+                                    <span><img src="~/img/images/pmeal.png"></span>
+                                    <div class="pmeal ps-2">
+                                        @*  <span class="fw-bold-600"> CCU-MAA: CPML(Select On board)</span>*@
+                                        <span class="fw-bold-600">@item.origin-@item.desination: CPML(Select On board)</span>
+
+                                    </div>
+                                </div>
+                                <div class="tseat5d d-flex align-items-center">
+                                    <span><img src="~/img/images/pbaggage.png"></span>
+                                    <div class="baggag ps-2 ">
+                                        <div class="bgagg-kg">
+                                            <span>Baggage:</span> <span class="fw-bold-600"> Cabin - 7kgs,</span>
+                                            <span>Check-In -</span> <span class="fw-bold-600"> 15Kgs</span>
+                                        </div>
+                                        <div class="bgagg-kg">
+                                            <span>Extra Baggage: </span> <span class="fw-bold-600"> NA</span>
+                                        </div>
+                                        <div class="bgagg-kg">
+                                            <span>Special request: </span> <span class="fw-bold-600"> -</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 border-width mb-3"></div>
+                        </div>
+
+
+                    </div>
+                    <!--------Passengers-D-End-------->
+                </div>
+
+
+                <!-----GST-DETAILS-------->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <span class="fw-bold-600">GST Details</span>
+                    </div>
+                    <div class="col-12 border-dot">
+                        <div class="row">
+                            <div class="col-auto">
+                                <div class="T-ID ">
+                                    GST Number
+                                </div>
+                                <div class="T-ID fw-bold-600">
+                                </div>
+                            </div>
+                            <div class="col-auto border-right"></div>
+                            <div class="col-auto">
+                                <div class="T-ID ">
+                                    GST Name
+                                </div>
+                                <div class="T-ID fw-bold-600">
+                                    TUV-SUD SOUTH ASIA PVT LTD
+                                </div>
+                            </div>
+                            <div class="col-auto border-right"></div>
+                            <div class="col-auto">
+                                <div class="T-ID ">
+                                    GST Email
+                                </div>
+                                <div class="T-ID fw-bold-600">
+                                    VINAY.SINGH@TUV-SUD.IN
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!--------Pricing-Details------------->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <span class="fw-bold-600">Pricing Details</span>
+                    </div>
+                    <div class="col-12 border-dot">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="T-ID fw-bold-600">
+                                    Mode of Payment:
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="T-ID fw-bold-600">
+                                    Bill to Company
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 border-width"></div>
+                            <div class="col-5">
+                                <div class="row mt-2">
+                                    <div class="col-7">
+                                        <span>Base Price</span>
+                                    </div>
+                                    <div class="col-5">
+                                        <span class="fw-bold-600">5,747</span>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-7">
+                                        <span>Airline taxes and Fees</span>
+                                    </div>
+                                    <div class="col-5">
+                                        <span class="fw-bold-600">15,62</span>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-auto">
+                                        <span>(Basic:57.00, PHF:50.00, TTF:201.00, ASF: 236.00, UDF:723.00, Airline GST: 302.00)</span>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-7">
+                                        <span>6E (CCU-MAA) Airline GST</span>
+                                    </div>
+                                    <div class="col-5">
+                                        <span class="fw-bold-600">IGST 302</span>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-7">
+                                        <span>Commissionable Tax</span>
+                                    </div>
+                                    <div class="col-5">
+                                        <span class="fw-bold-600">0</span>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-7">
+                                        <span>Non-Commissionable Tax</span>
+                                    </div>
+                                    <div class="col-5">
+                                        <span class="fw-bold-600">15,62</span>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-7">
+                                        <span>Airline Service Charge</span>
+                                    </div>
+                                    <div class="col-5">
+                                        <span class="fw-bold-600">0</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-2 border-right"></div>
+
+                            <div class="col-5">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-9">
+                                                <span>Meal/Seat/Baggage/Misc Charges</span> <br>
+                                                <span>(Meal:0, Seat:0, Baggage:0, Misc Charges: 0)</span>
+                                            </div>
+                                            <div class="col-3">
+                                                <span class="fw-bold-600">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="row mt-2">
+                                            <div class="col-9">
+                                                <span>Finance Charges(s)</span>
+                                            </div>
+                                            <div class="col-3">
+                                                <span class="fw-bold-600">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 border-width"></div>
+                        </div>
+
+                        <!-----------------Toatl-Price-------------------------->
+
+                        <div class="row">
+                            <div class="col-5">
+                                <div class="row mt-2">
+                                    <div class="col-9">
+                                        <span class="fw-bold-600">Total Fare</span>
+                                    </div>
+                                    <div class="col-3">
+                                        <span class="fw-bold-600">73,09</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto"></div>
+                            <div class="col-5">
+                                <div class="row mt-2">
+                                    <div class="col-9">
+                                        <span class="fw-bold-600">Add-ons and Service Fee</span>
+                                    </div>
+                                    <div class="col-3">
+                                        <span class="fw-bold-600">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-12 border-width"></div>
+                        </div>
+                        <div class="d-flex flex-row justify-content-between">
+                            <div class="totalprice">
+                                <span class="fw-bold-600">Total Price (tatal Fare + Add-ons and Service Fee)</span>
+                            </div>
+                            <div class="totalprice">
+                                <span class="fw-bold-600">7,309</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <button type="submit">save</button>
+
+
+                <div class="row border-dot my-4 py-2">
+                    <div class="col-12">
+                        <span class="fw-bold-600">Jetways Travels,</span>
+                        UGF 5, INDRA PRAKASH BUILDING 21, B.K. ROAD, CONNAUGHT PLACE, New Delhi 110001. <a class="tl-link" href="tel: 9090909090">+91-9090909090</a>
+                    </div>
+                </div>
+
+                <!------------------------------------>
+            </section>
+        }
+    </form>
+</body>
+
+<script type="text/javascript">
+      //document.addEventListener('DOMContentLoaded', function() {
+        //const textInput = document.getElementById('text-input');
+        //const generateButton = document.getElementById('generate-button');
+        //const qrcodeDiv = document.getElementById('qrcode');
+
+        //generateButton.addEventListener('click', function() {
+           // const text = textInput.value;
+           // if (text) {
+                // Create a new QRCode instance
+               // const qrcode = new QRCode(qrcodeDiv, {
+                  //  text: text,
+                  //  width: 128,
+                   // height: 90
+                //});
+           // } else {
+                //alert('Please enter text or URL.');
+            //}
+       // });
+    //});
+
+    var qrcode = new QRCode("qrcode","vinay1234");
+    var qrcode = new QRCode("qrcode2","vinaysingh");
+
+</script>
+</html>
+

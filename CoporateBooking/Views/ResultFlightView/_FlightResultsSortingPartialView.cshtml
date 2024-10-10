@@ -1,0 +1,1773 @@
+﻿@using Newtonsoft.Json;
+<style>
+    /*List page tab css*/
+    .bg-listtab {
+        margin: 10px 0px;
+        background: #e7e7e7;
+        padding: 10px;
+    }
+
+    .flightT1, .flightT2, .flightT3, .flightT4, .flightT5 {
+        cursor: pointer;
+    }
+
+    .tabBG {
+        padding: 4px 8px;
+        border-radius: 2px;
+        color: #326bf3;
+        border-bottom: 1px solid #326bf3;
+    }
+
+</style>
+
+
+
+@for (var j = 0; j < Model.SimpleAvailibilityaAddResponcelist.Count; j++)
+{
+    if (Model.SimpleAvailibilityaAddResponcelist[j].fareTotalsum <= 0)
+        continue;
+    //var collapseId = "ViewPriceCollapse" + Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.identifier.Trim();
+    var collapseId = "ViewPriceCollapse" + @j;
+    var CompanyName = "";
+    <div class="py-20 px-20 bg-white mt-20">
+        <div class="row y-gap-30 justify-between">
+            <div class="col">
+                <div class="row y-gap-10 items-center">
+
+                    <div class="col-sm-auto">
+
+                        @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("SG"))
+                        {
+                            <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
+                        }
+                        else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("6E"))
+                        {
+
+                            <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
+                        }
+                        else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("QP"))
+                        {
+                            <img class="size-40" src="~/img/flight-logo-icon/akasa.png" alt="image">
+                        }
+                        else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("AI"))
+                        {
+                            <img class="size-40" src="~/img/flight-logo-icon/airindia.png" alt="image">
+                        }
+                        else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("UK"))
+                        {
+                            <img class="size-40" src="~/img/flight-logo-icon/vistara.png" alt="image">
+                        }
+                        else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("H1"))
+                        {
+                            <img class="size-40" src="~/img/flight-logo-icon/hahnair.png" alt="image">
+                        }
+                        else
+                        {
+                            <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
+                        }
+
+                    </div>
+
+                    <div class="col">
+                        <div class="row x-gap-20 items-end">
+                            <div class="col-auto">
+
+                                @{
+                                    @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("SG"))
+                                    {
+                                        CompanyName = "SpiceJet";
+                                    }
+                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("6E"))
+                                    {
+
+                                        CompanyName = "Indigo";
+                                    }
+                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("QP"))
+                                    {
+
+                                        CompanyName = "AkasaAir";
+                                    }
+                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("AI"))
+                                    {
+
+                                        CompanyName = "AirIndia";
+                                    }
+                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("UK"))
+                                    {
+
+                                        CompanyName = "Vistara";
+                                    }
+                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("H1"))
+                                    {
+
+                                        CompanyName = "Hahnair";
+                                    }
+                                    else
+                                    {
+                                        CompanyName = "Air India Expr...";
+                                    }
+
+
+                                }
+
+                                <div class="lh-15 fw-500">@CompanyName</div>
+                                @{
+                                    var SegmentDatacount = Model.SimpleAvailibilityaAddResponcelist[j].segments.Count;
+
+                                    if (SegmentDatacount == 1)
+                                    {
+                                        <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.identifier </div>
+                                    }
+
+                                    if (SegmentDatacount == 2)
+                                    {
+                                        @for (var x = 0; x < SegmentDatacount; x++)
+                                        {
+                                            if (x == 0)
+                                            {
+
+                                                <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier <b>,</b></div>
+
+                                            }
+                                            else
+                                            {
+                                                <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier</div>
+
+                                            }
+
+                                        }
+                                    }
+                                    if (SegmentDatacount == 3)
+                                    {
+                                        @for (var x = 0; x < SegmentDatacount; x++)
+                                        {
+                                            if (x == 0)
+                                            {
+
+                                                <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier <b>,</b></div>
+
+                                            }
+                                            else if (x == 1)
+                                            {
+
+                                                <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier <b>,</b></div>
+
+                                            }
+                                            else
+                                            {
+                                                <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier</div>
+
+                                            }
+
+                                        }
+                                    }
+                                }
+                            </div>
+
+                            <div class="col-auto">
+
+                                @{
+                                    var departuretime = @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].designator.departure;
+                                    string departuretimestr = departuretime.ToString();
+                                    var departuretimefinal = departuretimestr.Substring(11, 5);
+                                }
+                                <div class="">@departuretimefinal</div>
+                                <div class="">@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin</div>
+                            </div>
+                            @{
+                                string formattedTime = string.Empty;
+                                var arrivalDate = Model.SimpleAvailibilityaAddResponcelist[j].designator.arrival;
+                                var departureDate = Model.SimpleAvailibilityaAddResponcelist[j].designator.departure;
+                                var diff = (arrivalDate - departureDate);
+                                TimeSpan timeSpan = TimeSpan.Parse(diff.ToString());
+                                if ((int)timeSpan.Minutes == 0)
+                                    formattedTime = $"{(int)timeSpan.TotalHours} h";
+                                else
+                                    formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
+
+                            }
+                            <div class="col text-center">
+                                <div class="px-20 md:px-0">@formattedTime</div>
+                                <div class="flightLine">
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                                @{
+                                    var stops = Model.SimpleAvailibilityaAddResponcelist[j].stops;
+                                    if (stops == 0)
+                                    {
+                                        <div class="mt-1">Non Stop</div>
+                                    }
+                                    if (stops == 1)
+                                    {
+                                        <div class="d-flex justify-center align-items-center">
+                                            <div>@stops Stop via &nbsp;</div>
+                                            <div class="mt-1"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination </div>
+                                        </div>
+                                    }
+                                    if (stops == 2)
+                                    {
+                                        <div class="d-flex justify-center align-items-center">
+                                            <div>@stops Stop via &nbsp;</div>
+
+                                            @if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Vistara || Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.AirIndia || Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Hehnair)
+                                            {
+                                                @if(Model.SimpleAvailibilityaAddResponcelist[j].segments.Count == 3)
+                                                {
+                                                    <div class="mt-1"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination,@Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination </div>
+
+                                                }
+                                                else if(Model.SimpleAvailibilityaAddResponcelist[j].segments.Count == 2)
+                                                {
+                                                    <div class="mt-1"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination </div>
+
+                                                }
+                                                else
+                                                {
+                                                    
+
+                                                }
+                                            }
+                                            else
+                                            {
+                                                @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs.Count == 2)
+                                                {
+                                                    <div class="mt-1"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination,@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[1].designator.destination </div>
+
+                                                }
+                                                else
+                                                {
+                                                    <div class="mt-1"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination  <b>,</b></div>
+
+                                                }
+
+
+
+                                                @if (Model.SimpleAvailibilityaAddResponcelist[j].segments.Count > 1 && Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs.Count == 2)
+                                                {
+                                                    <div class="mt-1"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination</div>
+                                                }
+                                                else
+                                                {
+                                                    // <div class="mt-1">2 Stop via  @Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination  <b>,</b></div>
+
+                                                }
+                                            }
+                                        </div>
+
+                                    }
+                                    if (stops == 3)
+                                    {
+                                        <div class="d-flex justify-center align-items-center">
+                                            <div>@stops Stop via &nbsp;</div>
+
+                                            @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs.Count == 2)
+                                            {
+                                                <div class="mt-1">@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination  ,@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[1].designator.destination</div>
+                                            }
+                                            else
+                                            {
+                                                // <div class="mt-1">2 Stop via  @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].legs[0].designator.destination  <b>,</b></div>
+
+                                            }
+
+
+                                            @if (Model.SimpleAvailibilityaAddResponcelist[j].segments.Count > 1 && Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs.Count == 2)
+                                            {
+                                                <div class="mt-1">,@Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination</div>
+                                            }
+                                            else
+                                            {
+                                                // <div class="mt-1">2 Stop via  @Model.SimpleAvailibilityaAddResponcelist[j].segments[1].legs[0].designator.destination  <b>,</b></div>
+
+                                            }
+                                        </div>
+                                    }
+                                }
+
+                            </div>
+
+                            <div class="col-auto">
+
+                                @{
+                                    var arrivaltime = Model.SimpleAvailibilityaAddResponcelist[j].designator.arrival;
+                                    string arrivaltimestr = arrivaltime.ToString();
+                                    var arrivalfinal = arrivaltimestr.Substring(11, 5);
+                                }
+
+                                <div class="lh-15 fw-500">@arrivalfinal</div>
+                                <div class="text-15 lh-15 text-light-1">@Model.SimpleAvailibilityaAddResponcelist[j].designator.destination</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-auto">
+                <div class="d-flex items-center h-full">
+                    <div class="pl-30 border-left-light h-full md:d-none"></div>
+
+                    <div>
+
+                        <div class="text-center md:text-left mb-10">
+
+                            <div class="price">₹ @Model.SimpleAvailibilityaAddResponcelist[j].fareTotalsum.ToString("N0")</div>
+                            <p class="text-8 text-center" style="margin-top:-6px;">per adult</p>
+                        </div>
+
+                        <div>
+
+                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">Select<i class="fa fa-angle-double-down ml-2"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="collapse multi-collapse" id="@collapseId">
+            <table class="table mt-20">
+                <thead class="bg-light-2">
+                    <tr>
+                        <th>FARES</th>
+                        <th>CABIN BAG</th>
+                        <th>CHECK-IN</th>
+                        <th>CANCELLATION </th>
+                        <th>DATE CHANGE </th>
+                        <th>SEAT</th>
+                        <th>MEAL</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        @for (var k = 0; k < Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual.Count; k++)
+                        {
+                            string Faretype = string.Empty;
+                            if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Indigo)
+                            {
+                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("J"))
+                                    Faretype = "Flexi Plus";
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("R"))
+                                    Faretype = "Retail Fare";
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("O"))
+                                    Faretype = "Super 6E";
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("A"))
+                                    Faretype = "Family Fare";
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("BR"))
+                                    Faretype = "Stretch";
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("BC"))
+                                    Faretype = "Stretch+";
+                                else
+                                    Faretype = "Saver Fare";
+                            }
+                            else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Spicejet)
+                            {
+                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass != null)
+                                {
+                                    if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("RS"))
+                                        Faretype = "Spice Plus";
+                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SF"))
+                                        Faretype = "Spice Flex";
+                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SC"))
+                                        Faretype = "Spice Max";
+                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SS"))
+                                        Faretype = "Saver Fare";
+                                }
+
+                            }
+                            else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.AkasaAir)
+                            {
+
+                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("EC"))
+                                    Faretype = "Saver";
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("AV"))
+                                    Faretype = "Flexi";
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SP"))
+                                    Faretype = "Special Fares";
+
+                            }
+                            else
+                            {
+                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass != null)
+                                {
+                                    if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("EC"))
+                                        Faretype = "Xpress Value";
+                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("HF"))
+                                        Faretype = "Vista Flex";
+                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("LT"))
+                                        Faretype = "Xpress lite";
+                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("VV"))
+                                        Faretype = "Xpress Bizz";
+                                    //else
+                                        //Faretype = "Saver Fare";
+                                }
+
+                            }
+                            <tr>
+                                <td>
+                                    <div><strong>@Faretype (@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass)</strong></div>
+                                    <div>offered by airline.</div>
+                                </td>
+                                @if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "EC" && Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.Airasia)
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td>
+
+                                        <div>3500 (upto 2 hrs prior from departure)</div>
+                                    </td>
+                                    <td>
+
+                                        <div>3000 (upto 2 hrs prior from departure)</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            (Chargeable)
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            (Chargeable)
+                                        </div>
+                                    </td>
+
+                                }
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "RS")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td>
+
+                                        <div>3600:- (within 96 hrs from Departure)</div>
+                                    </td>
+                                    <td>
+
+                                        <div>3350:- (within 96 hrs from Departure)</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "SS")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td>
+
+                                        <div>3600 (within 96 hrs from Departure)</div>
+                                    </td>
+                                    <td>
+
+                                        <div>3350 (within 96 hrs from Departure)</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "SF")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td>
+
+                                        <div>3600 (within 96 hrs from Departure)</div>
+                                    </td>
+                                    <td>
+
+                                        <div>3350 (within 96 hrs from Departure)</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "SC")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td>
+
+                                        <div>3600 (within 96 hrs from Departure)</div>
+                                    </td>
+                                    <td>
+
+                                        <div>3350 (within 96 hrs from Departure)</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+
+
+                                //Indigo//////
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "R")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td>
+
+                                        <div>3500 3 days upto 2 hrs prior from departure</div>
+                                    </td>
+                                    <td>
+
+                                        <div>3000 Before 3days upto 2 hrs from departure</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            (Chargeable)
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            (Chargeable)
+                                        </div>
+                                    </td>
+
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "J")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td>
+
+                                        <div>3500 (3 days upto 2 hrs prior from departure)</div>
+                                    </td>
+                                    <td>
+
+                                        <div>3000 (Before 3days upto 2 hrs from departure)</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free meal (per person)
+                                        </div>
+                                    </td>
+
+                                }
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "O")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>25 kg (1 piece)</strong></td>
+                                    <td>
+
+                                        <div>500 Before 3days upto 2 hrs from departure</div>
+                                    </td>
+                                    <td>
+
+                                        <div>500 Before 3days upto 2 hrs from departure</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free meal (per person)
+                                        </div>
+                                    </td>
+
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "A")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td>
+
+                                        <div>3500 (3 hrs before departure)</div>
+                                    </td>
+                                    <td>
+
+                                        <div>3200 (3 hrs before departure)</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Chargeable
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Chargeable
+                                        </div>
+                                    </td>
+
+                                }
+
+                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "BR")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>30 k.g.</strong></td>
+                                    <td>
+
+                                        <div>Fee starts at (Rs. 3499) Onward.</div>
+                                    </td>
+                                    <td>
+
+                                        <div>Fee starts at (Rs. 2499) Onward.</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+
+                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "BC")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>40 k.g.</strong></td>
+                                    <td>
+
+                                        <div>Fee starts at (Rs. 2499) Onward.</div>
+                                    </td>
+                                    <td>
+
+                                        <div>Fee starts at (Rs. 999) Onward.</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+                                //**********/
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.AkasaAir && Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "EC")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td>
+
+                                        <div>
+                                            2999  (4 days & above)
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div>
+                                            2250 (4 days & above)
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Chargeable
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Chargeable
+                                        </div>
+                                    </td>
+
+                                }
+
+
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "AV")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td>
+
+                                        <div>
+                                            1999 (4 days & above)
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div>
+                                            299 (4 days & above)
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+
+
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "HF")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td>
+
+                                        <div>3500 (upto 2 hrs prior from departure)</div>
+                                    </td>
+                                    <td>
+
+                                        <div>
+                                            FREE (upto 2 hrs prior from departure)
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+
+                                            Standard seats free
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+
+                                            (Free meal) per person
+                                        </div>
+                                    </td>
+
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "LT")
+                                {
+                                    <td>0</td>
+                                    <td><strong>0</strong></td>
+                                    <td>
+
+                                        <div>
+                                            --
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div>
+                                            --
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            --
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            --
+                                        </div>
+                                    </td>
+
+                                }
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "VV")
+                                {
+                                    <td>7 Kg</td>
+                                    <td>
+                                        <strong>
+                                            25 k.g  (1 piece)
+                                        </strong>
+                                    </td>
+                                    <td>
+
+                                        <div>3500 (upto 2 hrs prior from departure)</div>
+                                    </td>
+                                    <td>
+
+                                        <div>3000 (upto 2 hrs prior from departure)</div>
+                                    </td>
+                                    <td>
+                                        <div>
+
+                                            (Free seats)
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            (Free meal) per person
+                                        </div>
+                                    </td>
+
+                                }
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "Economy Lite")
+                                {
+                                    <td>7 k.g</td>
+                                    <td><strong>15 k.g </strong></td>
+                                    <td>
+
+                                        <div>
+                                            Fee starts at (Rs. 3710) Onward.
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div>
+                                            Fee starts at (Rs. 3180) Onward.
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "Economy Standard")
+                                {
+                                    <td>7 k.g</td>
+                                    <td><strong>15 k.g </strong></td>
+                                    <td>
+
+                                        <div>
+                                            Fee starts at (Rs. 3371) Onward.
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div>
+                                            Fee starts at (Rs. 2809) Onward.
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "Economy Flexi")
+                                {
+                                    <td>7 k.g.</td>
+                                    <td><strong>20 k.g. </strong></td>
+                                    <td>
+
+                                        <div>
+                                            Fee starts at (Rs. 3371) Onward.
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div>
+                                            Fee starts at (Rs. 2801) Onward.
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "Premium Economy Value")
+                                {
+                                    <td>7 k.g.</td>
+                                    <td><strong>20 k.g. </strong></td>
+                                    <td>
+
+                                        <div>
+                                            Fee starts at (Rs. 3445) Onward.
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div>
+                                            Fee starts at (Rs. 2915) Onward.
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "Premium Economy Standard")
+                                {
+                                    <td>7 k.g.</td>
+                                    <td><strong>25 k.g. </strong></td>
+                                    <td>
+
+                                        <div>
+                                            Fee starts at (Rs. 3180) Onward.
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div>
+                                            Fee starts at (Rs. 2650) Onward.
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+
+
+                                //Air India Fare   
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "Eco Comfort")
+                                {
+                                    <td>7 k.g</td>
+                                    <td><strong>15 k.g </strong></td>
+                                    <td>
+
+                                        <div>
+                                            Fee starts at (Rs. 4000) Onward.
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div>
+                                            Fee starts at (Rs. 3000) Onward.
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                } 
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "Eco Comfort Plus")
+                                {
+                                    <td>7 k.g</td>
+                                    <td><strong>15 k.g </strong></td>
+                                    <td>
+
+                                        <div>
+                                            Fee starts at (Rs. 3500) Onward.
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div>
+                                            Fee starts at (Rs. 3000) Onward.
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "Premium Comfort Plus")
+                                {
+                                <td>7 k.g</td>
+                                <td><strong>15 k.g </strong></td>
+                                <td>
+
+                                    <div>
+                                        Fee starts at (Rs. 3500) Onward.
+                                    </div>
+                                </td>
+                                <td>
+
+                                    <div>
+                                        Fee starts at (Rs. 3000) Onward.
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        Free seats
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <div>
+                                        Complimentary meal
+                                    </div>
+                                </td>
+
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "Premium Flex")
+                                {
+                                    <td>7 k.g</td>
+                                    <td><strong>25 k.g </strong></td>
+                                    <td>
+
+                                        <div>
+                                            Lower cancellation fees Rs. 500
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <div>
+                                            No refund on date change.
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+
+
+                                <td>
+                                    <div class="text-center md:text-left mb-10">
+                                        <div class="price">₹ @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].faretotal.ToString("N0")</div>
+                                        <p class="text-8 text-center">per adult</p>
+                                    </div>
+
+                                    @{
+                                        if (@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("SG"))
+                                        {
+                                            <form asp-action="SpicejetTripsell" asp-controller="SpiceJetResultFlightView">
+                                                <input type="hidden" id="fareKey" name="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
+                                                <input type="hidden" id="journeyKey" name="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
+                                                <input type="hidden" id="taxes" name="taxes" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].taxamount" />
+
+                                                <input type="submit" value="Book Now" class="button small-btn">
+                                            </form>
+                                        }
+                                        else if (@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("6E"))
+                                        {
+                                            <form asp-action="IndigoTripsell" asp-controller="IndigoResultFlightView">
+                                                <input type="hidden" id="fareKey" name="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
+                                                <input type="hidden" id="journeyKey" name="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
+
+                                                <input type="submit" value="Book Now" class="button small-btn">
+                                            </form>
+                                        }
+                                        else if (@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("QP"))
+                                        {
+                                            <form asp-action="AkasaAirTripsell" asp-controller="AKResultFlight">
+                                                <input type="hidden" id="fareKey" name="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
+                                                <input type="hidden" id="journeyKey" name="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
+
+                                                <input type="submit" value="Book Now" class="button small-btn">
+                                            </form>
+                                        }
+                                        else if (@Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("UK") || @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("AI") || @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("H1"))
+                                        {
+                                            string data = "";
+                                            try
+                                            {
+                                                data = JsonConvert.SerializeObject(@Model.SimpleAvailibilityaAddResponcelist[j]);
+                                            }
+                                            catch (Exception ex)
+                                            {
+
+                                            }
+
+                                            <form asp-action="GDSTripsell" asp-controller="GDSResultFlightView">
+                                                <input type="hidden" id="fareKey" name="fareKey" value="@data" />
+                                                <input type="hidden" id="journeyKey" name="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass" />
+
+                                                <input type="submit" value="Book Now" class="button small-btn">
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <form asp-controller="FlightSearchIndex" asp-action="Tripsell">
+                                                <input type="hidden" id="fareKey" name="fareKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey" />
+                                                <input type="hidden" id="journeyKey" name="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].journeyKey" />
+
+                                                <input type="submit" asp-action="Tripsell" value="Book Now" class="button small-btn">
+                                            </form>
+                                        }
+                                    }
+
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="flight-dtl showBtn"><a href="#">Flight Details <i class="fa fa-angle-down" data-unicode="f107"></i></a></div>
+        <div class="hideme" style="display:none;">
+            <div class="d-flex justify-between items-center bg-listtab">
+                <div class="text-12 active tabBG flightT1 text-light-1 fw-500">Itinerary</div>
+                <div class="text-12 flightT2 text-light-1 fw-500">Fare Details</div>
+                <div class="text-12 flightT3 text-light-1 fw-500">Baggage</div>
+                <div class="text-12 flightT4 text-light-1 fw-500">Cancellation</div>
+                <div class="text-12 flightT5 text-light-1 fw-500">Fare Rule</div>
+            </div>
+
+            <div id="Fcontent1" class="Ftab1">
+
+
+
+                @{
+                    CompanyName = "";
+                    SegmentDatacount = 0;
+                }
+                @for (int a = 0; a < Model.SimpleAvailibilityaAddResponcelist[j].segments.Count; a++)
+                {
+                    if (Model.SimpleAvailibilityaAddResponcelist[j].fareTotalsum <= 0)
+                        continue;
+                    CompanyName = "";
+                    @for (int b = 0; b < Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs.Count; b++)
+                    {
+                        <div class="">
+                            <div class="col">
+                                <div class="row y-gap-10 items-center">
+                                    <div class="dst-top text-15 fw-bold">@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.origin<i class="fa fa-angle-double-right" aria-hidden="true"></i>@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.destination</div>
+                                    <div class="d-flex text-12  items-center">
+                                        <div class="climg">
+                                            @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("SG"))
+                                            {
+
+                                                <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
+                                            }
+                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("6E"))
+                                            {
+
+                                                <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
+                                            }
+                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("QP"))
+                                            {
+
+                                                <img class="size-40" src="~/img/flight-logo-icon/akasa.png" alt="image">
+                                            }
+                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("AI"))
+                                            {
+                                                <img class="size-40" src="~/img/flight-logo-icon/airindia.png" alt="image">
+                                            }
+                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("UK"))
+                                            {
+                                                <img class="size-40" src="~/img/flight-logo-icon/vistara.png" alt="image">
+                                            }
+                                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("H1"))
+                                            {
+                                                <img class="size-40" src="~/img/flight-logo-icon/hahnair.png" alt="image">
+                                            }
+                                            else
+                                            {
+                                                <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
+                                            }
+                                        </div>
+                                        <div class="colcrc">
+                                            <div class="row ">
+                                                <div class="col-auto">
+                                                    <div class="inside-col">
+                                                        @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("SG"))
+                                                        {
+                                                            CompanyName = "SpiceJet";
+                                                        }
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("6E"))
+                                                        {
+
+                                                            CompanyName = "Indigo";
+                                                        }
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode.Equals("QP"))
+                                                        {
+
+                                                            CompanyName = "AkasaAir";
+                                                        }
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("AI"))
+                                                        {
+                                                            CompanyName = "AirIndia";
+                                                        }
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("UK"))
+                                                        {
+                                                            CompanyName = "Vistara";
+                                                        }
+                                                        else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("H1"))
+                                                        {
+                                                            CompanyName = "Hahnair";
+                                                        }
+                                                        else
+                                                        {
+                                                            CompanyName = "Air India Exp..";
+                                                        }
+                                                        <div class="lh-15 fw-500">@CompanyName</div>
+                                                        @{
+                                                            SegmentDatacount = Model.SimpleAvailibilityaAddResponcelist[j].segments.Count;
+                                                            <div class="fliCode"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].identifier.identifier </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                                @{
+                                                    departuretimefinal = @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.departureTime.ToString().Substring(11, 5);
+
+                                                    arrivalfinal = @Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.arrivalTime.ToString().Substring(11, 5);
+
+                                                    formattedTime = string.Empty;
+                                                    arrivalDate = Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.arrival;
+                                                    departureDate = Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.departure;
+                                                    diff = (arrivalDate - departureDate);
+                                                    timeSpan = TimeSpan.Parse(diff.ToString());
+                                                    if ((int)timeSpan.Minutes == 0)
+                                                        formattedTime = $"{(int)timeSpan.TotalHours} h";
+                                                    else
+                                                    {
+                                                        if ((int)timeSpan.Hours == 0)
+                                                        {
+                                                            formattedTime = $"{(int)timeSpan.Minutes} m";
+                                                        }
+                                                        else
+                                                        {
+                                                            formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
+                                                        }
+                                                    }
+
+
+                                                }
+                                                <div class="col-auto">
+                                                    <div class="fw-bold">@departuretimefinal</div>
+                                                    <div class="">@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.origin</div>
+                                                    <span>Terminal-@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.departureTerminal </span>
+                                                </div>
+
+
+
+                                                <div class="col-auto text-center">
+                                                    <div class="md:px-0">@formattedTime</div>
+                                                    <div class="flightLine">
+                                                        <div></div>
+                                                        <div></div>
+                                                    </div>
+                                                    <div class="mt-1">&nbsp;</div>
+                                                </div>
+
+                                                <div class="col-auto">
+                                                    <div class="lh-15  fw-bold">@arrivalfinal</div>
+                                                    <div class="lh-15 text-light-1">@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].designator.destination</div>
+                                                    <span>Terminal-@Model.SimpleAvailibilityaAddResponcelist[j].segments[a].legs[b].legInfo.arrivalTerminal</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                }
+
+            </div>
+
+            <!-----Ftab1 End----->
+
+            <div id="Fcontent2" class="Ftab2" style="display:none;">
+                <div class="row y-gap-10">
+                    @{
+                        DateTime originalDateTime = DateTime.Parse(@Model.SimpleAvailibilityaAddResponcelist[j].designator.departure.ToString());
+                        // Convert to the desired format
+                        string formattedDate = originalDateTime.ToString("dddd, dd MMM yyyy").ToUpper();
+                    }
+                    <div class="dst-top text-12">@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin - @Model.SimpleAvailibilityaAddResponcelist[j].designator.destination (@formattedDate) </div>
+
+
+                    <div class="col-lg-12">
+                        <div class="text-19 fw-bold fw-600">Fare Rule</div>
+                        @{
+                            @for (var k = 0; k < Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual.Count; k++)
+                            {
+                                if (k > 0)
+                                {
+                                    break;
+                                }
+                                decimal basic = @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].faretotal - @Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].taxamount;
+                                <table class="table mt-20">
+                                    <thead class="bg-light-2">
+                                        <tr>
+                                            <th><strong>Fare Details</strong></th>
+                                            <th style="text-align:right;"><strong>Amount</strong></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr>
+                                            <td>Basic(+)</td>
+                                            <td align="right">@basic.ToString("N0")</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Taxes(+)</td>
+                                            <td align="right">@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].taxamount.ToString("N0")</td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td>Total</td>
+                                            <td align="right">@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].faretotal.ToString("N0")</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <!-----Ftab2 End----->
+
+            <div id="Fcontent3" class="Ftab3" style="display:none;">
+                <table class="table text-12 mt-20">
+                    <thead class="bg-light-2">
+                        <tr>
+                            <th>Airline</th>
+                            <th>Pax Type</th>
+                            <th>Check-in Baggage</th>
+                            <th>Cabin Baggage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="d-flex flex-column text-12 width-110">
+                                @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("SG"))
+                                {
+                                    CompanyName = "SpiceJet";
+                                    <img class="size-40" src="~/img/flight-logo-icon/SG.png" alt="image">
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("6E"))
+                                {
+                                    CompanyName = "Indigo";
+                                    <img class="size-40" src="~/img/flight-logo-icon/6E.png" alt="image">
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("QP"))
+                                {
+                                    CompanyName = "AkasaAir";
+                                    <img class="size-40" src="~/img/flight-logo-icon/akasa.png" alt="image">
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("UK"))
+                                {
+                                    CompanyName = "Vistara";
+                                    <img class="size-40" src="~/img/flight-logo-icon/vistara.png" alt="image">
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("AI"))
+                                {
+                                    CompanyName = "AirIndia";
+                                    <img class="size-40" src="~/img/flight-logo-icon/airindia.png" alt="image">
+                                }
+                                else
+                                {
+                                    CompanyName = "Air India Exp..";
+                                    <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
+                                }
+
+                                @CompanyName <span>
+                                    @{
+                                        SegmentDatacount = Model.SimpleAvailibilityaAddResponcelist[j].segments.Count;
+
+                                        if (SegmentDatacount == 1)
+                                        {
+                                            <div class="fliCode text-12"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.identifier </div>
+                                        }
+
+                                        if (SegmentDatacount == 2)
+                                        {
+                                            @for (var x = 0; x < SegmentDatacount; x++)
+                                            {
+                                                if (x == 0)
+                                                {
+
+                                                    <div class="fliCode text-12"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier <b>,</b></div>
+
+                                                }
+                                                else
+                                                {
+                                                    <div class="fliCode text-12"> @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.carrierCode - @Model.SimpleAvailibilityaAddResponcelist[j].segments[x].identifier.identifier</div>
+
+                                                }
+
+                                            }
+                                        }
+                                    }
+
+                                </span>
+                            </td>
+                            @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("SG"))
+                            {
+                                <td>Adult</td>
+                                <td>15 kg</td>
+                                <td>7 kg</td>
+                            }
+                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("6E"))
+                            {
+                                <td>Adult</td>
+                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("BR"))
+                                {
+                                    <td>30 kg</td>
+                                    <td>7 kg</td>
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("BC"))
+                                {
+                                    <td>40 kg</td>
+                                    <td>7 kg</td>
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("O"))
+                                {
+                                    <td>25 kg</td>
+                                    <td>7 kg</td>
+                                }
+                                else
+                                {
+                                    <td>15 kg</td>
+                                    <td>7 kg</td>
+                                }
+
+                            }
+                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("QP"))
+                            {
+                                <td>Adult</td>
+                                <td>15 kg</td>
+                                <td>7 kg</td>
+                            }
+                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("UK"))
+                            {
+                                <td>Adult</td>
+                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Premium Economy Value"))
+                                {
+                                    <td>20 kg</td>
+                                    <td>7 kg</td>
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Economy Flexi"))
+                                {
+                                    <td>20 kg</td>
+                                    <td>7 kg</td>
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Premium Economy Standard"))
+                                {
+                                    <td>25 kg</td>
+                                    <td>7 kg</td>
+                                }
+                                else
+                                {
+                                    <td>15 kg</td>
+                                    <td>7 kg</td>
+                                }
+
+                            }
+                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("AI"))
+                            {
+                                <td>Adult</td>
+                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual!=null && Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Eco Flex"))
+                                {
+                                    <td>25 kg</td>
+                                    <td>7 kg</td>
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Premium Flex"))
+                                {
+                                    <td>25 kg</td>
+                                    <td>10 kg</td>
+                                }
+                                else
+                                {
+                                    <td>15 kg</td>
+                                    <td>7 kg</td>
+                                }
+
+                            }
+
+                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("IX"))
+                            {
+                                <td>Adult</td>
+                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("VV"))
+                                {
+                                    <td>25 kg</td>
+                                    <td>7 kg</td>
+                                }
+                                else
+                                {
+                                    <td>15 kg</td>
+                                    <td>7 kg</td>
+                                }
+
+                            }
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="text-19 fw-bold fw-600 pb-2">Terms &amp; Conditon</div>
+                <ul class="list-disc y-gap-10">
+                    <li>For infants there is no baggage allowance.</li>
+                    <li>Airline can change Baggage Allowance.</li>
+                    <li>If you have any query, feel free to Contact Us. Email: support@jetwaystravels.com</li>
+                </ul>
+            </div>
+
+            <!-----Ftab3 End----->
+
+            <div id="Fcontent4" class="Ftab4" style="display:none;">
+                <div class="dst-top text-12 fw-bold">@Model.SimpleAvailibilityaAddResponcelist[j].designator.origin - @Model.SimpleAvailibilityaAddResponcelist[j].designator.destination (@Model.SimpleAvailibilityaAddResponcelist[j].bookingdate)  </div>
+                <table class="table mt-20">
+                    <tbody>
+                        <tr>
+                            <td>Cancellation Charges</td>
+                            @if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("SG"))
+                            {
+                                <td>3600 RS. </td>
+                                <td>within 96 hrs from Departure</td>
+                                <td>As per Airline Fare rule</td>
+                            }
+                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("6E"))
+                            {
+                                <td>3500 RS. </td>
+                                <td>3 days upto 2 hrs prior from departure</td>
+                                <td>As per Airline Fare rule</td>
+                            }
+                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("QP"))
+                            {
+                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("EC"))
+                                {
+                                    <td>2999 Rs.</td>
+                                     <td>4 days & above</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("AV"))
+                                {
+                                    <td>Rs. 1999</td>
+                                    <td>4 days & above</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+                                
+                              
+                            }
+                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("UK"))
+                            {
+                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Economy Lite"))
+                                {
+                                    <td>Rs. 3710</td>
+                                    <td>Fee starts at Onward</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Economy Standard"))
+                                {
+                                    <td>Rs. 3371</td>
+                                    <td>Fee starts at Onward</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Premium Economy Value"))
+                                {
+                                    <td>Rs. 3445</td>
+                                    <td>Fees starts at onward</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Economy Flexi"))
+                                {
+                                    <td>Rs. 3371</td>
+                                    <td>Fees starts at onward</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Premium Economy Standard"))
+                                {
+                                    <td>Rs. 3180</td>
+                                    <td>Fees starts at onward</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+                                else
+                                {
+                                    <td>Rs. 3445</td>
+                                    <td>Fees starts at onward</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+                            }
+                            else if (Model.SimpleAvailibilityaAddResponcelist[j].segments[0].identifier.carrierCode.Equals("AI"))
+                            {
+
+                               
+                                if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Eco Flex"))
+                                {
+                                    <td>Rs. 500</td>
+                                    <td>Lower cancellation fess</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Premium Flex"))
+                                {
+                                    <td> Rs. 500</td>
+                                    <td>Lower cancellation fess</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Premium Comfort Plus"))
+                                {
+                                    <td>Rs. 3500</td>
+                                    <td>Fees starts at onward</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[0].procuctclass.Equals("Eco Comfort Plus"))
+                                {
+                                    <td>Rs. 3500</td>
+                                    <td>Fees starts at onward</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+                                else
+                                {
+                                    <td>Rs. 4000</td>
+                                    <td>Rs. 3000</td>
+                                    <td>As per Airline Fare rule</td>
+                                }
+
+                            }
+                            else
+                            {
+                                <td>3500 Rs.</td>
+                                <td>upto 2 hrs prior from departure</td>
+                                <td>As per Airline Fare rule</td>
+                            }
+
+
+
+
+
+                        </tr>
+
+
+                    </tbody>
+                </table>
+                <div class="text-19 fw-600 pb-2">Terms &amp; Conditon</div>
+                <ul class="list-disc y-gap-10">
+                    <li>There may be restrictions attached like date change penalty, cancellation penalty or the ticket may be non­refundable. To check the restrictions you are requested to get in touch with our travel consultant.</li>
+                    <li>
+                        Cancelled bookings will incur charges. These charges may be up to 100% of the ticket cost, regardless of whether travel has commenced or not. Fees will
+                        also apply where a booking is changed or tickets are re­issued.
+                    </li>
+                    <li>
+                        Wherever we incur any liability for a cancellation fee or charge for any booking which you cancel, you agree to indemnify us for the amount of that fee or
+                        charge.
+                    </li>
+                    <li>Service tax and statutory levies, as applicable will be billed by Jetways Travels and are payable at actual.</li>
+
+                </ul>
+            </div>
+
+            <!-----Ftab4 End----->
+            <div id="Fcontent5" class="Ftab5" style="display:none;">
+                <div class="dst-top mb-3">Airline Fare Rule</div>
+                <ul class="list-disc y-gap-10">
+                    <li>Jetways Travels does not guarantee the accuracy of cancel reschedule fees.
+                    <li>
+                        Airlines doesn't allow any additional baggage allowance for any infant added in the booking.
+                    </li>
+                    <li>
+                        Airlines cancel reschedule should be reconfirmed before requesting for a cancellation or amendment.
+                    </li>
+                    <li>
+                        Wherever we incur any liability for a cancellation fee or charge for any booking which you cancel, you agree to indemnify us for the amount of that fee or
+                        charge.
+                    </li>
+
+                </ul>
+
+
+            </div>
+
+            <!-----Ftab5 End----->
+
+        </div>
+    </div>
+
+}
+
+

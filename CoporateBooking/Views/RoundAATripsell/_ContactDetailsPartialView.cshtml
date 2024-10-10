@@ -1,0 +1,583 @@
+﻿
+<form id="contactFormRT">
+    <div class="row y-gap-10 row mt-2 py-3 mb-3">
+
+        <div class="col-md-3">
+            <div class="form-input ">
+                <input type="text" id="first"  name="first" maxlength="32" oninput="validateInput(event)" class="firstNClass" style='text-transform:uppercase' placeholder="First Name">
+            </div>
+            <p id="error-message1" class="error-message" style="display:none">Enter First name</p>
+            <p id="errorMessage" style="color: red;font-size:13px;"></p>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-input ">
+                <input type="text" id="last" name="last" maxlength="32" oninput="validateInput2(event)" class="lastNClass" style='text-transform:uppercase' placeholder="Last Name">
+            </div>
+            <p id="error-message2" class="error-message" style="display:none">Enter Last name</p>
+            <p id="errorMessage2" style="color: red;font-size:13px;"></p>
+        </div>
+        <div class="col-md-3">
+            <div class="form-input">
+                <input type="text" name="emailAddress" maxlength="50" oninput="validateEmail(event)" class="emailNClass" id="emailAddress" placeholder="Email ID">
+            </div>
+            <p id="emailErrorMessage" style="color: red; font-size:13px;"></p>
+            <p id="error-message7" class="error-message" style="display:none">Enter Email Address.</p>
+        </div>
+
+        <div class="col-md-1 phone-code">
+            <select class="form-control form-control-lg">
+                <option>+91</option>
+            </select>
+        </div>
+
+        <div class="col-md-2 phone-number">
+            <div class="form-input">
+                <input type="text" name="number" id="number" class="phoneNClass" placeholder="Phone Number" oninput="validatePhoneNumber(event)">
+
+            </div>
+            <p id="error-message8" class="error-message" style="display:none">Enter Phone Number</p>
+            <p id="phoneNumberErrorMessage" style="color: red;font-size:13px;"></p>
+        </div>
+        <div class="d-flex justify-content-between mt-3">
+            <div class="d-flex align-items-center">
+                <div class="kk">
+                    Same as lead passenger <button id="leadpassengerButton2" class="checkbox-button ms-2"></button>
+                </div>
+                <div class="kk ms-3">
+                    Do you have GST  <button id="GSTButton2" class="checkbox-button ms-2"></button>
+
+                </div>
+            </div>
+            <div><input type="submit" class="btn btn-primary pagelaodRT" value="Save" /></div>
+
+        </div>
+
+        <div class="col-md-12 hid-block hidden">
+            <div class="text-16 fw-600">
+                Fill your's GST details below !
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-input">
+
+                <input type="text" id="gstname" maxlength="32" name="companyName" oninput="validateInputgst(event)" class="companyName hid-block hidden" placeholder="Company Name">
+            </div>
+            <p id="errorMessagegst" style="color: red;font-size:13px;"></p>
+            <p id="error-message9" class="error-message" style="display:none">Enter Company Name</p>
+        </div>
+        <div class="col-md-3">
+            <div class="form-input">
+                <input type="text" id="gstnumber" maxlength="15" name="customerNumber" oninput="validateGST(event)" class="companyName hid-block hidden" placeholder="GST Number">
+            </div>
+            <p id="gstErrorMessage" style="color: red;font-size:13px;"></p>
+            <p id="error-message10" class="error-message" style="display:none">Enter GST Number</p>
+
+        </div>
+        <div class="col-md-3">
+            <div class="form-input">
+                <input type="text" name="emailAddressgst" maxlength="266" oninput="validateEmailGST(event)" class="gstemail hid-block hidden" id="emailAddressGST" placeholder="Email ID">
+            </div>
+            <p id="emailErrorMessageGST" style="color: red; font-size:13px;"></p>
+        </div>
+
+    </div>
+
+
+</form>
+
+
+<style>
+    .error-message {
+        color: red;
+        font-size: 13px;
+    }
+
+    .checkbox-button {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 0;
+        cursor: pointer;
+    }
+
+
+        .checkbox-button.checked::after {
+            content: '\2713';
+            font-size: 16px;
+            color: #333;
+            display: block;
+            text-align: center;
+            line-height: 20px;
+        }
+
+</style>
+
+<script type="text/javascript">
+    //Lead Passeneger Check Box function
+    var buttonlead = document.getElementById('leadpassengerButton2');
+    buttonlead.addEventListener('click', function (e) {
+        e.preventDefault();
+        buttonlead.checked = !buttonlead.checked;
+        if (buttonlead.checked) {
+
+            buttonlead.classList.add('checked');
+
+        } else {
+            buttonlead.classList.remove('checked');
+        }
+        if (buttonlead.checked) {
+
+            var firstLeadPass = document.querySelector('.firstNClass').value;
+            var lastLeadPass = document.querySelector('.lastNClass').value;
+            var emaiLeadPass = document.querySelector('.emailNClass').value;
+            var phoneLeadPass = document.querySelector('.phoneNClass').value;
+            localStorage.setItem('Leadpassenger1RT', firstLeadPass);
+            localStorage.setItem('Leadpassenger2RT', lastLeadPass);
+            localStorage.setItem('Leadpassenger3RT', emaiLeadPass);
+            localStorage.setItem('Leadpassenger4RT', phoneLeadPass);
+
+        } else {
+
+            var firstLeadPass = "";
+            var lastLeadPass = "";
+            var emaiLeadPass = "";
+            var phoneLeadPass = "";
+            localStorage.setItem('Leadpassenger1RT', firstLeadPass);
+            localStorage.setItem('Leadpassenger2RT', lastLeadPass);
+            localStorage.setItem('Leadpassenger3RT', emaiLeadPass);
+            localStorage.setItem('Leadpassenger4RT', phoneLeadPass);
+        }
+    });
+
+    //GST Checkbox Function
+    var buttongst = document.getElementById('GSTButton2');
+    buttongst.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        buttongst.checked = !buttongst.checked;
+
+
+        if (buttongst.checked) {
+
+            buttongst.classList.add('checked');
+
+        } else {
+            buttongst.classList.remove('checked');
+        }
+        if (buttongst.checked) {
+
+            $(".hid-block").show();
+        } else {
+            //alert("Checkbox is unchecked");
+            var gstToDisplay = document.getElementById("error-message9");
+            gstToDisplay.style.display = "none";
+            var gstNToDisplay = document.getElementById("error-message10");
+            gstNToDisplay.style.display = "none";
+            document.getElementById('gstErrorMessage').innerText = "";
+            document.getElementById("gstname").value = "";
+            document.getElementById("gstnumber").value = "";
+            document.getElementById("emailAddressGST").value = "";
+            document.getElementById("emailErrorMessageGST").value = "";
+            $(".hid-block").hide();
+        }
+    });
+    //****************GST END*************************** */
+    $(document).ready(function () {
+        $(".pagelaodRT").click(function (e) {
+            e.preventDefault();
+
+            //alert("Test");
+            function setInputValueAndRemoveError(inputSelector, localStorageKey) {
+                var value = localStorage.getItem(localStorageKey);
+                var inputElement = document.querySelector(inputSelector);
+                inputElement.value = value;
+                if (value) {
+                    removeError(inputElement);
+                }
+            }
+            function removeError(element) {
+                const parentElement = element.closest('.col-md-3, .col-md-2');
+                const errorMessage = parentElement.querySelector(".error-message");
+                if (errorMessage) {
+                    errorMessage.style.display = 'none';
+                }
+                element.classList.remove("error-input");
+            }
+
+            setInputValueAndRemoveError(".contactFname", 'Leadpassenger1RT');
+            setInputValueAndRemoveError(".contactLname", 'Leadpassenger2RT');
+            setInputValueAndRemoveError(".contactemail", 'Leadpassenger3RT');
+            setInputValueAndRemoveError(".contactphone", 'Leadpassenger4RT');
+            // var laedpas = localStorage.getItem('Leadpassenger1RT');
+            // document.querySelector(".contactFname").value = laedpas;
+            // var laedpasLast = localStorage.getItem('Leadpassenger2RT');
+            // document.querySelector(".contactLname").value = laedpasLast;
+
+            // var laedpasemail = localStorage.getItem('Leadpassenger3RT');
+            // document.querySelector(".contactemail").value = laedpasemail;
+
+            // var laedpasphone = localStorage.getItem('Leadpassenger4RT');
+            // document.querySelector(".contactphone").value = laedpasphone;
+            // First Name
+            var firstfocus = document.getElementById("first").value;
+            if (firstfocus == "") {
+                var firstToDisplay = document.getElementById("error-message1");
+                firstToDisplay.style.display = "block";
+                document.getElementById("first").focus();
+                return false;
+            }
+            else {
+                var firstToDisplay = document.getElementById("error-message1");
+                firstToDisplay.style.display = "none";
+            }
+            //Last Name
+            var lastfocus = document.getElementById("last").value;
+            if (lastfocus == "") {
+                var firstToDisplay = document.getElementById("error-message2");
+                firstToDisplay.style.display = "block";
+                document.getElementById("last").focus();
+                return false;
+            }
+            else {
+                var firstToDisplay = document.getElementById("error-message2");
+                firstToDisplay.style.display = "none";
+            }
+            // Email
+            let emailfocus = document.getElementById("emailAddress").value;
+            var regex = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (!regex.test(emailfocus)) {
+                let emailToDisplay = document.getElementById("error-message7");
+                emailToDisplay.style.display = "none";
+                document.getElementById('emailErrorMessage').innerText = "Enter Email Address.";
+
+                return false;
+
+            } else {
+                document.getElementById('emailErrorMessage').innerText = "";
+            }
+            if (emailfocus == "") {
+                let emailToDisplay = document.getElementById("error-message7");
+                emailToDisplay.style.display = "block";
+                document.getElementById('emailErrorMessage').innerText = "";
+                document.getElementById("emailAddress").focus();
+                return false;
+            }
+            else {
+                let emailToDisplay = document.getElementById("error-message7");
+                emailToDisplay.style.display = "none";
+            }
+
+
+            //Mobile
+            let phonefocus = document.getElementById("number").value;
+            if (phonefocus == "") {
+
+                let phoneEToDisplay = document.getElementById("error-message8");
+                phoneEToDisplay.style.display = "block";
+                document.getElementById('phoneNumberErrorMessage').innerText = "";
+                document.getElementById("number").focus();
+
+                return false;
+            }
+            var mobileNumberPattern = /^\d{10}$/; // Assumes a 10-digit number
+
+            if (!mobileNumberPattern.test(phonefocus)) {
+                alert("Please enter a valid 10-digit mobile number.");
+                return false;
+            }
+            ///Gst company
+
+            var buttongst = document.getElementById('GSTButton2');
+            if (buttongst.checked == true) {
+
+                let gstnamefocus = document.getElementById("gstname").value;
+
+                if (gstnamefocus == "") {
+                    var gstToDisplay = document.getElementById("error-message9");
+                    gstToDisplay.style.display = "block";
+                    document.getElementById("gstname").focus();
+                    return false;
+                }
+                else {
+                    var gstToDisplay = document.getElementById("error-message9");
+                    gstToDisplay.style.display = "none";
+                }
+                //Gst Number
+
+                let gstnofocus = document.getElementById("gstnumber").value;
+                var regex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
+                if (!regex.test(gstnofocus)) {
+                    var gstnoToDisplay = document.getElementById("error-message10");
+                    gstnoToDisplay.style.display = "none";
+                    document.getElementById('gstErrorMessage').innerText = "Enter 15-digit GST number..";
+                    return false;
+                } else {
+
+                    document.getElementById('gstErrorMessage').innerText = "";
+                }
+                if (gstnofocus == "") {
+                    var gstnoToDisplay = document.getElementById("error-message10");
+                    gstnoToDisplay.style.display = "block";
+                    document.getElementById("gstnumber").focus();
+                    return false;
+                }
+                else {
+                    var gstnoToDisplay = document.getElementById("error-message10");
+                    gstnoToDisplay.style.display = "none";
+                }
+                // GST Email Validation
+                let gstemailfocus = document.getElementById("emailAddressGST").value;
+
+                var emailRegex = /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+
+                if (gstemailfocus == "") {
+
+                } else if (!emailRegex.test(gstemailfocus)) {
+                    document.getElementById('gstEmailErrorMessage').innerText = "Enter a valid email address.";
+                    return false;
+                } else {
+
+
+                }
+
+            }
+            var contactFormDataRT = new FormData($("#contactFormRT")[0]);
+            $.ajax({
+                url: "/RoundAATripsell/PostReturnContactData",
+                type: "POST",
+                data: contactFormDataRT,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    // Handle the response from the server if needed
+                    var contentToDisplay = document.getElementById("content");
+                    contentToDisplay.style.display = "none";
+                    var content2ToDisplay = document.getElementById("content2");
+                    content2ToDisplay.style.display = "block";
+
+                    var toggleButton2 = document.getElementById("toggleButton2");
+                    //toggleButton2.disabled = false;
+                    toggleButton2.style.opacity = "1.0";
+
+                },
+                error: function (error) {
+                    // Handle any errors here
+                }
+            });
+
+        });
+    });
+    // RT First Name
+    function validateInput(event) {
+
+        var input = event.target.value;
+        const regex = /^[6-9][0-9]{9}$/;
+        //var regex = /^[A-Za-z.]{0,32}$/;
+        if (!regex.test(input)) {
+
+            document.getElementById('errorMessage').innerText = "";
+            event.target.value = input.replace(/[^a-zA-Z]/g, '');
+        } else {
+            document.getElementById('errorMessage').innerText = "";
+        }
+
+        var firstfocus = document.getElementById("first").value;
+        if (firstfocus == "") {
+            var firstToDisplay = document.getElementById("error-message1");
+            firstToDisplay.style.display = "block";
+            document.getElementById("first").focus();
+            return false;
+        }
+        else {
+            var firstToDisplay = document.getElementById("error-message1");
+            firstToDisplay.style.display = "none";
+        }
+    }
+    // RT Last Name
+    function validateInput2(event) {
+        const input = event.target.value;
+        const regex = /^[A-Za-z.]{0,32}$/;
+
+        if (!regex.test(input)) {
+            document.getElementById('errorMessage2').innerText = "";
+            event.target.value = input.replace(/[^a-zA-Z]/g, '');
+        } else {
+            document.getElementById('errorMessage2').innerText = "";
+        }
+        var lastfocus = document.getElementById("last").value;
+        if (lastfocus == "") {
+            var firstToDisplay = document.getElementById("error-message2");
+            firstToDisplay.style.display = "block";
+            document.getElementById("last").focus();
+            return false;
+        }
+        else {
+            var firstToDisplay = document.getElementById("error-message2");
+            firstToDisplay.style.display = "none";
+        }
+
+
+    }
+    // RT Email Name
+    //Contact Email
+    function validateEmail(event) {
+
+        var email = event.target.value;
+        var regex = /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+        var errorMessage = document.getElementById('emailErrorMessage');
+        var errorDisplay = document.getElementById('error-message7');
+
+        if (email.trim() === "") {
+            errorMessage.innerText = "";
+        } else if (!regex.test(email)) {
+            errorMessage.innerText = "Enter a valid Email Address.";
+        } else {
+            errorMessage.innerText = "";
+        }
+
+        if (email.trim() === "") {
+            errorDisplay.style.display = "block";
+            document.getElementById("emailAddress").focus();
+            return false;
+        } else {
+            errorDisplay.style.display = "none";
+        }
+
+    } 
+
+// Email Gst
+    //GStEmail
+    function validateEmailGST(event) {
+
+        var email = event.target.value;
+        var regex = /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+        var errorMessage = document.getElementById('emailErrorMessageGST');
+        //var errorDisplay = document.getElementById('error-message7');
+
+        if (email.trim() === "") {
+            errorMessage.innerText = "";
+        } else if (!regex.test(email)) {
+            errorMessage.innerText = "Enter a valid Email Address.";
+        } else {
+            errorMessage.innerText = "";
+        }
+
+        // if (email.trim() === "") {
+        //     errorDisplay.style.display = "block";
+        //     document.getElementById("emailAddress").focus();
+        //     return false;
+        // } else {
+        //     errorDisplay.style.display = "none";
+        // }
+
+    }
+
+    function validatePhoneNumber(event) {
+        const phoneNumber = event.target.value;
+        const regex = /^(0|91)?[6-9][0-9]{9}$/;
+        if (!regex.test(phoneNumber)) {
+
+            document.getElementById('phoneNumberErrorMessage').innerText = "Invalid Phone Number";
+            let phoneToDisplay = document.getElementById("error-message8");
+            phoneToDisplay.style.display = "none";
+        } else {
+            document.getElementById('phoneNumberErrorMessage').innerText = "";
+        }
+
+        let phonefocus = document.getElementById("number").value;
+        if (phonefocus == "") {
+
+            let phoneToDisplay = document.getElementById("error-message8");
+            phoneToDisplay.style.display = "block";
+            document.getElementById('phoneNumberErrorMessage').innerText = "";
+            document.getElementById("number").focus();
+            return false;
+        }
+        else {
+            let phoneToDisplay = document.getElementById("error-message8");
+            phoneToDisplay.style.display = "none";
+        }
+    }
+    // RT GST Company
+    function validateInputgst(event) {
+
+        const input = event.target.value;
+        //const regex = /^[a-zA-Z]*$/;
+        var regex = /^[a-zA-Z\s.,'-]{1,100}$/;
+        if (!regex.test(input)) {
+            document.getElementById('errorMessagegst').innerText = "";
+            event.target.value = input.replace(/[^a-zA-Z]/g, '');
+        } else {
+            document.getElementById('errorMessagegst').innerText = "";
+        }
+        var gstnamefocus = document.getElementById("gstname").value;
+        if (gstnamefocus == "") {
+            var gstToDisplay = document.getElementById("error-message9");
+            gstToDisplay.style.display = "block";
+            document.getElementById("gstname").focus();
+            return false;
+        }
+        else {
+            var gstToDisplay = document.getElementById("error-message9");
+            gstToDisplay.style.display = "none";
+        }
+
+    }
+    // Rt GST Number
+    function validateGST(event) {
+
+        const gstNumber = event.target.value.toUpperCase();
+        var regex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
+        if (gstNumber.trim() === "") {
+
+            document.getElementById('gstErrorMessage').innerText = "";
+        } else if (!regex.test(gstNumber)) {
+
+            document.getElementById('gstErrorMessage').innerText = "Invalid GST number..";
+        } else {
+
+            document.getElementById('gstErrorMessage').innerText = "";
+        }
+        var gstnofocus = document.getElementById("gstnumber").value;
+        if (gstnofocus == "") {
+            var gstnoToDisplay = document.getElementById("error-message10");
+            gstnoToDisplay.style.display = "block";
+            document.getElementById("gstnumber").focus();
+            return false;
+        }
+        else {
+            var gstnoToDisplay = document.getElementById("error-message10");
+            gstnoToDisplay.style.display = "none";
+        }
+
+    }
+</script>
+<script type="text/javascript">
+    document.getElementById('number').addEventListener('keypress', function (event) {
+        const input = event.target;
+        const value = input.value;
+        let phonefocus = document.getElementById("number").value;
+        if (phonefocus == "") {
+
+            let phoneToDisplay = document.getElementById("error-message8");
+            phoneToDisplay.style.display = "block";
+            document.getElementById('phoneNumberErrorMessage').innerText = "";
+            document.getElementById("number").focus();
+            return false;
+        }
+
+        // Allow input only if it matches the criteria (1-9 followed by 0-9 up to 9 digits)
+        //const regex = /^(?!0)\d{0,9}$/;
+        const regex = /^[1-9]\d{0,9}$/;
+
+        // Get the current value after appending the pressed key
+        const nextValue = value.slice(0, input.selectionStart) + event.key + value.slice(input.selectionEnd);
+
+        if (!regex.test(nextValue)) {
+            event.preventDefault(); // Prevent the keypress event
+        }
+    });
+</script>

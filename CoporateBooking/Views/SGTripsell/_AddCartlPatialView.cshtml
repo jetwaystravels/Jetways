@@ -1,0 +1,455 @@
+﻿@model DomainLayer.ViewModel.ViewModel
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+@* <script src="~/js/custom.js/SGCustom.js"></script> *@
+@* <style>
+    .btn2 {
+        border: 1px solid #0057bb;
+        padding: 4px 26px;
+        border-radius: 2px;
+        margin-top: 6px;
+    }
+
+    .input-ammount2 {
+        color: #f80711;
+        background: none;
+        text-align: center;
+        width: 100px;
+        border: none;
+    }
+
+    .slid-rght {
+        overflow-x: scroll;
+    }
+</style> *@
+
+<style>
+    .btn2 {
+        border: 1px solid #0057bb;
+        padding: 4px 26px;
+        border-radius: 2px;
+        margin-top: 6px;
+    }
+
+    .input-ammount2 {
+        color: #f80711;
+        background: none;
+        justify-content: start;
+        display: flex;
+        width: 100px;
+        border: none;
+    }
+
+    .seat-section1 {
+        overflow: hidden;
+        overflow-y: scroll;
+        max-height: 350px;
+    }
+
+    .mealAddFareBtn {
+        border-radius: 3px;
+        box-shadow: 0 0 5px 0 rgba(0,0,0,.2);
+        background-color: #fff !important;
+        width: 90px;
+        text-align: center;
+        font-size: 12px;
+        font-weight: 700;
+        color: #000 !important;
+        text-transform: uppercase;
+        outline: 0;
+        border: 0;
+        padding: 8px;
+    }
+
+    .mealbtn-increase {
+        background: #fff;
+        justify-content: space-between;
+        padding: 6px;
+        border-radius: 3px;
+        width: 90px;
+        box-shadow: 0 0 5px 0 rgba(0,0,0,.2);
+    }
+
+    .meal-decr {
+        color: #1685e7;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .meal-incr {
+        color: #1685e7;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .mealinput {
+        width: 30px;
+        text-align: center;
+        border: none;
+    }
+
+        .mealinput input {
+            outline: none;
+        }
+
+    .mealbtn {
+        padding: 8px;
+    }
+
+    .img-bg {
+        width: 120px;
+    }
+
+        .img-bg img {
+            background: #b7e3c3;
+            padding: 10px;
+            max-width: 100%;
+            border-radius: 10px;
+        }
+</style>
+
+<div class="relative overflow-hidden js-section-slider pt-10 sm:pt-20" data-gap="30" data-scrollbar data-slider-cols="xl-5 lg-4 md-3 sm-2 base-1" data-nav-prev="js-tour-prev-one" data-pagination="js-tour-pag" data-nav-next="js-tour-next-one">
+    @{
+        for (int l = 0; l < Model.Meals.legSsrs.Count; l++)
+        {
+            if (l == 0)
+            {
+                <div id="tabshow3" class="seat-section1">
+                    vinay
+                    <div class="swiper-wrapper flex-column slid-rght">
+
+                        @{
+
+                            for (int i = 0; i < Model.Meals.legSsrs[l].legssrs.Count; i++)
+                            {
+                                <div class="swiper-slide active" style="max-width:100%;">
+                                    <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                        <span class="nveg-food"></span>
+                                        <!----End New Design---->
+
+                                        <div class="d-flex bg-light justify-content-between align-items-center p-3">
+                                            <div class="d-flex">
+                                                <div class="img-bg p-1">
+                                                    @{
+                                                        // Assuming you have a variable named mealImage dynamically assigned based on some condition
+                                                        string MealImagelist = string.Empty;
+                                                        string querymeal = @Model.Meals.legSsrs[0].legssrs[i].ssrCode;
+                                                        var Mealdata = MealImageList.GetAllmeal().Where(x => x.MealCode == querymeal).SingleOrDefault();
+
+                                                        if (Mealdata != null)
+                                                        {
+                                                            MealImagelist = MealImageList.GetAllmeal().Where(x => x.MealCode == querymeal).SingleOrDefault().MealImage;
+                                                        }
+
+
+                                                    }
+
+                                                    <img src="~/img/images/@MealImagelist" title="image" alt="image">
+                                                </div>
+                                                <div class="mealtext break-word p-1">
+                                                    <h6 class="text-14 fw-600 mt-10">@Model.Meals.legSsrs[l].legssrs[i].name </h6>
+                                                    <div class="d-flex">
+                                                        <div class="text-danger">&#8377</div>
+                                                        <div><input class="input-ammount2" id="inputField" type="text" name="inputField" value="@Model.Meals.legSsrs[l].legssrs[i].legpassengers[0].price" /></div>
+                                                        <input type="hidden" id="mealprice+@i" name="inputFieldmeal" value="@Model.Meals.legSsrs[l].legssrs[i].legpassengers[0].price" />
+                                                        <!------below Input Box for getting price value------->
+                                                        <input type="hidden" name="meal-price" class="meal-ammount1" value="@Model.Meals.legSsrs[l].legssrs[i].legpassengers[0].price" />
+
+                                                        <input type="hidden" id="ssrkey+@i" name="ssrKey" value='"@Model.Meals.legSsrs[l].legssrs[i].legpassengers[0].ssrKey @Model.Meals.legSsrs[l].legssrs[i].legpassengers[0].price _@l"' />
+                                                        <input type="hidden" id="mealprice+@i" name="inputFieldmeal" value="@Model.Meals.legSsrs[l].legssrs[i].legpassengers[0].price" />
+                                                        <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mealbtn">
+                                                <div class="mealAddFareBtn btnnew" id="mealAddID">Add</div>
+                                                <!------New Input Add for meal fare get-------->
+                                                <input type="hidden" name="meal-btn" class="addbtn1" value="@i" />
+                                                <div id="incrSign" class="incrSignCls" style="display:none">
+                                                    <div class="d-flex mealbtn-increase">
+                                                        <div class="meal-decr">-</div>
+                                                        <input type="number" class="mealinput" value="0">
+                                                        <div class="meal-incr">+</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <!----End New design ----->
+                                        @*
+                    <img src="~/img/images/non-veg-img-1.png" title="image" alt="image">
+                    <h6 class="text-14 fw-600 mt-10"> </h6>
+                    <input class="input-ammount2" id="inputField" type="text" name="inputField" value="@Model.Meals.legSsrs[l].legssrs[i].legpassengers[0].price" />
+                    <div class="d-flex justify-content-center">
+                    <div class="btn2" data-ssrkey="ssrkey+@i" id="showValueButton" onclick="selectSSR_test(this)">Select</div>
+                    </div>
+
+                    *@
+
+
+                                    </div>
+                                </div>
+
+                            }
+
+                        }
+
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div id="tabshow4" class="seat-section2">
+                    vivek
+                    <div class="swiper-wrapper slid-rght">
+
+                        @{
+                            for (int i = 0; i < Model.Meals.legSsrs[l].legssrs.Count; i++)
+                            {
+                                <div class="swiper-slide active">
+                                    <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                        <span class="nveg-food"></span>
+                                        <img src="~/img/images/non-veg-img-1.png" title="image" alt="image">
+                                        <h6 class="text-14 fw-600 mt-10"> @Model.Meals.legSsrs[l].legssrs[i].name </h6>
+                                        <input class="input-ammount2" id="inputField" type="text" name="inputField" value="@Model.Meals.legSsrs[l].legssrs[i].legpassengers[0].price" />
+                                        <div class="d-flex justify-content-center">
+                                            <input type="checkbox" id="ssrkey+@i" name="ssrKey" value='"@Model.Meals.legSsrs[l].legssrs[i].legpassengers[0].ssrKey @Model.Meals.legSsrs[l].legssrs[i].legpassengers[0].price _@l"' />
+                                            <input type="hidden" id="mealprice+@i" name="inputFieldmeal" value="@Model.Meals.legSsrs[l].legssrs[i].legpassengers[0].price" />
+                                            <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+
+                                            @*<input type="submit" class="btn btn-primary" id="showValueButton" onchange="AddMeal()" value="Select" />*@
+                                            <div class="btn2" data-ssrkey="ssrkey+@i" id="showValueButton" onclick="selectSSR_test(this)">Select</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+
+                        }
+
+                    </div>
+                </div>
+            }
+        }
+    }
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="~/js/custom.js/customnew.js"></script>
+
+
+<script type="text/javascript">
+    // Extract the meal code (ssrCode) from your HTML structure
+    var MealpriceCount = [];
+    var mlC = 3; //***********Total Number of Passenger Count
+
+    var totalIncrementCount = 0;
+    const mealAddButtons = document.querySelectorAll('.mealbtn .mealAddFareBtn');
+    mealAddButtons.forEach(function (mealAddButton) {
+        mealAddButton.addEventListener('click', function () {
+
+            const parentFlexElement = this.closest('.d-flex');
+            parentFlexElement.querySelector('.incrSignCls').style.display = "block";
+            parentFlexElement.querySelector('.mealAddFareBtn').style.display = "none";
+            const incrButton = parentFlexElement.querySelector('.meal-incr');
+            const decrButton = parentFlexElement.querySelector('.meal-decr');
+            const mealInput = parentFlexElement.querySelector('.mealinput');
+            var Mealpricedata = parentFlexElement.querySelector('.meal-ammount1');
+            var AddbtnCount = parentFlexElement.querySelector('.addbtn1').value;
+
+
+            //************Increament Button Click Function**************
+            incrButton.addEventListener('click', function () {
+
+
+                // Retrieve the value from the first hidden input with class "meal-ammount"
+                if (totalIncrementCount >= mlC) {
+                    alert("You can't add more than " + mlC + " items.");
+                    return false;
+                }
+                else {
+                    mealInput.value = parseInt(mealInput.value) + 1;
+                    totalIncrementCount += 1;
+
+                }
+                debugger;
+                var Mealcount = mealInput.value;
+                localStorage.setItem("Mealcount", Mealcount);
+                alert("Count:" + Mealcount);
+
+                var MealPrice = Mealpricedata.value;
+                alert("Price" + MealPrice);
+
+                alert("add Btn Count:" + AddbtnCount);
+
+                if (AddbtnCount == 1) {
+                    alert("btn 1");
+                    MealpriceCount.push(MealPrice);
+                    alert("Count: " + MealpriceCount.length);
+                    var MealtotalCountFareLength = MealPrice * MealpriceCount.length;
+                    alert("Meal Count 1: " + MealtotalCountFareLength);
+                    localStorage.setItem("Mealfarecnt", MealtotalCountFareLength);
+
+                }
+                else {
+                    alert("btn 2");
+                    //var MealtotalCountFare = MealPrice * Mealcount;
+                    var Mealll = localStorage.getItem("Mealfarecnt");
+                    var MealtotalCountFare = parseInt(MealPrice) + parseInt(Mealll);
+                    MealpriceCount.push(MealtotalCountFare);
+                    //var totalAmount = MealpriceCount.reduce((a, b) => a + b, 0); // Calculate the total amount
+                    var totalAmount = MealtotalCountFare; // Calculate the total amount
+                    alert("Total Amount: " + totalAmount);
+                    localStorage.setItem("Mealfarecnt", totalAmount);
+                }
+
+                // AddMealMultiple();
+
+                AddMeal();
+
+
+                if (parseInt(mealInput.value) > 0) {
+                    parentFlexElement.querySelector('.incrSignCls').style.display = "block";
+                } else {
+                    parentFlexElement.querySelector('.mealAddFareBtn').style.display = "none";
+                }
+            });
+
+
+
+
+            // //************Decreament Button Click Function**************
+            // decrButton.addEventListener('click', function () {
+            //     if (parseInt(mealInput.value) > 1) {
+            //         mealInput.value = parseInt(mealInput.value) - 1;
+            //         totalIncrementCount -= 1;
+            //     } else {
+            //         parentFlexElement.querySelector('.mealAddFareBtn').style.display = "none";
+            //     }
+            // });
+
+            //************Decreament Button Click Function**************
+            decrButton.addEventListener('click', function () {
+                if (parseInt(mealInput.value) > 1) {
+                    mealInput.value = parseInt(mealInput.value) - 1;
+                    totalIncrementCount -= 1;
+
+                    // Update the meal amount
+                    var MealPrice = Mealpricedata.value;
+                    var Mealcount = mealInput.value;
+                    var MealtotalCountFare = MealPrice * Mealcount;
+
+                    localStorage.setItem("Mealfarecnt", MealtotalCountFare);
+
+                    AddMeal(); // Update the meal display
+                } else {
+                    parentFlexElement.querySelector('.mealAddFareBtn').style.display = "none";
+                }
+            });
+
+
+        });
+    });
+
+
+
+
+
+
+    //Add Meal Function
+
+    function AddMeal() {
+        const seatmap = document.getElementById("total").value || 0;
+        var meal = localStorage.getItem("Mealfarecnt");
+        document.getElementById('AddMeal').innerText = meal;
+        alert("Meal Window.fare :-" + meal);
+        var TotalAmmount = document.getElementById("Totalamount").value;
+        var TotalMeal = parseInt(TotalAmmount) + parseInt(meal);
+        var TotalSeat = parseInt(TotalAmmount) + parseInt(seatmap);
+        alert("Seat Total:" + TotalSeat);
+        var Totalprice1 = parseInt(seatmap) + parseInt(meal) + parseInt(TotalAmmount);
+
+        if (Totalprice1 != null) {
+            alert("Totalprice1:" + Totalprice1);
+            document.getElementById("amount").innerHTML = Totalprice1;
+            document.getElementById("seattotal1").style.display = "none";
+            document.getElementById("amountPay").innerHTML = Totalprice1 + 100;
+            document.getElementById("TotalSeatPayID").style.display = "none";
+        }
+
+        //*******Finay Pay Ammount********
+        var TotalMealPay = parseInt(TotalAmmount) + parseInt(meal) + 100;
+
+        var Totalprice1Pay = parseInt(seatmap) + parseInt(meal) + parseInt(TotalAmmount) + 100;
+        //meal and seat total ammount
+        if (TotalMealPay != null && TotalSeatPay == "") {
+            document.getElementById("TotalMealPayID").innerHTML = TotalMealPay;
+
+
+            alert(TotalMealPay);
+        }
+
+        //else if (TotalMealPay != null && TotalSeatPay != null) {
+        else if (Totalprice1 != null) {
+            // document.getElementById("amountPay").innerHTML = Totalprice1Pay;
+            document.getElementById("amountPay").innerHTML = Totalprice1 + 100;
+            document.getElementById("TotalMealPayID").style.display = "none";
+            document.getElementById("TotalSeatPayID").style.display = "none";
+
+            // Store the value in localStorage
+            //localStorage.setItem('myValue', totalprice1.toFixed(2));
+        }
+        //***********Finay Pay Ammount End***************8 */
+
+        if (meal != null && seatmap == "") {
+            document.getElementById("totalMeal").innerHTML = TotalMeal;
+
+        }
+        else if (seatmap != null && meal == "") {
+            document.getElementById("totalservice").innerHTML = TotalSeat;
+        }
+        else if (meal != null && seatmap != null) {
+            const totalprice1 = parseFloat(seatmap) + parseFloat(meal);
+
+            document.getElementById("amount").innerHTML = Totalprice1;
+            document.getElementById("totalservice").style.display = "none";
+            document.getElementById("totalMeal").style.display = "none";
+            document.getElementById("seattotal1").style.display = "none";
+            // Store the value in localStorage
+            localStorage.setItem('myValue', totalprice1.toFixed(2));
+        }
+
+    }
+</script>
+
+
+
+
+<script>
+
+    /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
+    $(document).ready(function () {
+        $("#seattab3").addClass('active');
+        $("#tabshow4").hide();
+        $("#seattab3").click(function () {
+            $("#tabshow3").show();
+            $("#tabshow4").hide();
+            $("#seattab3").addClass('active');
+            $("#seattab4").removeClass('active');
+
+        });
+        $("#seattab4").click(function () {
+            //$("#tabshow4").css("display", "block");
+            $("#tabshow4").show();
+            $("#seattab4").addClass('active');
+            $("#seattab3").removeClass('active');
+            $("#tabshow3").hide();
+        });
+
+
+    });
+</script>

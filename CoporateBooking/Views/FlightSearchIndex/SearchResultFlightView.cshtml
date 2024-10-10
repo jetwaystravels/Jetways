@@ -1,0 +1,2819 @@
+﻿@model IEnumerable<DomainLayer.Model.SimpleAvailibilityaAddResponce>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> 
+    <!-- Title  -->
+    <title>Jetways Travels</title>
+    <!-- Favicon  -->
+    <link rel="icon" href="~/img/favicon.png">
+    <!-- Style css -->
+    <link rel="stylesheet" href="~/css/vendors.css">
+  <link rel="stylesheet" href="~/css/main.css">
+  <link rel="stylesheet" href="~/css/style.css">
+
+    <script type="text/javascript">
+        window.addEventListener("keyup", function (e) {
+            alert("a");
+            if (e.keyCode == 27) {
+                history.back();
+            }
+        }, false);
+
+    </script>
+
+
+
+</head>
+<body> 
+   
+   @* <form>
+      
+
+        <table style="width:100%">
+        <thead>
+            <tr>
+                <th>Flight Detail</th>
+                <th>Origin</th>
+                <th>Destination</th>
+                <th>Duration</th>
+                <th>No of Stops</th>
+                <th>FlightType</th>
+                <th>Flight Fares</th>
+                <th>TravlerType</th>
+
+
+
+
+            </tr>
+        </thead>
+        <tbody>
+
+                @foreach (var flightResult in Model)
+                {
+
+                     <tr>
+                         <h1>my data</h1>
+                     <td>Air Asia @flightResult.carriercode -@flightResult.Identifier</td>
+                     <td>@flightResult.designator.origin -@flightResult.designator.departure</td>
+                                   
+                    
+                    <td>@flightResult.designator.destination - @flightResult.designator.arrival</td>
+                    @{
+                        var arrivalDate = flightResult.designator.arrival;
+                        var departureDate = flightResult.designator.departure;
+                        var diff = (arrivalDate - departureDate);
+                    }
+                    <td>@diff</td>
+                    <td>@flightResult.stops</td>
+                    <td>@flightResult.flightType</td>
+                          @{
+                            foreach (var faresInd in flightResult.faresIndividual)
+                            {
+                                <td>@faresInd.faretotal</td>
+                                <td>@faresInd.passengertype</td>
+                               
+                            }
+                        }
+
+
+                    </tr>
+                }
+        </tbody>
+    </table>
+
+    </form>*@
+
+  <main>   
+    <!-- ***** Header Start ***** -->
+        <header class="navbar navbar-sticky navbar-expand-lg inner-bg">
+            <div class="container position-relative">
+                <a class="navbar-brand"  asp-controller="FlightSearchIndex" asp-action="Index" >
+                    <img class="navbar-brand-regular"  src="~/img/logo/logo.png" alt="brand-logo">
+                    <img class="navbar-brand-sticky" src="~/img/logo/logo.png" alt="sticky brand-logo">
+                   
+                </a>
+                <button class="navbar-toggler d-lg-none" type="button" data-toggle="navbarToggler" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-inner">
+                    <!--  Mobile Menu Toggler -->
+                    <button class="navbar-toggler d-lg-none" type="button" data-toggle="navbarToggler" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                     <div class="nav-bar col-12 col-md-7 col-lg-12">
+                             <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                                  <li class="nav-item">
+                                    <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-1.png">Flight</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" data-toggle="pill"><img class="mr-2" src="~/img/nav-icon-2.png">Hotel</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-3.png">Visa</a>
+                                  </li>
+                                   <li class="nav-item">
+                                    <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-4.png">Holidays</a>
+                                  </li>
+                                   <li class="nav-item">
+                                    <a class="nav-link active"  data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-5.png">Trains</a>
+                                  </li>
+                                   <li class="nav-item">
+                                    <a class="nav-link"  data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-6.png">Buses</a>
+                                  </li>
+                                   <li class="nav-item">
+                                    <a class="nav-link" data-toggle="pill"><img class="mr-2" src="~/img/nav-icon-7.png">Cabs</a>
+                                  </li>
+                                   <li class="nav-item">
+                                    <a class="nav-link" data-toggle="pill" href="#" ><img class="mr-2" src="~/img/nav-icon-8.png">Flight Passes</a>
+                                  </li>
+                                  <li class="nav-item">
+                                <a class="nav-link"><img class="mr-2" src="~/img/nav-icon-8.png">Login</a>
+                                  </li>
+                            </ul>
+                        </div>
+                    <nav id="mobile-nav">
+                        <ul class="navbar-nav" id="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#">
+                                    Home
+                                </a>                                
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll" href="features">Features</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#">
+                                    Pages
+                                </a>                                
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll" href="#">Screenshots</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll" href="#">Pricing</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll" href="#">Contact</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <!-- ***** Header End ***** -->
+
+    <!-- ***** Start inner search ***** -->
+    <div class="inner-search">
+
+
+    </div>
+  <!-- ***** End inner seaaaarch ***** -->
+
+
+    <section class="layout-pt-md layout-pb-md bg-light-2 search-result">
+      <div class="container">
+        <div class="row y-gap-30">
+          <div class="col-xl-3 col-lg-4">
+            <aside class="sidebar py-20 px-20 rounded-4 bg-white">
+              <div class="row y-gap-40">
+                <div class="sidebar__item -no-border">
+                  <h5 class="text-18 fw-500 mb-10">Stops</h5>
+                  <div class="sidebar-checkbox">
+
+                    <div class="row y-gap-10 items-center justify-between">
+                      <div class="col-auto">
+                        <div class="d-flex items-center">
+                          <div class="form-checkbox ">
+                            <input type="checkbox" id="chknonstop" value="1" name="chknonstop">
+                            <div class="form-checkbox__mark">
+                              <div class="form-checkbox__icon icon-check"></div>
+                            </div>
+                          </div>
+
+                          <div class="text-15 ml-10">Nonstop</div>
+
+                        </div>
+
+                      </div>
+
+                      <div class="col-auto">
+                        <div class="text-15 text-light-1">$92</div>
+                      </div>
+                    </div>
+
+                    <div class="row y-gap-10 items-center justify-between">
+                      <div class="col-auto">
+
+                        <div class="d-flex items-center">
+                          <div class="form-checkbox ">
+                            <input type="checkbox" name="name" >
+                            <div class="form-checkbox__mark">
+                              <div class="form-checkbox__icon icon-check"></div>
+                            </div>
+                          </div>
+
+                          <div class="text-15 ml-10">1 Stop</div>
+
+                        </div>
+
+                      </div>
+
+                      <div class="col-auto">
+                        <div class="text-15 text-light-1">$92</div>
+                      </div>
+                    </div>
+
+                    <div class="row y-gap-10 items-center justify-between">
+                      <div class="col-auto">
+
+                        <div class="d-flex items-center">
+                          <div class="form-checkbox ">
+                            <input type="checkbox" name="name">
+                            <div class="form-checkbox__mark">
+                              <div class="form-checkbox__icon icon-check"></div>
+                            </div>
+                          </div>
+
+                          <div class="text-15 ml-10">2+ Stops</div>
+
+                        </div>
+
+                      </div>
+
+                      <div class="col-auto">
+                        <div class="text-15 text-light-1">$92</div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="sidebar__item">
+                  <h5 class="text-18 fw-500 mb-10">Cabin</h5>
+                  <div class="sidebar-checkbox">
+
+                    <div class="row y-gap-10 items-center justify-between">
+                      <div class="col-auto">
+
+                        <div class="d-flex items-center">
+                          <div class="form-checkbox ">
+                            <input type="checkbox" name="name">
+                            <div class="form-checkbox__mark">
+                              <div class="form-checkbox__icon icon-check"></div>
+                            </div>
+                          </div>
+
+                          <div class="text-15 ml-10">Basic Economy</div>
+
+                        </div>
+
+                      </div>
+
+                      <div class="col-auto">
+                        <div class="text-15 text-light-1">$92</div>
+                      </div>
+                    </div>
+
+                    <div class="row y-gap-10 items-center justify-between">
+                      <div class="col-auto">
+
+                        <div class="d-flex items-center">
+                          <div class="form-checkbox ">
+                            <input type="checkbox" name="name">
+                            <div class="form-checkbox__mark">
+                              <div class="form-checkbox__icon icon-check"></div>
+                            </div>
+                          </div>
+
+                          <div class="text-15 ml-10">Economy</div>
+
+                        </div>
+
+                      </div>
+
+                      <div class="col-auto">
+                        <div class="text-15 text-light-1">$92</div>
+                      </div>
+                    </div>
+
+                    <div class="row y-gap-10 items-center justify-between">
+                      <div class="col-auto">
+
+                        <div class="d-flex items-center">
+                          <div class="form-checkbox ">
+                            <input type="checkbox" name="name">
+                            <div class="form-checkbox__mark">
+                              <div class="form-checkbox__icon icon-check"></div>
+                            </div>
+                          </div>
+
+                          <div class="text-15 ml-10">Mixed</div>
+
+                        </div>
+
+                      </div>
+
+                      <div class="col-auto">
+                        <div class="text-15 text-light-1">$92</div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="sidebar__item pb-30">
+                  <h5 class="text-18 fw-500 mb-20">Flight Times</h5>
+                  <div class="row x-gap-10 y-gap-30">
+
+                    <div class="col-12">
+                      <div class="js-time-rangeSlider">
+                        <div class="text-14 fw-500">Take-off Boston (BOS)</div>
+
+                        <div class="d-flex justify-between mb-15">
+                          <div class="text-14 text-light-1">
+                            Tue <span class="js-lower"></span>
+                          </div>
+
+                          <div class="text-14 text-light-1 js-upper"></div>
+                        </div>
+
+                        <div class="js-slider"></div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <div class="js-time-rangeSlider">
+                        <div class="text-14 fw-500">Landing London (LON)</div>
+
+                        <div class="d-flex justify-between mb-15">
+                          <div class="text-14 text-light-1">
+                            Tue <span class="js-lower"></span>
+                          </div>
+
+                          <div class="text-14 text-light-1 js-upper"></div>
+                        </div>
+
+                        <div class="js-slider"></div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <div class="js-time-rangeSlider">
+                        <div class="text-14 fw-500">Take-off London (LON)</div>
+
+                        <div class="d-flex justify-between mb-15">
+                          <div class="text-14 text-light-1">
+                            Tue <span class="js-lower"></span>
+                          </div>
+
+                          <div class="text-14 text-light-1 js-upper"></div>
+                        </div>
+
+                        <div class="js-slider"></div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <div class="js-time-rangeSlider">
+                        <div class="text-14 fw-500">Landing Boston (BOS)</div>
+
+                        <div class="d-flex justify-between mb-15">
+                          <div class="text-14 text-light-1">
+                            Tue <span class="js-lower"></span>
+                          </div>
+
+                          <div class="text-14 text-light-1 js-upper"></div>
+                        </div>
+
+                        <div class="js-slider"></div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="sidebar__item">
+                  <h5 class="text-18 fw-500 mb-10">Airlines</h5>
+                  <div class="sidebar-checkbox">
+
+                    <div class="row y-gap-10 items-center justify-between">
+                      <div class="col-auto">
+
+                        <div class="d-flex items-center">
+                          <div class="form-checkbox ">
+                            <input type="checkbox" name="name">
+                            <div class="form-checkbox__mark">
+                              <div class="form-checkbox__icon icon-check"></div>
+                            </div>
+                          </div>
+
+                          <div class="text-15 ml-10">Air France</div>
+
+                        </div>
+
+                      </div>
+
+                      <div class="col-auto">
+                        <div class="text-15 text-light-1">$92</div>
+                      </div>
+                    </div>
+
+                    <div class="row y-gap-10 items-center justify-between">
+                      <div class="col-auto">
+
+                        <div class="d-flex items-center">
+                          <div class="form-checkbox ">
+                            <input type="checkbox" name="name">
+                            <div class="form-checkbox__mark">
+                              <div class="form-checkbox__icon icon-check"></div>
+                            </div>
+                          </div>
+
+                          <div class="text-15 ml-10">Aer Lingus</div>
+
+                        </div>
+
+                      </div>
+
+                      <div class="col-auto">
+                        <div class="text-15 text-light-1">$45</div>
+                      </div>
+                    </div>
+
+                    <div class="row y-gap-10 items-center justify-between">
+                      <div class="col-auto">
+
+                        <div class="d-flex items-center">
+                          <div class="form-checkbox ">
+                            <input type="checkbox" name="name">
+                            <div class="form-checkbox__mark">
+                              <div class="form-checkbox__icon icon-check"></div>
+                            </div>
+                          </div>
+
+                          <div class="text-15 ml-10">Air Canada</div>
+
+                        </div>
+
+                      </div>
+
+                      <div class="col-auto">
+                        <div class="text-15 text-light-1">$21</div>
+                      </div>
+                    </div>
+
+                    <div class="row y-gap-10 items-center justify-between">
+                      <div class="col-auto">
+
+                        <div class="d-flex items-center">
+                          <div class="form-checkbox ">
+                            <input type="checkbox" name="name">
+                            <div class="form-checkbox__mark">
+                              <div class="form-checkbox__icon icon-check"></div>
+                            </div>
+                          </div>
+
+                          <div class="text-15 ml-10">Air Europa</div>
+
+                        </div>
+
+                      </div>
+
+                      <div class="col-auto">
+                        <div class="text-15 text-light-1">$79</div>
+                      </div>
+                    </div>
+
+                    <div class="row y-gap-10 items-center justify-between">
+                      <div class="col-auto">
+
+                        <div class="d-flex items-center">
+                          <div class="form-checkbox ">
+                            <input type="checkbox" name="name">
+                            <div class="form-checkbox__mark">
+                              <div class="form-checkbox__icon icon-check"></div>
+                            </div>
+                          </div>
+
+                          <div class="text-15 ml-10">Turkish Airlines</div>
+
+                        </div>
+
+                      </div>
+
+                      <div class="col-auto">
+                        <div class="text-15 text-light-1">$900</div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="sidebar__item">
+                  <h5 class="text-18 fw-500 mb-10">Alliance</h5>
+                  <div class="sidebar-checkbox">
+
+                    <div class="row y-gap-10 items-center justify-between">
+                      <div class="col-auto">
+
+                        <div class="d-flex items-center">
+                          <div class="form-checkbox ">
+                            <input type="checkbox" name="name">
+                            <div class="form-checkbox__mark">
+                              <div class="form-checkbox__icon icon-check"></div>
+                            </div>
+                          </div>
+
+                          <div class="text-15 ml-10">oneworld</div>
+
+                        </div>
+
+                      </div>
+
+                      <div class="col-auto">
+                        <div class="text-15 text-light-1">$92</div>
+                      </div>
+                    </div>
+
+                    <div class="row y-gap-10 items-center justify-between">
+                      <div class="col-auto">
+
+                        <div class="d-flex items-center">
+                          <div class="form-checkbox ">
+                            <input type="checkbox" name="name">
+                            <div class="form-checkbox__mark">
+                              <div class="form-checkbox__icon icon-check"></div>
+                            </div>
+                          </div>
+
+                          <div class="text-15 ml-10">SkyTeam</div>
+
+                        </div>
+
+                      </div>
+
+                      <div class="col-auto">
+                        <div class="text-15 text-light-1">$45</div>
+                      </div>
+                    </div>
+
+                    <div class="row y-gap-10 items-center justify-between">
+                      <div class="col-auto">
+
+                        <div class="d-flex items-center">
+                          <div class="form-checkbox ">
+                            <input type="checkbox" name="name">
+                            <div class="form-checkbox__mark">
+                              <div class="form-checkbox__icon icon-check"></div>
+                            </div>
+                          </div>
+
+                          <div class="text-15 ml-10">Star Alliance</div>
+
+                        </div>
+
+                      </div>
+
+                      <div class="col-auto">
+                        <div class="text-15 text-light-1">$21</div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="sidebar__item">
+                  <h5 class="text-18 fw-500 mb-10">Departing from</h5>
+                  <div class="sidebar-checkbox">
+
+                    <div class="row y-gap-10 items-center justify-between">
+                      <div class="col-auto">
+
+                        <div class="d-flex items-center">
+                          <div class="form-checkbox ">
+                            <input type="checkbox" name="name">
+                            <div class="form-checkbox__mark">
+                              <div class="form-checkbox__icon icon-check"></div>
+                            </div>
+                          </div>
+
+                          <div class="text-15 ml-10">BOS Boston</div>
+
+                        </div>
+
+                      </div>
+
+                      <div class="col-auto">
+                        <div class="text-15 text-light-1">$92</div>
+                      </div>
+                    </div>
+
+                    <div class="row y-gap-10 items-center justify-between">
+                      <div class="col-auto">
+
+                        <div class="d-flex items-center">
+                          <div class="form-checkbox ">
+                            <input type="checkbox" name="name">
+                            <div class="form-checkbox__mark">
+                              <div class="form-checkbox__icon icon-check"></div>
+                            </div>
+                          </div>
+
+                          <div class="text-15 ml-10">PVD Providence</div>
+
+                        </div>
+
+                      </div>
+
+                      <div class="col-auto">
+                        <div class="text-15 text-light-1">$45</div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="sidebar__item">
+                  <h5 class="text-18 fw-500 mb-10">Arriving at</h5>
+                  <div class="sidebar-checkbox">
+
+                    <div class="row y-gap-10 items-center justify-between">
+                      <div class="col-auto">
+
+                        <div class="d-flex items-center">
+                          <div class="form-checkbox ">
+                            <input type="checkbox" name="name">
+                            <div class="form-checkbox__mark">
+                              <div class="form-checkbox__icon icon-check"></div>
+                            </div>
+                          </div>
+
+                          <div class="text-15 ml-10">LCY London</div>
+
+                        </div>
+
+                      </div>
+
+                      <div class="col-auto">
+                        <div class="text-15 text-light-1">$92</div>
+                      </div>
+                    </div>
+
+                    <div class="row y-gap-10 items-center justify-between">
+                      <div class="col-auto">
+
+                        <div class="d-flex items-center">
+                          <div class="form-checkbox ">
+                            <input type="checkbox" name="name">
+                            <div class="form-checkbox__mark">
+                              <div class="form-checkbox__icon icon-check"></div>
+                            </div>
+                          </div>
+
+                          <div class="text-15 ml-10">LGW London</div>
+
+                        </div>
+
+                      </div>
+
+                      <div class="col-auto">
+                        <div class="text-15 text-light-1">$45</div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="sidebar__item pb-30">
+                  <h5 class="text-18 fw-500 mb-10">Price</h5>
+                  <div class="row x-gap-10 y-gap-30">
+                    <div class="col-12">
+                      <div class="js-price-rangeSlider">
+                        <div class="text-14 fw-500"></div>
+
+                        <div class="d-flex justify-between mb-20">
+                          <div class="text-15 text-dark-1">
+                            <span class="js-lower"></span>
+                            -
+                            <span class="js-upper"></span>
+                          </div>
+                        </div>
+
+                        <div class="px-5">
+                          <div class="js-slider"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </aside>
+          </div>
+
+          <div class="col-xl-9 col-lg-8">
+            <div class="row y-gap-10 justify-between items-center">
+              <div class="col-auto">
+                <div class="text-18"><span class="fw-500">Showing - @ViewData["count"] results.</span> </div>
+              </div>
+
+              <div class="col-auto">
+                <button class="button -blue-1 h-40 px-30 rounded-100 bg-blue-1-05 text-15 text-blue-1">
+                  <i class="fa fa-filter" aria-hidden="true"></i> Sort
+                </button>
+              </div>
+            </div>
+             <form asp-controller="FlightSearchIndex"  method="post">
+
+             @foreach (var flightResult in Model)
+                {
+                            <div class="py-20 px-20 bg-white mt-20">
+                                <div class="row y-gap-30 justify-between">
+                                    <div class="col">
+                                        <div class="row y-gap-10 items-center">
+                                            <div class="col-sm-auto">
+                                                <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
+                                            </div>
+                                            <div class="col">
+                                                <div class="row x-gap-20 items-end">
+                                                    <div class="col-auto">
+                                                        <div class="lh-15 fw-500">AirAsia</div>
+                                                        <div class="fliCode">@flightResult.carriercode -@flightResult.Identifier</div>
+                                                    </div>
+
+                                                    <div class="col-auto">
+
+                                                        @{
+                                                            var departuretime = @flightResult.designator.departure;
+                                                            string departuretimestr = departuretime.ToString();
+                                                            var departuretimefinal = departuretimestr.Substring(11, 5);
+                                                        }
+                                                        <div class="">@departuretimefinal</div>
+                                                        <div class="">@flightResult.designator.origin</div>
+                                                    </div>
+                                                        @{
+                                                            var arrivalDate = flightResult.designator.arrival;
+                                                            var departureDate = flightResult.designator.departure;
+                                                            var diff = (arrivalDate - departureDate);
+                                                            var difftime = diff.Minutes;
+                                                        }
+                                                    <div class="col text-center">
+                                                        <div class="px-20 md:px-0">@diff</div>
+                                                        <div class="flightLine">
+                                                            <div></div>
+                                                            <div></div>
+                                                        </div>
+                                                        <div class="mt-1">@flightResult.stops</div>
+                                                    </div>
+
+                                                    <div class="col-auto">
+
+                                                        @{
+                                                            var arrivaltime = @flightResult.designator.arrival;
+                                                            string arrivaltimestr = arrivaltime.ToString();
+                                                            var arrivalfinal = arrivaltimestr.Substring(11, 5);
+                                                        }
+
+                                                        <div class="lh-15 fw-500">@arrivalfinal</div>
+                                                        <div class="text-15 lh-15 text-light-1">@flightResult.designator.destination</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                         
+                                            <div class="col-md-auto">
+                                                <div class="d-flex items-center h-full">
+                                                    <div class="pl-30 border-left-light h-full md:d-none"></div>
+
+                                                    <div>
+
+                                                        <div class="text-center md:text-left mb-10">
+                                                            <div class="price">@flightResult.fareTotalsum</div>
+                                                        </div>
+
+                                                        <div>
+                                                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#ViewPriceCollapse1" aria-expanded="false" aria-controls="ViewPriceCollapse1">View Price<i class="fa fa-angle-double-down ml-2"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                
+
+
+                                     
+
+                                    
+                                </div>
+                                <div class="collapse multi-collapse" id="ViewPriceCollapse1">
+                                    <table class="table mt-20">
+                                        <thead class="bg-light-2">
+                                            <tr>
+                                                <th>FARES</th>
+                                                <th>CABIN BAG</th>
+                                                <th>CHECK-IN</th>
+                                                <th>CANCELLATION </th>
+                                                <th>DATE CHANGE </th>
+                                                <th>SEAT</th>
+                                                <th>MEAL</th>
+                                                <th>&nbsp;</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                foreach (var faresInd in flightResult.faresIndividual)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                    <div><strong>Saver Fare @faresInd.procuctclass</strong></div>
+                                                    <div>offered by airline.</div>
+                                                </td>
+                                                <td>7 Kgs</td>
+                                                <td><strong>15 Kgs</strong></td>
+                                                <td>
+                                                    <div>Cancellation Fee</div>
+                                                    <div>Starting ₹ 3,500</div>
+                                                </td>
+                                                <td>
+                                                    <div>Date Change fee</div>
+                                                    <div>starting ₹ 3,250</div>
+                                                </td>
+                                                <td>
+                                                    <div>Middle Seat Free,</div>
+                                                    <div>Window/Aisle</div>
+                                                    <div>Chargeable</div>
+                                                </td>
+                                                <td>...</td>
+                                                <td>
+                                                <div class="text-center md:text-left mb-10">
+                                                        <div class="price">₹ @faresInd.faretotal</div>
+                                                        
+                                                    </div>
+                                                
+                                                 <form asp-controller="FlightSearchIndex" asp-action="Tripsell" >
+                                                 <input type="hidden" id="fareKey" name="fareKey"  value="@faresInd.fareKey" />
+                                                 <input type="hidden" id="journeyKey" name="journeyKey"  value="@flightResult.journeyKey" />
+                                                 <button class="button -md -outline-blue-1 text-blue-1">Lock Price</button>
+                                                 <input type="submit"  asp-action="Tripsell"  value="Book Now" class="button small-btn">
+                                                 </form>
+                                                
+                                                 </td>
+                                                                                             
+                                            </tr>
+}
+                                         }  
+                                        </tbody>
+                                    </table>
+                                </div>
+                            
+                                    <div class="flight-dtl showBtn"><a href="#">Flight Details <i class="fa fa-angle-down" data-unicode="f107"></i></a></div>
+                               <div class="hideme" style="display:none;">
+					<div class="tabs -underline-2 pt-30 lg:pt-30 sm:pt-30 js-tabs">
+              <div class="tabs__controls row x-gap-2 y-gap-0 lg:x-gap-20 js-tabs-controls">
+
+                <div class="col-auto">
+                  <button type="button" class="tabs__button text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button is-tab-el-active" data-tab-target=".-tab-item-1">Itinerary</button>
+                </div>
+
+                <div class="col-auto">
+                  <button type="button"  class="tabs__button text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button" data-tab-target=".-tab-item-2">Fare Details</button>
+                </div>
+
+                <div class="col-auto">
+                  <button type="button" class="tabs__button text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button" data-tab-target=".-tab-item-3">Baggage</button>
+                </div>
+				<div class="col-auto">
+                  <button type="button" class="tabs__button text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button" data-tab-target=".-tab-item-4">Cancellation</button>
+                </div>
+				<div class="col-auto">
+                  <button type="button" class="tabs__button text-light-1 fw-500 px-2 pb-2 lg:pb-0 js-tabs-button" data-tab-target=".-tab-item-5">Fare Rule</button>
+                </div>
+				
+              </div>
+
+              <div class="tabs__content pt-20 js-tabs-content">
+
+                <div class="tabs__pane -tab-item-1 is-tab-el-active">
+                  <div class="col">
+                    <div class="row y-gap-10 items-center">
+                     <div class="dst-top">@flightResult.designator.origin<i class="fa fa-angle-double-right" aria-hidden="true"></i>@flightResult.designator.destination</div>
+                      <div class="col-sm-auto">
+                        <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">						
+                      </div>
+                      <div class="col">
+                        <div class="row x-gap-20 items-end">						
+                          <div class="col-auto">
+							<div class="inside-col">
+								<div class="lh-15 fw-500">AirAsia</div>
+								<div class="fliCode">@flightResult.carriercode -@flightResult.Identifier</div>
+							</div>
+                          </div>
+						  
+						  <div class="col-auto">
+                            <div class="">@departuretimefinal</div>
+                            <div class="">@flightResult.designator.origin</div>
+							<span>Terminal-@flightResult.departureTerminal </span>
+                          </div>
+
+                          <div class="col text-center">
+						  <div class="px-20 md:px-0">@diff</div>
+                            <div class="flightLine">							
+                              <div></div>
+                              <div></div>
+                            </div>
+                            <div class="mt-1">&nbsp;</div>
+                          </div>
+
+                          <div class="col-auto">
+                            <div class="lh-15 fw-500">@arrivalfinal</div>
+                            <div class="text-15 lh-15 text-light-1">@flightResult.designator.destination</div>
+							<span>Terminal-@flightResult.arrivalTerminal</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>                    
+                  </div>
+                </div>
+
+                <div class="tabs__pane -tab-item-2">
+                  <div class="row y-gap-30">
+                   <div class="dst-top">@flightResult.designator.origin - @flightResult.designator.destination (@flightResult.bookingdate) </div>
+				  <div class="col-lg-7">
+					<div class="text-19 fw-600">Fare baeakup (Include all taxes)</div>
+                  @{
+                     foreach (var faresbasic in flightResult.faresIndividual)
+                     {
+					  <table class="table mt-20">
+					  <thead class="bg-light-2">
+						<tr>
+						  <th>Type</th>
+						  <th>Pax</th>
+						  <th>Basic</th>
+						  <th>Taxes </th>
+						  <th>OthChg </th>
+						  <th>Total</th>
+                          
+						</tr>
+					  </thead>
+					  <tbody>
+						<tr>
+						  <td>@faresbasic.passengertype</td>
+						  <td>1</td>                  
+						  <td>@faresbasic.discountamount</td>
+						  <td>@faresbasic.taxamount</td>
+						  <td>0</td>
+                          <td>@faresbasic.faretotal</td>
+						</tr>
+					  </tbody>
+					</table>
+                     }
+                    }
+				  </div>
+
+				 <div class="col-lg-5">
+					<div class="text-19 fw-600">Fare Rule</div>
+                    @{
+                     foreach (var faresrule in flightResult.faresIndividual)
+                     {
+					<table class="table mt-20">
+					  <thead class="bg-light-2">
+						<tr>
+						  <th>Fare</th>
+						  <th>Refundable</th>                 
+						</tr>
+					  </thead>
+					  <tbody>
+
+						<tr>
+						  <td>Basic(+)</td>
+						  <td>@faresrule.discountamount</td>                  
+						</tr>
+
+						<tr>
+						  <td>Taxes(+)</td>
+						  <td>@faresrule.taxamount</td>                  
+						</tr>
+
+						<tr>
+						  <td>MFee(+)</td>
+						  <td>0</td>                  
+						</tr>
+
+						<tr>
+						  <td>GST(+)</td>
+						  <td>0</td>                  
+						</tr>
+						
+						<tr>
+						  <td>Disc(-)</td>
+						  <td>0</td>                  
+						</tr>
+						<tr>
+						  <td>Tds(+)</td>
+						  <td>0</td>                  
+						</tr>
+						<tr>
+						  <td>Total</td>
+						  <td>@faresrule.faretotal</td>                  
+						</tr>
+					  </tbody>
+					</table>
+                     }
+                    }
+				  </div>
+				</div>
+                </div>
+
+                <div class="tabs__pane -tab-item-3">				
+                  <table class="table mt-20">
+					  <thead class="bg-light-2">
+						<tr>
+						  <th>Airline</th>
+						  <th>Pax Type</th>
+						  <th>Check-in Baggage</th>
+						  <th>Cabin Baggage</th>
+						</tr>
+					  </thead>
+					  <tbody>
+						<tr>
+                          <td><img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image"> AirAsia <span> @flightResult.carriercode -@flightResult.Identifier</span></td>
+						  <td>Adult</td>                  
+						  <td>15 Kg</td>
+						  <td>7 Kg</td>						  
+						</tr>
+					  </tbody>
+					</table>
+					<div class="text-19 fw-600 pb-2">Terms &amp; Conditon</div>						
+					<ul class="list-disc y-gap-10">
+					  <li>For infants there is no baggage allowance.</li>
+					  <li>Airline can change Baggage Allowance.</li>
+					  <li>For Low Cost Carriers, international Check-in Baggage is 20 kg and for Gulf Sectors Baggage is 25-30 kg.</li>
+					  <li>If you have any query, feel free to Contact Us. Email: support@jetwaystravels.com</li>
+					</ul>
+                </div>
+				 <div class="tabs__pane -tab-item-4">
+				 <div class="dst-top">@flightResult.designator.origin - @flightResult.designator.destination (@flightResult.bookingdate)  </div>
+                  <table class="table mt-20">					 
+					  <tbody>
+						<tr>
+						  <td>Cancellation Charges</td>
+						  <td>Airline Free </td>                  
+						  <td>Before Departure</td>
+						  <td>As per Airline Fare rule</td>						  
+						</tr>
+						
+						<tr>
+						  <td>Reschedule Charges </td>
+						  <td>Airline Free </td>                  
+						  <td>Before Departure</td>
+						  <td>As per Airline Fare rule</td>						  
+						</tr>
+					  </tbody>
+					</table>
+					<div class="text-19 fw-600 pb-2">Terms &amp; Conditon</div>						
+					<ul class="list-disc y-gap-10">
+					  <li>Penalty is subject to 4 hour prior to departure and no changes are allowed after that.</li>
+					  <li>The charges will be on per passenger per sector.</li>
+					  <li>Rescheduling charges = Rescheduling/Change penalty+fare difference(if applicable)</li>
+					  <li>Partial cancellation is not allowed on the flilght tickets which are book under special discounted fares</li>
+					  <li>In case, the customer have not cancelled the ticket within the stipulated time or no show then only statutory taxes are refundable form the respective airlines</li>
+					  <li>For infants there is no baggage allowance</li>
+					  <li>In certain  situations of respricted cases, no amendments and cancellation is allowed.</li>
+					</ul>
+                </div>
+				
+				 <div class="tabs__pane -tab-item-5">
+				    <div class="dst-top mb-3">Airline Fare Rule</div>					
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris efficitur est id enim maximus aliquam sit amet nec mi. Sed vulputate lacus eros. Aliquam dictum ipsum leo, ut suscipit risus porttitor iaculis. Integer maximus dignissim mauris eget rhoncus. Sed scelerisque feugiat dui, et vehicula elit feugiat vel. Duis dignissim semper nibh, et pharetra tortor commodo ut. Ut eu efficitur elit. Nullam nec lacus et lacus interdum condimentum sit amet id velit. Aenean sagittis tortor nulla, ut dapibus augue scelerisque eu. Vivamus sit amet odio in mauris bibendum lobortis. Curabitur varius diam sit amet eleifend vehicula.</p>
+					<p>Phasellus tortor augue, lobortis eu mauris aliquam, venenatis posuere lacus. Nam in justo eget ex vulputate posuere tincidunt ut nulla. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus luctus laoreet ex, sit amet imperdiet orci ultrices eu. Cras mattis at ex ac sodales. Vestibulum non nunc ut arcu volutpat convallis. Maecenas varius commodo ligula volutpat aliquam. Proin vehicula ultricies leo, eget imperdiet metus viverra non. Maecenas blandit, risus ut viverra blandit, neque risus porta mi, vel imperdiet lectus mauris vel elit. Ut vel fringilla tortor, a tempus ex. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed vitae eros diam. Sed tincidunt mauris quis erat malesuada efficitur non ac velit. Vivamus nec condimentum erat. Sed fringilla dui eget auctor interdum. Cras sed sem magna.</p>
+				</div>
+              </div>
+            </div>
+				</div>
+                            </div>
+
+
+                    
+                }
+
+           </form>
+
+            <div class="border-top-light mt-30 pt-30">
+              <div class="row x-gap-10 y-gap-20 d-flex justify-content-center">               
+                <div class="col-md-auto md:order-3">
+                  <div class="row x-gap-20 y-gap-20 items-center md:d-none">
+
+                    <div class="col-auto">
+
+                      <div class="size-40 flex-center rounded-full">1</div>
+
+                    </div>
+
+                    <div class="col-auto">
+
+                      <div class="size-40 flex-center rounded-full bg-dark-1 text-white">2</div>
+
+                    </div>
+
+                    <div class="col-auto">
+
+                      <div class="size-40 flex-center rounded-full">3</div>
+
+                    </div>
+
+                    <div class="col-auto">
+
+                      <div class="size-40 flex-center rounded-full bg-light-2">4</div>
+
+                    </div>
+
+                    <div class="col-auto">
+
+                      <div class="size-40 flex-center rounded-full">5</div>
+
+                    </div>
+
+                    <div class="col-auto">
+
+                      <div class="size-40 flex-center rounded-full">...</div>
+
+                    </div>
+
+                    <div class="col-auto">
+
+                      <div class="size-40 flex-center rounded-full">20</div>
+
+                    </div>
+
+                  </div>
+
+                  <div class="row x-gap-10 y-gap-20 justify-center items-center d-none md:d-flex">
+
+                    <div class="col-auto">
+
+                      <div class="size-40 flex-center rounded-full">1</div>
+
+                    </div>
+
+                    <div class="col-auto">
+
+                      <div class="size-40 flex-center rounded-full bg-dark-1 text-white">2</div>
+
+                    </div>
+
+                    <div class="col-auto">
+
+                      <div class="size-40 flex-center rounded-full">3</div>
+
+                    </div>
+
+                  </div>
+
+                  <div class="text-center mt-30 md:mt-10">
+                    <div class="text-14 text-light-1">1 – 20 of 300+ properties found</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--====== Footer Area Start ======-->
+        <footer class="footer-area footer-fixed">
+            <!-- Footer Top -->
+            <div class="footer-top ptb_62">
+                <div class="container">
+                <h3 class="footer-title mb-2">Travel Guide</h3>
+                    <div class="row">                        
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <!-- Footer Items -->
+                            <div class="footer-items">
+                                <ul>
+                                    <li class="py-2"><a href="#">Andaman and Nicobar Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Kerala Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Himachal Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Kashmir Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Gujarat Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Maharashtra Travel Guide</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <!-- Footer Items -->
+                            <div class="footer-items">
+                               <ul>
+                                    <li class="py-2"><a href="#">Lakshwadweep Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Assam Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Arunachal Pradesh Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Andhra Pradesh Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Manipur Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Madhya Pradesh Travel Guide</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <!-- Footer Items -->
+                            <div class="footer-items">
+                                <ul>
+                                    <li class="py-2"><a href="#">Nagaland Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Odisha Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Tamil Nadu Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Uttaranchal Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">West Bengal Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Karnataka Travel Guide</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <!-- Footer Items -->
+                            <div class="footer-items">
+                                <ul>
+                                    <li class="py-2"><a href="#">Lakshwadweep Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Assam Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Arunachal Pradesh Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Andhra Pradesh Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Manipur Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Madhya Pradesh Travel Guide</a></li>
+                                </ul>
+                            </div>
+                        </div>						
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-mid ptb_50">
+                <div class="container">
+                    <h3 class="footer-title mb-2">Why jetwaystravel.com?</h3>
+                    <p>Our competitive rates and exclusive offers are what gives us a top notch over our competitors. We promise 'Unbeatable' services both in pricing and quality. For instance: Every Wednesday, travelers can save big with our ZERO Convenience fee on flight bookings.</p>
+                    <p>Also, we get it - travel’s a big decision. It’s not every day that you fly across the world to wander the souks of Dubai or enjoy a dreamy sunrise in Paris. But for us, it’s been our every day job for the past four decades. Let’s just say we know what travelers really want. We give you the pros and cons for all the different travel products and allow you to decide what works best for you and your family. While many travel companies claim to have experts, we believe few, match our own specialists for genuine- firsthand knowledge. We combine first-hand knowledge with exceptional special offers, and we take care of every detail to create a holiday as unique as you are. You will no more need to worry about coordinating flight bookings, hotel reservations, visa stamps or tours as all your needs are taken care of under one roof; the Jetways Travels roof. More than 85% of clients come back to us for future trips.</p>
+                    <p>When you choose Jetways Travels, your trip is in safe hands. Whilst you are abroad our team is available 24 hours a day, 365 days a year should you need assistance. We do absolutely everything for you, all you need to do is turn up at the airport with your bags and go!</p>
+                </div>
+            </div>
+
+            <div class="footer-mid-bottom ptb_25">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-lg-6">
+                          <!-- Social Icons -->						 
+                                <div class="social-icons d-flex">
+                                    <a class="facebook" href="#">
+                                        <i class="fab fa-facebook-f"></i>
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a class="twitter" href="#">
+                                        <i class="fab fa-twitter"></i>
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a class="google-plus" href="#">
+                                        <i class="fab fa-google-plus-g"></i>
+                                        <i class="fab fa-google-plus-g"></i>
+                                    </a>                                    
+                                </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-6 text-right">
+                        <img src="~/img/card.png" alt="card">
+                    </div>
+
+                </div>
+            </div>		
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Copyright Area -->
+                            <div class="copyright-area text-center py-4">
+                                <!-- Copyright-->
+                                <div class="copyright">Copyrights &copy; 2023 www.jetwaystravel.com All Rights Reserved..</div>                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!--====== Footer Area End ======-->
+
+  </main>
+
+  <div class="langMenu is-hidden js-langMenu" data-x="lang" data-x-toggle="is-hidden">
+    <div class="langMenu__bg" data-x-click="lang"></div>
+
+    <div class="langMenu__content bg-white rounded-4">
+      <div class="d-flex items-center justify-between px-30 py-20 sm:px-15 border-bottom-light">
+        <div class="text-20 fw-500 lh-15">Select your language</div>
+        <button class="pointer" data-x-click="lang">
+          <i class="icon-close"></i>
+        </button>
+      </div>
+
+      <div class="modalGrid px-30 py-30 sm:px-15 sm:py-15">
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">English</div>
+            <div class="text-14 lh-15 mt-5 js-title">United States</div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Türkçe</div>
+            <div class="text-14 lh-15 mt-5 js-title">Turkey</div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Español</div>
+            <div class="text-14 lh-15 mt-5 js-title">España</div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Français</div>
+            <div class="text-14 lh-15 mt-5 js-title">France</div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Italiano</div>
+            <div class="text-14 lh-15 mt-5 js-title">Italia</div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">English</div>
+            <div class="text-14 lh-15 mt-5 js-title">United States</div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Türkçe</div>
+            <div class="text-14 lh-15 mt-5 js-title">Turkey</div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Español</div>
+            <div class="text-14 lh-15 mt-5 js-title">España</div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Français</div>
+            <div class="text-14 lh-15 mt-5 js-title">France</div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Italiano</div>
+            <div class="text-14 lh-15 mt-5 js-title">Italia</div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">English</div>
+            <div class="text-14 lh-15 mt-5 js-title">United States</div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Türkçe</div>
+            <div class="text-14 lh-15 mt-5 js-title">Turkey</div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Español</div>
+            <div class="text-14 lh-15 mt-5 js-title">España</div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Français</div>
+            <div class="text-14 lh-15 mt-5 js-title">France</div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Italiano</div>
+            <div class="text-14 lh-15 mt-5 js-title">Italia</div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">English</div>
+            <div class="text-14 lh-15 mt-5 js-title">United States</div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Türkçe</div>
+            <div class="text-14 lh-15 mt-5 js-title">Turkey</div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Español</div>
+            <div class="text-14 lh-15 mt-5 js-title">España</div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Français</div>
+            <div class="text-14 lh-15 mt-5 js-title">France</div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Italiano</div>
+            <div class="text-14 lh-15 mt-5 js-title">Italia</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="currencyMenu is-hidden js-currencyMenu" data-x="currency" data-x-toggle="is-hidden">
+    <div class="currencyMenu__bg" data-x-click="currency"></div>
+
+    <div class="currencyMenu__content bg-white rounded-4">
+      <div class="d-flex items-center justify-between px-30 py-20 sm:px-15 border-bottom-light">
+        <div class="text-20 fw-500 lh-15">Select your currency</div>
+        <button class="pointer" data-x-click="currency">
+          <i class="icon-close"></i>
+        </button>
+      </div>
+
+      <div class="modalGrid px-30 py-30 sm:px-15 sm:py-15">
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">United States dollar</div>
+            <div class="text-14 lh-15 mt-5">
+              <span class="js-title">USD</span>
+              - $
+            </div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Australian dollar</div>
+            <div class="text-14 lh-15 mt-5">
+              <span class="js-title">AUD</span>
+              - $
+            </div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Brazilian real</div>
+            <div class="text-14 lh-15 mt-5">
+              <span class="js-title">BRL</span>
+              - R$
+            </div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Bulgarian lev</div>
+            <div class="text-14 lh-15 mt-5">
+              <span class="js-title">BGN</span>
+              - лв.
+            </div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Canadian dollar</div>
+            <div class="text-14 lh-15 mt-5">
+              <span class="js-title">CAD</span>
+              - $
+            </div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">United States dollar</div>
+            <div class="text-14 lh-15 mt-5">
+              <span class="js-title">USD</span>
+              - $
+            </div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Australian dollar</div>
+            <div class="text-14 lh-15 mt-5">
+              <span class="js-title">AUD</span>
+              - $
+            </div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Brazilian real</div>
+            <div class="text-14 lh-15 mt-5">
+              <span class="js-title">BRL</span>
+              - R$
+            </div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Bulgarian lev</div>
+            <div class="text-14 lh-15 mt-5">
+              <span class="js-title">BGN</span>
+              - лв.
+            </div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Canadian dollar</div>
+            <div class="text-14 lh-15 mt-5">
+              <span class="js-title">CAD</span>
+              - $
+            </div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">United States dollar</div>
+            <div class="text-14 lh-15 mt-5">
+              <span class="js-title">USD</span>
+              - $
+            </div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Australian dollar</div>
+            <div class="text-14 lh-15 mt-5">
+              <span class="js-title">AUD</span>
+              - $
+            </div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Brazilian real</div>
+            <div class="text-14 lh-15 mt-5">
+              <span class="js-title">BRL</span>
+              - R$
+            </div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Bulgarian lev</div>
+            <div class="text-14 lh-15 mt-5">
+              <span class="js-title">BGN</span>
+              - лв.
+            </div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Canadian dollar</div>
+            <div class="text-14 lh-15 mt-5">
+              <span class="js-title">CAD</span>
+              - $
+            </div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">United States dollar</div>
+            <div class="text-14 lh-15 mt-5">
+              <span class="js-title">USD</span>
+              - $
+            </div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Australian dollar</div>
+            <div class="text-14 lh-15 mt-5">
+              <span class="js-title">AUD</span>
+              - $
+            </div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Brazilian real</div>
+            <div class="text-14 lh-15 mt-5">
+              <span class="js-title">BRL</span>
+              - R$
+            </div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Bulgarian lev</div>
+            <div class="text-14 lh-15 mt-5">
+              <span class="js-title">BGN</span>
+              - лв.
+            </div>
+          </div>
+        </div>
+
+        <div class="modalGrid__item js-item">
+          <div class="py-10 px-15 sm:px-5 sm:py-5">
+            <div class="text-15 lh-15 fw-500 text-dark-1">Canadian dollar</div>
+            <div class="text-14 lh-15 mt-5">
+              <span class="js-title">CAD</span>
+              - $
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="mapFilter" data-x="mapFilter" data-x-toggle="-is-active">
+    <div class="mapFilter__overlay"></div>
+
+    <div class="mapFilter__close">
+      <button class="button -blue-1 size-40 bg-white shadow-2" data-x-click="mapFilter">
+        <i class="icon-close text-15"></i>
+      </button>
+    </div>
+
+    <div class="mapFilter__grid" data-x="mapFilter__grid" data-x-toggle="-filters-hidden">
+      <div class="mapFilter-filter scroll-bar-1">
+        <div class="px-20 py-20 md:px-15 md:py-15">
+          <div class="d-flex items-center justify-between">
+            <div class="text-18 fw-500">Filters</div>
+
+            <button class="size-40 flex-center rounded-full bg-blue-1" data-x-click="mapFilter__grid">
+              <i class="icon-chevron-left text-12 text-white"></i>
+            </button>
+          </div>
+
+          <div class="mapFilter-filter__item">
+            <h5 class="text-18 fw-500 mb-10">Popular Filters</h5>
+            <div class="sidebar-checkbox">
+
+              <div class="row y-gap-10 items-center justify-between">
+                <div class="col-auto">
+                  <div class="d-flex items-center">
+                    <div class="form-checkbox">
+                      <input type="checkbox">
+                      <div class="form-checkbox__mark">
+                        <div class="form-checkbox__icon icon-check"></div>
+                      </div>
+                    </div>
+                    <div class="text-15 ml-10">Breakfast Included</div>
+                  </div>
+                </div>
+
+                <div class="col-auto">
+                  <div class="text-15 text-light-1">92</div>
+                </div>
+              </div>
+
+              <div class="row y-gap-10 items-center justify-between">
+                <div class="col-auto">
+                  <div class="d-flex items-center">
+                    <div class="form-checkbox">
+                      <input type="checkbox">
+                      <div class="form-checkbox__mark">
+                        <div class="form-checkbox__icon icon-check"></div>
+                      </div>
+                    </div>
+                    <div class="text-15 ml-10">Romantic</div>
+                  </div>
+                </div>
+
+                <div class="col-auto">
+                  <div class="text-15 text-light-1">45</div>
+                </div>
+              </div>
+
+              <div class="row y-gap-10 items-center justify-between">
+                <div class="col-auto">
+                  <div class="d-flex items-center">
+                    <div class="form-checkbox">
+                      <input type="checkbox">
+                      <div class="form-checkbox__mark">
+                        <div class="form-checkbox__icon icon-check"></div>
+                      </div>
+                    </div>
+                    <div class="text-15 ml-10">Airport Transfer</div>
+                  </div>
+                </div>
+
+                <div class="col-auto">
+                  <div class="text-15 text-light-1">21</div>
+                </div>
+              </div>
+
+              <div class="row y-gap-10 items-center justify-between">
+                <div class="col-auto">
+                  <div class="d-flex items-center">
+                    <div class="form-checkbox">
+                      <input type="checkbox">
+                      <div class="form-checkbox__mark">
+                        <div class="form-checkbox__icon icon-check"></div>
+                      </div>
+                    </div>
+                    <div class="text-15 ml-10">WiFi Included </div>
+                  </div>
+                </div>
+
+                <div class="col-auto">
+                  <div class="text-15 text-light-1">78</div>
+                </div>
+              </div>
+
+              <div class="row y-gap-10 items-center justify-between">
+                <div class="col-auto">
+                  <div class="d-flex items-center">
+                    <div class="form-checkbox">
+                      <input type="checkbox">
+                      <div class="form-checkbox__mark">
+                        <div class="form-checkbox__icon icon-check"></div>
+                      </div>
+                    </div>
+                    <div class="text-15 ml-10">5 Star</div>
+                  </div>
+                </div>
+
+                <div class="col-auto">
+                  <div class="text-15 text-light-1">679</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="mapFilter-filter__item">
+            <h5 class="text-18 fw-500 mb-10">Nightly Price</h5>
+            <div class="row x-gap-10 y-gap-30">
+              <div class="col-12">
+                <div class="js-price-rangeSlider">
+                  <div class="text-14 fw-500"></div>
+
+                  <div class="d-flex justify-between mb-20">
+                    <div class="text-15 text-dark-1">
+                      <span class="js-lower"></span>
+                      -
+                      <span class="js-upper"></span>
+                    </div>
+                  </div>
+
+                  <div class="px-5">
+                    <div class="js-slider"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mapFilter-filter__item">
+            <h5 class="text-18 fw-500 mb-10">Amenities</h5>
+            <div class="sidebar-checkbox">
+
+              <div class="row y-gap-10 items-center justify-between">
+                <div class="col-auto">
+
+                  <div class="d-flex items-center">
+                    <div class="form-checkbox ">
+                      <input type="checkbox" name="name">
+                      <div class="form-checkbox__mark">
+                        <div class="form-checkbox__icon icon-check"></div>
+                      </div>
+                    </div>
+
+                    <div class="text-15 ml-10">Breakfast Included</div>
+
+                  </div>
+
+                </div>
+
+                <div class="col-auto">
+                  <div class="text-15 text-light-1">92</div>
+                </div>
+              </div>
+
+              <div class="row y-gap-10 items-center justify-between">
+                <div class="col-auto">
+
+                  <div class="d-flex items-center">
+                    <div class="form-checkbox ">
+                      <input type="checkbox" name="name">
+                      <div class="form-checkbox__mark">
+                        <div class="form-checkbox__icon icon-check"></div>
+                      </div>
+                    </div>
+
+                    <div class="text-15 ml-10">WiFi Included </div>
+
+                  </div>
+
+                </div>
+
+                <div class="col-auto">
+                  <div class="text-15 text-light-1">45</div>
+                </div>
+              </div>
+
+              <div class="row y-gap-10 items-center justify-between">
+                <div class="col-auto">
+
+                  <div class="d-flex items-center">
+                    <div class="form-checkbox ">
+                      <input type="checkbox" name="name">
+                      <div class="form-checkbox__mark">
+                        <div class="form-checkbox__icon icon-check"></div>
+                      </div>
+                    </div>
+
+                    <div class="text-15 ml-10">Pool</div>
+
+                  </div>
+
+                </div>
+
+                <div class="col-auto">
+                  <div class="text-15 text-light-1">21</div>
+                </div>
+              </div>
+
+              <div class="row y-gap-10 items-center justify-between">
+                <div class="col-auto">
+
+                  <div class="d-flex items-center">
+                    <div class="form-checkbox ">
+                      <input type="checkbox" name="name">
+                      <div class="form-checkbox__mark">
+                        <div class="form-checkbox__icon icon-check"></div>
+                      </div>
+                    </div>
+
+                    <div class="text-15 ml-10">Restaurant </div>
+
+                  </div>
+
+                </div>
+
+                <div class="col-auto">
+                  <div class="text-15 text-light-1">78</div>
+                </div>
+              </div>
+
+              <div class="row y-gap-10 items-center justify-between">
+                <div class="col-auto">
+
+                  <div class="d-flex items-center">
+                    <div class="form-checkbox ">
+                      <input type="checkbox" name="name">
+                      <div class="form-checkbox__mark">
+                        <div class="form-checkbox__icon icon-check"></div>
+                      </div>
+                    </div>
+
+                    <div class="text-15 ml-10">Air conditioning </div>
+
+                  </div>
+
+                </div>
+
+                <div class="col-auto">
+                  <div class="text-15 text-light-1">679</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="mapFilter-filter__item">
+            <h5 class="text-18 fw-500 mb-10">Star Rating</h5>
+            <div class="row x-gap-10 y-gap-10 pt-10">
+
+              <div class="col-auto">
+                <a href="#" class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">1</a>
+              </div>
+
+              <div class="col-auto">
+                <a href="#" class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">2</a>
+              </div>
+
+              <div class="col-auto">
+                <a href="#" class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">3</a>
+              </div>
+
+              <div class="col-auto">
+                <a href="#" class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">4</a>
+              </div>
+
+              <div class="col-auto">
+                <a href="#" class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">5</a>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="mapFilter-filter__item">
+            <h5 class="text-18 fw-500 mb-10">Guest Rating</h5>
+            <div class="sidebar-checkbox">
+
+              <div class="row y-gap-10 items-center justify-between">
+                <div class="col-auto">
+
+                  <div class="form-radio d-flex items-center ">
+                    <div class="radio">
+                      <input type="radio" name="name">
+                      <div class="radio__mark">
+                        <div class="radio__icon"></div>
+                      </div>
+                    </div>
+                    <div class="ml-10">Any</div>
+                  </div>
+
+                </div>
+
+                <div class="col-auto">
+                  <div class="text-15 text-light-1">92</div>
+                </div>
+              </div>
+
+              <div class="row y-gap-10 items-center justify-between">
+                <div class="col-auto">
+
+                  <div class="form-radio d-flex items-center ">
+                    <div class="radio">
+                      <input type="radio" name="name">
+                      <div class="radio__mark">
+                        <div class="radio__icon"></div>
+                      </div>
+                    </div>
+                    <div class="ml-10">Wonderful 4.5+</div>
+                  </div>
+
+                </div>
+
+                <div class="col-auto">
+                  <div class="text-15 text-light-1">45</div>
+                </div>
+              </div>
+
+              <div class="row y-gap-10 items-center justify-between">
+                <div class="col-auto">
+
+                  <div class="form-radio d-flex items-center ">
+                    <div class="radio">
+                      <input type="radio" name="name">
+                      <div class="radio__mark">
+                        <div class="radio__icon"></div>
+                      </div>
+                    </div>
+                    <div class="ml-10">Very good 4+</div>
+                  </div>
+
+                </div>
+
+                <div class="col-auto">
+                  <div class="text-15 text-light-1">21</div>
+                </div>
+              </div>
+
+              <div class="row y-gap-10 items-center justify-between">
+                <div class="col-auto">
+
+                  <div class="form-radio d-flex items-center ">
+                    <div class="radio">
+                      <input type="radio" name="name">
+                      <div class="radio__mark">
+                        <div class="radio__icon"></div>
+                      </div>
+                    </div>
+                    <div class="ml-10">Good 3.5+ </div>
+                  </div>
+
+                </div>
+
+                <div class="col-auto">
+                  <div class="text-15 text-light-1">78</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="mapFilter-filter__item">
+            <h5 class="text-18 fw-500 mb-10">Style</h5>
+            <div class="sidebar-checkbox">
+
+              <div class="row y-gap-10 items-center justify-between">
+                <div class="col-auto">
+
+                  <div class="d-flex items-center">
+                    <div class="form-checkbox ">
+                      <input type="checkbox" name="name">
+                      <div class="form-checkbox__mark">
+                        <div class="form-checkbox__icon icon-check"></div>
+                      </div>
+                    </div>
+
+                    <div class="text-15 ml-10">Budget</div>
+
+                  </div>
+
+                </div>
+
+                <div class="col-auto">
+                  <div class="text-15 text-light-1">92</div>
+                </div>
+              </div>
+
+              <div class="row y-gap-10 items-center justify-between">
+                <div class="col-auto">
+
+                  <div class="d-flex items-center">
+                    <div class="form-checkbox ">
+                      <input type="checkbox" name="name">
+                      <div class="form-checkbox__mark">
+                        <div class="form-checkbox__icon icon-check"></div>
+                      </div>
+                    </div>
+
+                    <div class="text-15 ml-10">Mid-range </div>
+
+                  </div>
+
+                </div>
+
+                <div class="col-auto">
+                  <div class="text-15 text-light-1">45</div>
+                </div>
+              </div>
+
+              <div class="row y-gap-10 items-center justify-between">
+                <div class="col-auto">
+
+                  <div class="d-flex items-center">
+                    <div class="form-checkbox ">
+                      <input type="checkbox" name="name">
+                      <div class="form-checkbox__mark">
+                        <div class="form-checkbox__icon icon-check"></div>
+                      </div>
+                    </div>
+
+                    <div class="text-15 ml-10">Luxury</div>
+
+                  </div>
+
+                </div>
+
+                <div class="col-auto">
+                  <div class="text-15 text-light-1">21</div>
+                </div>
+              </div>
+
+              <div class="row y-gap-10 items-center justify-between">
+                <div class="col-auto">
+
+                  <div class="d-flex items-center">
+                    <div class="form-checkbox ">
+                      <input type="checkbox" name="name">
+                      <div class="form-checkbox__mark">
+                        <div class="form-checkbox__icon icon-check"></div>
+                      </div>
+                    </div>
+
+                    <div class="text-15 ml-10">Family-friendly </div>
+
+                  </div>
+
+                </div>
+
+                <div class="col-auto">
+                  <div class="text-15 text-light-1">78</div>
+                </div>
+              </div>
+
+              <div class="row y-gap-10 items-center justify-between">
+                <div class="col-auto">
+
+                  <div class="d-flex items-center">
+                    <div class="form-checkbox ">
+                      <input type="checkbox" name="name">
+                      <div class="form-checkbox__mark">
+                        <div class="form-checkbox__icon icon-check"></div>
+                      </div>
+                    </div>
+
+                    <div class="text-15 ml-10">Business </div>
+
+                  </div>
+
+                </div>
+
+                <div class="col-auto">
+                  <div class="text-15 text-light-1">679</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="mapFilter-filter__item">
+            <h5 class="text-18 fw-500 mb-10">Neighborhood</h5>
+            <div class="sidebar-checkbox">
+
+              <div class="row y-gap-10 items-center justify-between">
+                <div class="col-auto">
+
+                  <div class="d-flex items-center">
+                    <div class="form-checkbox ">
+                      <input type="checkbox" name="name">
+                      <div class="form-checkbox__mark">
+                        <div class="form-checkbox__icon icon-check"></div>
+                      </div>
+                    </div>
+
+                    <div class="text-15 ml-10">Central London</div>
+
+                  </div>
+
+                </div>
+
+                <div class="col-auto">
+                  <div class="text-15 text-light-1">92</div>
+                </div>
+              </div>
+
+              <div class="row y-gap-10 items-center justify-between">
+                <div class="col-auto">
+
+                  <div class="d-flex items-center">
+                    <div class="form-checkbox ">
+                      <input type="checkbox" name="name">
+                      <div class="form-checkbox__mark">
+                        <div class="form-checkbox__icon icon-check"></div>
+                      </div>
+                    </div>
+
+                    <div class="text-15 ml-10">Guests&#39; favourite area </div>
+
+                  </div>
+
+                </div>
+
+                <div class="col-auto">
+                  <div class="text-15 text-light-1">45</div>
+                </div>
+              </div>
+
+              <div class="row y-gap-10 items-center justify-between">
+                <div class="col-auto">
+
+                  <div class="d-flex items-center">
+                    <div class="form-checkbox ">
+                      <input type="checkbox" name="name">
+                      <div class="form-checkbox__mark">
+                        <div class="form-checkbox__icon icon-check"></div>
+                      </div>
+                    </div>
+
+                    <div class="text-15 ml-10">Westminster Borough</div>
+
+                  </div>
+
+                </div>
+
+                <div class="col-auto">
+                  <div class="text-15 text-light-1">21</div>
+                </div>
+              </div>
+
+              <div class="row y-gap-10 items-center justify-between">
+                <div class="col-auto">
+
+                  <div class="d-flex items-center">
+                    <div class="form-checkbox ">
+                      <input type="checkbox" name="name">
+                      <div class="form-checkbox__mark">
+                        <div class="form-checkbox__icon icon-check"></div>
+                      </div>
+                    </div>
+
+                    <div class="text-15 ml-10">Kensington and Chelsea </div>
+
+                  </div>
+
+                </div>
+
+                <div class="col-auto">
+                  <div class="text-15 text-light-1">78</div>
+                </div>
+              </div>
+
+              <div class="row y-gap-10 items-center justify-between">
+                <div class="col-auto">
+
+                  <div class="d-flex items-center">
+                    <div class="form-checkbox ">
+                      <input type="checkbox" name="name">
+                      <div class="form-checkbox__mark">
+                        <div class="form-checkbox__icon icon-check"></div>
+                      </div>
+                    </div>
+
+                    <div class="text-15 ml-10">Oxford Street </div>
+
+                  </div>
+
+                </div>
+
+                <div class="col-auto">
+                  <div class="text-15 text-light-1">679</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mapFilter-results scroll-bar-1">
+        <div class="px-20 py-20 md:px-15 md:py-15">
+          <div class="row y-gap-10 justify-between">
+            <div class="col-auto">
+              <div class="text-14 text-light-1">
+                <span class="text-dark-1 text-15 fw-500">3,269 properties</span>
+                in Europe
+              </div>
+            </div>
+
+            <div class="col-auto">
+              <button class="button -blue-1 h-40 px-20 md:px-5 text-blue-1 bg-blue-1-05 rounded-100">
+                <i class="icon-up-down mr-10"></i>
+                Top picks for your search
+              </button>
+            </div>
+          </div>
+
+
+          <div class="mapFilter-results__item">
+            <div class="row x-gap-20 y-gap-20">
+              <div class="col-md-auto">
+                <div class="ratio ratio-1:1 size-120">
+                  <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                </div>
+              </div>
+
+              <div class="col-md">
+                <div class="row x-gap-20 y-gap-10 justify-between">
+                  <div class="col-lg">
+                    <h4 class="text-16 lh-17 fw-500">
+                      Great Northern Hotel, a Tribute Portfolio Hotel, London
+                      <span class="text-10 text-yellow-2">
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                      </span>
+                    </h4>
+                  </div>
+
+                  <div class="col-auto">
+                    <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                      <i class="icon-heart text-12"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                  <div class="col-auto">
+                    <div class="d-flex items-center">
+                      <div class="size-38 rounded-4 flex-center bg-blue-1">
+                        <span class="text-14 fw-600 text-white">4.8</span>
+                      </div>
+
+                      <div class="ml-10">
+                        <div class="text-13 lh-14 fw-500">Exceptional</div>
+                        <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-auto">
+                    <div class="d-flex items-center">
+                      <div class="text-14 text-light-1 mr-10">8 nights</div>
+                      <div class="fw-500">US$72</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mapFilter-results__item">
+            <div class="row x-gap-20 y-gap-20">
+              <div class="col-md-auto">
+                <div class="ratio ratio-1:1 size-120">
+                  <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                </div>
+              </div>
+
+              <div class="col-md">
+                <div class="row x-gap-20 y-gap-10 justify-between">
+                  <div class="col-lg">
+                    <h4 class="text-16 lh-17 fw-500">
+                      Great Northern Hotel, a Tribute Portfolio Hotel, London
+                      <span class="text-10 text-yellow-2">
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                      </span>
+                    </h4>
+                  </div>
+
+                  <div class="col-auto">
+                    <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                      <i class="icon-heart text-12"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                  <div class="col-auto">
+                    <div class="d-flex items-center">
+                      <div class="size-38 rounded-4 flex-center bg-blue-1">
+                        <span class="text-14 fw-600 text-white">4.8</span>
+                      </div>
+
+                      <div class="ml-10">
+                        <div class="text-13 lh-14 fw-500">Exceptional</div>
+                        <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-auto">
+                    <div class="d-flex items-center">
+                      <div class="text-14 text-light-1 mr-10">8 nights</div>
+                      <div class="fw-500">US$72</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mapFilter-results__item">
+            <div class="row x-gap-20 y-gap-20">
+              <div class="col-md-auto">
+                <div class="ratio ratio-1:1 size-120">
+                  <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                </div>
+              </div>
+
+              <div class="col-md">
+                <div class="row x-gap-20 y-gap-10 justify-between">
+                  <div class="col-lg">
+                    <h4 class="text-16 lh-17 fw-500">
+                      Great Northern Hotel, a Tribute Portfolio Hotel, London
+                      <span class="text-10 text-yellow-2">
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                      </span>
+                    </h4>
+                  </div>
+
+                  <div class="col-auto">
+                    <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                      <i class="icon-heart text-12"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                  <div class="col-auto">
+                    <div class="d-flex items-center">
+                      <div class="size-38 rounded-4 flex-center bg-blue-1">
+                        <span class="text-14 fw-600 text-white">4.8</span>
+                      </div>
+
+                      <div class="ml-10">
+                        <div class="text-13 lh-14 fw-500">Exceptional</div>
+                        <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-auto">
+                    <div class="d-flex items-center">
+                      <div class="text-14 text-light-1 mr-10">8 nights</div>
+                      <div class="fw-500">US$72</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mapFilter-results__item">
+            <div class="row x-gap-20 y-gap-20">
+              <div class="col-md-auto">
+                <div class="ratio ratio-1:1 size-120">
+                  <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                </div>
+              </div>
+
+              <div class="col-md">
+                <div class="row x-gap-20 y-gap-10 justify-between">
+                  <div class="col-lg">
+                    <h4 class="text-16 lh-17 fw-500">
+                      Great Northern Hotel, a Tribute Portfolio Hotel, London
+                      <span class="text-10 text-yellow-2">
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                      </span>
+                    </h4>
+                  </div>
+
+                  <div class="col-auto">
+                    <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                      <i class="icon-heart text-12"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                  <div class="col-auto">
+                    <div class="d-flex items-center">
+                      <div class="size-38 rounded-4 flex-center bg-blue-1">
+                        <span class="text-14 fw-600 text-white">4.8</span>
+                      </div>
+
+                      <div class="ml-10">
+                        <div class="text-13 lh-14 fw-500">Exceptional</div>
+                        <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-auto">
+                    <div class="d-flex items-center">
+                      <div class="text-14 text-light-1 mr-10">8 nights</div>
+                      <div class="fw-500">US$72</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mapFilter-results__item">
+            <div class="row x-gap-20 y-gap-20">
+              <div class="col-md-auto">
+                <div class="ratio ratio-1:1 size-120">
+                  <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                </div>
+              </div>
+
+              <div class="col-md">
+                <div class="row x-gap-20 y-gap-10 justify-between">
+                  <div class="col-lg">
+                    <h4 class="text-16 lh-17 fw-500">
+                      Great Northern Hotel, a Tribute Portfolio Hotel, London
+                      <span class="text-10 text-yellow-2">
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                      </span>
+                    </h4>
+                  </div>
+
+                  <div class="col-auto">
+                    <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                      <i class="icon-heart text-12"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                  <div class="col-auto">
+                    <div class="d-flex items-center">
+                      <div class="size-38 rounded-4 flex-center bg-blue-1">
+                        <span class="text-14 fw-600 text-white">4.8</span>
+                      </div>
+
+                      <div class="ml-10">
+                        <div class="text-13 lh-14 fw-500">Exceptional</div>
+                        <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-auto">
+                    <div class="d-flex items-center">
+                      <div class="text-14 text-light-1 mr-10">8 nights</div>
+                      <div class="fw-500">US$72</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mapFilter-results__item">
+            <div class="row x-gap-20 y-gap-20">
+              <div class="col-md-auto">
+                <div class="ratio ratio-1:1 size-120">
+                  <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                </div>
+              </div>
+
+              <div class="col-md">
+                <div class="row x-gap-20 y-gap-10 justify-between">
+                  <div class="col-lg">
+                    <h4 class="text-16 lh-17 fw-500">
+                      Great Northern Hotel, a Tribute Portfolio Hotel, London
+                      <span class="text-10 text-yellow-2">
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                      </span>
+                    </h4>
+                  </div>
+
+                  <div class="col-auto">
+                    <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                      <i class="icon-heart text-12"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                  <div class="col-auto">
+                    <div class="d-flex items-center">
+                      <div class="size-38 rounded-4 flex-center bg-blue-1">
+                        <span class="text-14 fw-600 text-white">4.8</span>
+                      </div>
+
+                      <div class="ml-10">
+                        <div class="text-13 lh-14 fw-500">Exceptional</div>
+                        <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-auto">
+                    <div class="d-flex items-center">
+                      <div class="text-14 text-light-1 mr-10">8 nights</div>
+                      <div class="fw-500">US$72</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mapFilter-results__item">
+            <div class="row x-gap-20 y-gap-20">
+              <div class="col-md-auto">
+                <div class="ratio ratio-1:1 size-120">
+                  <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                </div>
+              </div>
+
+              <div class="col-md">
+                <div class="row x-gap-20 y-gap-10 justify-between">
+                  <div class="col-lg">
+                    <h4 class="text-16 lh-17 fw-500">
+                      Great Northern Hotel, a Tribute Portfolio Hotel, London
+                      <span class="text-10 text-yellow-2">
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                        <i class="icon-star"></i>
+                      </span>
+                    </h4>
+                  </div>
+
+                  <div class="col-auto">
+                    <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                      <i class="icon-heart text-12"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                  <div class="col-auto">
+                    <div class="d-flex items-center">
+                      <div class="size-38 rounded-4 flex-center bg-blue-1">
+                        <span class="text-14 fw-600 text-white">4.8</span>
+                      </div>
+
+                      <div class="ml-10">
+                        <div class="text-13 lh-14 fw-500">Exceptional</div>
+                        <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-auto">
+                    <div class="d-flex items-center">
+                      <div class="text-14 text-light-1 mr-10">8 nights</div>
+                      <div class="fw-500">US$72</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mapFilter-map">
+        <div class="map js-map"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ***** All jQuery Plugins ***** -->
+
+
+    <!-- Social media js -->
+    <script src="~/js/jquery/jquery.min.js"></script>
+     <!-- Plugins js -->
+    <script src="~/js/plugins/plugins.min.js"></script>
+
+     <!-- ***** Clander js ***** -->
+     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>	 
+     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+     <script src="~/js/daterangepicker.js"></script>
+
+    <!-- Bootstrap js -->
+    <script src="~/js/bootstrap/popper.min.js"></script>
+    <script src="~/js/bootstrap/bootstrap.min.js"></script>
+    <!-- Travellers js -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAz77U5XQuEME6TpftaMdX0bBelQxXRlM"></script>
+    <script src="~/js/vendors.js"></script>
+    <script src="~/js/main.js"></script>
+
+    <!-- Active js -->
+    <script src="~/js/active.js"></script>	
+
+  
+    <script>
+        $(document).ready(function () {
+
+            alert("text");
+            $('#ab').click(function () {
+
+                alert("as");
+            });
+           
+           // $("input[name='chknonstop']").click(function () {
+           //   var id= $('#chknonstop').val();
+           //  alert(id);
+           //var data=JSON.stringify(id);
+           //alert(data);
+           // $.ajax({
+
+           // async: true,
+           // type: "POST",
+           ////url: "/FlightSearchIndex/SearchResultFlightId",
+           //  url: "/SearchResultFlightId/FlightSearchIndex",
+
+           // data :{ id: id},
+           // datatype:"json",
+           // success: function (msg) {
+           ////alert(msg);
+           // alert(JSON.stringify(req));
+           // },
+           // error: function (req,status,error)
+           // {
+           //     alert(JSON.stringify(req));
+           //    // alert(req);
+           // }
+               
+           //  });
+
+           //     //$.ajax({
+
+           //     //    type: "POST",
+           //     //    url: "/FlightSearchIndex/SearchResultFlightId",
+           //     //    data: { "id": "id" },
+
+           //     //    success: function (responce) {
+           //     //        $(responce.each(function () {
+           //     //            alert("yes" + this.id);
+
+           //     //        })
+
+           //     //    },
+           //     //    faliure: function (responce) {
+           //     //        alert(responce.responceText);
+           //     //    },
+           //     //    error: function () {
+           //     //        alert(responce.responceText);
+           //     //    }
+           //     //});
+
+
+               
+           // });
+
+          
+        });
+
+
+        $('.showBtn').click(function () {
+            //$('.hideme').hide();
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+                $('.hideme').slideUp(1);
+            } else {
+                $('.hideme').slideUp(1);
+                $('.showBtn').removeClass('active');
+                $(this).addClass('active');
+                $(this).next().filter('.hideme').slideDown(1);
+            }
+        });
+
+           
+    </script>
+
+</body>
+
+
+<!-- Mirrored from creativelayers.net/themes/gotrip-html/flights-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 03 May 2023 08:43:47 GMT -->
+</html>

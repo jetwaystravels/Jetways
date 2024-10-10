@@ -1,0 +1,993 @@
+﻿@* @model DomainLayer.Model.GetfligthModel *@
+@model DomainLayer.Model.SimpleAvailabilityRequestModel
+@{
+	var data = Model;
+
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+
+	.Radiohide input {
+		display: none;
+	}
+</style>
+
+
+<script>
+	$(document).ready(function () {
+		document.getElementById('corporateLogin').addEventListener('click', function (event) {
+			event.preventDefault(); // Prevent default behavior
+			window.location.href = "http://localhost:5202"; // Redirect to the desired URL
+		});
+	});
+</script>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		function preventBack() {
+			window.history.forward();
+		}
+		preventBack();
+		window.onunload = function () {
+			preventDefault();
+		};
+	});
+
+
+	// function toggleRadio(event, radioId) {
+	//     event.preventDefault(); // Prevent the default anchor behavior
+	//     var radioButton = document.getElementById(radioId);
+	//     radioButton.checked = true; // Check the radio button
+	// }
+
+	function toggleRadio(event, radioId) {
+		event.preventDefault(); // Prevent the default anchor behavior
+
+		// Uncheck all radio buttons
+		document.querySelectorAll('.form-radio-input').forEach(radio => {
+			radio.checked = false;
+		});
+
+		// Check the selected radio button
+		var radioButton = document.getElementById(radioId);
+		radioButton.checked = true;
+	}
+</script>
+
+
+
+
+
+
+<body>
+	@{
+		SimpleAvailabilityRequestModel model = null;
+		string origin = "";
+		string startdate = "";
+	}
+	<!--====== Scroll To Top Area Start ======-->
+	<div id="scrollUp" title="Scroll To Top">
+		<i class="fas fa-arrow-up"></i>
+	</div>
+	<div class="main" id="loaderbg">
+
+		<div class="cs-loader-main" id="loader" style="display:none;">
+			<div class="cs-loader">
+				<div class="cs-loader-inner">
+					<div><img src="~/img/cloude-1.png"></div>
+					<label><img src="~/img/airo-f.png"></label>
+					<div class="load-text">Search for cheap Flight...</div>
+				</div>
+
+			</div>
+		</div>
+
+		@*  <div class="cs-loader-main" id="loader" style="display:none;">
+		<div class="cs-loader">
+		<div class="cs-loader-inner">
+		<div><img src="~/img/cloude-1.png"></div>
+		<div><img src="~/img/airo-f.png"></div>
+		</div>
+		</div>
+		</div> *@
+
+
+		<!-- ***** Header Start ***** -->
+		<header class="navbar navbar-sticky navbar-expand-lg navbar-dark">
+			<div class="container position-relative">
+				<a class="navbar-brand" asp-controller="FlightSearchIndex" asp-action="Index">
+					<img class="navbar-brand-regular" src="~/img/logo/logo-white.png" alt="brand-logo">
+					<img class="navbar-brand-sticky" src="~/img/logo/logo.png" alt="sticky brand-logo">
+				</a>
+				<button class="navbar-toggler d-lg-none" type="button" data-toggle="navbarToggler" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="navbar-inner">
+					<!--  Mobile Menu Toggler -->
+					<button class="navbar-toggler d-lg-none" type="button" data-toggle="navbarToggler" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+
+					@* <nav>
+					<ul class="navbar-nav" id="top-navbar-nav">
+
+					<li class="nav-item">
+					<select aria-label="Default">
+					<option>English</option>
+					<option value="1">French</option>
+					<option value="2">Russian </option>
+					<option value="3">Spanish</option>
+					<option value="3">
+
+					</option>
+					</select>
+					</li>
+
+					<li class="nav-item">
+					<select aria-label="Default">
+					<option>India</option>
+					<option value="1">UAE</option>
+					<option value="2">USA</option>
+					</select>
+					</li>
+
+					<li class="dropdown mt-20">
+					<a class="nav-link dropbtn " href="#">Login or Signup</a>
+					<div class="dropdown-content">
+					<a href="#" data-toggle="modal" data-target="#signUp-pop">
+					Customer Login
+					<span>Login &amp; check bookings</span>
+					</a>
+					<a href="#">
+					Corporate Travel
+					<span>Login corporate account</span>
+					</a>
+					<a href="#">
+					Agent Login
+					<span>Login your agent account</span>
+					</a>
+					<a href="#">
+					My Booking
+					<span>Manage your bookings here</span>
+					</a>
+					</div>
+					</li>
+					</ul>
+
+					</nav> *@
+
+					<nav>
+						<ul class="navbar-nav" id="top-navbar-nav">
+							<li class="nav-item">
+							<li class="nav-item">
+								<small>Language</small>
+								<select aria-label="Default">
+									<option>English</option>
+									<option value="1">French</option>
+									<option value="2">Russian </option>
+									<option value="3">Spanish</option>
+									<option value="3">Arabic</option>
+								</select>
+							</li>
+							</li>
+							<li class="nav-item">
+								<small>Country</small>
+								<select aria-label="Default">
+									<option>India</option>
+									<option value="1">UAE</option>
+									<option value="2">USA</option>
+								</select>
+							</li>
+							<li class="dropdown">
+								<a class="nav-link dropbtn " href="#">Login or Signup</a>
+								<a class="nav-link dropbtn" href="#" id="corporateLogin">Corporate login</a>
+
+								<div class="dropdown-content">
+									<a href="#" data-toggle="modal" data-target="#signUp-pop">
+										Customer Login
+										<span>Login &amp; check bookings</span>
+									</a>
+									<a asp-controller="Login" asp-action="UserLogin">
+										Corporate Travel
+										<span>Login corporate account</span>
+									</a>
+									<a href="#">
+										Agent Login
+										<span>Login your agent account</span>
+									</a>
+									<a asp-controller="FlightSearchIndex" asp-action="MyBooking">
+										My Booking
+										<span>Manage your bookings here</span>
+									</a>
+								</div>
+							</li>
+						</ul>
+					</nav>
+					<nav id="mobile-nav">
+						<ul class="navbar-nav" id="navbar-nav">
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="#">
+									Home
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link scroll" href="features">Features</a>
+							</li>
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="#">
+									Pages
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link scroll" href="#">Screenshots</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link scroll" href="#">Pricing</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link scroll" href="#">Contact</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</header>
+		<!-- ***** Header End ***** -->
+		<!-- start sign-up -->
+		<div class="modal fade" id="signUp-pop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header" style="border:none;">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true" class="white-text">&times;</span>
+						</button>
+						<div class="modal-body">
+							<div class="sign-up-container">
+								<div class="form-container sign-in-container">
+
+									<!-- start sign-in -->
+									<div class="sign-up-inner" id="mobileID">
+										<h1>Login or Create an account</h1>
+										<input type="email or mobile" placeholder="Email ID or Mobile Number" />
+										<button type="button" id="btnLogin">Continue</button>
+										<p class="text-center">Or Login/Signup With</p>
+										<div class="social-container">
+											<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+											<a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+											<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+										</div>
+										<p>By proceeding, you agree to Jetwaystravel <a href="#">Privacy Policy</a>, <a href="#">User Agreement</a> and <a href="#">T&amp;Cs</a> </p>
+									</div>
+									<!-- End sign-in -->
+									<!-- start otp -->
+									<div class="sign-up-inner" id="otpID" style="display:none;">
+										<h1>Otp Authentication</h1>
+										<div class="otp-input-wrapper">
+											<input type="text" maxlength="6" pattern="[0-9]*" autocomplete="off">
+											<svg>
+												<line x1="0" y1="0" x2="240" y2="0" stroke="#ddd" stroke-width="2" stroke-dasharray="20,22" />
+											</svg>
+										</div>
+										<div class="input-otp">
+											<a href="#">Resend OTP</a>
+										</div>
+										<button>Login</button>
+										<a href="#" class="login-otp">Login with Password</a>
+									</div>
+									<!-- End otp -->
+
+								</div>
+								<div class="overlay-container">
+									<div class="overlay">
+										<div class="overlay-panel overlay-right">
+											<h1>Sign up/Login now to</h1>
+											<ul>
+												<li><i class="fa fa-plane"></i>Lock Flight Prices &amp; Pay Later</li>
+												<li><i class="fa fa-building" aria-hidden="true"></i>Book Hotels @@ ₹0</li>
+												<li><i class="fa fa-database" aria-hidden="true"></i>Sign up &amp; Earn</li>
+
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End sign-up -->
+		<!-- ***** Flight Search Area Start ***** -->
+		<section class="section search-area bg-overlay  d-flex align-items-center">
+			<div class="container">
+				<div class="row ">
+					<div class="col-12 col-md-7 col-lg-12">
+						<div class="row justify-content-center">
+							<div class="nav-bar col-12 col-md-7 col-lg-9">
+								<ul class="nav nav-pills" id="pills-tab" role="tablist">
+									<li class="nav-item">
+
+										<a class="nav-link" id="pills-Flight-tab" data-toggle="pill" asp-controller="FlightSearchIndex" asp-action="Index" role="tab" aria-controls="pills-Flight" aria-selected="true"><img class="mr-2" src="~/img/nav-icon-1.png">Flight</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="pills-Hotel-tab" data-toggle="pill" href="#pills-Hotel" role="tab" aria-controls="pills-Hotel" aria-selected="false"><img class="mr-2" src="~/img/nav-icon-2.png">Hotel</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="pills-Visa-tab" data-toggle="pill" href="#pills-Visa" role="tab" aria-controls="pills-Visa" aria-selected="false"><img class="mr-2" src="~/img/nav-icon-3.png">Visa</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="pills-Holidays-tab" data-toggle="pill" href="#pills-Holidays" role="tab" aria-controls="pills-Holidays" aria-selected="false"><img class="mr-2" src="~/img/nav-icon-4.png">Holidays</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="pills-Trains-tab" data-toggle="pill" href="#pills-Trains" role="tab" aria-controls="pills-Trains" aria-selected="false"><img class="mr-2" src="~/img/nav-icon-5.png">Trains</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="pills-Buses-tab" data-toggle="pill" href="#pills-Buses" role="tab" aria-controls="pills-Buses" aria-selected="false"><img class="mr-2" src="~/img/nav-icon-6.png">Buses</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="pills-Cabs-tab" data-toggle="pill" href="#pills-Cabs" role="tab" aria-controls="pills-Cabs" aria-selected="false"><img class="mr-2" src="~/img/nav-icon-7.png">Cabs</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="pills-light-Passes-tab" data-toggle="pill" href="#pills-light-Passes" role="tab" aria-controls="pills-flight-Passes" aria-selected="false"><img class="mr-2" src="~/img/nav-icon-8.png">Flight Passes</a>
+									</li>
+								</ul>
+							</div>
+
+							<div class="search-box">
+
+								<form asp-action="SearchResultFlight" asp-controller="FlightSearchIndex" method="post" id="multipleValuesForm">
+									<div class="S-option">
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="SameAirlineRT" value="OneWay" id="one-wayid" checked>
+											<label class="form-check-label">One way</label>
+										</div>
+										@* <div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="SameAirlineRT" value="RoundTrip" id="round-tripid">
+											<label class="form-check-label">Round Trip</label>
+										</div>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="SameAirlineRT" value="AirlineRT" id="multi-cityid">
+											<label class="form-check-label">Same Airline Roundtrip</label>
+										</div> *@
+										<div class="custom-control-inline float-right"><h5 style="font-weight:500;">Book Flight Tickets</h5></div>
+									</div>
+									<div class="col-lg-12">
+										<div class="row">
+											<div class="col-12 col-md-10 col-lg-3 space autocomplete">
+												@{
+													string Serchhome = ViewBag.SearchHome;
+													if (!string.IsNullOrEmpty(Serchhome))
+													{
+														//object _simpleAvailabilityRequestModel = Newtonsoft.Json.JsonConvert.DeserializeObject<object>(Serchhome);
+
+
+														model = Newtonsoft.Json.JsonConvert.DeserializeObject<SimpleAvailabilityRequestModel>(Serchhome);
+
+
+														origin = model.origin;
+														startdate = model.beginDate;
+
+													}
+
+												}
+												<label>Flying From</label>
+												<span class="input-group-text flightdepr" id="myInputbx">
+													<input type="text" id="myInput" maxlength="40" asp-for="origin" class="form-control text-15 " value="@origin" placeholder="Enter AirportName" onclick="toggleDropdown()">
+													<span id="airportName"></span>
+												</span>
+												<div id="errororigin" class="errorbox" style="display:none;">Enter Origin Name*</div>
+
+												<span class="autodropdown">
+													<select id="selectedItemId" name="selectedItemId" onchange="handleSelection()">
+														<option value="" style="display:none;">Please select</option>
+
+														@foreach (var item in Citynamelist.GetAllCityData())
+														{
+															<option value="@item.citycode">@item.cityname - @item.citycode -<br>@item.airportname </option>
+
+														}
+
+													</select>
+												</span>
+
+											</div>
+											<div class="rplc-btn">
+												<img src="~/img/direction-arrows.png" />
+											</div>
+											<div class="col-12 col-md-10 col-lg-3 space autocomplete">
+												<label>Flying To</label>
+												<span class="input-group-text" id="basic-addon1">
+													<input type="text" maxlength="40" id="myInput1" asp-for="destination" class="form-control text-15 " value="" placeholder="Enter AirportName" onclick="toggleDropdownArrival()">
+													<span id="airportArval"></span>
+												</span>
+												<div id="errordestinaton" class="errorbox" style="display:none;">Enter Destination Name*</div>
+												<span class="autoarrival">
+													<select id="arrivalItemId" name="arrivalItemId" onchange="arrivalSelection()">
+														<option value="" style="display:none;">Please select</option>
+
+														@foreach (var item in Citynamelist.GetAllCityData())
+														{
+															<option value="@item.citycode">@item.cityname - @item.citycode -<br>@item.airportname </option>
+
+														}
+
+													</select>
+												</span>
+
+											</div>
+											<div class="col-12 col-md-10 col-lg-2 space">
+												<label>Departure</label>
+												<span class="input-group-text">
+													@* <img src="~/img/calender-icon.png" alt="icon"> *@
+													<input id="start-date" asp-for="beginDate" value="" type="" placeholder="Enter Date" class="form-control text-20 fw-600">
+
+													<span asp-validation-for="beginDate"></span>
+												</span>
+												<span id="startDate" class="errorbox" style="display:none;">Enter Start Date*</span>
+											</div>
+
+											<div class="col-12 col-md-10 col-lg-2 space">
+												<label>Return</label>
+												<span class="input-group-text" id="bgEnddate">
+													@* <img src="~/img/calender-icon.png" alt="icon"> *@
+													<input id="end-date" asp-for="endDate" type="" placeholder="" class="form-control text-20 fw-600" disabled>
+
+													<span asp-validation-for="endDate"></span>
+												</span>
+												<span id="endDate" class="errorbox" style="display:none;">Enter End Date*</span>
+												<p class="rounddateinput">Book a round trip <br> to save more</p>
+											</div>
+											<div class="col-12 col-md-10 col-lg-2 space travellers">
+												<label>Travellers </label>
+												<div class="searchMenu-guests js-form-dd js-form-counters">
+													<div data-x-dd-click="searchMenu-guests">
+
+														<div class="text-15 text-light-1 ls-2 lh-16">
+															<span class="js-count-adult text-22 text-light-1 fw-600" id="count_adult">1</span> adults
+															-
+															<span class="js-count-child text-22 text-light-1 fw-600" id="count_child">0</span> children
+															-
+															<span class="js-count-infents text-22 text-light-1 fw-600" id="count_infant">0</span> Infants
+														</div>
+													</div>
+
+													<div class="searchMenu-guests__field shadow-2" data-x-dd="searchMenu-guests" data-x-dd-toggle="-is-active">
+
+														<div class="bg-white px-30 py-30 rounded-4">
+
+															@*  ------------------------ *@
+															<div class="d-flex y-gap-10 justify-between items-center">
+																<div class="btn-incr-adult">
+																	<div class="text-13 fw-600">Adults</div>
+
+																	<input type="hidden" value="ADT" asp-for="@Model.passengercount.adulttype" />
+																	<div class="text-13 fw-500">Aged 12+ yrs</div>
+																</div>
+																<div class="btn-increase">
+																	<div class="decrement sub btn_sub">-</div>
+
+																	<input type="number" id="field_adult" class="input-field" value="1" asp-for="@Model.passengercount.adultcount" min="1" max="9">
+																	<div class="increment add btn_sub">+</div>
+																</div>
+															</div>
+															<div class="border-top-light mt-24 mb-24"></div>
+															<div class="d-flex y-gap-10 justify-between items-center">
+																<div class="btn-incr-chld">
+																	<div class="text-13 fw-600">
+																		Children
+																	</div>
+																	<input type="hidden" value="CHD" asp-for="@Model.passengercount.childtype" />
+																	<div class="text-13 fw-500">
+																		Aged 2-12 yrs
+																	</div>
+																</div>
+																<div class="btn-increase">
+																	<div class="decrement1 sub btn_sub">-</div>
+																	<input type="number" id="field_child" class="input-field" value="0" asp-for="@Model.passengercount.childcount" min="0" max="6">
+																	<div class="increment1 add btn_sub">+</div>
+
+																</div>
+															</div>
+															<div class="border-top-light mt-24 mb-24"></div>
+															<div class="d-flex y-gap-10 justify-between items-center">
+																<div class="infant-area">
+																	<div class="text-13 fw-600">Infants</div>
+																	<input type="hidden" value="INFT" asp-for="@Model.passengercount.infanttype" />
+																	<div class="text-13 fw-500">
+																		Below 2 yrs
+																	</div>
+																</div>
+																<div class="btn-increase">
+																	<div class="decrement2 sub btn_sub">-</div>
+
+																	<input type="number" id="field_infant" class="input-field" value="0" asp-for="@Model.passengercount.infantcount" min="0" max="6">
+																	<div class="increment2 add btn_sub">+</div>
+
+																</div>
+															</div>
+
+															<div class="border-top-light mt-24 mb-24"></div>
+
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-12 col-lg-12 search-bottom"></div>
+
+
+											<div class="col-lg-12">
+												<div class="row d-flex justify-content-end">
+													<div class="col-12 col-md-10 col-lg-10 pl-0">
+														<div class="form-group pt-2">
+															<div class="dropdown js-dropdown js-economy-active" style="display:inline-block;">
+																<div class="dropdown__button d-flex items-center  text-15" data-el-toggle=".js-economy-toggle" data-el-toggle-active=".js-economy-active">
+																	<span class="js-dropdown-title Radiohide">Economic </span>
+																	<i class="fa fa-angle-down icon icon-chevron-sm-down" aria-hidden="true"></i>
+																</div>
+																<div class="toggle-element -dropdown  js-click-dropdown js-economy-toggle">
+																	@*  <div class="text-14 y-gap-8 js-dropdown-list">
+
+																	<a href="#" class="d-block js-dropdown-link" onclick="toggleRadio(event, 'radioid1')">
+																	<input class="m-2 form-radio-input" type="radio" name="flightclass" value="E" id="radioid1" checked>
+																	Economic
+																	</a>
+																	<a href="#" class="d-block js-dropdown-link" onclick="toggleRadio(event, 'radioid2')">
+																	<input class="m-2 form-radio-input" type="radio" name="flightclass" value="P" id="radioid2">
+																	Premium
+																	</a>
+																	<a href="#" class="d-block js-dropdown-link" onclick="toggleRadio(event, 'radioid3')">
+																	<input class="m-2 form-radio-input" type="radio" name="flightclass" value="B" id="radioid4">
+																	Business
+																	</a>
+
+																	<a href="#" class="d-block js-dropdown-link" onclick="toggleRadio(event, 'radioid4')">
+																	<input class="m-2 form-radio-input" type="radio" name="flightclass" value="F" id="radioid4">
+																	First
+																	</a>
+																	</div> *@
+																	<div class="text-14 y-gap-8 js-dropdown-list">
+																		<a href="#" class="d-block js-dropdown-link" onclick="toggleRadio(event, 'radioid1')">
+																			<input class="m-2 form-radio-input d-none" type="radio" name="flightclass" value="E" id="radioid1" checked>
+																			Economic
+																		</a>
+																		<a href="#" class="d-block js-dropdown-link" onclick="toggleRadio(event, 'radioid2')">
+																			<input class="m-2 form-radio-input d-none" type="radio" name="flightclass" value="P" id="radioid2">
+																			Premium
+																		</a>
+																		<a href="#" class="d-block js-dropdown-link" onclick="toggleRadio(event, 'radioid3')">
+																			<input class="m-2 form-radio-input d-none" type="radio" name="flightclass" value="B" id="radioid3">
+																			Business
+																		</a>
+																		<a href="#" class="d-block js-dropdown-link" onclick="toggleRadio(event, 'radioid4')">
+																			<input class="m-2 form-radio-input d-none" type="radio" name="flightclass" value="F" id="radioid4">
+																			First
+																		</a>
+																	</div>
+
+
+
+
+																</div>
+															</div>
+															<div class="custom-control custom-checkbox custom-control-inline">
+																<input type="checkbox" class="custom-control-input" name="farecheck" id="defaultInline3" onclick="checkOnlyThis(this)">
+																<label class="custom-control-label" for="defaultInline3">Senior Citizen</label>
+															</div>
+															<div class="custom-control custom-checkbox custom-control-inline">
+																<input type="checkbox" class="custom-control-input" name="farecheck" id="defaultInline4" onclick="checkOnlyThis(this)">
+																<label class="custom-control-label" for="defaultInline4">Defence Fare</label>
+															</div>
+															<div class="custom-control custom-checkbox custom-control-inline">
+																<input type="checkbox" class="custom-control-input" name="farecheck" id="defaultInline5" onclick="checkOnlyThis(this)">
+																<label class="custom-control-label" for="defaultInline5">Student Fare</label>
+															</div>
+														</div>
+													</div>
+													<div class="col-12 col-md-10 col-lg-2 pr-0 mt-2">
+														<button type="submit" id="searchbtn" class="btn btn-lg btn-block" onclick="validateForm()">Search</button>
+
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</section>
+		<!-- ***** Flight Search Area End ***** -->
+		<!-- ***** whybook Area Start ***** -->
+		<section class="whybook">
+			<div class="hd-one mb-4">Why Book With Us?</div>
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-5 col-sm-4">
+						<div class="block-one"><img src="~/img/why-book-icon1.png" alt="#"></div>
+						<div class="block-two">
+							<p>Lowest Budget Airline</p>
+							<h2>Fare Guarantee</h2>
+						</div>
+					</div>
+					<div class="col-5 col-sm-4">
+						<div class="block-one"><img src="~/img/why-book-icon2.png" alt="#"></div>
+						<div class="block-two">
+							<p>Easy Book In</p>
+							<h2>Just 3 Steps</h2>
+						</div>
+					</div>
+					<div class="col-5 col-sm-4">
+						<div class="block-one"><img src="~/img/why-book-icon3.png" alt="#"></div>
+						<div class="block-two">
+							<p>24x365 Days</p>
+							<h2>Free Phone Assistance</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- ***** whybook Area End ***** -->
+		<!-- ***** SPECIAL OFFER Area Start ***** -->
+		<section id="special-offer" class="section features-area style-two overflow-hidden pt_50">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-12 col-md-10 col-lg-8">
+						<!-- Section Heading -->
+						<div class="section-heading text-center">
+							<h2><span class="text-primary">SPECIAL </span> OFFERS</h2>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-12 col-md-6 col-lg-4 res-margin">
+						<!-- Special offer -->
+						<a href="#">
+							<div class="single-offer card">
+								<!-- Card Top -->
+								<div class="card-top p-3">
+									<div>
+										<img class="navbar-brand-sticky" src="~/img/Taj-lake-palace-udaipur-ind.webp" alt="image">
+									</div>
+								</div>
+								<div class="offer media bg-gray p-3">
+									<div class="reviewer-meta media-body align-self-center ml-2">
+										<h4 class="text-primary mt-1 mb-2">Taj Lake Palace, Udaipur</h4>
+										<p class="text-right"><a href="#">Book Now<i class="fa fa-angle-right" aria-hidden="true"></i></a></p>
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-12 col-md-6 col-lg-4 res-margin">
+						<!-- Special offer -->
+						<a href="#">
+							<div class="single-offer card">
+								<!-- Card Top -->
+								<div class="card-top p-3">
+									<div>
+										<img class="navbar-brand-sticky" src="~/img/Itc-maurya-delhi.webp" alt="image">
+									</div>
+								</div>
+								<div class="offer media bg-gray p-3">
+									<div class="reviewer-meta media-body align-self-center ml-2">
+										<h4 class="text-primary mt-1 mb-2">ITC Maurya New Delhi</h4>
+										<p class="text-right"><a href="#">Book Now<i class="fa fa-angle-right" aria-hidden="true"></i></a></p>
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-12 col-md-6 col-lg-4 res-margin">
+						<!-- Special offer -->
+						<a href="#">
+							<div class="single-offer card">
+								<!-- Card Top -->
+								<div class="card-top p-3">
+									<div>
+										<img class="navbar-brand-sticky" src="~/img/taj-mahal-palace-mumbai.webp" alt="image">
+									</div>
+								</div>
+								<div class="offer media bg-gray p-3">
+									<div class="reviewer-meta media-body align-self-center ml-2">
+										<h4 class="text-primary mt-1 mb-2">The Taj Mahal Hotel Mumbai</h4>
+										<p class="text-right"><a href="#">Book Now<i class="fa fa-angle-right" aria-hidden="true"></i></a></p>
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+
+			</div>
+		</section>
+		<!-- ***** SPECIAL OFFER Area End ***** -->
+		<!-- ***** Slide Item Area Start ***** -->
+		<section class="ptb_50">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-5 col-sm-4">
+						<div class="slideItem">
+							<i class="fa fa-comments" aria-hidden="true"></i>
+							<span><h4>We are now available</h4>Call +155 666 888 for contact with us</span>
+						</div>
+					</div>
+					<div class="col-5 col-sm-4">
+						<div class="slideItem">
+							<i class="fa fa-plane" aria-hidden="true"></i>
+							<span><h4>International Flight</h4>Call +155 666 888 for booking </span>
+						</div>
+					</div>
+					<div class="col-5 col-sm-4">
+						<div class="slideItem">
+							<img src="~/img/refund-icon.png" alt="#" class="mr-2">
+							<span><h4>Check Refund</h4>Call +155 666 888 for check refund</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- ***** Slide Item Area End ***** -->
+		<!-- ***** Destination Area Start ***** -->
+		<section class="section destination-area destination-style-two overflow-hidden ptb_62" style="background:#EDF8FF;">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-12 col-md-10 col-lg-8">
+						<!-- Section Heading -->
+						<div class="section-heading text-center">
+							<h2><span class="text-primary">MOST POPULAR </span> DESTINATIONS</h2>
+							<p class="d-none d-sm-block mt-4">Here are some of the places that are currently <br>the most popular choice form out trip</p>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 col-sm-6 col-md-4 col-lg-3">
+						<!-- Single destination -->
+						<div class="single-destination text-center overflow-hidden m-2 m-lg-0">
+							<!-- destination Thumb-->
+							<a href="#">
+								<div class="destination-thumb d-inline-block position-relative overflow-hidden">
+									<img src="~/img/destination/populer-destination-img-1.png" alt="">
+									<!-- destination Overlay -->
+									<div class="destination-overlay">
+										<h4 class="destination-name text-white">Spectacular Phuket and Krabi </h4>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-4 col-lg-3">
+						<!-- Single destination -->
+						<div class="single-destination text-center overflow-hidden m-2 m-lg-0">
+							<!-- destination Thumb -->
+							<a href="#">
+								<div class="destination-thumb d-inline-block position-relative overflow-hidden">
+									<img src="~/img/destination/populer-destination-img-2.jpg" alt="">
+									<!-- destination Overlay -->
+									<div class="destination-overlay">
+										<h4 class="destination-name text-white">Blissful Bali</h4>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-md-4 col-lg-3">
+						<!-- Single destination -->
+						<a href="#">
+							<div class="single-destination text-center overflow-hidden m-2 m-lg-0">
+								<!-- destination Thumb -->
+								<div class="destination-thumb d-inline-block position-relative overflow-hidden">
+									<img src="~/img/destination/populer-destination-img-3.png" alt="">
+									<!-- destination Overlay -->
+									<div class="destination-overlay">
+										<h4 class="destination-name text-white">Mauritius Getaway with Tarisa Resort and Spa</h4>
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-12 col-sm-6 col-md-4 col-lg-3">
+						<!-- Single destination -->
+						<div class="single-destination text-center overflow-hidden m-2 m-lg-0">
+							<!-- destination Thumb -->
+							<a href="#">
+								<div class="destination-thumb d-inline-block position-relative overflow-hidden">
+									<img src="~/img/destination/populer-destination-img-4.jpg" alt="">
+									<!-- destination Overlay -->
+									<div class="destination-overlay">
+										<h4 class="destination-name text-white">Mesmerizing Maldives with Medhufushi Island Resort</h4>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- ***** Destination Area End ***** -->
+		<!-- ***** Download Area Start ***** -->
+		<section class="section download-area ptb_62">
+			<div class="container">
+				<div class="row justify-content-center inner-box">
+					<div class="col-12 col-md-10 col-lg-3">
+						<div class="section-heading text-center">
+							<h2><span class="text-primary">Download </span> Our Mobile App</h2>
+						</div>
+					</div>
+
+					<div class="col-12 col-md-10 col-lg-6">
+						<!-- Download Text -->
+						<div class="download-text text-center border-line">
+							<!-- Store Buttons -->
+							<div class="button-group store-buttons d-flex justify-content-center">
+								<a href="#">
+									<img src="~/img/icon/google-play-black.png" alt="">
+								</a>
+								<a href="#">
+									<img src="~/img/icon/app-store-black.png" alt="">
+								</a>
+
+							</div>
+							<h3 class="my-3 d-block">Get Download link on your Mobile</h3>
+							<input type="text" class="form-control" name="name" placeholder="Enter Your Mobile Number" required="required"><button type="submit" class="btn btn-lg btn-block">Send</button>
+						</div>
+
+					</div>
+					<div class="col-12 col-md-10 col-lg-3 text-center">
+						<img src="~/img/scanner.png" alt="">
+						<p class="my-3 d-block">Scan the QR Code to download the Mobile App</p>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- ***** Download Area End ***** -->
+		<!--====== Footer Area Start ======-->
+		<footer class="footer-area footer-fixed">
+			<!-- Footer Top -->
+			<div class="footer-top ptb_62">
+				<div class="container">
+					<h3 class="footer-title mb-2">Travel Guide</h3>
+					<div class="row">
+						<div class="col-12 col-sm-6 col-lg-3">
+							<!-- Footer Items -->
+							<div class="footer-items">
+								<ul>
+									<li class="py-2"><a href="#">Andaman and Nicobar Travel Guide</a></li>
+									<li class="py-2"><a href="#">Kerala Travel Guide</a></li>
+									<li class="py-2"><a href="#">Himachal Travel Guide</a></li>
+									<li class="py-2"><a href="#">Kashmir Travel Guide</a></li>
+									<li class="py-2"><a href="#">Gujarat Travel Guide</a></li>
+									<li class="py-2"><a href="#">Maharashtra Travel Guide</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-12 col-sm-6 col-lg-3">
+							<!-- Footer Items -->
+							<div class="footer-items">
+								<ul>
+									<li class="py-2"><a href="#">Lakshwadweep Travel Guide</a></li>
+									<li class="py-2"><a href="#">Assam Travel Guide</a></li>
+									<li class="py-2"><a href="#">Arunachal Pradesh Travel Guide</a></li>
+									<li class="py-2"><a href="#">Andhra Pradesh Travel Guide</a></li>
+									<li class="py-2"><a href="#">Manipur Travel Guide</a></li>
+									<li class="py-2"><a href="#">Madhya Pradesh Travel Guide</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-12 col-sm-6 col-lg-3">
+							<!-- Footer Items -->
+							<div class="footer-items">
+								<ul>
+									<li class="py-2"><a href="#">Nagaland Travel Guide</a></li>
+									<li class="py-2"><a href="#">Odisha Travel Guide</a></li>
+									<li class="py-2"><a href="#">Tamil Nadu Travel Guide</a></li>
+									<li class="py-2"><a href="#">Uttaranchal Travel Guide</a></li>
+									<li class="py-2"><a href="#">West Bengal Travel Guide</a></li>
+									<li class="py-2"><a href="#">Karnataka Travel Guide</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-12 col-sm-6 col-lg-3">
+							<!-- Footer Items -->
+							<div class="footer-items">
+								<ul>
+									<li class="py-2"><a href="#">Lakshwadweep Travel Guide</a></li>
+									<li class="py-2"><a href="#">Assam Travel Guide</a></li>
+									<li class="py-2"><a href="#">Arunachal Pradesh Travel Guide</a></li>
+									<li class="py-2"><a href="#">Andhra Pradesh Travel Guide</a></li>
+									<li class="py-2"><a href="#">Manipur Travel Guide</a></li>
+									<li class="py-2"><a href="#">Madhya Pradesh Travel Guide</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="footer-mid ptb_50">
+				<div class="container">
+					<h3 class="footer-title mb-2">Why jetwaystravel.com?</h3>
+					<p>Our competitive rates and exclusive offers are what gives us a top notch over our competitors. We promise 'Unbeatable' services both in pricing and quality. For instance: Every Wednesday, travelers can save big with our ZERO Convenience fee on flight bookings.</p>
+					<p>Also, we get it - travel’s a big decision. It’s not every day that you fly across the world to wander the souks of Dubai or enjoy a dreamy sunrise in Paris. But for us, it’s been our every day job for the past four decades. Let’s just say we know what travelers really want. We give you the pros and cons for all the different travel products and allow you to decide what works best for you and your family. While many travel companies claim to have experts, we believe few, match our own specialists for genuine- firsthand knowledge. We combine first-hand knowledge with exceptional special offers, and we take care of every detail to create a holiday as unique as you are. You will no more need to worry about coordinating flight bookings, hotel reservations, visa stamps or tours as all your needs are taken care of under one roof; the Jetways Travels roof. More than 85% of clients come back to us for future trips.</p>
+					<p>When you choose Jetways Travels, your trip is in safe hands. Whilst you are abroad our team is available 24 hours a day, 365 days a year should you need assistance. We do absolutely everything for you, all you need to do is turn up at the airport with your bags and go!</p>
+				</div>
+			</div>
+
+			<div class="footer-mid-bottom ptb_25">
+				<div class="container">
+					<div class="row">
+						<div class="col-12 col-sm-6 col-lg-6">
+							<!-- Social Icons -->
+							<div class="social-icons d-flex">
+								<a class="facebook" href="#">
+									<i class="fab fa-facebook-f"></i>
+
+								</a>
+								<a class="twitter" href="#">
+									<i class="fab fa-twitter"></i>
+
+								</a>
+								<a class="google-plus" href="#">
+									<i class="fab fa-google-plus-g"></i>
+
+								</a>
+							</div>
+						</div>
+
+						<div class="col-12 col-sm-6 col-lg-6 text-right">
+							<img src="~/img/card.png" alt="card">
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<!-- Footer Bottom -->
+			<div class="footer-bottom">
+				<div class="container">
+					<div class="row">
+						<div class="col-12">
+							<!-- Copyright Area -->
+							<div class="copyright-area text-center py-4">
+								<!-- Copyright-->
+								<div class="copyright">Copyrights &copy; 2023 www.jetwaystravel.com All Rights Reserved..</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+		<!--====== Footer Area End ======-->
+	</div>
+
+
+	<!-- ***** All jQuery Plugins ***** -->
+	<!-- Social media js -->
+	<!-- Clander js -->
+	@section scripts{
+		<link href="~/css/indexvny.css" rel="stylesheet" />
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+		<link rel="stylesheet" href="/resources/demos/style.css">
+		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+		<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+		<!-- Bootstrap js -->
+		<script src="~/js/bootstrap/popper.min.js"></script>
+		<script src="~/js/bootstrap/bootstrap.min.js"></script>
+		<!-- Travellers js -->
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAz77U5XQuEME6TpftaMdX0bBelQxXRlM"></script>
+		<script src="~/js/vendors.js"></script>
+		<script src="~/js/main.js"></script>
+		<!-- Active js -->
+		<script src="~/js/custom.js/indexpage.js"></script>
+		<script src="~/lib/jquery/chosen.jquery.js"></script>
+		<script src="~/lib/jquery/chosen.jquery.min.js"></script>
+
+
+
+	}
+</body>
+

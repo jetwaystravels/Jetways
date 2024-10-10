@@ -1,0 +1,779 @@
+﻿@using System.Globalization;
+@model DomainLayer.ViewModel.ViewModel
+
+@{
+    string formatTime = string.Empty;
+    var ArrivalTime = Model.passeengerlist.journeys[0].designator.arrival;
+    var DepartureTime = Model.passeengerlist.journeys[0].designator.departure;
+    var DiffTime = (ArrivalTime - DepartureTime);
+    TimeSpan time = TimeSpan.Parse(DiffTime.ToString());
+    if ((int)time.Minutes == 0)
+    {
+        formatTime = $"{(int)time.TotalHours}h";
+
+    }
+    else
+    {
+        formatTime = $"{(int)time.TotalHours} h: {(int)time.Minutes} m";
+    }
+
+}
+
+<div class="flight-box-content rounded-4">
+    <div class="py-10 px-30">
+        <div class="row d-flex justify-content-end">
+            <div class="col-auto">
+                <div class="text-14 text-light-1 fw-600">Total Time:@formatTime </div>
+            </div>
+        </div>
+    </div>
+
+    @{
+        foreach (var item in Model.passeengerlist.journeys)
+        {
+            for (int i = 0; i < item.segments.Count; i++)
+            {
+                if (i == 1)
+                {
+                    formatTime = string.Empty;
+                    ArrivalTime = item.segments[i - 1].designator.arrival;
+                    DepartureTime = item.segments[i].designator.departure;
+                    // DiffTime = (ArrivalTime - DepartureTime);
+                    DiffTime = (DepartureTime - ArrivalTime);
+                    time = TimeSpan.Parse(DiffTime.ToString());
+                    if ((int)time.TotalHours == 0)
+                    {
+                        formatTime = $"{(int)time.TotalMinutes} m";
+                    }
+                    else if ((int)time.Minutes == 0)
+                    {
+                        formatTime = $"{(int)time.TotalHours} h";
+                    }
+                    else
+                    {
+                        formatTime = $"{(int)time.TotalHours} h : {(int)time.Minutes} m";
+                    }
+                    // if ((int)time.Minutes == 0)
+                    // {
+                    //     formatTime = $"{(int)time.TotalHours}h";
+
+                    // }
+                    // else
+                    // {
+                    //     formatTime = $"{(int)time.TotalHours} h : {(int)time.Minutes} m";
+                        // }
+
+
+                    <div class="py-15 px-20 rounded-4 text-15  bg-blue-2 flex-center">
+                        Change planes at 1 <span class="fw-600"> (@item.segments[i].designator.origin),</span> Connecting Time: <span class="fw-600">@formatTime</span>
+                    </div>
+
+                }
+
+                <div class="py-30 px-30 border-top-light">
+                    <div class="row y-gap-10 justify-between">
+                        <div class="col-lg-8">
+
+                            @for (int j = 0; j < item.segments[i].legs.Count; j++)
+                            {
+                                if (j == 1)
+                                {
+                                    formatTime = string.Empty;
+                                    ArrivalTime = item.segments[i].legs[j - 1].designator.arrival;
+                                    DepartureTime = item.segments[i].legs[j].designator.departure;
+                                    //DiffTime = (ArrivalTime - DepartureTime);
+                                    DiffTime = (DepartureTime - ArrivalTime);
+                                    time = TimeSpan.Parse(DiffTime.ToString());
+                                    if ((int)time.TotalHours == 0)
+                                    {
+                                        formatTime = $"{(int)time.TotalMinutes} m";
+                                    }
+                                    else if ((int)time.Minutes == 0)
+                                    {
+                                        formatTime = $"{(int)time.TotalHours} h";
+                                    }
+                                    else
+                                    {
+                                        formatTime = $"{(int)time.TotalHours} h : {(int)time.Minutes} m";
+                                    }
+                                    // if ((int)time.Minutes == 0)
+                                    // {
+                                    //     formatTime = $"{(int)time.TotalHours}h";
+
+                                    // }
+                                    // else
+                                    // {
+                                    //     formatTime = $"{(int)time.TotalHours} h : {(int)time.Minutes} m";
+                                    // }
+                                    <div class="py-10 px-20 rounded-4 text-15 bg-blue-2 flex-center m-3">
+                                        Technical Support   <span class="fw-600 px-2">@formatTime</span> Layover in <span class="fw-600 px-2"> @item.segments[i].legs[j].designator.origin</span>
+                                    </div>
+
+                                }
+                                <div class="d-flex items-center mb-15">
+                                    <div class="w-28 d-flex justify-center mr-15">
+                                        <img class="size-30" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image">
+
+                                        @{
+
+                                            string seatMapName = @Model.Seatmaplist.datalist[i].seatMap.name;
+                                            int hyphenIndex = @Model.Seatmaplist.datalist[i].seatMap.name.LastIndexOf('-');
+                                            // Extract the substring before the hyphen
+                                            string aircraftModel = hyphenIndex == -1 ? seatMapName : seatMapName.Substring(0, hyphenIndex);
+
+                                       // var aircraftname= @Model.Seatmaplist.datalist[i].seatMap.name;
+
+                                        }
+                                    </div>
+                                    <div class="text-14 text-light-1">Air India Expr... @item.segments[i].identifier.carrierCode @item.segments[i].identifier.identifier</div><span class="fw-700 ms-2">Plane Type:</span><span class="airliname">@aircraftModel</span>
+                                </div>
+
+                                <div class="relative z-0">
+                                    <div class="border-line-2"></div>
+
+                                    <div class="d-flex items-center">
+                                        <div class="w-28 d-flex justify-center mr-15">
+                                            <div class="size-10 border-light rounded-full bg-white"></div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            @{
+                                                var DepartTime = @item.segments[i].legs[j].designator.departure;
+                                                string DepartureTimeStr = DepartTime.ToString();
+                                                var DeparTuretimeFinal = DepartureTimeStr.Substring(11, 5);
+                                                string QueryOrigin = item.segments[i].legs[j].designator.origin;
+                                                string QueryDestination = item.segments[i].legs[j].designator.destination;
+                                                if (Citynamelist.GetAllCityData().Where(x => x.citycode == QueryOrigin).SingleOrDefault() != null)
+                                                {
+                                                    string origin = Citynamelist.GetAllCityData().Where(x => x.citycode == QueryOrigin).SingleOrDefault().cityname;
+                                                    item.segments[i].legs[j].designator.origin = origin;
+                                                }
+
+                                                if (Citynamelist.GetAllCityData().Where(x => x.citycode == QueryDestination).SingleOrDefault() != null)
+                                                {
+                                                    string destination1 = Citynamelist.GetAllCityData().Where(x => x.citycode == QueryDestination).SingleOrDefault().cityname;
+                                                    item.segments[i].legs[j].designator.destination = destination1;
+                                                }
+
+                                                //formatted date
+                                                var date = DateTime.ParseExact(DepartureTimeStr, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                                                string FormatTeddepartureDate = date.ToString("ddd, dd MMM yyyy");
+
+                                            }
+
+                                            <div class="col-auto">
+                                                <div class="lh-14 fw-500">@DeparTuretimeFinal</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                @{
+                                                    var allCityData = Citynamelist.GetAllCityData();
+                                                    string QueryOriginAirportName = item.segments[i].legs[j].designator.origin;
+                                                    string QueryDestinationAirportName = item.segments[i].legs[j].designator.destination;
+
+                                                    var originCity = allCityData.SingleOrDefault(x => x.cityname == QueryOriginAirportName);
+                                                    var destinationCity = allCityData.SingleOrDefault(x => x.cityname == QueryDestinationAirportName);
+
+                                                    if (originCity != null)
+                                                    {
+                                                        item.segments[i].legs[j].designator.origin = originCity.airportname;
+                                                    }
+                                                    if (destinationCity != null)
+                                                    {
+                                                        item.segments[i].legs[j].designator.destination = destinationCity.airportname;
+                                                    }
+                                                }
+
+                                                <div class="lh-14 fw-500">
+                                                    @QueryOriginAirportName
+                                                    <span class="text-13 ml-2 fw-600">
+                                                        (@FormatTeddepartureDate
+                                                        <span class="text-13 text-light-1 ml-2">@originCity?.airportname</span>
+                                                        <span class="text-13 ml-2 fw-600">
+                                                            @if (@item.segments[i].legs[j].legInfo.departureTerminal != null)
+                                                            {
+                                                                <span>, T-</span>
+
+                                                                @item.segments[i].legs[j].legInfo.departureTerminal
+                                                            }
+                                                        </span>)
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex items-center mt-15">
+                                        <div class="w-28 d-flex justify-center mr-15">
+                                            <img src="~/img/plane.svg" alt="image">
+                                        </div>
+
+                                        <div class="text-14 text-light-1"></div>
+                                    </div>
+
+                                    <div class="d-flex items-center mt-15">
+                                        <div class="w-28 d-flex justify-center mr-15">
+                                            <div class="size-10 border-light rounded-full bg-border"></div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-auto">
+                                                @{
+                                                    var ArriTime = @item.segments[i].legs[j].designator.arrival;
+                                                    string ArrivalTimeStr = ArriTime.ToString();
+                                                    var ArrivalFinal = ArrivalTimeStr.Substring(11, 5);
+                                                    date = DateTime.ParseExact(ArrivalTimeStr, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                                                    string formattedarrivalDate = date.ToString("ddd, dd MMM yyyy");
+
+                                                }
+
+                                                <div class="lh-14 fw-500">@ArrivalFinal</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                @*Connected Terminal*@
+
+
+                                                <div class="lh-14 fw-500">
+                                                    @QueryDestinationAirportName
+                                                    <span class="text-13 ml-2 fw-600">
+                                                        (@formattedarrivalDate
+                                                        <span class="text-13 text-light-1 ml-2">@destinationCity?.airportname</span>
+                                                        <span class="text-13 ml-2 fw-600">
+                                                            @if (@item.segments[i].legs[j].legInfo.arrivalTerminal != null)
+                                                            {
+                                                                <span>, T-</span> @item.segments[i].legs[j].legInfo.arrivalTerminal
+                                                            }
+                                                        </span>)
+
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        @if (i == 0)
+                        {
+                            @for (int f = 0; f < @item.segments[i].fares.Count; f++)
+                            {
+
+                                <div class="col-auto text-right md:text-left">
+
+                                    @{
+                                        string Faretype = string.Empty;
+
+                                        @if (item.segments[i].fares[f].productClass.Equals("EC"))
+                                        {
+                                            // <div class="text-13 mt-1">Economy: @Faretype<b>Xpress Value</b></div>
+                                            <span class="tooltipF">
+                                                Economy:  @Faretype<b>Xpress Value</b>
+                                                <span class="tooltiptext">
+                                                    <ul>
+                                                        <li>1: CABIN BAG: 7 k.g</li>
+                                                        <li>2: CHECK-IN: 15 k.g  (1 piece)</li>
+                                                        <li>3: CANCELLATION: 3500 :-  (upto 2 hrs prior from departure)</li>
+                                                        <li>4: DATE CHANGE: 3000 :-  (upto 2 hrs prior from departure)</li>
+                                                        <li>5: SEAT : (Chargeable)</li>
+                                                        <li>6: MEAL : (Chargeable)</li>
+                                                        @* <li>7: Category Class : (Economy)</li>*@
+                                                    </ul>
+                                                </span>
+                                            </span>
+                                        }
+                                        else if (item.segments[i].fares[f].productClass.Equals("HF"))
+                                        {
+                                            //<div class="text-13 mt-1">Economy: @Faretype<b>Vista Flex</b></div>
+                                            <span class="tooltipF">
+                                                Economy:  @Faretype<b>Vista Flex</b>
+                                                <span class="tooltiptext">
+                                                    <ul>
+                                                        <li>1: CABIN BAG: 7 k.g</li>
+                                                        <li>2: CHECK-IN: 15 k.g  (1 piece)</li>
+                                                        <li>3: CANCELLATION: 3500 :-  (upto 2 hrs prior from departure)</li>
+                                                        <li>4: DATE CHANGE:  :-  FREE  (upto 2 hrs prior from departure)</li>
+                                                        <li>5: SEAT : Standard seats free</li>
+                                                        <li>6: MEAL : Free meal) per person</li>
+                                                        @* <li>7: Category Class : (Economy)</li>*@
+                                                    </ul>
+                                                </span>
+                                            </span>
+
+                                        }
+                                        else if (item.segments[i].fares[f].productClass.Equals("LT"))
+                                        {
+                                            //<div class="text-13 mt-1">Economy: @Faretype<b>Xpress lite</b></div>
+                                            <span class="tooltipF">
+                                                Economy:  @Faretype<b>Xpress lite</b>
+                                                <span class="tooltiptext">
+                                                    <ul>
+                                                        <li>1: CABIN BAG: 0</li>
+                                                        <li>2: CHECK-IN: 0</li>
+                                                        <li>3: CANCELLATION: </li>
+                                                        <li>4: DATE CHANGE: </li>
+                                                        <li>5: SEAT : </li>
+                                                        <li>6: MEAL : </li>
+                                                        @* <li>7: Category Class :</li>*@
+                                                    </ul>
+                                                </span>
+                                            </span>
+                                        }
+                                        else if (item.segments[i].fares[f].productClass.Equals("VV"))
+                                        {
+                                            //<div class="text-13 mt-1">Economy: @Faretype<b>Xpress Bizz</b></div>
+                                            <span class="tooltipF">
+                                                Economy:  @Faretype<b>Xpress Bizz</b>
+                                                <span class="tooltiptext">
+                                                    <ul>
+                                                        <li>1: CABIN BAG: 7 k.g</li>
+                                                        <li>2: CHECK-IN: 25 k.g  (1 piece)</li>
+                                                        <li>3: CANCELLATION: 3500 :-  (upto 2 hrs prior from departure)</li>
+                                                        <li>4: DATE CHANGE: 3000 :-  FREE  (upto 2 hrs prior from departure)</li>
+                                                        <li>5: SEAT : (Free seats)</li>
+                                                        <li>6: MEAL : (Free meal) per person</li>
+                                                        @* <li>7: Category Class : (Business)</li>*@
+                                                    </ul>
+                                                </span>
+                                            </span>
+
+                                        }
+                                        else
+                                        {
+                                            //<div class="text-13 mt-1">Economy: @Faretype<b>Saver Fare</b></div>
+                                            <span class="tooltipF">
+                                                Economy:  @Faretype<b>Saver Fare</b>
+                                                <span class="tooltiptext">
+                                                    <ul>
+                                                        <li>1: CABIN BAG: </li>
+                                                        <li>2: CHECK-IN: </li>
+                                                        <li>3: CANCELLATION: </li>
+                                                        <li>4: DATE CHANGE: </li>
+                                                        <li>5: SEAT : </li>
+                                                        <li>6: MEAL : </li>
+                                                        @*<li>7: Category Class : </li>*@
+                                                    </ul>
+                                                </span>
+                                            </span>
+                                        }
+                                        <div class="text-13 mt-1">
+                                            <button id="openModal" style="color:#366480;">View Fare Rules</button>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+        }
+
+    }
+</div>
+
+<!-- Modal box -->
+<div id="modal" class="modalTrip">
+    <div class="d-flex justify-between tripmodal">
+        <h4 class="modal-title">Fare Rules</h4>
+        <button id="closeModal">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+    <div class="Mbody p-2">
+        <div class="d-flex">
+            <div class="tab-btn active" id="tabBtn1">Cancellation Charges</div>
+            <div class="tab-btn" id="tabBtn2">Date Change Charges</div>
+
+
+        </div>
+        <div class="fligtbox align-item-center d-flex">
+            @{
+                foreach (var item in Model.passeengerlist.journeys)
+                {
+                    <div> <img class="size-40" src="~/img/flight-logo-icon/AIX_X_Logo_Orange.png" alt="image"></div>
+                    <div>@item.designator.origin-@item.designator.destination</div>
+                }
+            }
+        </div>
+        <div class="tab" id="tabContent1">
+
+            @foreach (var item in Model.passeengerlist.journeys)
+            {
+                for (int i = 0; i < item.segments.Count; i++)
+                {
+                    @if (i == 0)
+                    {
+                        @for (int f = 0; f < @item.segments[i].fares.Count; f++)
+                        {
+
+                            <div class="col-auto text-center md:text-left">
+
+                                @{
+                                    string Faretype = string.Empty;
+
+                                    @if (item.segments[i].fares[f].productClass.Equals("EC"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>2 hrs prior from departure</td>
+                                                <td>Rs.3500 per adult</td>
+
+                                            </tr>
+
+                                        </table>
+
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("HF"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>2 hrs prior from departure</td>
+                                                <td>Rs. 3500</td>
+
+                                            </tr>
+
+                                        </table>
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("LT"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>0</td>
+                                                <td>0</td>
+
+                                            </tr>
+
+                                        </table>
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("VV"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>2 hrs prior from departure</td>
+                                                <td>Rs.3500 per adult</td>
+
+                                            </tr>
+
+                                        </table>
+
+                                    }
+                                    else
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>No Data Information </td>
+                                                <td>No Data Information</td>
+
+                                            </tr>
+
+                                        </table>
+                                    }
+
+                                }
+                            </div>
+                        }
+                    }
+                }
+            }
+            <div class="firstdiv">
+                <strong>*Note:</strong> The airline fee is indicative. Jetways does not guarantee the accuracy of this information.All refunds are subject to airline approval.
+            </div>
+        </div>
+        <div class="tab" id="tabContent2">
+
+            @foreach (var item in Model.passeengerlist.journeys)
+            {
+                for (int j = 0; j < item.segments.Count; j++)
+                {
+                    @if (j == 0)
+                    {
+                        @for (int k = 0; k < @item.segments[j].fares.Count; k++)
+                        {
+
+                            <div class="col-auto text-center md:text-left">
+
+                                @{
+                                    string Faretype = string.Empty;
+
+                                    @if (item.segments[j].fares[k].productClass.Equals("EC"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>2 hrs prior from departure</td>
+                                                <td>Rs.3000 per adult</td>
+
+                                            </tr>
+
+                                        </table>
+                                    }
+                                    else if (item.segments[j].fares[k].productClass.Equals("HF"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>2 hrs prior from departure</td>
+                                                <td>Free</td>
+
+                                            </tr>
+
+                                        </table>
+                                    }
+                                    else if (item.segments[j].fares[k].productClass.Equals("LT"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>0</td>
+                                                <td>0</td>
+
+                                            </tr>
+
+                                        </table>
+                                    }
+                                    else if (item.segments[j].fares[k].productClass.Equals("VV"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>2 hrs prior from departure</td>
+                                                <td>Rs.3000 per adult</td>
+
+                                            </tr>
+
+                                        </table>
+
+                                    }
+                                    else
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>2 hrs prior from departure</td>
+                                                <td>Rs.3500 per adult</td>
+
+                                            </tr>
+
+                                        </table>
+                                    }
+
+                                }
+                            </div>
+                        }
+                    }
+                }
+            }
+            <div class="seconddiv">
+                <strong>*Note:</strong> The airline fee is indicative. Jetways does not guarantee the accuracy of this information.All refunds are subject to airline approval.
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+</div>
+<!-- Overlay -->
+<div id="overlay" class="overlayTrip"></div>
+<style>
+    /* Styles for modal box and overlay */
+    .modalTrip {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 50%;
+        width: 60%;
+        height: 60%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 8px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+    }
+
+    .overlayTrip {
+        display: none;
+        position: fixed;
+        z-index: 9998;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .tripmodal {
+        background: #366480;
+        padding: 6px;
+    }
+
+        .tripmodal h4 {
+            color: #fff;
+        }
+
+        .tripmodal button {
+            color: #fff;
+        }
+
+
+
+    /* Styles for tabs */
+    .tab {
+        display: none;
+    }
+
+    /* Styles for active tab */
+    .active {
+        display: block;
+    }
+
+    /* Styles for tab buttons */
+    .tab-btn {
+        cursor: pointer;
+        background-color: #fff;
+        padding: 10px 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+
+        .tab-btn.active {
+            background-color: #ccd6dd; /* Change background color for active tab */
+        }
+
+    .airliname {
+        border-radius: 20px;
+        margin-left: 8px;
+        padding: 7px 12px;
+        font-size: 13px;
+        border: 1px solid #2f647e;
+        font-weight: 700;
+    }
+
+    .tooltipF {
+        position: relative;
+        display: inline-block;
+    }
+
+        .tooltipF .tooltiptext {
+            visibility: hidden;
+            width: 220px;
+            background-color: #366480;
+            color: #fff;
+            text-align: left;
+            border-radius: 2px;
+            padding: 6px;
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 100%;
+            font-size: 12px;
+            margin-left: 6px; /* Adjust as needed */
+        }
+
+        .tooltipF:hover .tooltiptext {
+            visibility: visible;
+        }
+
+</style>
+<style>
+    table {
+        border-collapse: collapse;
+    }
+
+    td,
+    th {
+        border: 1px solid black;
+        padding: 10px 20px;
+    }
+
+    .fligtbox {
+        margin: 4px 15px;
+        border: 1px solid #366480;
+    }
+
+    .firstdiv {
+        background-color: #edcbcb;
+        margin: 15px;
+        padding: 8px;
+    }
+
+    .seconddiv {
+        background-color: #edcbcb;
+        margin: 15px;
+        padding: 8px;
+    }
+
+</style>
+<script>
+    $(document).ready(function () {
+        // Open modal box
+        $("#openModal").click(function () {
+            $("#modal, #overlay").fadeIn();
+            $("body").css("overflow", "hidden");
+        });
+        $("#closeModal, #overlay").click(function () {
+            $("#modal, #overlay").fadeOut();
+            $("body").css("overflow", "auto");
+        });
+        $("#tabContent1").addClass("active");
+        $(".tab-btn").click(function () {
+            var tabId = $(this).attr("id").replace("tabBtn", "");
+            $(".tab").removeClass("active");
+            $(".tab-btn").removeClass("active");
+            $("#tabContent" + tabId).addClass("active");
+            $(this).addClass("active");
+        });
+
+
+    });
+</script>

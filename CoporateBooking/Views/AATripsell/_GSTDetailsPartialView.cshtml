@@ -1,0 +1,223 @@
+﻿@model DomainLayer.ViewModel.ViewModel
+<div class="hideme row y-gap-20 pt-20" style="display:none; margin-left:0; margin-right:0;">
+    <form asp-action="GetGstDetails" asp-controller="AATripsell" method="post">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div id="error-gst1" class="error-message" style="display:none">Type your GST Number</div>
+                <div class="form-input">
+                    <input type="text" name="customerNumber" id="customerNumber">
+
+                    <label class="lh-1 text-16 text-light-1">GST Number</label>
+                </div>
+
+            </div>
+            <div class="col-md-6 mb-3">
+                <div id="error-gst2" class="error-message" style="display:none">Type your Company Name</div>
+                <div class="form-input ">
+                    <input type="text" name="companyName" id="companyName">
+                    <label class="lh-1 text-16 text-light-1">Company Name</label>
+                </div>
+
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <div id="error-gst3" class="error-message" style="display:none">Type your Email Id</div>
+                <div class="form-input ">
+                    <input type="text" name="emailAddress" id="emailAddress">
+                    <label class="lh-1 text-16 text-light-1">Email Id</label>
+                </div>
+
+            </div>
+            <div class="col-md-6 mb-3">
+                <div id="error-gst4" class="error-message" style="display:none">Type your Mobile Number</div>
+                <div class="form-input ">
+                    <input type="number" name="number" id="number">
+                    <label class="lh-1 text-16 text-light-1">Mobile Number</label>
+                </div>
+
+            </div>
+            <div class="col-md-6 mb-3">
+                <div id="error-gst5" class="error-message" style="display:none">Type your Address</div>
+                <div class="form-input ">
+                    <input type="text" name="lineOne" id="lineOne">
+                    <label class="lh-1 text-16 text-light-1">Address</label>
+                </div>
+
+            </div>
+            <div class="col-md-6 mb-3">
+                <div id="error-gst6" class="error-message" style="display:none">Type your Address2</div>
+                <div class="form-input ">
+                    <input type="text" name="lineTwo" id="lineTwo">
+                    <label class="lh-1 text-16 text-light-1">Address2</label>
+                </div>
+
+            </div>
+            <div class="col-md-6 mb-3">
+                <div id="error-gst7" class="error-message" style="display:none">Type your City</div>
+                <div class="form-input ">
+                    <input type="text" name="city" id="city">
+                    <label class="lh-1 text-16 text-light-1">City</label>
+                </div>
+
+            </div>
+            <div class="col-md-6 mb-3">
+                <div id="error-gst8" class="error-message" style="display:none">Type your Pincode</div>
+                <div class="form-input ">
+                    <input type="number" maxlength="6" name="postalCode" id="postalCode">
+                    <label class="lh-1 text-16 text-light-1">Pincode</label>
+                </div>
+
+            </div>
+            <div class="col-md-6 mb-3">
+                <div id="error-gst9" class="error-message" style="display:none">Type your State</div>
+                <div class="form-input ">
+                    <input type="text" name="provinceState" id="provinceState">
+                    <label class="lh-1 text-16 text-light-1">State</label>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="row y-gap-18 items-center justify-between">
+                <div class="col-auto">
+                    <div class="text-14 text-danger">
+                        Disclaimer: Please ensure that all the details filled by you are correct. In case the details are incorrect, you will not be able to claim input tax credit. Details cannot be amended later.
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end border-bottom-light pb-3">
+                    <button type="submit" id="addGst" class="button -md -outline-blue-1 text-blue-1 px-50 py-15">Add GST</button>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+
+
+
+    $("#addGst").click(function (e) {
+        e.preventDefault();
+        var gstfocus = document.getElementById("customerNumber").value;
+        if (gstfocus == "") {
+            //alert("Enter Origin Name");
+            var gst1ToDisplay = document.getElementById("error-gst1");
+            gst1ToDisplay.style.display = "block";
+            document.getElementById("customerNumber").focus();
+            return false;
+        }
+
+        var gst2focus = document.getElementById("companyName").value;
+        if (gst2focus == "") {
+            //alert("Enter Origin Name");
+            var gst2ToDisplay = document.getElementById("error-gst2");
+            gst2ToDisplay.style.display = "block";
+            document.getElementById("companyName").focus();
+            return false;
+        }
+
+        var gst3focus = document.getElementById("emailAddress").value;
+        if (gst3focus == "") {
+            //alert("Enter Origin Name");
+            var gst3ToDisplay = document.getElementById("error-gst3");
+            gst3ToDisplay.style.display = "block";
+            document.getElementById("emailAddress").focus();
+            return false;
+        }
+
+        var gst4focus = document.getElementById("number").value;
+        if (gst4focus == "") {
+            //alert("Enter Origin Name");
+            var gst4ToDisplay = document.getElementById("error-gst4");
+            gst4ToDisplay.style.display = "block";
+            document.getElementById("number").focus();
+            return false;
+        }
+
+        var gst5focus = document.getElementById("lineOne").value;
+        if (gst5focus == "") {
+            //alert("Enter Origin Name");
+            var gst5ToDisplay = document.getElementById("error-gst5");
+            gst5ToDisplay.style.display = "block";
+            document.getElementById("lineOne").focus();
+            return false;
+        }
+
+        var gst6focus = document.getElementById("lineTwo").value;
+        if (gst6focus == "") {
+            //alert("Enter Origin Name");
+            var gst6ToDisplay = document.getElementById("error-gst6");
+            gst6ToDisplay.style.display = "block";
+            document.getElementById("lineTwo").focus();
+            return false;
+        }
+
+        var gst7focus = document.getElementById("city").value;
+        if (gst7focus == "") {
+            //alert("Enter Origin Name");
+            var gst7ToDisplay = document.getElementById("error-gst7");
+            gst7ToDisplay.style.display = "block";
+            document.getElementById("city").focus();
+            return false;
+        }
+
+        var gst8focus = document.getElementById("postalCode").value;
+        if (gst8focus == "") {
+            //alert("Enter Origin Name");
+            var gst8ToDisplay = document.getElementById("error-gst8");
+            gst8ToDisplay.style.display = "block";
+            document.getElementById("postalCode").focus();
+            return false;
+        }
+
+        var gst9focus = document.getElementById("provinceState").value;
+        if (gst9focus == "") {
+            //alert("Enter Origin Name");
+            var gst9ToDisplay = document.getElementById("error-gst9");
+            gst9ToDisplay.style.display = "block";
+            document.getElementById("provinceState").focus();
+            return false;
+        }
+        alert("GST TEST");
+        var gstcontent1To = document.getElementById("content");
+        gstcontent1To.style.display = "none";
+        var gstButton4To = document.getElementById("toggleButton3");
+        gstButton4To.style.opacity = "1.0";
+        var gstcontent4To = document.getElementById("content3");
+        gstcontent4To.style.display = "none";
+        var gsttoggleButton4To = document.getElementById("toggleButton4");
+        gsttoggleButton4To.style.opacity = "1.0";
+        var gstcontent5To = document.getElementById("content4");
+        gstcontent5To.style.display = "block";
+        var Continuebtn1 = document.querySelector("#Continuebtn");
+        Continuebtn1.disabled = false;
+        Continuebtn1.style.opacity = "1.0";
+
+
+
+
+    });
+
+
+    // Function to handle button click
+    function noGst() {
+
+        var GSTButton4To = document.getElementById("toggleButton3");
+        GSTButton4To.style.opacity = "1.0";
+        var GSTcontent4To = document.getElementById("content3");
+        GSTcontent4To.style.display = "none";
+        var GSTtoggleButton4To = document.getElementById("toggleButton4");
+        GSTtoggleButton4To.style.opacity = "1.0";
+
+        var GSTcontent5To = document.getElementById("content4");
+        GSTcontent5To.style.display = "block";
+
+        var GSTContinuebtn1 = document.querySelector("#Continuebtn");
+        GSTContinuebtn1.disabled = false;
+        GSTContinuebtn1.style.opacity = "1.0";
+    }
+
+
+
+</script>

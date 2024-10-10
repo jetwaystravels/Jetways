@@ -1,0 +1,696 @@
+﻿@model DomainLayer.ViewModel.ViewModel
+@{
+    Layout = null;
+
+}
+
+<div class="py-15 px-20 rounded-4 text-15 bg-blue-1-05 mb-10">
+    <div class="d-flex justify-content-end" style="margin-bottom:-15px;">
+        <span style="margin-right:15px;"><b>Same Lead Passengers Contact Details</b></span>
+        <button id="checkboxLead" class="checkbox-button2" onclick="toggleCheckbox()"></button>
+    </div>
+
+    <form asp-action="IndigoTravllerDetails" asp-controller="IndigoTripsell" method="post" id="passengerForm">
+        @{
+            int inafantIdx = 0;
+        }
+
+        @for (var i = 0; i < Model.passeengerlist.passengers.Count; i++)
+        {
+            <input type="hidden" name="passengers[@i].origin" value="@Model.passeengerlist.journeys[0].designator.origin" />
+            <input type="hidden" name="passengers[@i].departure" value="@Model.passeengerlist.journeys[0].designator.departure" />
+            <input type="hidden" name="passengers[@i].destination" value="@Model.passeengerlist.journeys[0].designator.destination" />
+            <input type="hidden" name="passengers[@i].identifier" value="@Model.passeengerlist.journeys[0].segments[0].identifier.identifier" />
+            <input type="hidden" name="passengers[@i].carrierCode" value="@Model.passeengerlist.journeys[0].segments[0].identifier.carrierCode" />
+
+            <div><label class="text-16 fw-600">@Model.passeengerlist.passengers[i].passengerTypeCode</label></div>
+            <input type="hidden" name="passengerdetails[@i].passengertypecode" value="@Model.passeengerlist.passengers[i].passengerTypeCode" />
+            <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlist.passengers[i].passengerKey" />
+
+            <div class="row">
+                <div class="col-md-1">
+                    <select name="passengerdetails[@i].Title" class="form-control" asp-items="@ViewBag.Title"></select>
+                </div>
+                <div class="col-md-3 inputFirstname">
+                    <div class="form-input">
+
+                        <input type="text" class="contactFname validate-field" data-validate="name" maxlength="32" oninput="validateInputI(event ,@i)" id="LeadPass[@i]" placeholder="First & middle name" name="passengerdetails[@i].First" style='text-transform:uppercase' required />
+
+                    </div>
+                    <p id="error-Fname" class="error-message  error-CFname" style="display: none;"></p>
+                    <p class="error-message-val " style="display:none"></p>
+                </div>
+                <div class="col-md-3">
+
+                    <div class="form-input">
+                        <input type="text" class="contactLname validate-field" data-validate="last" oninput="validateInputI(event,@i)" maxlength="32" placeholder="Last name" name="passengerdetails[@i].Last" style='text-transform:uppercase' required />
+
+                    </div>
+                    <p id="error-Lname" class="error-message error-CLname" style="display:none"></p>
+
+                </div>
+                @{
+                    if (Model.passeengerlist.passengers[i].passengerTypeCode == "ADT" || Model.passeengerlist.passengers[i].passengerTypeCode == "CHD")
+                    {
+                        <div class="col-md-3">
+                            <div class="form-input"><input type="text" data-validate="email" class="contactemail validate-field" maxlength="50" oninput="validateInputI(event,@i)" id="contactemailID" placeholder="email" name="" required /></div>
+                        </div>
+                        <p class="error-message error-emailname" style="display:none"></p>
+                        <p class="error-message-val " style="display:none"></p>
+
+                        <div class="col-md-2">
+                            <div class="form-input"><input type="text" data-validate="phone" maxlength="10" id="contactphoneID" class="contactphone validate-field" oninput="validateInputI(event,@i)" placeholder="phone" name="passengerdetails[@i].mobile" required /></div>
+                        </div>
+                        <p class="error-message error-phoneN" style="display:none"></p>
+                        <p class="error-message-val" style="display:none"></p>
+                    }
+                    if (@Model.passeengerlist.passengers[i].passengerTypeCode == "INFT")
+                    {
+                        <div class="col-md-4 infant-dob-input">
+                            <div class="form-input dobinput d-flex" id="InfDOBCount_@inafantIdx">
+                                <div class="dob-picker">
+                                    <select class="brd-none year-select" id="year_@inafantIdx" required>
+                                    </select>
+                                    <select class="brd-none month-select" id="month_@inafantIdx" required>
+                                    </select>
+                                    <select class="brd-none day-select" id="day_@inafantIdx" required>
+                                        <option value="" disabled selected>Day</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        inafantIdx++;
+
+
+                    }
+                }
+            </div>
+        }
+        <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-primary mt-15" id="showReviewPopup">Save</button>
+        </div>
+
+    </form>
+</div>
+<div class="modal fade" id="dataPopup" tabindex="-1" role="dialog" aria-labelledby="dataPopupLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content pb-3">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dataPopupLabel">Please review your details to ensure accuracy.</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="enteredData">
+                <!-- Display the entered data here -->
+
+            </div>
+            <div class="d-flex justify-content-end">
+                <div class="editbtn me-3">
+                    <button type="button" data-dismiss="modal" class="btn btn-primary w-20" id="editData">Edit</button>
+                </div>
+                <div class="countibtn me-3">
+                    <button type="button" data-dismiss="modal" class="btn btn-primary w-20" id="ContinueData">Continue</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<!-- Include Bootstrap JavaScript -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+    .modal-body p {
+        border-radius: 6px;
+        box-shadow: 0 0 10px 0 rgb(0 0 0 / 9%);
+        border: 1px solid #E4E3E1;
+        padding: 8px;
+        margin-bottom: 10px;
+    }
+
+    .dobinput {
+        background: #fff;
+        color: var(--color-light-1);
+        border: 1px solid var(--color-border);
+        border-radius: 4px;
+        padding: 8px;
+        min-height: 40px;
+        transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .brd-none {
+        border: none;
+    }
+
+    .custom-select::-ms-expand {
+        display: none; /* Hide the arrow icon in IE */
+    }
+
+    .custom-select option {
+        padding: 5px; /* Set the desired padding for each option */
+        height: 50px;
+        overflow: hidden;
+    }
+
+    .checkbox-button2 {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 0;
+        cursor: pointer;
+    }
+
+
+        .checkbox-button2.checked::after {
+            content: '\2713';
+            font-size: 16px;
+            color: #333;
+            display: block;
+            text-align: center;
+            line-height: 20px;
+        }
+
+</style>
+<script>
+
+    function showErrorVal(element, message) {
+
+        const parentElement = element.closest('.col-md-3, .col-md-2');
+        let errorMessage = parentElement.querySelector('.error-message-val');
+        if (!errorMessage) {
+            errorMessage = document.createElement('p');
+            errorMessage.className = 'error-message-val';
+            parentElement.appendChild(errorMessage);
+        }
+        const errorMessageReq = parentElement.querySelector(".error-message");
+        if (errorMessageReq) {
+            errorMessageReq.style.display = 'none';
+        }
+        errorMessage.textContent = message;
+        errorMessage.style.display = 'block';
+        element.classList.add('error-input');
+        if (element.offsetParent !== null) {
+            element.focus();
+            return false;
+        }
+    }
+    function removeErrorVal(element) {
+
+        const parentElement = element.closest('.col-md-3, .col-md-2');
+        const errorMessage = parentElement.querySelector('.error-message-val');
+        if (errorMessage) {
+            errorMessage.style.display = 'none';
+        }
+        const errorMessageReq = parentElement.querySelector(".error-message");
+        if (errorMessageReq) {
+            errorMessageReq.style.display = 'none';
+        }
+        element.classList.remove('error-input');
+    }
+
+
+    var buttonLead = document.getElementById('checkboxLead');
+    buttonLead.addEventListener('click', function (e) {
+
+        e.preventDefault();
+        buttonLead.checked = !buttonLead.checked;
+        if (buttonLead.checked) {
+
+            buttonLead.classList.add('checked');
+        } else {
+
+            buttonLead.classList.remove('checked');
+        }
+        if (buttonLead.checked) {
+
+           // alert("Checked!!")
+            var emaiLeadPass = document.querySelector('.contactemail').value;
+            var phoneLeadPass = document.querySelector('.contactphone').value;
+            //Get all elements with class "contactemail" and set their value
+            var emailInputsT = document.querySelectorAll(".contactemail");
+            emailInputsT.forEach(function (input) {
+                input.value = emaiLeadPass;
+                //validateInputI({ target: input });
+            });
+            // Get all elements with class "contactphone" and set their value
+            var phoneInputsT = document.querySelectorAll(".contactphone");
+            phoneInputsT.forEach(function (input) {
+                input.value = phoneLeadPass;
+                //validateInputI({ target: input });
+            });
+        } else {
+           // alert("Checkbox is unchecked");
+            debugger;
+            var emaiLeadPass = "";
+            var phoneLeadPass = "";
+            var emailInputsT = document.querySelectorAll(".contactemail");
+
+            emailInputsT.forEach(function (input) {
+                input.value = emaiLeadPass;
+            });
+            var phoneInputsT = document.querySelectorAll(".contactphone");
+
+            phoneInputsT.forEach(function (input) {
+                input.value = phoneLeadPass;
+            });
+
+            var emaiLeadPassenger = localStorage.getItem('Leadpassenger3');
+            var phoneLeadPassenger = localStorage.getItem('Leadpassenger4');
+            document.querySelector("#contactemailID").value = emaiLeadPassenger;
+            document.querySelector("#contactphoneID").value = phoneLeadPassenger;
+
+
+        }
+    });
+
+   
+    document.addEventListener('DOMContentLoaded', function () {
+        const daySelects = document.querySelectorAll('.day-select');
+        const monthSelects = document.querySelectorAll('.month-select');
+        const yearSelects = document.querySelectorAll('.year-select');
+
+        const monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+        function isLeapYear(year) {
+            return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+        }
+
+        function populateDayOptions(daySelect, month, year) {
+            daySelect.innerHTML = '<option value="" disabled selected>Day</option>'; // Clear previous options
+            let daysInMonth = monthDays[month];
+            if (month === 1 && isLeapYear(year)) { // February and leap year
+                daysInMonth = 29;
+            }
+            for (let i = 1; i <= daysInMonth; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                daySelect.appendChild(option);
+            }
+            daySelect.disabled = false;
+        }
+
+        function populateMonthOptions(monthSelect) {
+            monthSelect.innerHTML = '<option value="" disabled selected>Month</option>';
+            for (let i = 0; i < 12; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = new Date(0, i).toLocaleString('en-US', { month: 'long' });
+                monthSelect.appendChild(option);
+            }
+            monthSelect.disabled = false;
+        }
+
+        function populateYearOptions(yearSelect) {
+            const currentYear = new Date().getFullYear();
+            const maxInfantAge = 2;
+            for (let i = currentYear; i >= currentYear - maxInfantAge; i--) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                yearSelect.appendChild(option);
+            }
+        }
+
+        yearSelects.forEach(populateYearOptions);
+
+        function handleYearChange() {
+            const year = parseInt(this.value);
+            const parent = this.parentElement;
+            const monthSelect = parent.querySelector('.month-select');
+            populateMonthOptions(monthSelect);
+            const daySelect = parent.querySelector('.day-select');
+            daySelect.innerHTML = '<option value="" disabled selected>Day</option>';
+            daySelect.disabled = true;
+        }
+
+        function handleMonthChange() {
+            const parent = this.parentElement;
+            const year = parseInt(parent.querySelector('.year-select').value);
+            const month = parseInt(this.value);
+            const daySelect = parent.querySelector('.day-select');
+            populateDayOptions(daySelect, month, year);
+        }
+
+        yearSelects.forEach(select => select.addEventListener('change', handleYearChange));
+        monthSelects.forEach(select => select.addEventListener('change', handleMonthChange));
+
+        // Initialize the day options for each set of dropdowns
+        document.querySelectorAll('select').forEach(select => select.dispatchEvent(new Event('change')));
+    });
+
+    function getSelectedDayValue(index) {
+        const daySelects = document.querySelectorAll('.day-select');
+        if (index < 0 || index >= daySelects.length) {
+            throw new Error('Index out of bounds');
+        }
+        return daySelects[index].value;
+    }
+
+    function getSelectedMonthValue(index) {
+        const monthSelects = document.querySelectorAll('.month-select');
+        if (index < 0 || index >= monthSelects.length) {
+            throw new Error('Index out of bounds');
+        }
+        return monthSelects[index].value;
+    }
+
+    function getSelectedYearValue(index) {
+        const yearSelects = document.querySelectorAll('.year-select');
+        if (index < 0 || index >= yearSelects.length) {
+            throw new Error('Index out of bounds');
+        }
+        return yearSelects[index].value;
+    }
+
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        function showForm() {
+            $('#passengerForm').show();
+        }
+        $("#editData").click(function () {
+            $("#dataPopup").hide();
+        });
+        $("#showReviewPopup").click(function (e) {
+            e.preventDefault();
+
+            /*******Validation Start*********/
+            const fieldsToValidate = [
+                { className: 'contactFname', errorMessage: 'First name is required', validationdata: /^[A-Za-z]{1,32}$/ },
+                { className: 'contactLname', errorMessage: 'Last name is required', validationdata: /^[A-Za-z]{1,32}$/ },
+                { className: 'contactemail', errorMessage: 'Email is invalid', validationdata: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/ },
+                { className: 'contactphone', errorMessage: 'Phone number at least 10 digits', validationdata: /^\d{10,}$/ }
+            ];
+
+            let firstInvalidElement = null;
+
+            fieldsToValidate.forEach(field => {
+                const elements = document.querySelectorAll(`.${field.className}`);
+                elements.forEach(element => {
+                    element.addEventListener("input", function () {
+                        removeError(element);
+
+
+                        // Restrict input to alphabetic characters for contactFname and contactLname
+                        if (field.className === 'contactFname' || field.className === 'contactLname') {
+                            element.value = element.value.replace(/[^A-Za-z]/g, ''); // Allow only alphabets
+                        }
+                        // Restrict input to integers only for contactphone
+                        if (field.className === 'contactphone') {
+                            element.value = element.value.replace(/[^0-9]/g, '');
+                        }
+                    });
+
+                    if (element.value.trim() === "") {
+                        if (field.className !== 'contactphone' && field.className !== 'contactemail') {
+                            // If the field is blank and it's not the phone field, show the error message
+                            showError(element, field.errorMessage);
+                            if (!firstInvalidElement) {
+                                firstInvalidElement = element;
+                            }
+                        }
+                    } else if (field.className === 'contactphone' && element.value.trim().length < 10) {
+                        // If the phone number has fewer than 10 digits, show an error message
+                        showError(element, 'Phone number must be at least 10 digits');
+                        if (!firstInvalidElement) {
+                            firstInvalidElement = element;
+                        }
+                    } else if (field.className !== 'contactphone' && !field.validationdata.test(element.value.trim())) {
+                        // For other fields, check their pattern validation
+                        showError(element, field.errorMessage);
+                        if (!firstInvalidElement) {
+                            firstInvalidElement = element;
+                        }
+                    }
+                });
+            });
+
+            // Check for duplicate first names
+            const fnameElements = document.querySelectorAll('.contactFname');
+            const fnameValues = Array.from(fnameElements).map(el => el.value.trim());
+            const duplicates = fnameValues.filter((item, index) => fnameValues.indexOf(item) !== index && item !== "");
+
+            if (duplicates.length > 0) {
+                fnameElements.forEach(element => {
+                    if (duplicates.includes(element.value.trim())) {
+                        showError(element, 'Duplicate first names');
+                        if (!firstInvalidElement) {
+                            firstInvalidElement = element;
+                        }
+                    }
+                    else {
+                        // If no duplicates, remove the error
+                        removeError(element);
+                    }
+                });
+            }
+
+
+            if (firstInvalidElement) {
+                firstInvalidElement.focus();
+                return false;
+            } else {
+                fieldsToValidate.forEach(field => {
+                    const elements = document.querySelectorAll(`.${field.className}`);
+                    elements.forEach(element => {
+                        removeError(element);
+                    });
+                });
+
+            }
+
+            function removeError(element) {
+                const parentElement = element.closest('.col-md-3,.col-md-2');
+                const errorMessage = parentElement.querySelector(".error-message");
+                if (errorMessage) {
+                    errorMessage.style.display = 'none';
+                }
+                element.classList.remove("error-input");
+            }
+
+            function showError(element, message) {
+                const parentElement = element.closest('.col-md-3, .col-md-2');
+                let errorMessage = parentElement.querySelector(".error-message");
+                if (!errorMessage) {
+                    errorMessage = document.createElement("p");
+                    errorMessage.className = "error-message";
+                    parentElement.appendChild(errorMessage);
+                }
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                element.classList.add("error-input");
+            }
+
+            function validateInfantDOB(inafantIdx) {
+                var year = document.getElementById("year_" + inafantIdx).value;
+                //var month = document.getElementById("month_" + inafantIdx).value;
+                var month = parseInt(document.getElementById("month_" + inafantIdx).value) + 1;
+                var day = document.getElementById("day_" + inafantIdx).value;
+                var dob = year + "-" + month + "-" + day;
+                if (year == "") {
+                    alert("Please select year for infant date-of-birth");
+                    return false;
+                }
+                if (month == "") {
+                    alert("Please select month for infant date-of-birth");
+                    return false;
+                }
+                if (day == "") {
+                    alert("Please select day for infant date-of-birth");
+                    return false;
+                }
+                var dobDate = new Date(dob);
+                var currentDate = new Date();
+                var timeDiff = currentDate.getTime() - dobDate.getTime();
+                var yearsDiff = timeDiff / (1000 * 3600 * 24 * 365.25);
+                // Check if the age is less than 2 years (24 months)
+                if (dobDate > currentDate) {
+                    alert("Date of birth cannot be in the future. Please select a valid date.");
+                    return false;
+                }
+
+                if (yearsDiff < 2) {
+                    // if ($("#InfDOBCount_0").is(":visible")) {
+                    //     alert("Infant 1  DOB : " + dob);
+                    // }
+                    // else if ($("#InfDOBCount_1").is(":visible")) {
+                    //     alert("Infant 2  DOB : " + dob);
+                    // }
+                    // else if ($("#InfDOBCount_2").is(":visible")) {
+                    //     alert("Infant 3  DOB : " + dob);
+                    // }
+                    // else if ($("#InfDOBCount_3").is(":visible")) {
+                    //     alert("Infant 4  DOB : " + dob);
+                    // }
+                    // else if ($("#InfDOBCount_4").is(":visible")) {
+                    //     alert("Infant 5  DOB : " + dob);
+                    // }
+                    // else if ($("#InfDOBCount_5").is(":visible")) {
+                    //     alert("Infant 6  DOB : " + dob);
+                    // }
+                    return true; // Infant is valid
+                } else {
+
+                    return false; // Infant is too old
+                }
+            }
+
+            // Example usage:
+            if ($("#InfDOBCount_0").is(":visible")) {
+                if (!validateInfantDOB(0)) {
+                    alert("Infant 1 can't be greater than 2 years.");
+                    return false;
+                }
+            }
+
+            if ($("#InfDOBCount_1").is(":visible")) {
+                if (!validateInfantDOB(1)) {
+                    alert("Infant 2 can't be greater than 2 years.");
+                    return false;
+                }
+            }
+
+            if ($("#InfDOBCount_2").is(":visible")) {
+                if (!validateInfantDOB(2)) {
+                    alert("Infant 3 can't be greater than 2 years.");
+                    return false;
+                }
+            }
+            if ($("#InfDOBCount_3").is(":visible")) {
+                if (!validateInfantDOB(3)) {
+                    alert("Infant 4 can't be greater than 2 years.");
+                    return false;
+                }
+            }
+            if ($("#InfDOBCount_4").is(":visible")) {
+                if (!validateInfantDOB(4)) {
+                    alert("Infant 5 can't be greater than 2 years.");
+                    return false;
+                }
+            }
+            if ($("#InfDOBCount_5").is(":visible")) {
+                if (!validateInfantDOB(5)) {
+                    alert("Infant 6 can't be greater than 2 years.");
+                    return false;
+                }
+            }
+
+            // Infant validation (remains the same)
+
+            /*******Validation End*********/
+            var enteredData = "";
+            for (var i = 0; i < @Model.passeengerlist.passengers.Count; i++) {
+                var firstName = $("input[name='passengerdetails[" + i + "].First']").val();
+                var lastName = $("input[name='passengerdetails[" + i + "].Last']").val();
+                var title = $("select[name='passengerdetails[" + i + "].Title']").val();
+                var Passengertypecode = $("input[name='passengerdetails[" + i + "].passengertypecode']").val();
+                if (Passengertypecode == "ADT") { Passengertypecode = "Adult"; }
+                if (Passengertypecode == "CHD") { Passengertypecode = "Child"; }
+                enteredData += "<p><strong>Passenger " + (i + 1) + ": (" + Passengertypecode + ")</strong><br>";
+                enteredData += "Title: " + title + "<br>";
+                enteredData += "First Name: " + firstName + "<br>";
+                enteredData += "Last Name: " + lastName + "</p>";
+            }
+            $("#enteredData").html(enteredData);
+            $('#dataPopup').modal('show');
+
+        });
+
+
+
+        $("#ContinueData").click(function () {
+            $('#passengers_id').hide(); //Contact Details Div Hide
+            //*************Validation effect Start**********
+            var contentToDisplay = document.getElementById("content");
+            contentToDisplay.style.display = "none";
+            var content2To = document.getElementById("content2");
+            content2To.style.display = "none";
+            // var toggleButton3To = document.getElementById("toggleButton3");
+            // toggleButton3To.style.opacity = "1.0";
+            // var content3To = document.getElementById("content3");
+            // content3To.style.display = "block";
+            var toggleButton4To = document.getElementById("toggleButton4");
+            toggleButton4To.style.opacity = "1.0";
+            var GSTcontent5To = document.getElementById("content4");
+            GSTcontent5To.style.display = "block";
+
+            var AddonButton = document.getElementById("toggleButton6");
+            AddonButton.style.opacity = "1.0";
+            var AddonButtonFWD = document.getElementById("content6");
+            AddonButtonFWD.style.display = "block";
+
+
+            var GSTContinuebtn1 = document.querySelector("#Continuebtn");
+            GSTContinuebtn1.disabled = false;
+            GSTContinuebtn1.style.opacity = "1.0";
+
+            var formData = new FormData($("#passengerForm")[0]);
+            $.ajax({
+                url: "/IndigoTripsell/IndigoTravllerDetails",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    //alert(result);
+                    $('#IndigoPartialView').html(result);
+                    // Handle the response from the server if needed
+                },
+                error: function (error) {
+                    // Handle any errors here
+                }
+            });
+        });
+
+
+    });
+
+</script>
+<style>
+    .error-message {
+        color: red;
+        font-size: 12px;
+        margin: 5px 0 0 0;
+        display: none;
+    }
+
+    .error-message-val {
+        color: red;
+        font-size: 12px;
+        margin: 5px 0 0 0;
+        display: none;
+    }
+
+    .error-input {
+        border: 1px solid red;
+    }
+
+    .checkbox-button {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 0;
+        cursor: pointer;
+    }
+
+
+        .checkbox-button.checked::after {
+            content: '\2713';
+            font-size: 16px;
+            color: #333;
+            display: block;
+            text-align: center;
+            line-height: 20px;
+        }
+
+</style>
+
+

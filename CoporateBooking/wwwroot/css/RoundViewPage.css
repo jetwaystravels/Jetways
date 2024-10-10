@@ -1,0 +1,71 @@
+﻿
+
+.search-result .bg-white .rtprice {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #EF0000;
+}
+
+.search-result .bg-white .rtflight-dtl {
+    border-top: #E4EBF0 1px solid;
+    font-weight: 600;
+    padding: 8px 0 0 0;
+    margin-top: 6px;
+    font-size: 13px;
+}
+
+.round1 {
+    background-color: #fff;
+    margin: 10px 3px 0px 3px;
+    padding: 10px;
+    border: 1px solid rgba(156,170,179,.28);
+    box-shadow: 0 0 9px 0 rgba(0,0,0,.1);
+    border-radius: 2px;
+}
+
+.rtfix-bottom {
+    background: #003550;
+    border-top: 1px solid #fff;
+    bottom: 0;
+    color: #fff;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    position: fixed;
+    width: 100%;
+    z-index: 200;
+}
+.border-right{width:2px;height:auto;}
+.rtbtn {
+    padding: 6px 12px;
+}
+.rtline a{
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+.rtbg {
+    background: #a3a8ab;
+    color: #fff;
+    padding: 2px 6px;
+}
+
+.rtborder-right {
+    border-right: 1px solid #c5bfbf;
+}
+
+.multi-bg {
+    background: #c6d9e5;
+    padding: 4px;
+    border: 1px solid #9acbf5;
+    border-radius: 2px;
+}
+
+
+
+
+@media (min-width: 576px) {
+    .rtwidth-modal {
+        max-width: 70%!important;
+        margin: 1.75rem auto;
+    }
+}

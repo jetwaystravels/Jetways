@@ -1,0 +1,129 @@
+﻿@model DomainLayer.ViewModel.ViewModel
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+@* <script src="~/js/custom.js/SGCustom.js"></script> *@
+<style>
+    .btn2 {
+        border: 1px solid #0057bb;
+        padding: 4px 26px;
+        border-radius: 2px;
+        margin-top: 6px;
+    }
+
+    .input-ammount2 {
+        color: #f80711;
+        background: none;
+        text-align: center;
+        width: 100px;
+        border: none;
+    }
+
+    .slid-rght {
+        overflow-x: scroll;
+    }
+</style>
+<script>
+    /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
+    $(document).ready(function () {
+
+
+        $("#seattab3").addClass('active');
+        $("#tabshow4").hide();
+        $("#seattab3").click(function () {
+            $("#tabshow3").show();
+            $("#tabshow4").hide();
+            $("#seattab3").addClass('active');
+            $("#seattab4").removeClass('active');
+
+        });
+
+        $("#seattab4").click(function () {
+            //$("#tabshow4").css("display", "block");
+            $("#tabshow4").show();
+            $("#seattab4").addClass('active');
+            $("#seattab3").removeClass('active');
+            $("#tabshow3").hide();
+        });
+
+
+    });
+</script>
+<div class="relative overflow-hidden js-section-slider pt-10 sm:pt-20" data-gap="30" data-scrollbar data-slider-cols="xl-5 lg-4 md-3 sm-2 base-1" data-nav-prev="js-tour-prev-one" data-pagination="js-tour-pag" data-nav-next="js-tour-next-one">
+    @{
+        for (int l = 0; l < Model.Meals.legSsrs.Count; l++)
+        {
+            if (l == 0)
+            {
+                <div id="tabshow3" class="seat-section1">
+                vinay
+                    <div class="swiper-wrapper slid-rght">
+
+                        @{
+
+                            for (int i = 0; i < Model.Meals.legSsrs[l].legssrs.Count; i++)
+                            {
+                                <div class="swiper-slide active">
+                                    <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                        <span class="nveg-food"></span>
+                                        <img src="~/img/images/non-veg-img-1.png" title="image" alt="image">
+                                        <h6 class="text-14 fw-600 mt-10"> @Model.Meals.legSsrs[l].legssrs[i].name </h6>
+                                        <input class="input-ammount2" id="inputField" type="text" name="inputField" value="@Model.Meals.legSsrs[l].legssrs[i].legpassengers[0].price" />
+                                        <div class="d-flex justify-content-center">
+                                            <input type="checkbox" id="ssrkey+@i" name="ssrKey" value='"@Model.Meals.legSsrs[l].legssrs[i].legpassengers[0].ssrKey @Model.Meals.legSsrs[l].legssrs[i].legpassengers[0].price _@l _OneWay0"' />
+                                            <input type="hidden" id="mealprice+@i" name="inputFieldmeal" value="@Model.Meals.legSsrs[l].legssrs[i].legpassengers[0].price" />
+                                            <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+
+                                            @*<input type="submit" class="btn btn-primary" id="showValueButton" onchange="AddMeal()" value="Select" />*@
+                                            <div class="btn2" data-ssrkey="ssrkey+@i" id="showValueButton" onclick="selectSSR_test(this)">Select</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+
+                        }
+
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div id="tabshow4" class="seat-section2">
+                vivek
+                    <div class="swiper-wrapper slid-rght">
+
+                        @{
+                            for (int i = 0; i < Model.Meals.legSsrs[l].legssrs.Count; i++)
+                            {
+                                <div class="swiper-slide active">
+                                    <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                        <span class="nveg-food"></span>
+                                        <img src="~/img/images/non-veg-img-1.png" title="image" alt="image">
+                                        <h6 class="text-14 fw-600 mt-10"> @Model.Meals.legSsrs[l].legssrs[i].name </h6>
+                                        <input class="input-ammount2" id="inputField" type="text" name="inputField" value="@Model.Meals.legSsrs[l].legssrs[i].legpassengers[0].price" />
+                                        <div class="d-flex justify-content-center">
+                                            <input type="checkbox" id="ssrkey+@i" name="ssrKey" value='"@Model.Meals.legSsrs[l].legssrs[i].legpassengers[0].ssrKey @Model.Meals.legSsrs[l].legssrs[i].legpassengers[0].price _@l _OneWay1"' />
+                                            <input type="hidden" id="mealprice+@i" name="inputFieldmeal" value="@Model.Meals.legSsrs[l].legssrs[i].legpassengers[0].price" />
+                                            <input type="hidden" id="passengerkey" name="passengerkey" value="@Model.passeengerlist.passengers[0].passengerKey" />
+
+                                            @*<input type="submit" class="btn btn-primary" id="showValueButton" onchange="AddMeal()" value="Select" />*@
+                                            <div class="btn2" data-ssrkey="ssrkey+@i" id="showValueButton" onclick="selectSSR_test(this)">Select</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+
+                        }
+
+                    </div>
+                </div>
+            }
+        }
+    }
+</div>
+
+
+
+
+

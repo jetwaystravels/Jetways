@@ -1,0 +1,2998 @@
+﻿@model DomainLayer.ViewModel.ViewModel
+@{
+    Layout = null;
+    var data = Model;
+
+}
+
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Title  -->
+    <title>Jetways Travels</title>
+    <!-- Favicon  -->
+    <link rel="icon" href="~/img/favicon.png">
+    <!-- Style css -->
+    <link rel="stylesheet" href="~/css/vendors.css">
+    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/daterangepicker.css">
+    <link href="~/css/roundviewpage.css" rel="stylesheet" />
+    <link href="~/css/indexvny.css" rel="stylesheet" />
+   
+</head>
+<body>
+
+    <main id="filternonstopWay">
+        <!-- ***** Header Start ***** -->
+        <header class="navbar navbar-sticky navbar-expand-lg inner-bg">
+            <div class="container position-relative">
+                <a class="navbar-brand" asp-controller="FlightSearchIndex" asp-action="Index">
+                    <img class="navbar-brand-regular" src="~/img/logo/logo.png" alt="brand-logo">
+                    <img class="navbar-brand-sticky" src="~/img/logo/logo.png" alt="sticky brand-logo">
+
+                </a>
+                <button class="navbar-toggler d-lg-none" type="button" data-toggle="navbarToggler" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-inner">
+                    <!--  Mobile Menu Toggler -->
+                    <button class="navbar-toggler d-lg-none" type="button" data-toggle="navbarToggler" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="nav-bar col-12 col-md-7 col-lg-12">
+                        <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-1.png">Flight</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill"><img class="mr-2" src="~/img/nav-icon-2.png">Hotel</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-3.png">Visa</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-4.png">Holidays</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-5.png">Trains</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-6.png">Buses</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill"><img class="mr-2" src="~/img/nav-icon-7.png">Cabs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-8.png">Flight Passes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link"><img class="mr-2" src="~/img/nav-icon-8.png">Login</a>
+                            </li>
+                            <li>
+                                <p class="nav-link" id="demo"></p>
+                            </li>
+                        </ul>
+                    </div>
+                    <nav id="mobile-nav">
+                        <ul class="navbar-nav" id="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#">
+                                    Home
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll" href="features">Features</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#">
+                                    Pages
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll" href="#">Screenshots</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll" href="#">Pricing</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll" href="#">Contact</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <!-- ***** Header End ***** -->
+        <!-- ***** Start inner search ***** -->
+        <div class="inner-search">
+            <!-- ***** Flight Search Area Start ***** -->
+            <section class="section search-area bg-overlay  d-flex align-items-center">
+                <div class="container">
+                    <div class="row ">
+                        <div class="col-12 col-md-7 col-lg-12">
+                            <div class="row justify-content-center">
+                                <div class="search-box">
+                                    <form asp-action="SearchResultFlight" asp-controller="FlightSearchIndex" method="post" id="multipleValuesForm" onsubmit="return validateInputs()">
+                                        <div class="col-lg-12">
+                                            <div class="row S-optionlist">
+                                                <div class="col-12 col-md-10 col-lg-2 space autocomplete">
+                                                    <div class="d-flex radioW-400">
+                                                        <input type="radio" name="SameAirlineRT" value="OneWay" onclick="checkRadio(this)" checked>
+                                                        <label class="form-check-label">One Way</label>
+                                                        <input type="radio" name="SameAirlineRT" value="RoundTrip" onclick="checkRadio(this)">
+                                                        <label class="form-check-label">Round Trip</label>
+                                                        <input type="radio" name="SameAirlineRT" value="AirlineRT" onclick="checkRadio(this)">
+                                                        <label class="form-check-label">Same Airline Roundtrip</label>
+                                                    </div>
+                                                    <span class="input-group-text">
+                                                        <input id="myInput" name="origin" type="text" value="@Model.simpleAvailabilityRequestModelEdit.origin" class="form-control" onclick="onewayDropdown()">
+                                                        @* <span id="airportName"></span> *@
+                                                    </span>
+                                                    <span class="autodropdownOneWay">
+                                                        <select id="autodropdownOneWayId" name="autodropdownOneWayId" onchange="OnewaySelection()">
+                                                            <option value="" style="display:none;">Please select</option>
+                                                            @foreach (var item in Citynamelist.GetAllCityData())
+                                                            {
+                                                                <option value="@item.citycode">@item.cityname - @item.citycode -<br>@item.airportname </option>
+
+                                                            }
+                                                        </select>
+                                                    </span>
+                                                </div>
+                                                <div class="rplc-btn">
+                                                    <img src="~/img/direction-arrows.png" />
+                                                </div>
+                                                <div class="col-12 col-md-10 col-lg-2 space autocomplete">
+                                                    <label class=""></label>
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <input type="text" id="myInput1" name="destination" class="form-control" value="@Model.simpleAvailabilityRequestModelEdit.destination" onclick="toggleArrivalOneway()">
+                                                        @* <span id="airportArval"></span> *@
+                                                    </span>
+                                                    <div id="errordestinaton" class="errorbox" style="display:none;">Enter Destination Name*</div>
+
+                                                    <span class="autoarrivalOneway">
+                                                        <select id="arrivalItemOnewayId" name="arrivalItemOnewayId" onchange="arrivalOneway()">
+                                                            @* <option value="">Please select</option> *@
+                                                            <option value="" style="display:none;">Please select</option>
+                                                            @foreach (var item in Citynamelist.GetAllCityData())
+                                                            {
+                                                                <option value="@item.citycode">@item.cityname - @item.citycode -<br>@item.airportname </option>
+
+                                                            }
+
+                                                        </select>
+                                                    </span>
+
+                                                </div>
+                                                <div class="col-12 col-md-10 col-lg-2 space">
+                                                    <label style="margin-bottom: 0.1rem;">Departure</label>
+                                                    <span class="input-group-text">
+                                                        <input id="Oneway-date" name="beginDate" type="text" value="@Model.simpleAvailabilityRequestModelEdit.beginDate" class="form-control">
+                                                    </span>
+                                                </div>
+                                                <div class="col-12 col-md-10 col-lg-2 space">
+                                                    <label style="margin-bottom: 0.1rem;">Return</label>
+                                                    <span class="input-group-text">
+                                                        <input id="Oneway-endDate" name="endDate" type="text" class="form-control" value="" disabled>
+                                                    </span>
+                                                </div>
+                                                @{
+                                                   
+
+                                                    int AdultCount = 0;
+                                                    int ChildCount = 0;
+                                                    int InfantCount = 0;
+                                                   
+                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 0
+                                                    && Model.simpleAvailabilityRequestModelEdit.passengers.types[0].type == "ADT")
+                                                    {
+                                                        AdultCount = Model.simpleAvailabilityRequestModelEdit.passengers.types[0].count;
+                                                    }
+
+                                                    
+                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 1
+                                                    && Model.simpleAvailabilityRequestModelEdit.passengers.types[1].type == "CHD")
+                                                    {
+                                                        ChildCount = Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count;
+                                                    }
+
+                                                    
+                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 2
+                                                    && Model.simpleAvailabilityRequestModelEdit.passengers.types[2].type == "INFT")
+                                                    {
+                                                        InfantCount = Model.simpleAvailabilityRequestModelEdit.passengers.types[2].count;
+                                                    }
+
+
+                                                    <div class="col-12 col-md-10 col-lg-2 space travellers">
+                                                        <label style="margin-bottom: 0.1rem;">Travellers </label>
+
+                                                        <div class="searchMenu-guests js-form-dd js-form-counters">
+                                                            <div data-x-dd-click="searchMenu-guests">
+
+                                                                <div class="text-15 text-light-1 ls-2 lh-16">
+                                                                    <span class="js-count-adult text-22 text-light-1 fw-600" id="count_adult">@AdultCount</span> adults
+                                                                    -
+                                                                    <span class="js-count-child text-22 text-light-1 fw-600" id="count_child">@ChildCount</span> children
+                                                                    -
+                                                                    <span class="js-count-infents text-22 text-light-1 fw-600" id="count_infant">@InfantCount</span> Infants
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="searchMenu-guests__field shadow-2" data-x-dd="searchMenu-guests" data-x-dd-toggle="-is-active">
+
+                                                                <div class="bg-white px-30 py-30 rounded-4">
+
+                                                                    @*  ------------------------ *@
+                                                                    <div class="d-flex y-gap-10 justify-between items-center">
+                                                                        <div class="btn-incr-adult text-dark">
+                                                                            <div class="text-13 fw-600">Adults</div>
+
+                                                                            <input type="hidden" name="adulttype" value="ADT" asp-for="@AdultCount" />
+                                                                            <div class="text-13 fw-500">Aged 12+ yrs</div>
+                                                                        </div>
+                                                                        <div class="btn-increase">
+                                                                            <div class="decrement sub btn_sub">-</div>
+
+                                                                            <input type="number" id="field_adult" name="adultcount" class="input-field" value="@AdultCount" asp-for="@AdultCount" min="1" max="9">
+                                                                            <div class="increment add btn_sub">+</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="border-top-light mt-24 mb-24"></div>
+                                                                    <div class="d-flex y-gap-10 justify-between items-center">
+                                                                        <div class="btn-incr-chld  text-dark">
+                                                                            <div class="text-13 fw-600">
+                                                                                Children
+                                                                            </div>
+                                                                            <input type="hidden" name="childtype" value="CHD" asp-for="@ChildCount" />
+                                                                            <div class="text-13 fw-500">
+                                                                                Aged 2-12 yrs
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="btn-increase">
+                                                                            <div class="decrement1 sub btn_sub">-</div>
+                                                                            <input type="number" id="field_child" name="childcount" class="input-field" value="@ChildCount" asp-for="@ChildCount" min="0" max="6">
+                                                                            <div class="increment1 add btn_sub">+</div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="border-top-light mt-24 mb-24"></div>
+                                                                    <div class="d-flex y-gap-10 justify-between items-center">
+                                                                        <div class="infant-area  text-dark">
+                                                                            <div class="text-13 fw-600">Infants</div>
+                                                                            <input type="hidden" name="infanttype" value="INFT" asp-for="@InfantCount" />
+                                                                            <div class="text-13 fw-500">
+                                                                                Below 2 yrs
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="btn-increase">
+                                                                            <div class="decrement2 sub btn_sub">-</div>
+
+                                                                            <input type="number" id="field_infant" name="infantcount" class="input-field" value="@InfantCount" asp-for="@InfantCount" min="0" max="6">
+                                                                            <div class="increment2 add btn_sub">+</div>
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="border-top-light mt-24 mb-24"></div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        @* <div class="searchMenu-guests js-form-dd js-form-counters">
+                                                    <div data-x-dd-click="searchMenu-guests">
+                                                    <div class="text-15 text-light-1 ls-2 lh-16">
+                                                    <span class="js-count-adult  text-16 text-light-1 fw-400" id="count_adult">@Model.simpleAvailabilityRequestModelEdit.passengers.types[0].count</span> adults
+                                                    @if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 1)
+                                                    {
+
+                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types[1].type == "CHD")
+                                                    {
+                                                    <span class="js-count-child  text-16 text-light-1 fw-400" id="count_child">@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count</span>
+                                                    <span>children</span>
+                                                    }
+                                                    else
+                                                    {
+
+                                                    <span class="js-count-child text-16 text-light-1 fw-400" id="count_child">0</span>
+                                                    <span>children</span>
+
+                                                    }
+                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types[1].type == "INFT")
+                                                    {
+                                                    <span class="js-count-infents  text-16 text-light-1 fw-400" id="count_infant">@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count</span>
+                                                    <span>infant</span>
+                                                    }
+                                                    else
+                                                    {
+                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 2)
+                                                    {
+                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types[2].type == "INFT")
+                                                    {
+
+                                                    }
+                                                    }
+                                                    else if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 3)
+                                                    {
+
+                                                    }
+                                                    else
+                                                    {
+                                                    <span class="js-count-infents text-16 text-light-1 fw-400" id="count_infant">0</span>
+                                                    <span>infant</span>
+
+                                                    }
+
+                                                    }
+
+                                                    }
+                                                    else
+                                                    {
+                                                    <span class="js-count-child text-16 text-light-1 fw-400" id="count_child">0</span>
+                                                    <span>children</span>
+                                                    }
+                                                    @if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 2)
+                                                    {
+                                                    <span class="js-count-infents  text-16 text-light-1 fw-400" id="count_infant">@Model.simpleAvailabilityRequestModelEdit.passengers.types[2].count</span>
+
+                                                    <span>infant</span>
+                                                    }
+                                                    else
+                                                    {
+                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 1)
+                                                    {
+
+                                                    }
+                                                    else
+                                                    {
+                                                    <span class="js-count-infents text-16 text-light-1 fw-400" id="count_infant">0</span>
+                                                    <span>infant</span>
+
+                                                    }
+
+                                                    }
+
+                                                    </div>
+                                                    </div>
+
+
+                                                    <div class="searchMenu-guests__field shadow-2" data-x-dd="searchMenu-guests" data-x-dd-toggle="-is-active">
+
+                                                    <div class="bg-white px-30 py-30 rounded-4">
+
+                                                    @*  ------------------------
+                                                    <div class="d-flex y-gap-10 justify-between items-center">
+                                                    <div class="btn-incr-adult">
+                                                    <div class="text-15 fw-500">Adults</div>
+                                                    <input type="hidden" name="adulttype" value="ADT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.adulttype" />
+                                                    <div class="text-15 fw-500">Aged 12+ yrs</div>
+                                                    </div>
+                                                    <div class="btn-increase">
+                                                    <div class="decrement sub btn_sub">-</div>
+                                                    <input type="number" id="field_adult" class="input-field" name="adultcount" value="@Model.simpleAvailabilityRequestModelEdit.passengers.types[0].count" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.adultcount" min="1" max="9">
+                                                    <div class="increment add btn_sub">+</div>
+                                                    </div>
+                                                    </div>
+                                                    <div class="border-top-light mt-24 mb-24"></div>
+                                                    @if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 1)
+                                                    {
+
+
+
+                                                    @if (Model.simpleAvailabilityRequestModelEdit.passengers.types[1].type == "CHD")
+                                                    {
+                                                    <div class="d-flex y-gap-10 justify-between items-center">
+                                                    <div class="btn-incr-chld">
+                                                    <div class="text-15 fw-500">
+                                                    Children
+                                                    </div>
+                                                    <input type="hidden" name="childtype" value="CHD" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childtype" />
+                                                    <div class="text-15 fw-500">
+                                                    Aged 2-12 yrs
+                                                    </div>
+                                                    </div>
+                                                    <div class="btn-increase">
+                                                    <div class="decrement1 sub btn_sub">-</div>
+                                                    <input type="number" id="field_child" class="input-field" value="@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count" name="childcount" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childcount" min="0" max="6">
+                                                    <div class="increment1 add btn_sub">+</div>
+                                                    </div>
+                                                    </div>
+                                                    }
+                                                    else
+                                                    {
+                                                    <div class="d-flex y-gap-10 justify-between items-center">
+                                                    <div class="btn-incr-chld">
+                                                    <div class="text-15 fw-500">
+                                                    Children
+                                                    </div>
+                                                    <input type="hidden" name="childtype" value="CHD" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childtype" />
+                                                    <div class="text-15 fw-500">
+                                                    Aged 2-12 yrs
+                                                    </div>
+                                                    </div>
+                                                    <div class="btn-increase">
+                                                    <div class="decrement1 sub btn_sub">-</div>
+                                                    <input type="number" id="field_child" class="input-field" value="0" name="childcount" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childcount" min="0" max="6">
+                                                    <div class="increment1 add btn_sub">+</div>
+                                                    </div>
+                                                    </div>
+
+                                                    }
+
+
+                                                    <div class="border-top-light mt-24 mb-24"></div>
+                                                    <div class="d-flex y-gap-10 justify-between items-center">
+                                                    @if (Model.simpleAvailabilityRequestModelEdit.passengers.types[1].type == "INFT")
+                                                    {
+                                                    <div class="infant-area">
+                                                    <div class="text-15 fw-500">Infants</div>
+                                                    <input type="hidden" name="infanttype" value="INFT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infanttype" />
+                                                    <div class="text-15 fw-500">
+                                                    Below 2 yrs
+                                                    </div>
+                                                    </div>
+                                                    <div class="btn-increase">
+                                                    <div class="decrement2 sub btn_sub">-</div>
+                                                    <input type="number" id="field_infant" class="input-field" name="infantcount" value="@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infantcount" min="0" max="6">
+                                                    <div class="increment2 add btn_sub">+</div>
+                                                    </div>
+                                                    }
+                                                    else
+                                                    {
+
+                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 2)
+                                                    {
+                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types[2].type == "INFT")
+                                                    {
+
+                                                    }
+                                                    }
+                                                    else if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 3)
+                                                    {
+
+                                                    }
+                                                    else
+                                                    {
+                                                    <div class="infant-area">
+                                                    <div class="text-15 fw-500">Infants</div>
+                                                    <input type="hidden" name="infanttype" value="INFT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infanttype" />
+                                                    <div class="text-15 fw-500">
+                                                    Below 2 yrs
+                                                    </div>
+                                                    </div>
+                                                    <div class="btn-increase">
+                                                    <div class="decrement2 sub btn_sub">-</div>
+
+                                                    <input type="number" id="field_infant" class="input-field" name="infantcount" value="0" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infantcount" min="0" max="6">
+                                                    <div class="increment2 add btn_sub">+</div>
+
+                                                    </div>
+                                                    }
+
+                                                    }
+
+                                                    </div>
+                                                    }
+                                                    else
+                                                    {
+                                                    <div class="d-flex y-gap-10 justify-between items-center">
+                                                    <div class="btn-incr-chld">
+                                                    <div class="text-15 fw-500">
+                                                    Children
+                                                    </div>
+                                                    <input type="hidden" name="childtype" value="CHD" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childtype" />
+                                                    <div class="text-15 fw-500">
+                                                    Aged 2-12 yrs
+                                                    </div>
+                                                    </div>
+                                                    <div class="btn-increase">
+                                                    <div class="decrement1 sub btn_sub">-</div>
+                                                    <input type="number" id="field_child" class="input-field" value="0" name="childcount" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childcount" min="0" max="6">
+                                                    <div class="increment1 add btn_sub">+</div>
+
+                                                    </div>
+                                                    </div>
+                                                    <div class="border-top-light mt-24 mb-24"></div>
+
+                                                    }
+                                                    @* <div class="border-top-light mt-24 mb-24"></div>
+                                                    <div class="d-flex y-gap-10 justify-between items-center">
+                                                    @if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 2)
+                                                    {
+                                                    @if (Model.simpleAvailabilityRequestModelEdit.passengers.types[2].type == "INFT")
+                                                    {
+                                                    <div class="infant-area">
+                                                    <div class="text-15 fw-500">Infants</div>
+                                                    <input type="hidden" name="infanttype" value="INFT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infanttype" />
+                                                    <div class="text-15 fw-500">
+                                                    Below 2 yrs
+                                                    </div>
+                                                    </div>
+                                                    <div class="btn-increase">
+                                                    <div class="decrement2 sub btn_sub">-</div>
+
+                                                    <input type="number" id="field_infant" class="input-field" name="infantcount" value="@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infantcount" min="0" max="6">
+                                                    <div class="increment2 add btn_sub">+</div>
+
+                                                    </div>
+                                                    }
+                                                    }
+                                                    else
+                                                    {
+
+                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 1)
+                                                    {
+
+                                                    }
+                                                    else
+                                                    {
+                                                    <div class="infant-area">
+                                                    <div class="text-15 fw-500">Infants</div>
+                                                    <input type="hidden" name="infanttype" value="INFT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infanttype" />
+                                                    <div class="text-15 fw-500">
+                                                    Below 2 yrs
+                                                    </div>
+                                                    </div>
+                                                    <div class="btn-increase">
+                                                    <div class="decrement2 sub btn_sub">-</div>
+
+                                                    <input type="number" id="field_infant" class="input-field" name="infantcount" value="0" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infantcount" min="0" max="6">
+                                                    <div class="increment2 add btn_sub">+</div>
+
+                                                    </div>
+                                                    }
+
+                                                    }
+                                                    </div>
+
+                                                    @*  <div class="border-top-light mt-24 mb-24"></div>
+
+                                                    </div>
+                                                    </div>
+                                                    </div> *@
+                                                    </div>
+                                                }
+                                                <div class="col-12 col-md-10 col-lg-2"><button style="margin-top:0px;" type="submit" class="btn btn-lg btn-block" onclick="validateInputs()"><i class="fa fa-search mr-10" aria-hidden="true"></i>Modify Search</button></div>
+
+                                                <div class="col-12 col-md-12 col-lg-12 search-bottom"></div>
+                                                <div class="col-12 col-md-10 col-lg-9 pl-0">
+                                                    <div class="form-group pt-2">
+                                                        <div class="dropdown js-dropdown js-economy-active" style="display:inline-block;">
+                                                            <div class="dropdown__button d-flex items-center  text-15" data-el-toggle=".js-economy-toggle" data-el-toggle-active=".js-economy-active">
+                                                                <span class="js-dropdown-title">Show Class </span>
+                                                                <i class="fa fa-angle-down ml-1 icon icon-chevron-sm-down" aria-hidden="true"></i>
+                                                            </div>
+                                                            <div class="toggle-element -dropdown  js-click-dropdown js-economy-toggle">
+                                                                <div class="text-14 y-gap-8 js-dropdown-list">
+                                                                    <a href="#" class="d-block js-dropdown-link" onclick="toggleRadio(event, 'radioid1')">
+                                                                        <input class="m-2 form-radio-input d-none" type="radio" name="flightclass" value="E" id="radioid1">
+                                                                        Economic
+                                                                    </a>
+                                                                    <a href="#" class="d-block js-dropdown-link" onclick="toggleRadio(event, 'radioid2')">
+                                                                        <input class="m-2 form-radio-input d-none" type="radio" name="flightclass" value="P" id="radioid2">
+                                                                        Premium
+                                                                    </a>
+                                                                    <a href="#" class="d-block js-dropdown-link" onclick="toggleRadio(event, 'radioid3')">
+                                                                        <input class="m-2 form-radio-input d-none" type="radio" name="flightclass" value="B" id="radioid3">
+                                                                        Business
+                                                                    </a>
+                                                                    <a href="#" class="d-block js-dropdown-link" onclick="toggleRadio(event, 'radioid4')">
+                                                                        <input class="m-2 form-radio-input d-none" type="radio" name="flightclass" value="F" id="radioid4">
+                                                                        First
+                                                                    </a>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                                            <input type="checkbox" class="custom-control-input" name="farecheck" id="defaultInline3" onclick="checkOnlyThis(this)">
+                                                            <label class="custom-control-label" for="defaultInline3">Senior Citizen</label>
+                                                        </div>
+                                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                                            <input type="checkbox" class="custom-control-input" name="farecheck" id="defaultInline4" onclick="checkOnlyThis(this)">
+                                                            <label class="custom-control-label" for="defaultInline4">Defence Fare</label>
+                                                        </div>
+                                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                                            <input type="checkbox" class="custom-control-input" name="farecheck" id="defaultInline5" onclick="checkOnlyThis(this)">
+                                                            <label class="custom-control-label" for="defaultInline5">Student Fare</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ***** Flight Search Area End ***** -->
+        </div>
+        <!-- ***** End inner search ***** -->
+        <section class="layout-pt-md layout-pb-md bg-light-2 search-result">
+            <div class="container">
+                <div class="row y-gap-30">
+                    <div class="col-xl-3 col-lg-4">
+                        <aside class="sidebar py-20 px-20 rounded-4 bg-white">
+                            <partial name="_FlightViewPartialView.cshtml" />
+                        </aside>
+                    </div>
+                    <div class="col-xl-9 col-lg-8">
+                        <div class="shorting-bg-white" style="padding: 15px 15px 15px 15px;">
+                            <div class="d-flex justify-between shorting-tab">
+                                <div>
+                                    <a href="#" class="sort-link" data-sort="name_desc">Airlines</a>
+                                </div>
+                                <div>
+                                    <a href="#" class="sort-link" data-sort="deprt_desc"> Depart</a>
+                                </div>
+                                <div>
+                                    <a href="#" class="sort-link" data-sort="duration_desc">Duration</a>
+                                </div>
+                                <div>
+                                    <a href="#" class="sort-link" data-sort="arrive_desc">Arrive</a>
+                                </div>
+                                <div style="padding-right:40px;">
+                                    <a href="#" class="sort-link" data-sort="price_desc">Price</a>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div id="flight-results">
+                            @Html.Partial("_FlightResultsSortingPartialView", Model)
+                        </div>
+
+                        @if (Model.SimpleAvailibilityaAddResponcelist.Count == 0)
+                        {
+                            <div class="row pt-50">
+                                <div class="col-xl-9 col-lg-8 text-center text-danger fw-600">
+                                    <marquee>
+                                        <h4 style="color: red; font-weight: 600;">No Flight Available....</h4>
+                                    </marquee>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+
+                </div>
+            </div>
+        </section>
+        <!--====== Footer Area Start ======-->
+        <footer class="footer-area footer-fixed">
+            <!-- Footer Top -->
+            <div class="footer-top ptb_62">
+                <div class="container">
+                    <h3 class="footer-title mb-2">Travel Guide</h3>
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <!-- Footer Items -->
+                            <div class="footer-items">
+                                <ul>
+                                    <li class="py-2"><a href="#">Andaman and Nicobar Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Kerala Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Himachal Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Kashmir Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Gujarat Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Maharashtra Travel Guide</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <!-- Footer Items -->
+                            <div class="footer-items">
+                                <ul>
+                                    <li class="py-2"><a href="#">Lakshwadweep Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Assam Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Arunachal Pradesh Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Andhra Pradesh Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Manipur Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Madhya Pradesh Travel Guide</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <!-- Footer Items -->
+                            <div class="footer-items">
+                                <ul>
+                                    <li class="py-2"><a href="#">Nagaland Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Odisha Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Tamil Nadu Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Uttaranchal Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">West Bengal Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Karnataka Travel Guide</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <!-- Footer Items -->
+                            <div class="footer-items">
+                                <ul>
+                                    <li class="py-2"><a href="#">Lakshwadweep Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Assam Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Arunachal Pradesh Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Andhra Pradesh Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Manipur Travel Guide</a></li>
+                                    <li class="py-2"><a href="#">Madhya Pradesh Travel Guide</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-mid ptb_50">
+                <div class="container">
+                    <h3 class="footer-title mb-2">Why jetwaystravel.com?</h3>
+                    <p>Our competitive rates and exclusive offers are what gives us a top notch over our competitors. We promise 'Unbeatable' services both in pricing and quality. For instance: Every Wednesday, travelers can save big with our ZERO Convenience fee on flight bookings.</p>
+                    <p>Also, we get it - travel’s a big decision. It’s not every day that you fly across the world to wander the souks of Dubai or enjoy a dreamy sunrise in Paris. But for us, it’s been our every day job for the past four decades. Let’s just say we know what travelers really want. We give you the pros and cons for all the different travel products and allow you to decide what works best for you and your family. While many travel companies claim to have experts, we believe few, match our own specialists for genuine- firsthand knowledge. We combine first-hand knowledge with exceptional special offers, and we take care of every detail to create a holiday as unique as you are. You will no more need to worry about coordinating flight bookings, hotel reservations, visa stamps or tours as all your needs are taken care of under one roof; the Jetways Travels roof. More than 85% of clients come back to us for future trips.</p>
+                    <p>When you choose Jetways Travels, your trip is in safe hands. Whilst you are abroad our team is available 24 hours a day, 365 days a year should you need assistance. We do absolutely everything for you, all you need to do is turn up at the airport with your bags and go!</p>
+                </div>
+            </div>
+
+            <div class="footer-mid-bottom ptb_25">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-lg-6">
+                            <!-- Social Icons -->
+                            <div class="social-icons d-flex">
+                                <a class="facebook" href="#">
+                                    <i class="fab fa-facebook-f"></i>
+
+                                </a>
+                                <a class="twitter" href="#">
+                                    <i class="fab fa-twitter"></i>
+
+                                </a>
+                                <a class="google-plus" href="#">
+                                    <i class="fab fa-google-plus-g"></i>
+
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-6 text-right">
+                            <img src="~/img/card.png" alt="card">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Copyright Area -->
+                            <div class="copyright-area text-center py-4">
+                                <!-- Copyright-->
+                                <div class="copyright">Copyrights &copy; 2023 www.jetwaystravel.com All Rights Reserved..</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!--====== Footer Area End ======-->
+    </main>
+
+    <div class="langMenu is-hidden js-langMenu" data-x="lang" data-x-toggle="is-hidden">
+        <div class="langMenu__bg" data-x-click="lang"></div>
+
+        <div class="langMenu__content bg-white rounded-4">
+            <div class="d-flex items-center justify-between px-30 py-20 sm:px-15 border-bottom-light">
+                <div class="text-20 fw-500 lh-15">Select your language</div>
+                <button class="pointer" data-x-click="lang">
+                    <i class="icon-close"></i>
+                </button>
+            </div>
+
+            <div class="modalGrid px-30 py-30 sm:px-15 sm:py-15">
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">English</div>
+                        <div class="text-14 lh-15 mt-5 js-title">United States</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Türkçe</div>
+                        <div class="text-14 lh-15 mt-5 js-title">Turkey</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Español</div>
+                        <div class="text-14 lh-15 mt-5 js-title">España</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Français</div>
+                        <div class="text-14 lh-15 mt-5 js-title">France</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Italiano</div>
+                        <div class="text-14 lh-15 mt-5 js-title">Italia</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">English</div>
+                        <div class="text-14 lh-15 mt-5 js-title">United States</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Türkçe</div>
+                        <div class="text-14 lh-15 mt-5 js-title">Turkey</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Español</div>
+                        <div class="text-14 lh-15 mt-5 js-title">España</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Français</div>
+                        <div class="text-14 lh-15 mt-5 js-title">France</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Italiano</div>
+                        <div class="text-14 lh-15 mt-5 js-title">Italia</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">English</div>
+                        <div class="text-14 lh-15 mt-5 js-title">United States</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Türkçe</div>
+                        <div class="text-14 lh-15 mt-5 js-title">Turkey</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Español</div>
+                        <div class="text-14 lh-15 mt-5 js-title">España</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Français</div>
+                        <div class="text-14 lh-15 mt-5 js-title">France</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Italiano</div>
+                        <div class="text-14 lh-15 mt-5 js-title">Italia</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">English</div>
+                        <div class="text-14 lh-15 mt-5 js-title">United States</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Türkçe</div>
+                        <div class="text-14 lh-15 mt-5 js-title">Turkey</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Español</div>
+                        <div class="text-14 lh-15 mt-5 js-title">España</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Français</div>
+                        <div class="text-14 lh-15 mt-5 js-title">France</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Italiano</div>
+                        <div class="text-14 lh-15 mt-5 js-title">Italia</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="currencyMenu is-hidden js-currencyMenu" data-x="currency" data-x-toggle="is-hidden">
+        <div class="currencyMenu__bg" data-x-click="currency"></div>
+
+        <div class="currencyMenu__content bg-white rounded-4">
+            <div class="d-flex items-center justify-between px-30 py-20 sm:px-15 border-bottom-light">
+                <div class="text-20 fw-500 lh-15">Select your currency</div>
+                <button class="pointer" data-x-click="currency">
+                    <i class="icon-close"></i>
+                </button>
+            </div>
+
+            <div class="modalGrid px-30 py-30 sm:px-15 sm:py-15">
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">United States dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">USD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Australian dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">AUD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Brazilian real</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">BRL</span>
+                            - R$
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Bulgarian lev</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">BGN</span>
+                            - лв.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Canadian dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">CAD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">United States dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">USD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Australian dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">AUD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Brazilian real</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">BRL</span>
+                            - R$
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Bulgarian lev</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">BGN</span>
+                            - лв.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Canadian dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">CAD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">United States dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">USD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Australian dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">AUD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Brazilian real</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">BRL</span>
+                            - R$
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Bulgarian lev</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">BGN</span>
+                            - лв.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Canadian dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">CAD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">United States dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">USD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Australian dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">AUD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Brazilian real</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">BRL</span>
+                            - R$
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Bulgarian lev</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">BGN</span>
+                            - лв.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Canadian dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">CAD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="mapFilter" data-x="mapFilter" data-x-toggle="-is-active">
+        <div class="mapFilter__overlay"></div>
+
+        <div class="mapFilter__close">
+            <button class="button -blue-1 size-40 bg-white shadow-2" data-x-click="mapFilter">
+                <i class="icon-close text-15"></i>
+            </button>
+        </div>
+
+        <div class="mapFilter__grid" data-x="mapFilter__grid" data-x-toggle="-filters-hidden">
+            <div class="mapFilter-filter scroll-bar-1">
+                <div class="px-20 py-20 md:px-15 md:py-15">
+                    <div class="d-flex items-center justify-between">
+                        <div class="text-18 fw-500">Filters</div>
+
+                        <button class="size-40 flex-center rounded-full bg-blue-1" data-x-click="mapFilter__grid">
+                            <i class="icon-chevron-left text-12 text-white"></i>
+                        </button>
+                    </div>
+
+                    <div class="mapFilter-filter__item">
+                        <h5 class="text-18 fw-500 mb-10">Popular Filters</h5>
+                        <div class="sidebar-checkbox">
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox">
+                                            <input type="checkbox">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+                                        <div class="text-15 ml-10">Breakfast Included</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">92</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox">
+                                            <input type="checkbox">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+                                        <div class="text-15 ml-10">Romantic</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">45</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox">
+                                            <input type="checkbox">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+                                        <div class="text-15 ml-10">Airport Transfer</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">21</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox">
+                                            <input type="checkbox">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+                                        <div class="text-15 ml-10">WiFi Included </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">78</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox">
+                                            <input type="checkbox">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+                                        <div class="text-15 ml-10">5 Star</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">679</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-filter__item">
+                        <h5 class="text-18 fw-500 mb-10">Nightly Price</h5>
+                        <div class="row x-gap-10 y-gap-30">
+                            <div class="col-12">
+                                <div class="js-price-rangeSlider">
+                                    <div class="text-14 fw-500"></div>
+
+                                    <div class="d-flex justify-between mb-20">
+                                        <div class="text-15 text-dark-1">
+                                            <span class="js-lower"></span>
+                                            -
+                                            <span class="js-upper"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="px-5">
+                                        <div class="js-slider"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-filter__item">
+                        <h5 class="text-18 fw-500 mb-10">Amenities</h5>
+                        <div class="sidebar-checkbox">
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Breakfast Included</div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">92</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">WiFi Included </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">45</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Pool</div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">21</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Restaurant </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">78</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Air conditioning </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">679</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-filter__item">
+                        <h5 class="text-18 fw-500 mb-10">Star Rating</h5>
+                        <div class="row x-gap-10 y-gap-10 pt-10">
+
+                            <div class="col-auto">
+                                <a href="#" class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">1</a>
+                            </div>
+
+                            <div class="col-auto">
+                                <a href="#" class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">2</a>
+                            </div>
+
+                            <div class="col-auto">
+                                <a href="#" class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">3</a>
+                            </div>
+
+                            <div class="col-auto">
+                                <a href="#" class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">4</a>
+                            </div>
+
+                            <div class="col-auto">
+                                <a href="#" class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">5</a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-filter__item">
+                        <h5 class="text-18 fw-500 mb-10">Guest Rating</h5>
+                        <div class="sidebar-checkbox">
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="form-radio d-flex items-center ">
+                                        <div class="radio">
+                                            <input type="radio" name="name">
+                                            <div class="radio__mark">
+                                                <div class="radio__icon"></div>
+                                            </div>
+                                        </div>
+                                        <div class="ml-10">Any</div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">92</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="form-radio d-flex items-center ">
+                                        <div class="radio">
+                                            <input type="radio" name="name">
+                                            <div class="radio__mark">
+                                                <div class="radio__icon"></div>
+                                            </div>
+                                        </div>
+                                        <div class="ml-10">Wonderful 4.5+</div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">45</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="form-radio d-flex items-center ">
+                                        <div class="radio">
+                                            <input type="radio" name="name">
+                                            <div class="radio__mark">
+                                                <div class="radio__icon"></div>
+                                            </div>
+                                        </div>
+                                        <div class="ml-10">Very good 4+</div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">21</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="form-radio d-flex items-center ">
+                                        <div class="radio">
+                                            <input type="radio" name="name">
+                                            <div class="radio__mark">
+                                                <div class="radio__icon"></div>
+                                            </div>
+                                        </div>
+                                        <div class="ml-10">Good 3.5+ </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">78</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-filter__item">
+                        <h5 class="text-18 fw-500 mb-10">Style</h5>
+                        <div class="sidebar-checkbox">
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Budget</div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">92</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Mid-range </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">45</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Luxury</div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">21</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Family-friendly </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">78</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Business </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">679</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-filter__item">
+                        <h5 class="text-18 fw-500 mb-10">Neighborhood</h5>
+                        <div class="sidebar-checkbox">
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Central London</div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">92</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Guests&#39; favourite area </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">45</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Westminster Borough</div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">21</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Kensington and Chelsea </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">78</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Oxford Street </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">679</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mapFilter-results scroll-bar-1">
+                <div class="px-20 py-20 md:px-15 md:py-15">
+                    <div class="row y-gap-10 justify-between">
+                        <div class="col-auto">
+                            <div class="text-14 text-light-1">
+                                <span class="text-dark-1 text-15 fw-500">3,269 properties</span>
+                                in Europe
+                            </div>
+                        </div>
+
+                        <div class="col-auto">
+                            <button class="button -blue-1 h-40 px-20 md:px-5 text-blue-1 bg-blue-1-05 rounded-100">
+                                <i class="icon-up-down mr-10"></i>
+                                Top picks for your search
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <div class="mapFilter-results__item">
+                        <div class="row x-gap-20 y-gap-20">
+                            <div class="col-md-auto">
+                                <div class="ratio ratio-1:1 size-120">
+                                    <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                </div>
+                            </div>
+
+                            <div class="col-md">
+                                <div class="row x-gap-20 y-gap-10 justify-between">
+                                    <div class="col-lg">
+                                        <h4 class="text-16 lh-17 fw-500">
+                                            Great Northern Hotel, a Tribute Portfolio Hotel, London
+                                            <span class="text-10 text-yellow-2">
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                            </span>
+                                        </h4>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                                            <i class="icon-heart text-12"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="size-38 rounded-4 flex-center bg-blue-1">
+                                                <span class="text-14 fw-600 text-white">4.8</span>
+                                            </div>
+
+                                            <div class="ml-10">
+                                                <div class="text-13 lh-14 fw-500">Exceptional</div>
+                                                <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="text-14 text-light-1 mr-10">8 nights</div>
+                                            <div class="fw-500">US$72</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-results__item">
+                        <div class="row x-gap-20 y-gap-20">
+                            <div class="col-md-auto">
+                                <div class="ratio ratio-1:1 size-120">
+                                    <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                </div>
+                            </div>
+
+                            <div class="col-md">
+                                <div class="row x-gap-20 y-gap-10 justify-between">
+                                    <div class="col-lg">
+                                        <h4 class="text-16 lh-17 fw-500">
+                                            Great Northern Hotel, a Tribute Portfolio Hotel, London
+                                            <span class="text-10 text-yellow-2">
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                            </span>
+                                        </h4>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                                            <i class="icon-heart text-12"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="size-38 rounded-4 flex-center bg-blue-1">
+                                                <span class="text-14 fw-600 text-white">4.8</span>
+                                            </div>
+
+                                            <div class="ml-10">
+                                                <div class="text-13 lh-14 fw-500">Exceptional</div>
+                                                <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="text-14 text-light-1 mr-10">8 nights</div>
+                                            <div class="fw-500">US$72</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-results__item">
+                        <div class="row x-gap-20 y-gap-20">
+                            <div class="col-md-auto">
+                                <div class="ratio ratio-1:1 size-120">
+                                    <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                </div>
+                            </div>
+
+                            <div class="col-md">
+                                <div class="row x-gap-20 y-gap-10 justify-between">
+                                    <div class="col-lg">
+                                        <h4 class="text-16 lh-17 fw-500">
+                                            Great Northern Hotel, a Tribute Portfolio Hotel, London
+                                            <span class="text-10 text-yellow-2">
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                            </span>
+                                        </h4>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                                            <i class="icon-heart text-12"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="size-38 rounded-4 flex-center bg-blue-1">
+                                                <span class="text-14 fw-600 text-white">4.8</span>
+                                            </div>
+
+                                            <div class="ml-10">
+                                                <div class="text-13 lh-14 fw-500">Exceptional</div>
+                                                <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="text-14 text-light-1 mr-10">8 nights</div>
+                                            <div class="fw-500">US$72</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-results__item">
+                        <div class="row x-gap-20 y-gap-20">
+                            <div class="col-md-auto">
+                                <div class="ratio ratio-1:1 size-120">
+                                    <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                </div>
+                            </div>
+
+                            <div class="col-md">
+                                <div class="row x-gap-20 y-gap-10 justify-between">
+                                    <div class="col-lg">
+                                        <h4 class="text-16 lh-17 fw-500">
+                                            Great Northern Hotel, a Tribute Portfolio Hotel, London
+                                            <span class="text-10 text-yellow-2">
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                            </span>
+                                        </h4>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                                            <i class="icon-heart text-12"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="size-38 rounded-4 flex-center bg-blue-1">
+                                                <span class="text-14 fw-600 text-white">4.8</span>
+                                            </div>
+
+                                            <div class="ml-10">
+                                                <div class="text-13 lh-14 fw-500">Exceptional</div>
+                                                <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="text-14 text-light-1 mr-10">8 nights</div>
+                                            <div class="fw-500">US$72</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-results__item">
+                        <div class="row x-gap-20 y-gap-20">
+                            <div class="col-md-auto">
+                                <div class="ratio ratio-1:1 size-120">
+                                    <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                </div>
+                            </div>
+
+                            <div class="col-md">
+                                <div class="row x-gap-20 y-gap-10 justify-between">
+                                    <div class="col-lg">
+                                        <h4 class="text-16 lh-17 fw-500">
+                                            Great Northern Hotel, a Tribute Portfolio Hotel, London
+                                            <span class="text-10 text-yellow-2">
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                            </span>
+                                        </h4>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                                            <i class="icon-heart text-12"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="size-38 rounded-4 flex-center bg-blue-1">
+                                                <span class="text-14 fw-600 text-white">4.8</span>
+                                            </div>
+
+                                            <div class="ml-10">
+                                                <div class="text-13 lh-14 fw-500">Exceptional</div>
+                                                <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="text-14 text-light-1 mr-10">8 nights</div>
+                                            <div class="fw-500">US$72</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-results__item">
+                        <div class="row x-gap-20 y-gap-20">
+                            <div class="col-md-auto">
+                                <div class="ratio ratio-1:1 size-120">
+                                    <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                </div>
+                            </div>
+
+                            <div class="col-md">
+                                <div class="row x-gap-20 y-gap-10 justify-between">
+                                    <div class="col-lg">
+                                        <h4 class="text-16 lh-17 fw-500">
+                                            Great Northern Hotel, a Tribute Portfolio Hotel, London
+                                            <span class="text-10 text-yellow-2">
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                            </span>
+                                        </h4>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                                            <i class="icon-heart text-12"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="size-38 rounded-4 flex-center bg-blue-1">
+                                                <span class="text-14 fw-600 text-white">4.8</span>
+                                            </div>
+
+                                            <div class="ml-10">
+                                                <div class="text-13 lh-14 fw-500">Exceptional</div>
+                                                <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="text-14 text-light-1 mr-10">8 nights</div>
+                                            <div class="fw-500">US$72</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-results__item">
+                        <div class="row x-gap-20 y-gap-20">
+                            <div class="col-md-auto">
+                                <div class="ratio ratio-1:1 size-120">
+                                    <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                </div>
+                            </div>
+
+                            <div class="col-md">
+                                <div class="row x-gap-20 y-gap-10 justify-between">
+                                    <div class="col-lg">
+                                        <h4 class="text-16 lh-17 fw-500">
+                                            Great Northern Hotel, a Tribute Portfolio Hotel, London
+                                            <span class="text-10 text-yellow-2">
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                            </span>
+                                        </h4>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                                            <i class="icon-heart text-12"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="size-38 rounded-4 flex-center bg-blue-1">
+                                                <span class="text-14 fw-600 text-white">4.8</span>
+                                            </div>
+
+                                            <div class="ml-10">
+                                                <div class="text-13 lh-14 fw-500">Exceptional</div>
+                                                <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="text-14 text-light-1 mr-10">8 nights</div>
+                                            <div class="fw-500">US$72</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="mapFilter-map">
+                <div class="map js-map"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ***** All jQuery Plugins ***** -->
+    <!-- Social media js -->
+    <script src="~/js/jquery/jquery.min.js"></script>
+    <!-- Plugins js -->
+    <script src="~/js/plugins/plugins.min.js"></script>
+
+    <!-- ***** Clander js ***** -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+    <script src="~/js/daterangepicker.js"></script>
+
+    <!-- Bootstrap js -->
+    <script src="~/js/bootstrap/popper.min.js"></script>
+    <script src="~/js/bootstrap/bootstrap.min.js"></script>
+    <!-- Travellers js -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAz77U5XQuEME6TpftaMdX0bBelQxXRlM"></script>
+    <script src="~/js/vendors.js"></script>
+    <script src="~/js/main.js"></script>
+    <!-- Active js -->
+    <script src="~/js/active.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="~/lib/jquery/chosen.jquery.js"></script>
+    <script src="~/lib/jquery/chosen.jquery.min.js"></script>
+    <style type="text/css">
+        #ui-datepicker-div {
+            position: fixed;
+            left: 536.156px;
+            z-index: 100;
+            top: 137px !important;
+            width: 34em;
+        }
+
+
+        .custom-flex p {
+            font-size: 12px;
+        }
+
+
+
+        .rplc-btn {
+            width: 34px;
+            position: absolute;
+            left: 193px;
+            background: #ffffffc2;
+            margin-top: 1px;
+            margin-left: 20px;
+            padding: 3px;
+            border-radius: 50%;
+            /* z-index: 999; */
+        }
+
+            .rplc-btn img {
+                transform: rotate(90deg);
+            }
+
+        .S-optionlist {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+            margin-top: 60px;
+        }
+
+        .service-section .swiper-slide.active {
+            border: none !important;
+            background: #EBEDF8;
+        }
+
+        .btn-close {
+            background-color: #fff !important;
+            color: #000 !important;
+            padding: 7px 9px;
+            margin: 9px;
+            border-radius: 8px;
+        }
+
+        .mbody-padding {
+            padding: 8px 16px !important;
+        }
+
+        .fbody-padding {
+            padding: 8px 16px !important;
+        }
+
+        .modal-mfareBlock .pd {
+            padding: 8px 15px !important;
+        }
+
+
+
+        /* Departure Dropdown CSS**/
+        .autodropdownOneWay {
+            position: absolute;
+            z-index: 999;
+            /* background: white;*/
+            width: 330px;
+            padding: 4px;
+        }
+
+            .autodropdownOneWay > select {
+                width: 330px;
+            }
+
+
+        .chosen-drop {
+            border: 1px solid #d4d4d4;
+            box-shadow: 0 4px 5px 0 rgb(0 0 0 / 22%);
+            margin-top: -32px;
+            background: #fff;
+            padding: 2px 10px;
+        }
+
+        .autodropdownOneWay input {
+            border-bottom: 1px solid #e9eff4 !important;
+            color: #808080;
+            font-weight: 400;
+            width: 300px;
+            height: 40px;
+        }
+
+        .autodropdownOneWay .chosen-single {
+            display: none;
+        }
+
+        .autodropdownOneWay .chosen-results {
+            cursor: pointer;
+            overflow-y: scroll;
+            height: 230px;
+        }
+
+        .chosen-drop ul li {
+            background-image: url('../img/nav-icon-1.png');
+            background-repeat: no-repeat;
+            background-position: left 4px center;
+            padding: 2px 4px 8px 38px;
+            border-bottom: 1px solid #d4d4d4;
+        }
+
+
+
+        .chosen-search input {
+            background-image: url('../img/from.png');
+            background-repeat: no-repeat;
+            background-size: 20px 20px;
+            background-position: 5px center;
+            padding-left: 40px;
+        }
+
+        /*Arrival Dropdown css*/
+
+        .autoarrivalOneway {
+            position: absolute;
+            z-index: 999;
+            /* background: white;*/
+            width: 330px;
+            padding: 4px;
+        }
+
+            .autoarrivalOneway > select {
+                width: 330px;
+            }
+
+            .autoarrivalOneway input {
+                border-bottom: 1px solid #e9eff4 !important;
+                color: #808080;
+                font-weight: 400;
+                width: 300px;
+                height: 40px;
+            }
+
+            .autoarrivalOneway .chosen-single {
+                display: none;
+            }
+
+            .autoarrivalOneway .chosen-results {
+                cursor: pointer;
+                overflow-y: scroll;
+                height: 230px;
+            }
+
+            .autoarrivalOneway .chosen-drop ul li {
+                background-image: url('../img/nav-icon-1.png');
+                background-repeat: no-repeat;
+                background-position: left 4px center;
+                padding: 2px 4px 8px 38px;
+                border-bottom: 1px solid #d4d4d4;
+            }
+
+            .autoarrivalOneway .chosen-drop {
+                display: none;
+            }
+
+
+            .autoarrivalOneway .chosen-search input {
+                background-image: url('../img/from.png');
+                background-repeat: no-repeat;
+                background-size: 20px 20px;
+                background-position: 5px center;
+                padding-left: 40px;
+            }
+
+        .radioW-400 {
+            width: 400px;
+        }
+
+        #Oneway-endDate {
+            background: #0e4d74;
+        }
+    </style>
+    <script>
+
+        //***********Strip Validation*/
+        $(document).ready(function () {
+           
+
+            var maxField = 6;
+            var maxField_adult = 9;
+            var count_adult = parseInt(localStorage.getItem("adultcount")) || 1; 
+            var count_child = 0;
+            var count_infant = 0;
+
+            $('#count_adult').text(count_adult);
+            $('#field_adult').val(count_adult);
+
+            $('.increment').on('click', function () {
+                if (count_adult < maxField_adult) {
+                    count_adult++;
+                    $('#count_adult').text(count_adult);
+                    $('#field_adult').val(count_adult);
+                    localStorage.setItem("adultcount", count_adult);
+                }
+            });
+
+            $('.decrement').on('click', function () {
+                if (count_adult > 1) {
+                    count_adult--;
+                    $('#count_adult').text(count_adult);
+                    $('#field_adult').val(count_adult);
+                    localStorage.setItem("adultcount", count_adult); // Store adult count in local storage
+
+                    // Adjust infant count to match adult count
+                    if (count_infant > count_adult) {
+                        count_infant = count_adult;
+                        $('#count_infant').text(count_infant);
+                        $('#field_infant').val(count_infant);
+                    }
+                }
+            });
+
+            $('.increment1').on('click', function () {
+                if (count_child < maxField) {
+                    count_child++;
+                    $('#count_child').text(count_child);
+                    $('#field_child').val(count_child);
+                }
+            });
+
+            $('.decrement1').on('click', function () {
+                if (count_child > 0) {
+                    count_child--;
+                    $('#count_child').text(count_child);
+                    $('#field_child').val(count_child);
+                }
+            });
+
+            $('.increment2').on('click', function (event) {
+                debugger;
+                if (count_infant < maxField) {
+                    var adultcounttotal = parseInt(localStorage.getItem("adultcount")) || 1; 
+                    if (count_infant >= adultcounttotal) {
+                        alert("Number of infants cannot be more than adults");
+                        return false;
+                        event.preventDefault();
+                    }
+                        count_infant++;
+                        $('#count_infant').text(count_infant);
+                        $('#field_infant').val(count_infant);
+                   
+                }
+            });
+
+            $('.decrement2').on('click', function () {
+                if (count_infant > 0) {
+                    count_infant--;
+                    $('#count_infant').text(count_infant);
+                    $('#field_infant').val(count_infant);
+                }
+            });
+            
+
+        });
+
+
+
+        // TextBox Validation
+        function validateInputs(event) {
+            const origin = document.getElementById('myInput').value;
+            const destination = document.getElementById('myInput1').value;
+            const beginDate = document.getElementById('Oneway-date').value;
+            const endDateInput = document.getElementById('Oneway-endDate');
+            const endDate = endDateInput.value;
+            if (origin == destination) {
+                alert("Departure and Arrival Airport are same please change it..")
+                return false;
+                event.preventDefault(); // Stop the form submission
+
+            }
+
+            if (!origin) {
+                alert('Please enter the origin.');
+                return false;
+            }
+            if (!destination) {
+                alert('Please enter the destination.');
+                return false;
+            }
+            if (!beginDate) {
+                alert('Please select a start date.');
+                return false;
+            }
+            if (!endDateInput.disabled && !endDate) {
+                alert('Please select an end date.');
+                return false;
+            }
+
+            var adultCount = parseInt(document.getElementById('field_adult').value);
+            var childCount = parseInt(document.getElementById('field_child').value);
+            //var infantCount = parseInt(document.getElementById('field_infant').value);
+            var totalCount = adultCount + childCount;
+            if (totalCount > 9) {
+                alert("The combined total of adults and children must be 9 or less.");
+                return false;
+                event.preventDefault();
+            }
+           
+            var adulttravelcount = $('#field_adult').val();
+            var infanttravelcount = $('#field_infant').val();
+            if (infanttravelcount > adulttravelcount || infanttravelcount > 6) {
+                alert("Number of infants cannot be more than adults or exceed 6.");
+                return false;
+                event.preventDefault();
+
+            }
+            return true;
+        }
+
+
+
+        // Validation Oneway , Roundtrip, multicity
+        function checkRadio(radio) {
+            const endDateInput = document.getElementById('Oneway-endDate');
+            const beginDateInput = document.getElementById('Oneway-date');
+            if (radio.value === 'OneWay') {
+                endDateInput.disabled = true;
+                endDateInput.value = '';
+                endDateInput.style.backgroundColor = '#0e4d74';
+            }
+            else if (radio.value === 'RoundTrip') {
+                endDateInput.disabled = false;
+                endDateInput.value = beginDateInput.value;
+                endDateInput.style.backgroundColor = '';
+                endDateInput.style.backgroundColor = '#0E4D74';
+            }
+            else if (radio.value === 'AirlineRT') {
+                endDateInput.disabled = false;
+                endDateInput.value = beginDateInput.value;
+                endDateInput.style.backgroundColor = '';
+                endDateInput.style.backgroundColor = '#0e4d74';
+            }
+        }
+
+        //Date Picker Validation
+        $(function () {
+            $("#Oneway-date").datepicker({
+                dateFormat: 'yy-mm-dd',
+                numberOfMonths: 2,
+                maxDate: '+2m',
+                minDate: '0',
+                onSelect: function (selectedDate) {
+                    var startDate = $(this).datepicker('getDate');
+                    $("#Oneway-endDate").datepicker("option", "minDate", startDate);
+                }
+            });
+
+            $("#Oneway-endDate").datepicker({
+                dateFormat: 'yy-mm-dd',
+                numberOfMonths: 2,
+                maxDate: '+3m',
+                minDate: '0',
+                onSelect: function (selectedDate) {
+                    var endDate = $(this).datepicker('getDate');
+                    $("#Oneway-date").datepicker("option", "maxDate", endDate);
+                }
+            });
+        });
+
+
+        // Bussines Class Validation radio button
+        function toggleRadio(event, radioId) {
+            event.preventDefault();
+            document.querySelectorAll('.form-radio-input').forEach(radio => {
+                radio.checked = false;
+            });
+            var radioButton = document.getElementById(radioId);
+            radioButton.checked = true;
+        }
+
+
+        //*********End***************/
+
+        // Sorting - Filter Start
+        var sortOrderName;
+        const sortLinks = document.querySelectorAll('.sort-link');
+        const sortOrders = {
+            name: 'desc',
+            price: 'desc',
+            arrival: 'desc',
+            duration: 'desc',
+            deprt: 'desc'
+        };
+
+        // Add click event listener to each sort link
+        sortLinks.forEach(sortLink => {
+
+            sortLink.addEventListener('click', function (e) {
+                e.preventDefault();
+                const sortType = this.dataset.sort.split('_')[0];
+                const currentSortOrder = sortOrders[sortType];
+                sortOrders[sortType] = currentSortOrder === 'desc' ? 'asc' : 'desc';
+                const newSortOrder = currentSortOrder === 'desc' ? `${sortType}_desc` : `${sortType}_asc`;
+                this.dataset.sort = newSortOrder;
+                performSorting(newSortOrder);
+
+                // Make AJAX request to post the sorting order to the controller
+                postSortOrder(newSortOrder);
+            });
+        });
+
+        function performSorting(sortOrder) {
+            sortOrderName = sortOrder;
+            getFiltered();
+        }
+
+
+
+        var selectedDepartureTimes = [];
+        var selectedArrivalTimes = [];
+
+        $('.flt-Tm-slt').click(function () {
+            let departureTime = $(this).data('departure');
+            let arrivalTime = $(this).data('arrival');
+
+            $(this).toggleClass('active');
+
+            if ($(this).hasClass('active')) {
+                // Add selected times to arrays
+                if (!selectedDepartureTimes.includes(departureTime)) {
+                    selectedDepartureTimes.push(departureTime);
+                }
+                if (!selectedArrivalTimes.includes(arrivalTime)) {
+                    selectedArrivalTimes.push(arrivalTime);
+                }
+            } else {
+                // Remove deselected times from arrays
+                selectedDepartureTimes = selectedDepartureTimes.filter(function (item) {
+                    return item !== departureTime;
+                });
+                selectedArrivalTimes = selectedArrivalTimes.filter(function (item) {
+                    return item !== arrivalTime;
+                });
+            }
+            getFiltered();
+        });
+
+
+
+
+        function DepartureCheckbox() {
+            selectedDepartureTimes = [];
+            $('.selectCheckboxNew[name="morningDeparture"]:checked').each(function () {
+                let departureTime = $(this).data('departure');
+                if (!selectedDepartureTimes.includes(departureTime)) {
+                    selectedDepartureTimes.push(departureTime);
+                }
+            });
+        }
+
+
+        $('.selectCheckboxNew[name="morningDeparture"]').on('change', function () {
+            DepartureCheckbox();
+            getFiltered();
+        });
+
+
+        function getFiltered() {
+            let filterIdAirLine = [];
+            let filterId = [];
+            $('.selectCheckboxNew').each(function () {
+                if ($(this).is(':checked')) {
+                    let name = $(this).attr('name');
+                    let value = $(this).val();
+
+                    if (name === 'Airline') {
+                        filterIdAirLine.push(value);
+                    } else if (name === 'stops') {
+                        filterId.push(parseInt(value, 10));
+                    }
+                }
+            });
+
+
+            $.ajax({
+                url: '/ResultFlightView/GetFilteredFlights',
+                type: 'POST',
+                data: {
+                    FilterIdAirLine: filterIdAirLine,
+                    FilterId: filterId,
+                    departure: selectedDepartureTimes,
+                    arrival: selectedArrivalTimes,
+                    sortOrderName: sortOrderName
+                },
+                success: function (response) {
+
+                    $('#flight-results').html(response);
+                    console.log(response);
+                },
+                error: function (xhr, status, error) {
+
+                    console.error(error);
+                }
+            });
+        }
+
+
+
+        //--------*************************Sorting End--****************************************
+
+
+
+
+
+        //Flight Detail js code
+        $(document).on('click', '.flightT1', function () {
+            if (!$(this).hasClass('active')) {
+
+                $('.Ftab2, .Ftab3, .Ftab4, .Ftab5').hide();
+                $('.flightT2, .flightT3, .flightT4, .flightT5').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab1').show();
+            }
+        });
+
+        $(document).on('click', '.flightT2', function () {
+            if (!$(this).hasClass('active')) {
+
+                $('.Ftab1, .Ftab3, .Ftab4, .Ftab5').hide();
+                $('.flightT1, .flightT3, .flightT4, .flightT5').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab2').show();
+            }
+        });
+
+        $(document).on('click', '.flightT3', function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab1, .Ftab2, .Ftab4, .Ftab5').hide();
+                $('.flightT1, .flightT2, .flightT4, .flightT5').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab3').show();
+            }
+        });
+
+        $(document).on('click', '.flightT4', function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab1, .Ftab2, .Ftab3, .Ftab5').hide();
+                $('.flightT1, .flightT2, .flightT3, .flightT5').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab4').show();
+            }
+        });
+        $(document).on('click', '.flightT5', function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab1, .Ftab2, .Ftab3, .Ftab4').hide();
+                $('.flightT1, .flightT2, .flightT3, .flightT4').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab5').show();
+            }
+        });
+        $(document).on('click', '.showBtn', function (event) {
+            event.preventDefault(); // Prevent default behavior of anchor tag
+
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+                $('.hideme').slideUp(1000);
+            } else {
+                $('.hideme').slideUp(1);
+                $('.showBtn').removeClass('active');
+                $(this).addClass('active');
+                $(this).next().filter('.hideme').slideDown(1000);
+                //$('.flightT1').addClass('tabBG');
+                $('.flightT1').click();
+
+            }
+        });
+
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Select the input fields for adults, children, and infants
+            const adultInputField = document.getElementById('field_adult');
+            const childInputField = document.getElementById('field_child');
+            const infantInputField = document.getElementById('field_infant');
+
+            // Select the elements to update the selected values
+            const adultCountElement = document.getElementById('count_adult');
+            const childCountElement = document.getElementById('count_child');
+            const infantCountElement = document.getElementById('count_infant');
+
+            // Add event listener for adult increment button
+            document.querySelector('.increment.add.btn_sub').addEventListener('click', function () {
+                incrementValue(adultInputField, adultCountElement);
+            });
+
+            // Add event listener for adult decrement button
+            document.querySelector('.decrement.sub.btn_sub').addEventListener('click', function () {
+                decrementValue(adultInputField, adultCountElement);
+            });
+
+            // Add event listener for child increment button
+            document.querySelector('.increment1.add.btn_sub').addEventListener('click', function () {
+                incrementValue(childInputField, childCountElement);
+            });
+
+            // Add event listener for child decrement button
+            document.querySelector('.decrement1.sub.btn_sub').addEventListener('click', function () {
+                decrementValue(childInputField, childCountElement);
+            });
+
+            // Add event listener for infant increment button
+            document.querySelector('.increment2.add.btn_sub').addEventListener('click', function () {
+                incrementValue(infantInputField, infantCountElement);
+            });
+
+            // Add event listener for infant decrement button
+            document.querySelector('.decrement2.sub.btn_sub').addEventListener('click', function () {
+                decrementValue(infantInputField, infantCountElement);
+            });
+
+            // Function to increment the input value and update the count element
+            function incrementValue(inputField, countElement) {
+                const currentValue = parseInt(inputField.value);
+                if (currentValue < parseInt(inputField.max)) {
+                    inputField.value = currentValue + 1;
+                    countElement.textContent = currentValue + 1;
+                }
+            }
+
+            // Function to decrement the input value and update the count element
+            function decrementValue(inputField, countElement) {
+                const currentValue = parseInt(inputField.value);
+                if (currentValue > parseInt(inputField.min)) {
+                    inputField.value = currentValue - 1;
+                    countElement.textContent = currentValue - 1;
+                }
+            }
+        });
+        $('.rplc-btn').on('click', function () {
+            var flyingFromValue = $('#myInput').val();
+            var flyingToValue = $('#myInput1').val();
+            $('#myInput').val(flyingToValue);
+            $('#myInput1').val(flyingFromValue);
+            if (flyingFromValue == flyingToValue) {
+                alert("Departure and Arrival Airport are the same. Please change it.");
+                return false;
+                event.preventDefault();
+            }
+        });
+        //**********Chosen Departure Code Start ****************//
+        //*****************************************************//
+
+        $('#autodropdownOneWayId').chosen();
+        $('.chosen-drop').hide();
+        $('#autodropdownOneWayId').trigger('chosen:open');
+
+        $('#myInput').on('click', function (event) {
+            event.stopPropagation();
+            $('.chosen-drop').show();
+            $('.autodropdownOneWay input').attr('placeholder', ' From');
+            $('.autodropdownOneWay').show();
+            $('.autoarrivalOneway').hide();
+            var chosenInput = document.querySelector('.chosen-search input');
+            chosenInput.focus();
+        });
+
+
+        $(document.body).on('click', function (event) {
+            if (!$(event.target).closest('.chosen-drop').length && !$(event.target).is('#myInput')) {
+                $('.chosen-drop').hide();
+            }
+        });
+
+        function onewayDropdown() {
+            var chosenInput = document.querySelector('.chosen-search input');
+            chosenInput.focus();
+            if ($('.chosen-drop').is(':visible')) {
+                $('.chosen-search input').focus();
+                $('.chosen-drop').show();
+            }
+        }
+
+        function OnewaySelection() {
+            $('.chosen-search input').focus();
+            var dropdown = document.getElementById("autodropdownOneWayId");
+            var selectedValue = dropdown.value;
+            var selectedOption = dropdown.options[dropdown.selectedIndex];
+            var cityDetails = selectedOption.text.split('-');
+            var cityName = cityDetails[0].trim();
+            var cityCode = cityDetails[1].trim();
+            var airportName = cityDetails[2].trim();
+            document.getElementById("myInput").value = cityCode;
+            $('.chosen-drop').hide();
+            dropdown.selectedIndex = -1;
+        }
+        //**********Chosen Arrival Code Start ****************//
+        //*****************************************************//
+
+        $('#arrivalItemOnewayId').chosen();
+        $('#arrivalItemOnewayId').trigger('chosen:open');
+
+        $('#myInput1').on('click', function (event) {
+            event.stopPropagation();
+            $('.chosen-drop').show();
+            $('.autoarrivalOneway input').attr('placeholder', 'To');
+            $('.autoarrivalOneway').show();
+            $('.autodropdownOneWay').hide();
+            var chosenInput3 = document.querySelector('.autoarrivalOneway input');
+            chosenInput3.focus();
+        });
+
+        $(document.body).on('click', function (event) {
+            if (!$(event.target).closest('.chosen-drop').length && !$(event.target).is('#myInput1')) {
+                $('.chosen-drop').hide();
+            }
+        });
+        function toggleArrivalOneway() {
+            //$('.chosen-drop').toggle();
+            var chosenInputA = document.querySelector('.autoarrivalOneway input');
+            chosenInputA.focus();
+            if ($('.chosen-drop').is(':visible')) {
+                $('.autoarrivalOneway input').focus();
+                $('.chosen-drop').show();
+            }
+        }
+
+
+        function arrivalOneway() {
+            $('.autoarrivalOneway input').focus();
+            //alert("Hello Test");
+            var dropdown = document.getElementById("arrivalItemOnewayId");
+            var selectedValue = dropdown.value;
+            var selectedOption = dropdown.options[dropdown.selectedIndex];
+            var cityDetails = selectedOption.text.split('-');
+            var cityName = cityDetails[0].trim();
+            var cityCode = cityDetails[1].trim();
+            var airportName = cityDetails[2].trim();
+            document.getElementById("myInput1").value = cityCode;
+            $('.chosen-drop').hide();
+            dropdown.selectedIndex = -1;
+        }
+
+        // Set the date we're counting down to
+        var countDownDate = new Date().getTime();
+        countDownDate += 15 * 60 * 1000;
+        var x = setInterval(function () {
+
+            var now = new Date().getTime();
+            var distance = countDownDate - now;
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);;
+            document.getElementById("demo").innerHTML = minutes + "m " + seconds + "s ";
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "EXPIRED";
+            }
+        }, 1000);
+
+
+
+        function preback() { window.history.forward(); }
+        setTimeout("preback()", -10);
+        window.onupload = function () { null };
+
+
+
+
+
+
+
+    </script>
+
+</body>
+
+

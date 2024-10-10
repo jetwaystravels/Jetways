@@ -1,0 +1,3593 @@
+﻿@model DomainLayer.ViewModel.ViewModel
+@{
+    Layout = null;
+    var data = Model;
+}
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Title  -->
+    <title>Jetways Travels</title>
+    <!-- Favicon  -->
+    <link rel="icon" href="~/img/favicon.png">
+    <!-- Style css -->
+    <link rel="stylesheet" href="~/css/vendors.css">
+    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/daterangepicker.css">
+
+    <link href="~/css/roundviewpage.css" rel="stylesheet" />
+    <link href="~/css/indexvny.css" rel="stylesheet" />
+    <script src="~/js/custom.js/indexpage.js"></script>
+
+</head>
+
+<body>
+    <main id="filternonstop">
+        <!-- ***** Header Start ***** -->
+        <header class="navbar navbar-sticky navbar-expand-lg inner-bg">
+            <div class="container position-relative">
+                <a class="navbar-brand" asp-controller="FlightSearchIndex" asp-action="Index">
+                    <img class="navbar-brand-regular" src="~/img/logo/logo.png" alt="brand-logo">
+                    <img class="navbar-brand-sticky" src="~/img/logo/logo.png" alt="sticky brand-logo">
+
+                </a>
+                <button class="navbar-toggler d-lg-none" type="button" data-toggle="navbarToggler" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-inner">
+                    <!--  Mobile Menu Toggler -->
+                    <button class="navbar-toggler d-lg-none" type="button" data-toggle="navbarToggler" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="nav-bar col-12 col-md-7 col-lg-12">
+                        <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-1.png">Flight</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill"><img class="mr-2" src="~/img/nav-icon-2.png">Hotel</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-3.png">Visa</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-4.png">Holidays</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-5.png">Trains</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-6.png">Buses</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill"><img class="mr-2" src="~/img/nav-icon-7.png">Cabs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#"><img class="mr-2" src="~/img/nav-icon-8.png">Flight Passes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link"><img class="mr-2" src="~/img/nav-icon-8.png">Login</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <nav id="mobile-nav">
+                        <ul class="navbar-nav" id="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#">
+                                    Home
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll" href="features">Features</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#">
+                                    Pages
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll" href="#">Screenshots</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll" href="#">Pricing</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll" href="#">Contact</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <!-- ***** Header End ***** -->
+        <!-- ***** Start inner search ***** -->
+        <div class="inner-search">
+            <!-- ***** Flight Search Area Start ***** -->
+            <section class="section search-area bg-overlay  d-flex align-items-center">
+                <div class="container">
+                    <div class="row ">
+                        <div class="col-12 col-md-7 col-lg-12">
+                            <div class="row justify-content-center">
+                                <div class="search-box">
+                                 
+                                    <form asp-action="SearchResultFlight" asp-controller="FlightSearchIndex" method="post" id="multipleValuesForm" onsubmit="return validateInputs()">
+                                        <div class="col-lg-12">
+                                            <div class="row S-optionlist">
+                                                <div class="col-12 col-md-10 col-lg-2 space autocomplete">
+                                                    <div class="d-flex radioW-400">
+                                                        <input type="radio" name="SameAirlineRT" value="OneWay" onclick="checkRadio(this)">
+                                                        <label class="form-check-label">One Way</label>
+                                                        <input type="radio" name="SameAirlineRT" value="RoundTrip" onclick="checkRadio(this)" checked>
+                                                        <label class="form-check-label">Round Trip</label>
+                                                        <input type="radio" name="SameAirlineRT" value="AirlineRT" onclick="checkRadio(this)">
+                                                        <label class="form-check-label">Same Airline Roundtrip</label>
+
+                                                    </div>
+
+                                                    <span class="input-group-text">
+                                                        <input id="myInput" name="origin" type="text" value="@Model.simpleAvailabilityRequestModelEdit.origin" class="form-control" onclick="RTDropdown()">
+
+                                                    </span>
+                                                    <span class="autodropdownRT">
+                                                        <select id="autodropdownRTId" name="autodropdownRTId" onchange="RTSelection()">
+                                                            <option value="" style="display:none;">Please select</option>
+
+                                                            @foreach (var item in Citynamelist.GetAllCityData())
+                                                            {
+                                                                <option value="@item.citycode">@item.cityname - @item.citycode -<br>@item.airportname </option>
+
+                                                            }
+
+                                                        </select>
+                                                    </span>
+
+                                                </div>
+
+                                                <div class="rplc-btn">
+                                                    <img src="~/img/direction-arrows.png" />
+                                                </div>
+
+                                                <div class="col-12 col-md-10 col-lg-2 space autocomplete">
+                                                    <label class=""></label>
+
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <input type="text" id="myInput1" name="destination" class="form-control" value="@Model.simpleAvailabilityRequestModelEdit.destination" onclick="toggleArrivalRT()">
+                                                        @* <span id="airportArval"></span> *@
+                                                    </span>
+                                                    <div id="errordestinaton" class="errorbox" style="display:none;">Enter Destination Name*</div>
+
+                                                    <span class="autoarrivalRT">
+                                                        <select id="arrivalItemRTId" name="arrivalItemRTId" onchange="arrivalRT()">
+                                                            @* <option value="">Please select</option> *@
+                                                            <option value="" style="display:none;">Please select</option>
+                                                            @foreach (var item in Citynamelist.GetAllCityData())
+                                                            {
+                                                                <option value="@item.citycode">@item.cityname - @item.citycode -<br>@item.airportname </option>
+
+                                                            }
+
+                                                        </select>
+                                                    </span>
+
+                                                </div>
+                                                <div class="col-12 col-md-10 col-lg-2 space">
+                                                    <label style="margin-bottom: 0.1rem;">Departure</label>
+                                                    <span class="input-group-text">
+
+                                                        <input id="Rway-date" name="beginDate" type="text" value="@Model.simpleAvailabilityRequestModelEdit.beginDate" placeholder="Date" class="form-control">
+                                                    </span>
+                                                </div>
+                                                <div class="col-12 col-md-10 col-lg-2 space">
+                                                    <label style="margin-bottom: 0.1rem;">Return</label>
+                                                    <span class="input-group-text" id="basic-addon1">
+
+                                                        <input id="Rway-endDate" name="endDate" type="text" value="@Model.simpleAvailabilityRequestModelEdit.endDate" placeholder="" class="form-control">
+                                                    </span>
+                                                </div>
+
+                                                <div class="col-12 col-md-10 col-lg-2 space travellers">
+                                                    <label style="margin-bottom: 0.1rem;">Travellers </label>
+
+                                                    <div class="searchMenu-guests js-form-dd js-form-counters">
+                                                        <div data-x-dd-click="searchMenu-guests">
+                                                            <div class="text-15 text-light-1 ls-2 lh-16">
+                                                                <span class="js-count-adult  text-16 text-light-1 fw-400" id="count_adult">@Model.simpleAvailabilityRequestModelEdit.passengers.types[0].count</span> adults
+                                                                @if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 1)
+                                                                {
+
+                                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types[1].type == "CHD")
+                                                                    {
+                                                                        <span class="js-count-child  text-16 text-light-1 fw-400" id="count_child">@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count</span>
+                                                                        <span>children</span>
+                                                                    }
+                                                                    else
+                                                                    {
+
+                                                                        <span class="js-count-child text-16 text-light-1 fw-400" id="count_child">0</span>
+                                                                        <span>children</span>
+
+                                                                    }
+                                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types[1].type == "INFT")
+                                                                    {
+                                                                        <span class="js-count-infents  text-16 text-light-1 fw-400" id="count_infant">@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count</span>
+                                                                        <span>infant</span>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 2)
+                                                                        {
+                                                                            if (Model.simpleAvailabilityRequestModelEdit.passengers.types[2].type == "INFT")
+                                                                            {
+
+                                                                            }
+                                                                        }
+                                                                        else if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 3)
+                                                                        {
+
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span class="js-count-infents text-16 text-light-1 fw-400" id="count_infant">0</span>
+                                                                            <span>infant</span>
+
+                                                                        }
+
+                                                                    }
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span class="js-count-child text-16 text-light-1 fw-400" id="count_child">0</span>
+                                                                    <span>children</span>
+                                                                }
+
+                                                                @if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 2)
+                                                                {
+                                                                    <span class="js-count-infents  text-16 text-light-1 fw-400" id="count_infant">@Model.simpleAvailabilityRequestModelEdit.passengers.types[2].count</span>
+
+                                                                    <span>infant</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 1)
+                                                                    {
+
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <span class="js-count-infents text-16 text-light-1 fw-400" id="count_infant">0</span>
+                                                                        <span>infant</span>
+
+                                                                    }
+
+                                                                }
+
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="searchMenu-guests__field shadow-2" data-x-dd="searchMenu-guests" data-x-dd-toggle="-is-active">
+
+                                                            <div class="bg-white px-30 py-30 rounded-4">
+
+                                                                @*  ------------------------ *@
+                                                                <div class="d-flex y-gap-10 justify-between items-center">
+                                                                    <div class="btn-incr-adult">
+                                                                        <div class="text-15 fw-500">Adults</div>
+
+                                                                        <input type="hidden" name="adulttype" value="ADT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.adulttype" />
+                                                                        <div class="text-15 fw-500">Aged 12+ yrs</div>
+                                                                    </div>
+                                                                    <div class="btn-increase">
+                                                                        <div class="decrement sub btn_sub">-</div>
+
+                                                                        <input type="number" id="field_adult" class="input-field" name="adultcount" value="@Model.simpleAvailabilityRequestModelEdit.passengers.types[0].count" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.adultcount" min="1" max="9">
+                                                                        <div class="increment add btn_sub">+</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="border-top-light mt-24 mb-24"></div>
+                                                                @if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 1)
+                                                                {
+
+
+
+                                                                    @if (Model.simpleAvailabilityRequestModelEdit.passengers.types[1].type == "CHD")
+                                                                    {
+                                                                        <div class="d-flex y-gap-10 justify-between items-center">
+                                                                            <div class="btn-incr-chld">
+                                                                                <div class="text-15 fw-500">
+                                                                                    Children
+                                                                                </div>
+                                                                                <input type="hidden" name="childtype" value="CHD" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childtype" />
+                                                                                <div class="text-15 fw-500">
+                                                                                    Aged 2-12 yrs
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="btn-increase">
+                                                                                <div class="decrement1 sub btn_sub">-</div>
+                                                                                <input type="number" id="field_child" class="input-field" value="@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count" name="childcount" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childcount" min="0" max="6">
+                                                                                <div class="increment1 add btn_sub">+</div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <div class="d-flex y-gap-10 justify-between items-center">
+                                                                            <div class="btn-incr-chld">
+                                                                                <div class="text-15 fw-500">
+                                                                                    Children
+                                                                                </div>
+                                                                                <input type="hidden" name="childtype" value="CHD" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childtype" />
+                                                                                <div class="text-15 fw-500">
+                                                                                    Aged 2-12 yrs
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="btn-increase">
+                                                                                <div class="decrement1 sub btn_sub">-</div>
+                                                                                <input type="number" id="field_child" class="input-field" value="0" name="childcount" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childcount" min="0" max="6">
+                                                                                <div class="increment1 add btn_sub">+</div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    }
+
+
+                                                                    <div class="border-top-light mt-24 mb-24"></div>
+                                                                    <div class="d-flex y-gap-10 justify-between items-center">
+                                                                        @if (Model.simpleAvailabilityRequestModelEdit.passengers.types[1].type == "INFT")
+                                                                        {
+                                                                            <div class="infant-area">
+                                                                                <div class="text-15 fw-500">Infants</div>
+                                                                                <input type="hidden" name="infanttype" value="INFT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infanttype" />
+                                                                                <div class="text-15 fw-500">
+                                                                                    Below 2 yrs
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="btn-increase">
+                                                                                <div class="decrement2 sub btn_sub">-</div>
+
+                                                                                <input type="number" id="field_infant" class="input-field" name="infantcount" value="@Model.simpleAvailabilityRequestModelEdit.passengers.types[1].count" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infantcount" min="0" max="6">
+                                                                                <div class="increment2 add btn_sub">+</div>
+
+                                                                            </div>
+                                                                        }
+                                                                        else
+                                                                        {
+
+                                                                            if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 2)
+                                                                            {
+                                                                                if (Model.simpleAvailabilityRequestModelEdit.passengers.types[2].type == "INFT")
+                                                                                {
+
+                                                                                }
+                                                                            }
+                                                                            else if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 3)
+                                                                            {
+
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <div class="infant-area">
+                                                                                    <div class="text-15 fw-500">Infants</div>
+                                                                                    <input type="hidden" name="infanttype" value="INFT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infanttype" />
+                                                                                    <div class="text-15 fw-500">
+                                                                                        Below 2 yrs
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="btn-increase">
+                                                                                    <div class="decrement2 sub btn_sub">-</div>
+
+                                                                                    <input type="number" id="field_infant" class="input-field" name="infantcount" value="0" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infantcount" min="0" max="6">
+                                                                                    <div class="increment2 add btn_sub">+</div>
+
+                                                                                </div>
+                                                                            }
+
+                                                                        }
+
+                                                                    </div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div class="d-flex y-gap-10 justify-between items-center">
+                                                                        <div class="btn-incr-chld">
+                                                                            <div class="text-15 fw-500">
+                                                                                Children
+                                                                            </div>
+                                                                            <input type="hidden" name="childtype" value="CHD" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childtype" />
+                                                                            <div class="text-15 fw-500">
+                                                                                Aged 2-12 yrs
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="btn-increase">
+                                                                            <div class="decrement1 sub btn_sub">-</div>
+                                                                            <input type="number" id="field_child" class="input-field" value="0" name="childcount" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.childcount" min="0" max="6">
+                                                                            <div class="increment1 add btn_sub">+</div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="border-top-light mt-24 mb-24"></div>
+
+                                                                }
+                                                                @* <div class="border-top-light mt-24 mb-24"></div> *@
+                                                                <div class="d-flex y-gap-10 justify-between items-center">
+                                                                    @if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 2)
+                                                                    {
+                                                                        @if (Model.simpleAvailabilityRequestModelEdit.passengers.types[2].type == "INFT")
+                                                                        {
+                                                                            <div class="infant-area">
+                                                                                <div class="text-15 fw-500">Infants</div>
+                                                                                <input type="hidden" name="infanttype" value="INFT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infanttype" />
+                                                                                <div class="text-15 fw-500">
+                                                                                    Below 2 yrs
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="btn-increase">
+                                                                                <div class="decrement2 sub btn_sub">-</div>
+
+                                                                                <input type="number" id="field_infant" class="input-field" name="infantcount" value="@Model.simpleAvailabilityRequestModelEdit.passengers.types[2].count" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infantcount" min="0" max="6">
+                                                                                <div class="increment2 add btn_sub">+</div>
+
+                                                                            </div>
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+
+                                                                        if (Model.simpleAvailabilityRequestModelEdit.passengers.types.Count > 1)
+                                                                        {
+
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <div class="infant-area">
+                                                                                <div class="text-15 fw-500">Infants</div>
+                                                                                <input type="hidden" name="infanttype" value="INFT" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infanttype" />
+                                                                                <div class="text-15 fw-500">
+                                                                                    Below 2 yrs
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="btn-increase">
+                                                                                <div class="decrement2 sub btn_sub">-</div>
+
+                                                                                <input type="number" id="field_infant" class="input-field" name="infantcount" value="0" asp-for="@Model.simpleAvailabilityRequestModelEdit.passengercount.infantcount" min="0" max="6">
+                                                                                <div class="increment2 add btn_sub">+</div>
+
+                                                                            </div>
+                                                                        }
+
+                                                                    }
+                                                                </div>
+
+                                                                @*  <div class="border-top-light mt-24 mb-24"></div> *@
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-10 col-lg-2"><button style="margin-top:0px;" type="submit" class="btn btn-lg btn-block" onclick="validateInputs()"><i class="fa fa-search mr-10" aria-hidden="true"></i>Modify Search</button></div>
+                                                <div class="col-12 col-md-12 col-lg-12 search-bottom"></div>
+                                                <div class="col-12 col-md-10 col-lg-9 pl-0">
+                                                    <div class="form-group pt-2 d-flex">
+
+                                                        <div class="classtoggle me-4">
+                                                            <span class="colorcon" id="flightClass">Show Class</span>
+                                                            <i class="fa fa-angle-down ml-1 icon icon-chevron-sm-down text-light" aria-hidden="true"></i>
+                                                        </div>
+
+                                                        <div class="bcon" style="display: none;">
+                                                            <div class="text-14 y-gap-8 js-dropdown-list">
+                                                                <a href="#" class="d-block js-dropdown-link" onclick="toggleRadio(event, 'radioid1', 'Economic')">
+                                                                    <input class="m-2 form-radio-input d-none" type="radio" name="flightclass" value="E" id="radioid1">
+                                                                    Economic
+                                                                </a>
+                                                                <a href="#" class="d-block js-dropdown-link" onclick="toggleRadio(event, 'radioid2', 'Premium')">
+                                                                    <input class="m-2 form-radio-input d-none" type="radio" name="flightclass" value="P" id="radioid2">
+                                                                    Premium
+                                                                </a>
+                                                                <a href="#" class="d-block js-dropdown-link" onclick="toggleRadio(event, 'radioid3', 'Business')">
+                                                                    <input class="m-2 form-radio-input d-none" type="radio" name="flightclass" value="B" id="radioid3">
+                                                                    Business
+                                                                </a>
+                                                                <a href="#" class="d-block js-dropdown-link" onclick="toggleRadio(event, 'radioid4', 'First')">
+                                                                    <input class="m-2 form-radio-input d-none" type="radio" name="flightclass" value="F" id="radioid4">
+                                                                    First
+                                                                </a>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                                            <input type="checkbox" class="custom-control-input" name="farecheck" id="defaultInline3" onclick="checkOnlyThis(this)">
+                                                            <label class="custom-control-label" for="defaultInline3">Senior Citizen</label>
+                                                        </div>
+                                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                                            <input type="checkbox" class="custom-control-input" name="farecheck" id="defaultInline4" onclick="checkOnlyThis(this)">
+                                                            <label class="custom-control-label" for="defaultInline4">Defence Fare</label>
+                                                        </div>
+                                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                                            <input type="checkbox" class="custom-control-input" name="farecheck" id="defaultInline5" onclick="checkOnlyThis(this)">
+                                                            <label class="custom-control-label" for="defaultInline5">Student Fare</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- ***** Flight Search Area End ***** -->
+
+        </div>
+        <!-- ***** End inner search RightSide ***** -->
+        <section class="layout-pt-md layout-pb-md bg-light-2 search-result mb-5">
+            <div class="container">
+                <div class="row  y-gap-30">
+                    <div class="col-xl-3 col-lg-4">
+                        <aside class="sidebar py-20 px-20 rounded-4 bg-white">
+                            <partial name="_RTFlightViewPartialView.cshtml" />
+                        </aside>
+                    </div>
+                    <div class="col-xl-9 col-lg-8 ps-0">
+                        <div id="RTflight-results">
+                            @Html.Partial("_RTFlightResultsSortingPartialView", Model)
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="rtfix-bottom ">
+            <div class="booking-bottom">
+                <div class="row container">
+                    <div class="col-lg-4 right-bdr">
+                        <div class="d-flex y-gap-30 justify-between align-items-center">
+                            <div class="fare-round d-flex align-items-center">
+                                <img class="size-L" alt="image">
+                                <div class="text-12 ms-2"><span id="carierCodedata"></span>-<span id="IdentifierData"></span></div>
+                            </div>
+                            <div class="fare-round ms-2">
+                                <div class="text-12"><span id="departureData"></span></div>
+                                <div class="text-12"><span id="originData"></span></div>
+                            </div>
+                            <div class="fare-round">
+                                <div class="col text-center">
+                                    <div class="px-20 md:px-0 text-12"><span id="diffData"></span></div>
+                                    <div class="flightLine">
+                                        <div></div>
+                                        <div></div>
+                                    </div>
+                                    <div class="mt-1"><span id="stopData"></span></div>
+                                </div>
+                            </div>
+                            <div class="fare-round">
+                                <div class="lh-15 text-12"><span id="arrivalData"></span><span class="d-none" id="arrivalDatadate"></span></div>
+                                <div class="text-12 lh-15"><span id="destinationData"></span></div>
+                            </div>
+                            <div class="fare-round ms-2">
+                                <div class="text-14 fw-600">₹<span id="fareTotalsumData"></span></div>
+                                @* <div class="text-12 rtline"><a data-toggle="modal" data-target="#rt1exampleModal">Details</a></div> *@
+                                <div class="text-12 rtline">
+                                    <button id="openModal" style="color:#fff">Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 right-bdr">
+                        <div class="d-flex y-gap-30 justify-between align-items-center">
+                            <div class="fare-round d-flex align-items-center">
+                                <img class="size-R" alt="image">
+                                <div class="text-12 ms-2"><span id="carrierreturndataR"></span>-<span id="identifierreturndataR"></span></div>
+                            </div>
+                            <div class="fare-round ms-2">
+                                <div class="text-12"><span id="departurereturndata"></span></div>
+                                <div class="text-12"><span id="originreturndata"></span></div>
+                            </div>
+                            <div class="fare-round">
+                                <div class="col text-center">
+                                    <div class="px-20 md:px-0 text-12"><span id="diffreturndata"></span></div>
+                                    <div class="flightLine">
+                                        <div></div>
+                                        <div></div>
+                                    </div>
+                                    <div class="mt-1"><span id="stopreturndata"></span></div>
+                                </div>
+                            </div>
+                            <div class="fare-round">
+                                <div class="lh-15 text-12"><span id="arrivalreturndata"></span><span class="d-none" id="arrivalreturndataR"></span></div>
+                                <div class="text-12 lh-15"><span id="destinationreturndata"></span></div>
+                            </div>
+                            <div class="fare-round ms-2">
+                                <div class="text-14 fw-600">₹<span id="faretotalsumreturndata"></span></div>
+                                @*  <div class="text-12 rtline"><a data-toggle="modal" data-target="#rt2exampleModal">Details</a></div> *@
+                                <div class="text-12 rtline">
+                                    <button id="openModalR" style="color:#fff">Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-3">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <div class="rttotal-fare me-4">
+                                <div class="rtgrtotal text-14 fw-500">
+                                    Grand Total
+                                </div>
+                                <div class="rtgrtotal text-18 fw-700">
+                                    ₹<span id="totalfaretotalround"></span>
+                                </div>
+
+                            </div>
+
+                            <div class="rttotal-fare">
+                                <input type="button" id="ReturnButtonId" value="Book Now" class="button small-btn rtbtn" data-toggle="modal" data-target="#rtexampleModal">
+
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </section>
+        <section id="myContainer1">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Modal -->
+                        <div class="modal fade" id="rtexampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog rtwidth-modal" role="document">
+                                <div class="modal-content model-wd80">
+                                    <div class="modal-mfareheader d-flex justify-between">
+                                        <h2 class="text-22 fw-600">More Fare Options Available</h2>
+                                        <button type="button" id="btncross" class="btnclose" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true" style="font-size: 21px;">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body mbody-padding">
+                                    </div>
+                                    <div class="modal-footer fbody-padding">
+                                        @*  <button type="submit" id="flighticon" onclick="PostdataReturnTripsell()" class="btn btn-primary">Continue</button> *@
+                                        <div class="btm-price-bx d-flex align-items-center">
+                                            <div class="book-price me-3"><label class="mr-1 fw-600">₹</label><span id="popuptatalfare">0</span></div>
+                                            <button type="submit" id="flighticon" onclick="PostdataReturnTripsell()" class="btn btncnt btn-lg" data-x-click="flight-item-1">Continue</button>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div class="langMenu is-hidden js-langMenu" data-x="lang" data-x-toggle="is-hidden">
+        <div class="langMenu__bg" data-x-click="lang"></div>
+
+        <div class="langMenu__content bg-white rounded-4">
+            <div class="d-flex items-center justify-between px-30 py-20 sm:px-15 border-bottom-light">
+                <div class="text-20 fw-500 lh-15">Select your language</div>
+                <button class="pointer" data-x-click="lang">
+                    <i class="icon-close"></i>
+                </button>
+            </div>
+
+            <div class="modalGrid px-30 py-30 sm:px-15 sm:py-15">
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">English</div>
+                        <div class="text-14 lh-15 mt-5 js-title">United States</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Türkçe</div>
+                        <div class="text-14 lh-15 mt-5 js-title">Turkey</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Español</div>
+                        <div class="text-14 lh-15 mt-5 js-title">España</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Français</div>
+                        <div class="text-14 lh-15 mt-5 js-title">France</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Italiano</div>
+                        <div class="text-14 lh-15 mt-5 js-title">Italia</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">English</div>
+                        <div class="text-14 lh-15 mt-5 js-title">United States</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Türkçe</div>
+                        <div class="text-14 lh-15 mt-5 js-title">Turkey</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Español</div>
+                        <div class="text-14 lh-15 mt-5 js-title">España</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Français</div>
+                        <div class="text-14 lh-15 mt-5 js-title">France</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Italiano</div>
+                        <div class="text-14 lh-15 mt-5 js-title">Italia</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">English</div>
+                        <div class="text-14 lh-15 mt-5 js-title">United States</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Türkçe</div>
+                        <div class="text-14 lh-15 mt-5 js-title">Turkey</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Español</div>
+                        <div class="text-14 lh-15 mt-5 js-title">España</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Français</div>
+                        <div class="text-14 lh-15 mt-5 js-title">France</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Italiano</div>
+                        <div class="text-14 lh-15 mt-5 js-title">Italia</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">English</div>
+                        <div class="text-14 lh-15 mt-5 js-title">United States</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Türkçe</div>
+                        <div class="text-14 lh-15 mt-5 js-title">Turkey</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Español</div>
+                        <div class="text-14 lh-15 mt-5 js-title">España</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Français</div>
+                        <div class="text-14 lh-15 mt-5 js-title">France</div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Italiano</div>
+                        <div class="text-14 lh-15 mt-5 js-title">Italia</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="currencyMenu is-hidden js-currencyMenu" data-x="currency" data-x-toggle="is-hidden">
+        <div class="currencyMenu__bg" data-x-click="currency"></div>
+
+        <div class="currencyMenu__content bg-white rounded-4">
+            <div class="d-flex items-center justify-between px-30 py-20 sm:px-15 border-bottom-light">
+                <div class="text-20 fw-500 lh-15">Select your currency</div>
+                <button class="pointer" data-x-click="currency">
+                    <i class="icon-close"></i>
+                </button>
+            </div>
+
+            <div class="modalGrid px-30 py-30 sm:px-15 sm:py-15">
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">United States dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">USD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Australian dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">AUD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Brazilian real</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">BRL</span>
+                            - R$
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Bulgarian lev</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">BGN</span>
+                            - лв.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Canadian dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">CAD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">United States dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">USD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Australian dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">AUD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Brazilian real</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">BRL</span>
+                            - R$
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Bulgarian lev</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">BGN</span>
+                            - лв.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Canadian dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">CAD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">United States dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">USD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Australian dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">AUD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Brazilian real</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">BRL</span>
+                            - R$
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Bulgarian lev</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">BGN</span>
+                            - лв.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Canadian dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">CAD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">United States dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">USD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Australian dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">AUD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Brazilian real</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">BRL</span>
+                            - R$
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Bulgarian lev</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">BGN</span>
+                            - лв.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modalGrid__item js-item">
+                    <div class="py-10 px-15 sm:px-5 sm:py-5">
+                        <div class="text-15 lh-15 fw-500 text-dark-1">Canadian dollar</div>
+                        <div class="text-14 lh-15 mt-5">
+                            <span class="js-title">CAD</span>
+                            - $
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="mapFilter" data-x="mapFilter" data-x-toggle="-is-active">
+        <div class="mapFilter__overlay"></div>
+
+        <div class="mapFilter__close">
+            <button class="button -blue-1 size-40 bg-white shadow-2" data-x-click="mapFilter">
+                <i class="icon-close text-15"></i>
+            </button>
+        </div>
+
+        <div class="mapFilter__grid" data-x="mapFilter__grid" data-x-toggle="-filters-hidden">
+            <div class="mapFilter-filter scroll-bar-1">
+                <div class="px-20 py-20 md:px-15 md:py-15">
+                    <div class="d-flex items-center justify-between">
+                        <div class="text-18 fw-500">Filters</div>
+
+                        <button class="size-40 flex-center rounded-full bg-blue-1" data-x-click="mapFilter__grid">
+                            <i class="icon-chevron-left text-12 text-white"></i>
+                        </button>
+                    </div>
+
+                    <div class="mapFilter-filter__item">
+                        <h5 class="text-18 fw-500 mb-10">Popular Filters</h5>
+                        <div class="sidebar-checkbox">
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox">
+                                            <input type="checkbox">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+                                        <div class="text-15 ml-10">Breakfast Included</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">92</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox">
+                                            <input type="checkbox">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+                                        <div class="text-15 ml-10">Romantic</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">45</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox">
+                                            <input type="checkbox">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+                                        <div class="text-15 ml-10">Airport Transfer</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">21</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox">
+                                            <input type="checkbox">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+                                        <div class="text-15 ml-10">WiFi Included </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">78</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox">
+                                            <input type="checkbox">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+                                        <div class="text-15 ml-10">5 Star</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">679</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-filter__item">
+                        <h5 class="text-18 fw-500 mb-10">Nightly Price</h5>
+                        <div class="row x-gap-10 y-gap-30">
+                            <div class="col-12">
+                                <div class="js-price-rangeSlider">
+                                    <div class="text-14 fw-500"></div>
+
+                                    <div class="d-flex justify-between mb-20">
+                                        <div class="text-15 text-dark-1">
+                                            <span class="js-lower"></span>
+                                            -
+                                            <span class="js-upper"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="px-5">
+                                        <div class="js-slider"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-filter__item">
+                        <h5 class="text-18 fw-500 mb-10">Amenities</h5>
+                        <div class="sidebar-checkbox">
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Breakfast Included</div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">92</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">WiFi Included </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">45</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Pool</div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">21</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Restaurant </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">78</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Air conditioning </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">679</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-filter__item">
+                        <h5 class="text-18 fw-500 mb-10">Star Rating</h5>
+                        <div class="row x-gap-10 y-gap-10 pt-10">
+
+                            <div class="col-auto">
+                                <a href="#" class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">1</a>
+                            </div>
+
+                            <div class="col-auto">
+                                <a href="#" class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">2</a>
+                            </div>
+
+                            <div class="col-auto">
+                                <a href="#" class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">3</a>
+                            </div>
+
+                            <div class="col-auto">
+                                <a href="#" class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">4</a>
+                            </div>
+
+                            <div class="col-auto">
+                                <a href="#" class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">5</a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-filter__item">
+                        <h5 class="text-18 fw-500 mb-10">Guest Rating</h5>
+                        <div class="sidebar-checkbox">
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="form-radio d-flex items-center ">
+                                        <div class="radio">
+                                            <input type="radio" name="name">
+                                            <div class="radio__mark">
+                                                <div class="radio__icon"></div>
+                                            </div>
+                                        </div>
+                                        <div class="ml-10">Any</div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">92</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="form-radio d-flex items-center ">
+                                        <div class="radio">
+                                            <input type="radio" name="name">
+                                            <div class="radio__mark">
+                                                <div class="radio__icon"></div>
+                                            </div>
+                                        </div>
+                                        <div class="ml-10">Wonderful 4.5+</div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">45</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="form-radio d-flex items-center ">
+                                        <div class="radio">
+                                            <input type="radio" name="name">
+                                            <div class="radio__mark">
+                                                <div class="radio__icon"></div>
+                                            </div>
+                                        </div>
+                                        <div class="ml-10">Very good 4+</div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">21</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="form-radio d-flex items-center ">
+                                        <div class="radio">
+                                            <input type="radio" name="name">
+                                            <div class="radio__mark">
+                                                <div class="radio__icon"></div>
+                                            </div>
+                                        </div>
+                                        <div class="ml-10">Good 3.5+ </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">78</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-filter__item">
+                        <h5 class="text-18 fw-500 mb-10">Style</h5>
+                        <div class="sidebar-checkbox">
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Budget</div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">92</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Mid-range </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">45</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Luxury</div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">21</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Family-friendly </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">78</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Business </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">679</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-filter__item">
+                        <h5 class="text-18 fw-500 mb-10">Neighborhood</h5>
+                        <div class="sidebar-checkbox">
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Central London</div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">92</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Guests&#39; favourite area </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">45</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Westminster Borough</div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">21</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Kensington and Chelsea </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">78</div>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 items-center justify-between">
+                                <div class="col-auto">
+
+                                    <div class="d-flex items-center">
+                                        <div class="form-checkbox ">
+                                            <input type="checkbox" name="name">
+                                            <div class="form-checkbox__mark">
+                                                <div class="form-checkbox__icon icon-check"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-15 ml-10">Oxford Street </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">679</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mapFilter-results scroll-bar-1">
+                <div class="px-20 py-20 md:px-15 md:py-15">
+                    <div class="row y-gap-10 justify-between">
+                        <div class="col-auto">
+                            <div class="text-14 text-light-1">
+                                <span class="text-dark-1 text-15 fw-500">3,269 properties</span>
+                                in Europe
+                            </div>
+                        </div>
+
+                        <div class="col-auto">
+                            <button class="button -blue-1 h-40 px-20 md:px-5 text-blue-1 bg-blue-1-05 rounded-100">
+                                <i class="icon-up-down mr-10"></i>
+                                Top picks for your search
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <div class="mapFilter-results__item">
+                        <div class="row x-gap-20 y-gap-20">
+                            <div class="col-md-auto">
+                                <div class="ratio ratio-1:1 size-120">
+                                    <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                </div>
+                            </div>
+
+                            <div class="col-md">
+                                <div class="row x-gap-20 y-gap-10 justify-between">
+                                    <div class="col-lg">
+                                        <h4 class="text-16 lh-17 fw-500">
+                                            Great Northern Hotel, a Tribute Portfolio Hotel, London
+                                            <span class="text-10 text-yellow-2">
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                            </span>
+                                        </h4>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                                            <i class="icon-heart text-12"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="size-38 rounded-4 flex-center bg-blue-1">
+                                                <span class="text-14 fw-600 text-white">4.8</span>
+                                            </div>
+
+                                            <div class="ml-10">
+                                                <div class="text-13 lh-14 fw-500">Exceptional</div>
+                                                <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="d-flex items-center">
+                                            <div class="text-14 text-light-1 mr-10">8 nights</div>
+                                            <div class="fw-500">US$72</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mapFilter-results__item">
+                        <div class="row x-gap-20 y-gap-20">
+                            <div class="col-md-auto">
+                                <div class="ratio ratio-1:1 size-120">
+                                    <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                </div>
+                            </div>
+
+                            <div class="col-md">
+                                <div class="row x-gap-20 y-gap-10 justify-between">
+                                    <div class="col-lg">
+                                        <h4 class="text-16 lh-17 fw-500">
+                                            Great Northern Hotel, a Tribute Portfolio Hotel, London
+                                            <span class="text-10 text-yellow-2">
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                                <i class="icon-star"></i>
+                                            </span>
+                                        </h4>
+                                    </div>
+
+                                    <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                                        <div class="col-auto">
+                                            <i class="icon-heart text-12"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="size-38 rounded-4 flex-center bg-blue-1">
+                                            <span class="text-14 fw-600 text-white">4.8</span>
+                                        </div>
+
+                                        <div class="ml-10">
+                                            <div class="text-13 lh-14 fw-500">Exceptional</div>
+                                            <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="text-14 text-light-1 mr-10">8 nights</div>
+                                        <div class="fw-500">US$72</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mapFilter-results__item">
+                    <div class="row x-gap-20 y-gap-20">
+                        <div class="col-md-auto">
+                            <div class="ratio ratio-1:1 size-120">
+                                <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                            </div>
+                        </div>
+
+                        <div class="col-md">
+                            <div class="row x-gap-20 y-gap-10 justify-between">
+                                <div class="col-lg">
+                                    <h4 class="text-16 lh-17 fw-500">
+                                        Great Northern Hotel, a Tribute Portfolio Hotel, London
+                                        <span class="text-10 text-yellow-2">
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                        </span>
+                                    </h4>
+                                </div>
+
+                                <div class="col-auto">
+                                    <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                                        <i class="icon-heart text-12"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="size-38 rounded-4 flex-center bg-blue-1">
+                                            <span class="text-14 fw-600 text-white">4.8</span>
+                                        </div>
+
+                                        <div class="ml-10">
+                                            <div class="text-13 lh-14 fw-500">Exceptional</div>
+                                            <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="text-14 text-light-1 mr-10">8 nights</div>
+                                        <div class="fw-500">US$72</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mapFilter-results__item">
+                    <div class="row x-gap-20 y-gap-20">
+                        <div class="col-md-auto">
+                            <div class="ratio ratio-1:1 size-120">
+                                <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                            </div>
+                        </div>
+
+                        <div class="col-md">
+                            <div class="row x-gap-20 y-gap-10 justify-between">
+                                <div class="col-lg">
+                                    <h4 class="text-16 lh-17 fw-500">
+                                        Great Northern Hotel, a Tribute Portfolio Hotel, London
+                                        <span class="text-10 text-yellow-2">
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                        </span>
+                                    </h4>
+                                </div>
+
+                                <div class="col-auto">
+                                    <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                                        <i class="icon-heart text-12"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="size-38 rounded-4 flex-center bg-blue-1">
+                                            <span class="text-14 fw-600 text-white">4.8</span>
+                                        </div>
+
+                                        <div class="ml-10">
+                                            <div class="text-13 lh-14 fw-500">Exceptional</div>
+                                            <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="text-14 text-light-1 mr-10">8 nights</div>
+                                        <div class="fw-500">US$72</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mapFilter-results__item">
+                    <div class="row x-gap-20 y-gap-20">
+                        <div class="col-md-auto">
+                            <div class="ratio ratio-1:1 size-120">
+                                <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                            </div>
+                        </div>
+
+                        <div class="col-md">
+                            <div class="row x-gap-20 y-gap-10 justify-between">
+                                <div class="col-lg">
+                                    <h4 class="text-16 lh-17 fw-500">
+                                        Great Northern Hotel, a Tribute Portfolio Hotel, London
+                                        <span class="text-10 text-yellow-2">
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                        </span>
+                                    </h4>
+                                </div>
+
+                                <div class="col-auto">
+                                    <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                                        <i class="icon-heart text-12"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="size-38 rounded-4 flex-center bg-blue-1">
+                                            <span class="text-14 fw-600 text-white">4.8</span>
+                                        </div>
+
+                                        <div class="ml-10">
+                                            <div class="text-13 lh-14 fw-500">Exceptional</div>
+                                            <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="text-14 text-light-1 mr-10">8 nights</div>
+                                        <div class="fw-500">US$72</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mapFilter-results__item">
+                    <div class="row x-gap-20 y-gap-20">
+                        <div class="col-md-auto">
+                            <div class="ratio ratio-1:1 size-120">
+                                <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                            </div>
+                        </div>
+
+                        <div class="col-md">
+                            <div class="row x-gap-20 y-gap-10 justify-between">
+                                <div class="col-lg">
+                                    <h4 class="text-16 lh-17 fw-500">
+                                        Great Northern Hotel, a Tribute Portfolio Hotel, London
+                                        <span class="text-10 text-yellow-2">
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                        </span>
+                                    </h4>
+                                </div>
+
+                                <div class="col-auto">
+                                    <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                                        <i class="icon-heart text-12"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="size-38 rounded-4 flex-center bg-blue-1">
+                                            <span class="text-14 fw-600 text-white">4.8</span>
+                                        </div>
+
+                                        <div class="ml-10">
+                                            <div class="text-13 lh-14 fw-500">Exceptional</div>
+                                            <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="text-14 text-light-1 mr-10">8 nights</div>
+                                        <div class="fw-500">US$72</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mapFilter-results__item">
+                    <div class="row x-gap-20 y-gap-20">
+                        <div class="col-md-auto">
+                            <div class="ratio ratio-1:1 size-120">
+                                <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                            </div>
+                        </div>
+
+                        <div class="col-md">
+                            <div class="row x-gap-20 y-gap-10 justify-between">
+                                <div class="col-lg">
+                                    <h4 class="text-16 lh-17 fw-500">
+                                        Great Northern Hotel, a Tribute Portfolio Hotel, London
+                                        <span class="text-10 text-yellow-2">
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                        </span>
+                                    </h4>
+                                </div>
+
+                                <div class="col-auto">
+                                    <button class="button -blue-1 size-30 flex-center bg-light-2 rounded-full">
+                                        <i class="icon-heart text-12"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="row y-gap-10 justify-between items-end pt-24 lg:pt-15">
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="size-38 rounded-4 flex-center bg-blue-1">
+                                            <span class="text-14 fw-600 text-white">4.8</span>
+                                        </div>
+
+                                        <div class="ml-10">
+                                            <div class="text-13 lh-14 fw-500">Exceptional</div>
+                                            <div class="text-12 lh-14 text-light-1">3,014 reviews</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-auto">
+                                    <div class="d-flex items-center">
+                                        <div class="text-14 text-light-1 mr-10">8 nights</div>
+                                        <div class="fw-500">US$72</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="mapFilter-map">
+            <div class="map js-map"></div>
+        </div>
+    </div>
+
+    <!-- Modal box -->
+    <div id="modal" class="modalTrip">
+        <div class="d-flex justify-between tripmodal">
+            <h4 class="modal-title">Flight Detail</h4>
+            <button id="closeModal">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="row m-4">
+            <div class="col-12">
+                <div id="flightInfoRow"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div id="overlay" class="overlayTrip"></div>
+
+    <!-- Modal box -->
+    <div id="modalR" class="modalTrip">
+        <div class="d-flex justify-between tripmodal">
+            <h4 class="modal-title">Flight Detail</h4>
+            <button id="closeModalR">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="row m-4">
+            <div class="col-12">
+                <div id="flightInfoRowR"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div id="overlayR" class="overlayTrip"></div>
+
+    <!-- ***** All jQuery Plugins ***** -->
+    <!-- Social media js -->
+    <script src="~/js/jquery/jquery.min.js"></script>
+    <!-- Plugins js -->
+    <script src="~/js/plugins/plugins.min.js"></script>
+
+    <!-- ***** Clander js ***** -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+    <script src="~/js/daterangepicker.js"></script>
+
+    <!-- Bootstrap js -->
+    <script src="~/js/bootstrap/popper.min.js"></script>
+    <script src="~/js/bootstrap/bootstrap.min.js"></script>
+    <!-- Travellers js -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAz77U5XQuEME6TpftaMdX0bBelQxXRlM"></script>
+    <script src="~/js/vendors.js"></script>
+    <script src="~/js/main.js"></script>
+    <!-- Active js -->
+    <script src="~/js/active.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="~/lib/jquery/chosen.jquery.js"></script>
+    <script src="~/lib/jquery/chosen.jquery.min.js"></script>
+
+    <style type="text/css">
+        #ui-datepicker-div {
+            position: fixed;
+            top: 135px !important;
+            left: 536.156px;
+            z-index: 100;
+            width: 34em;
+        }
+
+        .custom-flex p {
+            font-size: 12px;
+        }
+
+        .rplc-btn {
+            width: 34px;
+            position: absolute;
+            left: 193px;
+            background: #ffffffc2;
+            margin-top: 1px;
+            margin-left: 20px;
+            padding: 3px;
+            border-radius: 50%;
+            z-index: 111;
+        }
+
+            .rplc-btn img {
+                transform: rotate(90deg);
+            }
+
+        .service-section .swiper-slide.active {
+            border: none !important;
+            background: #EBEDF8;
+        }
+
+        .btn-close {
+            background-color: #fff !important;
+            color: #000 !important;
+            padding: 7px 9px;
+            margin: 9px;
+            border-radius: 8px;
+        }
+
+        .mbody-padding {
+            padding: 8px 16px !important;
+        }
+
+        .fbody-padding {
+            padding: 8px 16px !important;
+        }
+
+        .modal-mfareBlock .pd {
+            padding: 8px 15px !important;
+        }
+
+        .model-wd80 {
+            width: 90% !important;
+            margin: auto;
+        }
+
+
+        /* Departure Dropdown CSS**/
+        .autodropdownRT {
+            position: absolute;
+            z-index: 999;
+            /* background: white;*/
+            width: 330px;
+            padding: 4px;
+        }
+
+            .autodropdownRT > select {
+                width: 330px;
+            }
+
+
+        .chosen-drop {
+            border: 1px solid #d4d4d4;
+            box-shadow: 0 4px 5px 0 rgb(0 0 0 / 22%);
+            margin-top: -32px;
+            background: #fff;
+            padding: 2px 10px;
+        }
+
+        .autodropdownRT input {
+            border-bottom: 1px solid #e9eff4 !important;
+            color: #808080;
+            font-weight: 400;
+            width: 300px;
+            height: 40px;
+            border: none;
+        }
+
+        .autodropdownRT .chosen-single {
+            display: none;
+        }
+
+        .autodropdownRT .chosen-results {
+            cursor: pointer;
+            overflow-y: scroll;
+            height: 230px;
+        }
+
+        .chosen-drop ul li {
+            background-image: url('../img/nav-icon-1.png');
+            background-repeat: no-repeat;
+            background-position: left 4px center;
+            padding: 2px 4px 8px 38px;
+            border-bottom: 1px solid #d4d4d4;
+        }
+
+
+
+        .chosen-search input {
+            background-image: url('../img/from.png');
+            background-repeat: no-repeat;
+            background-size: 20px 20px;
+            background-position: 5px center;
+            padding-left: 40px;
+            border: none;
+        }
+
+
+        /* Arrival Dropdown CSS**/
+        .autoarrivalRT {
+            position: absolute;
+            z-index: 999;
+            /* background: white;*/
+            width: 330px;
+            padding: 4px;
+        }
+
+            .autoarrivalRT > select {
+                width: 330px;
+            }
+
+
+            .autoarrivalRT .chosen-drop {
+                border: 1px solid #d4d4d4;
+                box-shadow: 0 4px 5px 0 rgb(0 0 0 / 22%);
+                margin-top: -32px;
+                background: #fff;
+                padding: 2px 10px;
+            }
+
+            .autoarrivalRT input {
+                border-bottom: 1px solid #e9eff4 !important;
+                color: #808080;
+                font-weight: 400;
+                width: 300px;
+                height: 40px;
+                border: none;
+            }
+
+            .autoarrivalRT .chosen-single {
+                display: none;
+            }
+
+            .autoarrivalRT .chosen-results {
+                cursor: pointer;
+                overflow-y: scroll;
+                height: 230px;
+            }
+
+        .chosen-drop, input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .chosen-drop, textarea:focus, input:focus {
+            outline: none;
+        }
+
+        .size-L {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+        }
+
+        .size-R {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+        }
+
+
+        .modalTrip {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 50%;
+            width: 60%;
+            height: 30%;
+            top: 72%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 8px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+        }
+
+        .overlayTrip {
+            display: none;
+            position: fixed;
+            z-index: 9998;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .tripmodal {
+            background: #366480;
+            padding: 6px;
+        }
+
+            .tripmodal h4 {
+                color: #fff;
+            }
+
+            .tripmodal button {
+                color: #fff;
+            }
+
+
+        /*List page tab css*/
+        .bg-listtab {
+            margin: 10px 0px;
+            background: #e7e7e7;
+            padding: 10px;
+        }
+
+        .flightT1, .flightT1RT, .flightT2, .flightT2RT, .flightT3, .flightT3RT, .flightT4, .flightT4RT, .flightT5, .flightT5RT {
+            cursor: pointer;
+        }
+
+        .tabBG {
+            background: #aeb0b5;
+            padding: 4px 8px;
+            border-radius: 2px;
+            color: #0a223d;
+        }
+
+
+        .width-110 {
+            width: 110px;
+        }
+
+        .climg {
+            margin-right: 10px;
+        }
+
+        #flightInfoRow {
+            background-color: #fff;
+            border: 1px solid rgba(156, 170, 179, .28);
+            box-shadow: 0 0 9px 0 rgba(0, 0, 0, .1);
+            border-radius: 8px;
+            color: #000;
+        }
+
+        #flightInfoRowR {
+            background-color: #fff;
+            border: 1px solid rgba(156, 170, 179, .28);
+            box-shadow: 0 0 9px 0 rgba(0, 0, 0, .1);
+            border-radius: 8px;
+            color: #000;
+        }
+
+        .searchMenu-guests__field {
+            display: none;
+        }
+
+            .searchMenu-guests__field.-is-active {
+                display: block;
+            }
+
+        .radioW-400 {
+            width: 400px;
+        }
+
+        .S-optionlist {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+            margin-top: 60px;
+        }
+
+        .classtoggle {
+            margin-left:15px;
+        }
+        .bcon{
+            position: absolute;
+            top: calc(69% + 10px);
+            left: 10%;
+            padding: 7px 13px;
+            background-color: white;
+            box-shadow: 0px 25px 70px rgba(1, 33, 58, 0.07);
+            min-width: 160px;
+            border-radius: 4px;
+            border: 1px solid var(--color-border);
+            font-weight: 500;
+            transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transform: translateX(-50%);
+        }
+        .colorcon{
+            color:#fff;
+            font-size:15px;
+            cursor: pointer;
+            font-weight:600;
+        }
+       #autodropdownRTId_chosen{margin-top:-30px;}
+    </style>
+
+    <script>
+        $(document).ready(function () {
+            $('.showBtn').click(function () {
+                //$('.hideme').hide();
+                $('.flightT1').addClass('tabBG');
+                $('.flightT1').click();
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                    $('.hideme').slideUp(1);
+                } else {
+                    $('.hideme').slideUp(1);
+                    $('.showBtn').removeClass('active');
+                    $(this).addClass('active');
+                    $(this).next().filter('.hideme').slideDown(1);
+                }
+            });
+
+            $('.showBtn2').click(function () {
+                //$('.hideme').hide();
+                $('.flightT1RT').addClass('tabBG');
+                $('.flightT1RT').click();
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                    $('.hideme2').slideUp(1);
+                } else {
+                    $('.hideme2').slideUp(1);
+                    $('.showBtn2').removeClass('active');
+                    $(this).addClass('active');
+                    $(this).next().filter('.hideme2').slideDown(1);
+                }
+            });
+        });
+    </script>
+
+
+    <script>
+
+        function checkRadio(radio) {
+            const endDateInput = document.getElementById('Rway-endDate');
+            const beginDateInput = document.getElementById('Rway-date');
+            if (radio.value === 'OneWay') {
+                endDateInput.disabled = true;
+                endDateInput.value = '';
+                endDateInput.style.backgroundColor = '#0e4d74';
+            }
+            else if (radio.value === 'RoundTrip') {
+                endDateInput.disabled = false;
+                endDateInput.value = beginDateInput.value;
+                endDateInput.style.backgroundColor = '';
+                endDateInput.style.backgroundColor = '#0E4D74';
+            }
+            else if (radio.value === 'AirlineRT') {
+                endDateInput.disabled = false;
+                endDateInput.value = beginDateInput.value;
+                endDateInput.style.backgroundColor = '';
+                endDateInput.style.backgroundColor = '#0E4D74';
+            }
+        }
+
+
+
+        //Date Picker Validation
+        $(function () {
+            $("#Rway-date").datepicker({
+                dateFormat: 'yy-mm-dd',
+                numberOfMonths: 2,
+                maxDate: '+2m',
+                minDate: '0',
+                onSelect: function (selectedDate) {
+                    var startDate = $(this).datepicker('getDate');
+                    $("#Rway-endDate").datepicker("option", "minDate", startDate);
+                }
+            });
+
+            $("#Rway-endDate").datepicker({
+                dateFormat: 'yy-mm-dd',
+                numberOfMonths: 2,
+                maxDate: '+2m',
+                minDate: '0',
+                onSelect: function (selectedDate) {
+                    var endDate = $(this).datepicker('getDate');
+                    $("#Rway-date").datepicker("option", "maxDate", endDate);
+                }
+            });
+        });
+
+        // TextBox Validation
+        function validateInputs(event) {
+            const origin = document.getElementById('myInput').value;
+            const destination = document.getElementById('myInput1').value;
+            const beginDate = document.getElementById('Rway-date').value;
+            const endDateInput = document.getElementById('Rway-endDate');
+            const endDate = endDateInput.value;
+          
+            if (origin == "") {
+                //alert("Enter Origin Name");
+                var originToDisplay = document.getElementById("errororigin");
+                originToDisplay.style.display = "block";
+                document.getElementById("myInput").focus();
+                return false;
+                event.preventDefault(); // Stop the form submission
+            }
+         
+            if (destination == "") {
+                //alert("Enter Origin Name");
+                var originToDisplay = document.getElementById("errordestinaton");
+                originToDisplay.style.display = "block";
+                document.getElementById("myInput1").focus();
+                return false;
+            }
+
+            if (origin == destination) {
+                alert("Departure and Arrival Airport are same please change it..")
+                return false;
+                event.preventDefault(); // Stop the form submission
+
+            }
+
+
+
+
+            if (!origin) {
+                alert('Please enter the origin.');
+                return false;
+            }
+            if (!destination) {
+                alert('Please enter the destination.');
+                return false;
+            }
+            if (!beginDate) {
+                alert('Please select a start date.');
+                return false;
+            }
+            if (!endDateInput.disabled && !endDate) {
+                alert('Please select an end date.');
+                return false;
+            }
+
+            var adultCount = parseInt(document.getElementById('field_adult').value);
+            var childCount = parseInt(document.getElementById('field_child').value);
+            //var infantCount = parseInt(document.getElementById('field_infant').value);
+            var totalCount = adultCount + childCount;
+            if (totalCount > 9) {
+                alert("The combined total of adults and children must be 9 or less.");
+                return false;
+                event.preventDefault();
+            }
+
+            return true;
+        }
+
+
+       
+
+           
+
+        ///Bussines Class Validation radio button
+        function toggleRadio(event, radioId, selectedClass) {
+            event.preventDefault();
+            document.querySelectorAll('.form-radio-input').forEach(radio => {
+                radio.checked = false;
+            });
+            var radioButton = document.getElementById(radioId);
+            radioButton.checked = true;
+            document.querySelector('.colorcon').textContent = selectedClass;
+            document.querySelector('.bcon').style.display = 'none';
+        }
+
+        document.addEventListener('click', function (event) {
+            const bcon = document.querySelector('.bcon');
+            const toggleButton = document.querySelector('.classtoggle');
+            if (!bcon.contains(event.target) && !toggleButton.contains(event.target)) {
+                bcon.style.display = 'none';
+            }
+        });
+
+
+        /////////*************************//////////////
+
+        $(document).ready(function () {
+            $('.classtoggle').on('click', function () {
+                $('.bcon').toggle(); // Toggle visibility of .bcon
+                $(this).find('.icon').toggleClass('fa-angle-down fa-angle-up'); // Change the icon
+            });
+        });
+
+
+
+        var sortOrderName;
+        var sortOrderNameR;
+        const sortLinks = document.querySelectorAll('.sort-link');
+        const sortLinksR = document.querySelectorAll('.sort-linkR');
+
+        const sortOrders = {
+            name: 'desc',
+            price: 'desc',
+            arrival: 'desc',
+            duration: 'desc',
+            deprt: 'desc'
+        };
+
+       
+        sortLinks.forEach(sortLink => {
+
+            sortLink.addEventListener('click', function (e) {
+                e.preventDefault();
+                const sortType = this.dataset.sort.split('_')[0];
+                const currentSortOrder = sortOrders[sortType];
+                sortOrders[sortType] = currentSortOrder === 'desc' ? 'asc' : 'desc';
+                const newSortOrder = currentSortOrder === 'desc' ? `${sortType}_desc` : `${sortType}_asc`;
+                this.dataset.sort = newSortOrder;
+                performSorting(newSortOrder);
+                postSortOrder(newSortOrder);
+            });
+        });
+
+      
+        sortLinksR.forEach(sortLinkR => {
+
+            sortLinkR.addEventListener('click', function (e) {
+                e.preventDefault();
+                const sortTypeR = this.dataset.sort.split('_')[0];
+                const currentSortOrderR = sortOrders[sortTypeR];
+                sortOrders[sortTypeR] = currentSortOrderR === 'desc' ? 'asc' : 'desc';
+                const newSortOrderR = currentSortOrderR === 'desc' ? `${sortTypeR}_desc` : `${sortTypeR}_asc`;
+                this.dataset.sort = newSortOrderR;
+                performSortingR(newSortOrderR);
+                postSortOrder(newSortOrderR);
+            });
+        });
+
+        function performSorting(sortOrder) {
+            sortOrderName = sortOrder;
+            updateFilter();
+        }
+
+        function performSortingR(sortOrderR) {
+            sortOrderNameR = sortOrderR;
+            updateFilter();
+        }
+
+
+
+      
+     var selectedDepartureTimesR = [];
+        var selectedArrivalTimesR = [];
+        $('.flt-Tm-new').click(function () {
+            debugger;
+            let departureTimeR = $(this).data('departure');
+            let arrivalTimeR = $(this).data('arrival');
+            $(this).toggleClass('active');
+            if ($(this).hasClass('active')) {
+                debugger;
+                selectedDepartureTimesR.push(departureTimeR);
+                selectedArrivalTimesR.push(arrivalTimeR);
+            } else {
+                debugger;
+                selectedDepartureTimesR = selectedDepartureTimesR.filter(function (item) {
+                    return item !== departureTimeR;
+                });
+                selectedArrivalTimesR = selectedArrivalTimesR.filter(function (item) {
+                    return item !== arrivalTimeR;
+                });
+            }
+            updateFilter();
+
+        });
+
+
+        var selectedDepartureTimesRight = [];
+        var selectedArrivalTimesRight = [];
+        $('.Returnfilter').click(function () {
+            debugger;
+            let departureTimeRight = $(this).data('departure');
+            let arrivalTimeRight = $(this).data('arrival');
+            $(this).toggleClass('active');
+            if ($(this).hasClass('active')) {
+                debugger;
+                selectedDepartureTimesRight.push(departureTimeRight);
+                selectedArrivalTimesRight.push(arrivalTimeRight);
+            } else {
+                debugger;
+                selectedDepartureTimesRight = selectedDepartureTimesRight.filter(function (item) {
+                    return item !== departureTimeRight;
+                });
+                selectedArrivalTimesRight = selectedArrivalTimesRight.filter(function (item) {
+                    return item !== arrivalTimeRight;
+                });
+            }
+            updateFilter();
+
+        });
+
+
+
+
+
+
+
+        function combinedFilterFunction() {
+            // Set up event listeners for both sets of checkboxes
+            $('.selectionCheckbox').on('change', function () {
+                updateFilter();
+            });
+            $('.selectionCheckboxRight').on('change', function () {
+                updateFilter();
+            });
+
+            $('.selectCheckboxAirLineRT').on('change', function () {
+                updateFilter();
+            });
+
+            function restoreCheckboxState(selectedIds, selectedIdsRight, RTFilterIdAirLine) {
+                // Restore the state of the checkboxes for the first set
+                $('.selectionCheckbox').each(function () {
+                    var checkboxValue = $(this).val();
+                    $(this).prop('checked', selectedIds.includes(checkboxValue));
+                });
+
+                // Restore the state of the checkboxes for the second set
+                $('.selectionCheckboxRight').each(function () {
+                    var checkboxValue = $(this).val();
+                    $(this).prop('checked', selectedIdsRight.includes(checkboxValue));
+                });
+
+                $('.selectCheckboxAirLineRT').each(function () {
+                    var checkboxValue = $(this).val();
+                    $(this).prop('checked', RTFilterIdAirLine.includes(checkboxValue));
+                });
+            }
+        }
+
+
+        function updateFilter() {
+            var selectedIds = [];
+            var selectedIdsRight = [];
+            var RTFilterIdAirLine = [];
+            // Collect selected IDs for both sets of checkboxes
+            $('input.selectionCheckbox:checked').each(function () {
+                selectedIds.push($(this).val());
+            });
+            $('input.selectionCheckboxRight:checked').each(function () {
+                selectedIdsRight.push($(this).val());
+            });
+
+            $('input.selectCheckboxAirLineRT:checked').each(function () {
+                RTFilterIdAirLine.push($(this).val());
+            });
+
+            // Send data to the server
+            $.ajax({
+                url: '/RoundTrip/RTFlightView',
+                type: 'POST',
+                traditional: true,
+                data: {
+                    selectedIds: selectedIds,
+                    selectedIdsRight: selectedIdsRight,
+                    RTFilterIdAirLine: RTFilterIdAirLine,
+                    departure: selectedDepartureTimesR,
+                    arrival: selectedArrivalTimesR,
+                    departureRight: selectedDepartureTimesRight,
+                    arrivalRight: selectedArrivalTimesRight,
+                    sortOrderName: sortOrderName,
+                    sortOrderNameR: sortOrderNameR
+                },
+                success: function (response) {
+                    $('#RTflight-results').html(response);
+                    restoreCheckboxState(selectedIds, selectedIdsRight, RTFilterIdAirLine);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error occurred:', error);
+                }
+            });
+        }
+
+        ///////*******************************///////////
+
+
+
+
+
+
+        ///////////*******************************/////////
+        document.querySelector('[data-x-dd-click="searchMenu-guests"]').addEventListener('click', function () {
+            const target = document.querySelector('[data-x-dd="searchMenu-guests"]');
+            target.classList.toggle('-is-active');
+        });
+
+        //flight Details Pop up
+        $('.flightT1').click(function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab2, .Ftab3, .Ftab4, .Ftab5').hide();
+                $('.flightT2, .flightT3, .flightT4, .flightT5').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab1').show();
+            }
+        });
+
+        $('.flightT2').click(function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab1, .Ftab3, .Ftab4, .Ftab5').hide();
+                $('.flightT1, .flightT3, .flightT4, .flightT5').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab2').show();
+            }
+        });
+
+        $('.flightT3').click(function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab1, .Ftab2, .Ftab4, .Ftab5').hide();
+                $('.flightT1, .flightT2, .flightT4, .flightT5').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab3').show();
+            }
+        });
+
+        $('.flightT4').click(function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab1, .Ftab2, .Ftab3, .Ftab5').hide();
+                $('.flightT1, .flightT2, .flightT3, .flightT5').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab4').show();
+            }
+        });
+
+        $('.flightT5').click(function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab1, .Ftab2, .Ftab3, .Ftab4').hide();
+                $('.flightT1, .flightT2, .flightT3, .flightT4').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab5').show();
+            }
+        });
+
+        // Return code Flight Details
+
+        $('.flightT1RT').click(function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab2RT, .Ftab3RT, .Ftab4RT, .Ftab5RT').hide();
+                $('.flightT2RT, .flightT3RT, .flightT4RT, .flightT5RT').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab1RT').show();
+            }
+        });
+
+        $('.flightT2RT').click(function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab1RT, .Ftab3RT, .Ftab4RT, .Ftab5RT').hide();
+                $('.flightT1RT, .flightT3RT, .flightT4RT, .flightT5RT').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab2RT').show();
+            }
+        });
+
+        $('.flightT3RT').click(function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab1RT, .Ftab2RT, .Ftab4RT, .Ftab5RT').hide();
+                $('.flightT1RT, .flightT2RT, .flightT4RT, .flightT5RT').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab3RT').show();
+            }
+        });
+
+        $('.flightT4RT').click(function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab1RT, .Ftab2RT, .Ftab3RT, .Ftab5RT').hide();
+                $('.flightT1RT, .flightT2RT, .flightT3RT, .flightT5RT').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab4RT').show();
+            }
+        });
+
+        $('.flightT5RT').click(function () {
+            if (!$(this).hasClass('active')) {
+                $('.Ftab1RT, .Ftab2RT, .Ftab3RT, .Ftab4RT').hide();
+                $('.flightT1RT, .flightT2RT, .flightT3RT, .flightT4RT').removeClass('active').removeClass('tabBG');
+
+                $(this).addClass('active').addClass('tabBG');
+                $('.Ftab5RT').show();
+            }
+        });
+
+
+
+    </script>
+
+
+
+
+
+    <script>
+        $(document).ready(function () {
+            // Open modal box
+            $("#openModal").click(function () {
+                $("#modal, #overlay").fadeIn();
+                const carrierCode = document.getElementById('carierCodedata').textContent;
+                const identifier = document.getElementById('IdentifierData').textContent;
+                const departure = document.getElementById('departureData').textContent;
+                const origin = document.getElementById('originData').textContent;
+                const diff = document.getElementById('diffData').textContent;
+                const stop = document.getElementById('stopData').textContent;
+                const arrival = document.getElementById('arrivalData').textContent;
+                const destination = document.getElementById('destinationData').textContent;
+                const fareTotal = document.getElementById('fareTotalsumData').textContent;
+
+                let imageSrc;
+
+                if (carrierCode == '6E') {
+                    imageSrc = '../img/flight-logo-icon/6E.png';
+                } else if (carrierCode == 'SG') {
+                    imageSrc = '../img/flight-logo-icon/SG.png';
+                } else if (carrierCode == 'IX') {
+                    imageSrc = '../img/flight-logo-icon/AIX_X_Logo_Orange.png';
+                } else if (carrierCode == 'QP') {
+                    imageSrc = '../img/flight-logo-icon/akasa.png';
+                } else if (carrierCode == 'AI') {
+                    imageSrc = '../img/flight-logo-icon/airindia.png';
+                } else if (carrierCode == 'UK') {
+                    imageSrc = '../img/flight-logo-icon/vistara.png';
+                } else if (carrierCode == 'H1') {
+                    imageSrc = '../img/flight-logo-icon/hahnair.png';
+                } else {
+                    imageSrc = '';
+                }
+
+
+
+                const flightInfoHTML = `
+                                                                 <div class="d-flex d-flex justify-content-between p-2">
+
+                                                                <div class="fare-round d-flex align-items-center">
+                                                                                    <img class="size-L" src="${imageSrc}"  alt="image">
+                                                                    <div class="text-16 ms-2">${carrierCode}-${identifier}</div>
+                                                                </div>
+                                                                <div class="fare-round ms-2">
+                                                                        <div class="text-20">Departure</div>
+                                                                    <div class="text-16">${departure}</div>
+                                                                    <div class="text-16">${origin}</div>
+                                                                </div>
+                                                                <div class="fare-round">
+                                                                            <div class="col text-center mt-4">
+                                                                        <div class="px-20 md:px-0 text-16">${diff}</div>
+                                                                        <div class="flightLine">
+                                                                            <div></div>
+                                                                            <div></div>
+                                                                        </div>
+                                                                        <div class="mt-1">${stop}</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fare-round">
+                                                                          <div class="text-20">Arrival</div>
+                                                                    <div class="lh-15 text-16">${arrival}<span class="d-none" id="arrivalDatadate"></span></div>
+                                                                    <div class="text-16 lh-15">${destination}</div>
+                                                                </div>
+                                                                        <div class="fare-round ms-2 p-4">
+                                                                    <div class="text-20 fw-600">₹${fareTotal}</div>
+                                                                </div>
+                                                            </div>
+
+                                                            `;
+
+                // Insert the new row into the HTML
+                document.getElementById('flightInfoRow').innerHTML = flightInfoHTML;
+
+            });
+
+            // Close modal box
+            $("#closeModal, #overlay").click(function () {
+                $("#modal, #overlay").fadeOut();
+            });
+
+            $("#openModalR").click(function () {
+                $("#modalR, #overlayR").fadeIn();
+                const carrierCodeR = $('#carrierreturndataR').text();
+                const identifierR = $('#identifierreturndataR').text();
+                const departureR = $('#departurereturndata').text();
+                const originR = $('#originreturndata').text();
+                const diffR = $('#diffreturndata').text();
+                const stopR = $('#stopsreturndata').text();
+                const arrivalR = $('#arrivalreturndataR').text();
+                const destinationR = $('#destinationreturndata').text();
+                const fareTotalR = $('#faretotalsumreturndata').text();
+
+                var imageSrc;
+
+                if (carrierCodeR == '6E') {
+                    imageSrc = '../img/flight-logo-icon/6E.png';
+                } else if (carrierCodeR == 'SG') {
+                    imageSrc = '../img/flight-logo-icon/SG.png';
+                } else if (carrierCodeR == 'IX') {
+                    imageSrc = '../img/flight-logo-icon/AIX_X_Logo_Orange.png';
+                } else if (carrierCodeR == 'QP') {
+                    imageSrc = '../img/flight-logo-icon/akasa.png';
+                } else if (carrierCodeR == 'AI') {
+                    imageSrc = '../img/flight-logo-icon/airindia.png';
+                } else if (carrierCodeR == 'UK') {
+                    imageSrc = '../img/flight-logo-icon/vistara.png';
+                } else if (carrierCodeR == 'H1') {
+                    imageSrc = '../img/flight-logo-icon/hahnair.png';
+                } else {
+                    imageSrc = '';
+                }
+
+                const flightInfoHTMLR = `
+                                                    <div class="d-flex d-flex justify-content-between p-2">
+                                                        <div class="fare-round d-flex align-items-center">
+                                                            <img class="size-L" src="${imageSrc}" alt="image">
+                                                            <div class="text-16 ms-2">${carrierCodeR}-${identifierR}</div>
+                                                        </div>
+                                                        <div class="fare-round ms-2">
+                                                            <div class="text-20">Departure</div>
+                                                            <div class="text-16">${departureR}</div>
+                                                            <div class="text-16">${originR}</div>
+                                                        </div>
+                                                        <div class="fare-round">
+                                                            <div class="col text-center mt-4">
+                                                                <div class="px-20 md:px-0 text-16">${diffR}</div>
+                                                                <div class="flightLine">
+                                                                    <div></div>
+                                                                    <div></div>
+                                                                </div>
+                                                                <div class="mt-1">${stopR}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="fare-round">
+                                                            <div class="text-20">Arrival</div>
+                                                            <div class="lh-15 text-16">${arrivalR}<span class="d-none" id="arrivalDatadate"></span></div>
+                                                            <div class="text-16 lh-15">${destinationR}</div>
+                                                        </div>
+                                                        <div class="fare-round ms-2 p-4">
+                                                            <div class="text-20 fw-600">₹${fareTotalR}</div>
+                                                        </div>
+                                                    </div>
+                                                `;
+
+                // Insert the new row into the HTML
+                $('#flightInfoRowR').html(flightInfoHTMLR);
+
+            });
+
+            // Close modal box
+            $("#closeModalR, #overlayR").click(function () {
+                $("#modalR, #overlayR").fadeOut();
+            });
+
+
+            $('.rplc-btn').on('click', function () {
+                var flyingFromValue = $('#myInput').val();
+                var flyingToValue = $('#myInput1').val();
+                $('#myInput').val(flyingToValue);
+                $('#myInput1').val(flyingFromValue);
+                if (flyingFromValue == flyingToValue) {
+                    alert("Departure and Arrival Airport are the same. Please change it.");
+                    return false;
+                    event.preventDefault();
+                }
+            });
+
+            ///END Ready
+
+        });
+
+
+    </script>
+
+    <script type="text/javascript">
+
+        //js Code for increment and decrement button
+        document.addEventListener('DOMContentLoaded', function () {
+            // Select the input fields for adults, children, and infants
+            const adultInputField = document.getElementById('field_adult');
+            const childInputField = document.getElementById('field_child');
+            const infantInputField = document.getElementById('field_infant');
+
+            // Select the elements to update the selected values
+            const adultCountElement = document.getElementById('count_adult');
+            const childCountElement = document.getElementById('count_child');
+            const infantCountElement = document.getElementById('count_infant');
+
+            // Add event listener for adult increment button
+            document.querySelector('.increment.add.btn_sub').addEventListener('click', function () {
+                incrementValue(adultInputField, adultCountElement);
+            });
+
+            // Add event listener for adult decrement button
+            document.querySelector('.decrement.sub.btn_sub').addEventListener('click', function () {
+                decrementValue(adultInputField, adultCountElement);
+            });
+
+            // Add event listener for child increment button
+            document.querySelector('.increment1.add.btn_sub').addEventListener('click', function () {
+                incrementValue(childInputField, childCountElement);
+            });
+
+            // Add event listener for child decrement button
+            document.querySelector('.decrement1.sub.btn_sub').addEventListener('click', function () {
+                decrementValue(childInputField, childCountElement);
+            });
+
+            // Add event listener for infant increment button
+            document.querySelector('.increment2.add.btn_sub').addEventListener('click', function () {
+                incrementValue(infantInputField, infantCountElement);
+            });
+
+            // Add event listener for infant decrement button
+            document.querySelector('.decrement2.sub.btn_sub').addEventListener('click', function () {
+                decrementValue(infantInputField, infantCountElement);
+            });
+
+            // Function to increment the input value and update the count element
+            function incrementValue(inputField, countElement) {
+                const currentValue = parseInt(inputField.value);
+                if (currentValue < parseInt(inputField.max)) {
+                    inputField.value = currentValue + 1;
+                    countElement.textContent = currentValue + 1;
+                }
+            }
+
+            // Function to decrement the input value and update the count element
+            function decrementValue(inputField, countElement) {
+                const currentValue = parseInt(inputField.value);
+                if (currentValue > parseInt(inputField.min)) {
+                    inputField.value = currentValue - 1;
+                    countElement.textContent = currentValue - 1;
+                }
+            }
+        });
+
+
+
+        /////////Pop ID
+        var uniqueId, uniqueIdR;
+        // Function to handle radio button change and display data
+
+        function RenderData(uniqueId) {
+            uniqueIdR = localStorage.getItem('IDRIGHT');
+            handleRadioChange(uniqueId, uniqueIdR);
+        }
+
+
+        function handleRadioChange(uniqueId, uniqueIdR) {
+            
+             //uniqueId = $('input[type=radio][name=dynamicRadio]:checked').val();
+            localStorage.setItem('IDLEFT', uniqueId);
+            // Retrieve values from hidden input fields
+            var departureTime = $('.departuretime').eq(uniqueId).val();
+            var origin = $('.origin').eq(uniqueId).val();
+            var destination = $('.destination').eq(uniqueId).val();
+            var diffL = $('.diff').eq(uniqueId).val();
+            var stopsL = $('.stops').eq(uniqueId).val();
+            var arrivalL = $('.arrival').eq(uniqueId).val();
+            var fareTotalsumL = $('.fareTotalsum').eq(uniqueId).val();
+            var carrierCodeL = $('.carrierCode').eq(uniqueId).val();
+            var identifierL = $('.identifier').eq(uniqueId).val();
+            var arrivaldateL = $('.arrivaldate').eq(uniqueId).val();
+
+            // Display the retrieved values
+            $('#departureData').text(departureTime);
+            $('#originData').text(origin);
+            $('#diffData').text(diffL);
+            $('#stopsData').text(stopsL);
+            $('#arrivalData').text(arrivalL);
+            $('#arrivalDatadate').text(arrivaldateL);
+            $('#destinationData').text(destination);
+            $('#fareTotalsumData').text(fareTotalsumL);
+            $('#carierCodedata').text(carrierCodeL);
+            $('#IdentifierData').text(identifierL);
+
+            var AirlineNameL = $('.AirlineName').eq(uniqueId).val();
+            var imageSrc;
+
+            if (AirlineNameL == 'Indigo') {
+                imageSrc = '../img/flight-logo-icon/6E.png';
+            } else if (AirlineNameL == 'Spicejet') {
+                imageSrc = '../img/flight-logo-icon/SG.png';
+            } else if (AirlineNameL == 'Airasia') {
+                imageSrc = '../img/flight-logo-icon/AIX_X_Logo_Orange.png';
+
+            }
+            else if (AirlineNameL == 'AkasaAir') {
+                imageSrc = '../img/flight-logo-icon/akasa.png';
+
+            }
+            else if (carrierCodeL == 'AI') {
+                imageSrc = '../img/flight-logo-icon/airindia.png';
+
+            }
+            else if (carrierCodeL == 'UK') {
+                imageSrc = '../img/flight-logo-icon/vistara.png';
+
+            }
+            else if (carrierCodeL == 'H1') {
+                imageSrc = '../img/flight-logo-icon/hahnair.png';
+
+            }
+
+
+            else {
+                // If none of the above conditions match, you can set a default image source here
+                imageSrc = ''; // Set a default image source or leave it blank if you don't want to show any image
+            }
+
+            // Now, use the image source to set the src attribute of the image
+            $('.size-L').attr('src', imageSrc);
+            // Store in session Total Fare Left
+            localStorage.setItem('TotalfareL', fareTotalsumL);
+           // handleReturnRadioChange();
+            RenderDataR(uniqueIdR);
+        }
+
+        // Trigger change event on radio button selection
+
+        $('input[type=radio][name=dynamicRadio]').change(RenderData(0));
+        // Auto-select the first radio button and trigger its change event
+        $('input[type=radio][name=dynamicRadio]').first().prop('checked', true).trigger('change');
+
+
+        function RenderDataR(uniqueIdR) {
+            handleReturnRadioChange(uniqueIdR);
+        }
+
+
+        // Function to handle return radio button change and display data
+        function handleReturnRadioChange(uniqueIdR) {
+            //alert("Right Id " + uniqueIdR);
+            //var uniqueIdR = $('input[type=radio][name=dynamicRadioR]:checked').val();
+             localStorage.setItem('IDRIGHT', uniqueIdR);
+            // Retrieve values from hidden input fields for return radio buttons
+            var departureTimeR = $('.departurereturn').eq(uniqueIdR).val();
+            var originR = $('.originreturn').eq(uniqueIdR).val();
+            var diffR = $('.diffreturn').eq(uniqueIdR).val();
+            var stopsR = $('.stopsreturn').eq(uniqueIdR).val();
+            var arrivalR = $('.arrivalreturn').eq(uniqueIdR).val();
+            var arrivaldateR = $('.arrivaldatereturn').eq(uniqueIdR).val();
+            var destinationR = $('.destinationreturn').eq(uniqueIdR).val();
+            var fareTotalsumR = $('.faretotalsumreturn').eq(uniqueIdR).val();
+            var carrierCodeR = $('.carrierCodeR').eq(uniqueIdR).val();
+            var identifierR = $('.identifierR').eq(uniqueIdR).val();
+
+            // Display the retrieved values for return radio buttons
+            $('#departurereturndata').text(departureTimeR);
+            $('#originreturndata').text(originR);
+            $('#diffreturndata').text(diffR);
+            $('#stopsreturndata').text(stopsR);
+            $('#arrivalreturndata').text(arrivalR);
+            $('#arrivalreturndataR').text(arrivaldateR);
+            $('#destinationreturndata').text(destinationR);
+            $('#faretotalsumreturndata').text(fareTotalsumR);
+            $('#carrierreturndataR').text(carrierCodeR);
+            $('#identifierreturndataR').text(identifierR);
+
+            var AirlineNameR = $('.AirlineNameR').eq(uniqueIdR).val();
+            var imageSrc;
+
+            if (AirlineNameR == 'Indigo') {
+                imageSrc = '../img/flight-logo-icon/6E.png';
+            } else if (AirlineNameR == 'Spicejet') {
+                imageSrc = '../img/flight-logo-icon/SG.png';
+            } else if (AirlineNameR == 'Airasia') {
+                imageSrc = '../img/flight-logo-icon/AIX_X_Logo_Orange.png';
+
+            }
+            else if (AirlineNameR == 'AkasaAir') {
+                imageSrc = '../img/flight-logo-icon/akasa.png';
+
+            }
+            else if (carrierCodeR == 'AI') {
+                imageSrc = '../img/flight-logo-icon/airindia.png';
+
+            }
+            else if (carrierCodeR == 'UK') {
+                imageSrc = '../img/flight-logo-icon/vistara.png';
+
+            }
+            else if (carrierCodeR == 'H1') {
+                imageSrc = '../img/flight-logo-icon/hahnair.png';
+
+            }
+            else {
+               
+                imageSrc = ''; 
+            }
+
+            // Now, use the image source to set the src attribute of the image
+            $('.size-R').attr('src', imageSrc);
+
+            // Sum Of Total fare left and right in footer
+
+            var totalL = localStorage.getItem('TotalfareL');
+
+            if (totalL == null) {
+                var fareTotalsumL = $('.fareTotalsum').val();
+                totalL = fareTotalsumL;
+
+                var TotalfareLR = parseInt(totalL) + parseInt(fareTotalsumR, 10);
+                $('#totalfaretotalround').text(TotalfareLR);
+            }
+            else {
+                var TotalfareLR = parseInt(totalL) + parseInt(fareTotalsumR, 10);
+               
+                $('#totalfaretotalround').text(TotalfareLR);
+            }
+
+
+        }
+
+        // Trigger change event on return radio button selection
+        $('input[type=radio][name=dynamicRadioR]').change(handleReturnRadioChange(0));
+
+        // Auto-select the first return radio button and trigger its change event
+        $('input[type=radio][name=dynamicRadioR]').first().prop('checked', true).trigger('change');
+
+       
+
+        $('#ReturnButtonId').click(function () {
+            var sameairLine = $('.sameairLine').val();
+            if (sameairLine === "AirlineRT") 
+            {
+                var bottomLeft = $('#carierCodedata').text();
+                var bottomRight = $('#carrierreturndataR').text();
+                if (bottomLeft !== bottomRight) {
+                    alert("Please select both sides with the same airline.");
+                    return false;
+                }
+               
+            }
+            
+            var arrivalTime = $('#arrivalData').text();
+            var returnFlightTime = $('#departurereturndata').text();
+            var Leftdate = $('#leftdate').val();
+            var rightdate = $('#rightdate').val();
+            var LeftdateL = $('#arrivalDatadate').text();
+            var rightdateR = $('#arrivalreturndataR').text();
+             if (Leftdate == rightdate) {
+                //alert("SameDate");
+                var arrivalMinutes = convertToMinutes(arrivalTime);
+                var returnFlightMinutes = convertToMinutes(returnFlightTime);
+
+
+                var minimumReturnTime = arrivalMinutes + 30;
+
+
+                if (returnFlightMinutes < minimumReturnTime) {
+
+                    alert('Return flight time must be at least 30 minutes after arrival time.');
+
+                    return false;
+                }
+
+                else if (LeftdateL !== rightdateR) {
+
+                    alert('The selected flight timings are not compatible.');
+
+                    return false;
+                }
+
+
+            }
+
+
+
+           uniqueId = $('input[type=radio][name=dynamicRadio]:checked').val(); //localStorage.getItem('IDLEFT');
+           uniqueIdR = $('input[type=radio][name=dynamicRadioR]:checked').val(); //localStorage.getItem('IDRIGHT');
+
+            //alert("hello");
+            debugger;
+            $.ajax({
+                type: 'POST',
+                url: '/RoundTrip/PostReturnAATripsellView',
+                data: {
+                    uniqueId: uniqueId,
+                    uniqueIdR: uniqueIdR
+                },
+                success: function (response) {
+
+                    console.log('POST request successful');
+                    $('#rtexampleModal .modal-body').html(response);
+                    $('#rtexampleModal').modal('show');
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error occurred:', error);
+                }
+            });
+            //debugger;
+            localStorage.removeItem('LEFTFARE');
+            localStorage.removeItem('RIGHTFARE');
+            //faretotalPopup();
+            document.getElementById("popuptatalfare").innerHTML = 0;
+
+        });
+
+        function convertToMinutes(time) {
+            var parts = time.split(':');
+            return parseInt(parts[0]) * 60 + parseInt(parts[1]);
+        }
+
+
+
+
+    
+
+        //**********Chosen Departure Code Start ****************//
+        //*****************************************************//
+        $(document).ready(function () {
+            $('#autodropdownRTId').chosen();
+            $('.chosen-drop').hide();
+            $('#autodropdownRTId').trigger('chosen:open');
+
+            $('#myInput').on('click', function (event) {
+                event.stopPropagation();
+                $('.chosen-drop').show();
+                $('.autodropdownRT input').attr('placeholder', ' From');
+                $('.autodropdownRT').show();
+                $('.autoarrivalRT').hide();
+                var chosenInput = document.querySelector('.chosen-search input');
+                chosenInput.focus();
+                chosenInput.style.border = 'none';
+            });
+
+
+            $(document.body).on('click', function (event) {
+                if (!$(event.target).closest('.chosen-drop').length && !$(event.target).is('#myInput')) {
+                    $('.chosen-drop').hide();
+                }
+            });
+        });
+
+
+
+
+        function RTDropdown() {
+            //$('.chosen-drop').toggle();
+            var chosenInput = document.querySelector('.chosen-search input');
+            chosenInput.focus();
+            chosenInput.style.border = 'none';
+            if ($('.chosen-drop').is(':visible')) {
+                $('.chosen-search input').focus();
+                $('.chosen-drop').show();
+            }
+        }
+
+        function RTSelection() {
+            $('.chosen-search input').focus();
+            //alert("Hello Test");
+            var dropdown = document.getElementById("autodropdownRTId");
+            var selectedValue = dropdown.value;
+            var selectedOption = dropdown.options[dropdown.selectedIndex];
+            var cityDetails = selectedOption.text.split('-');
+            var cityName = cityDetails[0].trim();
+            var cityCode = cityDetails[1].trim();
+            var airportName = cityDetails[2].trim();
+
+            //alert("Selected City Name: " + cityName);
+            //alert("Selected City Code: " + cityCode);
+            //alert("Selected Airport Name: " + airportName);
+            document.getElementById("myInput").value = cityCode;
+            //document.getElementById("airportName").innerHTML = airportName;
+            $('.chosen-drop').hide();
+            //$('.autodropdownOneWay').hide();
+            dropdown.selectedIndex = -1;
+        }
+
+
+        // *********Arrival Dropdown Js Code Strat*********////
+        $(document).ready(function () {
+            $('#arrivalItemRTId').chosen();
+            $('.chosen-drop').hide();
+            $('#arrivalItemRTId').trigger('chosen:open');
+
+            $('#myInput1').on('click', function (event) {
+                event.stopPropagation();
+                $('.chosen-drop').show();
+                $('.autoarrivalRT input').attr('placeholder', 'To');
+                $('.autoarrivalRT').show();
+                $('.autodropdownRT').hide();
+                var chosenInputA = document.querySelector('.autoarrivalRT input');
+                chosenInputA.focus();
+                chosenInputA.style.border = 'none';
+            });
+            $(document.body).on('click', function (event) {
+                if (!$(event.target).closest('.chosen-drop').length && !$(event.target).is('#myInput1')) {
+                    $('.chosen-drop').hide();
+                }
+            });
+
+        });
+
+        function toggleArrivalRT() {
+            //$('.chosen-drop').toggle();
+            var chosenInput4 = document.querySelector('.autoarrivalRT input');
+            chosenInput4.focus();
+            chosenInput4.style.border = 'none';
+            if ($('.chosen-drop').is(':visible')) {
+                $('.chosen-search input').focus();
+                $('.chosen-drop').show();
+            }
+        }
+
+        function arrivalRT() {
+            $('.chosen-search input').focus();
+            //alert("Hello Test");
+            var dropdown = document.getElementById("arrivalItemRTId");
+            var selectedValue = dropdown.value;
+            var selectedOption = dropdown.options[dropdown.selectedIndex];
+            var cityDetails = selectedOption.text.split('-');
+            var cityName = cityDetails[0].trim();
+            var cityCode = cityDetails[1].trim();
+            var airportName = cityDetails[2].trim();
+
+            //alert("Selected City Name: " + cityName);
+            //alert("Selected City Code: " + cityCode);
+            //alert("Selected Airport Name: " + airportName);
+            document.getElementById("myInput1").value = cityCode;
+            //document.getElementById("airportName").innerHTML = airportName;
+            $('.chosen-drop').hide();
+            //$('.autodropdownOneWay').hide();
+            dropdown.selectedIndex = -1;
+        }
+        function preback() { window.history.forward(); }
+        setTimeout("preback()", 0);
+        window.onupload = function () { null };
+
+        //For pop fare total ammount
+        window.onload = function () {
+            localStorage.clear();
+        };
+    </script>
+
+</body>
+</html>
+

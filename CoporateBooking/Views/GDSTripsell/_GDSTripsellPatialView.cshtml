@@ -1,0 +1,981 @@
+﻿@using System.Globalization;
+@model DomainLayer.ViewModel.ViewModel
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+    /* Styles for modal box and overlay */
+    .modalTrip {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 50%;
+        width: 60%;
+        height: 80%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 8px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+    }
+
+    .overlayTrip {
+        display: none;
+        position: fixed;
+        z-index: 9998;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .tripmodal {
+        background: #366480;
+        padding: 6px;
+    }
+
+        .tripmodal h4 {
+            color: #fff;
+        }
+
+        .tripmodal button {
+            color: #fff;
+        }
+
+
+
+    /* Styles for tabs */
+    .tab {
+        display: none;
+    }
+
+    /* Styles for active tab */
+    .active {
+        display: block;
+    }
+
+    /* Styles for tab buttons */
+    .tab-btn {
+        cursor: pointer;
+        padding: 10px 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+
+        .tab-btn.active {
+            background-color: #ccd6dd; /* Change background color for active tab */
+        }
+
+    .tooltipF {
+        position: relative;
+        display: inline-block;
+    }
+
+        .tooltipF .tooltiptext {
+            visibility: hidden;
+            width: 220px;
+            background-color: #366480;
+            color: #fff;
+            text-align: left;
+            border-radius: 2px;
+            padding: 6px;
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 100%;
+            font-size: 12px;
+            margin-left: 6px; /* Adjust as needed */
+        }
+
+        .tooltipF:hover .tooltiptext {
+            visibility: visible;
+        }
+
+    table {
+        border-collapse: collapse;
+    }
+
+    td,
+    th {
+        border: 1px solid black;
+        padding: 10px 20px;
+    }
+
+    .fligtbox {
+        margin: 4px 15px;
+        border: 1px solid #366480;
+    }
+
+    .firstdiv {
+        background-color: #edcbcb;
+        margin: 15px;
+        padding: 8px;
+    }
+
+    .airliname {
+        border-radius: 20px;
+        margin-left: 8px;
+        padding: 7px 12px;
+        font-size: 13px;
+        border: 1px solid #2f647e;
+        font-weight: 700;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        // Open modal box
+        $("#openModal_0").click(function () {
+            $("#modal, #overlay").fadeIn();
+            $("body").css("overflow", "hidden");
+        });
+
+        // Close modal box
+        $("#closeModal, #overlay").click(function () {
+            $("#modal, #overlay").fadeOut();
+            $("body").css("overflow", "auto");
+        });
+
+
+
+        $("#tabContent1").addClass("active");
+
+        // Show/hide tab content on click
+        $(".tab-btn").click(function () {
+            var tabId = $(this).attr("id").replace("tabBtn", "");
+            $(".tab").removeClass("active");
+            $(".tab-btn").removeClass("active");
+            $("#tabContent" + tabId).addClass("active");
+            $(this).addClass("active");
+        });
+
+
+    });
+</script>
+
+
+@{
+
+    string formattedTime = string.Empty;
+    var arrivalDate = Model.passeengerlist.journeys[0].designator.arrival;
+    var departureDate = Model.passeengerlist.journeys[0].designator.departure;
+    var diff = (arrivalDate - departureDate);
+    TimeSpan timeSpan = TimeSpan.Parse(diff.ToString());
+    if ((int)timeSpan.Minutes == 0 && (int)timeSpan.Hours != 0)
+        formattedTime = $"{(int)timeSpan.TotalHours} h";
+    else if ((int)timeSpan.Hours == 0 && (int)timeSpan.Minutes != 0)
+        formattedTime = $"{(int)timeSpan.Minutes} m";
+    else
+        formattedTime = $"{(int)timeSpan.TotalHours} h : {(int)timeSpan.Minutes} m";
+}
+<div class="flight-box-content rounded-4">
+    <div class="py-10 px-30">
+        <div class="row d-flex justify-content-end">
+            <div class="col-auto">
+                <div class="text-14 text-light-1 fw-600">Total Time: @formattedTime</div>
+            </div>
+        </div>
+    </div>
+
+
+    @{
+        foreach (var item in Model.passeengerlist.journeys)
+        {
+            for (int i = 0; i < item.segments.Count; i++)
+            {
+
+                if (i >= 1)
+                {
+                    formattedTime = string.Empty;
+                    arrivalDate = item.segments[i - 1].designator.arrival;
+                    departureDate = item.segments[i].designator.departure;
+                    diff = (departureDate - arrivalDate);
+                    timeSpan = TimeSpan.Parse(diff.ToString());
+                    if ((int)timeSpan.Minutes == 0 && (int)timeSpan.Hours != 0)
+                        formattedTime = $"{(int)timeSpan.TotalHours} h";
+                    else if ((int)timeSpan.Hours == 0 && (int)timeSpan.Minutes != 0)
+                        formattedTime = $"{(int)timeSpan.Minutes} m";
+                    else
+                        formattedTime = $"{(int)timeSpan.TotalHours} h : {(int)timeSpan.Minutes} m";
+
+                    <div class="py-15 px-20 rounded-4 text-15  bg-blue-2 flex-center">
+                        Change planes at <span class="fw-600"> <div></div> (@item.segments[i].designator.origin),</span> Connecting Time: <span class="fw-600">@formattedTime</span>
+                    </div>
+                }
+                <div class="py-30 px-30 border-top-light">
+                    <div class="row y-gap-10 justify-between">
+                        <div class="col-7">
+
+
+                            @for (int j = 0; j < item.segments[i].legs.Count; j++)
+                            {
+                                if (j == 1)
+                                {
+                                    formattedTime = string.Empty;
+                                    arrivalDate = item.segments[i].legs[j - 1].designator.arrival;
+                                    departureDate = item.segments[i].legs[j].designator.departure;
+                                    diff = (departureDate - arrivalDate);
+                                    timeSpan = TimeSpan.Parse(diff.ToString());
+                                    if ((int)timeSpan.Minutes == 0 && (int)timeSpan.Hours != 0)
+                                        formattedTime = $"{(int)timeSpan.TotalHours} h";
+                                    else if ((int)timeSpan.Hours == 0 && (int)timeSpan.Minutes != 0)
+                                        formattedTime = $"{(int)timeSpan.Minutes} m";
+                                    else
+                                        formattedTime = $"{(int)timeSpan.TotalHours} h {(int)timeSpan.Minutes} m";
+
+                                    // <div class="py-15 px-20 rounded-4 text-15 bg-green-1 flex-center">
+                                    //     Change planes at <span class="fw-600"> <div></div> (@item.segments[i].legs[j].designator.origin),</span> Connecting Time: <span class="fw-600">@formattedTime</span>
+                                    // </div>
+                                    <div class="py-10 px-20 rounded-4 text-15 bg-blue-2 flex-center m-3">
+                                        Technical Support   <span class="fw-600 px-2">@formattedTime</span> Layover in <span class="fw-600 px-2"> @item.segments[i].legs[j].designator.origin</span>
+                                    </div>
+
+                                }
+
+                                string CarrierCodeName = string.Empty;
+                                string imagePath = string.Empty;
+                                switch (@item.segments[i].identifier.carrierCode)
+                                {
+                                    case "AI":
+                                        CarrierCodeName = "AirIndia";
+                                        imagePath = "~/img/flight-logo-icon/airindia.png";
+                                        break;
+                                    case "H1":
+                                        CarrierCodeName = "JetAirWays";
+                                        imagePath = "~/img/flight-logo-icon/hahnair.png";
+                                        break;
+                                    case "UK":
+                                        CarrierCodeName = "Vistara";
+                                        imagePath = "~/img/flight-logo-icon/vistara.png";
+                                        break;
+                                    case "OD":
+                                        CarrierCodeName = "MALINDO AIRWAYS";
+                                        break;
+                                    case "TG":
+                                        CarrierCodeName = "Thai Airways International";
+                                        break;
+                                    case "UL":
+                                        CarrierCodeName = "SriLankan Airlines";
+                                        break;
+                                    default:
+                                        try
+                                        {
+                                            CarrierCodeName = "";// Utility.FileChangeMonitor.AirlineNames[leg.AirlineName.Trim()];
+                                        }
+                                        catch (SystemException sex_) { CarrierCodeName = "NA"; }
+                                        break;
+                                }
+
+                                <div class="d-flex items-center mb-15">
+                                    <div class="w-28 d-flex justify-center mr-15">
+                                        @if (@item.segments[i].identifier.carrierCode == "UK")
+                                        {
+                                            <img class="size-30" src="~/img/flight-logo-icon/vistara.png" alt="Vistara">
+                                        }
+                                        else if (@item.segments[i].identifier.carrierCode == "AI")
+                                        {
+                                            <img class="size-30" src="~/img/flight-logo-icon/airindia.png" alt="AirIndia">
+                                        }
+                                        else if (@item.segments[i].identifier.carrierCode == "H1")
+                                        {
+                                            <img class="size-30" src="~/img/flight-logo-icon/hahnair.png" alt="Hahnair">
+                                        }
+                                        else
+                                        {
+                                            <img class="size-30" src="" alt="Image not found">
+                                        }
+
+                                    </div>
+
+                                    <div class="text-14 text-light-1"> @CarrierCodeName @item.segments[i].identifier.carrierCode @item.segments[i].identifier.identifier <span class="fw-700 ms-2">Plane Type:</span> <span class="airliname">@item.segments[i].legs[j].legInfo.equipmentType</span></div>
+                                </div>
+
+                                <div class="relative z-0">
+                                    <div class="border-line-2"></div>
+
+                                    <div class="d-flex items-center">
+                                        <div class="w-28 d-flex justify-center mr-15">
+                                            <div class="size-10 border-light rounded-full bg-white"></div>
+                                        </div>
+
+                                        <div class="row">
+
+                                            @{
+                                                var departuretime = @item.segments[i].legs[j].designator.departure;
+                                                string departuretimestr = departuretime.ToString();
+                                                var departuretimefinal = departuretimestr.Substring(11, 5);
+                                                string queryorigin = item.segments[i].legs[j].designator.origin;
+                                                string querydestination = item.segments[i].legs[j].designator.destination;
+
+                                                if (Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault() != null)
+                                                {
+                                                    string origin = Citynamelist.GetAllCityData().Where(x => x.citycode == queryorigin).SingleOrDefault().cityname;
+                                                    item.segments[i].legs[j].designator.origin = origin;
+                                                }
+
+                                                if (Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault() != null)
+                                                {
+                                                    string destination1 = Citynamelist.GetAllCityData().Where(x => x.citycode == querydestination).SingleOrDefault().cityname;
+                                                    item.segments[i].legs[j].designator.destination = destination1;
+                                                }
+
+                                                //formatted date
+                                                var date = DateTime.ParseExact(departuretimestr, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+
+                                                string formatteddepartureDate = date.ToString("ddd, dd MMM yyyy");
+
+                                            }
+
+                                            <div class="col-auto">
+                                                <div class="lh-14 fw-500">@departuretimefinal</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                @{
+                                                    var allCityData = Citynamelist.GetAllCityData();
+                                                    string QueryOriginAirportName = item.segments[i].legs[j].designator.origin;
+                                                    string QueryDestinationAirportName = item.segments[i].legs[j].designator.destination;
+
+                                                    var originCity = allCityData.SingleOrDefault(x => x.cityname == QueryOriginAirportName);
+                                                    var destinationCity = allCityData.SingleOrDefault(x => x.cityname == QueryDestinationAirportName);
+
+                                                    if (originCity != null)
+                                                    {
+                                                        item.segments[i].legs[j].designator.origin = originCity.airportname;
+                                                    }
+                                                    if (destinationCity != null)
+                                                    {
+                                                        item.segments[i].legs[j].designator.destination = destinationCity.airportname;
+                                                    }
+                                                }
+                                                @*<div class="lh-14 fw-500">@item.segments[i].legs[j].designator.origin <span class="text-13 ml-2 fw-600">( @formatteddepartureDate<span class="text-13 text-light-1 ml-2"> Indira Gandhi, T-@item.segments[i].legs[j].legInfo.departureTerminal </span> )</span></div>*@
+                                                <div class="lh-14 fw-500">
+                                                    @QueryOriginAirportName<span class="text-13 ml-2 fw-600">
+                                                        ( @formatteddepartureDate<span class="text-13 text-light-1 ml-2">@originCity?.airportname</span>
+                                                        @if (@item.segments[i].legs[j].legInfo.departureTerminal != null && @item.segments[i].legs[j].legInfo.departureTerminal != "")
+                                                        {
+                                                            <span class="text-13 ml-2 fw-600">
+                                                                <span>, T-</span>
+
+                                                                @item.segments[i].legs[j].legInfo.departureTerminal
+                                                            </span>
+                                                        }
+                                                        )
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex items-center mt-15">
+                                        <div class="w-28 d-flex justify-center mr-15">
+                                            <img src="~/img/plane.svg" alt="image">
+                                        </div>
+
+                                        <div class="text-14 text-light-1"></div>
+                                    </div>
+
+                                    <div class="d-flex items-center mt-15">
+                                        <div class="w-28 d-flex justify-center mr-15">
+                                            <div class="size-10 border-light rounded-full bg-border"></div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-auto">
+                                                @{
+                                                    var arrivaltime = @item.segments[i].legs[j].designator.arrival;
+                                                    string arrivaltimestr = arrivaltime.ToString();
+                                                    var arrivalfinal = arrivaltimestr.Substring(11, 5);
+                                                    //formatted date
+                                                    date = DateTime.ParseExact(arrivaltimestr, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+
+                                                    string formattedarrivalDate = date.ToString("ddd, dd MMM yyyy");
+
+                                                }
+
+                                                <div class="lh-14 fw-500">@arrivalfinal</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                @*<div class="lh-14 fw-500">@item.segments[i].legs[j].designator.destination<span class="text-13 ml-2 fw-600">( @formattedarrivalDate<span class="text-13 text-light-1 ml-2"> Sanganeer, T-@item.segments[i].legs[j].legInfo.arrivalTerminal </span> )</span></div>*@
+                                                <div class="lh-14 fw-500">
+                                                    @QueryDestinationAirportName
+                                                    <span class="text-13 ml-2 fw-600">
+                                                        (@formattedarrivalDate
+                                                        <span class="text-13 text-light-1 ml-2">@destinationCity?.airportname</span>
+                                                        @if (@item.segments[i].legs[j].legInfo.arrivalTerminal != null && @item.segments[i].legs[j].legInfo.arrivalTerminal != "")
+                                                        {
+                                                            <span class="text-13 ml-2 fw-600">
+                                                                <span>, T-</span> @item.segments[i].legs[j].legInfo.arrivalTerminal
+                                                            </span>
+                                                        }
+                                                        )
+
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        @if (i == 0)
+                        {
+                            @for (int f = 0; f < @item.segments[i].fares.Count; f++)
+                            {
+
+                                <div class="col-auto text-right md:text-left">
+
+                                    @{
+                                        string Faretype = string.Empty;
+
+                                        @if (item.segments[i].fares[f].productClass.Equals("Economy Lite"))
+                                        {
+
+                                            <span class="tooltipF">
+                                                Fare Type:  @Faretype<b>Economy Lite</b>
+                                                <span class="tooltiptext">
+                                                    <ul>
+                                                        <li>1: Cabin Bag: 7 k.g</li>
+                                                        <li>2: Check-In: 15 k.g  (1 piece)</li>
+                                                        <li>3: Cancellation: Rs. 3710 :- Fee starts at Onward.</li>
+                                                        <li>4: Date Change: Rs. 3180 :-  Fee starts at Onward.</li>
+                                                        <li>5: Seat: Free seats</li>
+                                                        <li>6: Meal: Complimentary meal</li>
+
+                                                    </ul>
+                                                </span>
+                                            </span>
+                                        }
+                                        else if (item.segments[i].fares[f].productClass.Equals("Economy Standard"))
+                                        {
+                                            <span class="tooltipF">
+                                                Fare Type:  @Faretype<b>Economy Standard</b>
+                                                <span class="tooltiptext">
+                                                    <ul>
+                                                        <li>1: Cabin Bag: 7 k.g</li>
+                                                        <li>2: Check-In: 15  k.g  (1 piece)</li>
+                                                        <li>3: Cancellation: Rs. 3371 :- Fee starts at Onward.</li>
+                                                        <li>4: Date Change: Rs. 2809 :-  Fee starts at Onward.</li>
+                                                        <li>5: Seat: Free seats</li>
+                                                        <li>6: Meal: Complimentary meal</li>
+
+                                                    </ul>
+                                                </span>
+                                            </span>
+
+                                        }
+                                        else if (item.segments[i].fares[f].productClass.Equals("Economy Flexi"))
+                                        {
+                                            <span class="tooltipF">
+                                                Fare Type:  @Faretype<b>Economy Flexi</b>
+                                                <span class="tooltiptext">
+                                                    <ul>
+                                                        <li>1: Cabin Bag: 7 k.g</li>
+                                                        <li>2: Check-In: 20 k.g.</li>
+                                                        <li>3: Cancellation: Rs. 3371 :- Fee starts at Onward.</li>
+                                                        <li>4: Date Change: Rs. 2801 :-  Fee starts at Onward.</li>
+                                                        <li>5: Seat: Free seats</li>
+                                                        <li>6: Meal: Complimentary meal</li>
+
+                                                    </ul>
+                                                </span>
+                                            </span>
+                                        }
+                                        else if (item.segments[i].fares[f].productClass.Equals("Premium Economy Value"))
+                                        {
+
+                                            <span class="tooltipF">
+                                                Fare Type:  @Faretype<b>Premium Economy Value</b>
+                                                <span class="tooltiptext">
+                                                    <ul>
+                                                        <li>1: Cabin Bag: 7 k.g</li>
+                                                        <li>2: Check-In: 20 k.g (1 piece)</li>
+                                                        <li>3: Cancellation: Rs. 3445 :- Fee starts at Onward.</li>
+                                                        <li>4: Date Change: Rs. 2915:- Fee starts at Onward.</li>
+                                                        <li>5: Seat : Free seats</li>
+                                                        <li>6: Meal : Complimentary meal</li>
+                                                    </ul>
+                                                </span>
+                                            </span>
+
+                                        }
+                                        else if (item.segments[i].fares[f].productClass.Equals("Premium Economy Standard"))
+                                        {
+
+                                            <span class="tooltipF">
+                                                Fare Type:  @Faretype<b>Premium Economy Standard</b>
+                                                <span class="tooltiptext">
+                                                    <ul>
+                                                        <li>1: Cabin Bag: 7 k.g</li>
+                                                        <li>2: Check-In: 25 k.g.</li>
+                                                        <li>3: Cancellation: Rs. 3180 :- Fee starts at Onward.</li>
+                                                        <li>4: Date Change: Rs. 2650:- Fee starts at Onward.</li>
+                                                        <li>5: Seat : Free seats</li>
+                                                        <li>6: Meal : Complimentary meal</li>
+                                                    </ul>
+                                                </span>
+                                            </span>
+
+                                        }
+
+                                        else if (item.segments[i].fares[f].productClass.Equals("Eco Comfort"))
+                                        {
+
+                                            <span class="tooltipF">
+                                                Fare Type:  @Faretype<b>Eco Comfort</b>
+                                                <span class="tooltiptext">
+                                                    <ul>
+                                                        <li>1: Cabin Bag: 7 k.g</li>
+                                                        <li>2: Check-In: 15 k.g</li>
+                                                        <li>3: Cancellation: Rs. 4000:- Fee starts at Onward.</li>
+                                                        <li>4: Date Change: Rs. 3000:- Fee starts at Onward.</li>
+                                                        <li>5: Seat : Free seats</li>
+                                                        <li>6: Meal : Complimentary meal</li>
+                                                    </ul>
+                                                </span>
+                                            </span>
+
+                                        }
+
+                                        else if (item.segments[i].fares[f].productClass.Equals("Eco Comfort Plus"))
+                                        {
+
+                                            <span class="tooltipF">
+                                                Fare Type:  @Faretype<b>Eco Comfort Plus</b>
+                                                <span class="tooltiptext">
+                                                    <ul>
+                                                        <li>1: Cabin Bag: 7 k.g</li>
+                                                        <li>2: Check-In: 15 k.g</li>
+                                                        <li>3: Cancellation: Rs. 3500:- Fee starts at Onward.</li>
+                                                        <li>4: Date Change: Rs. 3000:- Fee starts at Onward.</li>
+                                                        <li>5: Seat : Free seats</li>
+                                                        <li>6: Meal : Complimentary meal</li>
+                                                    </ul>
+                                                </span>
+                                            </span>
+
+                                        }
+
+                                        else if (item.segments[i].fares[f].productClass.Equals("Premium Comfort Plus"))
+                                        {
+
+                                            <span class="tooltipF">
+                                                Fare Type:  @Faretype<b>Premium Comfort Plus</b>
+                                                <span class="tooltiptext">
+                                                    <ul>
+                                                        <li>1: Cabin Bag: 7 k.g</li>
+                                                        <li>2: Check-In: 15 k.g</li>
+                                                        <li>3: Cancellation: Rs. 3500:- Fee starts at Onward.</li>
+                                                        <li>4: Date Change: Rs. 3000:- Fee starts at Onward.</li>
+                                                        <li>5: Seat : Free seats</li>
+                                                        <li>6: Meal : Complimentary meal</li>
+                                                    </ul>
+                                                </span>
+                                            </span>
+
+                                        }
+
+                                        else if (item.segments[i].fares[f].productClass.Equals("Premium Flex"))
+                                        {
+
+                                            <span class="tooltipF">
+                                                Fare Type:  @Faretype<b>Premium Comfort Plus</b>
+                                                <span class="tooltiptext">
+                                                    <ul>
+                                                        <li>1: Cabin Bag: 7 k.g</li>
+                                                        <li>2: Check-In: 15 k.g</li>
+                                                        <li>3: Cancellation: Rs. 3500:- Fee starts at Onward.</li>
+                                                        <li>4: Date Change: Rs. 3000:- Fee starts at Onward.</li>
+                                                        <li>5: Seat : Free seats</li>
+                                                        <li>6: Meal : Complimentary meal</li>
+                                                    </ul>
+                                                </span>
+                                            </span>
+
+                                        }
+
+                                        <div class="text-13 mt-1">
+                                            <button id="openModal_0" style="color:#366480;">View Fare Rules</button>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+        }
+
+    }
+
+
+
+
+
+
+</div>
+
+
+
+<!-- Modal box -->
+<div id="modal" class="modalTrip">
+    <div class="d-flex justify-between tripmodal">
+        <h4 class="modal-title">Fare Rules</h4>
+        <button id="closeModal">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+    <div class="Mbody p-2">
+        <div class="d-flex">
+            <div class="tab-btn active" id="tabBtn1">Cancellation Charges</div>
+            <div class="tab-btn" id="tabBtn2">Date Change Charges</div>
+
+
+        </div>
+        <div class="fligtbox align-item-center d-flex">
+            @{
+                foreach (var item in Model.passeengerlist.journeys)
+                {
+                    if (item.Airlinename == "AirIndia")
+                    {
+                        <img class="size-30 me-2" src="~/img/flight-logo-icon/airindia.png" alt="image">
+                    }
+                    if (item.Airlinename == "Vistara")
+                    {
+                        <img class="size-30 me-2" src="~/img/flight-logo-icon/vistara.png" alt="image">
+                    }
+
+                    <div>@item.designator.origin-@item.designator.destination</div>
+                }
+            }
+        </div>
+        <div class="tab" id="tabContent1">
+
+            @foreach (var item in Model.passeengerlist.journeys)
+            {
+                for (int i = 0; i < item.segments.Count; i++)
+                {
+                    @if (i == 0)
+                    {
+                        @for (int f = 0; f < @item.segments[i].fares.Count; f++)
+                        {
+
+                            <div class="col-auto text-center md:text-left">
+
+                                @{
+                                    string Faretype = string.Empty;
+
+                                    @if (item.segments[i].fares[f].productClass.Equals("Economy Lite"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs.3710 per adult</td>
+
+                                            </tr>
+
+                                        </table>
+
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("Economy Standard"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs.3371</td>
+
+                                            </tr>
+
+                                        </table>
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("Economy Flexi"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs. 3371</td>
+                                            </tr>
+
+                                        </table>
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("Premium Economy Value"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs.3445</td>
+                                            </tr>
+                                        </table>
+                                    }
+
+                                    else if (item.segments[i].fares[f].productClass.Equals("Premium Economy Standard"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs.3180</td>
+                                            </tr>
+                                        </table>
+                                    }
+
+                                    else if (item.segments[i].fares[f].productClass.Equals("Eco Comfort"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs. 4000</td>
+                                            </tr>
+                                        </table>
+                                    }
+
+                                    else if (item.segments[i].fares[f].productClass.Equals("Eco Comfort Plus"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs. 3500</td>
+                                            </tr>
+                                        </table>
+                                    }
+
+                                    else if (item.segments[i].fares[f].productClass.Equals("Premium Comfort Plus"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs. 3500</td>
+                                            </tr>
+                                        </table>
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("Premium Flex"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs. 3500</td>
+                                            </tr>
+                                        </table>
+                                    }
+
+
+
+                                }
+                            </div>
+
+                        }
+                    }
+                }
+            }
+            <div class="firstdiv">
+                <strong>*Note:</strong> The airline fee is indicative. Jetways does not guarantee the accuracy of this information.All refunds are subject to airline approval.
+            </div>
+        </div>
+
+        <div class="tab" id="tabContent2">
+
+            @foreach (var item in Model.passeengerlist.journeys)
+            {
+                for (int i = 0; i < item.segments.Count; i++)
+                {
+                    @if (i == 0)
+                    {
+                        @for (int f = 0; f < @item.segments[i].fares.Count; f++)
+                        {
+
+                            <div class="col-auto text-center md:text-left">
+
+                                @{
+                                    string Faretype = string.Empty;
+
+
+                                    @if (item.segments[i].fares[f].productClass.Equals("Economy Lite"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs.3180 per adult</td>
+
+                                            </tr>
+
+                                        </table>
+
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("Economy Standard"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs.2809</td>
+
+                                            </tr>
+
+                                        </table>
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("Economy Flexi"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs. 2801</td>
+                                            </tr>
+
+                                        </table>
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("Premium Economy Value"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs. 2915</td>
+
+                                            </tr>
+
+                                        </table>
+
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("Premium Economy Standard")) 
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs. 2650</td>
+                                            </tr>
+                                        </table>
+                                    }
+
+                                    else if (item.segments[i].fares[f].productClass.Equals("Eco Comfort"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs. 3000</td>
+                                            </tr>
+                                        </table>
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("Eco Comfort Plus"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs. 3000</td>
+                                            </tr>
+                                        </table>
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("Premium Comfort Plus"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs. 3000</td>
+                                            </tr>
+                                        </table>
+                                    }
+                                    else if (item.segments[i].fares[f].productClass.Equals("Premium Flex"))
+                                    {
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td><b>Time</b></td>
+                                                <td><b>Charges</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fee starts at Onward.</td>
+                                                <td>Rs. 3000</td>
+                                            </tr>
+                                        </table>
+                                    }
+
+                                }
+                            </div>
+                        }
+                    }
+                }
+            }
+            <div class="firstdiv">
+                <strong>*Note:</strong> The airline fee is indicative. Jetways does not guarantee the accuracy of this information.All refunds are subject to airline approval.
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+<!-- Overlay -->
+<div id="overlay" class="overlayTrip"></div>

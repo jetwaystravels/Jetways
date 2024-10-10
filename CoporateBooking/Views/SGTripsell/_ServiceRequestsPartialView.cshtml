@@ -1,0 +1,1069 @@
+﻿@model DomainLayer.ViewModel.ViewModel
+@using System.Collections;
+@{
+    Layout = null;
+    var data = Model;
+}
+<script src="~/js/custom.js/spicejet.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+    /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
+    $(document).ready(function () {
+        $("#seatTab1").addClass('active');
+        $("#tabshow2").hide();
+        $("#tabnew2").hide();
+        $("#popbtnB").hide();
+        $("#popbtnA").show();
+        $("#seatTab1").click(function () {
+            $("#tabshow1").show();
+            $("#tabnew1").show();
+            $("#tabnew2").hide();
+            $("#popbtnB").hide();
+            $("#popbtnA").show();
+            $("#tabshow2").hide();
+            $("#seatTab1").addClass('active');
+            $("#seatTab2").removeClass('active');
+
+        });
+
+        $("#seatTab2").click(function () {
+            $("#tabshow2").css("display", "block");
+            $("#seatTab2").addClass('active');
+            $("#seatTab1").removeClass('active');
+            $("#popbtnA").hide();
+            $("#tabshow1").hide();
+            $("#tabnew1").hide();
+            $("#tabnew2").show();
+            $("#popbtnB").show();
+
+        });
+
+        $("#btnfocus").click(function () {
+            alert("Do you want select connect seat");
+            $("#seattab2").click();
+        });
+
+    });
+
+
+
+    $(document).ready(function () {
+
+
+
+
+        $('.servc-bordrm1').change(function () {
+            debugger;
+            var selectedMeals = [];
+            var totalPrice = 0;
+
+            $('.servc-bordrm1').each(function () {
+                debugger;
+                var selectedValue = $(this).val();
+                if (selectedValue) {
+                    debugger;
+                    var price_value = selectedValue.split('_');
+                    var mealPrice = parseFloat(price_value[1]);
+
+                    selectedMeals.push(selectedValue);
+                    totalPrice += mealPrice;
+
+                }
+
+            });
+            localStorage.setItem("MealssrKeyCount", JSON.stringify(selectedMeals));
+            document.getElementById("hiddenSsrKey").value = selectedMeals.join(',');
+            $('#AddMeal').text(totalPrice.toFixed(2));
+            updateCombinedTotal();
+
+
+        });
+
+
+
+
+
+
+        $('.select-option2 .servc-bordrCon').change((e) => {
+            debugger;
+            var selectedMealsCon = [];
+            var totalPrice = 0;
+
+            $('.servc-bordrCon').each(function () {
+                debugger;
+                var selectedValue = $(this).val();
+                if (selectedValue) {
+                    debugger;
+                    var price_value = selectedValue.split('_');
+                    var mealPrice = parseFloat(price_value[1]);
+
+                    selectedMealsCon.push(selectedValue);
+                    totalPrice += mealPrice;
+                }
+
+                localStorage.setItem("MealssrKeyCount2", JSON.stringify(selectedMealsCon));
+                document.getElementById("hiddenSsrKey2").value = selectedMealsCon.join(',');
+
+            });
+
+            $('#AddMeal2').text(totalPrice.toFixed(2));
+            updateCombinedTotal();
+
+        });
+
+
+
+
+
+        //End :MealKey post
+
+        //Bagage code start
+
+
+
+        $('.servc-bordrbaggage').change(function () {
+            debugger;
+            var selectedBaggage = [];
+            var baggagePrice = 0;
+
+            $('.servc-bordrbaggage').each(function () {
+                debugger;
+                var selectedValue = $(this).val();
+                if (selectedValue) {
+                    debugger;
+                    var price_value = selectedValue.split('_');
+                    var BagPrice = parseFloat(price_value[1]);
+
+                    selectedBaggage.push(selectedValue + "_OneWay0");
+                    baggagePrice += BagPrice;
+
+                }
+
+            });
+            localStorage.setItem("BagssrKeyCount", JSON.stringify(selectedBaggage));
+            document.getElementById("hiddenbagKey").value = selectedBaggage.join(',');
+            $('#AddBaggage').text(baggagePrice.toFixed(2));
+            updateCombinedTotal();
+
+
+        });
+
+
+
+
+
+
+
+        // bagage code end
+
+        $("#Continuebtn").click(function () {
+
+            var unitKey = JSON.parse(localStorage.getItem("selectedIds"));
+            // let mealcode1 = JSON.parse(localStorage.getItem("MealssrKeyCount"));
+            // let mealcode2 = JSON.parse(localStorage.getItem("MealssrKeyCount2"));
+            // var ssrKey = mealcode1 + "," + mealcode2;
+            let mealcode1 = JSON.parse(localStorage.getItem("MealssrKeyCount"));
+            let mealcode2 = JSON.parse(localStorage.getItem("MealssrKeyCount2"));
+            var ssrKey;
+            if (mealcode2 && mealcode2.length > 0) {
+                ssrKey = mealcode1.concat(mealcode2);
+            } else {
+                ssrKey = mealcode1;
+            }
+
+            let BaggageSSrkey = JSON.parse(localStorage.getItem("BagssrKeyCount"));
+
+            $.ajax({
+                url: "/SGTripsell/PostUnitkey",
+                type: "POST",
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                data: { unitKey: unitKey, ssrKey: ssrKey, BaggageSSrkey: BaggageSSrkey },
+                success: function (data) {
+                    window.location.href = '/SGPaymentGateway/SpiceJetPayment';
+                },
+                error: function (err) {
+                    console.error(err);
+                }
+            });
+        });
+
+
+
+
+
+        $(".exampleModalCSeat").click(function (e) {
+            e.preventDefault();
+            $("#btnfocus").off("click");
+            $.ajax({
+                url: '@Url.Action("PostSeatMapModaldataView", "SGTripsell")',
+                type: "GET",
+                success: function (data) {
+                    //console.log('POST request successful');
+                    $('#sgexampleModal .modal-bodyy').html(data);
+                    $('#sgexampleModal').modal('show');
+
+                },
+                error: function (error) {
+                    console.log("Error fetching data:", error);
+                }
+            });
+        });
+
+    });
+
+
+
+</script>
+
+
+<style>
+    .chkbox {
+        background: #b1abab;
+        text-align: center;
+        cursor: not-allowed;
+        padding: 3px 0;
+    }
+
+
+    .border-service {
+        border: 1px solid #a5a2a2;
+        border-radius: 2px;
+    }
+
+    .bg-servc {
+        background-color: #f4f5f7;
+    }
+
+    .servc-bordr {
+        border-bottom: 1px solid #000;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+    }
+
+    .servc-bordr, input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+        /*  -webkit-appearance: none; */
+        margin: 0;
+    }
+
+    .servc-bordr, textarea:focus, input:focus {
+        outline: none;
+    }
+
+    .seatmap-btn {
+        border: none;
+        padding: 4px 7px;
+        border-radius: 4px;
+        background: #b5cbe7;
+    }
+
+    .select-width {
+        max-width: 120px;
+    }
+
+    .MWidth {
+        width: 1024px !important;
+        margin-left: -50%;
+    }
+
+
+    /*  .active {
+                color: #E93329 !important;
+                border-bottom: 1px solid #E93329 !important;
+            } */
+
+    .select-option {
+        max-width: 120px;
+    }
+
+        .select-option .servc-bordr {
+            max-width: 150px;
+        }
+
+    .width-90 {
+        width: 60px;
+    }
+
+    .select-option2 {
+        max-width: 120px;
+    }
+
+        .select-option2 .servc-bordr {
+            max-width: 150px;
+        }
+
+    .wdth-100 {
+        width: 100px;
+    }
+
+    .btngry {
+        background-color: #808080 !important;
+    }
+
+    .checkout .bg-white.service-section input {
+        max-width: 150px !important;
+        font-size: 0.9rem;
+        padding: 3px;
+    }
+
+    .checkout .bg-white.service-section {
+        font-size: 0.9rem;
+    }
+
+        .checkout .bg-white.service-section .seat {
+            display: inline-flex;
+        }
+
+        .checkout .bg-white.service-section .output-div-input {
+            margin: 3px;
+            font-weight: 600;
+            color: #085AC0;
+            width: 26px;
+        }
+
+        .checkout .bg-white.service-section .servc-content span {
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+    .servc-bordrm1 option {
+        font-size: 12px;
+    }
+
+</style>
+
+<section id="myContainer1">
+    <div class="container">
+        <div class="col-lg-12">
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="sgexampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content MWidth">
+                        <div class="modal-mfareheader d-flex justify-between">
+                            <h2 class="text-22 fw-600">Seat Details</h2>
+                            @* <button type="button" class="btnclose" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" style="font-size: 21px;">&times;</span>
+                            </button> *@
+                        </div>
+                        <div class="modal-bodyy mbody-padding">
+                        </div>
+                        @*  <div class="modal-footer fbody-padding">
+                        <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
+                        </div> *@
+                        <div class="modal-footer fbody-padding">
+                            <div class="row legendHolder-box">
+                                <div class="col-lg-8">
+                                    <ul>
+
+                                        <li style="padding:0;"><strong>Legend:</strong></li>
+                                        <li><span class="free"></span>Free Seats</li>
+                                        <li><span class="midcomfort"></span>&#8377; 120 - &#8377; 350</li>
+                                        <li><span class="comfort"></span>&#8377; 49 - &#8377; 99, &#8377; 351 - &#8377; 2000</li>
+                                        <li><span class="booked"></span>Occupied</li>
+
+                                    </ul>
+
+
+                                </div>
+
+                                <div class="col-lg-4">
+                                    @{
+                                        int segmentcount = Model.passeengerlist.journeys[0].segments.Count;
+                                        @if (segmentcount == 1)
+                                        {
+                                            <div class="d-flex">
+                                                <div>
+                                                    <button type="submit" id="cancelButton1" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
+                                                </div>
+                                                <div>
+
+                                                    <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+
+                                            @for (int i = 0; i < segmentcount; i++)
+                                            {
+                                                @if (i == 1)
+                                                {
+                                                    <div class="d-flex">
+                                                        <div id="popbtnA">
+
+                                                            <button type="submit" id="cancelButton2" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
+                                                            <button type="submit" id="btnfocus" class="btn  btn-primary">Continue</button>
+
+                                                        </div>
+                                                        <div id="popbtnB" style="display:none;">
+                                                            <button type="submit" id="cancelButton3" data-dismiss="modal" class="btn btngry btnclose">Cancel</button>
+                                                            <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
+
+                                                        </div>
+                                                    </div>
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                </div>
+                                <p><strong>Disclaimer:</strong> Seat allotment is the sole prerogative of the airline and can't be guaranteed by jetwaystravel.com</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+<div class="flight-box-content rounded-4 p-0">
+    <div class="tabs -pills-3 js-tabs">
+
+        <div class="tabs__content pt-0 js-tabs-content">
+            <div class="tabs__pane -tab-item-1 is-tab-el-active">
+                <div class="journey-box">
+                    <ul class="nav nav-pills">
+                        @{
+                            int passengerdata = @Model.passeengerlist.passengerscount;
+
+                        }
+                        @{
+                            int passengerdataValue = 0;
+                            for (int i = 0; i < @Model.passeengerlist.passengers.Count; i++)
+                            {
+                                if (Model.passeengerlist.passengers[i].passengerTypeCode == "ADT" || Model.passeengerlist.passengers[i].passengerTypeCode == "CHD")
+                                {
+                                    passengerdataValue = passengerdataValue + 1;
+                                }
+                            }
+                            passengerdata = passengerdataValue;
+                            for (int pas = 0; pas < passengerdata; pas++)
+                            {
+                                <input type="hidden" value="@passengerdata" id="passengercountid">
+                            }
+
+                            var seatmaap2 = @Model.passeengerlist.journeys[0].segments.Count;
+                            if (seatmaap2 == 1)
+                            {
+                                <li class="nav-item">
+                                    <button class="nav-link active">@Model.passeengerlist.journeys[0].segments[0].designator.origin-@Model.passeengerlist.journeys[0].segments[0].designator.destination</button>
+                                </li>
+                            }
+                            else
+                            {
+                                @for (int i = 0; i < seatmaap2; i++)
+                                {
+                                    <li class="nav-item d-flex">
+                                        @if (i == 0)
+                                        {
+                                            <div id="seatTab1" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
+
+                                        }
+                                        else
+                                        {
+                                            <div id="seatTab2" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
+                                        }
+                                    </li>
+
+
+                                }
+                            }
+                        }
+
+                        @*  <li class="nav-item" role="presentation">
+                        <button class="nav-link">Return:BOM-DEL</button>
+                        </li> *@
+                    </ul>
+                </div>
+                <div class="row" id="tabnew1">
+
+                    <div class="col-lg-12">
+                        <section class="container">
+                            <div class="row border-service">
+
+                                <div class="d-flex justify-content-between bg-servc py-2">
+                                    <div class="serv-header">
+                                        Traveller
+                                    </div>
+                                    <div class="serv-header">
+                                        <img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" />  Meal
+                                    </div>
+                                    <div class="serv-header">
+                                        <img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" />Seat
+                                    </div>
+                                    <div class="serv-header">
+                                        <img src="~/img/pbaggage.png" style="width:20px;height:20px;margin-right:10px;" /> Baggage
+                                    </div>
+                                    <div class="serv-header">
+                                        Special Request
+                                    </div>
+                                </div>
+                                @{
+                                    int passengerdata2 = @Model.passeengerlist.passengerscount;
+                                }
+
+                                @{
+                                    int passengerdataValue2 = 0;
+                                    for (int i = 0; i < @Model.passeengerlist.passengers.Count; i++)
+                                    {
+                                        if (Model.passeengerlist.passengers[i].passengerTypeCode == "ADT" || Model.passeengerlist.passengers[i].passengerTypeCode == "CHD")
+                                        {
+                                            if (Model.passengerNamedetails != null)
+                                            {
+                                                Model.passeengerlist.passengers[i].name = Model.passengerNamedetails[i].first;
+                                            }
+                                            passengerdataValue2 = passengerdataValue2 + 1;
+                                        }
+                                    }
+                                    passengerdata2 = passengerdataValue2;
+
+
+                                    for (int pas = 0; pas < passengerdata2; pas++)
+                                    {
+                                        string ssrkey = string.Empty;
+                                        <div class="d-flex justify-content-between py-3">
+                                            <div class="servc-content width-90">
+                                                <!--Travellor @pas-->
+                                                @if (Model.passengerNamedetails != null)
+                                                {
+                                                    string name = Model.passengerNamedetails[pas].first;
+                                                    <span>@name</span>
+                                                }
+                                            </div>
+                                            <div class="servc-content select-option">
+
+
+
+                                                @{
+                                                    List<SelectListItem> mealOptions = new List<SelectListItem>();
+                                                    if (Model.Meals.legSsrs.Count > 0)
+                                                    {
+                                                        for (int s = 0; s < Model.Meals.legSsrs[0].legssrs.Count; s++)
+                                                        {
+                                                            string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                            string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode + "_" + Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price + "_0";
+                                                            string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " ₹" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                            string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) || Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase)).ToString();
+                                                            if (Mcode.ToLower() == "true")
+                                                            {
+                                                                continue;
+                                                            }
+                                                            else
+                                                                ssrkey = Mealcode;
+
+                                                            if (Mealcode != null)
+                                                            {
+                                                                // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
+                                                                mealOptions.Add(new SelectListItem { Text = Mealname, Value = Mealcode });
+                                                            }
+
+                                                            // string queryMeal = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
+                                                            // var mealData = SpicejetMealImageList.GetAllmeal().SingleOrDefault(x => x.MealCode == queryMeal);
+
+                                                            // if (mealData != null)
+                                                            // {
+                                                            //     // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
+                                                            //     mealOptions.Add(new SelectListItem { Text = mealData.MealImage, Value = mealData.MealCode });
+                                                            // }
+
+                                                        }
+                                                    }
+                                                }
+                                                <div class="d-flex">
+                                                    @if (mealOptions.Count == 0)
+                                                    {
+                                                        <select style="background:#f0f0f0;" id="" class="servc-bordr servc-bordrm1" disabled>
+                                                            <option selected="selected" value="">Meal Unavailable</option>
+                                                        </select>
+                                                    }
+                                                    else
+                                                    {
+                                                        <select id="ddlMealOptions" class="servc-bordr servc-bordrm1">
+
+                                                            <option selected="selected" value="">Please select meal</option>
+                                                            @foreach (var option in mealOptions)
+                                                            {
+                                                                <option value="@option.Value" data-ssrkey=@ssrkey>
+                                                                    @option.Text
+                                                                </option>
+                                                            }
+                                                        </select>
+                                                    }
+                                                    <input type="hidden" id="hiddenSsrKey" name="ssrKey" value="" />
+                                                </div>
+                                                @*<select id="mealid" class="servc-bordr select-width" asp-items="@mealOptions"></select>*@
+
+                                            </div>
+                                            <div class="servc-content seat">
+                                                <div class="d-flex">
+
+                                                    <input type="button" id="exampleModalSeat" value="Seat Map" class="button exampleModalCSeat small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
+
+                                                </div>
+                                                <div class="output-div-input" id="outputDiv_@pas"></div>
+                                            </div>
+                                            <div class="servc-content select-baggage">
+
+                                                @{
+                                                    List<SelectListItem> BaggageOptions = new List<SelectListItem>();
+
+                                                    // string Sssrcode = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].ssrCode;
+                                                    // string bagcode = Sssrcode.StartsWith("P", StringComparison.OrdinalIgnoreCase).ToString();
+                                                    // //var mealData = MealImageList.GetAllmeal().SingleOrDefault(x => x.MealCode == queryMeal);
+                                                    // var bagname = Model.Baggage.journeySsrsBaggage[0].baggageSsr[s].name;
+                                                    // bagkey = Model.Baggage.journeySsrsBaggage[0].journeyBaggageKey;
+
+                                                    // if (bagcode != "False")
+                                                    // {
+                                                    //     BaggageOptions.Add(new SelectListItem { Text = bagname, Value = Sssrcode });
+                                                    // }
+                                                    var bagkey = "";
+                                                    string Bagname = "";
+                                                    if (Model.Meals.legSsrs.Count > 0)
+                                                    {
+                                                        for (int s = 0; s < Model.Meals.legSsrs[0].legssrs.Count; s++)
+                                                        {
+                                                            string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                            string Sssrcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode + "_" + Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                            string bagcode = Sssrcode.StartsWith("E", StringComparison.OrdinalIgnoreCase).ToString();
+                                                            if (bagcode.ToLower() == "true")
+                                                            {
+
+                                                                Bagname = Model.Meals.legSsrs[0].legssrs[s].name + " ₹" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
+
+                                                                bagkey = Sssrcode; //Model.Meals.legSsrs[0].legssrs[s].legpassengers[pas].ssrKey;
+                                                            }             //string passengerKey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pas].passengerKey;
+                                                            else
+                                                                continue;
+
+
+                                                            if (bagcode != null)
+                                                            {
+                                                                // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
+                                                                BaggageOptions.Add(new SelectListItem { Text = Bagname, Value = Sssrcode });
+                                                            }
+                                                        }
+                                                    }
+
+                                                }
+                                                <div class="d-flex">
+
+                                                    <select id="ddlbagOptions" class="servc-bordr servc-bordrbaggage">
+                                                        <option selected="selected" value="">Please Select</option>
+                                                        @foreach (var option in BaggageOptions.OrderBy(o => o.Value))
+                                                        {
+                                                            <option value="@option.Value" data-bagkey=@bagkey>
+                                                                @option.Text
+                                                            </option>
+                                                        }
+                                                    </select>
+                                                    <input type="hidden" id="hiddenbagKey" name="bagkey" value="" />
+                                                </div>
+                                            </div>
+                                            <div class="servc-content">
+                                                <select class="servc-bordr wdth-100">
+                                                    <option></option>
+                                                    <option>Meal1</option>
+                                                    <option>Meal2</option>
+                                                    <option>Meal3</option>
+                                                    <option>Meal4</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    }
+                                }
+
+
+
+
+
+
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                <!----Connceting new design Code start---->
+                <div class="row" id="tabnew2">
+                    <div class="col-lg-12">
+                        <section class="container">
+                            <div class="row border-service">
+
+                                <div class="d-flex justify-content-between bg-servc py-2">
+                                    <div class="serv-header">
+                                        Traveller
+                                    </div>
+                                    <div class="serv-header">
+                                        <img src="~/img/pmeal.png" style="width:20px;height:20px;margin-right:10px;" /> Meal
+                                    </div>
+                                    <div class="serv-header">
+                                        <img src="~/img/pseat.png" style="width:20px;height:20px;margin-right:10px;" /> Seat
+                                    </div>
+
+                                    <div class="serv-header">
+                                        Special Request
+                                    </div>
+                                </div>
+                                @{
+                                    passengerdata2 = @Model.passeengerlist.passengerscount;
+                                }
+
+                                @{
+                                    passengerdataValue2 = 0;
+                                    for (int i = 0; i < @Model.passeengerlist.passengers.Count; i++)
+                                    {
+                                        if (Model.passeengerlist.passengers[i].passengerTypeCode == "ADT" || Model.passeengerlist.passengers[i].passengerTypeCode == "CHD")
+                                        {
+                                            passengerdataValue2 = passengerdataValue2 + 1;
+                                        }
+                                    }
+                                    passengerdata2 = passengerdataValue2;
+
+
+                                    for (int pas = 0; pas < passengerdata2; pas++)
+                                    {
+                                        string ssrkey = string.Empty;
+                                        <div class="d-flex justify-content-between py-3">
+
+                                            <div class="servc-content width-90">
+                                                <!--Travellor @pas-->
+                                                @if (Model.passengerNamedetails != null)
+                                                {
+                                                    string name = Model.passengerNamedetails[pas].first;
+                                                    <span>@name</span>
+                                                }
+                                            </div>
+                                            <div class="servc-content select-option2">
+
+
+
+                                                @{
+                                                    List<SelectListItem> mealOptions = new List<SelectListItem>();
+                                                    if (Model.Meals.legSsrs.Count > 0)
+                                                    {
+                                                        for (int s = 0; s < Model.Meals.legSsrs[0].legssrs.Count; s++)
+                                                        {
+                                                            string ssrprice = Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
+                                                            string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode + "_" + Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price + "_1";
+                                                            string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " ₹" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
+
+                                                            string Mcode = (Mealcode.StartsWith("E", StringComparison.OrdinalIgnoreCase) || Mealcode.StartsWith("INFT", StringComparison.OrdinalIgnoreCase)).ToString();
+                                                            if (Mcode.ToLower() == "true")
+                                                            {
+                                                                continue;
+                                                            }
+                                                            else
+                                                                ssrkey = Mealcode;
+
+
+                                                            if (Mealcode != null)
+                                                            {
+                                                                // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
+                                                                mealOptions.Add(new SelectListItem { Text = Mealname, Value = Mealcode });
+                                                            }
+
+                                                            // string queryMeal = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
+                                                            // var mealData = SpicejetMealImageList.GetAllmeal().SingleOrDefault(x => x.MealCode == queryMeal);
+
+                                                            // if (mealData != null)
+                                                            // {
+                                                            //     // Assuming MealImageList.GetAllmeal() returns a list of objects with MealCode and MealImage properties
+                                                            //     mealOptions.Add(new SelectListItem { Text = mealData.MealImage, Value = mealData.MealCode });
+                                                            // }
+
+                                                        }
+                                                    }
+                                                }
+                                                <div class="d-flex">
+                                                    @if (mealOptions.Count == 0)
+                                                    {
+                                                        <select style="background:#f0f0f0;" id="" class="servc-bordr servc-bordrCon" disabled>
+                                                            <option selected="selected" value="">Meal Unavailable</option>
+                                                        </select>
+                                                    }
+                                                    else
+                                                    {
+                                                        <select id="ddlMealOptions2" class="servc-bordr servc-bordrCon">
+                                                            <option selected="selected" value="">Please select meal</option>
+                                                            @foreach (var option in mealOptions)
+                                                            {
+                                                                <option value="@option.Value" data-ssrkey=@ssrkey>
+                                                                    @option.Text
+                                                                </option>
+                                                            }
+                                                        </select>
+                                                    }
+                                                    <input type="hidden" id="hiddenSsrKey2" name="ssrKey" value="" />
+                                                </div>
+                                                @*<select id="mealid" class="servc-bordr select-width" asp-items="@mealOptions"></select>*@
+
+                                            </div>
+                                            <div class="servc-content seat">
+                                                <div class="d-flex">
+
+                                                    <input type="button" id="exampleModalSeat" value="Seat Map" class="button exampleModalCSeat small-btn rtbtn" data-toggle="modal" data-target="#sgexampleModal">
+                                                </div>
+                                                <div class="output-div-input" id="outputDivConnect_@pas"></div>
+                                            </div>
+
+                                            <div class="servc-content">
+
+                                                <select class="servc-bordr wdth-100">
+                                                    <option></option>
+                                                    <option>Meal1</option>
+                                                    <option>Meal2</option>
+                                                    <option>Meal3</option>
+                                                    <option>Meal4</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    }
+                                }
+
+
+
+
+
+                                <div class="col-lg-12">
+
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="sgexampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content model-wd80">
+                                                <div class="modal-mfareheader d-flex justify-between">
+                                                    <h2 class="text-22 fw-600">Seat Details</h2>
+                                                    <button type="button" class="btnclose" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true" style="font-size: 21px;">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-bodyy mbody-padding">
+                                                </div>
+                                                <div class="modal-footer fbody-padding">
+                                                    <button type="submit" id="flighticon" data-dismiss="modal" class="btn btnclose btn-primary">Continue</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <!------------Code End---------------------->
+
+            </div>
+
+
+
+            <div class="tabs__pane -tab-item-2">
+                <div class="journey-box">
+                    <ul class="nav nav-pills mb-3">
+                        <li class="nav-item">
+
+                            @for (int i = 0; i < seatmaap2; i++)
+                            {
+                            <li class="nav-item d-flex">
+                                    @if (i == 0)
+                                    {
+                                    <div id="seattab3" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
+
+                                    }
+                                    else
+                                    {
+                                    <div id="seattab4" class="nav-link">@Model.passeengerlist.journeys[0].segments[i].designator.origin-@Model.passeengerlist.journeys[0].segments[i].designator.destination</div>
+                                    }
+                            </li>
+
+
+                            }
+
+                            @*<button class="nav-link active">Departure:DEL-BOM</button>*@
+
+                            @* <li class="nav-item" role="presentation">
+                        <button class="nav-link">Return:BOM-DEL</button>
+                        </li> *@
+                    </ul>
+                </div>
+                <div class="flight-protip" style="margin-bottom:0;">Pre-booked meal is up to 25% cheaper than on-board price.</div>
+                <div>
+                    <div class="d-flex x-gap-15 mt-25 items-end justify-end">
+                        <div class="d-flex x-gap-15 items-end mt-10 mb-10">
+                            <div class="col-auto">
+                                <button class="d-flex items-end text-18 arrow-left-hover js-tour-prev-one">
+                                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="col-auto">
+                                <button class="d-flex items-end text-15 arrow-right-hover js-tour-next-one">
+                                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <partial name="_AddCartlPatialView.cshtml" />
+                </div>
+            </div>
+
+            <div class="tabs__pane -tab-item-3">
+                <div class="journey-box">
+                    <ul class="nav nav-pills mb-3">
+                        <li class="nav-item">
+                            <button class="nav-link active">Departure:DEL-BOM</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link">Return:BOM-DEL</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="flight-protip" style="margin-bottom:0;">Pre-booked baggage is up to 25% cheaper than on-board price.</div>
+                <div>
+                    <div class="d-flex x-gap-15 mt-25 items-end justify-end">
+                        <div class="d-flex x-gap-15 items-end mt-10 mb-10">
+                            <div class="col-auto">
+                                <button class="d-flex items-end text-18 arrow-left-hover js-tour-prev">
+                                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="col-auto">
+                                <button class="d-flex items-end text-15 arrow-right-hover js-tour-next">
+                                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative overflow-hidden js-section-slider pt-10 sm:pt-20" data-gap="30" data-scrollbar data-slider-cols="xl-5 lg-4 md-3 sm-2 base-2" data-nav-prev="js-tour-prev" data-pagination="js-tour-pag" data-nav-next="js-tour-next">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide active">
+                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                    <img src="~/img/images/travel-bag.png" title="image" alt="image">
+                                    <h6 class="text-14 fw-600 mt-10">Additional</h6>
+                                    <h5 class="text-16 fw-700 mt-6">3 Kg</h5>
+                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; 1,350</p>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="button -md -outline-blue-1 text-blue-1">Select</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="swiper-slide">
+                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                    <img src="~/img/images/travel-bag.png" title="image" alt="image">
+                                    <h6 class="text-14 fw-600 mt-10">Additional</h6>
+                                    <h5 class="text-16 fw-700 mt-6">5 Kg</h5>
+                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; 2,250</p>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="button -md -outline-blue-1 text-blue-1">Select</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="swiper-slide">
+                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                    <img src="~/img/images/travel-bag.png" title="image" alt="image">
+                                    <h6 class="text-14 fw-600 mt-10">Additional</h6>
+                                    <h5 class="text-16 fw-700 mt-6">10 Kg</h5>
+                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; 4,500</p>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="button -md -outline-blue-1 text-blue-1">Select</button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="swiper-slide">
+                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                    <img src="~/img/images/travel-bag.png" title="image" alt="image">
+                                    <h6 class="text-14 fw-600 mt-10">Additional</h6>
+                                    <h5 class="text-16 fw-700 mt-6">15 Kg</h5>
+                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; 6,750</p>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="button -md -outline-blue-1 text-blue-1">Select</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="swiper-slide">
+                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                    <img src="~/img/images/travel-bag.png" title="image" alt="image">
+                                    <h6 class="text-14 fw-600 mt-10">Additional</h6>
+                                    <h5 class="text-16 fw-700 mt-6">25 Kg</h5>
+                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; 11,250</p>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="button -md -outline-blue-1 text-blue-1">Select</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="tabs__pane -tab-item-4">
+                <div class="journey-box">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active">Return:BOM-DEL</button>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="d-flex x-gap-15 mt-25 items-end justify-end">
+                        <div class="d-flex x-gap-15 items-end mt-10 mb-10">
+                            <div class="col-auto">
+                                <button class="d-flex items-end text-18 arrow-left-hover js-tour-prev-two">
+                                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="col-auto">
+                                <button class="d-flex items-end text-15 arrow-right-hover js-tour-next-two">
+                                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative overflow-hidden js-section-slider pt-10 sm:pt-20" data-gap="30" data-scrollbar data-slider-cols="xl-5 lg-4 md-3 sm-2 base-2" data-nav-prev="js-tour-prev-two" data-pagination="js-tour-pag" data-nav-next="js-tour-next-two">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="tourTypeCard__content text-center pt-10 pb-24 px-10 bg-blue-1-05 rounded-4">
+                                    <img src="~/img/images/check-bag-icon.png" title="image" alt="image">
+                                    <h6 class="text-14 fw-700 mt-10">Fast forward</h6>
+                                    <h5 class="text-12 fw-600 pt-1">Check-in first and get your bag(s) before anyone else</h5>
+                                    <p class="text-14 fw-600 mt-2 text-center">&#8377; 530</p>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="button -md -outline-blue-1 text-blue-1">Select</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="~/js/custom.js/customnew.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+
+
+
+
