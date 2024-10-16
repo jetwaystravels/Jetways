@@ -109,11 +109,11 @@
                         @{
                             if (Model.passeengerlist.passengers[i].passengerKey == "0")
                             {
-                                        <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlist.passengers[i].passengerKey" required />
+                                <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlist.passengers[i].passengerKey" required />
                             }
                             else
                             {
-                                        <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlist.passengers[i].passengerKey" required />
+                                <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlist.passengers[i].passengerKey" required />
                             }
                         }
                         <input type="text" class="contactFname validate-field" data-validate="name" maxlength="32" oninput="validateInputT(event ,@i)" id="LeadPass1" placeholder="First & middle name" name="passengerdetails[@i].First" style='text-transform:uppercase' required />
@@ -134,33 +134,33 @@
                 @{
                     if (Model.passeengerlist.passengers[i].passengerTypeCode == "ADT" || Model.passeengerlist.passengers[i].passengerTypeCode == "CHD")
                     {
-                                <div class="col-md-3">
-                                    <div class="form-input"><input type="text" data-validate="email" class="contactemail validate-field" maxlength="50" oninput="validateInputT(event,@i)" id="contactemailID" placeholder="email" name="" required /></div>
-                                </div>
-                                <p class="error-message error-emailname" style="display:none"></p>
-                                <p class="error-message-val " style="display:none"></p>
+                        <div class="col-md-3">
+                            <div class="form-input"><input type="text" data-validate="email" class="contactemail validate-field" maxlength="50" oninput="validateInputT(event,@i)" id="contactemailID" placeholder="email" name="" required /></div>
+                        </div>
+                        <p class="error-message error-emailname" style="display:none"></p>
+                        <p class="error-message-val " style="display:none"></p>
 
-                                <div class="col-md-2 ">
-                                    <div class="form-input"><input type="text" data-validate="phone" id="contactphoneID" maxlength="10" class="contactphone validate-field" oninput="validateInputT(event,@i)" placeholder="phone" name="passengerdetails[@i].mobile" required /></div>
-                                </div>
-                                <p class="error-message error-phoneN" style="display:none"></p>
-                                <p class="error-message-val" style="display:none"></p>
+                        <div class="col-md-2 ">
+                            <div class="form-input"><input type="text" data-validate="phone" id="contactphoneID" maxlength="10" class="contactphone validate-field" oninput="validateInputT(event,@i)" placeholder="phone" name="passengerdetails[@i].mobile" required /></div>
+                        </div>
+                        <p class="error-message error-phoneN" style="display:none"></p>
+                        <p class="error-message-val" style="display:none"></p>
                     }
                     if (@Model.passeengerlist.passengers[i].passengerTypeCode == "INFT")
                     {
-                                <div class="col-md-4 infant-dob-input">
-                                    <div class="form-input dobinput d-flex" id="InfDOBCount_@inafantIdx">
-                                        <div class="dob-picker">
-                                            <select class="brd-none year-select" id="year_@inafantIdx" required>
-                                            </select>
-                                            <select class="brd-none month-select" id="month_@inafantIdx" required>
-                                            </select>
-                                            <select class="brd-none day-select" id="day_@inafantIdx" required>
-                                                <option value="" disabled selected>Day</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                        <div class="col-md-4 infant-dob-input">
+                            <div class="form-input dobinput d-flex" id="InfDOBCount_@inafantIdx">
+                                <div class="dob-picker">
+                                    <select class="brd-none year-select" id="year_@inafantIdx" required>
+                                    </select>
+                                    <select class="brd-none month-select" id="month_@inafantIdx" required>
+                                    </select>
+                                    <select class="brd-none day-select" id="day_@inafantIdx" required>
+                                        <option value="" disabled selected>Day</option>
+                                    </select>
                                 </div>
+                            </div>
+                        </div>
                         inafantIdx++;
 
                     }
@@ -238,6 +238,7 @@
         }
         element.classList.remove('error-input');
     }
+
     var buttonLead = document.getElementById('checkboxLead');
     buttonLead.addEventListener('click', function (e) {
 
@@ -255,20 +256,20 @@
             //alert("Checked!!")
             var emaiLeadPass = document.querySelector('.contactemail').value;
             var phoneLeadPass = document.querySelector('.contactphone').value;
-          
+
             var emailInputsT = document.querySelectorAll(".contactemail");
             emailInputsT.forEach(function (input) {
                 input.value = emaiLeadPass;
-               
+
             });
             // Get all elements with class "contactphone" and set their value
             var phoneInputsT = document.querySelectorAll(".contactphone");
             phoneInputsT.forEach(function (input) {
                 input.value = phoneLeadPass;
-              
+
             });
         } else {
-           // alert("Checkbox is unchecked");
+            // alert("Checkbox is unchecked");
             debugger;
             // var emaiLeadPass = "";
             // var phoneLeadPass = "";
@@ -291,31 +292,31 @@
             var emailInputsT = document.querySelectorAll(".contactemail");
             emailInputsT.forEach(function (input, index) {
                 if (index === 0) {
-                    input.value = firstEmail; 
+                    input.value = firstEmail;
                 } else {
-                    input.value = ""; 
+                    input.value = "";
                 }
             });
             var phoneInputsT = document.querySelectorAll(".contactphone");
             phoneInputsT.forEach(function (input, index) {
                 if (index === 0) {
-                    input.value = firstPhone; 
+                    input.value = firstPhone;
                 } else {
-                    input.value = ""; 
+                    input.value = "";
                 }
             });
 
-           //var emaiLeadPassenger = localStorage.getItem('Leadpassenger3');
+            //var emaiLeadPassenger = localStorage.getItem('Leadpassenger3');
             //var phoneLeadPassenger = localStorage.getItem('Leadpassenger4');
             //document.querySelector("#contactemailID").value = emaiLeadPassenger;
-             //document.querySelector("#contactphoneID").value = phoneLeadPassenger;
+            //document.querySelector("#contactphoneID").value = phoneLeadPassenger;
         }
     });
 
-   
-   
-    
-    
+
+
+
+
 
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -425,18 +426,18 @@
         $("#editData").click(function () {
             $("#dataPopup").hide();
         });
-      //
+        //
 
         $("#showReviewPopup").click(function (e) {
             e.preventDefault();
-            
+
             /*******Validation Start*********/
             const fieldsToValidate = [
                 { className: 'contactFname', errorMessage: 'First name is required', validationdata: /^[A-Za-z]{1,32}$/ },
                 { className: 'contactLname', errorMessage: 'Last name is required', validationdata: /^[A-Za-z]{1,32}$/ },
                 //{ className: 'contactemail', errorMessage: 'Email is invalid', validationdata: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/ },
-                { className: 'contactemail', errorMessage: 'Email is invalid', validationdata: /^[a-zA-Z0-9._%+-]+[^\.]@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/ },
-                { className: 'contactphone', errorMessage: 'Phone number at least 10 digits', validationdata: /^\d{10,}$/ }
+                { className: 'contactemail', errorMessage: 'Email is invalid', validationdata: /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/ },
+                { className: 'contactphone', errorMessage: 'Enter valid phone number', validationdata: /^\d{10,}$/ }
             ];
 
             let firstInvalidElement = null;
@@ -501,7 +502,7 @@
                     }
                 });
             }
-               
+
 
             if (firstInvalidElement) {
                 firstInvalidElement.focus();
@@ -513,7 +514,7 @@
                         removeError(element);
                     });
                 });
-               
+
             }
 
             function removeError(element) {
@@ -708,65 +709,3 @@
     });
 
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

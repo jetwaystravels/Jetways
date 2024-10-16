@@ -438,7 +438,7 @@
     function validateEmail(event) {
 
         var email = event.target.value;
-        var regex = /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+        var regex = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         var errorMessage = document.getElementById('emailErrorMessage');
         var errorDisplay = document.getElementById('error-message7');
 
@@ -541,7 +541,7 @@
 
     }
 </script>
-<script type="text/javascript">
+@* <script type="text/javascript">
     document.getElementById('number').addEventListener('keypress', function (event) {
         const input = event.target;
         const value = input.value;
@@ -566,7 +566,7 @@
             event.preventDefault(); // Prevent the keypress event
         }
     });
-</script>
+</script> *@
 
 
 

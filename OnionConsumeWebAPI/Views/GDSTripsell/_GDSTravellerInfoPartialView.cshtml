@@ -256,25 +256,44 @@
                 validateInputI({ target: input });
             });
         } else {
-            alert("Checkbox is unchecked");
-            debugger;
-            var emaiLeadPass = "";
-            var phoneLeadPass = "";
-            var emailInputsT = document.querySelectorAll(".contactemail");
+            // alert("Checkbox is unchecked");
+            // debugger;
+            // var emaiLeadPass = "";
+            // var phoneLeadPass = "";
+            // var emailInputsT = document.querySelectorAll(".contactemail");
 
-            emailInputsT.forEach(function (input) {
-                input.value = emaiLeadPass;
+            // emailInputsT.forEach(function (input) {
+            //     input.value = emaiLeadPass;
+            // });
+            // var phoneInputsT = document.querySelectorAll(".contactphone");
+
+            // phoneInputsT.forEach(function (input) {
+            //     input.value = phoneLeadPass;
+            // });
+
+            // var emaiLeadPassenger = localStorage.getItem('Leadpassenger3');
+            // var phoneLeadPassenger = localStorage.getItem('Leadpassenger4');
+            // document.querySelector("#contactemailID").value = emaiLeadPassenger;
+            // document.querySelector("#contactphoneID").value = phoneLeadPassenger;
+
+            var firstEmail = document.querySelector(".contactemail").value;
+            var firstPhone = document.querySelector(".contactphone").value;
+            var emailInputsT = document.querySelectorAll(".contactemail");
+            emailInputsT.forEach(function (input, index) {
+                if (index === 0) {
+                    input.value = firstEmail;
+                } else {
+                    input.value = "";
+                }
             });
             var phoneInputsT = document.querySelectorAll(".contactphone");
-
-            phoneInputsT.forEach(function (input) {
-                input.value = phoneLeadPass;
+            phoneInputsT.forEach(function (input, index) {
+                if (index === 0) {
+                    input.value = firstPhone;
+                } else {
+                    input.value = "";
+                }
             });
-
-            var emaiLeadPassenger = localStorage.getItem('Leadpassenger3');
-            var phoneLeadPassenger = localStorage.getItem('Leadpassenger4');
-            document.querySelector("#contactemailID").value = emaiLeadPassenger;
-            document.querySelector("#contactphoneID").value = phoneLeadPassenger;
         }
     });
 

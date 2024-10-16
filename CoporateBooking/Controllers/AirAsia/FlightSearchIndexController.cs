@@ -228,16 +228,16 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
                     if (parts.Length == 2)
                     {
-                        orgincity = parts[0].Trim(); // Contains "New Delhi"
-                        orgincode = parts[1].Trim(); // Contains "DEL"
+                        orgincity = parts[0].Trim(); 
+                        orgincode = parts[1].Trim(); 
                         _GetfligthModel.origin = orgincode;
                     }
                     input = _GetfligthModel.destination;
                     parts = input.Split('-');
                     if (parts.Length == 2)
                     {
-                        destinationCity = parts[0].Trim(); // Contains "New Delhi"
-                        destinationcode = parts[1].Trim(); // Contains "DEL"
+                        destinationCity = parts[0].Trim(); 
+                        destinationcode = parts[1].Trim(); 
                         _GetfligthModel.destination = destinationcode;
                     }
                     _SimpleAvailabilityobj.origin = _GetfligthModel.origin;
@@ -305,7 +305,8 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     _SimpleAvailabilityobj.codes = _codes;
                     _SimpleAvailabilityobj.sourceOrganization = "";
                     _SimpleAvailabilityobj.currentSourceOrganization = "";
-                    _SimpleAvailabilityobj.promotionCode = "OTAPROMO";
+                    //_SimpleAvailabilityobj.promotionCode = "OTAPROMO";
+                    _SimpleAvailabilityobj.promotionCode = "CRPPROMO";  //Corporate fare promotion code..
                     string[] sortOptions = new string[1];
                     sortOptions[0] = "ServiceType";
                     Filters Filters = new Filters();
@@ -320,14 +321,16 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     }
                     else
                     {
-                        string[] fareTypes = new string[2];
+                        string[] fareTypes = new string[3];
                         fareTypes[0] = "R";
                         fareTypes[1] = "M";
-                        string[] productClasses = new string[3];
+						fareTypes[2] = "MC"; //Corporate fare Type
+						string[] productClasses = new string[4];
                         productClasses[0] = "EC";
                         productClasses[1] = "EP";
                         productClasses[2] = "HF";
-                        Filters.fareTypes = fareTypes;
+						productClasses[3] = "FS"; //Corporate product class
+						Filters.fareTypes = fareTypes;
                         Filters.productClasses = productClasses;
                     }
                     Filters.exclusionType = "Default";
@@ -976,14 +979,22 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
                             _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareClassControlSpecified = true;
                             _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareClassControl = FareClassControl.CompressByProductClass;
-
+                            //_getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].PromotionCode = "CP";
                             //string[] faretypes = { "R", "MX", "IO", "SF" };
-                            string[] faretypes = { "R", "MX", "SF" };
+                            string[] faretypes = { "R", "MX", "SF", "IO", "F", "IO", "C", "MX"  };
                             _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareTypes = faretypes;
 
-                            string[] productclasses = new string[1];
-                            //string[] productclasses = {"R"};
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].ProductClasses = productclasses;
+                            string[][] productclasses = new string[8][];
+                            productclasses[0] = new string[] { "RS", "SS", "SR", "SU" }; 
+                            productclasses[1] = new string[] { "SC", "CS" };
+                            productclasses[2] = new string[] { "FS", "SF" }; 
+                            productclasses[3] = new string[] { "NF", "FN" }; //For IO Statutory taxes Refundable but changeable
+                            productclasses[4] = new string[] { "XB", "BX" }; //Family Fare
+                            productclasses[5] = new string[] { "NN" };       //For IO  Refundable and Non Changeable
+                            productclasses[6] = new string[] { "CP", "PC" }; //Corporate 
+                            productclasses[7] = new string[] { "CM", "MC" }; //Corporate
+                            var ProductClasses = productclasses.SelectMany(x => x).ToArray();
+                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].ProductClasses = ProductClasses;
                             _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].MaximumConnectingFlights = 20;
                             _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].MaximumConnectingFlightsSpecified = true;
                             _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].LoyaltyFilterSpecified = true;
@@ -1291,7 +1302,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     int count2 = 0;
                     if (_IndigologonResponseobj != null)
                     {
-                        _IndigoAvailabilityResponseobj = await objgetAvail_.GetTripAvailability(_GetfligthModel, _IndigologonResponseobj, TotalCount, adultcount, childcount, infantcount, flightclass, "IndigoOneWay");
+                        _IndigoAvailabilityResponseobj = await objgetAvail_.GetCorporateTripAvailability(_GetfligthModel, _IndigologonResponseobj, TotalCount, adultcount, childcount, infantcount, flightclass, "IndigoOneWay");
                         count2 = 0;
                         if (_IndigoAvailabilityResponseobj != null && _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0].Length > 0)
                         {

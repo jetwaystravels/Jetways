@@ -233,23 +233,42 @@
         } else {
           //  alert("Checkbox is unchecked");
 
-            var emaiLeadPass = "";
-            var phoneLeadPass = "";
-            var emailInputsT = document.querySelectorAll(".contactemail");
+            // var emaiLeadPass = "";
+            // var phoneLeadPass = "";
+            // var emailInputsT = document.querySelectorAll(".contactemail");
 
-            emailInputsT.forEach(function (input) {
-                input.value = emaiLeadPass;
+            // emailInputsT.forEach(function (input) {
+            //     input.value = emaiLeadPass;
+            // });
+            // var phoneInputsT = document.querySelectorAll(".contactphone");
+
+            // phoneInputsT.forEach(function (input) {
+            //     input.value = phoneLeadPass;
+            // });
+
+            // var emaiLeadPassenger = localStorage.getItem('Leadpassenger3');
+            // var phoneLeadPassenger = localStorage.getItem('Leadpassenger4');
+            // document.querySelector("#contactemailID").value = emaiLeadPassenger;
+            // document.querySelector("#contactphoneID").value = phoneLeadPassenger;
+
+               var firstEmail = document.querySelector(".contactemail").value;
+            var firstPhone = document.querySelector(".contactphone").value;
+            var emailInputsT = document.querySelectorAll(".contactemail");
+            emailInputsT.forEach(function (input, index) {
+                if (index === 0) {
+                    input.value = firstEmail;
+                } else {
+                    input.value = "";
+                }
             });
             var phoneInputsT = document.querySelectorAll(".contactphone");
-
-            phoneInputsT.forEach(function (input) {
-                input.value = phoneLeadPass;
+            phoneInputsT.forEach(function (input, index) {
+                if (index === 0) {
+                    input.value = firstPhone;
+                } else {
+                    input.value = "";
+                }
             });
-
-            var emaiLeadPassenger = localStorage.getItem('Leadpassenger3');
-            var phoneLeadPassenger = localStorage.getItem('Leadpassenger4');
-            document.querySelector("#contactemailID").value = emaiLeadPassenger;
-            document.querySelector("#contactphoneID").value = phoneLeadPassenger;
         }
     });
 
@@ -415,7 +434,7 @@
             const fieldsToValidate = [
                 { className: 'contactFname', errorMessage: 'First name is required', validationdata: /^[A-Za-z]{1,32}$/ },
                 { className: 'contactLname', errorMessage: 'Last name is required', validationdata: /^[A-Za-z]{1,32}$/ },
-                { className: 'contactemail', errorMessage: 'Email is invalid', validationdata: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/ },
+                { className: 'contactemail', errorMessage: 'Email is invalid', validationdata: /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/ },
                 { className: 'contactphone', errorMessage: 'Phone number at least 10 digits', validationdata: /^\d{10,}$/ }
             ];
 
@@ -617,9 +636,9 @@
             /*******Validation End*********/
             var enteredData = "";
             for (var i = 0; i < @Model.passeengerlist.passengers.Count; i++) {
-                var firstName = $("input[name='passengerdetails[" + i + "].First']").val();
-                var lastName = $("input[name='passengerdetails[" + i + "].Last']").val();
-                var title = $("select[name='passengerdetails[" + i + "].Title']").val();
+                var firstName = $("input[name='passengerdetails[" + i + "].First']").val().toUpperCase();
+                var lastName = $("input[name='passengerdetails[" + i + "].Last']").val().toUpperCase();
+                var title = $("select[name='passengerdetails[" + i + "].Title']").val().toUpperCase();
                 var Passengertypecode = $("input[name='passengerdetails[" + i + "].passengertypecode']").val();
                 if (Passengertypecode == "ADT") { Passengertypecode = "Adult"; }
                 if (Passengertypecode == "CHD") { Passengertypecode = "Child"; }

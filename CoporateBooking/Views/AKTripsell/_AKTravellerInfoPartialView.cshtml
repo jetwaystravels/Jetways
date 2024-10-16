@@ -72,7 +72,7 @@
 
                     if (@Model.AkPassenger.passengers[i].passengerTypeCode == "INFT")
                     {
-                       
+
                         <div class="col-md-4 infant-dob-input">
                             <div class="form-input dobinput d-flex" id="InfDOBCount_@inafantIdx">
                                 <div class="dob-picker">
@@ -183,7 +183,7 @@
             alert("Checked!!")
             var emaiLeadPass = document.querySelector('.contactemail').value;
             var phoneLeadPass = document.querySelector('.contactphone').value;
-          
+
             //Get all elements with class "contactemail" and set their value
             var emailInputsT = document.querySelectorAll(".contactemail");
             emailInputsT.forEach(function (input) {
@@ -194,7 +194,7 @@
             var phoneInputsT = document.querySelectorAll(".contactphone");
             phoneInputsT.forEach(function (input) {
                 input.value = phoneLeadPass;
-               // validateInputT({ target: input });
+                // validateInputT({ target: input });
             });
         } else {
             alert("Checkbox is unchecked");
@@ -211,7 +211,7 @@
 
             phoneInputsT.forEach(function (input) {
                 input.value = phoneLeadPass;
-               // validateInputT({ target: input });
+                // validateInputT({ target: input });
             });
 
             var emaiLeadPassenger = localStorage.getItem('Leadpassenger3');
@@ -415,7 +415,7 @@
                 { className: 'contactFname', errorMessage: 'First name is required', validationdata: /^[A-Za-z]{1,32}$/ },
                 { className: 'contactLname', errorMessage: 'Last name is required', validationdata: /^[A-Za-z]{1,32}$/ },
                 //{ className: 'contactemail', errorMessage: 'Email is invalid', validationdata: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/ },
-                { className: 'contactemail', errorMessage: 'Email is invalid', validationdata: /^[a-zA-Z0-9._%+-]+[^\.]@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/ },
+                { className: 'contactemail', errorMessage: 'Email is invalid', validationdata: /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/ },
                 { className: 'contactphone', errorMessage: 'Phone number at least 10 digits', validationdata: /^\d{10,}$/ }
             ];
 
@@ -760,64 +760,4 @@
         }
 
 </style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

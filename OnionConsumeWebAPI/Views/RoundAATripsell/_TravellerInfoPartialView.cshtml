@@ -74,7 +74,7 @@
                         </div>
                         <p class="error-message error-emailname" style="display:none">Enter your email</p>
                         <div class="col-md-2">
-                            <div class="form-input"><input type="text" data-validate="phone" id="contactphoneID" class="contactphone validate-field" oninput="validateInputT(event,@i)" placeholder="phone" name="passengerdetails[@i].mobile" required /></div>
+                            <div class="form-input"><input type="text" maxlength="10" data-validate="phone" id="contactphoneID" class="contactphone validate-field" oninput="validateInputT(event,@i)" placeholder="phone" name="passengerdetails[@i].mobile" required /></div>
                         </div>
 
                         <p class="error-message error-phoneN" style="display:none">Enter your phone</p>
@@ -239,61 +239,132 @@
         }
         element.classList.remove('error-input');
     }
+
+    // var buttonLead = document.getElementById('checkboxLead');
+    // buttonLead.addEventListener('click', function (e) {
+
+    //     e.preventDefault();
+    //     buttonLead.checked = !buttonLead.checked;
+    //     if (buttonLead.checked) {
+
+    //         buttonLead.classList.add('checked');
+    //     } else {
+
+    //         buttonLead.classList.remove('checked');
+    //     }
+    //     if (buttonLead.checked) {
+
+    //         alert("Checked!!")
+    //         var emaiLeadPass = document.querySelector('.contactemail').value;
+    //         var phoneLeadPass = document.querySelector('.contactphone').value;
+    //         //Get all elements with class "contactemail" and set their value
+    //         var emailInputsT = document.querySelectorAll(".contactemail");
+    //         emailInputsT.forEach(function (input) {
+    //             input.value = emaiLeadPass;
+    //            // validateInputT({ target: input });
+    //         });
+    //         // Get all elements with class "contactphone" and set their value
+    //         var phoneInputsT = document.querySelectorAll(".contactphone");
+    //         phoneInputsT.forEach(function (input) {
+    //             input.value = phoneLeadPass;
+    //            // validateInputT({ target: input });
+    //         });
+    //     } else {
+
+    //         alert("Checkbox is unchecked");
+
+    //         var emaiLeadPass = "";
+    //         var phoneLeadPass = "";
+    //         var emailInputsT = document.querySelectorAll(".contactemail");
+
+    //         emailInputsT.forEach(function (input, index) {
+    //             if (index === 0) {
+    //                 input.value = firstEmail;
+    //             } else {
+    //                 input.value = "";
+    //             }
+    //         });
+    //         var phoneInputsT = document.querySelectorAll(".contactphone");
+
+    //         phoneInputsT.forEach(function (input, index) {
+    //             if (index === 0) {
+    //                 input.value = firstPhone;
+    //             } else {
+    //                 input.value = "";
+    //             }
+    //         });
+
+    //         var emaiLeadPassenger = localStorage.getItem('Leadpassenger3RT');
+    //         var phoneLeadPassenger = localStorage.getItem('Leadpassenger4RT');
+    //         document.querySelector("#contactemailID").value = emaiLeadPassenger;
+    //         document.querySelector("#contactphoneID").value = phoneLeadPassenger;
+
+    //     }
+    // });
+
     var buttonLead = document.getElementById('checkboxLead');
     buttonLead.addEventListener('click', function (e) {
 
         e.preventDefault();
         buttonLead.checked = !buttonLead.checked;
-        if (buttonLead.checked) {
 
+        if (buttonLead.checked) {
             buttonLead.classList.add('checked');
-        } else {
 
-            buttonLead.classList.remove('checked');
-        }
-        if (buttonLead.checked) {
-
-            alert("Checked!!")
+            // Get values from the first input fields
             var emaiLeadPass = document.querySelector('.contactemail').value;
             var phoneLeadPass = document.querySelector('.contactphone').value;
-            //Get all elements with class "contactemail" and set their value
+
+            // Apply email and phone values to all fields
             var emailInputsT = document.querySelectorAll(".contactemail");
             emailInputsT.forEach(function (input) {
                 input.value = emaiLeadPass;
-               // validateInputT({ target: input });
             });
-            // Get all elements with class "contactphone" and set their value
+
             var phoneInputsT = document.querySelectorAll(".contactphone");
             phoneInputsT.forEach(function (input) {
                 input.value = phoneLeadPass;
-               // validateInputT({ target: input });
             });
+
         } else {
+            buttonLead.classList.remove('checked');
 
-            alert("Checkbox is unchecked");
-
-            var emaiLeadPass = "";
-            var phoneLeadPass = "";
+            // Reset all except the first input fields
             var emailInputsT = document.querySelectorAll(".contactemail");
+            var firstEmail = emailInputsT[0].value; // Preserve first email value
 
-            emailInputsT.forEach(function (input) {
-                input.value = emaiLeadPass;
-               // validateInputT({ target: input });
+            emailInputsT.forEach(function (input, index) {
+                if (index === 0) {
+                    input.value = firstEmail; // Keep the first one
+                } else {
+                    input.value = ""; // Clear others
+                }
             });
+
             var phoneInputsT = document.querySelectorAll(".contactphone");
+            var firstPhone = phoneInputsT[0].value; // Preserve first phone value
 
-            phoneInputsT.forEach(function (input) {
-                input.value = phoneLeadPass;
-              //  validateInputT({ target: input });
+            phoneInputsT.forEach(function (input, index) {
+                if (index === 0) {
+                    input.value = firstPhone; // Keep the first one
+                } else {
+                    input.value = ""; // Clear others
+                }
             });
 
-            var emaiLeadPassenger = localStorage.getItem('Leadpassenger3');
-            var phoneLeadPassenger = localStorage.getItem('Leadpassenger4');
-            document.querySelector("#contactemailID").value = emaiLeadPassenger;
-            document.querySelector("#contactphoneID").value = phoneLeadPassenger;
+            // Optionally, if you want to reset to stored values
+            var emaiLeadPassenger = localStorage.getItem('Leadpassenger3RT');
+            var phoneLeadPassenger = localStorage.getItem('Leadpassenger4RT');
 
+            if (emaiLeadPassenger && phoneLeadPassenger) {
+                document.querySelector("#contactemailID").value = emaiLeadPassenger;
+                document.querySelector("#contactphoneID").value = phoneLeadPassenger;
+            }
         }
     });
+
+
+
 
     // function validateInputT(event) {
 
@@ -460,8 +531,9 @@
             const fieldsToValidate = [
                 { className: 'contactFname', errorMessage: 'First name is required', validationdata: /^[A-Za-z]{1,32}$/ },
                 { className: 'contactLname', errorMessage: 'Last name is required', validationdata: /^[A-Za-z]{1,32}$/ },
-                { className: 'contactemail', errorMessage: 'Email is invalid', validationdata: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/ },
-                { className: 'contactphone', errorMessage: 'Phone number at least 10 digits', validationdata: /^\d{10,}$/ }
+                //{ className: 'contactemail', errorMessage: 'Email is invalid', validationdata: /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/ },
+                { className: 'contactemail', errorMessage: 'Email is invalid', validationdata: /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/ },
+                { className: 'contactphone', errorMessage: 'Enter valid phone number', validationdata: /^\d{10,}$/ }
             ];
 
             let firstInvalidElement = null;
@@ -663,9 +735,9 @@
 
             var enteredData = "";
             for (var i = 0; i < @Model.passeengerlistRT[0].passengers.Count; i++) {
-                var firstName = $("input[name='passengerdetails[" + i + "].First']").val();
-                var lastName = $("input[name='passengerdetails[" + i + "].Last']").val();
-                var title = $("select[name='passengerdetails[" + i + "].Title']").val();
+                var firstName = $("input[name='passengerdetails[" + i + "].First']").val().toUpperCase();
+                var lastName = $("input[name='passengerdetails[" + i + "].Last']").val().toUpperCase();
+                var title = $("select[name='passengerdetails[" + i + "].Title']").val().toUpperCase();
                 var Passengertypecode = $("input[name='passengerdetails[" + i + "].passengertypecode']").val();
                 if (Passengertypecode == "ADT") { Passengertypecode = "Adult"; }
                 if (Passengertypecode == "CHD") { Passengertypecode = "Child"; }
@@ -715,6 +787,43 @@
 
 
     });
+
+
+
+
+
+    // Phone number validation
+    document.addEventListener('DOMContentLoaded', function () {
+        // Attach the event listener to all elements with the 'contactphone' class
+        document.querySelectorAll('.contactphone').forEach(function (input) {
+            input.addEventListener('keypress', function (event) {
+                const value = input.value;
+                const regex = /^[0-9]*$/;
+
+                // Get the current value after appending the pressed key
+                const nextValue = value.slice(0, input.selectionStart) + event.key + value.slice(input.selectionEnd);
+
+                // Check if the next value matches the regex for numeric input
+                if (!regex.test(nextValue)) {
+                    event.preventDefault(); // Prevent the keypress event for non-numeric characters
+                }
+            });
+
+            // Check for focusout and display error message if the input is empty
+            input.addEventListener('focusout', function () {
+                if (input.value === "") {
+                    let phoneToDisplay = document.querySelector(".error-phoneN");
+                    phoneToDisplay.style.display = "block";
+                    phoneToDisplay.innerText = "Phone number is required.";
+                    input.focus();
+                } else {
+                    let phoneToDisplay = document.querySelector(".error-phoneN");
+                    phoneToDisplay.style.display = "none";
+                }
+            });
+        });
+    });
+
 
 </script>
 

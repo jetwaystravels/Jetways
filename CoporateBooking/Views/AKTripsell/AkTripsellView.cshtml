@@ -30,7 +30,7 @@
     <main>
         <!-- ***** Header Start ***** -->
         <header class="navbar navbar-sticky navbar-expand-lg inner-bg">
-            <div class="container position-relative">            
+            <div class="container position-relative">
                 <a class="navbar-brand" asp-controller="FlightSearchIndex" asp-action="Index">
                     <img class="navbar-brand-regular" src="~/img/logo/logo.png" alt="brand-logo">
                     <img class="navbar-brand-sticky" src="~/img/logo/logo.png" alt="sticky brand-logo">
@@ -118,23 +118,23 @@
                             <partial name="_AKTripsellPatialView.cshtml" />
                         </div>
                         <div class="row x-gap-20 y-gap-20 mt-3 ">
-                            <div id="toggleButton" class="bg-h2"><h2 class="text-18 fw-600 md:mt-20 ">Enter Contact Details</h2></div>
+                            <div id="toggleButton" class="bg-h2"><h2 class="text-18 fw-600 md:mt-20 ">Contact Details</h2></div>
                         </div>
-                         <div id="content" class="row bg-white mt-2">
+                        <div id="content" class="row bg-white mt-2">
                             <partial name="_AKContactDetailsPartialView.cshtml" />  <br> <br>
                             <div style="margin-top:-10px;">
                             </div>
-                        </div> 
+                        </div>
 
 
                         <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
-                            <div id="toggleButton2" class="bg-h2" style="opacity:0.2"><h2 class="text-18 fw-600 md:mt-20 ">Enter Traveller Details</h2></div>
+                            <div id="toggleButton2" class="bg-h2" style="opacity:0.2"><h2 class="text-18 fw-600 md:mt-20 ">Traveller Details</h2></div>
                         </div>
-                         <div id="content2" class="row hidden">
+                        <div id="content2" class="row hidden">
                             <partial name="_AKTravellerInfoPartialView.cshtml" />
-                        </div> 
+                        </div>
 
-                   
+
                         <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
                             <div id="toggleButton4" class="bg-h2" style="opacity:0.2"><h2 class="text-18 fw-600 md:mt-20 ">Seat Meal Baggage</h2></div>
                         </div>
@@ -143,7 +143,7 @@
 
                                 <div class="seathide" id="divPartialView">
                                     <div id="AKpartialViewSeat">
-                                    </div>                                    
+                                    </div>
                                 </div>
                             </div>
 
@@ -152,7 +152,7 @@
                             <div id="toggleButton5" class="bg-h2" style="opacity:0.2"><h2 class="text-18 fw-600 md:mt-20 ">Travel Insurance  <span class="text-18">(Recommended)</span></h2></div>
                         </div>
                         <div id="content5" class="row hidden mt-2">
-                           @*  <partial name="_TravelInsurancePatialView.cshtml" /> *@
+                            @*  <partial name="_TravelInsurancePatialView.cshtml" /> *@
                         </div>
                         <div class="row x-gap-20 y-gap-20 mt-3  pt-10">
                             <div id="toggleButton6" class="bg-h2" style="opacity:0.2"><h2 class="text-18 fw-600 md:mt-20 ">Add-ons <span class="text-18">(Recommended)</span></h2></div>
@@ -162,11 +162,11 @@
                         </div>
 
                         <div class="flex-center x-gap-20 y-gap-20 mt-30">
-                            <input type="submit" id="AkContinuebtn" class="btn btn-btn-primary Continuebtnprice" value="Continue"  />
+                            <input type="submit" id="AkContinuebtn" class="btn btn-btn-primary Continuebtnprice" value="Continue" />
                         </div>
 
-                    </div> 
-                    
+                    </div>
+
                     <div class="col-xl-4 col-lg-4">
                         <partial name="_AKFareDetailsPartialView.cshtml" />
                     </div>
@@ -355,7 +355,7 @@
             display: none;
         }
 
-       
+
 
         .bg-h2 {
             background: #366480;
@@ -433,7 +433,7 @@
 
         });
 
-        <!--show and hide-- >
+                < !--show and hide-- >
 
             $('.showBtn').click(function () {
                 //$('.hideme').hide();

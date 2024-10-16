@@ -38,7 +38,7 @@
 
         <div class="col-md-2 phone-number">
             <div class="form-input">
-                <input type="text" name="number" id="number" class="phoneNClass" placeholder="Phone Number" oninput="validatePhoneNumber(event)">
+                <input type="text" name="number" maxlength="10" id="number" class="phoneNClass" placeholder="Phone Number" oninput="validatePhoneNumber(event)">
 
             </div>
             <p id="error-message8" class="error-message" style="display:none">Enter Phone Number</p>
@@ -232,9 +232,9 @@
 
             // email
             let emailfocus = document.getElementById("emailAddress").value;
-            //var regex = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            var regex = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
             //var regex = /^[a-zA-Z0-9._%+-]+[^\.]@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
-            var regex = /^[a-zA-Z0-9._%+-]+[^\.]@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
+            //var regex = /^[a-zA-Z0-9._%+-]+[^\.]@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
             if (!regex.test(emailfocus)) {
                 let emailToDisplay = document.getElementById("error-message7");
                 emailToDisplay.style.display = "none";

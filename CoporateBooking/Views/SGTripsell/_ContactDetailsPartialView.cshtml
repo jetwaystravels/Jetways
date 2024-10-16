@@ -46,7 +46,7 @@
                 <div class="">
                     Same as lead passenger <button id="leadpassengerButton" class="checkbox-button ms-2"></button>
                 </div>
-                <div class="ms-3">
+                <div class="ms-3 hidden">
                     Do you have GST  <button id="GSTButton" class="checkbox-button ms-2"></button>
 
                 </div>
@@ -55,7 +55,7 @@
 
         </div>
 
-        <div class="col-md-12 hid-block hidden">
+        <div class="col-md-12 hid-block">
             <div class="text-16 fw-600">
                 Fill your's GST details below !
             </div>
@@ -63,14 +63,14 @@
         <div class="col-md-3">
             <div class="form-input">
 
-                <input type="text" id="gstname" maxlength="32" name="companyName" oninput="validateInputgst(event)" class="companyName hid-block hidden" placeholder="Company Name">
+                <input type="text" id="gstname" maxlength="32" name="companyName" oninput="validateInputgst(event)" class="companyName hid-block" placeholder="Company Name">
             </div>
             <p id="errorMessagegst" style="color: red;font-size:13px;"></p>
             <p id="error-message9" class="error-message" style="display:none">Enter Company Name</p>
         </div>
         <div class="col-md-3">
             <div class="form-input">
-                <input type="text" id="gstnumber" name="customerNumber" oninput="validateGST(event)" class="companyName hid-block hidden" placeholder="GST Number">
+                <input type="text" id="gstnumber" name="customerNumber" oninput="validateGST(event)" class="companyName hid-block" placeholder="GST Number">
             </div>
             <p id="gstErrorMessage" style="color: red;font-size:13px;"></p>
             <p id="error-message10" class="error-message" style="display:none">Enter GST Number</p>
@@ -78,9 +78,11 @@
         </div>
         <div class="col-md-3">
             <div class="form-input">
-                <input type="text" id="emailAddressGST" name="emailAddressgst" maxlength="266" oninput="validateEmailGST(event)" class="gstemail hid-block hidden" placeholder="Email ID">
+                <input type="text" id="emailAddressGST" name="emailAddressgst" maxlength="266" oninput="validateEmailGST(event)" class="gstemail hid-block" placeholder="Email ID">
             </div>
             <p id="emailErrorMessageGST" style="color: red; font-size:13px;"></p>
+            <p id="error-1email" class="error-message" style="display:none">Enter email address</p>
+           
         </div>
 
 
@@ -153,37 +155,47 @@
 
     //GST Checkbox Function
     var buttongst = document.getElementById('GSTButton');
+    buttongst.checked = true;
+    buttongst.classList.add('checked');
+    $(".hid-block").show();
+
     buttongst.addEventListener('click', function (e) {
         e.preventDefault();
 
-        buttongst.checked = !buttongst.checked;
+        buttongst.checked = true;
         if (buttongst.checked) {
-
             buttongst.classList.add('checked');
-
-        } else {
-            buttongst.classList.remove('checked');
-        }
-
-
-        if (buttongst.checked) {
-            //alert("Checked!!")
             $(".hid-block").show();
-
-
-        } else {
-            //alert("Checkbox is unchecked");
-            var gstToDisplay = document.getElementById("error-message9");
-            gstToDisplay.style.display = "none";
-            var gstNToDisplay = document.getElementById("error-message10");
-            gstNToDisplay.style.display = "none";
-            document.getElementById('gstErrorMessage').innerText = "";
-            document.getElementById("gstname").value = "";
-            document.getElementById("gstnumber").value = "";
-            document.getElementById("emailAddressGST").value = "";
-            document.getElementById("emailErrorMessageGST").value = "";
-            $(".hid-block").hide();
         }
+
+        // buttongst.checked = !buttongst.checked;
+        // if (buttongst.checked) {
+
+        //     buttongst.classList.add('checked');
+
+        // } else {
+        //     buttongst.classList.remove('checked');
+        // }
+
+
+        // if (buttongst.checked) {
+        //     //alert("Checked!!")
+        //     $(".hid-block").show();
+
+
+        // } else {
+        //     //alert("Checkbox is unchecked");
+        //     var gstToDisplay = document.getElementById("error-message9");
+        //     gstToDisplay.style.display = "none";
+        //     var gstNToDisplay = document.getElementById("error-message10");
+        //     gstNToDisplay.style.display = "none";
+        //     document.getElementById('gstErrorMessage').innerText = "";
+        //     document.getElementById("gstname").value = "";
+        //     document.getElementById("gstnumber").value = "";
+        //     document.getElementById("emailAddressGST").value = "";
+        //     document.getElementById("emailErrorMessageGST").value = "";
+        //     $(".hid-block").hide();
+        // }
     });
 
 
@@ -332,17 +344,39 @@
 
                 let gstemailfocus = document.getElementById("emailAddressGST").value;
 
-                var emailRegex = /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+                var emailRegex = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
                 if (gstemailfocus == "") {
+                    var gstemail = document.getElementById("error-1email");
+                    gstemail.style.display = "block";
+                    document.getElementById("emailAddressGST").focus();
+                    return false;
+                }
+                else {
+                    var gstemail = document.getElementById("error-1email");
+                    gstemail.style.display = "none";
+                }
 
-                } else if (!emailRegex.test(gstemailfocus)) {
+                if (!emailRegex.test(gstemailfocus)) {
                     document.getElementById('gstEmailErrorMessage').innerText = "Enter a valid email address.";
                     return false;
-                } else {
+                }
+                else {
 
 
                 }
+
+                // var emailRegex = /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+
+                // if (gstemailfocus == "") {
+
+                // } else if (!emailRegex.test(gstemailfocus)) {
+                //     document.getElementById('gstEmailErrorMessage').innerText = "Enter a valid email address.";
+                //     return false;
+                // } else {
+
+
+                // }
 
 
             }
@@ -461,7 +495,7 @@
     function validateEmailGST(event) {
 
         var email = event.target.value;
-        var regex = /^(?!.*\.\.)[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+        var regex = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         var errorMessage = document.getElementById('emailErrorMessageGST');
         //var errorDisplay = document.getElementById('error-message7');
 
@@ -473,13 +507,18 @@
             errorMessage.innerText = "";
         }
 
-        // if (email.trim() === "") {
-        //     errorDisplay.style.display = "block";
-        //     document.getElementById("emailAddress").focus();
-        //     return false;
-        // } else {
-        //     errorDisplay.style.display = "none";
-        // }
+        var gstEmail = document.getElementById("emailAddressGST").value;
+        if (gstEmail == "") {
+            var gstToDisplay = document.getElementById("error-1email");
+            gstToDisplay.style.display = "block";
+            document.getElementById("emailAddressGST").focus();
+            return false;
+        }
+        else {
+            var gstToDisplay = document.getElementById("error-1email");
+            gstToDisplay.style.display = "none";
+        }
+
 
     }
 
@@ -561,30 +600,5 @@
         }
     }
 </script>
-<script type="text/javascript">
-    document.getElementById('number').addEventListener('keypress', function (event) {
-        const input = event.target;
-        const value = input.value;
-        let phonefocus = document.getElementById("number").value;
-        if (phonefocus == "") {
 
-            let phoneToDisplay = document.getElementById("error-message8");
-            phoneToDisplay.style.display = "block";
-            document.getElementById('phoneNumberErrorMessage').innerText = "";
-            document.getElementById("number").focus();
-            return false;
-        }
-
-        // Allow input only if it matches the criteria (1-9 followed by 0-9 up to 9 digits)
-        //const regex = /^(?!0)\d{0,9}$/;
-        const regex = /^[1-9]\d{0,9}$/;
-
-        // Get the current value after appending the pressed key
-        const nextValue = value.slice(0, input.selectionStart) + event.key + value.slice(input.selectionEnd);
-
-        if (!regex.test(nextValue)) {
-            event.preventDefault(); // Prevent the keypress event
-        }
-    });
-</script>
 

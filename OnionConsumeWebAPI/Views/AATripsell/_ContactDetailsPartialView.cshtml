@@ -247,9 +247,9 @@
 
             // email
             let emailfocus = document.getElementById("emailAddress").value;
-            //var regex = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            var regex = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
             //var regex = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;     
-            var regex =/^[a-zA-Z0-9._%+-]+[^\.]@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;     
+            //var regex =/^[a-zA-Z0-9._%+-]+[^\.]@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;     
             if (!regex.test(emailfocus)) {
                 let emailToDisplay = document.getElementById("error-message7");
                 emailToDisplay.style.display = "none";
