@@ -526,7 +526,7 @@
     function validatePhoneNumber(event) {
         const phoneNumber = event.target.value;
         // const regex = /^(0|91)?[6-9][0-9]{9}$/;
-        const regex = /^[6-9][0-9]{9}$/;
+        const regex = /^\d{10,}$/;
         if (!regex.test(phoneNumber)) {
 
             document.getElementById('phoneNumberErrorMessage').innerText = "Invalid Phone Number";

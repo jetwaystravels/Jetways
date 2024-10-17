@@ -355,6 +355,13 @@
                                     Faretype = "Stretch";
                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("BC"))
                                     Faretype = "Stretch+";
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("F"))
+                                    Faretype = "Corporate Fare";
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("M"))
+                                    Faretype = "Corp Connect Fare";
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("C"))
+                                    Faretype = "Coupon Fare";
+
                                 else
                                     Faretype = "Saver Fare";
                             }
@@ -370,6 +377,16 @@
                                         Faretype = "Spice Max";
                                     else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("SS"))
                                         Faretype = "Saver Fare";
+                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("CP"))
+                                        Faretype = "Corporate Fare";
+                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("PC"))
+                                        Faretype = "Corporate Fare";
+                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("CM"))
+                                        Faretype = "Corporate Max fare";
+                                    else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass.Equals("MC"))
+                                        Faretype = "Corporate Max fare";
+
+
                                 }
 
                             }
@@ -535,7 +552,113 @@
                                         </div>
                                     </td>
 
+                                } 
+
+                                // Spice Jet Corporate Fare
+                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "CP")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td>
+
+                                        <div>3600 (within 96 hrs from Departure)</div>
+                                    </td>
+                                    <td>
+
+                                        <div>3350 (within 96 hrs from Departure)</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
                                 }
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "PC")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td>
+
+                                        <div>3600 (within 96 hrs from Departure)</div>
+                                    </td>
+                                    <td>
+
+                                        <div>3350 (within 96 hrs from Departure)</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "CM")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td>
+
+                                        <div>3600 (within 96 hrs from Departure)</div>
+                                    </td>
+                                    <td>
+
+                                        <div>3350 (within 96 hrs from Departure)</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "MC")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>15 kg (1 piece)</strong></td>
+                                    <td>
+
+                                        <div>3600 (within 96 hrs from Departure)</div>
+                                    </td>
+                                    <td>
+
+                                        <div>3350 (within 96 hrs from Departure)</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+
 
 
                                 //Indigo//////
@@ -667,7 +790,7 @@
 
                                 }
 
-                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "BC")
+                                else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "BC")
                                 {
                                     <td>7 Kg</td>
                                     <td><strong>40 k.g.</strong></td>
@@ -692,6 +815,86 @@
                                     </td>
 
                                 }
+
+
+                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "F")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>40 k.g.</strong></td>
+                                    <td>
+
+                                        <div>Fee starts at (Rs. 2499) Onward.</div>
+                                    </td>
+                                    <td>
+
+                                        <div>Fee starts at (Rs. 999) Onward.</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+
+                               else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "M")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>40 k.g.</strong></td>
+                                    <td>
+
+                                        <div>Fee starts at (Rs. 2499) Onward.</div>
+                                    </td>
+                                    <td>
+
+                                        <div>Fee starts at (Rs. 999) Onward.</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+                            else if (Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "C")
+                                {
+                                    <td>7 Kg</td>
+                                    <td><strong>40 k.g.</strong></td>
+                                    <td>
+
+                                        <div>Fee starts at (Rs. 2499) Onward.</div>
+                                    </td>
+                                    <td>
+
+                                        <div>Fee starts at (Rs. 999) Onward.</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Free seats
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div>
+                                            Complimentary meal
+                                        </div>
+                                    </td>
+
+                                }
+
+
                                 //**********/
 
                                 else if (Model.SimpleAvailibilityaAddResponcelist[j].Airline == Airlines.AkasaAir && Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass == "EC")

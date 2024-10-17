@@ -132,7 +132,15 @@
                                                         <label class="form-check-label">Same Airline Roundtrip</label>
                                                     </div>
                                                     <span class="input-group-text">
-                                                        <input id="myInput" name="origin" type="text" value="@Model.simpleAvailabilityRequestModelEdit.origin" class="form-control" onclick="onewayDropdown()">
+                                                        @{
+                                                            var selectedCity = Citynamelist.GetAllCityData()
+                                                            .FirstOrDefault(city => city.citycode == Model.simpleAvailabilityRequestModelEdit.origin);
+
+                                                            var displayValue = selectedCity != null
+                                                            ? $"{selectedCity.cityname} - {selectedCity.citycode}"
+                                                            : Model.simpleAvailabilityRequestModelEdit.origin;
+                                                        }
+                                                        <input id="myInput" name="origin" type="text" value="@displayValue" class="form-control" onclick="onewayDropdown()">
                                                         @* <span id="airportName"></span> *@
                                                     </span>
                                                     <span class="autodropdownOneWay">
@@ -152,7 +160,15 @@
                                                 <div class="col-12 col-md-10 col-lg-2 space autocomplete">
                                                     <label class=""></label>
                                                     <span class="input-group-text" id="basic-addon1">
-                                                        <input type="text" id="myInput1" name="destination" class="form-control" value="@Model.simpleAvailabilityRequestModelEdit.destination" onclick="toggleArrivalOneway()">
+                                                        @{
+                                                            var selectedCityArival = Citynamelist.GetAllCityData()
+                                                            .FirstOrDefault(city => city.citycode == Model.simpleAvailabilityRequestModelEdit.destination);
+
+                                                            var displayValueArival = selectedCityArival != null
+                                                            ? $"{selectedCityArival.cityname} - {selectedCityArival.citycode}"
+                                                            : Model.simpleAvailabilityRequestModelEdit.destination;
+                                                        }
+                                                        <input type="text" id="myInput1" name="destination" class="form-control" value="@displayValueArival" onclick="toggleArrivalOneway()">
                                                         @* <span id="airportArval"></span> *@
                                                     </span>
                                                     <div id="errordestinaton" class="errorbox" style="display:none;">Enter Destination Name*</div>
@@ -2909,7 +2925,7 @@
             var cityName = cityDetails[0].trim();
             var cityCode = cityDetails[1].trim();
             var airportName = cityDetails[2].trim();
-            document.getElementById("myInput").value = cityCode;
+            document.getElementById("myInput").value = cityName +"-"+ cityCode;
             $('.chosen-drop').hide();
             dropdown.selectedIndex = -1;
         }
@@ -2955,7 +2971,7 @@
             var cityName = cityDetails[0].trim();
             var cityCode = cityDetails[1].trim();
             var airportName = cityDetails[2].trim();
-            document.getElementById("myInput1").value = cityCode;
+            document.getElementById("myInput1").value =cityName +"-"+ cityCode;
             $('.chosen-drop').hide();
             dropdown.selectedIndex = -1;
         }

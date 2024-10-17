@@ -45,7 +45,8 @@ namespace OnionConsumeWebAPI.Controllers.Admin
                     //HttpContext.Session.SetString("JwtToken", token);
                     //HttpContext.Session.SetString("AdminUsername", adminUsername);
 
-                    return RedirectToAction("Dashboard");  // Redirect to dashboard
+                    //return RedirectToAction("Dashboard");  // Redirect to dashboard
+                    return Redirect("http://localhost:5202/");
                 }
 
                 ViewBag.ErrorMessage = "Invalid login credentials";
