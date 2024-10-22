@@ -20,8 +20,9 @@ namespace OnionConsumeWebAPI.Controllers.Admin
         //}
         public async Task<IActionResult> UserLogin()
         {
-            return View();
-        }
+			
+			return View();
+		}
 
          [HttpPost]
         public async Task<IActionResult> UserLogin(string username, string password)
@@ -38,15 +39,13 @@ namespace OnionConsumeWebAPI.Controllers.Admin
                     var result = await response.Content.ReadAsStringAsync();
                     var jsonResult = JObject.Parse(result);
 
-                  //  var token = jsonResult["token"].ToString();
-                    var adminUsername = jsonResult["username"].ToString();
+                    //var token = jsonResult["token"].ToString();
+                    //var adminUsername = jsonResult["username"].ToString();
 
-                    // Store the token in session or cookie
-                    //HttpContext.Session.SetString("JwtToken", token);
-                    //HttpContext.Session.SetString("AdminUsername", adminUsername);
-
-                    //return RedirectToAction("Dashboard");  // Redirect to dashboard
-                    return Redirect("http://localhost:5202/");
+					//Store the token in session or cookie
+					//HttpContext.Session.SetString("JwtToken", adminUsername);
+					
+					return Redirect("http://localhost:5202/");
                 }
 
                 ViewBag.ErrorMessage = "Invalid login credentials";
@@ -60,6 +59,11 @@ namespace OnionConsumeWebAPI.Controllers.Admin
         public IActionResult Dashboard()
         {
             return View();
+        }
+      
+        public IActionResult Corporate()
+        {
+			return View();
         }
 
 
