@@ -32,6 +32,8 @@ using Microsoft.Extensions.Caching.Distributed;
 using System.Text;
 using OnionConsumeWebAPI.ApiService;
 using OnionArchitectureAPI.Services.Travelport;
+using MongoDB.Driver;
+using OnionConsumeWebAPI.Models;
 
 namespace OnionConsumeWebAPI.Controllers.AirAsia
 {
@@ -44,11 +46,14 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
             return View();
         }
-
+		// Mongo DB
+        private readonly MongoDbService _mongoDbService;
+		
         public readonly IDistributedCache _distributedCache;
-        public FlightSearchIndexController(IDistributedCache distributedcache)
+        public FlightSearchIndexController(IDistributedCache distributedcache, MongoDbService mongoDbService)
         {
             _distributedCache = distributedcache;
+            _mongoDbService = mongoDbService;
         }
         private string KeyName = string.Empty;
         public static int counterRedis = 0;
@@ -111,6 +116,8 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
             {
                 KeyName = _GetfligthModel.origin + "_" + _GetfligthModel.destination + "_" + _GetfligthModel.beginDate + "_" + _GetfligthModel.adultcount;
             }
+            // Mongo DB
+            IMongoCollection<SearchLog> coll = _mongoDbService.GetCollection<SearchLog>("SearchLogdata");
             List<SimpleAvailibilityaAddResponce> SimpleAvailibilityaAddResponcelist = new List<SimpleAvailibilityaAddResponce>();
             if (_GetfligthModel == null)
             {
@@ -200,8 +207,9 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     AirasiaTokan AirasiaTokan = new AirasiaTokan();
                     var AirasialoginRequest = JsonConvert.SerializeObject(login, Formatting.Indented);
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    //client.Timeout = TimeSpan.FromSeconds(10);
                     HttpResponseMessage responce = await client.PostAsJsonAsync(AppUrlConstant.AirasiaTokan, login);
-
+                    
                     if (responce.IsSuccessStatusCode)
                     {
                         var results = responce.Content.ReadAsStringAsync().Result;
@@ -210,6 +218,19 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         AirasiaTokan.idleTimeoutInMinutes = JsonObj.data.idleTimeoutInMinutes;
                         //token = ((Newtonsoft.Json.Linq.JValue)value).Value.ToString();
                     }
+                    var searchData = new SearchLog
+                    {
+                        TripType = 0,
+                        TripName = "OneWay",
+                        ApiName= "Logon",
+                        SupplierName= "AirIndiaExpress",
+                        Origin_Departure = _GetfligthModel.origin.Split("-")[1] + "_" + _GetfligthModel.destination.Split("-")[1],
+                        Key = KeyName,
+                        Request = AirasialoginRequest,
+                        Response = JsonConvert.SerializeObject(AirasiaTokan.token),
+                        InsertedOn = DateTime.Now
+                    };
+                    coll.InsertOne(searchData );
                     logs.WriteLogs("Request: " + AirasialoginRequest + "\n Response: " + JsonConvert.SerializeObject(AirasiaTokan.token), "Logon", "AirAsiaOneWay");
 
 

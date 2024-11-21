@@ -8,7 +8,7 @@ namespace Utility
         {
             try
             {
-                string _path = @"D:\" + AirLine + @"\" + DateTime.Now.ToString("ddMMMyyyy");
+                string _path = @"D:\OneWay\" + AirLine + @"\" + DateTime.Now.ToString("ddMMMyyyy");
                 if (!Directory.Exists(_path) || !File.Exists(_path))
                 {
                     System.IO.Directory.CreateDirectory(_path);
@@ -25,7 +25,7 @@ namespace Utility
         {
             try
             {
-                string _path = @"D:\" + AirLine + @"\" + DateTime.Now.ToString("ddMMMyyyy");
+                string _path = @"D:\RoundTrip\" + AirLine + @"\" + DateTime.Now.ToString("ddMMMyyyy");
                 if (!Directory.Exists(_path) || !File.Exists(_path))
                 {
                     System.IO.Directory.CreateDirectory(_path);
