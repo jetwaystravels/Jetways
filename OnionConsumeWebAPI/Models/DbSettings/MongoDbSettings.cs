@@ -1,4 +1,4 @@
-﻿namespace OnionConsumeWebAPI.Models
+﻿namespace OnionConsumeWebAPI.Models.DbSettings
 {
     public class MongoDbSettings
     {

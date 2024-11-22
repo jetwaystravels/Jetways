@@ -12,6 +12,151 @@
 <script>
     /*********seatmap_tab_select_function_ServiceRequest_PartialView_Page***********/
     $(document).ready(function () {
+        // //---------------------------
+        $('.dropdown-btn').click(function (e) {
+            e.stopPropagation();
+            $(this).next('.dropdown-options').toggle();
+            let $dropdown = $(this).closest('.custom-dropdown.servc-bordr');
+            $dropdown.find('.dropdown-btn i').addClass('fas fa-chevron-down');
+
+        });
+
+        $(document).click(function (e) {
+            if (!$(e.target).closest('.custom-dropdown.servc-bordr').length) {
+                $('.dropdown-options').hide();
+            }
+
+            if (!$(e.target).closest('.custom-dropdown.servc-bordrCon').length) {
+                $('.dropdown-options').hide();
+            }
+        });
+
+
+        $('.dropdown-option').hover(function () {
+
+
+            let $dropdown = $(this).closest('.custom-dropdown.servc-bordr');
+
+            if ($dropdown.length === 0) {
+                $dropdown = $(this).closest('.custom-dropdown.servc-bordrCon');
+            }
+
+
+            // const $dropdown = $(this).closest('.custom-dropdown.servc-bordr'); // Find the closest dropdown container
+            const $imagePreview = $dropdown.next('.mealImagePreview');
+
+
+            const dropdownIndex = $dropdown.hasClass('servc-bordr') ? $dropdown.index('.custom-dropdown.servc-bordr') : $dropdown.index('.custom-dropdown.servc-bordrCon');
+
+            // Find the image preview based on the dropdown index
+            // const $imagePreview = $dropdown.next('.mealImagePreview').eq(dropdownIndex);
+
+            var imageUrl = $(this).data('img');
+            if (imageUrl) {
+
+                // $('#mealImagePreview').attr('src', imageUrl).css({
+                $imagePreview.attr('src', imageUrl).css({
+                    display: 'block',
+                    // top: $(this).offset().top - 55, // Adjust positioning
+                    // left: $(this).offset().left + 160
+
+                    top: $(this).offset().top - $dropdown.offset().top, // Adjusted relative position
+                    left: $(this).outerWidth() + 2 // Positioned to the right of the option
+                });
+            }
+        }, function () {
+
+            let $dropdown = $(this).closest('.custom-dropdown.servc-bordr');
+            if ($dropdown.length === 0) {
+                $dropdown = $(this).closest('.custom-dropdown.servc-bordrCon');
+            }
+
+            // const $dropdown = $(this).closest('.custom-dropdown.servc-bordr');
+            const $imagePreview = $dropdown.next('.mealImagePreview');
+            $imagePreview.hide();
+
+
+            // $('#mealImagePreview').hide();
+        });
+
+        let selectedMeals = [];
+        var selectedMealsCon = [];
+
+        let totalPriceServcBordr = 0;
+        let totalPriceServcBordrCon = 0;
+
+        $('.dropdown-option').click(function () {
+            debugger;
+
+            let $dropdown = $(this).closest('.custom-dropdown.servc-bordr');
+            if ($dropdown.length === 0) {
+                $dropdown = $(this).closest('.custom-dropdown.servc-bordrCon');
+            }
+
+            const selectedOptionText = $(this).text();
+            const imageUrl = $(this).data('img');
+            const selectedValue = $(this).data('value');
+
+            if (selectedValue === undefined) { }
+
+            $dropdown.find('.dropdown-btn').text(selectedOptionText);
+          
+
+            const dropdownIndex = $dropdown.hasClass('servc-bordr') ? $dropdown.index('.custom-dropdown.servc-bordr') : $dropdown.index('.custom-dropdown.servc-bordrCon');
+
+            if (selectedValue) {
+                debugger;
+                const priceValue = selectedValue.split('_');
+                const mealPrice = parseFloat(priceValue[1]);
+
+                if ($dropdown.hasClass('servc-bordr')) {
+                    if (selectedMeals[dropdownIndex] != null) {
+                        const previousValue = selectedMeals[dropdownIndex];
+                        const previousPrice = parseFloat(previousValue.split('_')[1]);
+                        totalPriceServcBordr = totalPriceServcBordr - previousPrice + mealPrice;
+                        selectedMeals[dropdownIndex] = selectedValue;
+                    }
+                    else {
+                        selectedMeals.push(selectedValue);
+                        totalPriceServcBordr += mealPrice;
+                    }
+                }
+                else {
+                    if (selectedMealsCon[dropdownIndex] != null) {
+                        const previousValue = selectedMealsCon[dropdownIndex];
+                        const previousPrice = parseFloat(previousValue.split('_')[1]);
+
+                        totalPriceServcBordrCon = totalPriceServcBordrCon - previousPrice + mealPrice;
+                        selectedMealsCon[dropdownIndex] = selectedValue;
+                    }
+                    else {
+                        selectedMealsCon.push(selectedValue);
+                        totalPriceServcBordrCon += mealPrice;
+                    }
+
+                }
+
+
+            }
+            if ($dropdown.hasClass('servc-bordr')) {
+                localStorage.setItem("selectedMeals", JSON.stringify(selectedMeals));
+                $('#AddMeal').text(totalPriceServcBordr.toFixed(2));
+            }
+            else {
+                localStorage.setItem("selectedMealsCon", JSON.stringify(selectedMealsCon));
+                $('#AddMeal2').text(totalPriceServcBordrCon.toFixed(2));
+            }
+
+            const combinedTotal = totalPriceServcBordr + totalPriceServcBordrCon;
+            $('#AddMealTotal').text(combinedTotal.toFixed(2));
+
+            $dropdown.find('.dropdown-options').hide();
+            $dropdown.find('.dropdown-btn i').addClass('fas fa-chevron-down');
+        });
+
+
+        //---------------------
+
         $('.servc-bordr').change(function () {
             debugger;
             var selectedMeals = [];
@@ -224,6 +369,7 @@
         $("#popbtnB").hide();
         $("#popbtnA").show();
         $("#seatTab1").click(function () {
+            debugger;
             $("#tabshow1").show();
             $("#tabnew1").show();
             $("#tabnew2").hide();
@@ -236,6 +382,7 @@
         });
 
         $("#seatTab2").click(function () {
+            debugger;
             $("#tabshow2").css("display", "block");
             $("#seatTab2").addClass('active');
             $("#seatTab1").removeClass('active');
@@ -430,6 +577,58 @@
 
     .servc-bordrm1 option {
         font-size: 12px;
+    }
+
+
+
+    .dropdown-options {
+        display: none;
+        position: absolute;
+        top: 10%;
+        left: 0;
+        background-color: white;
+        border: 1px solid #ccc;
+        width: 300px;
+        z-index: 1;
+    }
+
+    
+    .dropdown-option {
+        padding: 3px;
+        cursor: pointer;
+    }
+
+        .dropdown-option:hover {
+            background-color: #f1f1f1;
+        }
+
+    .custom-dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-btn {
+        display: inline-block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: 158px;
+    }
+
+
+    .mealImagePreview {
+        position: absolute;
+        width: 100px;
+       height: 100px;
+        margin-left: 100px;
+        display: none;
+        z-index: 1;
+
+        /*  background: #fff;
+                border: 1px solid #ebd8d8; */
+
+
+
     }
 
 </style>
@@ -639,15 +838,38 @@
                                                         string Mealcode = Model.Meals.legSsrs[0].legssrs[s].ssrCode;
                                                        // string MealcodeData = Mealcode.StartsWith("V", StringComparison.OrdinalIgnoreCase).ToString();
                                                         string Mealname = Model.Meals.legSsrs[0].legssrs[s].name + " ₹" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
-                                                        ssrkey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].ssrKey + "_" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price; ;
+                                                        ssrkey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].ssrKey + "_" + @Model.Meals.legSsrs[0].legssrs[s].legpassengers[0].price;
                                                         string passengerKey = Model.Meals.legSsrs[0].legssrs[s].legpassengers[pa].passengerKey;
-                                                       // if (MealcodeData != "False")
+                                                        // if (MealcodeData != "False")
                                                         //{
-                                                            if (ssrkey != null)
-                                                            {
-                                                                mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
-                                                            }
-                                                      //  }
+
+
+                                                        //---------------------------
+                                                        string MealImagelist = string.Empty;
+                                                        // string querymeal = @Model.Meals.legSsrs[0].legssrs[s].ssrCode;
+                                                        var Mealdata = MealImageList.GetAllmeal().Where(x => x.MealCode == Mealcode).SingleOrDefault();
+                                                        if (Mealdata != null)
+                                                        {
+                                                            MealImagelist = MealImageList.GetAllmeal().Where(x => x.MealCode == Mealcode).SingleOrDefault().MealImage;
+                                                        }
+                                                        string ImageUrl = Url.Content("/img/images/" + MealImagelist + ".png");
+
+                                                        string combinedValue = ssrkey + "|" + ImageUrl;
+                                                        if (ssrkey != null)
+                                                        {
+                                                            mealOptions.Add(new SelectListItem { Text = Mealname, Value = combinedValue });
+                                                        }
+                                                        //---------------------------
+
+
+                                                        // if (ssrkey != null)
+                                                        // {
+                                                        //     mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
+
+                                                        // }
+
+
+                                                        //  }
                                                         //}
 
                                                     }
@@ -660,16 +882,46 @@
                                                         }
                                                         else
                                                         {
-                                                            <select id="ddlMealOptions" class="servc-bordr">
-                                                                <option value=""><b>Please select Meal</b></option>
-                                                                @foreach (var option in mealOptions)
+
+                                                                    <select id="ddlMealOptions" class="servc-bordr" style="display:none">
+                                                                        <option value=""><b>Please select Meal</b></option>
+                                                                        @foreach (var option in mealOptions)
                                                                 {
 
-                                                                    <option value="@option.Value">
+                                                                            <option class="dropdown-option" value="@option.Value">
                                                                         @option.Text
                                                                     </option>
                                                                 }
                                                             </select>
+                                                                    <div id="ddlMealOptions" class="servc-bordr custom-dropdown">
+                                                                        <button class="dropdown-btn">Please select Meal
+                                                                            <i class="fas fa-chevron-down" id="dropdownIcon"></i>
+                                                                        </button>
+                                                                        <div class="dropdown-options">
+                                                                            <div class="dropdown-option" data-value="00_00">
+                                                                                Please select Meal
+                                                                                
+                                                                            </div>
+                                                                            @foreach (var option in mealOptions)
+                                                                    {
+
+
+                                                                        var values = option.Value.Split('|');
+                                                                        string optionValue = values[0];
+                                                                        string imageUrl = values.Length > 1 ? values[1] : "";
+
+                                                                        // string ImageUrl = option.Value.Contains("MMFD") ? "/img/images/non-veg-img-1.png" : "";
+                                                                        // <div class="dropdown-option" data-img="@ImageUrl" data-value="@option.Value">
+                                                                                <div class="dropdown-option" data-img="@imageUrl" data-value="@optionValue">
+
+                                                                                    @option.Text                                                           
+                                                                                </div>
+                                                                    }
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <img class="mealImagePreview" style="display: none;" />
+
                                                         }
                                                         <input type="hidden" id="hiddenSsrKey" name="ssrKey" value="" />
                                                     </div>
@@ -861,27 +1113,76 @@
                                                             string Mealname = Model.Meals.legSsrs[1].legssrs[s].name + " @" + @Model.Meals.legSsrs[1].legssrs[s].legpassengers[0].price;
                                                             ssrkey = Model.Meals.legSsrs[1].legssrs[s].legpassengers[pas].ssrKey + "_" + @Model.Meals.legSsrs[1].legssrs[s].legpassengers[0].price;
                                                             string passengerKey = Model.Meals.legSsrs[1].legssrs[s].legpassengers[pas].passengerKey;
+                                                            string MealImagelist = string.Empty;
+                                                            // string querymeal = Model.Meals.legSsrs[1].legssrs[s].ssrCode;
+                                                            var Mealdata = MealImageList.GetAllmeal().Where(x => x.MealCode == Mealcode).SingleOrDefault();
+                                                            if (Mealdata != null)
+                                                            {
+                                                                MealImagelist = MealImageList.GetAllmeal().Where(x => x.MealCode == Mealcode).SingleOrDefault().MealImage;
+                                                            }
+                                                            string ImageUrl = Url.Content("/img/images/" + MealImagelist + ".png");
+
+                                                            string combinedValue = ssrkey + "|" + ImageUrl;
+                                                            if (ssrkey != null)
+                                                            {
+                                                                mealOptions.Add(new SelectListItem { Text = Mealname, Value = combinedValue });
+                                                            }
+
+                                                            // string ImageUrl = Mealcode == "MMFD" ? "" : "your_image_url_path_here";
+                                                            // if (Mealcode == "MMFD")
+                                                            // {
+                                                            //     ImageUrl = "";
+                                                            // }
                                                             //if (MealData != "False")
                                                             //{
-                                                                if (ssrkey != null)
-                                                                {
-                                                                    mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
-                                                                }
+
+
+                                                            // if (ssrkey != null)
+                                                            // {
+                                                            //     mealOptions.Add(new SelectListItem { Text = Mealname, Value = ssrkey });
+                                                            // }
+
+
+
                                                             //}
                                                             //}
 
                                                         }
                                                         <div class="d-flex">
 
-                                                            <select id="ddlMealOptions" class="servc-bordrCon">
-                                                                <option value=""><b>Please select Meal</b></option>
-                                                                @foreach (var option in mealOptions)
+                                                                    <select id="ddlMealOptions" class="servc-bordrCon" style="display:none">
+                                                                        <option value=""><b>Please select Meal</b></option>
+                                                                        @foreach (var option in mealOptions)
                                                                 {
                                                                     <option value="@option.Value">
                                                                         @option.Text
                                                                     </option>
                                                                 }
                                                             </select>
+                                                                    <div id="ddlMealOptions" class="servc-bordrCon custom-dropdown">
+                                                                        <button class="dropdown-btn">Please select Meal
+                                                                            <i class="fas fa-chevron-down dropdown-btn" id="dropdownIcon"></i>
+                                                                        </button>
+                                                                        <div class="dropdown-options">
+                                                                            <div class="dropdown-option" data-value="00_00">
+                                                                                Please select Meal
+                                                                            </div>
+                                                                            @foreach (var option in mealOptions)
+                                                                    {
+                                                                        var values = option.Value.Split('|');
+                                                                        string optionValue = values[0];
+                                                                        string imageUrl = values.Length > 1 ? values[1] : "";
+
+                                                                        // string ImageUrl = option.Value.Contains("MMFD") ? "/img/images/non-veg-img-1.png" : "";
+                                                                        // <div class="dropdown-option" data-img="@ImageUrl" data-value="@option.Value">
+                                                                                <div class="dropdown-option" data-img="@imageUrl" data-value="@optionValue">
+                                                                                    @option.Text
+                                                                                </div>
+                                                                    }
+                                                                            
+                                                                        </div>
+                                                                        </div>
+                                                                    <img class="mealImagePreview" style="display: none;" />
 
 
                                                             <input type="hidden" id="hiddenSsrKey2" name="ssrKey" value="" />

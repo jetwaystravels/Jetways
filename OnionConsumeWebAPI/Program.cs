@@ -1,8 +1,9 @@
 using Microsoft.CodeAnalysis.Options;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using OnionConsumeWebAPI.ApiService;
 using OnionConsumeWebAPI.ErrorHandling;
-using OnionConsumeWebAPI.Models;
+using OnionConsumeWebAPI.Models.DbSettings;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add configuration files

@@ -55,7 +55,7 @@ namespace OnionArchitectureAPI.Services.Indigo
             string str = JsonConvert.SerializeObject(_getSellRS);
             if (_AirlineWay.ToLower() == "oneway")
             {
-                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getSellRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getSellRS), "SellRequest", "IndigoOneWay");
+                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getSellRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getSellRS), "SellRequest", "IndigoOneWay");
             }
             else
                 logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getSellRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getSellRS), "SellRequest", "IndigoRT");
@@ -89,7 +89,7 @@ namespace OnionArchitectureAPI.Services.Indigo
 
             }
             else
-                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_GetBookingFromStateRQ1) + "\n\n Response: " + JsonConvert.SerializeObject(_getBookingFromStateResponse), "GetBookingFromStateAftersellInfantrequest", "IndigoRT");
+                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_GetBookingFromStateRQ1) + "\n\n Response: " + JsonConvert.SerializeObject(_getBookingFromStateResponse), "GetBookingFromStateAftersellInfantrequest", "IndigoRT");
 
             return _getBookingFromStateResponse;
         }
@@ -125,7 +125,7 @@ namespace OnionArchitectureAPI.Services.Indigo
             string str = JsonConvert.SerializeObject(_getPriceItineraryRS);
             if (_AirlineWay.ToLower() == "oneway")
             {
-                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getPriceItineraryRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getPriceItineraryRS), "PriceIteniry", "IndigoOneWay");
+                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getPriceItineraryRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getPriceItineraryRS), "PriceIteniry", "IndigoOneWay");
             }
             else
                 logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getPriceItineraryRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getPriceItineraryRS), "PriceIteniry", "IndigoRT");

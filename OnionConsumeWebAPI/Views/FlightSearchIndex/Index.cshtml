@@ -373,9 +373,11 @@
 													<select id="selectedItemId" name="selectedItemId" onchange="handleSelection()">
 														<option value="" style="display:none;">Please select</option>
 
-														@foreach (var item in Citynamelist.GetAllCityData())
-														{
-															<option value="@item.citycode">@item.cityname - @item.citycode -<br>@item.airportname </option>
+
+
+                                                        @foreach (var item in Citynamelist.GetCityData())
+                                                        {
+                                                            <option value="@item.citycode">@item.cityname - @item.citycode -<br>@item.airportname </option>
 
 														}
 
@@ -397,9 +399,9 @@
 													<select id="arrivalItemId" name="arrivalItemId" onchange="arrivalSelection()">
 														<option value="" style="display:none;">Please select</option>
 
-														@foreach (var item in Citynamelist.GetAllCityData())
-														{
-															<option value="@item.citycode">@item.cityname - @item.citycode -<br>@item.airportname </option>
+                                                        @foreach (var item in Citynamelist.GetCityData())
+                                                        {
+                                                            <option value="@item.citycode">@item.cityname - @item.citycode -<br>@item.airportname </option>
 
 														}
 

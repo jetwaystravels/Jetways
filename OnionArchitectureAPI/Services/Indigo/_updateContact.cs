@@ -98,7 +98,7 @@ namespace OnionArchitectureAPI.Services.Indigo
                 }
                 catch (Exception ex)
                 {
-                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(updatePaxReq) + "\n\n Response: " + JsonConvert.SerializeObject(ex.ToString()), "UpdatePassengerException", "IndigoRT");
+                    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(updatePaxReq) + "\n\n Response: " + JsonConvert.SerializeObject(ex.ToString()), "UpdatePassengerException", "IndigoRT");
 
                 }
             }

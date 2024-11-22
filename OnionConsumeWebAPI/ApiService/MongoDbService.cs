@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 
-namespace OnionConsumeWebAPI.Models
+namespace OnionConsumeWebAPI.ApiService
 {
     public class MongoDbService
     {

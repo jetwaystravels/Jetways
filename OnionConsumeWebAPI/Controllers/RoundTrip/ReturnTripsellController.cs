@@ -1351,7 +1351,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         _GetBookingFromStateRS1 = await objSpiceJet.GetBookingFromState(_GetBookingFromStateRQ1);
 
                         str3 = JsonConvert.SerializeObject(_GetBookingFromStateRS1);
-                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_GetBookingFromStateRQ1) + "\n\n Response: " + JsonConvert.SerializeObject(_GetBookingFromStateRS1), "GetBookingFromStateAftersellrequest", "SpiceJetRT");
+                        logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_GetBookingFromStateRQ1) + "\n\n Response: " + JsonConvert.SerializeObject(_GetBookingFromStateRS1), "GetBookingFromStateAftersellrequest", "SpiceJetRT");
                         #endregion
                         if (_GetBookingFromStateRS1 != null)
                         {

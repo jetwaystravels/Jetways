@@ -375,6 +375,23 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     if (responce1.IsSuccessStatusCode)
                     {
                         var results = responce1.Content.ReadAsStringAsync().Result;
+
+                        //Mongo GetAvailibilty
+                        var searchData_ = new SearchLog
+                        {
+                        //searchData = new SearchLog();
+                        TripType = 0,
+                        TripName = "OneWay",
+                        ApiName = "GetAvailibilty",
+                        SupplierName = "AirIndiaExpress",
+                        Origin_Departure = _GetfligthModel.origin + "_" + _GetfligthModel.destination,
+                        Key = KeyName,
+                        Request = JsonConvert.SerializeObject(_SimpleAvailabilityobj),
+                        Response = JsonConvert.SerializeObject(results),
+                        InsertedOn = DateTime.Now
+                        };
+                        coll.InsertOne(searchData_);
+
                         logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_SimpleAvailabilityobj) + "\n Response: " + results, "GetAvailability", "AirAsiaOneWay");
                         var JsonObj = JsonConvert.DeserializeObject<dynamic>(results);
                         dynamic jsonObj = JObject.Parse(results);
@@ -2042,7 +2059,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             AirasiaTokan.idleTimeoutInMinutes = JsonObj.data.idleTimeoutInMinutes;
                             //token = ((Newtonsoft.Json.Linq.JValue)value).Value.ToString();
                         }
-                        logs.WriteLogs("Request: " + AirasialoginRequest + "\n Response: " + JsonConvert.SerializeObject(AirasiaTokan.token), "Logon", "AirAsiaRT");
+                        logs.WriteLogsR("Request: " + AirasialoginRequest + "\n Response: " + JsonConvert.SerializeObject(AirasiaTokan.token), "Logon", "AirAsiaRT");
 
 
                         HttpContext.Session.SetString("AirasiaTokanR", JsonConvert.SerializeObject(AirasiaTokan.token));
@@ -2248,7 +2265,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             if (responceAkasaR.IsSuccessStatusCode)
                             {
                                 var results = responceAkasaR.Content.ReadAsStringAsync().Result;
-                                logs.WriteLogs("Request: " + JsonConvert.SerializeObject("") + "\n Response: " + results, "Login", "AkasaRT");
+                                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject("") + "\n Response: " + results, "Login", "AkasaRT");
                                 var JsonObj = JsonConvert.DeserializeObject<dynamic>(results);
                                 AkasaTokanR.token = JsonObj.data.token;
                                 AkasaTokanR.idleTimeoutInMinutes = JsonObj.data.idleTimeoutInMinutes;
@@ -2357,7 +2374,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             if (responceR.IsSuccessStatusCode)
                             {
                                 var resultsR = responceR.Content.ReadAsStringAsync().Result;
-                                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_SimpleAvailabilityobjR) + "\n Response: " + resultsR, "GetAvailibility", "AkasaRT");
+                                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_SimpleAvailabilityobjR) + "\n Response: " + resultsR, "GetAvailibility", "AkasaRT");
                                 var JsonObjR = JsonConvert.DeserializeObject<dynamic>(resultsR);
 
 
@@ -3598,6 +3615,28 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
             }
             return SourcePOS;
         }
+
+
+
+        [HttpGet]
+        public IActionResult GetFilteredCities(string query)
+        {
+
+            var allCities = Citynamelist.GetAllCityData();
+
+            var cities = allCities.Where(c => c.citycode.StartsWith(query, StringComparison.OrdinalIgnoreCase))
+                .Concat(allCities.Where(c => c.cityname.StartsWith(query, StringComparison.OrdinalIgnoreCase)))
+                .Concat(allCities.Where(c => c.airportname.StartsWith(query, StringComparison.OrdinalIgnoreCase)))
+                //.Take(100)
+                .ToList();
+
+
+
+            var distinctCities = cities.GroupBy(c => new { c.citycode, c.cityname, c.airportname }).Select(g => g.First()).ToList();
+            return Json(distinctCities);
+            //return Json(cities);
+        }
+
     }
 }
 

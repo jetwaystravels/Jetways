@@ -12,6 +12,9 @@ using DomainLayer.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Caching.Distributed;
+using MongoDB.Driver;
+using Nancy.Session;
 
 //using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
@@ -19,7 +22,9 @@ using Newtonsoft.Json.Linq;
 using NuGet.Common;
 using NuGet.Packaging.Signing;
 using OnionConsumeWebAPI.Extensions;
+using OnionConsumeWebAPI.Models;
 using Utility;
+using ZXing;
 using static DomainLayer.Model.GetItenaryModel;
 using static DomainLayer.Model.SeatMapResponceModel;
 //using static DomainLayer.Model.testseat;
@@ -31,6 +36,16 @@ namespace OnionConsumeWebAPI.Controllers
         string passengerkey12 = string.Empty;
         string infant = string.Empty;
         Logs logs = new Logs();
+        // Mongo DB
+        //private readonly MongoDbService _mongoDbService;
+
+        public readonly IDistributedCache _distributedCache;
+        //public ResultFlightViewController(IDistributedCache distributedcache, MongoDbService mongoDbService)
+        //{
+        //    _distributedCache = distributedcache;
+        //    _mongoDbService = mongoDbService;
+        //}
+      
         public IActionResult FlightView()
         {
             var searchcount = TempData["count"];
@@ -217,6 +232,7 @@ namespace OnionConsumeWebAPI.Controllers
 
             string token = string.Empty;
             List<_credentials> credentialslist = new List<_credentials>();
+          //  IMongoCollection<SearchLog> coll = _mongoDbService.GetCollection<SearchLog>("SearchLogdata");
             using (HttpClient client = new HttpClient())
             {
 
@@ -305,6 +321,25 @@ namespace OnionConsumeWebAPI.Controllers
                 {
                     AirAsiaTripResponceModel AirAsiaTripResponceobj = new AirAsiaTripResponceModel();
                     var resultsTripsell = responseTripsell.Content.ReadAsStringAsync().Result;
+                    //string OnewayOnward= HttpContext.Session.GetString("OneWayPassengerModel");
+                    //List<SimpleAvailibilityaAddResponce> OnewaydeserializedData = null;
+                    //OnewaydeserializedData = JsonConvert.DeserializeObject<List<SimpleAvailibilityaAddResponce>>(OnewayOnward);
+                    //var searchData = new SearchLog
+                    //{
+                    //    //searchData = new SearchLog();
+                    //    TripType = 0,
+                    //    TripName = "OneWay",
+                    //    ApiName = "Tripsell",
+                    //    SupplierName = "AirIndiaExpress",
+                    //    Origin_Departure = OnewaydeserializedData., //_GetfligthModel.origin + "_" + _GetfligthModel.destination,
+                    //    //Key = KeyName,
+                    //    Request = JsonConvert.SerializeObject(AirAsiaTripSellRequestobj),
+                    //    Response = JsonConvert.SerializeObject(resultsTripsell),
+                    //    InsertedOn = DateTime.Now
+                    //};
+                    //coll.InsertOne(searchData);
+
+
                     logs.WriteLogs("Url: " + AppUrlConstant.AirasiaTripsell + "Request: " + JsonConvert.SerializeObject(AirAsiaTripSellRequestobj) + "\n Response: " + resultsTripsell, "Tripsell", "AirAsiaOneWay");
                     var JsonObjTripsell = JsonConvert.DeserializeObject<dynamic>(resultsTripsell);
                     var totalAmount = JsonObjTripsell.data.breakdown.journeys[journeyKey].totalAmount;

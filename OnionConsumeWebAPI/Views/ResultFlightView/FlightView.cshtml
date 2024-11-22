@@ -146,7 +146,7 @@
                                                     <span class="autodropdownOneWay">
                                                         <select id="autodropdownOneWayId" name="autodropdownOneWayId" onchange="OnewaySelection()">
                                                             <option value="" style="display:none;">Please select</option>
-                                                            @foreach (var item in Citynamelist.GetAllCityData())
+                                                            @foreach (var item in Citynamelist.GetCityData())
                                                             {
                                                                 <option value="@item.citycode">@item.cityname - @item.citycode -<br>@item.airportname </option>
 
@@ -177,7 +177,7 @@
                                                         <select id="arrivalItemOnewayId" name="arrivalItemOnewayId" onchange="arrivalOneway()">
                                                             @* <option value="">Please select</option> *@
                                                             <option value="" style="display:none;">Please select</option>
-                                                            @foreach (var item in Citynamelist.GetAllCityData())
+                                                            @foreach (var item in Citynamelist.GetCityData())
                                                             {
                                                                 <option value="@item.citycode">@item.cityname - @item.citycode -<br>@item.airportname </option>
 
@@ -2898,6 +2898,12 @@
             $('.autoarrivalOneway').hide();
             var chosenInput = document.querySelector('.chosen-search input');
             chosenInput.focus();
+
+            
+
+            if (!chosenInput.hasAttribute("onkeyup")) {
+                chosenInput.setAttribute("onkeyup", "filterCities(this.value)");
+            }
         });
 
 
@@ -2943,6 +2949,10 @@
             $('.autodropdownOneWay').hide();
             var chosenInput3 = document.querySelector('.autoarrivalOneway input');
             chosenInput3.focus();
+
+            if (!chosenInput3.hasAttribute("onkeyup")) {
+                chosenInput3.setAttribute("onkeyup", "filterCities(this.value)");
+            }
         });
 
         $(document.body).on('click', function (event) {
@@ -3002,10 +3012,32 @@
         window.onupload = function () { null };
 
 
+        function filterCities(query) {
+            if (query.length < 3) return;
+            fetch(`/FlightSearchIndex/GetFilteredCities?query=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    currentResults = data;
+                    updateDropdown(currentResults, query);
+                });
+        }
 
+        function updateDropdown(data, query) {
+            const isArrivalDropdownVisible = $('#arrivalItemOnewayId').next('.chosen-container').find('.chosen-drop').is(':visible');
+            const dropdown = document.getElementById(isArrivalDropdownVisible ? "arrivalItemOnewayId" : "autodropdownOneWayId");
+            const inputField = document.querySelector(isArrivalDropdownVisible ? '.autoarrivalOneway input' : '.chosen-search input');
+            const currentInput = inputField.value;
 
+            dropdown.innerHTML = `<option value="" style="display: none;">Please select</option>
+                ${data.map(item => `<option value="${item.citycode}">${item.cityname} - ${item.citycode} - ${item.airportname}</option>`).join('')}`;
 
+            $(dropdown).trigger("chosen:updated");
 
+            if (currentInput === query) {
+                inputField.value = currentInput;
+            }
+            inputField.focus();
+        }
 
     </script>
 

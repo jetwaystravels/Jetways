@@ -118,7 +118,7 @@ namespace OnionArchitectureAPI.Services.Indigo
                 string Str2 = JsonConvert.SerializeObject(_res);
                 if (_AirlineWay.ToLower() == "oneway")
                 {
-                    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_req) + "\n\n Response: " + JsonConvert.SerializeObject(_res), "GetSSRAvailabilityForBooking", "IndigoOneWay");
+                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_req) + "\n\n Response: " + JsonConvert.SerializeObject(_res), "GetSSRAvailabilityForBooking", "IndigoOneWay");
                 }
                 else
                 {
