@@ -3497,7 +3497,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         //TempData["SpiceJetmodel"] = JsonConvert.SerializeObject(SpiceJetAvailibilityaAddResponcelist);
                         //TempData["SpiceJetPassengerModel"] = JsonConvert.SerializeObject(_getAvailabilityRQ);
                         HttpContext.Session.SetString("SpiceJetPassengerModelR", JsonConvert.SerializeObject(_getAvailabilityRQ));
-                        return RedirectToAction("RTFlightView", "RoundTrip");
+                        return RedirectToAction("RTFlightView", "RoundTrip", new {TripType = SameAirlineRT, Origin = orgincity, OriginCode = orgincode, Destination = destinationCity, DestinationCode = destinationcode, BeginDate = _GetfligthModel.beginDate,EndDate = _GetfligthModel.endDate, AdultCount = _GetfligthModel.passengercount != null ? _GetfligthModel.passengercount.adultcount : _GetfligthModel.adultcount, ChildCount = _GetfligthModel.passengercount != null ? _GetfligthModel.passengercount.childcount : _GetfligthModel.childcount, InfantCount = _GetfligthModel.passengercount != null ? _GetfligthModel.passengercount.infantcount : _GetfligthModel.infantcount });
                     }
                     else
                     {
@@ -3529,7 +3529,16 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         //await _distributedCache.SetStringAsync(KeyName, encodedlist, option);
                         await _distributedCache.SetStringAsync(KeyName, searlizetext, option);
 
-                        return RedirectToAction("FlightView", "ResultFlightView");
+                        //return RedirectToAction("FlightView", "ResultFlightView");
+                        //return RedirectToAction("FlightView", "ResultFlightView", new { key1 = "value1", key2 = "value2" });
+                        //AdultCount = _GetfligthModel.passengercount.adultcount
+                        //AdultCount = _GetfligthModel.passengercount != null ? _GetfligthModel.passengercount.adultcount : _GetfligthModel.adultcount,
+
+                            
+
+
+                        return RedirectToAction("FlightView", "ResultFlightView", new {TripType =SameAirlineRT,Origin = orgincity,OriginCode=orgincode,Destination=destinationCity,DestinationCode=destinationcode,BeginDate= _GetfligthModel.beginDate,AdultCount= _GetfligthModel.passengercount != null ? _GetfligthModel.passengercount.adultcount : _GetfligthModel.adultcount,ChildCount = _GetfligthModel.passengercount != null ? _GetfligthModel.passengercount.childcount : _GetfligthModel.childcount,InfantCount = _GetfligthModel.passengercount != null ? _GetfligthModel.passengercount.infantcount : _GetfligthModel.infantcount});
+
                     }
 
                 }
