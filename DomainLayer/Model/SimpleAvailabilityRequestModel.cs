@@ -35,6 +35,9 @@ namespace DomainLayer.Model
         public bool searchOriginMacs { get; set; }
         public bool getAllDetails { get; set; }
 
+        public int trip { get; set; }
+        //0 - oneway, 1 - round, 2- sameAirline
+
     }
     public class passengercount
     {

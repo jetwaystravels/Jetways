@@ -21,6 +21,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NuGet.Common;
 using NuGet.Packaging.Signing;
+using OnionConsumeWebAPI.ApiService;
 using OnionConsumeWebAPI.Extensions;
 using OnionConsumeWebAPI.Models;
 using Utility;
@@ -37,17 +38,33 @@ namespace OnionConsumeWebAPI.Controllers
         string infant = string.Empty;
         Logs logs = new Logs();
         // Mongo DB
-        //private readonly MongoDbService _mongoDbService;
+        private readonly MongoDbService _mongoDbService;
 
-        public readonly IDistributedCache _distributedCache;
+       // public readonly IDistributedCache _distributedCache;
         //public ResultFlightViewController(IDistributedCache distributedcache, MongoDbService mongoDbService)
         //{
         //    _distributedCache = distributedcache;
         //    _mongoDbService = mongoDbService;
         //}
-      
+
+        public ResultFlightViewController(MongoDbService mongoDbService)
+        {
+            _mongoDbService = mongoDbService;
+        }
+
+
         public IActionResult FlightView()
         {
+
+          //  string Guid = Request.Query["Guid"] ?? string.Empty;
+
+            string guid = HttpContext.Request.Query["Guid"].ToString();
+
+            MongoDBHelper _mongoDBHelper = new MongoDBHelper(_mongoDbService);
+            Task<SearchLog> searchLog = _mongoDBHelper.GetFlightSearchLog(guid);
+           // searchLog = _mongoDBHelper.GetFlightSearchLog(Guid);
+
+
             var searchcount = TempData["count"];
             ViewData["count"] = searchcount;
             ViewModel viewModelobject = new ViewModel();

@@ -110,14 +110,14 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
             if (_GetfligthModel.passengercount != null)
             {
-                KeyName = _GetfligthModel.origin + "_" + _GetfligthModel.destination + "_" + _GetfligthModel.beginDate + "_" + _GetfligthModel.adultcount;
+                KeyName = _GetfligthModel.origin + "_" + _GetfligthModel.destination + "_" + _GetfligthModel.beginDate + "_" + _GetfligthModel.passengercount.adultcount;
             }
             else
             {
                 KeyName = _GetfligthModel.origin + "_" + _GetfligthModel.destination + "_" + _GetfligthModel.beginDate + "_" + _GetfligthModel.adultcount;
             }
             // Mongo DB
-            IMongoCollection<SearchLog> coll = _mongoDbService.GetCollection<SearchLog>("SearchLogdata");
+         //  IMongoCollection<SearchLog> coll = _mongoDbService.GetCollection<SearchLog>("SearchLogdata");
             List<SimpleAvailibilityaAddResponce> SimpleAvailibilityaAddResponcelist = new List<SimpleAvailibilityaAddResponce>();
             if (_GetfligthModel == null)
             {
@@ -218,20 +218,36 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         AirasiaTokan.idleTimeoutInMinutes = JsonObj.data.idleTimeoutInMinutes;
                         //token = ((Newtonsoft.Json.Linq.JValue)value).Value.ToString();
                     }
-                    var searchData = new SearchLog
+
+
+                    string SearchGuid = Guid.NewGuid().ToString().ToUpper();
+                    string getguid = string.Empty;
+
+                    MongoHelper objMongoHelper = new MongoHelper();
+                    MongoDBHelper _mongoDBHelper = new MongoDBHelper(_mongoDbService);
+
+                    getguid = _mongoDBHelper.GetFlightSearchByKeyRef(objMongoHelper.GetRequestCacheKey(_GetfligthModel)).Result;
+                  
+                    _mongoDBHelper.SaveSearchLog(_GetfligthModel, SearchGuid);
+
+                    if (string.IsNullOrEmpty(getguid))
                     {
-                        TripType = 0,
-                        TripName = "OneWay",
-                        ApiName= "Logon",
-                        SupplierName= "AirIndiaExpress",
-                        //Origin_Departure = _GetfligthModel.origin.Split("-")[1] + "_" + _GetfligthModel.destination.Split("-")[1],
-                        Origin_Departure = _GetfligthModel.origin.Contains("-") && _GetfligthModel.destination.Contains("-") ? _GetfligthModel.origin.Split('-')[1] + "_" + _GetfligthModel.destination.Split('-')[1] : _GetfligthModel.origin + "_" + _GetfligthModel.destination,
-                        Key = KeyName,
-                        Request = AirasialoginRequest,
-                        Response = JsonConvert.SerializeObject(AirasiaTokan.token),
-                        InsertedOn = DateTime.Now
-                    };
-                    coll.InsertOne(searchData );
+                        _mongoDBHelper.SaveRequest(_GetfligthModel, SearchGuid);
+                    }
+
+                    //var searchData = new SearchLog
+                    //{
+                    //    TripType = 0,
+                    //    TripName = "OneWay",
+                    //    ApiName= "Logon",
+                    //    SupplierName= "AirIndiaExpress",
+                    //    Origin_Departure = _GetfligthModel.origin.Split("-")[1] + "_" + _GetfligthModel.destination.Split("-")[1],
+                    //    Key = KeyName,
+                    //    Request = AirasialoginRequest,
+                    //    Response = JsonConvert.SerializeObject(AirasiaTokan.token),
+                    //    InsertedOn = DateTime.Now
+                    //};
+                    //coll.InsertOne(searchData );
                     logs.WriteLogs("Request: " + AirasialoginRequest + "\n Response: " + JsonConvert.SerializeObject(AirasiaTokan.token), "Logon", "AirAsiaOneWay");
 
 
@@ -378,20 +394,20 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         var results = responce1.Content.ReadAsStringAsync().Result;
 
                         //Mongo GetAvailibilty
-                        var searchData_ = new SearchLog
-                        {
-                        //searchData = new SearchLog();
-                        TripType = 0,
-                        TripName = "OneWay",
-                        ApiName = "GetAvailibilty",
-                        SupplierName = "AirIndiaExpress",
-                        Origin_Departure = _GetfligthModel.origin + "_" + _GetfligthModel.destination,
-                        Key = KeyName,
-                        Request = JsonConvert.SerializeObject(_SimpleAvailabilityobj),
-                        Response = JsonConvert.SerializeObject(results),
-                        InsertedOn = DateTime.Now
-                        };
-                        coll.InsertOne(searchData_);
+                        //var searchData_ = new SearchLog
+                        //{
+                        ////searchData = new SearchLog();
+                        //TripType = 0,
+                        //TripName = "OneWay",
+                        //ApiName = "GetAvailibilty",
+                        //SupplierName = "AirIndiaExpress",
+                        //Origin_Departure = _GetfligthModel.origin + "_" + _GetfligthModel.destination,
+                        //Key = KeyName,
+                        //Request = JsonConvert.SerializeObject(_SimpleAvailabilityobj),
+                        //Response = JsonConvert.SerializeObject(results),
+                        //InsertedOn = DateTime.Now
+                        //};
+                       // coll.InsertOne(searchData_);
 
                         logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_SimpleAvailabilityobj) + "\n Response: " + results, "GetAvailability", "AirAsiaOneWay");
                         var JsonObj = JsonConvert.DeserializeObject<dynamic>(results);
@@ -3525,7 +3541,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         //logs.WriteLogs("\n Response: " + searlizetext, "simpleavailabiliotydata", "GDSOneWay");
 
                         // encodedlist = Encoding.UTF8.GetBytes(searlizetext);
-                        var option = new DistributedCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(1)).SetAbsoluteExpiration(TimeSpan.FromSeconds(1));
+                        var option = new DistributedCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(60)).SetAbsoluteExpiration(TimeSpan.FromSeconds(60));
                         //await _distributedCache.SetAsync(KeyName, encodedlist, option);
                         //await _distributedCache.SetStringAsync(KeyName, encodedlist, option);
                         await _distributedCache.SetStringAsync(KeyName, searlizetext, option);
@@ -3538,7 +3554,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             
 
 
-                        return RedirectToAction("FlightView", "ResultFlightView", new {TripType =SameAirlineRT,Origin = orgincity,OriginCode=orgincode,Destination=destinationCity,DestinationCode=destinationcode,BeginDate= _GetfligthModel.beginDate,AdultCount= _GetfligthModel.passengercount != null ? _GetfligthModel.passengercount.adultcount : _GetfligthModel.adultcount,ChildCount = _GetfligthModel.passengercount != null ? _GetfligthModel.passengercount.childcount : _GetfligthModel.childcount,InfantCount = _GetfligthModel.passengercount != null ? _GetfligthModel.passengercount.infantcount : _GetfligthModel.infantcount});
+                        return RedirectToAction("FlightView", "ResultFlightView", new {Guid = SearchGuid, TripType = SameAirlineRT,Origin = orgincity,OriginCode=orgincode,Destination=destinationCity,DestinationCode=destinationcode,BeginDate= _GetfligthModel.beginDate,AdultCount= _GetfligthModel.passengercount != null ? _GetfligthModel.passengercount.adultcount : _GetfligthModel.adultcount,ChildCount = _GetfligthModel.passengercount != null ? _GetfligthModel.passengercount.childcount : _GetfligthModel.childcount,InfantCount = _GetfligthModel.passengercount != null ? _GetfligthModel.passengercount.infantcount : _GetfligthModel.infantcount});
 
                     }
 
