@@ -950,11 +950,11 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         {
                             var results = responsespice.Content.ReadAsStringAsync().Result;
                             var JsonObject = JsonConvert.DeserializeObject<List<_credentials>>(results);
-                            if (JsonObject[0].FlightCode == 3)
+                            if (JsonObject[1].FlightCode == 3)
                             {
-                                LogonRequestDataobj.AgentName = JsonObject[0].username;
-                                LogonRequestDataobj.Password = JsonObject[0].password;
-                                LogonRequestDataobj.DomainCode = JsonObject[0].domain;
+                                LogonRequestDataobj.AgentName = JsonObject[1].username;
+                                LogonRequestDataobj.Password = JsonObject[1].password;
+                                LogonRequestDataobj.DomainCode = JsonObject[1].domain;
                                 // LogonRequestDataobj.Status = JsonObject[0].Status;
 
                                 _logonRequestobj.logonRequestData = LogonRequestDataobj;

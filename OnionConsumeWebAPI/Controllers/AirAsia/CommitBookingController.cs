@@ -76,10 +76,63 @@ namespace OnionConsumeWebAPI.Controllers
             string tokenview = HttpContext.Session.GetString("AirasiaTokan");
             token = tokenview.Replace(@"""", string.Empty);
 
-            using (HttpClient client = new HttpClient())
+				using (HttpClient client = new HttpClient())
             {
-                #region Commit Booking
-                string[] NotifyContacts = new string[1];
+
+				//GetBOoking FRom State
+				// STRAT Get INFO
+				
+				client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+				client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+				HttpResponseMessage responceGetBookingSate = await client.GetAsync(AppUrlConstant.URLAirasia + "/api/nsk/v1/booking");
+                if (responceGetBookingSate.IsSuccessStatusCode)
+                {
+                    string  _responceGetBooking = responceGetBookingSate.Content.ReadAsStringAsync().Result;
+					var DataBooking = JsonConvert.DeserializeObject<dynamic>(_responceGetBooking);
+					decimal Totalpayment = 0M;
+					if (_responceGetBooking != null)
+					{
+                        Totalpayment = DataBooking.data.breakdown.totalAmount;
+					}
+                    
+                    Logs logs = new Logs();
+                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject("GetBookingStateRequest") + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v1/booking" + "\n Response: " + JsonConvert.SerializeObject(_responceGetBooking), "GetBookingState", "AirAsiaOneWay");
+
+					//ADD Payment
+                    
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+					client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                    // Payment request payload
+                    PaymentRequest paymentRequest = new PaymentRequest();
+                    paymentRequest.PaymentMethodCode = "AG";
+					paymentRequest.Amount= Totalpayment;
+					paymentRequest.PaymentFields = new PaymentFields();
+					paymentRequest.PaymentFields.ACCTNO = "CRPAPI";
+                    paymentRequest.PaymentFields.AMT = Totalpayment;
+					paymentRequest.CurrencyCode = "INR";
+                    paymentRequest.Installments = 1;
+
+					// Serializing the payload to JSON
+					string jsonPayload = JsonConvert.SerializeObject(paymentRequest);
+					HttpContent content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+
+					// Sending the POST request
+					string url = AppUrlConstant.URLAirasia + "/api/nsk/v4/booking/payments"; 
+
+					HttpResponseMessage response = await client.PostAsync(url, content);
+					string responseContent = await response.Content.ReadAsStringAsync();
+					var responseData = JsonConvert.DeserializeObject<dynamic>(responseContent);
+
+					logs.WriteLogs("Request: " + JsonConvert.SerializeObject(paymentRequest) +"\nUrl: " + url +"\nResponse: " + responseContent, "CommitPayment", "AirAsiaOneWay");
+
+				}
+
+			
+
+
+				#region Commit Booking
+				string[] NotifyContacts = new string[1];
                 NotifyContacts[0] = "P";
                 Commit_BookingModel _Commit_BookingModel = new Commit_BookingModel();
 
@@ -159,7 +212,7 @@ namespace OnionConsumeWebAPI.Controllers
                     returnTicketBooking.bookingKey = JsonObjPNRBooking.data.bookingKey;
                     // var zxvx= JsonObjPNRBooking.data.breakdown.journeyTotals.totalAmount;
                     Breakdown breakdown = new Breakdown();
-                    breakdown.balanceDue = JsonObjPNRBooking.data.breakdown.balanceDue;
+                    breakdown.balanceDue = JsonObjPNRBooking.data.breakdown.totalAmount;
                     JourneyTotals journeyTotalsobj = new JourneyTotals();
                     journeyTotalsobj.totalAmount = JsonObjPNRBooking.data.breakdown.journeyTotals.totalAmount;
                     journeyTotalsobj.totalTax = JsonObjPNRBooking.data.breakdown.journeyTotals.totalTax;

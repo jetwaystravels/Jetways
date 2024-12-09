@@ -222,10 +222,33 @@ namespace OnionConsumeWebAPI.Controllers
             }
             return _getBookingFromStateResponse;
         }
-        #endregion
+		#endregion
 
-        #region BookingCommit
-        public async Task<BookingCommitResponse> BookingCommit(BookingCommitRequest _getbookingCommitRQ)
+
+		#region payment
+		public async Task<AddPaymentToBookingResponse> Addpayment(AddPaymentToBookingRequest _bookingPaymentRequest)
+		{
+			IBookingManager bookingManager = null;
+			AddPaymentToBookingResponse _bookingpaymentRes = null;
+			bookingManager = new BookingManagerClient();
+			try
+			{
+				_bookingpaymentRes = await bookingManager.AddPaymentToBookingAsync(_bookingPaymentRequest);
+				return _bookingpaymentRes;
+			}
+			catch (Exception ex)
+			{
+				Logs logs = new Logs();
+				logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_bookingPaymentRequest) + "\n\n Response: " + ex.ToString(), "Bookingpayment", "SpiceJetOneway");
+				//return Ok(session);
+			}
+			return _bookingpaymentRes;
+		}
+		#endregion
+
+
+		#region BookingCommit
+		public async Task<BookingCommitResponse> BookingCommit(BookingCommitRequest _getbookingCommitRQ)
         {
             IBookingManager bookingManager = null;
             BookingCommitResponse getBookiongCommitResponse = null;
