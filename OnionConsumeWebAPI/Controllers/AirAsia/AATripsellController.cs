@@ -129,15 +129,17 @@ namespace OnionConsumeWebAPI.Controllers
             using (HttpClient client = new HttpClient())
             {
                 ContactModel _ContactModel = new ContactModel();
-                _ContactModel.emailAddress = contactobject.emailAddress;
+                string countryCode = contactobject.countrycode;
+				
+				_ContactModel.emailAddress = contactobject.emailAddress;
                 _Phonenumber Phonenumber = new _Phonenumber();
                 List<_Phonenumber> Phonenumberlist = new List<_Phonenumber>();
                 Phonenumber.type = "Home";
-                Phonenumber.number = contactobject.number;
+                Phonenumber.number = countryCode+contactobject.number;
                 Phonenumberlist.Add(Phonenumber);
                 _Phonenumber Phonenumber1 = new _Phonenumber();
                 Phonenumber1.type = "Other";
-                Phonenumber1.number = contactobject.number;
+                Phonenumber1.number = countryCode+contactobject.number;
                 Phonenumberlist.Add(Phonenumber1);
                 foreach (var item in Phonenumberlist)
                 {
@@ -149,8 +151,8 @@ namespace OnionConsumeWebAPI.Controllers
                 _Name Name = new _Name();
                 Name.first = contactobject.first;
                 Name.last = contactobject.last;
-                Name.title = "MR";
-                _ContactModel.name = Name;
+                Name.title = contactobject.title;
+				_ContactModel.name = Name;
                 var jsonContactRequest = JsonConvert.SerializeObject(_ContactModel, Formatting.Indented);
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -172,12 +174,15 @@ namespace OnionConsumeWebAPI.Controllers
 
             using (HttpClient client = new HttpClient())
             {
-                AddGSTInformation addinformation = new AddGSTInformation();
+				string title = contactobject.title;
+				string countryCode = contactobject.countrycode; 
+				
+				AddGSTInformation addinformation = new AddGSTInformation();
                 addinformation.contactTypeCode = "G";
                 GSTPhonenumber Phonenumber = new GSTPhonenumber();
                 List<GSTPhonenumber> Phonenumberlist = new List<GSTPhonenumber>();
                 Phonenumber.type = "Other";
-                Phonenumber.number = contactobject.number; ;
+                Phonenumber.number = countryCode+ contactobject.number; ;
                 Phonenumberlist.Add(Phonenumber);
 
                 foreach (var item in Phonenumberlist)
@@ -196,7 +201,7 @@ namespace OnionConsumeWebAPI.Controllers
                 GSTName Name = new GSTName();
                 Name.first = contactobject.first;
                 Name.last = contactobject.last;
-                Name.title = "MR";
+                Name.title = title;
                 Name.suffix = "";
                 addinformation.Name = Name;
                 if (contactobject.companyName != null)
@@ -237,7 +242,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                             Name name = new Name();
                             _Info Info = new _Info();
-                            if (passengerdetails[i].title == "Mr")
+                            if (passengerdetails[i].title == "Mr" || passengerdetails[i].title =="MSTR")
                             {
                                 Info.gender = "Male";
                             }
@@ -249,7 +254,7 @@ namespace OnionConsumeWebAPI.Controllers
                             name.title = passengerdetails[i].title;
                             name.first = passengerdetails[i].first;
                             name.last = passengerdetails[i].last;
-                            name.mobile = passengerdetails[i].mobile;
+                            name.mobile = passengerdetails[i].carrierCode+ passengerdetails[i].mobile;
                             name.middle = "";
                             Info.dateOfBirth = "";
                             Info.nationality = "IN";
@@ -294,13 +299,21 @@ namespace OnionConsumeWebAPI.Controllers
                                 //_PassengersModel1.dateOfBirth = "2023-10-01";
                                 _PassengersModel1.dateOfBirth = dateStrings[k];
                                 _PassengersModel1.residentCountry = "IN";
-                                _PassengersModel1.gender = "Male";
-
+                                _Info Info = new _Info();
+                                if (passengerdetails[i].title == "MSTR")
+                                {
+                                    Info.gender = "Male";
+                                }
+                                else
+                                {
+                                    Info.gender = "Female";
+                                }
+                                _PassengersModel1.gender = Info.gender;
                                 InfantName nameINF = new InfantName();
                                 nameINF.first = passengerdetails[i].first;
                                 nameINF.middle = "";
                                 nameINF.last = passengerdetails[i].last;
-                                nameINF.title = "Mr";
+                                nameINF.title = passengerdetails[i].title;
                                 nameINF.suffix = "";
                                 _PassengersModel1.name = nameINF;
 

@@ -3,6 +3,11 @@
 
         <div class="col-md-3">
             <div class="form-input ">
+                <select id="title" name="title" class="titleClass" style="border: 1px solid var(--color-border);">
+                    <option value="MR">Mr.</option>
+                    <option value="MRS">Mrs.</option>
+                    <option value="MS">Ms.</option>
+                </select>
                 <input type="text" name="first" maxlength="32" oninput="validateInput(event)" id="first" class="firstNClass" style='text-transform:uppercase' placeholder="First Name">
             </div>
             <p id="error-message1" class="error-message" style="display:none">Enter first name</p>
@@ -26,13 +31,18 @@
         </div>
 
         <div class="col-md-1 phone-code">
-            <select class="form-control form-control-lg">
-                <option>+91</option>
+            <select name="countrycode" class="form-control form-control-lg">
+                <option value="+91">+91 (India)</option>
+                <option value="+1">+1 (USA)</option>
+                <option value="+44">+44 (UK)</option>
+                <option value="+61">+61 (Australia)</option>
+                <option value="+81">+81 (Japan)</option>
             </select>
         </div>
 
         <div class="col-md-2 phone-number">
             <div class="form-input">
+              
                 <input type="text" name="number" id="number" maxlength="10" class="phoneNClass" placeholder="Phone Number" oninput="validatePhoneNumber(event)">
 
             </div>

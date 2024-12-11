@@ -20,6 +20,7 @@ namespace DomainLayer.Model
             public string first { get; set; }
             public string middle { get; set; }
             public string? mobile { get; set; }
+            public string countryCode { get; set; }
             public string last { get; set; }
             public string title { get; set; }
         }

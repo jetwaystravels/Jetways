@@ -99,10 +99,28 @@
             <div><label class="text-16 fw-600">@Model.passeengerlist.passengers[i].passengerTypeCode</label></div>
             <input type="hidden" name="passengerdetails[@i].passengertypecode" value="@Model.passeengerlist.passengers[i].passengerTypeCode" />
             <div class="row">
+                @{
+                    <div class="col-md-1">
 
-                <div class="col-md-1">
-                    <select name="passengerdetails[@i].Title" class="form-control text-center" asp-items="@ViewBag.Title"></select>
-                </div>
+                        @if (Model.passeengerlist.passengers[i].passengerTypeCode == "ADT")
+                        {
+                            <select name="passengerdetails[@i].Title" class="form-control text-center"  style="border: 1px solid var(--color-border);">
+                                <option value="Mr">MR</option>
+                                <option value="Ms">MS</option>
+                                <option value="Mrs">Mrs.</option>
+                               
+                            </select>
+                        }
+                        else if (Model.passeengerlist.passengers[i].passengerTypeCode == "CHD" || Model.passeengerlist.passengers[i].passengerTypeCode == "INFT")
+                        {
+                            <select name="passengerdetails[@i].Title" class="form-control text-center" style="border: 1px solid var(--color-border);">
+                                <option value="MSTR">Master</option>
+                                <option value="Miss">Miss</option>
+
+                            </select>
+                        }
+                    </div>
+                }
                 <div class="col-md-3">
 
                     <div class="form-input">
@@ -116,13 +134,14 @@
                                         <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlist.passengers[i].passengerKey" required />
                             }
                         }
+                        
                         <input type="text" class="contactFname validate-field" data-validate="name" maxlength="32" oninput="validateInputT(event ,@i)" id="LeadPass1" placeholder="First & middle name" name="passengerdetails[@i].First" style='text-transform:uppercase' required />
 
                     </div>
                     <p id="error-Fname" class="error-message  error-CFname" style="display: none;"></p>
                     <p class="error-message-val " style="display:none"></p>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
 
                     <div class="form-input">
                         <input type="text" class="contactLname validate-field" data-validate="last" oninput="validateInputT(event,@i)" maxlength="32" placeholder="Last name" name="passengerdetails[@i].Last" style='text-transform:uppercase' required />
@@ -139,7 +158,15 @@
                                 </div>
                                 <p class="error-message error-emailname" style="display:none"></p>
                                 <p class="error-message-val " style="display:none"></p>
-
+                        <div class="col-md-1 phone-code">
+                            <select name="passengerdetails[@i].countrycode" class="form-control form-control-lg">
+                                <option value="+91">+91 (India)</option>
+                                <option value="+1">+1 (USA)</option>
+                                <option value="+44">+44 (UK)</option>
+                                <option value="+61">+61 (Australia)</option>
+                                <option value="+81">+81 (Japan)</option>
+                            </select>
+                        </div>
                                 <div class="col-md-2 ">
                                     <div class="form-input"><input type="text" data-validate="phone" id="contactphoneID" maxlength="10" class="contactphone validate-field" oninput="validateInputT(event,@i)" placeholder="phone" name="passengerdetails[@i].mobile" required /></div>
                                 </div>

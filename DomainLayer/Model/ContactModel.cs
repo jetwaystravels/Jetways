@@ -12,6 +12,7 @@ namespace DomainLayer.Model
     public class ContactModel
     {
         public string number { get; set; }
+        public string countrycode { get; set; }
         public string contactTypeCode { get; set; }
         public List<_Phonenumber> phoneNumbers { get; set; }
         public _Address address { get; set; }
