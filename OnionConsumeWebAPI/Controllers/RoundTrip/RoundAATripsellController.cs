@@ -262,12 +262,12 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         _Phonenumber Phonenumber = new _Phonenumber();
                         List<_Phonenumber> Phonenumberlist = new List<_Phonenumber>();
                         Phonenumber.type = "Home";
-                        Phonenumber.number = contactobject.number;
+                        Phonenumber.number = contactobject.countrycode+ contactobject.number;
                         //Phonenumber.number = passengerdetails.mobile;
                         Phonenumberlist.Add(Phonenumber);
                         _Phonenumber Phonenumber1 = new _Phonenumber();
                         Phonenumber1.type = "Other";
-                        Phonenumber1.number = contactobject.number;
+                        Phonenumber1.number = contactobject.countrycode+ contactobject.number;
                         Phonenumberlist.Add(Phonenumber1);
                         foreach (var item in Phonenumberlist)
                         {
@@ -276,18 +276,18 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         _ContactModel.contactTypeCode = "P";
 
                         _Address Address = new _Address();
-                        Address.lineOne = "123 Main Street";
+                        Address.lineOne = "Barakhamba Road";
                         Address.countryCode = "IN";
                         Address.provinceState = "TN";
-                        Address.city = "Chennai";
-                        Address.postalCode = "600028";
+                        Address.city = "Dehli";
+                        Address.postalCode = "110001";
                         _ContactModel.address = Address;
 
                         _Name Name = new _Name();
-                        Name.first = "Vadivel";
-                        Name.middle = "raja";
-                        Name.last = "VR";
-                        Name.title = "MR";
+                        Name.first = contactobject.first;
+                        Name.middle = "";
+                        Name.last = contactobject.last;
+                        Name.title = contactobject.title;
                         _ContactModel.name = Name;
 
                         var jsonContactRequest = JsonConvert.SerializeObject(_ContactModel, Formatting.Indented);
@@ -334,12 +334,12 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         _Phonenumber Phonenumber = new _Phonenumber();
                         List<_Phonenumber> Phonenumberlist = new List<_Phonenumber>();
                         Phonenumber.type = "Home";
-                        Phonenumber.number = contactobject.number;
+                        Phonenumber.number = contactobject.countrycode+ contactobject.number;
                         //Phonenumber.number = passengerdetails.mobile;
                         Phonenumberlist.Add(Phonenumber);
                         _Phonenumber Phonenumber1 = new _Phonenumber();
                         Phonenumber1.type = "Other";
-                        Phonenumber1.number = contactobject.number;
+                        Phonenumber1.number = contactobject.countrycode+ contactobject.number;
                         Phonenumberlist.Add(Phonenumber1);
                         foreach (var item in Phonenumberlist)
                         {
@@ -348,18 +348,18 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         _ContactModel.contactTypeCode = "P";
 
                         _Address Address = new _Address();
-                        Address.lineOne = "Ashokenagar,bharathi cross str";
+                        Address.lineOne = "Barakhamba Road";
                         Address.countryCode = "IN";
                         Address.provinceState = "TN";
-                        Address.city = "Ashokenagar";
-                        Address.postalCode = "400006";
+                        Address.city = "New Dehli";
+                        Address.postalCode = "110001";
                         _ContactModel.address = Address;
 
                         _Name Name = new _Name();
-                        Name.first = contactobject.first; //"VIGNESHWARAN";
+                        Name.first = contactobject.first; 
                         Name.middle = "";
-                        Name.last = contactobject.last; //"VIGNESHWARAN";
-                        Name.title = "MR";
+                        Name.last = contactobject.last; 
+                        Name.title = contactobject.title;
                         _ContactModel.name = Name;
 
                         var jsonContactRequest = JsonConvert.SerializeObject(_ContactModel, Formatting.Indented);
@@ -416,13 +416,13 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     {
                         _ContactModelSG.updateContactsRequestData.BookingContactList[0].TypeCode = "P";
                         _ContactModelSG.updateContactsRequestData.BookingContactList[0].CountryCode = "IN";
-                        _ContactModelSG.updateContactsRequestData.BookingContactList[0].HomePhone = contactobject.number;
+                        _ContactModelSG.updateContactsRequestData.BookingContactList[0].HomePhone = contactobject.countrycode+ contactobject.number;
                         _ContactModelSG.updateContactsRequestData.BookingContactList[0].EmailAddress = contactobject.emailAddress;
                         BookingName[] Name = new BookingName[1];
                         Name[0] = new BookingName();
                         Name[0].FirstName = contactobject.first;
                         Name[0].LastName = contactobject.last;
-                        Name[0].Title = "MR";
+                        Name[0].Title = contactobject.title;
                         _ContactModelSG.updateContactsRequestData.BookingContactList[0].Names = Name;
                     }
                     SpiceJetApiController objSpiceJet = new SpiceJetApiController();
@@ -447,7 +447,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     if (Signature == null) { Signature = ""; }
                     Signature = Signature.Replace(@"""", string.Empty);
                     _updateContact obj = new _updateContact(httpContextAccessorInstance);
-                    IndigoBookingManager_.UpdateContactsResponse _responseAddContact6E = await obj.GetUpdateContacts(Signature, contactobject.emailAddress, contactobject.emailAddressgst, contactobject.number, contactobject.companyName, contactobject.customerNumber, "");
+                    IndigoBookingManager_.UpdateContactsResponse _responseAddContact6E = await obj.GetUpdateContacts(Signature, contactobject.emailAddress, contactobject.emailAddressgst, contactobject.number, contactobject.companyName, contactobject.customerNumber, contactobject.countrycode, contactobject.title, contactobject.first, contactobject.last, "");
                     string Str1 = JsonConvert.SerializeObject(_responseAddContact6E);
                 }
 
@@ -489,7 +489,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         GSTPhonenumber Phonenumber = new GSTPhonenumber();
                         List<GSTPhonenumber> Phonenumberlist = new List<GSTPhonenumber>();
                         Phonenumber.type = "Other";
-                        Phonenumber.number = contactobject.number; ;
+                        Phonenumber.number = contactobject.countrycode + contactobject.number; ;
                         Phonenumberlist.Add(Phonenumber);
 
                         foreach (var item in Phonenumberlist)
@@ -508,7 +508,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         GSTName Name = new GSTName();
                         Name.first = contactobject.first;
                         Name.last = contactobject.last;
-                        Name.title = "MR";
+                        Name.title = contactobject.title;
                         Name.suffix = "";
                         addinformation.Name = Name;
                         if (contactobject.companyName != null)
@@ -548,7 +548,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         GSTPhonenumber Phonenumber = new GSTPhonenumber();
                         List<GSTPhonenumber> Phonenumberlist = new List<GSTPhonenumber>();
                         Phonenumber.type = "Other";
-                        Phonenumber.number = contactobject.number; ;
+                        Phonenumber.number = contactobject.countrycode + contactobject.number; ;
                         Phonenumberlist.Add(Phonenumber);
 
                         foreach (var item in Phonenumberlist)
@@ -573,7 +573,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         GSTName Name = new GSTName();
                         Name.first = contactobject.first;
                         Name.last = contactobject.last;
-                        Name.title = "MR";
+                        Name.title = contactobject.title;
                         Name.suffix = "";
                         addinformation.Name = Name;
                         if (contactobject.companyName != null)
@@ -658,7 +658,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             {
                                 Name name = new Name();
                                 _Info Info = new _Info();
-                                if (passengerdetails[i].title == "Mr")
+                                if (passengerdetails[i].title == "Mr" || passengerdetails[i].title == "MSTR")
                                 {
                                     Info.gender = "Male";
                                 }
@@ -711,7 +711,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
 
                                     _PassengersModel1.nationality = "IN";
-                                    _PassengersModel1.dateOfBirth = "2023-01-01";
+                                    _PassengersModel1.dateOfBirth = passengerdetails[i].dateOfBirth;
                                     _PassengersModel1.residentCountry = "IN";
                                     _PassengersModel1.gender = "Male";
 
@@ -719,7 +719,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     nameINF.first = passengerdetails[i].first;
                                     nameINF.middle = "";
                                     nameINF.last = passengerdetails[i].last;
-                                    nameINF.title = "Mr";
+                                    nameINF.title = passengerdetails[i].title;
                                     nameINF.suffix = "";
                                     _PassengersModel1.name = nameINF;
 
@@ -809,7 +809,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             {
                                 Name name = new Name();
                                 _Info Info = new _Info();
-                                if (passengerdetails[i].title == "Mr")
+                                if (passengerdetails[i].title == "Mr" || passengerdetails[i].title == "MSTR")
                                 {
                                     Info.gender = "Male";
                                 }
@@ -862,7 +862,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
 
                                     _PassengersModel1.nationality = "IN";
-                                    _PassengersModel1.dateOfBirth = "2023-10-01";
+                                    _PassengersModel1.dateOfBirth = passengerdetails[i].dateOfBirth;
                                     _PassengersModel1.residentCountry = "IN";
                                     _PassengersModel1.gender = "Male";
 
@@ -3396,9 +3396,9 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         {
                             p1.Infant = new PassengerInfant();
                             p1.Infant.DOBSpecified = true;
-                            p1.Infant.DOB = Convert.ToDateTime("2023-08-01");//Convert.ToDateTime(_paxes.Infant_[cntAdt].dateOfBirth);
+                            p1.Infant.DOB = Convert.ToDateTime(_paxes.Infant_[cntAdt].dateOfBirth);
                                                                              //p1.Infant.Gender = Gender.Male;
-                            if (_paxes.Infant_[cntAdt].title.ToUpper().Replace(".", "") == "MR")
+                            if (_paxes.Infant_[cntAdt].title.ToUpper().Replace(".", "") == "MSTR")
                             {
                                 p1.Infant.Gender = Gender.Male;
                             }
@@ -3456,7 +3456,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         }
                         p1.Names[0].Title = _paxes.Childs_[cntChd].title.ToUpper().Replace(".", "");
                         p1.PassengerInfo = new PassengerInfo();
-                        if (_paxes.Childs_[cntChd].title.ToUpper().Replace(".", "") == "Mr")
+                        if (_paxes.Childs_[cntChd].title.ToUpper().Replace(".", "") == "MSTR")
                         {
                             p1.PassengerInfo.Gender = Gender.Male;
                             p1.PassengerInfo.WeightCategory = WeightCategory.Male;

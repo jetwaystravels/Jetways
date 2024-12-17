@@ -4,6 +4,7 @@ using Indigo;
 using IndigoBookingManager_;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using Utility;
 using static DomainLayer.Model.ReturnTicketBooking;
 
@@ -24,7 +25,7 @@ namespace OnionArchitectureAPI.Services.Indigo
         }
 
         Logs logs = new Logs();
-        public async Task<UpdateContactsResponse> GetUpdateContacts(string Signature, string emailAddress,  string emailAddressgst, string contactnumber, string companyName,string customerNumber, string _AirLineWay = "")
+        public async Task<UpdateContactsResponse> GetUpdateContacts(string Signature, string emailAddress,  string emailAddressgst, string contactnumber, string companyName,string customerNumber,string countrycode,string title, string first, string last, string _AirLineWay = "")
         {
             UpdateContactsRequest _ContactModel6E = new UpdateContactsRequest();
             //  _ContactModel.emailAddress = passengerdetails.Email;
@@ -35,8 +36,9 @@ namespace OnionArchitectureAPI.Services.Indigo
             _ContactModel6E.updateContactsRequestData.BookingContactList[0] = new BookingContact();
             _ContactModel6E.updateContactsRequestData.BookingContactList[0].Names=new BookingName[1];
             _ContactModel6E.updateContactsRequestData.BookingContactList[0].Names[0] = new BookingName();
-            _ContactModel6E.updateContactsRequestData.BookingContactList[0].Names[0].FirstName = "TestFirst";
-            _ContactModel6E.updateContactsRequestData.BookingContactList[0].Names[0].LastName = "Testlast";
+            _ContactModel6E.updateContactsRequestData.BookingContactList[0].Names[0].Title = title;
+            _ContactModel6E.updateContactsRequestData.BookingContactList[0].Names[0].FirstName = first;
+            _ContactModel6E.updateContactsRequestData.BookingContactList[0].Names[0].LastName = last;
 
             if (customerNumber != null && customerNumber != "")
             {
@@ -50,7 +52,7 @@ namespace OnionArchitectureAPI.Services.Indigo
                 _ContactModel6E.updateContactsRequestData.BookingContactList[0].TypeCode = "P";
                 _ContactModel6E.updateContactsRequestData.BookingContactList[0].EmailAddress = emailAddress;
             }
-            _ContactModel6E.updateContactsRequestData.BookingContactList[0].HomePhone = contactnumber;
+            _ContactModel6E.updateContactsRequestData.BookingContactList[0].HomePhone = countrycode + contactnumber;
             _getapi  objIndigo = new _getapi();
             UpdateContactsResponse responseAddContact6E = await objIndigo.GetUpdateContacts(_ContactModel6E);
             SetSessionValue("ContactDetails", JsonConvert.SerializeObject(_ContactModel6E));
@@ -216,9 +218,9 @@ namespace OnionArchitectureAPI.Services.Indigo
                         {
                             p1.Infant = new PassengerInfant();
                             p1.Infant.DOBSpecified = true;
-                            p1.Infant.DOB = Convert.ToDateTime("2023-08-01");//Convert.ToDateTime(_paxes.Infant_[cntAdt].dateOfBirth);
+                            p1.Infant.DOB = Convert.ToDateTime(_paxes.Infant_[cntAdt].dateOfBirth);
                                                                              //p1.Infant.Gender = Gender.Male;
-                            if (_paxes.Infant_[cntAdt].title.ToUpper().Replace(".", "") == "MR")
+                            if (_paxes.Infant_[cntAdt].title.ToUpper().Replace(".", "") == "MSTR")
                             {
                                 p1.Infant.Gender = Gender.Male;
                             }
@@ -276,7 +278,7 @@ namespace OnionArchitectureAPI.Services.Indigo
                         }
                         p1.Names[0].Title = _paxes.Childs_[cntChd].title.ToUpper().Replace(".", "");
                         p1.PassengerInfo = new PassengerInfo();
-                        if (_paxes.Childs_[cntChd].title.ToUpper().Replace(".", "") == "Mr")
+                        if (_paxes.Childs_[cntChd].title.ToUpper().Replace(".", "") == "MSTR")
                         {
                             p1.PassengerInfo.Gender = Gender.Male;
                             p1.PassengerInfo.WeightCategory = WeightCategory.Male;

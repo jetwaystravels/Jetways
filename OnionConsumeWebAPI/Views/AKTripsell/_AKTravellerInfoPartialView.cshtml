@@ -23,7 +23,24 @@
             <div class="row">
 
                 <div class="col-md-1">
-                    <select name="passengerdetails[@i].Title" class="form-control text-center" asp-items="@ViewBag.Title"></select>
+                  @*   <select name="passengerdetails[@i].Title" class="form-control text-center" asp-items="@ViewBag.Title"></select> *@
+                    @if (Model.AkPassenger.passengers[i].passengerTypeCode == "ADT")
+                    {
+                        <select name="passengerdetails[@i].Title" class="form-control text-center" style="border: 1px solid var(--color-border);">
+                            <option value="Mr">MR</option>
+                            <option value="Ms">MS</option>
+                            <option value="Mrs">Mrs.</option>
+
+                        </select>
+                    }
+                    else if (Model.AkPassenger.passengers[i].passengerTypeCode == "CHD" || Model.AkPassenger.passengers[i].passengerTypeCode == "INFT")
+                    {
+                        <select name="passengerdetails[@i].Title" class="form-control text-center" style="border: 1px solid var(--color-border);">
+                            <option value="MSTR">Master</option>
+                            <option value="Miss">Miss</option>
+
+                        </select>
+                    }
                 </div>
                 <div class="col-md-3">
 

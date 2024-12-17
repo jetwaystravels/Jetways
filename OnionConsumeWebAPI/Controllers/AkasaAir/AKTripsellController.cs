@@ -120,15 +120,17 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
             using (HttpClient client = new HttpClient())
             {
                 ContactModel _AkContactModel = new ContactModel();
+                string countryCode = contactobject.countrycode;
+                TempData["CountryCodeAK"] = countryCode;
                 _AkContactModel.emailAddress = contactobject.emailAddress;
                 _Phonenumber AkPhonenumber = new _Phonenumber();
                 List<_Phonenumber> AkPhonenumberlist = new List<_Phonenumber>();
                 AkPhonenumber.type = "Home";
-                AkPhonenumber.number = contactobject.number;
+                AkPhonenumber.number = countryCode+ contactobject.number;
                 AkPhonenumberlist.Add(AkPhonenumber);
                 _Phonenumber AkPhonenumber1 = new _Phonenumber();
                 AkPhonenumber1.type = "Other";
-                AkPhonenumber1.number = contactobject.number;
+                AkPhonenumber1.number = countryCode+ contactobject.number;
                 AkPhonenumberlist.Add(AkPhonenumber1);
                 foreach (var item in AkPhonenumberlist)
                 {
@@ -140,7 +142,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                 _Name AkName = new _Name();
                 AkName.first = contactobject.first;
                 AkName.last = contactobject.last;
-                AkName.title = "MR";
+                AkName.title = contactobject.title;
                 _AkContactModel.name = AkName;
                 var jsonAkContactRequest = JsonConvert.SerializeObject(_AkContactModel, Formatting.Indented);
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
@@ -171,12 +173,14 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
             token = tokenview.Replace(@"""", string.Empty);
             using (HttpClient client = new HttpClient())
             {
+                string title = contactobject.title;
+                string countryCode = contactobject.countrycode;
                 AddGSTInformation addinformation = new AddGSTInformation();
                 addinformation.contactTypeCode = "G";
                 GSTPhonenumber Phonenumber = new GSTPhonenumber();
                 List<GSTPhonenumber> Phonenumberlist = new List<GSTPhonenumber>();
                 Phonenumber.type = "Other";
-                Phonenumber.number = contactobject.number;
+                Phonenumber.number = countryCode+contactobject.number;
                 Phonenumberlist.Add(Phonenumber);
 
                 foreach (var item in Phonenumberlist)
@@ -201,7 +205,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                 GSTName Name = new GSTName();
                 Name.first = contactobject.first;
                 Name.last = contactobject.last;
-                Name.title = "MR";
+                Name.title = title;
                 Name.suffix = "";
                 addinformation.Name = Name;
                 if (contactobject.companyName != null)
@@ -235,6 +239,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                     if (tokenview == null) { tokenview = ""; }
                     token = tokenview.Replace(@"""", string.Empty);
                     PassengersModel _AkPassengersModel = new PassengersModel();
+                    string CountryCode = TempData["CountryCodeAK"].ToString();
                     for (int i = 0; i < passengerdetails.Count; i++)
                     {
                         if (passengerdetails[i].passengertypecode == "INFT")
@@ -244,7 +249,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
 
                             Name Akname = new Name();
                             _Info AkInfo = new _Info();
-                            if (passengerdetails[i].title == "Mr")
+                            if (passengerdetails[i].title == "Mr" || passengerdetails[i].title == "MSTR")
                             {
                                 AkInfo.gender = "Male";
                             }
@@ -255,7 +260,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                             Akname.title = passengerdetails[i].title;
                             Akname.first = passengerdetails[i].first;
                             Akname.last = passengerdetails[i].last;
-                            //Akname.mobile = passengerdetails[i].mobile;
+                            Akname.mobile = CountryCode + passengerdetails[i].mobile;
                             Akname.middle = "";
                             AkInfo.dateOfBirth = "";
                             AkInfo.nationality = "IN";
@@ -299,13 +304,22 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                                 //_PassengersModel1.dateOfBirth = "2023-10-01";
                                 _AkPassengersModel1.dateOfBirth = dateStrings[k];
                                 _AkPassengersModel1.residentCountry = "IN";
-                                _AkPassengersModel1.gender = "Male";
+                                _Info Info = new _Info();
+                                if (passengerdetails[i].title == "MSTR")
+                                {
+                                    Info.gender = "Male";
+                                }
+                                else
+                                {
+                                    Info.gender = "Female";
+                                }
+                                _AkPassengersModel1.gender = Info.gender;
 
                                 InfantName AknameINF = new InfantName();
                                 AknameINF.first = passengerdetails[i].first;
                                 AknameINF.middle = "";
                                 AknameINF.last = passengerdetails[i].last;
-                                AknameINF.title = "Mr";
+                                AknameINF.title = passengerdetails[i].title;
                                 AknameINF.suffix = "";
                                 _AkPassengersModel1.name = AknameINF;
 

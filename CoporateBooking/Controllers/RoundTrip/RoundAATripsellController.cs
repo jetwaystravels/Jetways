@@ -447,7 +447,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                     if (Signature == null) { Signature = ""; }
                     Signature = Signature.Replace(@"""", string.Empty);
                     _updateContact obj = new _updateContact(httpContextAccessorInstance);
-                    IndigoBookingManager_.UpdateContactsResponse _responseAddContact6E = await obj.GetUpdateContacts(Signature, contactobject.emailAddress, contactobject.emailAddressgst, contactobject.number, contactobject.companyName, contactobject.customerNumber, "");
+                    IndigoBookingManager_.UpdateContactsResponse _responseAddContact6E = await obj.GetUpdateContacts(Signature, contactobject.emailAddress, contactobject.emailAddressgst, contactobject.number, contactobject.companyName, contactobject.customerNumber, contactobject.countrycode, contactobject.title, contactobject.first, contactobject.last, "");
                     string Str1 = JsonConvert.SerializeObject(_responseAddContact6E);
                 }
 

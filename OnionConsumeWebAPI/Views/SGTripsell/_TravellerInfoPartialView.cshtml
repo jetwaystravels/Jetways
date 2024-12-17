@@ -26,7 +26,24 @@
             <input type="hidden" name="passengerdetails[@i].passengerkey" value="@Model.passeengerlist.passengers[i].passengerKey" />
             <div class="row" id="PassCount_@i">
                 <div class="col-md-1">
-                    <select name="passengerdetails[@i].Title" class="form-control" asp-items="@ViewBag.Title" id="TitleCount_@i"></select>
+                    @*   <select name="passengerdetails[@i].Title" class="form-control text-center" asp-items="@ViewBag.Title"></select> *@
+                    @if (Model.passeengerlist.passengers[i].passengerTypeCode == "ADT")
+                    {
+                        <select name="passengerdetails[@i].Title" class="form-control text-center" style="border: 1px solid var(--color-border);">
+                            <option value="Mr">MR</option>
+                            <option value="Ms">MS</option>
+                            <option value="Mrs">Mrs.</option>
+
+                        </select>
+                    }
+                    else if (Model.passeengerlist.passengers[i].passengerTypeCode == "CHD" || Model.passeengerlist.passengers[i].passengerTypeCode == "INFT")
+                    {
+                        <select name="passengerdetails[@i].Title" class="form-control text-center" style="border: 1px solid var(--color-border);">
+                            <option value="MSTR">Master</option>
+                            <option value="Miss">Miss</option>
+
+                        </select>
+                    }
                 </div>
                 <div class="col-md-3 inputFirstname">
                     <div class="form-input">
@@ -65,19 +82,18 @@
                         <div class="col-md-4 infant-dob-input">
                             <div class="form-input dobinput d-flex" id="InfDOBCount_@inafantIdx">
                                 <div class="dob-picker">
-                                    <select class="brd-none year-select" id="year_@inafantIdx" required>
+                                    <select class="brd-none year-select" id="year_@inafantIdx"  required>
                                     </select>
-                                    <select class="brd-none month-select" id="month_@inafantIdx" required>
+                                    <select class="brd-none month-select" id="month_@inafantIdx"  required>
                                     </select>
-                                    <select class="brd-none day-select" id="day_@inafantIdx" required>
+                                    <select class="brd-none day-select" id="day_@inafantIdx"  required>
                                         <option value="" disabled selected>Day</option>
                                     </select>
                                 </div>
+                                <input type="hidden" name="passengerdetails[@i].dateOfBirth" id="dobHidden_@inafantIdx" />
                             </div>
                         </div>
                         inafantIdx++;
-
-
                     }
                 }
             </div>
@@ -543,6 +559,8 @@
                 var month = parseInt(document.getElementById("month_" + inafantIdx).value) + 1;
                 var day = document.getElementById("day_" + inafantIdx).value;
                 var dob = year + "-" + month + "-" + day;
+                document.getElementById(`dobHidden_${inafantIdx}`).value = dob; // Date of birth
+
                 if (year == "") {
                     alert("Please select year for infant date-of-birth");
                     return false;
@@ -556,6 +574,7 @@
                     return false;
                 }
                 var dobDate = new Date(dob);
+               
                 var currentDate = new Date();
                 var timeDiff = currentDate.getTime() - dobDate.getTime();
                 var yearsDiff = timeDiff / (1000 * 3600 * 24 * 365.25);
@@ -590,6 +609,11 @@
                     return false; // Infant is too old
                 }
             }
+            
+            
+         
+
+
 
             // Example usage:
             if ($("#InfDOBCount_0").is(":visible")) {

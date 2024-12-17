@@ -6,6 +6,11 @@
 
         <div class="col-md-3">
             <div class="form-input ">
+                <select id="title" name="title" class="titleClass" style="border: 1px solid var(--color-border);">
+                    <option value="MR">Mr.</option>
+                    <option value="MRS">Mrs.</option>
+                    <option value="MS">Ms.</option>
+                </select>
                 <input type="text" name="first" maxlength="32" oninput="validateInput(event)" id="first" class="firstNClass" style='text-transform:uppercase' placeholder="First Name">
             </div>
             <p id="error-message1" class="error-message" style="display:none">Enter First name</p>
@@ -31,8 +36,12 @@
         </div>
 
         <div class="col-md-1 phone-code">
-            <select class="form-control form-control-lg">
-                <option>+91</option>
+            <select name="countrycode" class="form-control form-control-lg">
+                <option value="+91">+91 (India)</option>
+                <option value="+1">+1 (USA)</option>
+                <option value="+44">+44 (UK)</option>
+                <option value="+61">+61 (Australia)</option>
+                <option value="+81">+81 (Japan)</option>
             </select>
         </div>
 
@@ -287,15 +296,19 @@
                     var gstToDisplay = document.getElementById("error-message9");
                     gstToDisplay.style.display = "none";
                 }
-                let gstnofocus = document.getElementById("gstnumber").value;
+                //var gstnofocus = document.getElementById("gstnumber").value;
+                let gstnofocus = document.getElementById("gstnumber").value.trim();
 
-                var regex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
+                
+                var regex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[A-Z0-9]{1}$/;
+             
                 if (!regex.test(gstnofocus)) {
                     var gstnoToDisplay = document.getElementById("error-message10");
                     gstnoToDisplay.style.display = "none";
                     document.getElementById('gstErrorMessage').innerText = "Enter 15-digit GST number..";
                     return false;
-                } else {
+                } 
+                else {
 
                     document.getElementById('gstErrorMessage').innerText = "";
                 }
@@ -518,8 +531,8 @@
     function validateGST(event) {
 
         const gstNumber = event.target.value.toUpperCase();
-        //var regex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
-        var regex = /^[a-zA-Z0-9._%+-]+[^\.]@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
+        var regex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
+        //var regex = /^[a-zA-Z0-9._%+-]+[^\.]@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
         if (gstNumber.trim() === "") {
 
             document.getElementById('gstErrorMessage').innerText = "";

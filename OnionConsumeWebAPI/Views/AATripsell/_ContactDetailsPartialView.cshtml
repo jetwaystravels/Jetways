@@ -319,10 +319,10 @@
                 if (!regex.test(gstnofocus)) {
                     var gstnoToDisplay = document.getElementById("error-message10");
                     gstnoToDisplay.style.display = "none";
-                    document.getElementById('gstErrorMessage').innerText = "Enter 15-digit GST number..";
+                    document.getElementById('gstErrorMessage').innerText = "Enter 15-digit GST number.";
                     return false;
-                } else {
-
+                } 
+                else {
                     document.getElementById('gstErrorMessage').innerText = "";
                 }
                 if (gstnofocus == "") {

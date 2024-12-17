@@ -177,9 +177,9 @@ namespace OnionConsumeWebAPI.Controllers
             using (HttpClient client = new HttpClient())
             {
 				string title = contactobject.title;
-				string countryCode = contactobject.countrycode; 
-				
-				AddGSTInformation addinformation = new AddGSTInformation();
+				string countryCode = contactobject.countrycode;
+                TempData["CountryCodeAA"] = countryCode;
+                AddGSTInformation addinformation = new AddGSTInformation();
                 addinformation.contactTypeCode = "G";
                 GSTPhonenumber Phonenumber = new GSTPhonenumber();
                 List<GSTPhonenumber> Phonenumberlist = new List<GSTPhonenumber>();
@@ -236,6 +236,7 @@ namespace OnionConsumeWebAPI.Controllers
                 {
                     token = tokenview.Replace(@"""", string.Empty);
                     PassengersModel _PassengersModel = new PassengersModel();
+                    string CountryCode = TempData["CountryCodeAA"].ToString();
                     for (int i = 0; i < passengerdetails.Count; i++)
                     {
                         if (passengerdetails[i].passengertypecode == "INFT")
@@ -257,7 +258,7 @@ namespace OnionConsumeWebAPI.Controllers
                             name.title = passengerdetails[i].title;
                             name.first = passengerdetails[i].first;
                             name.last = passengerdetails[i].last;
-                            name.mobile = passengerdetails[i].carrierCode+ passengerdetails[i].mobile;
+                            name.mobile = CountryCode + passengerdetails[i].mobile;
                             name.middle = "";
                             Info.dateOfBirth = "";
                             Info.nationality = "IN";

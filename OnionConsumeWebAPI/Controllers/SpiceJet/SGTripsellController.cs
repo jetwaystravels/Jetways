@@ -146,6 +146,8 @@ namespace OnionConsumeWebAPI.Controllers
             {
                 UpdateContactsRequest _ContactModel = new UpdateContactsRequest();
                 //  _ContactModel.emailAddress = passengerdetails.Email;
+                string countryCode = obj.countrycode;
+                TempData["CountryCodeSG"] = countryCode;
                 _ContactModel.updateContactsRequestData = new UpdateContactsRequestData();
                 _ContactModel.Signature = token;
                 _ContactModel.ContractVersion = 420;
@@ -170,12 +172,12 @@ namespace OnionConsumeWebAPI.Controllers
                     _ContactModel.updateContactsRequestData.BookingContactList[0].EmailAddress = obj.emailAddress;
                     _ContactModel.updateContactsRequestData.BookingContactList[0].TypeCode = "P";
                     _ContactModel.updateContactsRequestData.BookingContactList[0].CountryCode = "IN";
-                    _ContactModel.updateContactsRequestData.BookingContactList[0].HomePhone = obj.number;
+                    _ContactModel.updateContactsRequestData.BookingContactList[0].HomePhone = obj.countrycode+ obj.number;
                     BookingName[] Name = new BookingName[1];
                     Name[0] = new BookingName();
                     Name[0].FirstName = obj.first;
                     Name[0].LastName = obj.last;
-                    Name[0].Title = "MR";
+                    Name[0].Title = obj.title;
                     _ContactModel.updateContactsRequestData.BookingContactList[0].Names = Name;
                 }
                 SpiceJetApiController objSpiceJet = new SpiceJetApiController();
@@ -192,7 +194,7 @@ namespace OnionConsumeWebAPI.Controllers
         }
 
         //Passenger Data on Trip Page
-        //[HttpPost]
+        [HttpPost]
         public async Task<PartialViewResult> SGTravllerDetails(List<passkeytype> passengerdetails)
         {
             HttpContext.Session.SetString("PassengerNameDetails", JsonConvert.SerializeObject(passengerdetails));
@@ -1494,9 +1496,10 @@ namespace OnionConsumeWebAPI.Controllers
                         {
                             p1.Infant = new PassengerInfant();
                             p1.Infant.DOBSpecified = true;
-                            p1.Infant.DOB = Convert.ToDateTime("2023-08-01");//Convert.ToDateTime(_paxes.Infant_[cntAdt].dateOfBirth);
-                                                                             //p1.Infant.Gender = Gender.Male;
-                            if (_paxes.Infant_[cntAdt].title.ToUpper().Replace(".", "") == "MR")
+                            p1.Infant.DOB = Convert.ToDateTime(_paxes.Infant_[cntAdt].dateOfBirth);
+                           
+                                                                             
+                            if (_paxes.Infant_[cntAdt].title.ToUpper().Replace(".", "") == "MSTR")
                             {
                                 p1.Infant.Gender = Gender.Male;
                             }
@@ -1554,7 +1557,7 @@ namespace OnionConsumeWebAPI.Controllers
                         }
                         p1.Names[0].Title = _paxes.Childs_[cntChd].title.ToUpper().Replace(".", "");
                         p1.PassengerInfo = new PassengerInfo();
-                        if (_paxes.Childs_[cntChd].title.ToUpper().Replace(".", "") == "Mr")
+                        if (_paxes.Childs_[cntChd].title.ToUpper().Replace(".", "") == "MSTR")
                         {
                             p1.PassengerInfo.Gender = Gender.Male;
                             p1.PassengerInfo.WeightCategory = WeightCategory.Male;
