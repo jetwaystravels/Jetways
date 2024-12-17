@@ -4,11 +4,21 @@ namespace Utility
 {
     public class Logs
     {
-        public void WriteLogs(string logs, string name, string AirLine)
+        public void WriteLogs(string logs, string name, string AirLine,string JourneyType)
         {
+            string _path = string.Empty;
             try
             {
-                string _path = @"D:\OneWayLogs\" + AirLine + @"\" + DateTime.Now.ToString("ddMMMyyyy");
+                if(JourneyType.ToLower()=="oneway")
+                {
+                    _path = @"D:\Jetwayslogs\OneWay\" + AirLine + @"\" + DateTime.Now.ToString("ddMMMyyyy");
+                }
+                else if(JourneyType.ToLower() == "roundtrip")
+                {
+                    AirLine = AirLine.Replace("OneWay", "Left").Replace("RT", "Right");
+                    _path = @"D:\Jetwayslogs\RoundTrip\" + AirLine + @"\" + DateTime.Now.ToString("ddMMMyyyy");
+                }
+
                 if (!Directory.Exists(_path) || !File.Exists(_path))
                 {
                     System.IO.Directory.CreateDirectory(_path);
@@ -25,7 +35,8 @@ namespace Utility
         {
             try
             {
-                string _path = @"D:\RoundTripLogs\" + AirLine + @"\" + DateTime.Now.ToString("ddMMMyyyy");
+                AirLine = AirLine.Replace("OneWay", "Left").Replace("RT", "Right");
+                string _path = @"D:\Jetwayslogs\RoundTrip\" + AirLine + @"\" + DateTime.Now.ToString("ddMMMyyyy");
                 if (!Directory.Exists(_path) || !File.Exists(_path))
                 {
                     System.IO.Directory.CreateDirectory(_path);

@@ -182,8 +182,10 @@ namespace OnionConsumeWebAPI.Controllers
                 UpdateContactsResponse responseAddContact = await objSpiceJet.GetUpdateContactsAsync(_ContactModel);
                 HttpContext.Session.SetString("ContactDetails", JsonConvert.SerializeObject(_ContactModel));
                 String Str1 = JsonConvert.SerializeObject(responseAddContact);
+                logs.WriteLogs(JsonConvert.SerializeObject(_ContactModel), "10-ADDContactRequest", "SpicejetOneWay", "oneway");
+                logs.WriteLogs(Str1, "10-ADDContactResponse", "SpicejetOneWay", "oneway");
 
-                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_ContactModel) + "\n\n Response: " + JsonConvert.SerializeObject(responseAddContact), "UpdateContact", "SpicejetOneWay");
+                //logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_ContactModel) + "\n\n Response: " + JsonConvert.SerializeObject(responseAddContact), "UpdateContact", "SpicejetOneWay", "oneway");
 
             }
             return RedirectToAction("SpiceJetSaverTripsell", "SGTripsell");
@@ -217,9 +219,11 @@ namespace OnionConsumeWebAPI.Controllers
                         SpiceJetApiController objSpiceJet = new SpiceJetApiController();
                         updatePaxResp = await objSpiceJet.UpdatePassengers(updatePaxReq);
 
-                        string Str2 = JsonConvert.SerializeObject(updatePaxResp);
+                        //string Str2 = JsonConvert.SerializeObject(updatePaxResp);
+                        logs.WriteLogs(JsonConvert.SerializeObject(updatePaxReq), "11-UpdatePassengerRequest", "SpicejetOneWay", "oneway");
+                        logs.WriteLogs(JsonConvert.SerializeObject(updatePaxResp), "11-UpdatePassengerResponse", "SpicejetOneWay", "oneway");
 
-                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(updatePaxReq) + "\n\n Response: " + JsonConvert.SerializeObject(updatePaxResp), "UpdatePassenger", "SpicejetOneWay");
+                        //logs.WriteLogs("Request: " + JsonConvert.SerializeObject(updatePaxReq) + "\n\n Response: " + JsonConvert.SerializeObject(updatePaxResp), "UpdatePassenger", "SpicejetOneWay", "oneway");
 
                     }
                     catch (Exception ex)
@@ -729,15 +733,15 @@ namespace OnionConsumeWebAPI.Controllers
                     SpiceJetApiController objSpiceJet = new SpiceJetApiController();
                     sellSsrResponse = await objSpiceJet.sellssR(sellSsrRequest);
 
-                    string Str3 = JsonConvert.SerializeObject(sellSsrResponse);
-                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSR", "SpicejetOneWay");
-
-
-                    if (sellSsrResponse != null)
-                    {
+                    //string Str3 = JsonConvert.SerializeObject(sellSsrResponse);
+                    //logs.WriteLogs("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSR", "SpicejetOneWay", "oneway");
+                    logs.WriteLogs(JsonConvert.SerializeObject(sellSsrRequest), "12-SellSSRRequest", "SpicejetOneWay", "oneway");
+                    logs.WriteLogs(JsonConvert.SerializeObject(sellSsrResponse), "12-SellSSRResponse", "SpicejetOneWay", "oneway");
+                    //if (sellSsrResponse != null)
+                    //{
                         //var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
-                        var JsonObjSeatAssignment = sellSsrResponse;
-                    }
+                        //var JsonObjSeatAssignment = sellSsrResponse;
+                    //}
                     #endregion
 
                 }
@@ -811,9 +815,11 @@ namespace OnionConsumeWebAPI.Controllers
                         SpiceJetApiController objSpiceJet = new SpiceJetApiController();
                         _AssignseatRes = await objSpiceJet.Assignseat(_AssignSeatReq);
 
-                        string Str2 = JsonConvert.SerializeObject(_AssignseatRes);
+                        //string Str2 = JsonConvert.SerializeObject(_AssignseatRes);
 
-                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_AssignSeatReq) + "\n\n Response: " + JsonConvert.SerializeObject(_AssignseatRes), "AssignSeat", "SpicejetOneWay");
+                        //logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_AssignSeatReq) + "\n\n Response: " + JsonConvert.SerializeObject(_AssignseatRes), "AssignSeat", "SpicejetOneWay", "oneway");
+                        logs.WriteLogs(JsonConvert.SerializeObject(_AssignSeatReq), "13-AssignSeatRequest", "SpicejetOneWay", "oneway");
+                        logs.WriteLogs(JsonConvert.SerializeObject(_AssignseatRes), "13-AssignSeatResponse", "SpicejetOneWay", "oneway");
 
                         if (_AssignseatRes != null)
                         {
@@ -1162,7 +1168,7 @@ namespace OnionConsumeWebAPI.Controllers
                     sellSsrResponse = await objSpiceJet.sellssR(sellSsrRequest);
 
                     string Str3 = JsonConvert.SerializeObject(sellSsrResponse);
-                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSR", "SpicejetOneWay");
+                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSR", "SpicejetOneWay", "oneway");
 
 
                     if (sellSsrResponse != null)
@@ -1220,7 +1226,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                         string Str2 = JsonConvert.SerializeObject(_AssignseatRes);
 
-                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_AssignSeatReq) + "\n\n Response: " + JsonConvert.SerializeObject(_AssignseatRes), "AssignSeat", "SpicejetOneWay");
+                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_AssignSeatReq) + "\n\n Response: " + JsonConvert.SerializeObject(_AssignseatRes), "AssignSeat", "SpicejetOneWay", "oneway");
 
                         if (_AssignseatRes != null)
                         {

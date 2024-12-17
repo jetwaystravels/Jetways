@@ -8,6 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\Spicejet\_commit.cs" />
+    <Compile Remove="Services\Spicejet\_GetSSR.cs" />
+    <Compile Remove="Services\Spicejet\_sell.cs" />
+    <Compile Remove="Services\Spicejet\_SellSSR.cs" />
+    <Compile Remove="Services\Spicejet\_updateContact.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Amazon.Lambda.AspNetCoreServer.Hosting" Version="1.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.3">
@@ -23,6 +31,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Indigo\Indigo.csproj" />
     <ProjectReference Include="..\ServiceLayer\ServiceLayer.csproj" />
+    <ProjectReference Include="..\Spicejet\Spicejet.csproj" />
     <ProjectReference Include="..\Utility\Utility.csproj" />
   </ItemGroup>
 

@@ -223,8 +223,19 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         {
                             AirAsiaTripResponceobj = new AirAsiaTripResponceModel();
                             var resultsTripsell = responseTripsell.Content.ReadAsStringAsync().Result;
-                            logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(AirAsiaTripSellRequestobj) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v4/trip/sell" + "\n Response: " + JsonConvert.SerializeObject(resultsTripsell), "SellRequest", "AirAsiaRT");
+                            if (p == 0)
+                            {
+                                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(AirAsiaTripSellRequestobj) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v4/trip/sell" + "\n Response: " + JsonConvert.SerializeObject(resultsTripsell), "SellRequest_Left", "AirAsiaRT");
+                                logs.WriteLogsR(AirasiaTripSellRequest, "3-SellRequest_Left", "AirAsiaRT");
+                                logs.WriteLogsR(resultsTripsell, "3-SellResponse_Left", "AirAsiaRT");
 
+                            }
+                            else
+                            {
+                                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(AirAsiaTripSellRequestobj) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v4/trip/sell" + "\n Response: " + JsonConvert.SerializeObject(resultsTripsell), "SellRequest_Right", "AirAsiaRT");
+                                logs.WriteLogsR(AirasiaTripSellRequest, "3-SellRequest_Right", "AirAsiaRT");
+                                logs.WriteLogsR(resultsTripsell, "3-SellResponse_Right", "AirAsiaRT");
+                            }
                             var JsonObjTripsell = JsonConvert.DeserializeObject<dynamic>(resultsTripsell);
                             var basefaretax = JsonObjTripsell.data.breakdown.journeyTotals.totalTax;
                             int journeyscount = JsonObjTripsell.data.journeys.Count;
@@ -514,7 +525,18 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     {
                                         AirAsiaTripResponceModel AirAsiaTripResponceobject = new AirAsiaTripResponceModel();
                                         var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
-                                        logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(itenaryInfant) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v2/bookings/quote" + "\n Response: " + JsonConvert.SerializeObject(resultsTripsell), "Itenary", "AirAsiaRT");
+                                        if (p == 0)
+                                        {
+                                            //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(itenaryInfant) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v2/bookings/quote" + "\n Response: " + JsonConvert.SerializeObject(resultsTripsell), "Itenary_Left", "AirAsiaRT");
+                                            logs.WriteLogsR(jsonPassengers, "4-ItenaryRequest_Left", "AirAsiaRT");
+                                            logs.WriteLogsR(_responsePassengers, "4-ItenaryResponse_Left", "AirAsiaRT");
+                                        }
+                                        else
+                                        {
+                                            //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(itenaryInfant) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v2/bookings/quote" + "\n Response: " + JsonConvert.SerializeObject(resultsTripsell), "Itenary_Right", "AirAsiaRT");
+                                            logs.WriteLogsR(jsonPassengers, "4-ItenaryRequest_Right", "AirAsiaRT");
+                                            logs.WriteLogsR(_responsePassengers, "4-ItenaryResponse_Right", "AirAsiaRT");
+                                        }
                                         var JsonObjPassengers = JsonConvert.DeserializeObject<dynamic>(_responsePassengers);
                                         int Journeyscount = JsonObjPassengers.data.journeys.Count;
                                         //end
@@ -807,7 +829,19 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             AirAsiaTripResponceobj = new AirAsiaTripResponceModel();
                             var resultsTripsell = responseTripsell.Content.ReadAsStringAsync().Result;
                             //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(AirAsiaTripSellRequestobj) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v4/trip/sell" + "\n Response: " + JsonConvert.SerializeObject(resultsTripsell), "SellRequest", "AirAsiaRT");
+                            if (p == 0)
+                            {
+                                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(AirAsiaTripSellRequestobj) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v4/trip/sell" + "\n Response: " + JsonConvert.SerializeObject(resultsTripsell), "SellRequest_Left", "AirAsiaRT");
+                                logs.WriteLogsR(AkasaAirTripSellRequest, "3-SellRequest_Left", "AkasaRT");
+                                logs.WriteLogsR(resultsTripsell, "3-SellResponse_Left", "AkasaRT");
 
+                            }
+                            else
+                            {
+                                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(AirAsiaTripSellRequestobj) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v4/trip/sell" + "\n Response: " + JsonConvert.SerializeObject(resultsTripsell), "SellRequest_Right", "AirAsiaRT");
+                                logs.WriteLogsR(AkasaAirTripSellRequest, "3-SellRequest_Right", "AkasaRT");
+                                logs.WriteLogsR(resultsTripsell, "3-SellResponse_Right", "AkasaRT");
+                            }
                             var JsonObjTripsell = JsonConvert.DeserializeObject<dynamic>(resultsTripsell);
 
                             var basefaretax = JsonObjTripsell.data.breakdown.journeyTotals.totalTax;
@@ -1098,7 +1132,20 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     {
                                         AirAsiaTripResponceModel AirAsiaTripResponceobject = new AirAsiaTripResponceModel();
                                         var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
-                                        logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(itenaryInfant) + "Url: " + AppUrlConstant.URLAkasaAir + "/api/nsk/v2/bookings/quote" + "\n Response: " + JsonConvert.SerializeObject(resultsTripsell), "Itenary", "AkasaRT");
+                                        if (p == 0)
+                                        {
+                                            //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(itenaryInfant) + "Url: " + AppUrlConstant.URLAkasaAir + "/api/nsk/v2/bookings/quote" + "\n Response: " + JsonConvert.SerializeObject(resultsTripsell), "Itenary_Left", "AkasaRT");
+                                            logs.WriteLogsR(jsonPassengers, "4-ItenaryRequest_Left", "AkasaRT");
+                                            logs.WriteLogsR(_responsePassengers, "4-ItenaryResponse_Left", "AkasaRT");
+
+                                        }
+                                        else
+                                        {
+                                            //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(itenaryInfant) + "Url: " + AppUrlConstant.URLAkasaAir + "/api/nsk/v2/bookings/quote" + "\n Response: " + JsonConvert.SerializeObject(resultsTripsell), "Itenary_Right", "AkasaRT");
+                                            logs.WriteLogsR(jsonPassengers, "4-ItenaryRequest_Right", "AkasaRT");
+                                            logs.WriteLogsR(_responsePassengers, "4-ItenaryResponse_Right", "AkasaRT");
+
+                                        }
                                         var JsonObjPassengers = JsonConvert.DeserializeObject<dynamic>(_responsePassengers);
                                         int Journeyscount = JsonObjPassengers.data.journeys.Count;
                                         //end
@@ -1333,9 +1380,19 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         _getSellRQ.SellRequestData.SellSSR = new SellSSR();
                         _getSellRS = await objSpiceJet.GetSellAsync(_getSellRQ);
 
-                        string str = JsonConvert.SerializeObject(_getSellRS);
-                        logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getSellRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getSellRS), "SellRequest", "SpiceJetRT");
-
+                        //string str = JsonConvert.SerializeObject(_getSellRS);
+                        if (p == 0)
+                        {
+                            //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getSellRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getSellRS), "SellRequest_Left", "SpiceJetRT");
+                            logs.WriteLogsR(JsonConvert.SerializeObject(_getSellRQ), "3-SellRequest_Left", "SpiceJetRT");
+                            logs.WriteLogsR(JsonConvert.SerializeObject(_getSellRS), "3-SellResponse_Left", "SpiceJetRT");
+                        }
+                        else
+                        {
+                            //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getSellRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getSellRS), "SellRequest_Right", "SpiceJetRT");
+                            logs.WriteLogsR(JsonConvert.SerializeObject(_getSellRQ), "3-SellRequest_Right", "SpiceJetRT");
+                            logs.WriteLogsR(JsonConvert.SerializeObject(_getSellRS), "3-SellResponse_Right", "SpiceJetRT");
+                        }
 
                         #endregion
 
@@ -1350,8 +1407,19 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         objSpiceJet = new SpiceJetApiController();
                         _GetBookingFromStateRS1 = await objSpiceJet.GetBookingFromState(_GetBookingFromStateRQ1);
 
-                        str3 = JsonConvert.SerializeObject(_GetBookingFromStateRS1);
-                        logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_GetBookingFromStateRQ1) + "\n\n Response: " + JsonConvert.SerializeObject(_GetBookingFromStateRS1), "GetBookingFromStateAftersellrequest", "SpiceJetRT");
+                        //str3 = JsonConvert.SerializeObject(_GetBookingFromStateRS1);
+                        if (p == 0)
+                        {
+                            //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_GetBookingFromStateRQ1) + "\n\n Response: " + JsonConvert.SerializeObject(_GetBookingFromStateRS1), "GetBookingFromStateAftersellrequest_Left", "SpiceJetRT");
+                            logs.WriteLogsR(JsonConvert.SerializeObject(_GetBookingFromStateRQ1), "4-GetBookingFromStateAftersellrequest_Left", "SpiceJetRT");
+                            logs.WriteLogsR(JsonConvert.SerializeObject(_GetBookingFromStateRS1), "4-GetBookingFromStateAftersellresponse_Left", "SpiceJetRT");
+                        }
+                        else
+                        {
+                            //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_GetBookingFromStateRQ1) + "\n\n Response: " + JsonConvert.SerializeObject(_GetBookingFromStateRS1), "GetBookingFromStateAftersellrequest_Right", "SpiceJetRT");
+                            logs.WriteLogsR(JsonConvert.SerializeObject(_GetBookingFromStateRQ1), "4-GetBookingFromStateAftersellrequest_Right", "SpiceJetRT");
+                            logs.WriteLogsR(JsonConvert.SerializeObject(_GetBookingFromStateRS1), "4-GetBookingFromStateAftersellresponse_Right", "SpiceJetRT");
+                        }
                         #endregion
                         if (_GetBookingFromStateRS1 != null)
                         {
@@ -1590,9 +1658,20 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             _getPriceItineraryRQ.ItineraryPriceRequest.SellByKeyRequest.IsAllotmentMarketFare = false;
                             _getPriceItineraryRQ.ItineraryPriceRequest.SSRRequest = new SSRRequest();
                             _getPriceItineraryRS = await objSpiceJet.GetItineraryPriceAsync(_getPriceItineraryRQ);
-                            str = JsonConvert.SerializeObject(_getPriceItineraryRS);
-                            logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getPriceItineraryRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getPriceItineraryRS), "PriceIteniry", "SpiceJetRT");
+                            //str = JsonConvert.SerializeObject(_getPriceItineraryRS);
+                            if (p == 0)
+                            {
+                                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getPriceItineraryRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getPriceItineraryRS), "PriceIteniry_Left", "SpiceJetRT");
+                                logs.WriteLogsR(JsonConvert.SerializeObject(_getPriceItineraryRQ), "5-PriceIteniryReq_Left", "SpiceJetRT");
+                                logs.WriteLogsR(JsonConvert.SerializeObject(_getPriceItineraryRS), "5-PriceIteniryRes_Left", "SpiceJetRT");
+                            }
+                            else
+                            {
+                                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getPriceItineraryRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getPriceItineraryRS), "PriceIteniry_Right", "SpiceJetRT");
+                                logs.WriteLogsR(JsonConvert.SerializeObject(_getPriceItineraryRQ), "5-PriceIteniryReq_Right", "SpiceJetRT");
+                                logs.WriteLogsR(JsonConvert.SerializeObject(_getPriceItineraryRS), "5-PriceIteniryRes_Right", "SpiceJetRT");
 
+                            }
 
                             #endregion
 
@@ -1672,15 +1751,25 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     objSpiceJet = new SpiceJetApiController();
                                     sellSsrResponse = await objSpiceJet.sellssR(sellSsrRequest);
 
-                                    str3 = JsonConvert.SerializeObject(sellSsrResponse);
-                                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSRInfant", "SpicejetRT");
-
-
-                                    if (sellSsrResponse != null)
+                                    //str3 = JsonConvert.SerializeObject(sellSsrResponse);
+                                    if (p == 0)
                                     {
-                                        //var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
-                                        var JsonsellSsrResponse = sellSsrResponse;
+                                        //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSRInfant_Left", "SpicejetRT");
+                                        logs.WriteLogsR(JsonConvert.SerializeObject(sellSsrRequest), "6-SellSSRInfantReq_Left", "SpicejetRT");
+                                        logs.WriteLogsR(JsonConvert.SerializeObject(sellSsrResponse), "6-SellSSRInfantRes_Left", "SpicejetRT");
                                     }
+                                    else
+                                    {
+                                        //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSRInfant_Right", "SpicejetRT");
+                                        logs.WriteLogsR(JsonConvert.SerializeObject(sellSsrRequest), "6-SellSSRInfantReq_Right", "SpicejetRT");
+                                        logs.WriteLogsR(JsonConvert.SerializeObject(sellSsrResponse), "6-SellSSRInfantRes_Right", "SpicejetRT");
+                                    }
+
+                                    //if (sellSsrResponse != null)
+                                    //{
+                                    //var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
+                                    //var JsonsellSsrResponse = sellSsrResponse;
+                                    //}
                                 }
                                 #endregion
                             }
@@ -1695,8 +1784,19 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             objSpiceJet = new SpiceJetApiController();
                             _GetBookingFromStateRS = await objSpiceJet.GetBookingFromState(_GetBookingFromStateRQ);
 
-                            str3 = JsonConvert.SerializeObject(_GetBookingFromStateRS);
-                            logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_GetBookingFromStateRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_GetBookingFromStateRS), "GetBookingFromStateafterSellInfant", "SpicejetRT");
+                            //str3 = JsonConvert.SerializeObject(_GetBookingFromStateRS);
+                            if (p == 0)
+                            {
+                                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_GetBookingFromStateRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_GetBookingFromStateRS), "GetBookingFromStateafterSellInfant_Left", "SpicejetRT");
+                                logs.WriteLogsR(JsonConvert.SerializeObject(_GetBookingFromStateRQ), "7-GetBookingFromStateafterSellInfantReq_Left", "SpicejetRT");
+                                logs.WriteLogsR(JsonConvert.SerializeObject(_GetBookingFromStateRS), "7-GetBookingFromStateafterSellInfantRes_Left", "SpicejetRT");
+                            }
+                            else
+                            {
+                                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_GetBookingFromStateRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_GetBookingFromStateRS), "GetBookingFromStateafterSellInfant_Right", "SpicejetRT");
+                                logs.WriteLogsR(JsonConvert.SerializeObject(_GetBookingFromStateRQ), "7-GetBookingFromStateafterSellInfantReq_Right", "SpicejetRT");
+                                logs.WriteLogsR(JsonConvert.SerializeObject(_GetBookingFromStateRS), "7-GetBookingFromStateafterSellInfantRes_Right", "SpicejetRT");
+                            }
 
 
                             if (_GetBookingFromStateRS != null)
@@ -1763,13 +1863,13 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         _FareKeyData = FRTparts[0];
                         #region IndigoSellRequest
                         _sell objsell = new _sell();
-                        IndigoBookingManager_.SellResponse _getSellRS = await objsell.Sell(Signature, _JourneykeyData, _FareKeyData, _Jparts[0], fareKey[p], TotalCount, adultcount, childcount, infantcount);
+                        IndigoBookingManager_.SellResponse _getSellRS = await objsell.Sell(Signature, _JourneykeyData, _FareKeyData, _Jparts[0], fareKey[p], TotalCount, adultcount, childcount, infantcount, p);
                         #endregion
                         #region GetState
 
-                        IndigoBookingManager_.GetBookingFromStateResponse _GetBookingFromStateRS1 = await objsell.GetBookingFromState(Signature, "");
+                        IndigoBookingManager_.GetBookingFromStateResponse _GetBookingFromStateRS1 = await objsell.GetBookingFromState(Signature, p, "");
 
-                        str3 = JsonConvert.SerializeObject(_GetBookingFromStateRS1);
+                        //str3 = JsonConvert.SerializeObject(_GetBookingFromStateRS1);
 
                         if (_GetBookingFromStateRS1 != null)
                         {
@@ -1942,7 +2042,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
                             //paste here for infant tax
                             #region Indigo ItenaryRequest
-                            IndigoBookingManager_.PriceItineraryResponse _getPriceItineraryRS = await objsell.GetItineraryPrice(Signature, _JourneykeyData, _FareKeyData, _Jparts[0], fareKey[p], TotalCount, adultcount, childcount, infantcount);
+                            IndigoBookingManager_.PriceItineraryResponse _getPriceItineraryRS = await objsell.GetItineraryPrice(Signature, _JourneykeyData, _FareKeyData, _Jparts[0], fareKey[p], TotalCount, adultcount, childcount, infantcount, p);
                             #endregion
                             HttpContext.Session.SetString("journeySellKey", JsonConvert.SerializeObject(_JourneykeyData));
                             SimpleAvailabilityRequestModel _SimpleAvailabilityobj = new SimpleAvailabilityRequestModel();
@@ -1955,7 +2055,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 {
                                     IndigoBookingManager_.SellResponse sellSsrResponse = null;
 
-                                    sellSsrResponse = await objsell.sellssrInft(Signature, _getPriceItineraryRS, infantcount, 0, "");
+                                    sellSsrResponse = await objsell.sellssrInft(Signature, _getPriceItineraryRS, infantcount, 0, p, "");
 
                                     str3 = JsonConvert.SerializeObject(sellSsrResponse);
 
@@ -1968,9 +2068,9 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 #endregion
                             }
                             #region GetBookingFromState
-                            IndigoBookingManager_.GetBookingFromStateResponse _GetBookingFromStateRS = await objsell.GetBookingFromState(Signature, "");
+                            IndigoBookingManager_.GetBookingFromStateResponse _GetBookingFromStateRS = await objsell.GetBookingFromState(Signature, p, "");
 
-                            str3 = JsonConvert.SerializeObject(_GetBookingFromStateRS);
+                            // str3 = JsonConvert.SerializeObject(_GetBookingFromStateRS);
 
                             if (_GetBookingFromStateRS != null)
                             {
@@ -2083,7 +2183,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         _userName = "Universal API/uAPI5098257106-beb65aec";
                         _password = "Q!f5-d7A3D";
                         StringBuilder fareRepriceReq = new StringBuilder();
-                        string res = _objAvail.AirPriceGet(_testURL, fareRepriceReq, availibiltyRQGDS, newGuid.ToString(), _targetBranch, _userName, _password, Airfaredata, "");
+                        string res = _objAvail.AirPriceGet(_testURL, fareRepriceReq, availibiltyRQGDS, newGuid.ToString(), _targetBranch, _userName, _password, Airfaredata, p, "");
 
                         TravelPortParsing _objP = new TravelPortParsing();
                         List<GDSResModel.Segment> getAirPriceRes = new List<GDSResModel.Segment>();
@@ -2438,7 +2538,18 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         {
                             string columncount0 = string.Empty;
                             var _responseSeatmap = responseSeatmap.Content.ReadAsStringAsync().Result;
-                            logs.WriteLogsR("Request: " + JsonConvert.SerializeObject("getRequest") + "Url: " + BaseURL + "/api/nsk/v3/booking/seatmaps/journey/" + _JourneykeyDataAA + "?IncludePropertyLookup=true" + "\n Response: " + JsonConvert.SerializeObject(_responseSeatmap), "GetSeatmap", "AirAsiaRT");
+                            if (p == 0)
+                            {
+                                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject("getRequest") + "Url: " + BaseURL + "/api/nsk/v3/booking/seatmaps/journey/" + _JourneykeyDataAA + "?IncludePropertyLookup=true" + "\n Response: " + JsonConvert.SerializeObject(_responseSeatmap), "GetSeatmap_Left", "AirAsiaRT");
+                                logs.WriteLogsR("getRequest" + " Url: " + BaseURL + "/api/nsk/v3/booking/seatmaps/journey/" + _JourneykeyDataAA + "?IncludePropertyLookup=true", "5-GetSeatmapReq_Left", "AirAsiaRT");
+                                logs.WriteLogsR(_responseSeatmap, "5-GetSeatmapRes_Left", "AirAsiaRT");
+                            }
+                            else
+                            {
+                                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject("getRequest") + "Url: " + BaseURL + "/api/nsk/v3/booking/seatmaps/journey/" + _JourneykeyDataAA + "?IncludePropertyLookup=true" + "\n Response: " + JsonConvert.SerializeObject(_responseSeatmap), "GetSeatmap_Right", "AirAsiaRT");
+                                logs.WriteLogsR("getRequest" + " Url: " + BaseURL + "/api/nsk/v3/booking/seatmaps/journey/" + _JourneykeyDataAA + "?IncludePropertyLookup=true", "5-GetSeatmap_Right", "AirAsiaRT");
+                                logs.WriteLogsR(_responseSeatmap, "5-GetSeatmap_Right", "AirAsiaRT");
+                            }
 
                             var JsonObjSeatmap = JsonConvert.DeserializeObject<dynamic>(_responseSeatmap);
                             //var uniquekey1 = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[0].unitKey;
@@ -2711,7 +2822,26 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 string columncount0 = string.Empty;
                                 Logs logs = new Logs();
                                 var _responseSeatmap = responseSeatmap.Content.ReadAsStringAsync().Result;
-                                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject("getRequest") + "Url: " + BaseAkasaURL + "/api/nsk/v3/booking/seatmaps/journey/" + _JourneykeyDataAA + "?IncludePropertyLookup=true" + "\n Response: " + JsonConvert.SerializeObject(_responseSeatmap), "GetSeatmap", "AkasRT");
+                                //if (p == 0)
+                                //{
+                                //    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject("getRequest") + "Url: " + BaseAkasaURL + "/api/nsk/v3/booking/seatmaps/journey/" + _JourneykeyDataAA + "?IncludePropertyLookup=true" + "\n Response: " + JsonConvert.SerializeObject(_responseSeatmap), "GetSeatmap_Left", "AkasRT");
+                                //}
+                                //else
+                                //    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject("getRequest") + "Url: " + BaseAkasaURL + "/api/nsk/v3/booking/seatmaps/journey/" + _JourneykeyDataAA + "?IncludePropertyLookup=true" + "\n Response: " + JsonConvert.SerializeObject(_responseSeatmap), "GetSeatmap_Right", "AkasRT");
+                                if (p == 0)
+                                {
+                                    //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject("getRequest") + "Url: " + BaseURL + "/api/nsk/v3/booking/seatmaps/journey/" + _JourneykeyDataAA + "?IncludePropertyLookup=true" + "\n Response: " + JsonConvert.SerializeObject(_responseSeatmap), "GetSeatmap_Left", "AirAsiaRT");
+                                    logs.WriteLogsR("getRequest" + " Url: " + BaseAkasaURL + "/api/nsk/v3/booking/seatmaps/journey/" + _JourneykeyDataAA + "?IncludePropertyLookup=true", "5-GetSeatmapReq_Left", "AkasaRT");
+                                    logs.WriteLogsR(_responseSeatmap, "5-GetSeatmapRes_Left", "AkasaRT");
+                                }
+                                else
+                                {
+                                    //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject("getRequest") + "Url: " + BaseURL + "/api/nsk/v3/booking/seatmaps/journey/" + _JourneykeyDataAA + "?IncludePropertyLookup=true" + "\n Response: " + JsonConvert.SerializeObject(_responseSeatmap), "GetSeatmap_Right", "AirAsiaRT");
+                                    logs.WriteLogsR("getRequest" + " Url: " + BaseAkasaURL + "/api/nsk/v3/booking/seatmaps/journey/" + _JourneykeyDataAA + "?IncludePropertyLookup=true", "5-GetSeatmapReq_Right", "AkasaRT");
+                                    logs.WriteLogsR(_responseSeatmap, "5-GetSeatmapRes_Right", "AkasaRT");
+                                }
+
+
                                 var JsonObjSeatmap = JsonConvert.DeserializeObject<dynamic>(_responseSeatmap);
                                 //var uniquekey1 = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[0].unitKey;
                                 var data = JsonObjSeatmap.data.Count;
@@ -2914,9 +3044,24 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         }
 
 
-                        string str1 = JsonConvert.SerializeObject(SeatGroup);
-                        logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getseatAvailabilityRequest) + "\n\n Response: " + JsonConvert.SerializeObject(SeatGroup), "GetSeatAvailability", "SpiceJetRT");
+                        //string str1 = JsonConvert.SerializeObject(SeatGroup);
+                        //if (p == 0)
+                        //{
+                        //    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getseatAvailabilityRequest) + "\n\n Response: " + JsonConvert.SerializeObject(SeatGroup), "GetSeatAvailability_Left", "SpiceJetRT");
+                        //}
+                        //else
+                        //    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getseatAvailabilityRequest) + "\n\n Response: " + JsonConvert.SerializeObject(SeatGroup), "GetSeatAvailability_Right", "SpiceJetRT");
 
+                        if (p == 0)
+                        {
+                            logs.WriteLogsR(_getseatAvailabilityRequest.ToString(), "8-GetSeatAvailabilityReq_Left", "SpiceJetRT");
+                            logs.WriteLogsR(SeatGroup.ToString(), "8-GetSeatAvailabilityRes_Left", "SpiceJetRT");
+                        }
+                        else
+                        {
+                            logs.WriteLogsR(_getseatAvailabilityRequest.ToString(), "8-GetSeatAvailabilityReq_Right", "SpiceJetRT");
+                            logs.WriteLogsR(SeatGroup.ToString(), "8-GetSeatAvailabilityRes_Right", "SpiceJetRT");
+                        }
                         if (SeatGroup != null)
                         {
                             string columncount0 = string.Empty;
@@ -3130,7 +3275,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         if (AirAsiaTripResponceobj == null)
                             AirAsiaTripResponceobj = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(HttpContext.Session.GetString("SGkeypassengerRT"), typeof(AirAsiaTripResponceModel));
                         _GetSSR objssr = new _GetSSR();
-                        List<IndigoBookingManager_.GetSeatAvailabilityResponse> SeatGroup = await objssr.GetseatAvailability(Signature, AirAsiaTripResponceobj);
+                        List<IndigoBookingManager_.GetSeatAvailabilityResponse> SeatGroup = await objssr.GetseatAvailability(Signature, AirAsiaTripResponceobj, p);
                         if (SeatGroup != null)
                         {
                             string columncount0 = string.Empty;
@@ -3385,7 +3530,24 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         if (responseSSRAvailabilty.IsSuccessStatusCode)
                         {
                             var _responseSSRAvailabilty = responseSSRAvailabilty.Content.ReadAsStringAsync().Result;
-                            logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_SSRAvailabilty) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/ssrs/availability" + "\n Response: " + JsonConvert.SerializeObject(_responseSSRAvailabilty), "GetMealmap", "AirAsiaRT");
+                            //if (p == 0)
+                            //{
+                            //    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_SSRAvailabilty) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/ssrs/availability" + "\n Response: " + JsonConvert.SerializeObject(_responseSSRAvailabilty), "GetMealmap_Left", "AirAsiaRT");
+                            //}
+                            //else
+                            //    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_SSRAvailabilty) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v2/booking/ssrs/availability" + "\n Response: " + JsonConvert.SerializeObject(_responseSSRAvailabilty), "GetMealmap_Right", "AirAsiaRT");
+                            if (p == 0)
+                            {
+                                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject("getRequest") + "Url: " + BaseURL + "/api/nsk/v3/booking/seatmaps/journey/" + _JourneykeyDataAA + "?IncludePropertyLookup=true" + "\n Response: " + JsonConvert.SerializeObject(_responseSeatmap), "GetSeatmap_Left", "AirAsiaRT");
+                                logs.WriteLogsR(jsonSSRAvailabiltyRequest, "6-GetMealmapReq_Left", "AirAsiaRT");
+                                logs.WriteLogsR(_responseSSRAvailabilty, "6-GetMealmapRes_Left", "AirAsiaRT");
+                            }
+                            else
+                            {
+                                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject("getRequest") + "Url: " + BaseURL + "/api/nsk/v3/booking/seatmaps/journey/" + _JourneykeyDataAA + "?IncludePropertyLookup=true" + "\n Response: " + JsonConvert.SerializeObject(_responseSeatmap), "GetSeatmap_Right", "AirAsiaRT");
+                                logs.WriteLogsR(jsonSSRAvailabiltyRequest, "6-GetMealmapReq_Right", "AirAsiaRT");
+                                logs.WriteLogsR(_responseSSRAvailabilty, "6-GetMealmapRes_Right", "AirAsiaRT");
+                            }
 
                             var JsonObjresponseSSRAvailabilty = JsonConvert.DeserializeObject<dynamic>(_responseSSRAvailabilty);
                             var journeyKey1 = JsonObjresponseSSRAvailabilty.data.journeySsrs[0].journeyKey;
@@ -3568,7 +3730,24 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         if (responseSSRAvailabilty.IsSuccessStatusCode)
                         {
                             var _responseSSRAvailabilty = responseSSRAvailabilty.Content.ReadAsStringAsync().Result;
-                            logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_SSRAvailabilty) + "Url: " + AppUrlConstant.URLAkasaAir + "/api/nsk/v2/booking/ssrs/availability" + "\n Response: " + JsonConvert.SerializeObject(_responseSSRAvailabilty), "GetMealmap", "AkasaRT");
+                            //if (p == 0)
+                            //{
+                            //    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_SSRAvailabilty) + "Url: " + AppUrlConstant.URLAkasaAir + "/api/nsk/v2/booking/ssrs/availability" + "\n Response: " + JsonConvert.SerializeObject(_responseSSRAvailabilty), "GetMealmap_Left", "AkasaRT");
+                            //}
+                            //else
+                            //    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_SSRAvailabilty) + "Url: " + AppUrlConstant.URLAkasaAir + "/api/nsk/v2/booking/ssrs/availability" + "\n Response: " + JsonConvert.SerializeObject(_responseSSRAvailabilty), "GetMealmap_Right", "AkasaRT");
+                            if (p == 0)
+                            {
+                                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject("getRequest") + "Url: " + BaseURL + "/api/nsk/v3/booking/seatmaps/journey/" + _JourneykeyDataAA + "?IncludePropertyLookup=true" + "\n Response: " + JsonConvert.SerializeObject(_responseSeatmap), "GetSeatmap_Left", "AirAsiaRT");
+                                logs.WriteLogsR(jsonSSRAvailabiltyRequest, "6-GetMealmapReq_Left", "AkasaRT");
+                                logs.WriteLogsR(_responseSSRAvailabilty, "6-GetMealmapRes_Left", "AkasaRT");
+                            }
+                            else
+                            {
+                                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject("getRequest") + "Url: " + BaseURL + "/api/nsk/v3/booking/seatmaps/journey/" + _JourneykeyDataAA + "?IncludePropertyLookup=true" + "\n Response: " + JsonConvert.SerializeObject(_responseSeatmap), "GetSeatmap_Right", "AirAsiaRT");
+                                logs.WriteLogsR(jsonSSRAvailabiltyRequest, "6-GetMealmapReq_Right", "AkasaRT");
+                                logs.WriteLogsR(_responseSSRAvailabilty, "6-GetMealmapRes_Right", "AkasaRT");
+                            }
 
                             var JsonObjresponseSSRAvailabilty = JsonConvert.DeserializeObject<dynamic>(_responseSSRAvailabilty);
                             var journeyKey1 = JsonObjresponseSSRAvailabilty.data.journeySsrs[0].journeyKey;
@@ -3783,9 +3962,24 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             _res = await objSpiceJet.GetSSRAvailabilityForBooking(_req);
 
                             string Str2 = JsonConvert.SerializeObject(_res);
-                            logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_req) + "\n\n Response: " + JsonConvert.SerializeObject(_res), "GetSSRAvailabilityForBooking", "SpiceJetRT");
+                            //if (p == 0)
+                            //{
+                            //    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_req) + "\n\n Response: " + JsonConvert.SerializeObject(_res), "GetSSRAvailabilityForBookingReq_Left", "SpiceJetRT");
+                            //}
+                            //else
+                            //    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_req) + "\n\n Response: " + JsonConvert.SerializeObject(_res), "GetSSRAvailabilityForBookingRes_Right", "SpiceJetRT");
 
-
+                            //9
+                            if (p == 0)
+                            {
+                                logs.WriteLogsR(_req.ToString(), "9-GetSSRAvailabilityForBookingReq_Left", "SpiceJetRT");
+                                logs.WriteLogsR(_res.ToString(), "9-GetSSRAvailabilityForBookingRes_Left", "SpiceJetRT");
+                            }
+                            else
+                            {
+                                logs.WriteLogsR(_req.ToString(), "8-GetSSRAvailabilityForBookingReq_Right", "SpiceJetRT");
+                                logs.WriteLogsR(_res.ToString(), "8-GetSSRAvailabilityForBookingRes_Right", "SpiceJetRT");
+                            }
                             //******Vinay***********//
                             if (_res != null)
                             {
@@ -3944,7 +4138,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         string passenger = HttpContext.Session.GetString("SGkeypassengerRT");
                         passeengerlist = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
                         _GetSSR objssr = new _GetSSR();
-                        IndigoBookingManager_.GetSSRAvailabilityForBookingResponse _res = await objssr.GetSSRAvailabilityForBooking(Signature, passeengerlist, TotalCount);
+                        IndigoBookingManager_.GetSSRAvailabilityForBookingResponse _res = await objssr.GetSSRAvailabilityForBooking(Signature, passeengerlist, TotalCount, _journeySide);
                         if (_res != null)
                         {
                             Hashtable htSSr = new Hashtable();

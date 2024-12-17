@@ -6,13 +6,13 @@ using Newtonsoft.Json;
 using System.Runtime.InteropServices;
 using Utility;
 
-namespace OnionArchitectureAPI.Services.Indigo
+namespace OnionArchitectureAPI.Services.Spicejet
 {
     public class _sell
     {
         Logs logs = new Logs();
         _getapi _obj = new _getapi();
-        public async Task<SellResponse> Sell(string Signature, string _JourneykeyData, string _FareKeyData, string _Jparts, string fareKey, int TotalCount, int adultcount, int childcount, int infantcount, int p, string _AirlineWay = "")
+        public async Task<SellResponse> Sell(string Signature, string _JourneykeyData, string _FareKeyData, string _Jparts, string fareKey, int TotalCount, int adultcount, int childcount, int infantcount, string _AirlineWay = "")
         {
             SellResponse _getSellRS = null;
             SellRequest _getSellRQ = null;
@@ -52,38 +52,25 @@ namespace OnionArchitectureAPI.Services.Indigo
             _getSellRQ.SellRequestData.SellSSR = new SellSSR();
             _getSellRS = await _obj.sell(_getSellRQ);
 
-            //string str = JsonConvert.SerializeObject(_getSellRS);
+            string str = JsonConvert.SerializeObject(_getSellRS);
             if (_AirlineWay.ToLower() == "oneway")
             {
-                //logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getSellRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getSellRS), "SellRequest", "IndigoOneWay", "oneway");
-                logs.WriteLogs(JsonConvert.SerializeObject(_getSellRQ), "3-SellRequest", "IndigoOneWay", "oneway");
-                logs.WriteLogs(JsonConvert.SerializeObject(_getSellRS), "3-SellResponse", "IndigoOneWay", "oneway");
+                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getSellRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getSellRS), "SellRequest", "IndigoOneWay");
             }
             else
-            {
-                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getSellRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getSellRS), "SellRequest", "IndigoRT");
-                if (p == 0)
-                {
-                    logs.WriteLogsR(JsonConvert.SerializeObject(_getSellRQ), "3-SellRequest_Left", "IndigoRT");
-                    logs.WriteLogsR(JsonConvert.SerializeObject(_getSellRS), "3-SellResponse_Left", "IndigoRT");
-                }
-                else
-                {
-                    logs.WriteLogsR(JsonConvert.SerializeObject(_getSellRQ), "3-SellRequest_Right", "IndigoRT");
-                    logs.WriteLogsR(JsonConvert.SerializeObject(_getSellRS), "3-SellResponse_Right", "IndigoRT");
-                }
-            }
+                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getSellRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getSellRS), "SellRequest", "IndigoRT");
+
 
             return (SellResponse)_getSellRS;
         }
 
-        public async Task<GetBookingFromStateResponse> GetBookingFromState(string Signature, int p,string _AirlineWay = "")
+        public async Task<GetBookingFromStateResponse> GetBookingFromState(string Signature, string _AirlineWay = "")
         {
             GetBookingFromStateResponse _GetBookingFromStateRS1 = null;
             GetBookingFromStateRequest _GetBookingFromStateRQ1 = null;
             _GetBookingFromStateRQ1 = new GetBookingFromStateRequest();
             _GetBookingFromStateRQ1.Signature = Signature;
-            _GetBookingFromStateRQ1.ContractVersion = 456;
+            _GetBookingFromStateRQ1.ContractVersion = 420;
 
             IBookingManager bookingManager = null;
             GetBookingFromStateResponse _getBookingFromStateResponse = null;
@@ -98,31 +85,16 @@ namespace OnionArchitectureAPI.Services.Indigo
             }
             if (_AirlineWay.ToLower() == "oneway")
             {
-                //logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_GetBookingFromStateRQ1) + "\n\n Response: " + JsonConvert.SerializeObject(_getBookingFromStateResponse), "GetBookingFromStateAftersellInfantrequest", "IndigoOneWay", "oneway");
-                logs.WriteLogs(JsonConvert.SerializeObject(_GetBookingFromStateRQ1), "4-GetBookingFromStateAftersellInfantrequest", "IndigoOneWay", "oneway");
-                logs.WriteLogs(JsonConvert.SerializeObject(_getBookingFromStateResponse), "4-GetBookingFromStateAftersellInfantresponse", "IndigoOneWay", "oneway");
+                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_GetBookingFromStateRQ1) + "\n\n Response: " + JsonConvert.SerializeObject(_getBookingFromStateResponse), "GetBookingFromStateAftersellInfantrequest", "IndigoOneWay");
 
             }
             else
-            {
-                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_GetBookingFromStateRQ1) + "\n\n Response: " + JsonConvert.SerializeObject(_getBookingFromStateResponse), "GetBookingFromStateAftersellInfantrequest", "IndigoRT");
-
-                if (p == 0)
-                {
-                    logs.WriteLogsR(JsonConvert.SerializeObject(_GetBookingFromStateRQ1), "4-GetBookingFromStateAftersellInfantrequest_Left", "IndigoRT");
-                    logs.WriteLogsR(JsonConvert.SerializeObject(_getBookingFromStateResponse), "4-GetBookingFromStateAftersellInfantresponse_Left", "IndigoRT");
-                }
-                else
-                {
-                    logs.WriteLogsR(JsonConvert.SerializeObject(_GetBookingFromStateRQ1), "4-GetBookingFromStateAftersellInfantrequest_Right", "IndigoRT");
-                    logs.WriteLogsR(JsonConvert.SerializeObject(_getBookingFromStateResponse), "4-GetBookingFromStateAftersellInfantresponse_Right", "IndigoRT");
-                }
-            }
+                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_GetBookingFromStateRQ1) + "\n\n Response: " + JsonConvert.SerializeObject(_getBookingFromStateResponse), "GetBookingFromStateAftersellInfantrequest", "IndigoRT");
 
             return _getBookingFromStateResponse;
         }
 
-        public async Task<PriceItineraryResponse> GetItineraryPrice(string Signature, string _JourneykeyData, string _FareKeyData, string _Jparts, string fareKey, int TotalCount, int adultcount, int childcount, int infantcount, int p,string _AirlineWay = "")
+        public async Task<PriceItineraryResponse> GetItineraryPrice(string Signature, string _JourneykeyData, string _FareKeyData, string _Jparts, string fareKey, int TotalCount, int adultcount, int childcount, int infantcount, string _AirlineWay = "")
         {
             PriceItineraryResponse _getPriceItineraryRS = null;
             PriceItineraryRequest _getPriceItineraryRQ = null;
@@ -150,27 +122,15 @@ namespace OnionArchitectureAPI.Services.Indigo
             _getPriceItineraryRQ.ItineraryPriceRequest.SSRRequest = new SSRRequest();
 
             _getPriceItineraryRS = await _obj.GetItineraryPrice(_getPriceItineraryRQ);
-            //string str = JsonConvert.SerializeObject(_getPriceItineraryRS);
+            string str = JsonConvert.SerializeObject(_getPriceItineraryRS);
             if (_AirlineWay.ToLower() == "oneway")
             {
-                //logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getPriceItineraryRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getPriceItineraryRS), "PriceIteniry", "IndigoOneWay", "oneway");
-                logs.WriteLogs(JsonConvert.SerializeObject(_getPriceItineraryRQ), "5-PriceIteniryReq", "IndigoOneWay", "oneway");
-                logs.WriteLogs(JsonConvert.SerializeObject(_getPriceItineraryRS), "5-PriceIteniryRes", "IndigoOneWay", "oneway");
+                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getPriceItineraryRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getPriceItineraryRS), "PriceIteniry", "IndigoOneWay");
             }
             else
-            {
-                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getPriceItineraryRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getPriceItineraryRS), "PriceIteniry", "IndigoRT");
-                if (p == 0)
-                {
-                    logs.WriteLogsR(JsonConvert.SerializeObject(_getPriceItineraryRQ), "6-PriceIteniryReq_Left", "IndigoRT");
-                    logs.WriteLogsR(JsonConvert.SerializeObject(_getPriceItineraryRS), "6-PriceIteniryRes_Left", "IndigoRT");
-                }
-                else
-                {
-                    logs.WriteLogsR(JsonConvert.SerializeObject(_getPriceItineraryRQ), "6-PriceIteniryReq_Right", "IndigoRT");
-                    logs.WriteLogsR(JsonConvert.SerializeObject(_getPriceItineraryRS), "6PriceIteniryRes_Right", "IndigoRT");
-                }
-            }
+                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getPriceItineraryRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getPriceItineraryRS), "PriceIteniry", "IndigoRT");
+
+
             return (PriceItineraryResponse)_getPriceItineraryRS;
         }
 
@@ -244,7 +204,7 @@ namespace OnionArchitectureAPI.Services.Indigo
             return paxPriceTypes;
         }
 
-        public async Task<SellResponse> sellssrInft(string Signature, PriceItineraryResponse _getPriceItineraryRS, int infantcount, int _a, int p,string _Airline = "")
+        public async Task<SellResponse> sellssrInft(string Signature, PriceItineraryResponse _getPriceItineraryRS, int infantcount, int _a, string _Airline = "")
         {
             var passanger = _getPriceItineraryRS.Booking.Passengers;
             string passenger = string.Empty;
@@ -315,35 +275,23 @@ namespace OnionArchitectureAPI.Services.Indigo
                     _getapi _objIndigo = new _getapi();
                     sellSsrResponse = await _objIndigo._sellssR(sellSsrRequest);
 
-
+                    
                     #endregion
                     //}
                 }
-                //string str3 = JsonConvert.SerializeObject(sellSsrResponse);
+                string str3 = JsonConvert.SerializeObject(sellSsrResponse);
                 if (_Airline.ToLower() == "oneway")
                 {
-                    //logs.WriteLogs("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSRInft", "IndigoOneWay", "oneway");
-                    logs.WriteLogs(JsonConvert.SerializeObject(sellSsrRequest), "6-SellSSRInftReq", "IndigoOneWay", "oneway");
-                    logs.WriteLogs(JsonConvert.SerializeObject(sellSsrResponse), "6-SellSSRInftRes", "IndigoOneWay", "oneway");
+                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSRInft", "IndigoOneWay");
                 }
                 else
                 {
-                    //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSRInft", "IndigoRT");
-                    if (p == 0)
-                    {
-                        logs.WriteLogsR(JsonConvert.SerializeObject(sellSsrRequest), "5-SellSSRInftReq_Left", "IndigoRT");
-                        logs.WriteLogsR(JsonConvert.SerializeObject(sellSsrResponse), "5-SellSSRInftRes_Left", "IndigoRT");
-                    }
-                    else
-                    {
-                        logs.WriteLogsR(JsonConvert.SerializeObject(sellSsrRequest), "5-SellSSRInftReq_Right", "IndigoRT");
-                        logs.WriteLogsR(JsonConvert.SerializeObject(sellSsrResponse), "5-SellSSRInftRes_Right", "IndigoRT");
-                    }
+                    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSRInft", "IndigoRT");
                 }
-                //if (sellSsrResponse != null)
-                //{
-                    //var JsonObjSeatAssignment = sellSsrResponse;
-                //}
+                if (sellSsrResponse != null)
+                {
+                    var JsonObjSeatAssignment = sellSsrResponse;
+                }
                 return (SellResponse)sellSsrResponse;
             }
 

@@ -78,7 +78,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                     _commit objcommit = new _commit();
                     #region GetState
                     _sell objsell = new _sell();
-                    IndigoBookingManager_.GetBookingFromStateResponse _GetBookingFromStateRS1 = await objsell.GetBookingFromState(token, "");
+                    IndigoBookingManager_.GetBookingFromStateResponse _GetBookingFromStateRS1 = await objsell.GetBookingFromState(token,0, "");
 
                     string strdata = JsonConvert.SerializeObject(_GetBookingFromStateRS1);
                     decimal Totalpayment = 0M;
@@ -804,7 +804,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                         _getapi objIndigo = new _getapi();
                         _logoutResponse = await objIndigo.Logout(_logoutRequestobj);
 
-                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_logoutRequestobj) + "\n Response: " + JsonConvert.SerializeObject(_logoutResponse), "Logout", "SpicejetOneWay");
+                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_logoutRequestobj) + "\n Response: " + JsonConvert.SerializeObject(_logoutResponse), "Logout", "SpicejetOneWay", "oneway");
 
                     }
                     #endregion

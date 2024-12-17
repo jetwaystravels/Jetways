@@ -1,5 +1,5 @@
-﻿using IndigoBookingManager_;
-using IndigoSessionmanager_;
+﻿using SpicejetBookingManager_;
+using SpicejetSessionManager_;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Utility;
 
-namespace Indigo
+namespace Spicejet
 {
     public class _getapi
     {
@@ -237,7 +237,7 @@ namespace Indigo
             catch (Exception ex)
             {
                 Logs logs = new Logs();
-                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_bookingCommitRequest) + "\n\n Response: " + ex.ToString(), "BookingCommit", "IndigoOneWay", "oneway");
+                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_bookingCommitRequest) + "\n\n Response: " + ex.ToString(), "BookingCommitException", "IndigoOneWay","oneway");
                 //return Ok(session);
             }
             return _bookingCommitRes;
@@ -257,7 +257,7 @@ namespace Indigo
             catch (Exception ex)
             {
                 Logs logs = new Logs();
-                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_bookingPaymentRequest) + "\n\n Response: " + ex.ToString(), "Bookingpayment", "IndigoOneWay","oneway");
+                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_bookingPaymentRequest) + "\n\n Response: " + ex.ToString(), "Bookingpayment", "IndigoOneWay", "oneway");
                 //return Ok(session);
             }
             return _bookingpaymentRes;

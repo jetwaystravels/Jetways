@@ -9,20 +9,18 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
 {
     public class _login
     {
-        Logs logs=new Logs ();
-       
-        public async Task<LogonResponse> Login(string _Airline="")
+        Logs logs = new Logs();
+
+        public async Task<LogonResponse> Login(string JourneyType, string _Airline = "")
         {
             #region Logon
             LogonRequest _logonRequestobj = new LogonRequest();
-           
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri("http://localhost:5225/");
                 HttpResponseMessage responsindigo = await client.GetAsync("api/Login/getotacredairasia");
                 if (responsindigo.IsSuccessStatusCode)
                 {
-                   
                     _logonRequestobj.ContractVersion = 452;
                     LogonRequestData LogonRequestDataobj = new LogonRequestData();
                     var results = responsindigo.Content.ReadAsStringAsync().Result;
@@ -33,23 +31,21 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
                         LogonRequestDataobj.Password = JsonObject[2].password;
                         LogonRequestDataobj.DomainCode = JsonObject[2].domain;
                         _logonRequestobj.logonRequestData = LogonRequestDataobj;
-
                     }
                 }
             }
-                      
-           
-           
-
             _getapi objIndigo = new _getapi();
             LogonResponse _logonResponseobj = await objIndigo.Signature(_logonRequestobj);
             if (_Airline.ToLower() == "indigooneway")
             {
-                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_logonRequestobj) + "\n Response: " + JsonConvert.SerializeObject(_logonResponseobj), "Logon", "IndigoOneWay");
+                logs.WriteLogs(JsonConvert.SerializeObject(_logonRequestobj), "1-LogonReq", "IndigoOneWay", JourneyType);
+                logs.WriteLogs(JsonConvert.SerializeObject(_logonResponseobj), "1-LogonRes", "IndigoOneWay", JourneyType);
             }
             else
             {
-                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_logonRequestobj) + "\n Response: " + JsonConvert.SerializeObject(_logonResponseobj), "Logon", "IndigoRT");
+                logs.WriteLogsR(JsonConvert.SerializeObject(_logonRequestobj), "1-LogonReq", "IndigoRT");
+                logs.WriteLogsR(JsonConvert.SerializeObject(_logonResponseobj), "1-LogonRes", "IndigoRT");
+                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_logonRequestobj) + "\n Response: " + JsonConvert.SerializeObject(_logonResponseobj), "Logon", "IndigoRT");
             }
 
             return (LogonResponse)_logonResponseobj;
@@ -57,7 +53,7 @@ namespace OnionConsumeWebAPI.Controllers.Indigo
 
         }
 
-        
+
 
     }
 }

@@ -9,7 +9,7 @@ using Utility;
 using static DomainLayer.Model.ReturnTicketBooking;
 using static OnionArchitectureAPI.Services.Indigo._updateContact;
 
-namespace OnionArchitectureAPI.Services.Indigo
+namespace OnionArchitectureAPI.Services.Spicejet
 {
     public class _SellSSR : ControllerBase
     {
@@ -864,30 +864,18 @@ namespace OnionArchitectureAPI.Services.Indigo
                     sellSsrResponse = await _objIndigo._sellssR(sellSsrRequest);
 
                     string Str3 = JsonConvert.SerializeObject(sellSsrResponse);
-                    //if (_Airline.ToLower() == "oneway")
-                    //{
-                    //    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSR", "IndigoOneWay", "oneway");
-                    //}
-                    //else
-                    //{
-                    //    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSR", "IndigoRT");
-                    //}
                     if (_Airline.ToLower() == "oneway")
                     {
-                        logs.WriteLogs(JsonConvert.SerializeObject(sellSsrRequest), "10-SellSSRReq", "IndigoOneWay", "oneway");
-                        logs.WriteLogs(JsonConvert.SerializeObject(sellSsrResponse), "10-SellSSRRes", "IndigoOneWay", "oneway");
+                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSR", "IndigoOneWay");
                     }
                     else
                     {
-                        logs.WriteLogsR(JsonConvert.SerializeObject(sellSsrResponse), "10-SellSSRReq", "IndigoRT");
-                        logs.WriteLogsR(JsonConvert.SerializeObject(sellSsrResponse), "10-SellSSRRes", "IndigoRT");
-
+                        logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSR", "IndigoRT");
                     }
-
-                    //if (sellSsrResponse != null)
-                    //{
-                        //var JsonObjSeatAssignment = sellSsrResponse;
-                    //}
+                    if (sellSsrResponse != null)
+                    {
+                        var JsonObjSeatAssignment = sellSsrResponse;
+                    }
                     #endregion
                 }
             }
@@ -1012,24 +1000,13 @@ namespace OnionArchitectureAPI.Services.Indigo
                 _AssignseatRes = await _obj._Assignseat(_AssignSeatReq);
 
                 string Str2 = JsonConvert.SerializeObject(_AssignseatRes);
-                //if (_Airlineway.ToLower() == "oneway")
-                //{
-                //    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_AssignSeatReq) + "\n\n Response: " + JsonConvert.SerializeObject(_AssignseatRes), "AssignSeat", "IndigoOneWay", "oneway");
-                //}
-                //else
-                //{
-                //    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_AssignSeatReq) + "\n\n Response: " + JsonConvert.SerializeObject(_AssignseatRes), "AssignSeat", "IndigoRT");
-                //}
                 if (_Airlineway.ToLower() == "oneway")
                 {
-                    logs.WriteLogs(JsonConvert.SerializeObject(_AssignSeatReq), "11-AssignSeatReq", "IndigoOneWay", "oneway");
-                    logs.WriteLogs(JsonConvert.SerializeObject(_AssignseatRes), "11-AssignSeatRes", "IndigoOneWay", "oneway");
+                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_AssignSeatReq) + "\n\n Response: " + JsonConvert.SerializeObject(_AssignseatRes), "AssignSeat", "IndigoOneWay");
                 }
                 else
                 {
-                    logs.WriteLogsR(JsonConvert.SerializeObject(_AssignSeatReq), "11-AssignSeatReq", "IndigoRT");
-                    logs.WriteLogsR(JsonConvert.SerializeObject(_AssignseatRes), "11-AssignSeatRes", "IndigoRT");
-
+                    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_AssignSeatReq) + "\n\n Response: " + JsonConvert.SerializeObject(_AssignseatRes), "AssignSeat", "IndigoRT");
                 }
             }
             return (AssignSeatsResponse)_AssignseatRes;

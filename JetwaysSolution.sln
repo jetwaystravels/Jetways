@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Indigo", "Indigo\Indigo.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoporateBooking", "CoporateBooking\CoporateBooking.csproj", "{91DC60AD-7A85-4A09-8927-5174B42BBF8B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spicejet", "Spicejet\Spicejet.csproj", "{FE718A6D-0324-4575-B05A-2123A2E46747}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,12 +61,17 @@ Global
 		{91DC60AD-7A85-4A09-8927-5174B42BBF8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91DC60AD-7A85-4A09-8927-5174B42BBF8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91DC60AD-7A85-4A09-8927-5174B42BBF8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE718A6D-0324-4575-B05A-2123A2E46747}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE718A6D-0324-4575-B05A-2123A2E46747}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE718A6D-0324-4575-B05A-2123A2E46747}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE718A6D-0324-4575-B05A-2123A2E46747}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{00E6BDC4-FAD3-4C68-96F7-FD67576A36B5} = {A6BA223B-6785-492E-A349-B906AE76F6C8}
+		{FE718A6D-0324-4575-B05A-2123A2E46747} = {A6BA223B-6785-492E-A349-B906AE76F6C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B4DD21ED-3A09-4A66-8426-C33C08C10C76}

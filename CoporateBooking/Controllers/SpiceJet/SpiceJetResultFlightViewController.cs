@@ -203,7 +203,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                 string str = JsonConvert.SerializeObject(_getSellRS);
 
-                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getSellRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getSellRS), "SellRequest", "SpicejetOneWay");
+                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getSellRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getSellRS), "SellRequest", "SpicejetOneWay", "oneway");
 
 
                 #endregion
@@ -220,7 +220,7 @@ namespace OnionConsumeWebAPI.Controllers
                 _GetBookingFromStateRS1 = await objSpiceJet.GetBookingFromState(_GetBookingFromStateRQ1);
 
                 str3 = JsonConvert.SerializeObject(_GetBookingFromStateRS1);
-                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_GetBookingFromStateRQ1) + "\n\n Response: " + JsonConvert.SerializeObject(_GetBookingFromStateRS1), "GetBookingFromStateAftersellrequest", "SpicejetOneWay");
+                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_GetBookingFromStateRQ1) + "\n\n Response: " + JsonConvert.SerializeObject(_GetBookingFromStateRS1), "GetBookingFromStateAftersellrequest", "SpicejetOneWay", "oneway");
 
 
                 if (_GetBookingFromStateRS1 != null)
@@ -530,7 +530,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                     str = JsonConvert.SerializeObject(_getPriceItineraryRS);
 
-                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getPriceItineraryRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getPriceItineraryRS), "PriceIteniry", "SpicejetOneWay");
+                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getPriceItineraryRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getPriceItineraryRS), "PriceIteniry", "SpicejetOneWay", "oneway");
 
 
                     #endregion
@@ -636,7 +636,7 @@ namespace OnionConsumeWebAPI.Controllers
                         sellSsrResponse = await objSpiceJet.sellssR(sellSsrRequest);
 
                         str3 = JsonConvert.SerializeObject(sellSsrResponse);
-                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSR", "SpicejetOneWay");
+                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSR", "SpicejetOneWay", "oneway");
 
 
                         if (sellSsrResponse != null)
@@ -658,7 +658,7 @@ namespace OnionConsumeWebAPI.Controllers
                         _GetBookingFromStateRS = await objSpiceJet.GetBookingFromState(_GetBookingFromStateRQ);
 
                         str3 = JsonConvert.SerializeObject(_GetBookingFromStateRS);
-                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_GetBookingFromStateRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_GetBookingFromStateRS), "GetBookingFromState", "SpicejetOneWay");
+                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_GetBookingFromStateRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_GetBookingFromStateRS), "GetBookingFromState", "SpicejetOneWay", "oneway");
 
 
                         if (_GetBookingFromStateRS != null)
@@ -773,7 +773,7 @@ namespace OnionConsumeWebAPI.Controllers
                             _res = await objSpiceJet.GetSSRAvailabilityForBooking(_req);
 
                             string Str2 = JsonConvert.SerializeObject(_res);  //GetSSRAvailibility Response
-                            logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_req) + "\n\n Response: " + JsonConvert.SerializeObject(_res), "GetSSRAvailabilityForBooking", "SpicejetOneWay");
+                            logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_req) + "\n\n Response: " + JsonConvert.SerializeObject(_res), "GetSSRAvailabilityForBooking", "SpicejetOneWay", "oneway");
 
 
                             //******Vinay***********//
@@ -949,7 +949,7 @@ namespace OnionConsumeWebAPI.Controllers
 
 
                         str = JsonConvert.SerializeObject(SeatGroup);
-                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getseatAvailabilityRequest) + "\n\n Response: " + JsonConvert.SerializeObject(SeatGroup), "GetSeatAvailability", "SpicejetOneWay");
+                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getseatAvailabilityRequest) + "\n\n Response: " + JsonConvert.SerializeObject(SeatGroup), "GetSeatAvailability", "SpicejetOneWay", "oneway");
 
 
 

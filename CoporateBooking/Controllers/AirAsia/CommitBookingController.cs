@@ -98,7 +98,7 @@ namespace OnionConsumeWebAPI.Controllers
                 if (responceCommit_Booking.IsSuccessStatusCode)
                 {
                     var _responceCommit_Booking = responceCommit_Booking.Content.ReadAsStringAsync().Result;
-                    logs.WriteLogs("Url: " + JsonConvert.SerializeObject(AppUrlConstant.AirasiaCommitBooking) + "Request:" + jsonCommitBookingRequest + "\n Response: " + _responceCommit_Booking, "CommitBooking", "AirAsiaOneWay");
+                    logs.WriteLogs("Url: " + JsonConvert.SerializeObject(AppUrlConstant.AirasiaCommitBooking) + "Request:" + jsonCommitBookingRequest + "\n Response: " + _responceCommit_Booking, "CommitBooking", "AirAsiaOneWay", "oneway");
                     var JsonObjCommit_Booking = JsonConvert.DeserializeObject<dynamic>(_responceCommit_Booking);
                 }
                 #endregion
@@ -139,7 +139,7 @@ namespace OnionConsumeWebAPI.Controllers
                     var _responcePNRBooking = responceGetBooking.Content.ReadAsStringAsync().Result;
                     //string path = "C:\\Users\\Jet\\Desktop\\a.txt";
                     //string _responcePNRBooking = System.IO.File.ReadAllText(path);
-                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(AppUrlConstant.AirasiaPNRBooking + AirLinePNR) + "\n Response: " + _responcePNRBooking, "GetBookingDeatils", "AirAsiaOneWay");
+                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(AppUrlConstant.AirasiaPNRBooking + AirLinePNR) + "\n Response: " + _responcePNRBooking, "GetBookingDeatils", "AirAsiaOneWay", "oneway");
                     var JsonObjPNRBooking = JsonConvert.DeserializeObject<dynamic>(_responcePNRBooking);
 
                     //var _responcePNRBooking = responceGetBooking.Content.ReadAsStringAsync().Result;

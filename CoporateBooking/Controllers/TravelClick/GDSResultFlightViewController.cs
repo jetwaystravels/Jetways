@@ -131,7 +131,7 @@ namespace OnionConsumeWebAPI.Controllers.TravelClick
                 _userName = "Universal API/uAPI5098257106-beb65aec";
                 _password = "Q!f5-d7A3D";
                 StringBuilder fareRepriceReq = new StringBuilder();
-                string res = _objAvail.AirPriceGet(_testURL, fareRepriceReq, availibiltyRQGDS, newGuid.ToString(), _targetBranch, _userName, _password, Airfaredata, "GDSOneWay");
+                 string res = _objAvail.AirPriceGet(_testURL, fareRepriceReq, availibiltyRQGDS, newGuid.ToString(), _targetBranch, _userName, _password, Airfaredata,0, "GDSOneWay");
 
                 TravelPortParsing _objP = new TravelPortParsing();
                 List<GDSResModel.Segment> getAirPriceRes = new List<GDSResModel.Segment>();

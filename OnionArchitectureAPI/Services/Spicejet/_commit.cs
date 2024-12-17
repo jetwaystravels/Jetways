@@ -4,7 +4,7 @@ using IndigoBookingManager_;
 using Newtonsoft.Json;
 using Utility;
 
-namespace OnionArchitectureAPI.Services.Indigo
+namespace OnionArchitectureAPI.Services.Spicejet
 {
     public class _commit
     {
@@ -16,7 +16,7 @@ namespace OnionArchitectureAPI.Services.Indigo
             BookingCommitRequest _bookingCommitRequest = new BookingCommitRequest();
             BookingCommitResponse _BookingCommitResponse = new BookingCommitResponse();
             _bookingCommitRequest.Signature = Signature;
-            _bookingCommitRequest.ContractVersion = 456;
+            _bookingCommitRequest.ContractVersion = 420;
             _bookingCommitRequest.BookingCommitRequestData = new BookingCommitRequestData();
             _bookingCommitRequest.BookingCommitRequestData.SourcePOS = GetPointOfSale();
             _bookingCommitRequest.BookingCommitRequestData.CurrencyCode = "INR";
@@ -53,13 +53,13 @@ namespace OnionArchitectureAPI.Services.Indigo
             //}
             if (_Airlineway.ToLower() == "oneway")
             {
-                logs.WriteLogs(JsonConvert.SerializeObject(_bookingCommitRequest), "13-BookingCommitReq", "IndigoOneWay", "oneway");
-                logs.WriteLogs(JsonConvert.SerializeObject(_BookingCommitResponse), "13-BookingCommitRes", "IndigoOneWay", "oneway");
+                logs.WriteLogs(JsonConvert.SerializeObject(_bookingCommitRequest), "13-BookingCommitReq", "SpicejetOneWay", "oneway");
+                logs.WriteLogs(JsonConvert.SerializeObject(_BookingCommitResponse), "13-BookingCommitRes", "SpicejetOneWay", "oneway");
             }
             else
             {
-                logs.WriteLogsR(JsonConvert.SerializeObject(_bookingCommitRequest), "13-BookingCommitReq", "IndigoRT");
-                logs.WriteLogsR(JsonConvert.SerializeObject(_BookingCommitResponse), "13-BookingCommitRes", "IndigoRT");
+                logs.WriteLogsR(JsonConvert.SerializeObject(_bookingCommitRequest), "13-BookingCommitReq", "SpicejetRT");
+                logs.WriteLogsR(JsonConvert.SerializeObject(_BookingCommitResponse), "13-BookingCommitRes", "SpicejetRT");
             }
             return (BookingCommitResponse)_BookingCommitResponse;
 
@@ -70,7 +70,7 @@ namespace OnionArchitectureAPI.Services.Indigo
             AddPaymentToBookingRequest _bookingpaymentRequest = new AddPaymentToBookingRequest();
             AddPaymentToBookingResponse _BookingPaymentResponse = new AddPaymentToBookingResponse();
             _bookingpaymentRequest.Signature = Signature;
-            _bookingpaymentRequest.ContractVersion = 456;
+            _bookingpaymentRequest.ContractVersion = 420;
             _bookingpaymentRequest.addPaymentToBookingReqData = new AddPaymentToBookingRequestData();
             _bookingpaymentRequest.addPaymentToBookingReqData.MessageStateSpecified = true;
             _bookingpaymentRequest.addPaymentToBookingReqData.MessageState = MessageState.New;
@@ -101,13 +101,13 @@ namespace OnionArchitectureAPI.Services.Indigo
             //}
             if (_Airlineway.ToLower() == "oneway")
             {
-                logs.WriteLogs(JsonConvert.SerializeObject(_bookingpaymentRequest), "12-BookingPaymentReq", "IndigoOneWay", "oneway");
-                logs.WriteLogs(JsonConvert.SerializeObject(_BookingPaymentResponse), "12-BookingPaymentRes", "IndigoOneWay", "oneway");
+                logs.WriteLogs(JsonConvert.SerializeObject(_bookingpaymentRequest), "12-BookingPaymentReq", "SpicejetOneWay", "oneway");
+                logs.WriteLogs(JsonConvert.SerializeObject(_BookingPaymentResponse), "12-BookingPaymentRes", "SpicejetOneWay", "oneway");
             }
             else
             {
-                logs.WriteLogsR(JsonConvert.SerializeObject(_bookingpaymentRequest), "12-BookingPaymentReq", "IndigoRT");
-                logs.WriteLogsR(JsonConvert.SerializeObject(_BookingPaymentResponse), "12-BookingPaymentRes", "IndigoRT");
+                logs.WriteLogsR(JsonConvert.SerializeObject(_bookingpaymentRequest), "12-BookingPaymentReq", "SpicejetRT");
+                logs.WriteLogsR(JsonConvert.SerializeObject(_BookingPaymentResponse), "12-BookingPaymentRes", "SpicejetRT");
 
             }
             return (AddPaymentToBookingResponse)_BookingPaymentResponse;
@@ -119,7 +119,7 @@ namespace OnionArchitectureAPI.Services.Indigo
             GetBookingRequest getBookingRequest = new GetBookingRequest();
             GetBookingResponse _getBookingResponse = new GetBookingResponse();
             getBookingRequest.Signature = Signature;
-            getBookingRequest.ContractVersion = 456;
+            getBookingRequest.ContractVersion = 420;
             getBookingRequest.GetBookingReqData = new GetBookingRequestData();
             getBookingRequest.GetBookingReqData.GetBookingBy = GetBookingBy.RecordLocator;
             getBookingRequest.GetBookingReqData.GetByRecordLocator = new GetByRecordLocator();
@@ -130,7 +130,7 @@ namespace OnionArchitectureAPI.Services.Indigo
             string _responceGetBooking = JsonConvert.SerializeObject(_getBookingResponse);
             //if (_Airlineway.ToLower() == "oneway")
             //{
-            //    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getBookingResponse) + "\n\n Response: " + JsonConvert.SerializeObject(_getBookingResponse), "GetBookingDetails", "IndigoOneWay", "oneway");
+            //    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getBookingResponse) + "\n\n Response: " + JsonConvert.SerializeObject(_getBookingResponse), "GetBookingDetails", "IndigoOneWay");
             //}
             //else
             //{
@@ -139,13 +139,13 @@ namespace OnionArchitectureAPI.Services.Indigo
             //}
             if (_Airlineway.ToLower() == "oneway")
             {
-                logs.WriteLogs(JsonConvert.SerializeObject(getBookingRequest), "14-GetBookingDetailsReq", "IndigoOneWay", "oneway");
-                logs.WriteLogs(JsonConvert.SerializeObject(_getBookingResponse), "14-GetBookingDetailsRes", "IndigoOneWay", "oneway");
+                logs.WriteLogs(JsonConvert.SerializeObject(getBookingRequest), "14-GetBookingDetailsReq", "SpicejetOneWay", "oneway");
+                logs.WriteLogs(JsonConvert.SerializeObject(_getBookingResponse), "14-GetBookingDetailsRes", "SpicejetOneWay", "oneway");
             }
             else
             {
-                logs.WriteLogsR(JsonConvert.SerializeObject(getBookingRequest), "14-GetBookingDetailsReq", "IndigoRT");
-                logs.WriteLogsR(JsonConvert.SerializeObject(_getBookingResponse), "14-GetBookingDetailsRes", "IndigoRT");
+                logs.WriteLogsR(JsonConvert.SerializeObject(getBookingRequest), "14-GetBookingDetailsReq", "SpicejetRT");
+                logs.WriteLogsR(JsonConvert.SerializeObject(_getBookingResponse), "14-GetBookingDetailsRes", "SpicejetRT");
 
             }
             return (GetBookingResponse)_getBookingResponse;

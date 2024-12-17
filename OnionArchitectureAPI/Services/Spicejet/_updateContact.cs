@@ -5,9 +5,8 @@ using IndigoBookingManager_;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Utility;
-using static DomainLayer.Model.ReturnTicketBooking;
 
-namespace OnionArchitectureAPI.Services.Indigo
+namespace OnionArchitectureAPI.Services.Spicejet
 {
     public class _updateContact:ControllerBase
     {
@@ -54,19 +53,28 @@ namespace OnionArchitectureAPI.Services.Indigo
             _getapi  objIndigo = new _getapi();
             UpdateContactsResponse responseAddContact6E = await objIndigo.GetUpdateContacts(_ContactModel6E);
             SetSessionValue("ContactDetails", JsonConvert.SerializeObject(_ContactModel6E));
-            //string Str1 = JsonConvert.SerializeObject(responseAddContact6E);
+            string Str1 = JsonConvert.SerializeObject(responseAddContact6E);
+            //if (_AirLineWay.ToLower() == "oneway")
+            //{
+            //    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_ContactModel6E) + "\n\n Response: " + JsonConvert.SerializeObject(responseAddContact6E), "UpdateContact", "IndigoOneWay");
+
+            //}
+            //else
+            //{
+            //    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_ContactModel6E) + "\n\n Response: " + JsonConvert.SerializeObject(responseAddContact6E), "UpdateContact", "IndigoRT");
+            //}
             if (_AirLineWay.ToLower() == "oneway")
             {
                 //logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_ContactModel6E) + "\n\n Response: " + JsonConvert.SerializeObject(responseAddContact6E), "UpdateContact", "IndigoOneWay", "oneway");
-                logs.WriteLogs(JsonConvert.SerializeObject(_ContactModel6E), "9-UpdateContactReq", "IndigoOneWay", "oneway");
-                logs.WriteLogs(JsonConvert.SerializeObject(responseAddContact6E), "9-UpdateContactRes", "IndigoOneWay", "oneway");
+                logs.WriteLogs(JsonConvert.SerializeObject(_ContactModel6E), "9-UpdateContactReq", "SpicejetOneWay", "oneway");
+                logs.WriteLogs(JsonConvert.SerializeObject(responseAddContact6E), "9-UpdateContactRes", "SpicejetOneWay", "oneway");
             }
             else
             {
                 //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_ContactModel6E) + "\n\n Response: " + JsonConvert.SerializeObject(responseAddContact6E), "UpdateContact", "IndigoRT");
-//
-                    logs.WriteLogsR(JsonConvert.SerializeObject(_ContactModel6E), "9-UpdateContactReq", "IndigoRT");
-                    logs.WriteLogsR(JsonConvert.SerializeObject(responseAddContact6E), "9-UpdateContactRes", "IndigoRT");
+                //
+                logs.WriteLogsR(JsonConvert.SerializeObject(_ContactModel6E), "9-UpdateContactReq", "SpicejetRT");
+                logs.WriteLogsR(JsonConvert.SerializeObject(responseAddContact6E), "9-UpdateContactRes", "SpicejetRT");
 
             }
             return (UpdateContactsResponse)responseAddContact6E;
@@ -94,25 +102,24 @@ namespace OnionArchitectureAPI.Services.Indigo
                     Logs logs = new Logs();
                     //if (_Airlineway.ToLower() == "oneway")
                     //{
-                    //    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(updatePaxReq) + "\n\n Response: " + JsonConvert.SerializeObject(updatePaxResp), "UpdatePassenger", "IndigoOneWay", "oneway");
+                    //    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(updatePaxReq) + "\n\n Response: " + JsonConvert.SerializeObject(updatePaxResp), "UpdatePassenger", "IndigoOneWay");
                     //}
                     //else
                     //{
                     //    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(updatePaxReq) + "\n\n Response: " + JsonConvert.SerializeObject(updatePaxResp), "UpdatePassenger", "IndigoRT");
                     //}
-
                     if (_Airlineway.ToLower() == "oneway")
                     {
                         //logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_ContactModel6E) + "\n\n Response: " + JsonConvert.SerializeObject(responseAddContact6E), "UpdateContact", "IndigoOneWay", "oneway");
-                        logs.WriteLogs(JsonConvert.SerializeObject(updatePaxReq), "10-UpdatePassengerReq", "IndigoOneWay", "oneway");
-                        logs.WriteLogs(JsonConvert.SerializeObject(updatePaxResp), "10-UpdatePassengerRes", "IndigoOneWay", "oneway");
+                        logs.WriteLogs(JsonConvert.SerializeObject(updatePaxReq), "10-UpdatePassengerReq", "SpicejetOneWay", "oneway");
+                        logs.WriteLogs(JsonConvert.SerializeObject(updatePaxResp), "10-UpdatePassengerRes", "SpicejetOneWay", "oneway");
                     }
                     else
                     {
                         //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_ContactModel6E) + "\n\n Response: " + JsonConvert.SerializeObject(responseAddContact6E), "UpdateContact", "IndigoRT");
                         //
-                        logs.WriteLogsR(JsonConvert.SerializeObject(updatePaxReq), "10-UpdatePassengerReq", "IndigoRT");
-                        logs.WriteLogsR(JsonConvert.SerializeObject(updatePaxResp), "10-UpdatePassengerRes", "IndigoRT");
+                        logs.WriteLogsR(JsonConvert.SerializeObject(updatePaxReq), "10-UpdatePassengerReq", "SpicejetRT");
+                        logs.WriteLogsR(JsonConvert.SerializeObject(updatePaxResp), "10-UpdatePassengerRes", "SpicejetRT");
 
                     }
                     //return (UpdatePassengersResponse)updatePaxResp;

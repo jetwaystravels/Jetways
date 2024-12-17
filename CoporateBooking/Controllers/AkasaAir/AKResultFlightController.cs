@@ -115,7 +115,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                 {
                     AirAsiaTripResponceModel AkasaAirTripResponceobj = new AirAsiaTripResponceModel();
                     var AKjsondata = responseTripsellAK.Content.ReadAsStringAsync().Result;
-                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(AirAsiaTripSellRequestobj) + "\n Response: " + AKjsondata, "Tripsell", "AkasaOneWay");
+                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(AirAsiaTripSellRequestobj) + "\n Response: " + AKjsondata, "Tripsell", "AkasaOneWay", "oneway");
                     var Akasajsondata = JsonConvert.DeserializeObject<dynamic>(AKjsondata);
 
                     var totalAmount = Akasajsondata.data.breakdown.journeys[journeyKey].totalAmount;
@@ -738,7 +738,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                     //Logs logs = new Logs();
                     string columncount0 = string.Empty;
                     var _AkresponseSeatmap = AkresponseSeatmap.Content.ReadAsStringAsync().Result;
-                    logs.WriteLogs("Url: " + JsonConvert.SerializeObject(AppUrlConstant.AkasaAirSeatMap + journeyKey + "?IncludePropertyLookup=true") + "\n\n Response: " + JsonConvert.SerializeObject(_AkresponseSeatmap), "SeatMap", "AkasaOneWay");
+                    logs.WriteLogs("Url: " + JsonConvert.SerializeObject(AppUrlConstant.AkasaAirSeatMap + journeyKey + "?IncludePropertyLookup=true") + "\n\n Response: " + JsonConvert.SerializeObject(_AkresponseSeatmap), "SeatMap", "AkasaOneWay", "oneway");
                     var JsonAkasaObjSeatmap = JsonConvert.DeserializeObject<dynamic>(_AkresponseSeatmap);
                     var uniquekey1 = JsonAkasaObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[0].unitKey;
                     var data = JsonAkasaObjSeatmap.data.Count;

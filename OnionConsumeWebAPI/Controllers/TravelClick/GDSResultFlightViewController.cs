@@ -131,7 +131,24 @@ namespace OnionConsumeWebAPI.Controllers.TravelClick
                 _userName = "Universal API/uAPI5098257106-beb65aec";
                 _password = "Q!f5-d7A3D";
                 StringBuilder fareRepriceReq = new StringBuilder();
-                string res = _objAvail.AirPriceGet(_testURL, fareRepriceReq, availibiltyRQGDS, newGuid.ToString(), _targetBranch, _userName, _password, Airfaredata, "GDSOneWay");
+                SimpleAvailibilityaAddResponce AirfaredataL = null;
+                string[] _data = fareKey.ToString().Split("@0f");
+                if (!string.IsNullOrEmpty(_data[0]))
+                {
+                    AirfaredataL = JsonConvert.DeserializeObject<SimpleAvailibilityaAddResponce>(_data[0]);
+                }
+
+                // for farebaisis
+                string farebasisdataL = null;
+                _data = journeyKey.ToString().Split("@0");
+                if (!string.IsNullOrEmpty(_data[0]))
+                {
+                    string _farebasisL = _data[0].ToString().Split("_")[1];
+                    //farebasisdataL = _farebasisL.Split("^")[0];
+                    farebasisdataL = _farebasisL;
+                }
+                //string res = _objAvail.AirPriceGetRT_V2(_testURL, fareRepriceReq, availibiltyRQGDS, newGuid.ToString(), _targetBranch, _userName, _password, AirfaredataL, AirfaredataR, farebasisdataL, farebasisdataR, "GDSRT");
+                string res = _objAvail.AirPriceGet(_testURL, fareRepriceReq, availibiltyRQGDS, newGuid.ToString(), _targetBranch, _userName, _password, Airfaredata,0, "GDSOneWay");
 
                 TravelPortParsing _objP = new TravelPortParsing();
                 List<GDSResModel.Segment> getAirPriceRes = new List<GDSResModel.Segment>();

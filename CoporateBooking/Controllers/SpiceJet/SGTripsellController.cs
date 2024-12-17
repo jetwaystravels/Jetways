@@ -183,7 +183,7 @@ namespace OnionConsumeWebAPI.Controllers
                 HttpContext.Session.SetString("ContactDetails", JsonConvert.SerializeObject(_ContactModel));
                 String Str1 = JsonConvert.SerializeObject(responseAddContact);
 
-                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_ContactModel) + "\n\n Response: " + JsonConvert.SerializeObject(responseAddContact), "UpdateContact", "SpicejetOneWay");
+                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_ContactModel) + "\n\n Response: " + JsonConvert.SerializeObject(responseAddContact), "UpdateContact", "SpicejetOneWay", "oneway");
 
             }
             return RedirectToAction("SpiceJetSaverTripsell", "SGTripsell");
@@ -219,7 +219,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                         string Str2 = JsonConvert.SerializeObject(updatePaxResp);
 
-                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(updatePaxReq) + "\n\n Response: " + JsonConvert.SerializeObject(updatePaxResp), "UpdatePassenger", "SpicejetOneWay");
+                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(updatePaxReq) + "\n\n Response: " + JsonConvert.SerializeObject(updatePaxResp), "UpdatePassenger", "SpicejetOneWay", "oneway");
 
                     }
                     catch (Exception ex)
@@ -730,7 +730,7 @@ namespace OnionConsumeWebAPI.Controllers
                     sellSsrResponse = await objSpiceJet.sellssR(sellSsrRequest);
 
                     string Str3 = JsonConvert.SerializeObject(sellSsrResponse);
-                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSR", "SpicejetOneWay");
+                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSR", "SpicejetOneWay", "oneway");
 
 
                     if (sellSsrResponse != null)
@@ -813,7 +813,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                         string Str2 = JsonConvert.SerializeObject(_AssignseatRes);
 
-                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_AssignSeatReq) + "\n\n Response: " + JsonConvert.SerializeObject(_AssignseatRes), "AssignSeat", "SpicejetOneWay");
+                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_AssignSeatReq) + "\n\n Response: " + JsonConvert.SerializeObject(_AssignseatRes), "AssignSeat", "SpicejetOneWay", "oneway");
 
                         if (_AssignseatRes != null)
                         {
@@ -1162,7 +1162,7 @@ namespace OnionConsumeWebAPI.Controllers
                     sellSsrResponse = await objSpiceJet.sellssR(sellSsrRequest);
 
                     string Str3 = JsonConvert.SerializeObject(sellSsrResponse);
-                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSR", "SpicejetOneWay");
+                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSR", "SpicejetOneWay", "oneway");
 
 
                     if (sellSsrResponse != null)
@@ -1220,7 +1220,7 @@ namespace OnionConsumeWebAPI.Controllers
 
                         string Str2 = JsonConvert.SerializeObject(_AssignseatRes);
 
-                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_AssignSeatReq) + "\n\n Response: " + JsonConvert.SerializeObject(_AssignseatRes), "AssignSeat", "SpicejetOneWay");
+                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_AssignSeatReq) + "\n\n Response: " + JsonConvert.SerializeObject(_AssignseatRes), "AssignSeat", "SpicejetOneWay", "oneway");
 
                         if (_AssignseatRes != null)
                         {

@@ -238,7 +238,7 @@ namespace OnionConsumeWebAPI.Controllers
             catch (Exception ex)
             {
                 Logs logs=new Logs ();
-                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getbookingCommitRQ) + "\n\n Response: " + ex.ToString(), "BookingCommit", "SpicejetOneWay");
+                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getbookingCommitRQ) + "\n\n Response: " + ex.ToString(), "BookingCommit", "SpicejetOneWay", "oneway");
                 //return Ok(session);
             }
             return getBookiongCommitResponse;

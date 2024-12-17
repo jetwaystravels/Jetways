@@ -9,6 +9,7 @@ using System.Text;
 using Utility;
 using ZXing.QrCode.Internal;
 using static DomainLayer.Model.GDSResModel;
+using static DomainLayer.Model.ReturnTicketBooking;
 
 namespace OnionArchitectureAPI.Services.Travelport
 {
@@ -165,7 +166,7 @@ namespace OnionArchitectureAPI.Services.Travelport
 
             if (_AirlineWay.ToLower() == "gdsoneway")
             {
-                logs.WriteLogs("URL: " + _testURL + "\n\n Request: " + sbReq + "\n\n Response: " + res, "GetAvailability", "GDSOneWay");
+                //logs.WriteLogs("URL: " + _testURL + "\n\n Request: " + sbReq + "\n\n Response: " + res, "GetAvailability", "GDSOneWay");
             }
             else
             {
@@ -174,49 +175,57 @@ namespace OnionArchitectureAPI.Services.Travelport
             return res;
         }
 
-        public string GetAvailabilty(string _testURL, StringBuilder sbReq, TravelPort _objAvail, SimpleAvailabilityRequestModel _GetfligthModel, string newGuid, string _targetBranch, string _userName, string _password, string flightclass, string _AirlineWay)
+        public string GetAvailabilty(string _testURL, StringBuilder sbReq, TravelPort _objAvail, SimpleAvailabilityRequestModel _GetfligthModel, string newGuid, string _targetBranch, string _userName, string _password, string flightclass,string JourneyType, string _AirlineWay)
         {
 
             sbReq = new StringBuilder();
             sbReq.Append("<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
             sbReq.Append("<soap:Body>");
-            sbReq.Append("<LowFareSearchReq xmlns=\"http://www.travelport.com/schema/air_v52_0\" SolutionResult=\"true\" TraceId=\"" + newGuid + "\" TargetBranch=\"" + _targetBranch + "\" ReturnUpsellFare =\"true\">");
+            sbReq.Append("<air:LowFareSearchReq xmlns:com=\"http://www.travelport.com/schema/common_v52_0\" xmlns:air=\"http://www.travelport.com/schema/air_v52_0\"  AuthorizedBy=\"Travelport\" SolutionResult=\"true\" TraceId=\"" + newGuid + "\" TargetBranch=\"" + _targetBranch + "\" ReturnUpsellFare =\"true\">");
             sbReq.Append("<BillingPointOfSaleInfo xmlns=\"http://www.travelport.com/schema/common_v52_0\" OriginApplication=\"UAPI\"/>");
-            sbReq.Append("<SearchAirLeg>");
-            sbReq.Append("<SearchOrigin>");
-            sbReq.Append("<CityOrAirport xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"" + _GetfligthModel.origin + "\" PreferCity=\"true\" />");
-            sbReq.Append("</SearchOrigin>");
-            sbReq.Append("<SearchDestination>");
-            sbReq.Append("<CityOrAirport xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"" + _GetfligthModel.destination + "\" PreferCity=\"true\" />");
-            sbReq.Append("</SearchDestination>");
+            sbReq.Append("<air:SearchAirLeg>");
+            sbReq.Append("<air:SearchOrigin>");
+            sbReq.Append("<com:CityOrAirport Code=\"" + _GetfligthModel.origin + "\"/>");
+            sbReq.Append("</air:SearchOrigin>");
+            sbReq.Append("<air:SearchDestination>");
+            sbReq.Append("<com:CityOrAirport Code=\"" + _GetfligthModel.destination + "\"/>");
+            sbReq.Append("</air:SearchDestination>");
 
             if (_AirlineWay.ToLower() == "gdsoneway")
             {
-                sbReq.Append("<SearchDepTime PreferredTime=\"" + _GetfligthModel.beginDate + "\"/>");
+                sbReq.Append("<air:SearchDepTime PreferredTime=\"" + _GetfligthModel.beginDate + "\"/>");
             }
             else
             {
-                sbReq.Append("<SearchDepTime PreferredTime=\"" + _GetfligthModel.endDate + "\"/>");
+                sbReq.Append("<air:SearchDepTime PreferredTime=\"" + _GetfligthModel.endDate + "\"/>");
 
             }
-            sbReq.Append("</SearchAirLeg>");
-            sbReq.Append("<AirSearchModifiers>");
-            sbReq.Append("<PreferredProviders>");
-            sbReq.Append("<Provider xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"1G\" />");
-            sbReq.Append("</PreferredProviders>");
+            sbReq.Append("</air:SearchAirLeg>");
+            sbReq.Append("<air:AirSearchModifiers>");
+            sbReq.Append("<air:PreferredProviders>");
+            sbReq.Append("<com:Provider Code=\"1G\" />");
+            sbReq.Append("</air:PreferredProviders>");
 
             // Start for prohibited carrier
-            sbReq.Append("<ProhibitedCarriers>");
-            sbReq.Append("<Carrier Code='H1' xmlns=\"http://www.travelport.com/schema/common_v52_0\"/>");
-            sbReq.Append("</ProhibitedCarriers>");
+            //sbReq.Append("<ProhibitedCarriers>");
+            //sbReq.Append("<Carrier Code='H1' xmlns=\"http://www.travelport.com/schema/common_v52_0\"/>");
+            //sbReq.Append("</ProhibitedCarriers>");
             //End  for prohibited carrier
 
             // Business class
             if (flightclass == "B")
             {
-                sbReq.Append("<PermittedCabins>");
-                sbReq.Append("<CabinClass Type=\"PremiumEconomy\" xmlns=\"http://www.travelport.com/schema/common_v52_0\"/>");
-                sbReq.Append("</PermittedCabins>");
+                sbReq.Append("<air:PermittedCabins>");
+                sbReq.Append("<com:CabinClass Type=\"Business\" xmlns=\"http://www.travelport.com/schema/common_v52_0\"/>");
+                sbReq.Append("</air:PermittedCabins>");
+            }
+
+            // Economy Premium class
+            if (flightclass == "P")
+            {
+                sbReq.Append("<air:PermittedCabins>");
+                sbReq.Append("<com:CabinClass Type=\"PremiumEconomy\" xmlns=\"http://www.travelport.com/schema/common_v52_0\"/>");
+                sbReq.Append("</air:PermittedCabins>");
             }
 
             //Permitted Carrier
@@ -226,7 +235,7 @@ namespace OnionArchitectureAPI.Services.Travelport
             //sbReq.Append("<Carrier Code='UK' xmlns=\"http://www.travelport.com/schema/common_v52_0\"/>");
             //sbReq.Append("</air:PermittedCarriers>");
 
-            sbReq.Append("</AirSearchModifiers>");
+            sbReq.Append("</air:AirSearchModifiers>");
             int pax = 0;
             if (_GetfligthModel.passengercount != null)
             {
@@ -234,8 +243,8 @@ namespace OnionArchitectureAPI.Services.Travelport
                 {
                     for (int i = 0; i < _GetfligthModel.passengercount.adultcount; i++)
                     {
+                        sbReq.Append("<com:SearchPassenger Code=\"ADT\" BookingTravelerRef=\"" + pax + "\" />");
                         pax++;
-                        sbReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"ADT\" BookingTravelerRef=\"" + pax + "\" />");
                     }
                 }
 
@@ -243,8 +252,8 @@ namespace OnionArchitectureAPI.Services.Travelport
                 {
                     for (int i = 0; i < _GetfligthModel.passengercount.infantcount; i++)
                     {
+                        sbReq.Append("<com:SearchPassenger Code=\"INF\" BookingTravelerRef=\"" + pax + "\" PricePTCOnly=\"true\" Age=\"1\"/>");
                         pax++;
-                        sbReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"INF\" BookingTravelerRef=\"" + pax + "\" PricePTCOnly=\"true\" Age=\"01\"/>");
                     }
                 }
 
@@ -252,8 +261,9 @@ namespace OnionArchitectureAPI.Services.Travelport
                 {
                     for (int i = 0; i < _GetfligthModel.passengercount.childcount; i++)
                     {
+
+                        sbReq.Append("<com:SearchPassenger  Code=\"CNN\" BookingTravelerRef=\"" + pax + "\" Age=\"11\"/>");
                         pax++;
-                        sbReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"CNN\" BookingTravelerRef=\"" + pax + "\" Age=\"10\"/>");
                     }
                 }
             }
@@ -263,37 +273,38 @@ namespace OnionArchitectureAPI.Services.Travelport
                 {
                     for (int i = 0; i < _GetfligthModel.adultcount; i++)
                     {
+                        
+                        sbReq.Append("<com:SearchPassenger  Code=\"ADT\" BookingTravelerRef=\"" + pax + "\" />");
                         pax++;
-                        sbReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"ADT\" BookingTravelerRef=\"" + pax + "\" />");
                     }
                 }
                 if (_GetfligthModel.infantcount != 0)
                 {
                     for (int i = 0; i < _GetfligthModel.infantcount; i++)
                     {
+                        sbReq.Append("<com:SearchPassenger  Code=\"INF\" BookingTravelerRef=\"" + pax + "\" PricePTCOnly=\"true\" Age=\"1\"/>");
                         pax++;
-                        sbReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"INF\" BookingTravelerRef=\"" + pax + "\" PricePTCOnly=\"true\" Age=\"01\"/>");
                     }
                 }
                 if (_GetfligthModel.childcount != 0)
                 {
                     for (int i = 0; i < _GetfligthModel.childcount; i++)
                     {
+                        sbReq.Append("<com:SearchPassenger Code=\"CNN\" BookingTravelerRef=\"" + pax + "\" Age=\"11\"/>");
                         pax++;
-                        sbReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"CNN\" BookingTravelerRef=\"" + pax + "\" Age=\"10\"/>");
                     }
                 }
 
 
 
             }
-            sbReq.Append("<AirPricingModifiers FaresIndicator=\"AllFares\" ETicketability=\"Required\">");
-            sbReq.Append("<AccountCodes>");
-            sbReq.Append("<AccountCode xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"-\" />");
-            sbReq.Append("</AccountCodes>");
+            sbReq.Append("<air:AirPricingModifiers FaresIndicator=\"AllFares\" ETicketability=\"Required\">");
+            //sbReq.Append("<AccountCodes>");
+            //sbReq.Append("<AccountCode xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"-\" />");
+            //sbReq.Append("</AccountCodes>");
             sbReq.Append("<FlightType TripleInterlineCon=\"false\" DoubleInterlineCon=\"false\" SingleInterlineCon=\"true\" TripleOnlineCon=\"false\" DoubleOnlineCon=\"false\" SingleOnlineCon=\"true\" StopDirects=\"true\" NonStopDirects=\"true\" />");
-            sbReq.Append("</AirPricingModifiers>");
-            sbReq.Append("</LowFareSearchReq></soap:Body></soap:Envelope>");
+            sbReq.Append("</air:AirPricingModifiers>");
+            sbReq.Append("</air:LowFareSearchReq></soap:Body></soap:Envelope>");
 
 
 
@@ -381,16 +392,19 @@ namespace OnionArchitectureAPI.Services.Travelport
 
             if (_AirlineWay.ToLower() == "gdsoneway")
             {
-                logs.WriteLogs("URL: " + _testURL + "\n\n Request: " + sbReq + "\n\n Response: " + res, "GetAvailability", "GDSOneWay");
+                logs.WriteLogs("URL: " + _testURL + "\n\nRequest: " + sbReq, "1-GetAvailabilityReq", "GDSOneWay", JourneyType);
+                logs.WriteLogs(res, "1-GetAvailabilityRes", "GDSOneWay", JourneyType);
             }
             else
             {
-                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(sbReq) + "\n\n Response: " + JsonConvert.SerializeObject(res), "GetAvailability", "GDSRT");
+                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(sbReq) + "\n\n Response: " + JsonConvert.SerializeObject(res), "GetAvailability", "GDSRT");
+                logs.WriteLogsR("URL: " + _testURL + "\n\nRequest: " + sbReq, "1-GetAvailabilityReq", "GDSRT");
+                logs.WriteLogsR(res, "1-GetAvailabilityRes", "GDSRT");
             }
             return res;
         }
 
-        public string AirPriceGet(string _testURL, StringBuilder fareRepriceReq, SimpleAvailabilityRequestModel _GetfligthModel, string newGuid, string _targetBranch, string _userName, string _password, dynamic Airfaredata, string _AirlineWay)
+        public string AirPriceGet(string _testURL, StringBuilder fareRepriceReq, SimpleAvailabilityRequestModel _GetfligthModel, string newGuid, string _targetBranch, string _userName, string _password, dynamic Airfaredata,int p, string _AirlineWay)
         {
 
             int count = 0;
@@ -476,7 +490,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                         fareRepriceReq.Append("<SearchPassenger xmlns=\"http://www.travelport.com/schema/common_v52_0\" Code=\"ADT\" BookingTravelerRef=\"" + paxCount + "\"/>");
                     }
                 }
-                
+
                 if (_GetfligthModel.passengercount.childcount != 0)
                 {
                     for (int i = 0; i < _GetfligthModel.passengercount.childcount; i++)
@@ -506,7 +520,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                     }
                 }
 
-                
+
 
                 if (_GetfligthModel.childcount != 0)
                 {
@@ -580,15 +594,27 @@ namespace OnionArchitectureAPI.Services.Travelport
 
             if (_AirlineWay.ToLower() == "gdsoneway")
             {
-                logs.WriteLogs("URL: " + _testURL + "\n\n Request: " + fareRepriceReq + "\n\n Response: " + res, "GetAirPrice", "GDSOneWay");
+                //logs.WriteLogs("URL: " + _testURL + "\n\n Request: " + fareRepriceReq + "\n\n Response: " + res, "GetAirPrice", "GDSOneWay","oneway");
+                logs.WriteLogs(fareRepriceReq.ToString(), "3-GetAirpriceReq", "GDSOneWay", "oneway");
+                logs.WriteLogs(res, "2-GetAirpriceRes", "GDSOneWay", "oneway");
             }
             else
             {
-                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(fareRepriceReq) + "\n\n Response: " + JsonConvert.SerializeObject(res), "GetAirprice", "GDSRT");
+                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(fareRepriceReq) + "\n\n Response: " + JsonConvert.SerializeObject(res), "GetAirprice", "GDSRT");
+                if (p == 0)
+                {
+                    logs.WriteLogsR(fareRepriceReq.ToString(), "3-GetAirpriceReq_Left", "GDSRT");
+                    logs.WriteLogsR(res, "2-GetAirpriceRes_Left", "GDSRT");
+                }
+                else
+                {
+                    logs.WriteLogsR(fareRepriceReq.ToString(), "3-GetAirpriceReq_Right", "GDSRT");
+                    logs.WriteLogsR(res, "2-GetAirpriceRes_Right", "GDSRT");
+                }
             }
             return res;
         }
-      //Same Airline RoundTrip 26-09-2024
+        //Same Airline RoundTrip 26-09-2024
         public string AirPriceGetRT(string _testURL, StringBuilder fareRepriceReq, SimpleAvailabilityRequestModel _GetfligthModel, string newGuid, string _targetBranch, string _userName, string _password, dynamic AirfaredataL, dynamic AirfaredataR, string _AirlineWay)
         {
 
@@ -871,7 +897,7 @@ namespace OnionArchitectureAPI.Services.Travelport
 
             if (_AirlineWay.ToLower() == "gdsoneway")
             {
-                logs.WriteLogs("URL: " + _testURL + "\n\n Request: " + fareRepriceReq + "\n\n Response: " + res, "GetAirPrice", "GDSOneWay");
+                //logs.WriteLogs("URL: " + _testURL + "\n\n Request: " + fareRepriceReq + "\n\n Response: " + res, "GetAirPrice", "GDSOneWay");
             }
             else
             {
@@ -1065,7 +1091,7 @@ namespace OnionArchitectureAPI.Services.Travelport
 
             if (_AirlineWay.ToLower() == "gdsoneway")
             {
-                logs.WriteLogs("URL: " + _testURL + "\n\n Request: " + fareRepriceReq + "\n\n Response: " + res, "GetAirPrice", "GDSOneWay");
+                //logs.WriteLogs("URL: " + _testURL + "\n\n Request: " + fareRepriceReq + "\n\n Response: " + res, "GetAirPrice", "GDSOneWay");
             }
             else
             {
@@ -1231,13 +1257,36 @@ namespace OnionArchitectureAPI.Services.Travelport
             string res = Methodshit.HttpPost(_testURL, createPNRReq.ToString(), _userName, _password);
             //SetSessionValue("GDSAvailibilityRequest", JsonConvert.SerializeObject(_GetfligthModel));
             //SetSessionValue("GDSPassengerModel", JsonConvert.SerializeObject(_GetfligthModel));
+            //if (_AirlineWay.ToLower() == "gdsoneway")
+            //{
+            //    //logs.WriteLogs("URL: " + _testURL + "\n\n Request: " + createPNRReq + "\n\n Response: " + res, "GetPNR", "GDSOneWay");
+            //}
+            //else
+            //{
+            //    //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(createPNRReq) + "\n\n Response: " + JsonConvert.SerializeObject(res), "GetPNR", "GDSRT");
+            //}
+
             if (_AirlineWay.ToLower() == "gdsoneway")
             {
-                logs.WriteLogs("URL: " + _testURL + "\n\n Request: " + createPNRReq + "\n\n Response: " + res, "GetPNR", "GDSOneWay");
+                //logs.WriteLogs("URL: " + _testURL + "\n\n Request: " + fareRepriceReq + "\n\n Response: " + res, "GetAirPrice", "GDSOneWay","oneway");
+                logs.WriteLogs(createPNRReq.ToString(), "3-GetPNRReq", "GDSOneWay", "oneway");
+                logs.WriteLogs(res, "3-GetPNRRes", "GDSOneWay", "oneway");
             }
             else
             {
+                //    //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(fareRepriceReq) + "\n\n Response: " + JsonConvert.SerializeObject(res), "GetAirprice", "GDSRT");
+                //    if (p == 0)
+                //    {
+                //        logs.WriteLogsR(fareRepriceReq.ToString(), "3-GetAirpriceReq_Left", "GDSRT");
+                //        logs.WriteLogsR(res, "3-GetAirpriceRes_Left", "GDSRT");
+                //    }
+                //    else
+                //    {
+                //        logs.WriteLogsR(fareRepriceReq.ToString(), "3-GetAirpriceReq_Right", "GDSRT");
+                //        logs.WriteLogsR(res, "3-GetAirpriceRes_Right", "GDSRT");
+                //    }
                 logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(createPNRReq) + "\n\n Response: " + JsonConvert.SerializeObject(res), "GetPNR", "GDSRT");
+
             }
             return res;
         }
@@ -1401,7 +1450,7 @@ namespace OnionArchitectureAPI.Services.Travelport
             //SetSessionValue("GDSPassengerModel", JsonConvert.SerializeObject(_GetfligthModel));
             if (_AirlineWay.ToLower() == "gdsoneway")
             {
-                logs.WriteLogs("URL: " + _testURL + "\n\n Request: " + createPNRReq + "\n\n Response: " + res, "GetPNR", "GDSOneWay");
+                //logs.WriteLogs("URL: " + _testURL + "\n\n Request: " + createPNRReq + "\n\n Response: " + res, "GetPNR", "GDSOneWay");
             }
             else
             {
@@ -1523,7 +1572,7 @@ namespace OnionArchitectureAPI.Services.Travelport
             //SetSessionValue("GDSPassengerModel", JsonConvert.SerializeObject(_GetfligthModel));
             if (_AirlineWay.ToLower() == "gdsoneway")
             {
-                logs.WriteLogs("URL: " + _testURL + "\n\n Request: " + createPNRReq + "\n\n Response: " + res, "GetPNR", "GDSOneWay");
+                //logs.WriteLogs("URL: " + _testURL + "\n\n Request: " + createPNRReq + "\n\n Response: " + res, "GetPNR", "GDSOneWay");
             }
             else
             {
@@ -1593,7 +1642,7 @@ namespace OnionArchitectureAPI.Services.Travelport
 
             if (_AirlineWay.ToLower() == "gdsoneway")
             {
-                logs.WriteLogs("URL: " + _testURL + "\n\n Request: " + retrivePnrReq + "\n\n Response: " + pnrretriveRes, "RetrivePnr", "GDSOneWay");
+                //logs.WriteLogs("URL: " + _testURL + "\n\n Request: " + retrivePnrReq + "\n\n Response: " + pnrretriveRes, "RetrivePnr", "GDSOneWay");
             }
             else
             {
@@ -1628,7 +1677,7 @@ namespace OnionArchitectureAPI.Services.Travelport
 
             if (_AirlineWay.ToLower() == "gdsoneway")
             {
-                logs.WriteLogs("URL: " + _testURL + "\n\n Request: " + retriveTicketPnrReq + "\n\n Response: " + pnrticketretriveRes, "RetriveTicketPnr", "GDSOneWay");
+                //logs.WriteLogs("URL: " + _testURL + "\n\n Request: " + retriveTicketPnrReq + "\n\n Response: " + pnrticketretriveRes, "RetriveTicketPnr", "GDSOneWay");
             }
             else
             {

@@ -25,6 +25,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using OnionConsumeWebAPI.Extensions;
 using OnionConsumeWebAPI.Controllers.Indigo;
 using OnionArchitectureAPI.Services.Indigo;
+using OnionArchitectureAPI.Services.Spicejet;
 using IndigoSessionmanager_;
 using System.Diagnostics.Metrics;
 using System.Globalization;
@@ -125,6 +126,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
             }
             //caching
             Logs logs = new Logs();
+            IHttpContextAccessor httpContextAccessorInstance = new HttpContextAccessor();
             string searlizetext = string.Empty;
             string _simpleAvailability = string.Empty;
             //string File = @"D:\Data\HitLogs.txt"; // Path to your text file
@@ -191,12 +193,16 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     {
                         var results = response.Content.ReadAsStringAsync().Result;
                         var JsonObject = JsonConvert.DeserializeObject<List<_credentials>>(results);
-                        if (JsonObject[0].FlightCode == 1)
+                        if (JsonObject?.Count > 0 && JsonObject[0]?.FlightCode == 1)
                         {
-                            credentialsobj.username = JsonObject[0].username;
-                            credentialsobj.password = JsonObject[0].password;
-                            credentialsobj.domain = JsonObject[0].domain;
-                            credentialsobj.Image = JsonObject[0].Image;
+                            credentialsobj.username = JsonObject[0].username ?? string.Empty;
+                            credentialsobj.password = JsonObject[0].password ?? string.Empty;
+                            credentialsobj.domain = JsonObject[0].domain ?? string.Empty;
+                            credentialsobj.Image = JsonObject[0].Image ?? string.Empty;
+                        }
+                        else
+                        {
+
                         }
                     }
 
@@ -206,13 +212,15 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     TempData["AirAsiaLogin"] = login.credentials.Image;
                     AirasiaTokan AirasiaTokan = new AirasiaTokan();
                     var AirasialoginRequest = JsonConvert.SerializeObject(login, Formatting.Indented);
+                    logs.WriteLogs(AirasialoginRequest, "1-Tokan_Request", "AirAsiaOneWay", SameAirlineRT);
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                     //client.Timeout = TimeSpan.FromSeconds(10);
                     HttpResponseMessage responce = await client.PostAsJsonAsync(AppUrlConstant.AirasiaTokan, login);
-                    
+
                     if (responce.IsSuccessStatusCode)
                     {
                         var results = responce.Content.ReadAsStringAsync().Result;
+                        logs.WriteLogs(results, "1-Token_Responce", "AirAsiaOneWay", SameAirlineRT);
                         var JsonObj = JsonConvert.DeserializeObject<dynamic>(results);
                         AirasiaTokan.token = JsonObj.data.token;
                         AirasiaTokan.idleTimeoutInMinutes = JsonObj.data.idleTimeoutInMinutes;
@@ -227,7 +235,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     MongoDBHelper _mongoDBHelper = new MongoDBHelper(_mongoDbService);
 
                     getguid = _mongoDBHelper.GetFlightSearchByKeyRef(objMongoHelper.GetRequestCacheKey(_GetfligthModel)).Result;
-                  
+
                     _mongoDBHelper.SaveSearchLog(_GetfligthModel, SearchGuid);
 
                     if (string.IsNullOrEmpty(getguid))
@@ -248,7 +256,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     //    InsertedOn = DateTime.Now
                     //};
                     //coll.InsertOne(searchData );
-                    logs.WriteLogs("Request: " + AirasialoginRequest + "\n Response: " + JsonConvert.SerializeObject(AirasiaTokan.token), "Logon", "AirAsiaOneWay");
+                    //logs.WriteLogs("Request: " + AirasialoginRequest + "\n Response: " + JsonConvert.SerializeObject(AirasiaTokan.token), "Logon", "AirAsiaOneWay");
 
 
                     HttpContext.Session.SetString("AirasiaTokan", JsonConvert.SerializeObject(AirasiaTokan.token));
@@ -385,6 +393,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     List<SimpleAvailibilityaAddResponce> SimpleAvailibilityaAddResponcelistR = new List<SimpleAvailibilityaAddResponce>();
                     SimpleAvailibilityaAddResponce _SimpleAvailibilityaAddResponceobjR = new SimpleAvailibilityaAddResponce();
                     var json = JsonConvert.SerializeObject(_SimpleAvailabilityobj, Formatting.Indented);
+                    logs.WriteLogs(json, "2-SimpleAvailability_Req", "AirAsiaOneWay", SameAirlineRT);
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AirasiaTokan.token);
                     HttpResponseMessage responce1 = await client.PostAsJsonAsync(AppUrlConstant.Airasiasearchsimple, _SimpleAvailabilityobj);
@@ -392,7 +401,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     if (responce1.IsSuccessStatusCode)
                     {
                         var results = responce1.Content.ReadAsStringAsync().Result;
-
+                        logs.WriteLogs(results, "2-SimpleAvailability_Res", "AirAsiaOneWay", SameAirlineRT);
                         //Mongo GetAvailibilty
                         //var searchData_ = new SearchLog
                         //{
@@ -407,9 +416,9 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         //Response = JsonConvert.SerializeObject(results),
                         //InsertedOn = DateTime.Now
                         //};
-                       // coll.InsertOne(searchData_);
+                        // coll.InsertOne(searchData_);
 
-                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_SimpleAvailabilityobj) + "\n Response: " + results, "GetAvailability", "AirAsiaOneWay");
+                        //logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_SimpleAvailabilityobj) + "\n Response: " + results, "GetAvailability", "AirAsiaOneWay");
                         var JsonObj = JsonConvert.DeserializeObject<dynamic>(results);
                         dynamic jsonObj = JObject.Parse(results);
 
@@ -638,11 +647,13 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         //TempData["AirAsiaLogin"] = login.credentials.Image;
                         AirasiaTokan = new AirasiaTokan();
                         AirasialoginRequest = JsonConvert.SerializeObject(loginobject, Formatting.Indented);
+                        logs.WriteLogs(AirasialoginRequest, "1-Tokan_Request", "AkasaOneWay", SameAirlineRT);
                         client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                         HttpResponseMessage responcedata = await client.PostAsJsonAsync(AppUrlConstant.AkasaTokan, loginobject);
                         if (responcedata.IsSuccessStatusCode)
                         {
                             var results = responcedata.Content.ReadAsStringAsync().Result;
+                            logs.WriteLogs(results, "1-Token_Responce", "AkasaOneWay", SameAirlineRT);
                             var JsonObj = JsonConvert.DeserializeObject<dynamic>(results);
                             AirasiaTokan.token = JsonObj.data.token;
                             AirasiaTokan.idleTimeoutInMinutes = JsonObj.data.idleTimeoutInMinutes;
@@ -723,6 +734,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             _SimpleAvailabilityobj.filters = Filters;
                             _SimpleAvailabilityobj.numberOfFaresPerJourney = 4;
                             json = JsonConvert.SerializeObject(_SimpleAvailabilityobj, Formatting.Indented);
+                            logs.WriteLogs(json, "2-SimpleAvailability_Req", "AkasaOneWay", SameAirlineRT);
                             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AirasiaTokan.token);
                             HttpResponseMessage responceAkasaAir = await client.PostAsJsonAsync(AppUrlConstant.AkasaAirSearchSimple, _SimpleAvailabilityobj);
@@ -731,7 +743,8 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             {
 
                                 var resultsAkasaAir = responceAkasaAir.Content.ReadAsStringAsync().Result;
-                                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_SimpleAvailabilityobj) + "\n Response: " + resultsAkasaAir, "GetAvailability", "AkasaOneWay");
+                                logs.WriteLogs(resultsAkasaAir, "2-SimpleAvailability_Res", "AkasaOneWay", SameAirlineRT);
+                                //logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_SimpleAvailabilityobj) + "\n Response: " + resultsAkasaAir, "GetAvailability", "AkasaOneWay");
                                 var JsonAkasaAir = JsonConvert.DeserializeObject<dynamic>(resultsAkasaAir);
                                 dynamic jsonAkasaAir = JObject.Parse(resultsAkasaAir);
 
@@ -940,127 +953,24 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         List<SimpleAvailibilityaAddResponce> SpiceJetAvailibilityaAddResponcelist = new List<SimpleAvailibilityaAddResponce>();
                         //Logon 
                         #region Logon
-                        Sessionmanager.LogonRequest _logonRequestobj = new Sessionmanager.LogonRequest();
-                        _logonRequestobj.ContractVersion = 420;
-                        Sessionmanager.LogonRequestData LogonRequestDataobj = new Sessionmanager.LogonRequestData();
-
-                        //client.BaseAddress = new Uri(AppUrlConstant.BaseURL);
-                        HttpResponseMessage responsespice = await client.GetAsync("api/Login/getotacredairasia");
-                        if (response.IsSuccessStatusCode)
-                        {
-                            var results = responsespice.Content.ReadAsStringAsync().Result;
-                            var JsonObject = JsonConvert.DeserializeObject<List<_credentials>>(results);
-                            if (JsonObject[1].FlightCode == 3)
-                            {
-                                LogonRequestDataobj.AgentName = JsonObject[1].username;
-                                LogonRequestDataobj.Password = JsonObject[1].password;
-                                LogonRequestDataobj.DomainCode = JsonObject[1].domain;
-                                // LogonRequestDataobj.Status = JsonObject[0].Status;
-
-                                _logonRequestobj.logonRequestData = LogonRequestDataobj;
-
-
-                            }
-                        }
-
-
-
-
-
-
-                        //    LogonRequestDataobj.AgentName = "APITESTID";
-                        //LogonRequestDataobj.DomainCode = "WWW";
-                        //LogonRequestDataobj.Password = "Spice@123";
-                        //_logonRequestobj.logonRequestData = LogonRequestDataobj;
-
-                        SpiceJetApiController objSpiceJet = new SpiceJetApiController();
-                        Sessionmanager.LogonResponse _logonResponseobj = await objSpiceJet.Signature(_logonRequestobj);
-
-                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_logonRequestobj) + "\n Response: " + JsonConvert.SerializeObject(_logonResponseobj), "Logon", "SpicejetOneWay");
-
-
+                        Spicejet._login objSpicejet_ = new Spicejet._login();
+                        SpicejetSessionManager_.LogonResponse _SpicejetlogonResponseobj = await objSpicejet_.Login(SameAirlineRT,"SpicejetOneWay");
                         #endregion
                         //GetAvailability
                         #region GetAvailability
-                        GetAvailabilityVer2Response _getAvailabilityVer2Response = null;
-                        GetAvailabilityVer2Response _getAvailabilityRS = null;
-                        if (_logonResponseobj != null)
+                        SpicejetBookingManager_.GetAvailabilityVer2Response _getAvailabilityVer2Response = null;
+                        SpicejetBookingManager_.GetAvailabilityVer2Response _getAvailabilityRS = null;
+                        OnionArchitectureAPI.Services.Spicejet._GetAvailability objspicejetgetAvail_ = new OnionArchitectureAPI.Services.Spicejet._GetAvailability(httpContextAccessorInstance);
+                        if (_SpicejetlogonResponseobj != null)
                         {
-                            _getAvailabilityRQ = new GetAvailabilityRequest();
-                            _getAvailabilityRQ.Signature = _logonResponseobj.Signature;
-                            _getAvailabilityRQ.ContractVersion = _logonRequestobj.ContractVersion;
-
-
-                            //_GetfligthModel.origin = "BOM";
-                            //_GetfligthModel.destination = "IXJ";
-                            _getAvailabilityRQ.TripAvailabilityRequest = new TripAvailabilityRequest();
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests = new AvailabilityRequest[1];
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0] = new AvailabilityRequest();
-
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].DepartureStation = _GetfligthModel.origin;
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].ArrivalStation = _GetfligthModel.destination;
-                            TempData["origin"] = _GetfligthModel.origin;
-                            TempData["destination"] = _GetfligthModel.destination;
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].BeginDateSpecified = true;
-                            //_getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].BeginDate = Convert.ToDateTime("2024-01-18");
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].BeginDate = Convert.ToDateTime(_GetfligthModel.beginDate);
-
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].EndDateSpecified = true;
-                            //_getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].EndDate = Convert.ToDateTime("2024-01-18");
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].EndDate = Convert.ToDateTime(_GetfligthModel.beginDate);
-
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].FlightTypeSpecified = true;
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].FlightType = FlightType.All;
-
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxCountSpecified = true;
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxCount = Convert.ToInt16(TotalCount); //Total Travell Count
-
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].DowSpecified = true;
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].Dow = DOW.Daily;
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].CurrencyCode = "INR";
-
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].AvailabilityFilter = default;
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].AvailabilityFilterSpecified = true;
-
-
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxPriceTypes = new PaxPriceType[0];
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxPriceTypes = getPaxdetails(adultcount, childcount, infantcount); //Pax Count 1 always Default Set.
-
-
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].CarrierCode = "SG";
-
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareClassControlSpecified = true;
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareClassControl = FareClassControl.CompressByProductClass;
-
-                            //string[] faretypes = { "R", "MX", "IO", "SF" };
-                            string[] faretypes = { "R", "MX", "SF" };
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareTypes = faretypes;
-
-                            string[] productclasses = new string[1];
-                            //string[] productclasses = {"R"};
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].ProductClasses = productclasses;
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].MaximumConnectingFlights = 20;
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].MaximumConnectingFlightsSpecified = true;
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].LoyaltyFilterSpecified = true;
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].LoyaltyFilter = LoyaltyFilter.MonetaryOnly;
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].IncludeTaxesAndFees = true;
-                            _getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].IncludeTaxesAndFeesSpecified = true;
-
-                            HttpContext.Session.SetString("SpicejetSignature", JsonConvert.SerializeObject(_getAvailabilityRQ.Signature));
-                            HttpContext.Session.SetString("SpicejetAvailibilityRequest", JsonConvert.SerializeObject(_getAvailabilityRQ));
-
-                            _getAvailabilityVer2Response = await objSpiceJet.GetAvailabilityVer2Async(_getAvailabilityRQ);
-
-                            logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getAvailabilityRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getAvailabilityVer2Response), "GetAvailability", "SpicejetOneWay");
-                        }
-                        //list of spicejet flights
-                        int count1 = 0;
-                        if (_getAvailabilityVer2Response != null && _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0].Length > 0)
-                        {
-                            count1 = _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys.Length;
-                        }
-                        for (int i = 0; i < count1; i++)
-                        {
+                            _getAvailabilityVer2Response = await objspicejetgetAvail_.GetTripAvailability(_GetfligthModel, _SpicejetlogonResponseobj, TotalCount, adultcount, childcount, infantcount, flightclass, SameAirlineRT,"SpicejetOneWay");
+                            int count1 = 0;
+                            if (_getAvailabilityVer2Response != null && _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0].Length > 0)
+                            {
+                                count1 = _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys.Length;
+                            }
+                            for (int i = 0; i < count1; i++)
+                            {
 
                             string _journeysellkey = _getAvailabilityVer2Response.GetTripAvailabilityVer2Response.Schedules[0][0].AvailableJourneys[i].JourneySellKey;
 
@@ -1323,8 +1233,9 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             SpiceJetAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
                             SimpleAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
                         }
-                        string str1 = JsonConvert.SerializeObject(_getAvailabilityVer2Response);
-                        logs.WriteLogs("RequestSpicejetBind: " + JsonConvert.SerializeObject(_getAvailabilityRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getAvailabilityVer2Response), "GetAvailability", "SpicejetOneWay");
+                            //string str1 = JsonConvert.SerializeObject(_getAvailabilityVer2Response);
+                            //logs.WriteLogs("RequestSpicejetBind: " + JsonConvert.SerializeObject(_getAvailabilityRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getAvailabilityVer2Response), "GetAvailability", "SpicejetOneWay");
+                        }
                         #endregion
                         #endregion
                     }
@@ -1333,20 +1244,20 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     //Logon 
                     #region Logon
                     _login obj_ = new _login();
-                    IndigoSessionmanager_.LogonResponse _IndigologonResponseobj = await obj_.Login("IndigooneWay");
+                    IndigoSessionmanager_.LogonResponse _IndigologonResponseobj = await obj_.Login(SameAirlineRT, "IndigooneWay");
                     #endregion
                     //.GetAvailability
                     #region GetAvailability
                     TempData["origin"] = _GetfligthModel.origin;
                     TempData["destination"] = _GetfligthModel.destination;
-                    IHttpContextAccessor httpContextAccessorInstance = new HttpContextAccessor();
-                    _GetAvailability objgetAvail_ = new _GetAvailability(httpContextAccessorInstance);
+                    httpContextAccessorInstance = new HttpContextAccessor();
+                    OnionArchitectureAPI.Services.Indigo._GetAvailability objgetAvail_ = new OnionArchitectureAPI.Services.Indigo._GetAvailability(httpContextAccessorInstance);
                     IndigoBookingManager_.GetAvailabilityVer2Response _IndigoAvailabilityResponseobj = null;
                     string str2Return = string.Empty;
                     int count2 = 0;
                     if (_IndigologonResponseobj != null)
                     {
-                        _IndigoAvailabilityResponseobj = await objgetAvail_.GetTripAvailability(_GetfligthModel, _IndigologonResponseobj, TotalCount, adultcount, childcount, infantcount, flightclass, "IndigoOneWay");
+                        _IndigoAvailabilityResponseobj = await objgetAvail_.GetTripAvailability(_GetfligthModel, _IndigologonResponseobj, TotalCount, adultcount, childcount, infantcount, flightclass, SameAirlineRT, "IndigoOneWay");
                         count2 = 0;
                         if (_IndigoAvailabilityResponseobj != null && _IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response.Schedules[0].Length > 0)
                         {
@@ -1530,16 +1441,6 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 #endregion
                             }
                             fareIndividualsconnectedList = fareIndividualsList;
-                            //fareIndividualsconnectedList = fareIndividualsconnectedList.Where(d => d.fareKey.Contains('^')).ToList();
-                            //int StopCounter = 0;
-                            //if (Segmentobjlist.Count == 1)
-                            //{
-                            //if (Segmentobjlist[0].legs.Count >= 1)
-                            //StopCounter = Segmentobjlist[0].legs.Count;
-                            //}
-                            //else
-                            //StopCounter = Segmentobjlist.Count;
-
                             var duplicates = fareIndividualsconnectedList.GroupBy(x => x.procuctclass).Where(g => g.Count() > 1).SelectMany(g => g).ToHashSet();
 
                             // Remove all items that are duplicates
@@ -1549,7 +1450,6 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
                             //// Remove all items that are duplicates
                             //fareIndividualsList = fareIndividualsList.Where(item => !duplicatesnonstop.Contains(item)).ToList();
-
                             fareTotalsum = 0;
                             //todo Viewprice
                             decimal[] ViewPriceNew = new decimal[fareIndividualsconnectedList.Count];
@@ -1577,14 +1477,13 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             if (_SimpleAvailibilityaAddResponceobj.fareTotalsum <= 0)
                                 continue;
                             uniqueidx++;
-                            //SpiceJetAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
                             SimpleAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
                         }
-                        str2Return = string.Empty;
-                        if (_IndigoAvailabilityResponseobj != null)
-                        {
-                            str2Return = JsonConvert.SerializeObject(_IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response);
-                        }
+                        //str2Return = string.Empty;
+                        //if (_IndigoAvailabilityResponseobj != null)
+                        //{
+                           // str2Return = JsonConvert.SerializeObject(_IndigoAvailabilityResponseobj.GetTripAvailabilityVer2Response);
+                        //}
                         //OneWayTrip
                         HttpContext.Session.SetString("IndigoSignature", JsonConvert.SerializeObject(_IndigologonResponseobj.Signature));
                     }
@@ -1623,7 +1522,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                     httpContextAccessorInstance = new HttpContextAccessor();
                     TravelPort _objAvail = null;
                     _objAvail = new TravelPort(httpContextAccessorInstance);
-                    res = _objAvail.GetAvailabilty(_testURL, sbReq, _objAvail, _GetfligthModel, newGuid.ToString(), _CredentialsGDS.domain, _CredentialsGDS.username, _CredentialsGDS.password, flightclass, "GDSOneWay");
+                    res = _objAvail.GetAvailabilty(_testURL, sbReq, _objAvail, _GetfligthModel, newGuid.ToString(), _CredentialsGDS.domain, _CredentialsGDS.username, _CredentialsGDS.password, flightclass,SameAirlineRT, "GDSOneWay");
                     TempData["origin"] = _GetfligthModel.origin;
                     TempData["destination"] = _GetfligthModel.destination;
                     TravelPortParsing _objP = new TravelPortParsing();
@@ -1837,7 +1736,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                 {
                                 }
                             }
-                            
+
                             if (string.IsNullOrEmpty(_SimpleAvailibilityaAddResponceobj.Identifier))
                             {
                                 _SimpleAvailibilityaAddResponceobj.Identifier = getAvailRes[i].Bonds[0].Legs[l].FlightNumber;
@@ -1920,11 +1819,11 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         SimpleAvailibilityaAddResponcelist.Add(_SimpleAvailibilityaAddResponceobj);
                     }
                     //var x = SimpleAvailibilityaAddResponcelist.Distinct().ToList();
-                    str2Return = string.Empty;
-                    if (getAvailRes != null && getAvailRes.Count > 0)
-                    {
-                        str2Return = JsonConvert.SerializeObject(getAvailRes);
-                    }
+                    //str2Return = string.Empty;
+                    //if (getAvailRes != null && getAvailRes.Count > 0)
+                    //{
+                        //str2Return = JsonConvert.SerializeObject(getAvailRes);
+                    //}
                     //OneWayTrip
                     HttpContext.Session.SetString("GDSTraceid", JsonConvert.SerializeObject(newGuid.ToString()));
                     //
@@ -1943,6 +1842,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
                         uniqueidx = 0;
                         ////Roundtripcode for AirAsia
+                        SpicejetSessionManager_.LogonResponse _SpicejetlogonResponseobjR = null;
                         SimpleAvailibilityaAddResponcelistR = new List<SimpleAvailibilityaAddResponce>();
                         _SimpleAvailibilityaAddResponceobjR = new SimpleAvailibilityaAddResponce();
 
@@ -2065,32 +1965,32 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         TempData["AirAsiaLogin"] = login.credentials.Image;
                         AirasiaTokan = new AirasiaTokan();
                         AirasialoginRequest = JsonConvert.SerializeObject(login, Formatting.Indented);
+                        logs.WriteLogsR(AirasialoginRequest, "1-Tokan_Request", "AirAsiaRT");
                         client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                         responce = await client.PostAsJsonAsync(AppUrlConstant.AirasiaTokan, login);
 
                         if (responce.IsSuccessStatusCode)
                         {
                             var results = responce.Content.ReadAsStringAsync().Result;
+                            logs.WriteLogsR(results, "1-Token_Responce", "AirAsiaRT");
                             var JsonObj = JsonConvert.DeserializeObject<dynamic>(results);
                             AirasiaTokan.token = JsonObj.data.token;
                             AirasiaTokan.idleTimeoutInMinutes = JsonObj.data.idleTimeoutInMinutes;
                             //token = ((Newtonsoft.Json.Linq.JValue)value).Value.ToString();
                         }
-                        logs.WriteLogsR("Request: " + AirasialoginRequest + "\n Response: " + JsonConvert.SerializeObject(AirasiaTokan.token), "Logon", "AirAsiaRT");
+                        //logs.WriteLogsR("Request: " + AirasialoginRequest + "\n Response: " + JsonConvert.SerializeObject(AirasiaTokan.token), "Logon", "AirAsiaRT");
 
 
                         HttpContext.Session.SetString("AirasiaTokanR", JsonConvert.SerializeObject(AirasiaTokan.token));
-
-
-
-
                         client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AirasiaTokan.token);
+                        logs.WriteLogsR(jsonR, "2-SimpleAvailability_Req", "AirAsiaRT");
                         HttpResponseMessage responceR = await client.PostAsJsonAsync(AppUrlConstant.AirasiasearchsimpleR, _SimpleAvailabilityobjR);
                         if (responceR.IsSuccessStatusCode)
                         {
                             var resultsR = responceR.Content.ReadAsStringAsync().Result;
-                            logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_SimpleAvailabilityobjR) + "Url: " + AppUrlConstant.AirasiasearchsimpleR + "\n Response: " + JsonConvert.SerializeObject(resultsR), "GetAvailability", "AirAsiaRT");
+                            logs.WriteLogsR(resultsR, "2-SimpleAvailability_Res", "AirAsiaRT");
+                            //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_SimpleAvailabilityobjR) + "Url: " + AppUrlConstant.AirasiasearchsimpleR + "\n Response: " + JsonConvert.SerializeObject(resultsR), "GetAvailability", "AirAsiaRT");
                             var JsonObjR = JsonConvert.DeserializeObject<dynamic>(resultsR);
                             // var value = JsonObj.data.token;
                             //var value = JsonObj.data.results[0].trips[0].date;
@@ -2277,12 +2177,14 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             //AkasaTokan AkasaTokan = new AkasaTokan();
                             AirasiaTokan AkasaTokanR = new AirasiaTokan();
                             var AkasaloginRequestdataR = JsonConvert.SerializeObject(loginAkasaR, Formatting.Indented);
+                            logs.WriteLogsR(AkasaloginRequestdataR, "1-Tokan_Request", "AkasaRT");
                             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                             HttpResponseMessage responceAkasaR = await client.PostAsJsonAsync(AppUrlConstant.AkasaTokan, loginAkasaR);
                             if (responceAkasaR.IsSuccessStatusCode)
                             {
                                 var results = responceAkasaR.Content.ReadAsStringAsync().Result;
-                                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject("") + "\n Response: " + results, "Login", "AkasaRT");
+                                logs.WriteLogsR(results, "1-Token_Responce", "AkasaRT");
+                                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject("") + "\n Response: " + results, "Login", "AkasaRT");
                                 var JsonObj = JsonConvert.DeserializeObject<dynamic>(results);
                                 AkasaTokanR.token = JsonObj.data.token;
                                 AkasaTokanR.idleTimeoutInMinutes = JsonObj.data.idleTimeoutInMinutes;
@@ -2384,14 +2286,15 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             //_SimpleAvailabilityobjR.ssrCollectionsMode = "Leg";
                             _SimpleAvailabilityobjR.numberOfFaresPerJourney = 4;
                             jsonR = JsonConvert.SerializeObject(_SimpleAvailabilityobjR, Formatting.Indented);
-
+                            logs.WriteLogsR(jsonR, "2-SimpleAvailability_Req", "AkasaRT");
                             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AkasaTokanR.token);
                             responceR = await client.PostAsJsonAsync(AppUrlConstant.AkasasearchsimpleR, _SimpleAvailabilityobjR);
                             if (responceR.IsSuccessStatusCode)
                             {
                                 var resultsR = responceR.Content.ReadAsStringAsync().Result;
-                                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_SimpleAvailabilityobjR) + "\n Response: " + resultsR, "GetAvailibility", "AkasaRT");
+                                logs.WriteLogsR(resultsR, "2-SimpleAvailability_Res", "AkasaRT");
+                                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_SimpleAvailabilityobjR) + "\n Response: " + resultsR, "GetAvailibility", "AkasaRT");
                                 var JsonObjR = JsonConvert.DeserializeObject<dynamic>(resultsR);
 
 
@@ -2573,95 +2476,92 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             List<SimpleAvailibilityaAddResponce> SpiceJetAvailibilityaAddResponcelistR = new List<SimpleAvailibilityaAddResponce>();
                             //Logon 
                             #region Logon
-                            Sessionmanager.LogonRequest _logonRequestobjR = new Sessionmanager.LogonRequest();
-                            _logonRequestobjR.ContractVersion = 420;
-                            Sessionmanager.LogonRequestData LogonRequestDataobjR = new Sessionmanager.LogonRequestData();
-                            LogonRequestDataobjR.AgentName = "APITESTID";
-                            LogonRequestDataobjR.DomainCode = "WWW";
-                            LogonRequestDataobjR.Password = "Spice@123";
-                            _logonRequestobjR.logonRequestData = LogonRequestDataobjR;
-
-                            SpiceJetApiController objSpiceJetR = new SpiceJetApiController();
-                            _logonResponseobjR = await objSpiceJetR.Signature(_logonRequestobjR);
-
-                            logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_logonRequestobjR) + "\n Response: " + JsonConvert.SerializeObject(_logonResponseobjR), "Logon", "SpiceJetRT");
+                            Spicejet._login objSpicejetR_ = new Spicejet._login();
+                            _SpicejetlogonResponseobjR = await objSpicejetR_.Login(SameAirlineRT, "SpicejetRT");
+                            //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_logonRequestobjR) + "\n Response: " + JsonConvert.SerializeObject(_logonResponseobjR), "Logon", "SpiceJetRT");
 
 
                             #endregion
                             //GetAvailability
                             #region GetAvailability
-                            if (_logonResponseobjR != null)
+                            if (_SpicejetlogonResponseobjR != null)
                             {
 
                                 GetAvailabilityVer2Response _getAvailabilityReturnRS = null;
                                 GetAvailabilityRequest _getAvailabilityReturnRQ = null;
                                 _getAvailabilityReturnRQ = new GetAvailabilityRequest();
-                                _getAvailabilityReturnRQ.Signature = _logonResponseobjR.Signature;
-                                _getAvailabilityReturnRQ.ContractVersion = _logonRequestobjR.ContractVersion;
+
+                                SpicejetBookingManager_.GetAvailabilityVer2Response _getAvailabilityVer2ReturnResponse = null;
+                                //SpicejetBookingManager_.GetAvailabilityVer2Response _getAvailabilityRS = null;
+                                OnionArchitectureAPI.Services.Spicejet._GetAvailability objspicejetgetAvail_ = new OnionArchitectureAPI.Services.Spicejet._GetAvailability(httpContextAccessorInstance);
+                                _getAvailabilityVer2ReturnResponse = await objspicejetgetAvail_.GetTripAvailability(_GetfligthModel, _SpicejetlogonResponseobjR, TotalCount, adultcount, childcount, infantcount, flightclass, SameAirlineRT, "SpicejetRT");
+
+                                //_getAvailabilityReturnRQ.Signature = _SpicejetlogonResponseobjR.Signature;
+                                //_getAvailabilityReturnRQ.ContractVersion = _SpicejetlogonResponseobjR.ContractVersion;
 
 
-                                //_GetfligthModel.origin = "BOM";
-                                //_GetfligthModel.destination = "IXJ";
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest = new TripAvailabilityRequest();
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests = new AvailabilityRequest[1];
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0] = new AvailabilityRequest();
+                                ////_GetfligthModel.origin = "BOM";
+                                ////_GetfligthModel.destination = "IXJ";
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest = new TripAvailabilityRequest();
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests = new AvailabilityRequest[1];
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0] = new AvailabilityRequest();
 
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].DepartureStation = _GetfligthModel.destination; //return_origin
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].DepartureStation = _GetfligthModel.destination; //return_origin
 
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].ArrivalStation = _GetfligthModel.origin; //return_depart
-                                TempData["originR"] = _GetfligthModel.origin;
-                                TempData["destinationR"] = _GetfligthModel.destination;
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].BeginDateSpecified = true;
-                                //_getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].BeginDate = Convert.ToDateTime("2024-01-18");
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].BeginDate = Convert.ToDateTime(_GetfligthModel.endDate);
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].ArrivalStation = _GetfligthModel.origin; //return_depart
+                                //TempData["originR"] = _GetfligthModel.origin;
+                                //TempData["destinationR"] = _GetfligthModel.destination;
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].BeginDateSpecified = true;
+                                ////_getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].BeginDate = Convert.ToDateTime("2024-01-18");
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].BeginDate = Convert.ToDateTime(_GetfligthModel.endDate);
 
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].EndDateSpecified = true;
-                                //_getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].EndDate = Convert.ToDateTime("2024-01-18");
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].EndDate = Convert.ToDateTime(_GetfligthModel.endDate);
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].EndDateSpecified = true;
+                                ////_getAvailabilityRQ.TripAvailabilityRequest.AvailabilityRequests[0].EndDate = Convert.ToDateTime("2024-01-18");
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].EndDate = Convert.ToDateTime(_GetfligthModel.endDate);
 
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].FlightTypeSpecified = true;
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].FlightType = FlightType.All;
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].FlightTypeSpecified = true;
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].FlightType = FlightType.All;
 
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxCountSpecified = true;
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxCount = Convert.ToInt16(TotalCount); //Total Travell Count
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxCountSpecified = true;
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxCount = Convert.ToInt16(TotalCount); //Total Travell Count
 
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].DowSpecified = true;
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].Dow = DOW.Daily;
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].CurrencyCode = "INR";
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].DowSpecified = true;
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].Dow = DOW.Daily;
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].CurrencyCode = "INR";
 
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].AvailabilityFilter = default;
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].AvailabilityFilterSpecified = true;
-
-
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxPriceTypes = new PaxPriceType[0];
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxPriceTypes = getPaxdetails(adultcount, childcount, infantcount); //Pax Count 1 always Default Set.
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].AvailabilityFilter = default;
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].AvailabilityFilterSpecified = true;
 
 
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].CarrierCode = "SG";
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxPriceTypes = new PaxPriceType[0];
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].PaxPriceTypes = getPaxdetails(adultcount, childcount, infantcount); //Pax Count 1 always Default Set.
 
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareClassControlSpecified = true;
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareClassControl = FareClassControl.CompressByProductClass;
 
-                                string[] faretypesreturn = { "R", "MX", "SF" };
-                                // string[] faretypes = {"R"};
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareTypes = faretypesreturn;
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].CarrierCode = "SG";
 
-                                string[] productclassesreturn = new string[1];
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].ProductClasses = productclassesreturn;
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].MaximumConnectingFlights = 20;
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].MaximumConnectingFlightsSpecified = true;
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].LoyaltyFilterSpecified = true;
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].LoyaltyFilter = LoyaltyFilter.MonetaryOnly;
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareClassControlSpecified = true;
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareClassControl = FareClassControl.CompressByProductClass;
 
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].IncludeTaxesAndFees = true;
-                                _getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].IncludeTaxesAndFeesSpecified = true;
+                                //string[] faretypesreturn = { "R", "MX", "SF" };
+                                //// string[] faretypes = {"R"};
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].FareTypes = faretypesreturn;
 
-                                HttpContext.Session.SetString("SpicejetReturnSignature", JsonConvert.SerializeObject(_logonResponseobjR.Signature));
-                                HttpContext.Session.SetString("SpicejetAvailibilityRequest", JsonConvert.SerializeObject(_getAvailabilityReturnRQ));
+                                //string[] productclassesreturn = new string[1];
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].ProductClasses = productclassesreturn;
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].MaximumConnectingFlights = 20;
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].MaximumConnectingFlightsSpecified = true;
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].LoyaltyFilterSpecified = true;
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].LoyaltyFilter = LoyaltyFilter.MonetaryOnly;
 
-                                GetAvailabilityVer2Response _getAvailabilityVer2ReturnResponse = await objSpiceJetR.GetAvailabilityVer2Async(_getAvailabilityReturnRQ);
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].IncludeTaxesAndFees = true;
+                                //_getAvailabilityReturnRQ.TripAvailabilityRequest.AvailabilityRequests[0].IncludeTaxesAndFeesSpecified = true;
 
-                                logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getAvailabilityReturnRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getAvailabilityVer2ReturnResponse), "GetAvailability", "SpiceJetRT");
+                                //HttpContext.Session.SetString("SpicejetReturnSignature", JsonConvert.SerializeObject(_logonResponseobjR.Signature));
+                                //HttpContext.Session.SetString("SpicejetAvailibilityRequest", JsonConvert.SerializeObject(_getAvailabilityReturnRQ));
+
+                                //GetAvailabilityVer2Response _getAvailabilityVer2ReturnResponse = await objSpiceJetR.GetAvailabilityVer2Async(_getAvailabilityReturnRQ);
+
+                                //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getAvailabilityReturnRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_getAvailabilityVer2ReturnResponse), "GetAvailability", "SpiceJetRT");
 
 
                                 count2 = 0;
@@ -2908,13 +2808,13 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         //Logon 
                         #region Logon
                         obj_ = new _login();
-                        IndigoSessionmanager_.LogonResponse _IndigologonResponseobjR = await obj_.Login();
+                        IndigoSessionmanager_.LogonResponse _IndigologonResponseobjR = await obj_.Login(SameAirlineRT, "IndigoRT");
                         #endregion
                         //.GetAvailability
                         #region GetAvailability
 
                         httpContextAccessorInstance = new HttpContextAccessor();
-                        objgetAvail_ = new _GetAvailability(httpContextAccessorInstance);
+                        objgetAvail_ = new OnionArchitectureAPI.Services.Indigo._GetAvailability(httpContextAccessorInstance);
                         string _origin = _GetfligthModel.origin;
                         string _destination = _GetfligthModel.destination;
                         _GetfligthModel.destination = _origin;
@@ -2922,7 +2822,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         _GetfligthModel.beginDate = _GetfligthModel.endDate;
                         TempData["originR"] = _GetfligthModel.origin;
                         TempData["destinationR"] = _GetfligthModel.destination;
-                        IndigoBookingManager_.GetAvailabilityVer2Response _IndigoAvailabilityResponseobjR = await objgetAvail_.GetTripAvailability(_GetfligthModel, _IndigologonResponseobjR, TotalCount, adultcount, childcount, infantcount, flightclass);
+                        IndigoBookingManager_.GetAvailabilityVer2Response _IndigoAvailabilityResponseobjR = await objgetAvail_.GetTripAvailability(_GetfligthModel, _IndigologonResponseobjR, TotalCount, adultcount, childcount, infantcount, flightclass,SameAirlineRT);
                         count2 = 0;
                         if (_IndigoAvailabilityResponseobjR != null && _IndigoAvailabilityResponseobjR.GetTripAvailabilityVer2Response.Schedules[0].Length > 0)
                         {
@@ -3192,7 +3092,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         httpContextAccessorInstance = new HttpContextAccessor();
                         _objAvail = null;
                         _objAvail = new TravelPort(httpContextAccessorInstance);
-                        res = _objAvail.GetAvailabilty(_testURL, sbReq, _objAvail, _GetfligthModel, newGuidR.ToString(), _CredentialsGDS.domain, _CredentialsGDS.username, _CredentialsGDS.password, flightclass, "");
+                        res = _objAvail.GetAvailabilty(_testURL, sbReq, _objAvail, _GetfligthModel, newGuidR.ToString(), _CredentialsGDS.domain, _CredentialsGDS.username, _CredentialsGDS.password, flightclass,SameAirlineRT, "");
                         TempData["originR"] = _GetfligthModel.origin;
                         TempData["destinationR"] = _GetfligthModel.destination;
                         _objP = new TravelPortParsing();
@@ -3500,9 +3400,9 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                         //TempData["MymodelR"] = JsonConvert.SerializeObject(SimpleAvailibilityaAddResponcelistR);
                         //TempData["PassengerModelR"] = JsonConvert.SerializeObject(_SimpleAvailabilityobjR);
                         HttpContext.Session.SetString("PassengerModelR", JsonConvert.SerializeObject(_SimpleAvailabilityobj));
-                        if (_logonResponseobjR != null)
+                        if (_SpicejetlogonResponseobjR != null)
                         {
-                            HttpContext.Session.SetString("SpicejetSignatureR", JsonConvert.SerializeObject(_logonResponseobjR.Signature));
+                            HttpContext.Session.SetString("SpicejetSignatureR", JsonConvert.SerializeObject(_SpicejetlogonResponseobjR.Signature));
                         }
 
                         //Indigo

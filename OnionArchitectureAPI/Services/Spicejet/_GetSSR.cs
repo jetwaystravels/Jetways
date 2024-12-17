@@ -3,20 +3,21 @@ using Indigo;
 using IndigoBookingManager_;
 using Newtonsoft.Json;
 using Utility;
+using static DomainLayer.Model.ReturnTicketBooking;
 
-namespace OnionArchitectureAPI.Services.Indigo
+namespace OnionArchitectureAPI.Services.Spicejet
 {
     public class _GetSSR
     {
         Logs logs = new Logs();
-        public async Task<List<GetSeatAvailabilityResponse>> GetseatAvailability(string Signature, AirAsiaTripResponceModel AirAsiaTripResponceobj,int p, string _AirlineWay = "")
+        public async Task<List<GetSeatAvailabilityResponse>> GetseatAvailability(string Signature, AirAsiaTripResponceModel AirAsiaTripResponceobj, string _AirlineWay = "")
         {
 
             GetSeatAvailabilityRequest _getseatAvailabilityRequest = new GetSeatAvailabilityRequest();
             GetSeatAvailabilityResponse _getSeatAvailabilityResponse = new GetSeatAvailabilityResponse();
 
             _getseatAvailabilityRequest.Signature = Signature;
-            _getseatAvailabilityRequest.ContractVersion = 456;
+            _getseatAvailabilityRequest.ContractVersion = 420;
 
             SeatAvailabilityRequest _seatRequest = new SeatAvailabilityRequest();
             List<GetSeatAvailabilityResponse> SeatGroup = new List<GetSeatAvailabilityResponse>();
@@ -47,24 +48,32 @@ namespace OnionArchitectureAPI.Services.Indigo
             }
 
             string str1 = JsonConvert.SerializeObject(SeatGroup);
+            //if (_AirlineWay.ToLower() == "oneway")
+            //{
+            //    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getseatAvailabilityRequest) + "\n\n Response: " + JsonConvert.SerializeObject(SeatGroup), "GetSeatAvailability", "IndigoOneWay");
+            //}
+            //else
+            //{
+            //    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getseatAvailabilityRequest) + "\n\n Response: " + JsonConvert.SerializeObject(SeatGroup), "GetSeatAvailability", "IndigoRT");
+            //}
             if (_AirlineWay.ToLower() == "oneway")
             {
                 //logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getseatAvailabilityRequest) + "\n\n Response: " + JsonConvert.SerializeObject(SeatGroup), "GetSeatAvailability", "IndigoOneWay", "oneway");
-                logs.WriteLogs(JsonConvert.SerializeObject(_getseatAvailabilityRequest), "8-GetSeatAvailabilityReq", "IndigoOneWay", "oneway");
-                logs.WriteLogs(JsonConvert.SerializeObject(SeatGroup), "8-GetSeatAvailabilityRes", "IndigoOneWay", "oneway");
+                logs.WriteLogs(JsonConvert.SerializeObject(_getseatAvailabilityRequest), "8-GetSeatAvailabilityReq", "SpicejetOneWay", "oneway");
+                logs.WriteLogs(JsonConvert.SerializeObject(SeatGroup), "8-GetSeatAvailabilityRes", "SpicejetOneWay", "oneway");
             }
             else
             {
                 //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_getseatAvailabilityRequest) + "\n\n Response: " + JsonConvert.SerializeObject(SeatGroup), "GetSeatAvailability", "IndigoRT");
                 if (p == 0)
                 {
-                    logs.WriteLogsR(JsonConvert.SerializeObject(_getseatAvailabilityRequest), "6-GetSeatAvailabilityReq_Left", "IndigoRT");
-                    logs.WriteLogsR(JsonConvert.SerializeObject(SeatGroup), "6-GetSeatAvailabilityRes_Left", "IndigoRT");
+                    logs.WriteLogsR(JsonConvert.SerializeObject(_getseatAvailabilityRequest), "6-GetSeatAvailabilityReq_Left", "SpicejetRT");
+                    logs.WriteLogsR(JsonConvert.SerializeObject(SeatGroup), "6-GetSeatAvailabilityRes_Left", "SpicejetRT");
                 }
                 else
                 {
-                    logs.WriteLogsR(JsonConvert.SerializeObject(_getseatAvailabilityRequest), "6-GetSeatAvailabilityReq_Right", "IndigoRT");
-                    logs.WriteLogsR(JsonConvert.SerializeObject(SeatGroup), "6-GetSeatAvailabilityRes_Right", "IndigoRT");
+                    logs.WriteLogsR(JsonConvert.SerializeObject(_getseatAvailabilityRequest), "6-GetSeatAvailabilityReq_Right", "SpicejetRT");
+                    logs.WriteLogsR(JsonConvert.SerializeObject(SeatGroup), "6-GetSeatAvailabilityRes_Right", "SpicejetRT");
                 }
             }
             return SeatGroup;
@@ -81,7 +90,7 @@ namespace OnionArchitectureAPI.Services.Indigo
                 int segmentcount = 0;
                 int journeyscount = passeengerlist.journeys.Count;
                 _req.Signature = Signature;
-                _req.ContractVersion = 456;
+                _req.ContractVersion = 420;
                 SSRAvailabilityForBookingRequest _SSRAvailabilityForBookingRequest = new SSRAvailabilityForBookingRequest();
                 for (int i = 0; i < journeyscount; i++)
                 {
@@ -127,25 +136,33 @@ namespace OnionArchitectureAPI.Services.Indigo
                 _getapi _obj = new _getapi();
                 _res = await _obj.GetMealAvailabilityForBooking(_req);
 
-                //string Str2 = JsonConvert.SerializeObject(_res);
+                string Str2 = JsonConvert.SerializeObject(_res);
+                //if (_AirlineWay.ToLower() == "oneway")
+                //{
+                //    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_req) + "\n\n Response: " + JsonConvert.SerializeObject(_res), "GetSSRAvailabilityForBooking", "IndigoOneWay");
+                //}
+                //else
+                //{
+                //    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_req) + "\n\n Response: " + JsonConvert.SerializeObject(_res), "GetSSRAvailabilityForBooking", "IndigoRT");
+                //}
                 if (_AirlineWay.ToLower() == "oneway")
                 {
                     //logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_req) + "\n\n Response: " + JsonConvert.SerializeObject(_res), "GetSSRAvailabilityForBooking", "IndigoOneWay", "oneway");
-                    logs.WriteLogs(JsonConvert.SerializeObject(_req), "7-GetSSRAvailabilityForBookingReq", "IndigoOneWay", "oneway");
-                    logs.WriteLogs(JsonConvert.SerializeObject(_res), "7-GetSSRAvailabilityForBookingRes", "IndigoOneWay", "oneway");
+                    logs.WriteLogs(JsonConvert.SerializeObject(_req), "7-GetSSRAvailabilityForBookingReq", "SpicejetOneWay", "oneway");
+                    logs.WriteLogs(JsonConvert.SerializeObject(_res), "7-GetSSRAvailabilityForBookingRes", "SpicejetOneWay", "oneway");
                 }
                 else
                 {
                     //logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_req) + "\n\n Response: " + JsonConvert.SerializeObject(_res), "GetSSRAvailabilityForBooking", "IndigoRT");
                     if (_journeySide == "0j")
                     {
-                        logs.WriteLogsR(JsonConvert.SerializeObject(_req), "7-GetSSRAvailabilityForBookingReq_Left", "IndigoRT");
-                        logs.WriteLogsR(JsonConvert.SerializeObject(_res), "7-GetSSRAvailabilityForBookingRes_Left", "IndigoRT");
+                        logs.WriteLogsR(JsonConvert.SerializeObject(_req), "7-GetSSRAvailabilityForBookingReq_Left", "SpicejetRT");
+                        logs.WriteLogsR(JsonConvert.SerializeObject(_res), "7-GetSSRAvailabilityForBookingRes_Left", "SpicejetRT");
                     }
                     else
                     {
-                        logs.WriteLogsR(JsonConvert.SerializeObject(_req), "7-GetSSRAvailabilityForBookingReq_Right", "IndigoRT");
-                        logs.WriteLogsR(JsonConvert.SerializeObject(_res), "7-GetSSRAvailabilityForBookingRes_Right", "IndigoRT");
+                        logs.WriteLogsR(JsonConvert.SerializeObject(_req), "7-GetSSRAvailabilityForBookingReq_Right", "SpicejetRT");
+                        logs.WriteLogsR(JsonConvert.SerializeObject(_res), "7-GetSSRAvailabilityForBookingRes_Right", "SpicejetRT");
                     }
                 }
                 return (GetSSRAvailabilityForBookingResponse)_res;

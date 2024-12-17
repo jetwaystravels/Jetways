@@ -37,6 +37,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
         string token = string.Empty;
         string ssrKey = string.Empty;
         string journeyKey = string.Empty;
+        Logs logs = new Logs();
         public IActionResult AkTripsellView()
         {
             List<SelectListItem> Title = new()
@@ -147,10 +148,11 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                 HttpResponseMessage responseAkAddContact = await client.PostAsJsonAsync(AppUrlConstant.AkasaAirContactDetails, _AkContactModel);
                 if (responseAkAddContact.IsSuccessStatusCode)
                 {
-                    Logs logs = new Logs();
                     var _responseAkAddContact = responseAkAddContact.Content.ReadAsStringAsync().Result;
-                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_AkContactModel) + "Url: " + "\n\n Response: " + JsonConvert.SerializeObject(_responseAkAddContact), "Contact", "AkasaOneWay");
-                    var JsonObjAddContact = JsonConvert.DeserializeObject<dynamic>(_responseAkAddContact);
+                    logs.WriteLogs(jsonAkContactRequest, "7-ADDContactRequest", "AkasaOneWay", "oneway");
+                    logs.WriteLogs(_responseAkAddContact, "7-ADDContactResponse", "AkasaOneWay", "oneway");
+                    //logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_AkContactModel) + "Url: " + "\n\n Response: " + JsonConvert.SerializeObject(_responseAkAddContact), "Contact", "AkasaOneWay", "oneway");
+                    //var JsonObjAddContact = JsonConvert.DeserializeObject<dynamic>(_responseAkAddContact);
                 }
 
             }
@@ -211,7 +213,8 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                     if (responseAddContact.IsSuccessStatusCode)
                     {
                         var _responseAddContact = responseAddContact.Content.ReadAsStringAsync().Result;
-
+                        logs.WriteLogs(jsonContactRequest, "8-GstDetailsRequest", "AkasaOneWay", "oneway");
+                        logs.WriteLogs(_responseAddContact, "8-GstDetailsResponse", "AkasaOneWay", "oneway");
                         var JsonObjAddContact = JsonConvert.DeserializeObject<dynamic>(_responseAddContact);
                     }
                 }
@@ -267,10 +270,11 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                             if (AkresponsePassengers.IsSuccessStatusCode)
                             {
                                 var _responsePassengers = AkresponsePassengers.Content.ReadAsStringAsync().Result;
-                                Logs logs = new Logs();
-                                logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_AkPassengersModel) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v3/booking/passengers/" + passengerdetails[i].passengerkey + "\n Response: " + JsonConvert.SerializeObject(_responsePassengers), "Update passenger", "AkasaOneWay");
-
-                                var JsonObjPassengers = JsonConvert.DeserializeObject<dynamic>(_responsePassengers);
+                                //Logs logs = new Logs();
+                                //logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_AkPassengersModel) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v3/booking/passengers/" + passengerdetails[i].passengerkey + "\n Response: " + JsonConvert.SerializeObject(_responsePassengers), "Update passenger", "AkasaOneWay", "oneway");
+                                logs.WriteLogs(jsonPassengers, "9-ADDPassengerRequest" + i, "AkasaOneWay", "oneway");
+                                logs.WriteLogs(_responsePassengers, "9-ADDPassengerResponse" + i, "AkasaOneWay", "oneway");
+                                //var JsonObjPassengers = JsonConvert.DeserializeObject<dynamic>(_responsePassengers);
                             }
                         }
                     }
@@ -314,10 +318,12 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                                 if (responsePassengers.IsSuccessStatusCode)
                                 {
                                     var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
-                                    Logs logs = new Logs();
-                                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_AkPassengersModel1) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v3/booking/passengers/" + passengerdetails[k].passengerkey + "/infant" + "\n Response: " + JsonConvert.SerializeObject(_responsePassengers), "Update passenger_Infant", "AkasaOneWay");
+                                    //Logs logs = new Logs();
+                                    //logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_AkPassengersModel1) + "Url: " + AppUrlConstant.URLAirasia + "/api/nsk/v3/booking/passengers/" + passengerdetails[k].passengerkey + "/infant" + "\n Response: " + JsonConvert.SerializeObject(_responsePassengers), "Update passenger_Infant", "AkasaOneWay", "oneway");
+                                    logs.WriteLogs(jsonPassengers, "10-ADD_InfantRequest" + k, "AkasaOneWay", "oneway");
+                                    logs.WriteLogs(_responsePassengers, "10-ADD_InfantResponse" + k, "AkasaOneWay", "oneway");
 
-                                    var JsonObjPassengers = JsonConvert.DeserializeObject<dynamic>(_responsePassengers);
+                                    //var JsonObjPassengers = JsonConvert.DeserializeObject<dynamic>(_responsePassengers);
                                 }
                                 i++;
                             }
@@ -449,7 +455,10 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                             if (responceSeatAssignment.IsSuccessStatusCode)
                             {
                                 var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
-                                var JsonObjSeatAssignment = JsonConvert.DeserializeObject<dynamic>(_responseSeatAssignment);
+                                logs.WriteLogs(jsonSeatAssignmentRequest, "11-AutoSeatReq" + j, "AkasaOneWay", "oneway");
+                                logs.WriteLogs(_responseSeatAssignment, "11-AutoSeatRes" + j, "AkasaOneWay", "oneway");
+
+                                //var JsonObjSeatAssignment = JsonConvert.DeserializeObject<dynamic>(_responseSeatAssignment);
                             }
                         }
                     }
@@ -482,11 +491,13 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                                     HttpResponseMessage responseSellSSR = await client.PostAsJsonAsync(AppUrlConstant.AkasaAirMealBaggagePost + pas_SsrKey, _sellSSRModel);
                                     if (responseSellSSR.IsSuccessStatusCode)
                                     {
-                                        Logs logs = new Logs();
+                                        //Logs logs = new Logs();
                                         var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
-                                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_sellSSRModel) + "Url: " + AppUrlConstant.AkasaAirMealBaggagePost + "\n Response: " + JsonConvert.SerializeObject(_responseresponseSellSSR), "SellSSR", "AkasaOneWay");
+                                        //logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_sellSSRModel) + "Url: " + AppUrlConstant.AkasaAirMealBaggagePost + "\n Response: " + JsonConvert.SerializeObject(_responseresponseSellSSR), "SellSSR", "AkasaOneWay", "oneway");
+                                        logs.WriteLogs(jsonSellSSR, "12-SellSSRReq" + l, "AkasaOneWay", "oneway");
+                                        logs.WriteLogs(_responseresponseSellSSR, "12-SellSSRRes" + l, "AkasaOneWay", "oneway");
 
-                                        var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
+                                        //var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
                                     }
                                     mealid++;
                                 }
@@ -526,8 +537,11 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                                 if (responceSeatAssignment.IsSuccessStatusCode)
                                 {
                                     var _responseSeatAssignment = responceSeatAssignment.Content.ReadAsStringAsync().Result;
-                                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_SeatAssignmentModel) + "Url: " + AppUrlConstant.AkasaAirMealSeatAssign + passengerkey + "/seats/" + pas_unitKey + "\n Response: " + JsonConvert.SerializeObject(_responseSeatAssignment), "SeatAssign", "AkasaOneWay");
-                                    var JsonObjSeatAssignment = JsonConvert.DeserializeObject<dynamic>(_responseSeatAssignment);
+                                    //logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_SeatAssignmentModel) + "Url: " + AppUrlConstant.AkasaAirMealSeatAssign + passengerkey + "/seats/" + pas_unitKey + "\n Response: " + JsonConvert.SerializeObject(_responseSeatAssignment), "SeatAssign", "AkasaOneWay", "oneway");
+                                    logs.WriteLogs(jsonSeatAssignmentRequest, "13-SeatAssignReq" + j, "AkasaOneWay", "oneway");
+                                    logs.WriteLogs(_responseSeatAssignment, "13-SeatAssignRes" + j, "AkasaOneWay", "oneway");
+
+                                    //var JsonObjSeatAssignment = JsonConvert.DeserializeObject<dynamic>(_responseSeatAssignment);
                                 }
                                 seatid++;
                             }
@@ -567,8 +581,12 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                                     if (responseSellSSR.IsSuccessStatusCode)
                                     {
                                         var _responseresponseSellSSR = responseSellSSR.Content.ReadAsStringAsync().Result;
-                                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_sellSSRModel) + "Url: " + AppUrlConstant.AkasaAirMealBaggagePost + pas_SsrKey + "\n Response: " + JsonConvert.SerializeObject(_responseresponseSellSSR), "SellSSr", "AkasaOneWay");
-                                        var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
+                                        //logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_sellSSRModel) + "Url: " + AppUrlConstant.AkasaAirMealBaggagePost + pas_SsrKey + "\n Response: " + JsonConvert.SerializeObject(_responseresponseSellSSR), "SellSSr", "AkasaOneWay", "oneway");
+                                        logs.WriteLogs(jsonSellSSR, "12-SellSSRReq" + l, "AkasaOneWay", "oneway");
+                                        logs.WriteLogs(_responseresponseSellSSR, "12-SellSSRRes" + l, "AkasaOneWay", "oneway");
+
+
+                                        //var JsonObjresponseresponseSellSSR = JsonConvert.DeserializeObject<dynamic>(_responseresponseSellSSR);
                                     }
                                     mealid++;
                                 }

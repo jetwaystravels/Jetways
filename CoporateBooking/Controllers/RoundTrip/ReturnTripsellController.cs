@@ -1351,7 +1351,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         _GetBookingFromStateRS1 = await objSpiceJet.GetBookingFromState(_GetBookingFromStateRQ1);
 
                         str3 = JsonConvert.SerializeObject(_GetBookingFromStateRS1);
-                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_GetBookingFromStateRQ1) + "\n\n Response: " + JsonConvert.SerializeObject(_GetBookingFromStateRS1), "GetBookingFromStateAftersellrequest", "SpiceJetRT");
+                        logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_GetBookingFromStateRQ1) + "\n\n Response: " + JsonConvert.SerializeObject(_GetBookingFromStateRS1), "GetBookingFromStateAftersellrequest", "SpiceJetRT");
                         #endregion
                         if (_GetBookingFromStateRS1 != null)
                         {
@@ -1673,7 +1673,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                     sellSsrResponse = await objSpiceJet.sellssR(sellSsrRequest);
 
                                     str3 = JsonConvert.SerializeObject(sellSsrResponse);
-                                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSRInfant", "SpicejetRT");
+                                    logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(sellSsrRequest) + "\n\n Response: " + JsonConvert.SerializeObject(sellSsrResponse), "SellSSRInfant", "SpicejetRT");
 
 
                                     if (sellSsrResponse != null)
@@ -1696,7 +1696,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             _GetBookingFromStateRS = await objSpiceJet.GetBookingFromState(_GetBookingFromStateRQ);
 
                             str3 = JsonConvert.SerializeObject(_GetBookingFromStateRS);
-                            logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_GetBookingFromStateRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_GetBookingFromStateRS), "GetBookingFromStateafterSellInfant", "SpicejetRT");
+                            logs.WriteLogsR("Request: " + JsonConvert.SerializeObject(_GetBookingFromStateRQ) + "\n\n Response: " + JsonConvert.SerializeObject(_GetBookingFromStateRS), "GetBookingFromStateafterSellInfant", "SpicejetRT");
 
 
                             if (_GetBookingFromStateRS != null)
@@ -1763,11 +1763,11 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         _FareKeyData = FRTparts[0];
                         #region IndigoSellRequest
                         _sell objsell = new _sell();
-                        IndigoBookingManager_.SellResponse _getSellRS = await objsell.Sell(Signature, _JourneykeyData, _FareKeyData, _Jparts[0], fareKey[p], TotalCount, adultcount, childcount, infantcount);
+                        IndigoBookingManager_.SellResponse _getSellRS = await objsell.Sell(Signature, _JourneykeyData, _FareKeyData, _Jparts[0], fareKey[p], TotalCount, adultcount, childcount, infantcount,p);
                         #endregion
                         #region GetState
 
-                        IndigoBookingManager_.GetBookingFromStateResponse _GetBookingFromStateRS1 = await objsell.GetBookingFromState(Signature, "");
+                        IndigoBookingManager_.GetBookingFromStateResponse _GetBookingFromStateRS1 = await objsell.GetBookingFromState(Signature, p,"");
 
                         str3 = JsonConvert.SerializeObject(_GetBookingFromStateRS1);
 
@@ -1942,7 +1942,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
 
                             //paste here for infant tax
                             #region Indigo ItenaryRequest
-                            IndigoBookingManager_.PriceItineraryResponse _getPriceItineraryRS = await objsell.GetItineraryPrice(Signature, _JourneykeyData, _FareKeyData, _Jparts[0], fareKey[p], TotalCount, adultcount, childcount, infantcount);
+                            IndigoBookingManager_.PriceItineraryResponse _getPriceItineraryRS = await objsell.GetItineraryPrice(Signature, _JourneykeyData, _FareKeyData, _Jparts[0], fareKey[p], TotalCount, adultcount, childcount, infantcount,p);
                             #endregion
                             HttpContext.Session.SetString("journeySellKey", JsonConvert.SerializeObject(_JourneykeyData));
                             SimpleAvailabilityRequestModel _SimpleAvailabilityobj = new SimpleAvailabilityRequestModel();
@@ -1955,7 +1955,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 {
                                     IndigoBookingManager_.SellResponse sellSsrResponse = null;
 
-                                    sellSsrResponse = await objsell.sellssrInft(Signature, _getPriceItineraryRS, infantcount, 0, "");
+                                    sellSsrResponse = await objsell.sellssrInft(Signature, _getPriceItineraryRS, infantcount, 0,p, "");
 
                                     str3 = JsonConvert.SerializeObject(sellSsrResponse);
 
@@ -1968,7 +1968,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                                 #endregion
                             }
                             #region GetBookingFromState
-                            IndigoBookingManager_.GetBookingFromStateResponse _GetBookingFromStateRS = await objsell.GetBookingFromState(Signature, "");
+                            IndigoBookingManager_.GetBookingFromStateResponse _GetBookingFromStateRS = await objsell.GetBookingFromState(Signature,p, "");
 
                             str3 = JsonConvert.SerializeObject(_GetBookingFromStateRS);
 
@@ -2083,8 +2083,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         _userName = "Universal API/uAPI5098257106-beb65aec";
                         _password = "Q!f5-d7A3D";
                         StringBuilder fareRepriceReq = new StringBuilder();
-                        string res = _objAvail.AirPriceGet(_testURL, fareRepriceReq, availibiltyRQGDS, newGuid.ToString(), _targetBranch, _userName, _password, Airfaredata, "");
-
+                        string res = _objAvail.AirPriceGet(_testURL, fareRepriceReq, availibiltyRQGDS, newGuid.ToString(), _targetBranch, _userName, _password, Airfaredata,p, "");
                         TravelPortParsing _objP = new TravelPortParsing();
                         List<GDSResModel.Segment> getAirPriceRes = new List<GDSResModel.Segment>();
                         if (res != null && !res.Contains("Bad Request") && !res.Contains("Internal Server Error"))
@@ -3130,7 +3129,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         if (AirAsiaTripResponceobj == null)
                             AirAsiaTripResponceobj = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(HttpContext.Session.GetString("SGkeypassengerRT"), typeof(AirAsiaTripResponceModel));
                         _GetSSR objssr = new _GetSSR();
-                        List<IndigoBookingManager_.GetSeatAvailabilityResponse> SeatGroup = await objssr.GetseatAvailability(Signature, AirAsiaTripResponceobj);
+                        List<IndigoBookingManager_.GetSeatAvailabilityResponse> SeatGroup = await objssr.GetseatAvailability(Signature, AirAsiaTripResponceobj,p);
                         if (SeatGroup != null)
                         {
                             string columncount0 = string.Empty;
@@ -3944,7 +3943,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         string passenger = HttpContext.Session.GetString("SGkeypassengerRT");
                         passeengerlist = (AirAsiaTripResponceModel)JsonConvert.DeserializeObject(passenger, typeof(AirAsiaTripResponceModel));
                         _GetSSR objssr = new _GetSSR();
-                        IndigoBookingManager_.GetSSRAvailabilityForBookingResponse _res = await objssr.GetSSRAvailabilityForBooking(Signature, passeengerlist, TotalCount);
+                        IndigoBookingManager_.GetSSRAvailabilityForBookingResponse _res = await objssr.GetSSRAvailabilityForBooking(Signature, passeengerlist, TotalCount, _journeySide);
                         if (_res != null)
                         {
                             Hashtable htSSr = new Hashtable();

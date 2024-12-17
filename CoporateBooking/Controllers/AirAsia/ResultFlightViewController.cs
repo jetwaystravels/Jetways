@@ -305,7 +305,7 @@ namespace OnionConsumeWebAPI.Controllers
                 {
                     AirAsiaTripResponceModel AirAsiaTripResponceobj = new AirAsiaTripResponceModel();
                     var resultsTripsell = responseTripsell.Content.ReadAsStringAsync().Result;
-                    logs.WriteLogs("Url: " + AppUrlConstant.AirasiaTripsell + "Request: " + JsonConvert.SerializeObject(AirAsiaTripSellRequestobj) + "\n Response: " + resultsTripsell, "Tripsell", "AirAsiaOneWay");
+                    logs.WriteLogs("Url: " + AppUrlConstant.AirasiaTripsell + "Request: " + JsonConvert.SerializeObject(AirAsiaTripSellRequestobj) + "\n Response: " + resultsTripsell, "Tripsell", "AirAsiaOneWay", "oneway");
                     var JsonObjTripsell = JsonConvert.DeserializeObject<dynamic>(resultsTripsell);
                     var totalAmount = JsonObjTripsell.data.breakdown.journeys[journeyKey].totalAmount;
                     var totalTax = JsonObjTripsell.data.breakdown.journeys[journeyKey].totalTax;
@@ -588,7 +588,7 @@ namespace OnionConsumeWebAPI.Controllers
                         {
                             AirAsiaTripResponceModel AirAasiaobjectInfantdata = new AirAsiaTripResponceModel();
                             var _responsePassengers = responsePassengers.Content.ReadAsStringAsync().Result;
-                            logs.WriteLogs("Url: " + AppUrlConstant.Airasiainfantquote + "Request: " + JsonConvert.SerializeObject(itenaryInfant) + "\n Response: " + _responsePassengers, "itenaryInfant", "AirAsiaOneWay");
+                            logs.WriteLogs("Url: " + AppUrlConstant.Airasiainfantquote + "Request: " + JsonConvert.SerializeObject(itenaryInfant) + "\n Response: " + _responsePassengers, "itenaryInfant", "AirAsiaOneWay", "oneway");
                             var JsonObjPassengers = JsonConvert.DeserializeObject<dynamic>(_responsePassengers);
                             var TotalAmount = JsonObjPassengers.data.breakdown.journeys[journeyKey].totalAmount;
                             var TotalTax = JsonObjPassengers.data.breakdown.journeys[journeyKey].totalTax;
@@ -806,7 +806,7 @@ namespace OnionConsumeWebAPI.Controllers
                     string columncount0 = string.Empty;
                     Logs logs = new Logs();
                     var _responseSeatmap = responseSeatmap.Content.ReadAsStringAsync().Result;
-                    logs.WriteLogs("Url: " + JsonConvert.SerializeObject(AppUrlConstant.Airasiaseatmap + journeyKey + "?IncludePropertyLookup=true") + "\n\n Response: " + JsonConvert.SerializeObject(_responseSeatmap), "SeatMap", "AirAsiaOneWay");
+                    logs.WriteLogs("Url: " + JsonConvert.SerializeObject(AppUrlConstant.Airasiaseatmap + journeyKey + "?IncludePropertyLookup=true") + "\n\n Response: " + JsonConvert.SerializeObject(_responseSeatmap), "SeatMap", "AirAsiaOneWay", "oneway");
                     var JsonObjSeatmap = JsonConvert.DeserializeObject<dynamic>(_responseSeatmap);
                     //var uniquekey1 = JsonObjSeatmap.data[0].seatMap.decks["1"].compartments.Y.units[0].unitKey;
                     var data = JsonObjSeatmap.data.Count;
@@ -969,7 +969,7 @@ namespace OnionConsumeWebAPI.Controllers
                 if (responseSSRAvailabilty.IsSuccessStatusCode)
                 {
                     var _responseSSRAvailabilty = responseSSRAvailabilty.Content.ReadAsStringAsync().Result;
-                    logs.WriteLogs("Url: " + JsonConvert.SerializeObject(AppUrlConstant.Airasiassravailability) + "Request: " + jsonSSRAvailabiltyRequest+ "\n\n Response: " + JsonConvert.SerializeObject(_responseSSRAvailabilty), "SSrAvailability", "AirAsiaOneWay");
+                    logs.WriteLogs("Url: " + JsonConvert.SerializeObject(AppUrlConstant.Airasiassravailability) + "Request: " + jsonSSRAvailabiltyRequest+ "\n\n Response: " + JsonConvert.SerializeObject(_responseSSRAvailabilty), "SSrAvailability", "AirAsiaOneWay", "oneway");
                     var JsonObjresponseSSRAvailabilty = JsonConvert.DeserializeObject<dynamic>(_responseSSRAvailabilty);
                     var journeyKey1 = JsonObjresponseSSRAvailabilty.data.journeySsrs[0].journeyKey;
                     journeyKey = ((Newtonsoft.Json.Linq.JValue)journeyKey1).Value.ToString();

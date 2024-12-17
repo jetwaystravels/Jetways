@@ -148,7 +148,7 @@ namespace OnionConsumeWebAPI.Controllers
                 Signature = Signature.Replace(@"""", string.Empty);
                 _updateContact obj = new _updateContact(httpContextAccessorInstance);
                 IndigoBookingManager_.UpdateContactsResponse _responseAddContact6E = await obj.GetUpdateContacts(Signature, contactobject.emailAddress, contactobject.emailAddressgst, contactobject.number, contactobject.companyName, contactobject.customerNumber, "OneWay");
-                string Str1 = JsonConvert.SerializeObject(_responseAddContact6E);
+                //string Str1 = JsonConvert.SerializeObject(_responseAddContact6E);
             }
             return RedirectToAction("IndigoSaverTripsell", "IndigoTripsell");
         }
@@ -275,7 +275,7 @@ namespace OnionConsumeWebAPI.Controllers
                             var JsonObjSeatAssignment = _AssignseatRes;
                             #region GetBookingFromState
                             _sell objsell = new _sell();
-                            IndigoBookingManager_.GetBookingFromStateResponse _GetBookingFromStateRS = await objsell.GetBookingFromState(token, "OneWay");
+                            IndigoBookingManager_.GetBookingFromStateResponse _GetBookingFromStateRS = await objsell.GetBookingFromState(token, 0,"OneWay");
 
                             string str3 = JsonConvert.SerializeObject(_GetBookingFromStateRS);
 

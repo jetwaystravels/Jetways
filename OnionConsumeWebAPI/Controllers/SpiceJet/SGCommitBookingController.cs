@@ -111,10 +111,13 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 				_bookingpaymentRequest.addPaymentToBookingReqData.Expiration = Convert.ToDateTime("0001-01-01T00:00:00");
 				_BookingPaymentResponse = await objSpiceJet.Addpayment(_bookingpaymentRequest);
 				string payment = JsonConvert.SerializeObject(_BookingPaymentResponse);
-				logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_bookingpaymentRequest) + "\n\n Response: " + JsonConvert.SerializeObject(_BookingPaymentResponse), "BookingPayment", "SpiceJetOneway");
-				#endregion
+				//logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_bookingpaymentRequest) + "\n\n Response: " + JsonConvert.SerializeObject(_BookingPaymentResponse), "BookingPayment", "SpiceJetOneway");
+                logs.WriteLogs(JsonConvert.SerializeObject(_bookingpaymentRequest), "14-BookingPaymentRequest", "SpicejetOneWay", "oneway");
+                logs.WriteLogs(JsonConvert.SerializeObject(_BookingPaymentResponse), "14-BookingPaymentResponse", "SpicejetOneWay", "oneway");
 
-				using (HttpClient client = new HttpClient())
+                #endregion
+
+                using (HttpClient client = new HttpClient())
                 {
 
                     BookingCommitRequest _bookingCommitRequest = new BookingCommitRequest();
@@ -147,8 +150,10 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                      objSpiceJet = new SpiceJetApiController();
                     _BookingCommitResponse = await objSpiceJet.BookingCommit(_bookingCommitRequest);
 
-                    string Str3 = JsonConvert.SerializeObject(_BookingCommitResponse);
-                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_bookingCommitRequest) + "\n\n Response: " + JsonConvert.SerializeObject(_BookingCommitResponse), "BookingCommit", "SpicejetOneWay");
+                    //string Str3 = JsonConvert.SerializeObject(_BookingCommitResponse);
+                    logs.WriteLogs(JsonConvert.SerializeObject(_bookingCommitRequest), "15-BookingCommitRequest", "SpicejetOneWay", "oneway");
+                    logs.WriteLogs(JsonConvert.SerializeObject(_BookingCommitResponse), "15-BookingCommitResponse", "SpicejetOneWay", "oneway");
+                    //logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_bookingCommitRequest) + "\n\n Response: " + JsonConvert.SerializeObject(_BookingCommitResponse), "BookingCommit", "SpicejetOneWay", "oneway");
                     if (_BookingCommitResponse != null)
                     {
                         GetBookingRequest getBookingRequest = new GetBookingRequest();
@@ -162,8 +167,10 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
                         _getBookingResponse = await objSpiceJet.GetBookingdetails(getBookingRequest);
                         string _responceGetBooking = JsonConvert.SerializeObject(_getBookingResponse);
+                        logs.WriteLogs(JsonConvert.SerializeObject(getBookingRequest), "16-GetBookingDetailsRequest", "SpicejetOneWay", "oneway");
+                        logs.WriteLogs(JsonConvert.SerializeObject(_getBookingResponse), "16-GetBookingDetailsResponse", "SpicejetOneWay", "oneway");
 
-                        logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getBookingResponse) + "\n\n Response: " + JsonConvert.SerializeObject(_getBookingResponse), "GetBookingDetails", "SpicejetOneWay");
+                        //logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_getBookingResponse) + "\n\n Response: " + JsonConvert.SerializeObject(_getBookingResponse), "GetBookingDetails", "SpicejetOneWay", "oneway");
                         if (_getBookingResponse != null)
                         {
                             Hashtable htname = new Hashtable();
@@ -880,8 +887,10 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                             _logoutRequestobj.Signature = token;
                             objSpiceJet = new SpiceJetApiController();
                             _logoutResponse = await objSpiceJet.Logout(_logoutRequestobj);
+                            logs.WriteLogs(JsonConvert.SerializeObject(_logoutRequestobj), "17-LogoutRequest", "SpicejetOneWay", "oneway");
+                            logs.WriteLogs(JsonConvert.SerializeObject(_logoutResponse), "17-LogoutResponse", "SpicejetOneWay", "oneway");
 
-                            logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_logoutRequestobj) + "\n Response: " + JsonConvert.SerializeObject(_logoutResponse), "Logout", "SpicejetOneWay");
+                            //logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_logoutRequestobj) + "\n Response: " + JsonConvert.SerializeObject(_logoutResponse), "Logout", "SpicejetOneWay", "oneway");
                         }
                     }
                 }

@@ -149,7 +149,7 @@ namespace OnionConsumeWebAPI.Controllers.AkasaAir
                 {
                     Logs logs = new Logs();
                     var _responseAkAddContact = responseAkAddContact.Content.ReadAsStringAsync().Result;
-                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_AkContactModel) + "Url: " + "\n\n Response: " + JsonConvert.SerializeObject(_responseAkAddContact), "Contact", "AkasaOneWay");
+                    logs.WriteLogs("Request: " + JsonConvert.SerializeObject(_AkContactModel) + "Url: " + "\n\n Response: " + JsonConvert.SerializeObject(_responseAkAddContact), "Contact", "AkasaOneWay", "oneway");
                     var JsonObjAddContact = JsonConvert.DeserializeObject<dynamic>(_responseAkAddContact);
                 }
 

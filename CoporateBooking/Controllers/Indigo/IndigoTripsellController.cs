@@ -275,7 +275,7 @@ namespace OnionConsumeWebAPI.Controllers
                             var JsonObjSeatAssignment = _AssignseatRes;
                             #region GetBookingFromState
                             _sell objsell = new _sell();
-                            IndigoBookingManager_.GetBookingFromStateResponse _GetBookingFromStateRS = await objsell.GetBookingFromState(token, "OneWay");
+                            IndigoBookingManager_.GetBookingFromStateResponse _GetBookingFromStateRS = await objsell.GetBookingFromState(token, 0,"OneWay");
 
                             string str3 = JsonConvert.SerializeObject(_GetBookingFromStateRS);
 
