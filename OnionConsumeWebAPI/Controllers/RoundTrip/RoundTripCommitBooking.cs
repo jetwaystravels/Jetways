@@ -197,7 +197,7 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                             //double TotalAmountMeal = 0;
                             //double TotaAmountBaggage = 0;
                             var _responcePNRBooking = responceGetBooking.Content.ReadAsStringAsync().Result;
-                            logs.WriteLogsR("Url: " + AppUrlConstant.AirasiaGetBoking + "\n Response: " + _responcePNRBooking, "GetBookingDeatils", "AirAsiaRT");
+                            logs.WriteLogsR("Url: " + AppUrlConstant.AirasiaGetBoking + "\n Response: " + _responcePNRBooking, "GetBookingPNRDeatils", "AirAsiaRT");
                             var JsonObjPNRBooking = JsonConvert.DeserializeObject<dynamic>(_responcePNRBooking);
                             ReturnTicketBooking returnTicketBooking = new ReturnTicketBooking();
                             string PassengerData = HttpContext.Session.GetString("PassengerNameDetails");

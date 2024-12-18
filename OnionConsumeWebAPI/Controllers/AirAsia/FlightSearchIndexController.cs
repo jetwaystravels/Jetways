@@ -2056,6 +2056,7 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
 
                                         for (int j = 0; j < FareCount; j++)
                                         {
+                                            //x.data.faresAvailable["Mn5Lfn5JNX5LTlJBMDAwfk5SMDB_fjB_MTN_flheMX5Lfn5JNX5LTlJBMDAwfk5SMDB_fjB_MjB_fiEzNA--"].fares
 
                                             FareIndividual fareIndividual = new FareIndividual();
 
@@ -2065,8 +2066,17 @@ namespace OnionConsumeWebAPI.Controllers.AirAsia
                                             var isGoverning = JsonObjR.data.faresAvailable[fareAvailabilityKey].fares[0].isGoverning;
                                             var procuctclass = JsonObjR.data.faresAvailable[fareAvailabilityKey].fares[0].productClass;
                                             var passengertype = JsonObjR.data.faresAvailable[fareAvailabilityKey].fares[0].passengerFares[0].passengerType;
-                                            var fareAmount = JsonObjR.data.faresAvailable[fareAvailabilityKey].fares[0].passengerFares[0].fareAmount;
-                                            fareTotalsum = JsonObjR.data.faresAvailable[fareAvailabilityKeyhead].fares[0].passengerFares[0].fareAmount;
+                                            fareTotalsum = 0;
+                                            var fareAmount = 0;
+                                            for (int fc = 0; fc < fareAvilableCount; fc++)
+                                            {
+                                              int fareH=  JsonObjR.data.faresAvailable[fareAvailabilityKeyhead].fares[fc].passengerFares[0].fareAmount;
+                                              
+                                                fareTotalsum += fareH;
+                                                int fare = JsonObjR.data.faresAvailable[fareAvailabilityKey].fares[fc].passengerFares[0].fareAmount;
+                                                fareAmount = fare + fareAmount;
+                                            }
+                                           // var fareAmount = JsonObjR.data.faresAvailable[fareAvailabilityKey].fares[0].passengerFares[0].fareAmount;
 
 
 
