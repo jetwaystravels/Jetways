@@ -2,6 +2,7 @@ using Microsoft.CodeAnalysis.Options;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using OnionConsumeWebAPI.ApiService;
+using OnionConsumeWebAPI.Comman;
 using OnionConsumeWebAPI.ErrorHandling;
 using OnionConsumeWebAPI.Models.DbSettings;
 
@@ -27,7 +28,7 @@ builder.Services.AddScoped(sp =>
     return client.GetDatabase(settings.DatabaseName);
 });
 builder.Services.AddScoped<MongoDbService>();
-
+builder.Services.AddScoped<CredentialService>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDistributedMemoryCache();
