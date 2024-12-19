@@ -1261,7 +1261,7 @@
 
                                             <form asp-action="GDSTripsell" asp-controller="GDSResultFlightView">
                                                 <input type="hidden" id="fareKey" name="fareKey" value="@data" />
-                                                <input type="hidden" id="journeyKey" name="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass" />
+                                                <input type="hidden" id="journeyKey" name="journeyKey" value="@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].procuctclass _@Model.SimpleAvailibilityaAddResponcelist[j].faresIndividual[k].fareKey"/>
 
                                                 <input type="submit" value="Book Now" class="button small-btn">
                                             </form>

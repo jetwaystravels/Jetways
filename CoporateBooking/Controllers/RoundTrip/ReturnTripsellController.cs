@@ -2083,7 +2083,8 @@ namespace OnionConsumeWebAPI.Controllers.RoundTrip
                         _userName = "Universal API/uAPI5098257106-beb65aec";
                         _password = "Q!f5-d7A3D";
                         StringBuilder fareRepriceReq = new StringBuilder();
-                        string res = _objAvail.AirPriceGet(_testURL, fareRepriceReq, availibiltyRQGDS, newGuid.ToString(), _targetBranch, _userName, _password, Airfaredata,p, "");
+                        string res = string.Empty;
+                        //string res = _objAvail.AirPriceGet(_testURL, fareRepriceReq, availibiltyRQGDS, newGuid.ToString(), _targetBranch, _userName, _password, Airfaredata,p, "");
                         TravelPortParsing _objP = new TravelPortParsing();
                         List<GDSResModel.Segment> getAirPriceRes = new List<GDSResModel.Segment>();
                         if (res != null && !res.Contains("Bad Request") && !res.Contains("Internal Server Error"))

@@ -104,7 +104,7 @@ namespace DomainLayer.Model
             public string _AvailabilitySource { get; set; }
             public string _AvailabilityDisplayType { get; set; }
             public string _Classofservice { get; set; }
-            
+            public string _FareBasisCodeforAirpriceHit { get; set; }
 
 
         }

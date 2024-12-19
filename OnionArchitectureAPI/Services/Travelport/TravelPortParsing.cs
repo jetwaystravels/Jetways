@@ -799,20 +799,20 @@ namespace OnionArchitectureAPI.Services.Travelport
             GDSResModel.Bond bond = new GDSResModel.Bond();
             bond.Legs = new List<GDSResModel.Leg>();
             //cancelTime = new FareCancellationTime();
-            foreach (XmlNode rootNode in doc)
+            foreach (XmlNode rootNode in doc) //LOOP ON ROOT GOT 1 SOAPBODY 
             {
                 if (rootNode.Name.Equals("SOAP:Envelope", StringComparison.OrdinalIgnoreCase))
                 {
-                    foreach (XmlNode root in rootNode.ChildNodes)
+                    foreach (XmlNode root in rootNode.ChildNodes) //LOOP FOR SOAPBODY(SOAPbODY)
                     {
                         if (root.Name.Equals("SOAP:Body", StringComparison.OrdinalIgnoreCase))
                         {
-                            foreach (XmlNode lowFareSearchRes in root)
+                            foreach (XmlNode lowFareSearchRes in root)// LOOP FOR SOAPBODY GOT 1 NODE AS LOWFARESEARCHRSP (LOWFARESEARCHRSP)
                             {
                                 if (lowFareSearchRes.Name.Equals("air:LowFareSearchRsp", StringComparison.OrdinalIgnoreCase))
                                 {
                                     TPtransactionId = lowFareSearchRes.Attributes["TransactionId"].InnerText;
-                                    foreach (XmlNode airPricingSolution in lowFareSearchRes)
+                                    foreach (XmlNode airPricingSolution in lowFareSearchRes) // LOOP HERE FOR lOWFARESEARCHrSP
                                     {
                                         if (airPricingSolution.Name.Equals("air:FlightDetailsList", StringComparison.OrdinalIgnoreCase))
                                         {
@@ -863,7 +863,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                                             if (airPricingSolution.Attributes["TotalPrice"].Value.Contains("INR"))
                                             {
                                                 fare.TotalFareWithOutMarkUp = Convert.ToDecimal(airPricingSolution.Attributes["TotalPrice"].Value.Remove(0, 3));
-                                                if (fare.TotalFareWithOutMarkUp == 16839)
+                                                if (fare.TotalFareWithOutMarkUp == 55057)
                                                 {
 
                                                 }
@@ -893,6 +893,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                                                 fare.TotalTaxWithOutMarkUp = Convert.ToDecimal(airPricingSolution.Attributes["ApproximateTaxes"].Value.Remove(0, 3)) + TMarkup;
                                             }
                                             fare.PaxFares = new List<GDSResModel.PaxFare>();
+                                            bool flag = true;
                                             foreach (XmlNode lowfarepric in airPricingSolution)
                                             {
                                                 switch (lowfarepric.Name)
@@ -975,6 +976,10 @@ namespace OnionArchitectureAPI.Services.Travelport
                                                                                         {
                                                                                             flightnumber += "@" + airSegment.Attributes["FlightNumber"].Value;
                                                                                         }
+                                                                                        if(flightnumber=="573" || flightnumber=="545")
+                                                                                        {
+
+                                                                                        }
                                                                                         switch (leg.AirlineName)
                                                                                         {
                                                                                             case "AI":
@@ -991,6 +996,9 @@ namespace OnionArchitectureAPI.Services.Travelport
                                                                                                 break;
                                                                                             case "TG":
                                                                                                 leg.FlightName = "Thai Airways International";
+                                                                                                break;
+                                                                                            case "SV":
+                                                                                                leg.FlightName = "Saudia";
                                                                                                 break;
                                                                                             case "UL":
                                                                                                 leg.FlightName = "SriLankan Airlines";
@@ -1063,6 +1071,10 @@ namespace OnionArchitectureAPI.Services.Travelport
                                                         listOfBound.Add(bond);
                                                         break;
                                                     case "air:AirPricingInfo":
+                                                        if (flag == false)
+                                                        {
+                                                            continue;
+                                                        }
                                                         segmentid = string.Empty;
                                                         paxFare = new GDSResModel.PaxFare();
                                                         paxFare.Fare = new List<GDSResModel.FareDetail>();
@@ -1070,6 +1082,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                                                         {
                                                             paxFare.Refundable = bool.Parse(lowfarepric.Attributes["Refundable"].Value);
                                                         }
+                                                        flag = false;
                                                         foreach (XmlNode airPricingInfo in lowfarepric)
                                                         {
                                                             if (airPricingInfo.Name.Equals("air:BookingInfo", StringComparison.OrdinalIgnoreCase))
@@ -1334,7 +1347,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                                                                                                                                 if (brandText.Name.Equals("air:Title", StringComparison.OrdinalIgnoreCase) && brandText.Attributes["Type"].Value.Equals("External", StringComparison.OrdinalIgnoreCase))
                                                                                                                                 {
                                                                                                                                     _BrandDesc = brandText.InnerText;
-
+                                                                                                                                    break;
                                                                                                                                 }
                                                                                                                                 //if (brandText.Name.Equals("air:Text", StringComparison.OrdinalIgnoreCase) && brandText.Attributes["Type"].Value.Equals("MarketingAgent", StringComparison.OrdinalIgnoreCase))
                                                                                                                                 //{
@@ -1346,6 +1359,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                                                                                                                         }
                                                                                                                     }
                                                                                                                 }
+                                                                                                                break;
                                                                                                             }
                                                                                                         }
                                                                                                     }
@@ -1377,13 +1391,15 @@ namespace OnionArchitectureAPI.Services.Travelport
                                                                                                                                         if (brandText.Name.Equals("air:Title", StringComparison.OrdinalIgnoreCase) && brandText.Attributes["Type"].Value.Equals("External", StringComparison.OrdinalIgnoreCase))
                                                                                                                                         {
                                                                                                                                             _BrandDesc = brandText.InnerText;
-
+                                                                                                                                            break;
                                                                                                                                         }
                                                                                                                                     }
 
                                                                                                                                 }
+                                                                                                                                //break;
                                                                                                                             }
                                                                                                                         }
+                                                                                                                        break;
                                                                                                                     }
                                                                                                                 }
                                                                                                             }
@@ -1455,6 +1471,25 @@ namespace OnionArchitectureAPI.Services.Travelport
                                                                             leg_.Cabin = airPricingInfo.Attributes["CabinClass"].Value;
                                                                             leg_.FareRulesKey = airPricingInfo.Attributes["FareInfoRef"].Value;
                                                                             leg_.FareRulesValue = fareRuleInfo[airPricingInfo.Attributes["FareInfoRef"].Value];
+                                                                            if (FareInfoList != null && !string.IsNullOrEmpty(FareInfoList.InnerXml))
+                                                                            {
+                                                                                foreach (XmlNode fareInfoList in FareInfoList)
+                                                                                {
+                                                                                    if (fareInfoList.Name.Equals("air:FareInfoList", StringComparison.OrdinalIgnoreCase))
+                                                                                    {
+                                                                                        foreach (XmlNode fareInfo in fareInfoList)
+                                                                                        {
+                                                                                            if (fareInfo.Attributes["Key"].Value.Equals(leg_.FareRulesKey, StringComparison.Ordinal))
+                                                                                            {
+                                                                                                leg_._FareBasisCodeforAirpriceHit = fareInfo.Attributes["FareBasis"].Value;
+                                                                                                break;
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+
+
                                                                             if (baggageDetais != null && baggageDetais.ContainsKey(airPricingInfo.Attributes["FareInfoRef"].Value))
                                                                             {
                                                                                 if (baggageDetais[airPricingInfo.Attributes["FareInfoRef"].Value].Split('|').Length == 3)
@@ -1480,6 +1515,7 @@ namespace OnionArchitectureAPI.Services.Travelport
                                                         {
                                                             paxFare.TotalFare = paxFare.TotalTax + paxFare.BasicFare;
                                                         }
+                                                        fare.PaxFares = new List<GDSResModel.PaxFare>();
                                                         fare.PaxFares.Add(paxFare);
                                                         break;
                                                 }

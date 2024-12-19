@@ -60,7 +60,7 @@ namespace DomainLayer.Model
             //new { citycode = "BBI", cityname = "Bhubaneswar", airportname = " Birsa Munda Airport" },
             new { citycode = "HYD", cityname = "Hyderabad", airportname = "Rajiv Gandhi International Airport" },
             //new { citycode = "COK", cityname = "Kochi", airportname = "Cochin International Airport Limited" },
-            //new { citycode = "BDQ", cityname = "Vadodara", airportname = "Vadodara Airport" },
+            new { citycode = "BDQ", cityname = "Vadodara", airportname = "Vadodara Airport" },
             //new { citycode = "NAG", cityname = "Nagpur", airportname = "Dr. Babasaheb Ambedkar International Airport" },
             //new { citycode = "IXC", cityname = "Chandigarh", airportname = "Chandigarh Airport" },
             //new { citycode = "SXR", cityname = "Srinagar", airportname = "Srinagar International Airport" },

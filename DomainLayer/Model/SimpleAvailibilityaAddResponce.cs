@@ -37,10 +37,8 @@ namespace DomainLayer.Model
         public string Segmentiddata { get; set; }
         public string SegmentidLeftdata { get; set; }
         public string SegmentidRightdata { get; set; }
-
-
-
-
+        public string FareBasisLeftdata { get; set; }
+        public string FareBasisRightdata { get; set; }
     }
 
     public enum Airlines
